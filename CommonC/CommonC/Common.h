@@ -49,6 +49,8 @@
 
 #include <CommonC/ProcessInfo.h>
 
+#include <CommonC/Maths.h>
 #include <CommonC/BitTricks.h>
+#include <CommonC/Random.h>
 
 #endif
