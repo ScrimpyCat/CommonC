@@ -36,4 +36,55 @@
 #define FALSE false
 #endif
 
+
+#include <CommonC/Extensions.h>
+
+typedef struct {
+    float x, y;
+} CC_PACKED CCVector2D;
+
+typedef struct {
+    int x, y;
+} CC_PACKED CCVector2Di;
+
+typedef union {
+    struct {
+        float x, y, z;
+    } CC_PACKED;
+    struct {
+        float r, g, b;
+    } CC_PACKED;
+} CCVector3D, CCColourRGB;
+
+typedef union {
+    struct {
+        int x, y, z;
+    } CC_PACKED;
+    struct {
+        int r, g, b;
+    } CC_PACKED;
+} CCVector3Di, CCColourRGBi;
+
+typedef union {
+    struct {
+        float x, y, z, w;
+    } CC_PACKED;
+    struct {
+        float r, g, b, a;
+    } CC_PACKED;
+} CCVector4D, CCColourRGBA;
+
+typedef union {
+    struct {
+        int x, y, z, w;
+    } CC_PACKED;
+    struct {
+        int r, g, b, a;
+    } CC_PACKED;
+} CCVector4Di, CCColourRGBAi;
+
+typedef struct {
+    CCVector2D position, size;
+} CCRect;
+
 #endif
