@@ -62,6 +62,7 @@
 #define CC_CONSTANT_FUNCTION __attribute__((const))
 #define CC_LIKELY(e) __builtin_expect(!!(e), 1)
 #define CC_UNLIKELY(e) __builtin_expect(!!(e), 0)
+#define CC_PACKED __attribute__((packed))
 #else
 #define CC_FORCE_INLINE inline
 #define CC_NO_INLINE
@@ -73,6 +74,7 @@
 #define CC_CONSTANT_FUNCTION
 #define CC_LIKELY(e)
 #define CC_UNLIKELY(e)
+#define CC_PACKED
 #endif
 
 
