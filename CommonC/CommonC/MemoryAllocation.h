@@ -180,7 +180,7 @@ __VA_ARGS__ \
 
 
 //CC_TEMP_Free(x)
-#define CC_TEMP_Free(x) (x##__CC_PRIV__NEEDS_FREEING?: CCFree(x), x = NULL)
+#define CC_TEMP_Free(x) (!x##__CC_PRIV__NEEDS_FREEING?: CCFree(x), x = NULL)
 
 
 /*

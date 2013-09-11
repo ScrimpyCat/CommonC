@@ -121,6 +121,8 @@ static void ASLSetup(void)
                 CCLogAddFile(Path);
             }
         }
+        
+        globfree(&Glob);
     }
 #elif CC_PLATFORM_IOS
     CFURLRef HomeDir = CFCopyHomeDirectoryURL();
