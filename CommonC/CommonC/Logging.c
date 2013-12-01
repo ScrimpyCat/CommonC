@@ -286,12 +286,13 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
     return Length;
 }
 
-#if CC_ASL_LOGGER
+#if CC_ASL_LOGGER && !CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
 /*
  Private API: Used as we want to avoid the <Level> from being logged (want to use our own).
 
  Filed a bug report. rdar://14680976
  Viewable: http://openradar.appspot.com/radar?id=5779342353235968
+ Resolved: Exposed functionality in Mac OS X 10.9 SDK and iOS 7.0 SDK.
  */
 
 //From: http://www.opensource.apple.com/source/Libc/Libc-825.26/gen/asl_core.h
@@ -322,8 +323,12 @@ void CCLogAddFile(const char *File)
     int Fd = fileno(fp);
     
 #if CC_ASL_LOGGER
+#if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
+    asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
+#else
     //asl_add_log_file(Client, Fd);
-    asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, 1);
+    asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
+#endif
 #elif CC_SYSLOG_LOGGER
     //TODO: use syslog
 #else
