@@ -88,6 +88,7 @@
 
 #include <CommonC/Extensions.h>
 #include <CommonC/Hacks.h>
+#include <stdarg.h>
 
 
 #pragma mark - Constants
@@ -117,6 +118,7 @@ typedef enum {
 #pragma mark - Functions
 void CCLogAddFile(const char *File);
 int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, ...) CC_FORMAT_PRINTF(7, 8);
+int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, va_list Args) CC_FORMAT_PRINTF(7, 0);
 
 
 #if CC_NO_LOG

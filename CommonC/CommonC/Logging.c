@@ -167,7 +167,7 @@ static void ASLSetup(void)
 }
 #endif
 
-int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, ...)
+int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, va_list Args)
 {
     if (Option == CCLogOptionNone) return 0;
     
@@ -194,14 +194,14 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
 #endif
     }
     
-    va_list Args;
-    va_start(Args, FormatString);
-    const size_t FormatLength = vsnprintf(NULL, 0, FormatString, Args);
+    va_list ArgsCopy;
+    va_copy(ArgsCopy, Args);
+    const size_t FormatLength = vsnprintf(NULL, 0, FormatString, ArgsCopy);
     size_t Length = strlen(Tag) + 1 //"%s:"
     + (Filename? 1 + strlen(Filename) + 1 + 11 + 2 : 0) //"[%s:%d]:" Approx max number of digits for unsigned int: 10 + 1 (sign) TODO: add a CCNumberOfDigits() function in bit tricks
     + (FunctionName? strlen(FunctionName) + 1 : 0) //"%s:"
     + 2; //" " and null terminator
-    va_end(Args);
+    va_end(ArgsCopy);
     
     
     char *Message;
@@ -214,9 +214,7 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
     else if (FunctionName) Length = snprintf(Message, Length, "%s:%s: ", Tag, FunctionName);
     else  Length = snprintf(Message, Length, "%s: ", Tag);
     
-    va_start(Args, FormatString);
     Length += vsnprintf(Message + Length, FormatLength + 1, FormatString, Args);
-    va_end(Args);
     
     if (Option & CCLogOptionOutputFile)
     {
@@ -276,6 +274,16 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
     CC_TEMP_Free(Message);
     
     return (int)Length;
+}
+
+int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, ...)
+{
+    va_list Args;
+    va_start(Args, FormatString);
+    const int Length = CCLogv(Option, Tag, Identifier, Filename, FunctionName, Line, FormatString, Args);
+    va_end(Args);
+    
+    return Length;
 }
 
 #if CC_ASL_LOGGER
