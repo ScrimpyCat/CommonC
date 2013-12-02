@@ -29,9 +29,8 @@
 
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
 #include <CoreFoundation/CoreFoundation.h>
-#include <objc/objc-runtime.h>
 #if CC_PLATFORM_IOS
-
+#include <objc/objc-runtime.h>
 #endif
 #endif
 
