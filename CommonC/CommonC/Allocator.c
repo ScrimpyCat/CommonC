@@ -107,7 +107,7 @@ void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
     const CCReallocatorFunction Reallocator = Allocators.allocators[Index].reallocator;
     
-    return Reallocator? Reallocator(Type.data, (int*)Ptr - 1, Size) : NULL;
+    return Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, Size) + 1) : NULL;
 }
 
 void CCDeallocate(void *Ptr)
