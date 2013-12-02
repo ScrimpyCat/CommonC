@@ -100,3 +100,16 @@ void CCSystemVersion(uint32_t *Major, uint32_t *Minor, uint32_t *BugFix)
     if (Minor) *Minor = VersionValues[1];
     if (BugFix) *BugFix = VersionValues[2];
 }
+
+uint32_t CCSystemVersionLiteral(void)
+{
+    uint32_t Maj, Min, Bug;
+    CCSystemVersion(&Maj, &Min, &Bug);
+    
+#if CC_PLATFORM_OS_X
+    return (Maj * 100) + (Min * 10);
+#elif CC_PLATFORM_IOS
+    return (Maj * 10000) + (Min * 100);
+#else
+#endif
+}

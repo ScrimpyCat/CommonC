@@ -29,5 +29,6 @@
 #include <stdint.h>
 
 void CCSystemVersion(uint32_t *Major, uint32_t *Minor, uint32_t *BugFix);
+uint32_t CCSystemVersionLiteral(void);
 
 #endif
