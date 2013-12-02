@@ -27,7 +27,7 @@
 #include "Platform.h"
 #include "Logging.h"
 
-#if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#if CC_PLATFORM_APPLE
 #include <CoreFoundation/CoreFoundation.h>
 #if CC_PLATFORM_IOS
 #include <objc/objc-runtime.h>
@@ -39,7 +39,7 @@ void CCSystemVersion(uint32_t *Major, uint32_t *Minor, uint32_t *BugFix)
     static uint32_t VersionValues[3] = { UINT32_MAX, 0, 0 };
     if (VersionValues[0] == UINT32_MAX)
     {
-#if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#if CC_PLATFORM_APPLE
 #if CC_PLATFORM_OS_X
         CFURLRef URL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/System/Library/CoreServices/SystemVersion.plist"), kCFURLPOSIXPathStyle, FALSE);
         if (URL)

@@ -34,7 +34,7 @@
 #include "Platform.h"
 #include "ProcessInfo.h"
 
-#if CC_PLATFORM_APPLE || CC_PLATFORM_IOS
+#if CC_PLATFORM_APPLE
 #define CC_ASL_LOGGER 1
 #include <asl.h>
 
