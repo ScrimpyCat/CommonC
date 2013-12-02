@@ -47,6 +47,7 @@
 #include <CommonC/Logging.h>
 #include <CommonC/Assertion.h>
 
+#include <CommonC/SystemInfo.h>
 #include <CommonC/ProcessInfo.h>
 
 #include <CommonC/Maths.h>
