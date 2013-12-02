@@ -33,6 +33,7 @@
 #include "Types.h"
 #include "Platform.h"
 #include "ProcessInfo.h"
+#include "SystemInfo.h"
 
 #if CC_PLATFORM_APPLE
 #define CC_ASL_LOGGER 1
@@ -312,9 +313,10 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
 #define ASL_TIME_FMT_SEC "sec"
 #define ASL_TIME_FMT_UTC "utc"
 #define ASL_TIME_FMT_LCL "lcl"
+#endif
 
 extern int asl_add_output(aslclient asl, int fd, const char *msg_fmt, const char *time_fmt, uint32_t text_encoding) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);
-#endif
+
 
 void CCLogAddFile(const char *File)
 {
@@ -324,11 +326,10 @@ void CCLogAddFile(const char *File)
     
 #if CC_ASL_LOGGER
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
-    asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
-#else
-    //asl_add_log_file(Client, Fd);
-    asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
-#endif
+    if (asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
+    else
+#endif 
+        asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
 #elif CC_SYSLOG_LOGGER
     //TODO: use syslog
 #else
