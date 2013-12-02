@@ -24,8 +24,6 @@
  */
 
 #include "SystemInfo.h"
-#include "Platform.h"
-#include "Logging.h"
 
 #if CC_PLATFORM_APPLE
 #include <CoreFoundation/CoreFoundation.h>

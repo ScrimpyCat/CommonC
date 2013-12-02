@@ -27,6 +27,14 @@
 #define CommonC_SystemInfo_h
 
 #include <stdint.h>
+#include <CommonC/Platform.h>
+
+#if CC_PLATFORM_OS_X
+#define CC_PLATFORM_APPLE_RUNTIME_VERSION_MIN_REQUIRED(osx, ios) (CCSystemVersionLiteral() >= (osx))
+#elif CC_PLATFORM_IOS
+#define CC_PLATFORM_APPLE_RUNTIME_VERSION_MIN_REQUIRED(osx, ios) (CCSystemVersionLiteral() >= (ios))
+#endif
+
 
 void CCSystemVersion(uint32_t *Major, uint32_t *Minor, uint32_t *BugFix);
 uint32_t CCSystemVersionLiteral(void);
