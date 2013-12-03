@@ -66,12 +66,12 @@ void *CCReallocBlock(CCAllocatorType Type, void *Ptr, size_t Size, const char * 
 
 #define CCMalloc(type, size, data, callback) CC_GENERIC_EVALUATE(callback, \
 CCErrorCallback: CCMalloc, \
-CC_SUPPORT_BLOCKS(CCErrorCallbackBlock: CCMallocBlock), \
+CC_SUPPORT_BLOCKS(CCErrorCallbackBlock: CCMallocBlock,) \
 void *: CCMalloc)(type, size, __FILE__, __func__, __LINE__, data, callback)
 
 #define CCRealloc(type, ptr, size, data, callback) CC_GENERIC_EVALUATE(callback, \
 CCErrorCallback: CCRealloc, \
-CC_SUPPORT_BLOCKS(CCErrorCallbackBlock: CCReallocBlock), \
+CC_SUPPORT_BLOCKS(CCErrorCallbackBlock: CCReallocBlock,) \
 void *: CCRealloc)(type, ptr, size, __FILE__, __func__, __LINE__, data, callback)
 
 /*
