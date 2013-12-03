@@ -275,6 +275,44 @@ void CCLogAddFilterBlock(CCLogFilterType Type, CCLogFilterBlock Filter)
 }
 #endif
 
+#pragma mark - CCLogMessage functions
+#define CC_MESSAGE_BATCH_SIZE 64
+
+typedef struct CCLogMessageBuffer {
+    char **message;
+    size_t *length;
+    int (*write)(const struct CCLogMessage *Msg, const char *String, size_t Length);
+    int (*remove)(const struct CCLogMessage *Msg, size_t Length);
+    size_t *bufferSize;
+} CCLogMessageBuffer;
+
+static int MessageBufferWrite(CCLogMessageBuffer *Msg, const char *String, size_t Length)
+{
+    if (*Msg->bufferSize - *Msg->length < Length)
+    {
+        *Msg->bufferSize += CC_MESSAGE_BATCH_SIZE + ((Length / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+        CC_SAFE_Realloc(*Msg->message, *Msg->bufferSize + 1,
+                        return -1;
+                        );
+    }
+    
+    strncpy(*Msg->message + *Msg->length, String, Length);
+    *Msg->length += Length;
+    (*Msg->message)[*Msg->length] = 0;
+    
+    return 0;
+}
+
+static int MessageBufferRemove(CCLogMessageBuffer *Msg, size_t Length)
+{
+    if (Length > *Msg->length) Length = *Msg->length;
+    
+    (*Msg->message)[*Msg->length - Length] = 0;
+    *Msg->length -= Length;
+    
+    return 0;
+}
+
 #pragma mark - Logger
 int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, va_list Args)
 {
@@ -329,9 +367,17 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     + (FunctionName? strlen(FunctionName) + 1 : 0) //"%s:"
     + 2; //" " and null terminator
     char *Message = NULL;
+    
+    CCLogMessageBuffer MessageBuffer = {
+        .message = &Message,
+        .length = &Length,
+        .write = (int(*)(const CCLogMessage*,const char*,size_t))MessageBufferWrite,
+        .remove = (int(*)(const CCLogMessage*,size_t))MessageBufferRemove,
+        .bufferSize = &MessageSize
+    };
+    
     if (SpecifierFilters)
     {
-#define CC_MESSAGE_BATCH_SIZE 64
         MessageSize = CC_MESSAGE_BATCH_SIZE + ((Length / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
         CC_SAFE_Malloc(Message, MessageSize + 1,
                        return -1;
@@ -369,52 +415,14 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
         LogData.filter = CCLogFilterSpecifier;
         while ((FormatString = Specifier))
         {
-            CCLogSpecifierData SpecData = { .specifier = Specifier };
-            for (CCFilter *CurrentFilter = SpecifierFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
+            CCLogSpecifierData SpecData = { .msg = (CCLogMessage*)&MessageBuffer, .specifier = Specifier, .args = (va_list*)Args };
+            for (CCFilter *CurrentFilter = SpecifierFilters; CurrentFilter && (FormatString == Specifier); CurrentFilter = CurrentFilter->next)
             {
-                va_list ArgsCopy;
-                va_copy(ArgsCopy, Args);
-                
-                size_t MsgSize = 0;
-                SpecData.message = NULL;
-                SpecData.messageSize = &MsgSize;
-                SpecData.args = &ArgsCopy;
-                
-                size_t SpecInc;
 #if __BLOCKS__
-                if (CurrentFilter->isBlock) SpecInc = ((CCLogSpecifierFilterBlock)CurrentFilter->filter)(&LogData, &SpecData);
+                if (CurrentFilter->isBlock) Specifier += ((CCLogSpecifierFilterBlock)CurrentFilter->filter)(&LogData, &SpecData);
                 else
 #endif
-                    SpecInc = ((CCLogSpecifierFilter)CurrentFilter->filter)(&LogData, &SpecData);
-                va_end(ArgsCopy);
-                
-                if (SpecInc)
-                {
-                    if (MessageSize - Length < MsgSize)
-                    {
-                        MessageSize += CC_MESSAGE_BATCH_SIZE + ((MsgSize / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-                        CC_SAFE_Realloc(Message, MessageSize + 1,
-                                        CC_SAFE_Free(Buffer);
-                                        CC_SAFE_Free(Message);
-                                        return -1;
-                                        );
-                    }
-                    
-                    //MsgSize = 0; //So it can be queried
-                    SpecData.message = &Message[Length];
-                    SpecData.args = (va_list*)Args;
-                    
-                    
-#if __BLOCKS__
-                    if (CurrentFilter->isBlock) CCAssertLog(((CCLogSpecifierFilterBlock)CurrentFilter->filter)(&LogData, &SpecData) == SpecInc, "Specifier filters should return the same specifier increment on the second call.");
-                    else
-#endif
-                        CCAssertLog(((CCLogSpecifierFilter)CurrentFilter->filter)(&LogData, &SpecData) == SpecInc, "Specifier filters should return the same specifier increment on the second call.");
-                    
-                    Specifier += SpecInc;
-                    Length += MsgSize;
-                    break;
-                }
+                    Specifier += ((CCLogSpecifierFilter)CurrentFilter->filter)(&LogData, &SpecData);
             }
             
             if (FormatString == Specifier)
@@ -505,14 +513,13 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     
     
     LogData.filter = CCLogFilterMessage;
-    CCLogMessageData MessageData = { .message = Message, .size = &Length };
     for (CCFilter *CurrentFilter = MessageFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
     {
 #if __BLOCKS__
-        if (CurrentFilter->isBlock) ((CCLogMessageFilterBlock)CurrentFilter->filter)(&LogData, &MessageData);
+        if (CurrentFilter->isBlock) ((CCLogMessageFilterBlock)CurrentFilter->filter)(&LogData, (CCLogMessage*)&MessageBuffer);
         else
 #endif
-            ((CCLogMessageFilter)CurrentFilter->filter)(&LogData, &MessageData);
+            ((CCLogMessageFilter)CurrentFilter->filter)(&LogData, (CCLogMessage*)&MessageBuffer);
     }
     
     if (Option & CCLogOptionOutputFile)

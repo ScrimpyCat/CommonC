@@ -145,17 +145,20 @@ typedef struct {
     va_list *args;
 } CCLogInputData;
 
+typedef struct CCLogMessage {
+    char * const *message; //the full message
+    const size_t *length; //full length of the current message (excluding null terminator)
+    int (*write)(const struct CCLogMessage *Msg, const char *String, size_t Length); //returns 0 on success otherwise failure
+    int (*remove)(const struct CCLogMessage *Msg, size_t Length); //returns 0 on success otherwise failure
+} CCLogMessage;
+
 typedef struct {
-    char *message;
-    size_t *messageSize;
+    const CCLogMessage *msg;
     const char *specifier;
     va_list *args;
 } CCLogSpecifierData;
 
-typedef struct {
-    char *message;
-    size_t *size;
-} CCLogMessageData;
+typedef CCLogMessage CCLogMessageData;
 
 typedef size_t (*CCLogFilter)(const CCLogData *LogData, void *Data);
 typedef CCLogFilter CCLogInputFilter;
