@@ -29,6 +29,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "Logging.h"
+#include "Assertion.h"
 #include "MemoryAllocation.h"
 #include "Types.h"
 #include "Platform.h"
@@ -59,6 +60,10 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
+#if __BLOCKS__
+#include <Block.h>
+#endif
+
 
 const char * const CCTagEmergency = "EMERGENCY";
 const char * const CCTagAlert = "ALERT";
@@ -87,7 +92,7 @@ static void LogMessage(aslmsg Msg)
 }
 #endif
 
-
+#pragma mark - Logger Setup
 #if CC_ASL_LOGGER
 static void ASLSetup(void)
 {
@@ -168,8 +173,132 @@ static void ASLSetup(void)
 }
 #endif
 
-int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, va_list Args)
+#pragma mark - Filters
+typedef struct CCFilter {
+    void *filter;
+    _Bool isBlock;
+    struct CCFilter *next;
+} CCFilter;
+
+static CCFilter *InputFilters = NULL, *SpecifierFilters = NULL, *MessageFilters = NULL;
+
+#undef CCLogAddFilter
+void CCLogAddFilter(CCLogFilterType Type, CCLogFilter Filter)
 {
+    if (Type & CCLogFilterInput)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Filter;
+        NewFilter->isBlock = FALSE;
+        NewFilter->next = InputFilters;
+        InputFilters = NewFilter;
+    }
+    
+    if (Type & CCLogFilterSpecifier)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Filter;
+        NewFilter->isBlock = FALSE;
+        NewFilter->next = SpecifierFilters;
+        SpecifierFilters = NewFilter;
+    }
+    
+    if (Type & CCLogFilterMessage)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Filter;
+        NewFilter->isBlock = FALSE;
+        NewFilter->next = MessageFilters;
+        MessageFilters = NewFilter;
+    }
+}
+
+#if __BLOCKS__
+void CCLogAddFilterBlock(CCLogFilterType Type, CCLogFilterBlock Filter)
+{
+    if (Type & CCLogFilterInput)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Block_copy(Filter);
+        NewFilter->isBlock = TRUE;
+        NewFilter->next = InputFilters;
+        InputFilters = NewFilter;
+    }
+    
+    if (Type & CCLogFilterSpecifier)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Block_copy(Filter);
+        NewFilter->isBlock = TRUE;
+        NewFilter->next = SpecifierFilters;
+        SpecifierFilters = NewFilter;
+    }
+    
+    if (Type & CCLogFilterMessage)
+    {
+        CCFilter *NewFilter;
+        CC_SAFE_Malloc(NewFilter, sizeof(CCFilter),
+                       //Add error callback?
+                       return;
+                       );
+        
+        NewFilter->filter = Block_copy(Filter);
+        NewFilter->isBlock = TRUE;
+        NewFilter->next = MessageFilters;
+        MessageFilters = NewFilter;
+    }
+}
+#endif
+
+#pragma mark - Logger
+int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, va_list Args)
+{
+    CCLogData LogData = {
+        .filter = CCLogFilterInput,
+        .option = &Option,
+        .tag = Tag,
+        .identifier = Identifier,
+        .filename = Filename,
+        .functionName = FunctionName,
+        .line = Line
+    };
+    
+    CCLogInputData InputData = { .format = FormatString, .args = (va_list*)Args };
+    for (CCFilter *CurrentFilter = InputFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
+    {
+#if __BLOCKS__
+        if (CurrentFilter->isBlock) ((CCLogInputFilterBlock)CurrentFilter->filter)(&LogData, &InputData);
+        else
+#endif
+            ((CCLogInputFilter)CurrentFilter->filter)(&LogData, &InputData);
+    }
+    
+    
     if (Option == CCLogOptionNone) return 0;
     
 #if CC_ASL_LOGGER
@@ -195,27 +324,196 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
 #endif
     }
     
-    va_list ArgsCopy;
-    va_copy(ArgsCopy, Args);
-    const size_t FormatLength = vsnprintf(NULL, 0, FormatString, ArgsCopy);
-    size_t Length = strlen(Tag) + 1 //"%s:"
+    size_t MessageSize = 0, Length = strlen(Tag) + 1 //"%s:"
     + (Filename? 1 + strlen(Filename) + 1 + 11 + 2 : 0) //"[%s:%d]:" Approx max number of digits for unsigned int: 10 + 1 (sign) TODO: add a CCNumberOfDigits() function in bit tricks
     + (FunctionName? strlen(FunctionName) + 1 : 0) //"%s:"
     + 2; //" " and null terminator
-    va_end(ArgsCopy);
+    char *Message = NULL;
+    if (SpecifierFilters)
+    {
+#define CC_MESSAGE_BATCH_SIZE 64
+        MessageSize = CC_MESSAGE_BATCH_SIZE + ((Length / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+        CC_SAFE_Malloc(Message, MessageSize + 1,
+                       return -1;
+                       );
+        
+        
+        if ((Filename) && (FunctionName)) Length = snprintf(Message, Length, "%s:[%s:%d]:%s: ", Tag, Filename, Line, FunctionName);
+        else if (Filename) Length = snprintf(Message, Length, "%s:[%s:%d]: ", Tag, Filename, Line);
+        else if (FunctionName) Length = snprintf(Message, Length, "%s:%s: ", Tag, FunctionName);
+        else  Length = snprintf(Message, Length, "%s: ", Tag);
+        
+        
+        size_t BufferSize = 0;
+        char *Buffer = NULL;
+        const char *Specifier = FormatString;
+        
+        Specifier = strchr(Specifier, '%');
+        const ptrdiff_t NextSpecLength = Specifier? (Specifier - FormatString) : strlen(FormatString);
+        
+        if (NextSpecLength > 0)
+        {
+            if (MessageSize - Length < NextSpecLength)
+            {
+                MessageSize += CC_MESSAGE_BATCH_SIZE + ((NextSpecLength / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+                CC_SAFE_Realloc(Message, MessageSize + 1,
+                                CC_SAFE_Free(Message);
+                                return -1;
+                                );
+            }
+            
+            strncpy(&Message[Length], FormatString, NextSpecLength);
+            Length += NextSpecLength;
+        }
+        
+        LogData.filter = CCLogFilterSpecifier;
+        while ((FormatString = Specifier))
+        {
+            CCLogSpecifierData SpecData = { .specifier = Specifier };
+            for (CCFilter *CurrentFilter = SpecifierFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
+            {
+                va_list ArgsCopy;
+                va_copy(ArgsCopy, Args);
+                
+                size_t MsgSize = 0;
+                SpecData.message = NULL;
+                SpecData.messageSize = &MsgSize;
+                SpecData.args = &ArgsCopy;
+                
+                size_t SpecInc;
+#if __BLOCKS__
+                if (CurrentFilter->isBlock) SpecInc = ((CCLogSpecifierFilterBlock)CurrentFilter->filter)(&LogData, &SpecData);
+                else
+#endif
+                    SpecInc = ((CCLogSpecifierFilter)CurrentFilter->filter)(&LogData, &SpecData);
+                va_end(ArgsCopy);
+                
+                if (SpecInc)
+                {
+                    if (MessageSize - Length < MsgSize)
+                    {
+                        MessageSize += CC_MESSAGE_BATCH_SIZE + ((MsgSize / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+                        CC_SAFE_Realloc(Message, MessageSize + 1,
+                                        CC_SAFE_Free(Buffer);
+                                        CC_SAFE_Free(Message);
+                                        return -1;
+                                        );
+                    }
+                    
+                    //MsgSize = 0; //So it can be queried
+                    SpecData.message = &Message[Length];
+                    SpecData.args = (va_list*)Args;
+                    
+                    
+#if __BLOCKS__
+                    if (CurrentFilter->isBlock) CCAssertLog(((CCLogSpecifierFilterBlock)CurrentFilter->filter)(&LogData, &SpecData) == SpecInc, "Specifier filters should return the same specifier increment on the second call.");
+                    else
+#endif
+                        CCAssertLog(((CCLogSpecifierFilter)CurrentFilter->filter)(&LogData, &SpecData) == SpecInc, "Specifier filters should return the same specifier increment on the second call.");
+                    
+                    Specifier += SpecInc;
+                    Length += MsgSize;
+                    break;
+                }
+            }
+            
+            if (FormatString == Specifier)
+            {
+                Specifier = strchr(Specifier + 2, '%'); //%%
+                const ptrdiff_t NextSpecLength = Specifier? (Specifier - FormatString) : strlen(FormatString);
+                
+                if (BufferSize < NextSpecLength)
+                {
+                    CC_SAFE_Realloc(Buffer, NextSpecLength + 1,
+                                    CC_SAFE_Free(Buffer);
+                                    CC_SAFE_Free(Message);
+                                    return -1;
+                                    );
+                    BufferSize = NextSpecLength;
+                }
+                
+                strncpy(Buffer, FormatString, NextSpecLength);
+                Buffer[NextSpecLength] = 0;
+                
+                va_list ArgsCopy;
+                va_copy(ArgsCopy, Args);
+                int Len = vsnprintf(NULL, 0, Buffer, ArgsCopy);
+                va_end(ArgsCopy);
+                
+                if (MessageSize - Length < Len)
+                {
+                    MessageSize += CC_MESSAGE_BATCH_SIZE + ((Len / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+                    CC_SAFE_Realloc(Message, MessageSize + 1,
+                                    CC_SAFE_Free(Buffer);
+                                    CC_SAFE_Free(Message);
+                                    return -1;
+                                    );
+                }
+                
+                vsprintf(&Message[Length], Buffer, Args);
+                Length += Len;
+            }
+            
+            else
+            {
+                FormatString = Specifier;
+                
+                Specifier = strchr(Specifier, '%');
+                const ptrdiff_t NextSpecLength = Specifier? (Specifier - FormatString) : strlen(FormatString);
+                
+                if (NextSpecLength > 0)
+                {
+                    if (MessageSize - Length < NextSpecLength)
+                    {
+                        MessageSize += CC_MESSAGE_BATCH_SIZE + ((NextSpecLength / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
+                        CC_SAFE_Realloc(Message, MessageSize + 1,
+                                        CC_SAFE_Free(Buffer);
+                                        CC_SAFE_Free(Message);
+                                        return -1;
+                                        );
+                    }
+                    
+                    strncpy(&Message[Length], FormatString, NextSpecLength);
+                    Length += NextSpecLength;
+                }
+            }
+        }
+        
+        CC_SAFE_Free(Buffer);
+        Message[Length] = 0;
+    }
+    
+    else
+    {
+        va_list ArgsCopy;
+        va_copy(ArgsCopy, Args);
+        const size_t FormatLength = vsnprintf(NULL, 0, FormatString, ArgsCopy);
+        va_end(ArgsCopy);
+        
+        
+        CC_SAFE_Malloc(Message, Length + FormatLength,
+                       return -1;
+                       );
+        
+        if ((Filename) && (FunctionName)) Length = snprintf(Message, Length, "%s:[%s:%d]:%s: ", Tag, Filename, Line, FunctionName);
+        else if (Filename) Length = snprintf(Message, Length, "%s:[%s:%d]: ", Tag, Filename, Line);
+        else if (FunctionName) Length = snprintf(Message, Length, "%s:%s: ", Tag, FunctionName);
+        else  Length = snprintf(Message, Length, "%s: ", Tag);
+        
+        Length += vsnprintf(Message + Length, FormatLength + 1, FormatString, Args);
+    }
     
     
-    char *Message;
-    CC_TEMP_Malloc(Message, Length + FormatLength,
-                   return -1;
-                   );
-    
-    if ((Filename) && (FunctionName)) Length = snprintf(Message, Length, "%s:[%s:%d]:%s: ", Tag, Filename, Line, FunctionName);
-    else if (Filename) Length = snprintf(Message, Length, "%s:[%s:%d]: ", Tag, Filename, Line);
-    else if (FunctionName) Length = snprintf(Message, Length, "%s:%s: ", Tag, FunctionName);
-    else  Length = snprintf(Message, Length, "%s: ", Tag);
-    
-    Length += vsnprintf(Message + Length, FormatLength + 1, FormatString, Args);
+    LogData.filter = CCLogFilterMessage;
+    CCLogMessageData MessageData = { .message = Message, .size = &Length };
+    for (CCFilter *CurrentFilter = MessageFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
+    {
+#if __BLOCKS__
+        if (CurrentFilter->isBlock) ((CCLogMessageFilterBlock)CurrentFilter->filter)(&LogData, &MessageData);
+        else
+#endif
+            ((CCLogMessageFilter)CurrentFilter->filter)(&LogData, &MessageData);
+    }
     
     if (Option & CCLogOptionOutputFile)
     {
@@ -272,7 +570,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     
     if (Option & CCLogOptionOutputPrint) fprintf(stderr, "%s\n", Message);
     
-    CC_TEMP_Free(Message);
+    CC_SAFE_Free(Message);
     
     return (int)Length;
 }
@@ -287,6 +585,7 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
     return Length;
 }
 
+#pragma mark - Logger Outputs
 #if CC_ASL_LOGGER && !CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
 /*
  Private API: Used as we want to avoid the <Level> from being logged (want to use our own).

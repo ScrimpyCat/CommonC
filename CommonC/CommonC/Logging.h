@@ -47,6 +47,11 @@
     CCLogOptionOutputAll - A convenience option, specifies all options to be used.
     CCLogOptionAsync - Writes to file asynchronously.
  
+ enum CCLogFilterType - The filter type of the function.
+    CCLogFilterInput - Data field is CCLogInputData, return value is ignored. This filter is called at the beginning of CCLogv. The main usage is for having filters that apply to one of the prefixed fields (e.g. shortening the filename). This filter can only affect the current option, otherwise to do more it's suggested to call CCLog again with the modified inputs.
+    CCLogFilterSpecifier - Data field is CCLogSpecifierData, return value is the amount to increment the specifier string by (e.g. usually the size of the specifier being matched if it is found). The filter takes affect when formatting the input. The main usage is to create custom (or override) format specifiers. The filter will be called twice if there is a match. The first call should only check to see if there's a match (return the amount to incrememnt the specifier), and set messageSize to the number of characters it will write (if this cannot be determined specify the max amount). The second call should return the same value as the first, and set message if there is data to be written, and then set messageSize to the amount written.
+    CCLogFilterMessage - Data field is CCLogMessageData, return value is ignored. This filter takes affect at the end after the message has been formatted, but prior to logging. The main usage for this is to modify the final message, or to send it to any other loggers. When modifying the message, if the length of the string is reduced then size should be set to the new length. However if the message length needs to grow larger than size you must allocated this space yourself and should call CCLog again with the new message.
+ 
  Functions:
  CCLog() - Logs the message. The logging message formatted output is: "TAG:[file:line]:function: message" where "[file:line]:" and "function:" are optional.
     Return:
@@ -69,6 +74,12 @@
     Arguments:
     const char *File - A path and name of the file to be used. If no such file exists it will try create one. If the path does not exist it try will 
                        make one.
+ CCLogAddFilter() - Add a filter to be applied to calls made using CCLog/CCLogv. Filters can be used to restructure log messages, add custom format specifiers, pass messages to other systems or other loggers, etc.
+    Arguments:
+    CCLogFilterType Type - The type of this filter (may be multiple).
+    CCLogFilter Filter - The filter (either function or if supported block). See CCLogFilterType definition for filter guidlines.
+ 
+ 
  
  Constants:
  CCTagEmergency - The tag to identify with an emergency level log message. It will log: "EMERGENCY".
@@ -87,6 +98,7 @@
 #define CommonC_Logging_h
 
 #include <CommonC/Extensions.h>
+#include <CommonC/Generics.h>
 #include <CommonC/Hacks.h>
 #include <stdarg.h>
 
@@ -114,11 +126,71 @@ typedef enum {
     CCLogOptionAsync = (1 << 8) //Only available when GCD is supported
 } CCLoggingOption;
 
+typedef enum {
+    CCLogFilterInput = (1 << 0),
+    CCLogFilterSpecifier = (1 << 1),
+    CCLogFilterMessage = (1 << 2)
+} CCLogFilterType;
+
+typedef struct {
+    CCLogFilterType filter;
+    CCLoggingOption *option;
+    const char *tag, *identifier;
+    const char *filename, *functionName;
+    unsigned int line;
+} CCLogData;
+
+typedef struct {
+    const char *format;
+    va_list *args;
+} CCLogInputData;
+
+typedef struct {
+    char *message;
+    size_t *messageSize;
+    const char *specifier;
+    va_list *args;
+} CCLogSpecifierData;
+
+typedef struct {
+    char *message;
+    size_t *size;
+} CCLogMessageData;
+
+typedef size_t (*CCLogFilter)(const CCLogData *LogData, void *Data);
+typedef CCLogFilter CCLogInputFilter;
+typedef size_t (*CCLogSpecifierFilter)(const CCLogData *LogData, const CCLogSpecifierData *Data);
+typedef size_t (*CCLogMessageFilter)(const CCLogData *LogData, const CCLogMessageData *Data);
+
+
+#if __BLOCKS__
+typedef size_t (^CCLogFilterBlock)(const CCLogData *LogData, void *Data);
+typedef CCLogFilterBlock CCLogInputFilterBlock;
+typedef size_t (^CCLogSpecifierFilterBlock)(const CCLogData *LogData, const CCLogSpecifierData *Data);
+typedef size_t (^CCLogMessageFilterBlock)(const CCLogData *LogData, const CCLogMessageData *Data);
+#endif
+
+
 
 #pragma mark - Functions
 void CCLogAddFile(const char *File);
-int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, ...) CC_FORMAT_PRINTF(7, 8);
-int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char * const FormatString, va_list Args) CC_FORMAT_PRINTF(7, 0);
+int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...) CC_FORMAT_PRINTF(7, 8);
+int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, va_list Args) CC_FORMAT_PRINTF(7, 0);
+void CCLogAddFilter(CCLogFilterType Type, CCLogFilter Filter);
+
+#if __BLOCKS__
+void CCLogAddFilterBlock(CCLogFilterType Type, CCLogFilterBlock Filter);
+#endif
+
+#define CCLogAddFilter(type, filter) CC_GENERIC_EVALUATE(filter, \
+CCLogFilter: CCLogAddFilter, \
+CCLogSpecifierFilter: CCLogAddFilter, \
+CCLogMessageFilter: CCLogAddFilter, \
+CC_SUPPORT_BLOCKS(CCLogFilterBlock: CCLogAddFilterBlock,) \
+CC_SUPPORT_BLOCKS(CCLogSpecifierFilterBlock: CCLogAddFilterBlock,) \
+CC_SUPPORT_BLOCKS(CCLogMessageFilterBlock: CCLogAddFilterBlock,) \
+void *: CCLogAddFilter)(type, (void*)filter)
+
 
 
 #if CC_NO_LOG
