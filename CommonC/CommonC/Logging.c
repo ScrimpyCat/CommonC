@@ -297,8 +297,7 @@ static int MessageBufferWrite(CCLogMessageBuffer *Msg, const char *String, size_
     }
     
     strncpy(*Msg->message + *Msg->length, String, Length);
-    *Msg->length += Length;
-    (*Msg->message)[*Msg->length] = 0;
+    (*Msg->message)[(*Msg->length += Length)] = 0;
     
     return 0;
 }
@@ -307,8 +306,7 @@ static int MessageBufferRemove(CCLogMessageBuffer *Msg, size_t Length)
 {
     if (Length > *Msg->length) Length = *Msg->length;
     
-    (*Msg->message)[*Msg->length - Length] = 0;
-    *Msg->length -= Length;
+    (*Msg->message)[(*Msg->length -= Length)] = 0;
     
     return 0;
 }
