@@ -26,14 +26,37 @@
 #import "Logging.h"
 #undef CCLog
 
+static size_t ObjectSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
+{
+    if (!strncmp(Data->specifier, "%@", 2))
+    {
+        NSString *Description = [va_arg(*Data->args, id) description];
+        Data->msg->write(Data->msg, [Description UTF8String], [Description length]);
+        
+        return 2;
+    }
+    
+    return 0;
+}
+
+static _Bool FilterAdded = FALSE;
+CC_CONSTRUCTOR static void AddObjectSpecifier(void)
+{
+    if (!FilterAdded)
+    {
+        CCLogAddFilter(CCLogFilterSpecifier, ObjectSpecifier);
+        FilterAdded = TRUE;
+    }
+}
+
 int CCLogObjc(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, NSString * const FormatString, ...)
 {
+    if (!FilterAdded) AddObjectSpecifier();
+    
     va_list Args;
     va_start(Args, FormatString);
     
-    NSString *Message = [[NSString alloc] initWithFormat: FormatString arguments: Args];
-    int Ret = CCLog(Option, Tag, Identifier, Filename, FunctionName, Line, "%s", [Message UTF8String]);
-    [Message release];
+    int Ret = CCLogv(Option, Tag, Identifier, Filename, FunctionName, Line, [FormatString UTF8String], Args);
     va_end(Args);
     
     return Ret;
