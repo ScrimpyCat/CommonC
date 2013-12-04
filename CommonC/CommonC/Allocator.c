@@ -37,7 +37,7 @@ static void *StandardReallocator(void *Data, void *Ptr, size_t Size)
     return realloc(Ptr, Size);
 }
 
-static void StandardDealloctor(void *Ptr)
+static void StandardDeallocator(void *Ptr)
 {
     free(Ptr);
 }
@@ -58,7 +58,7 @@ static struct {
     } allocators[CC_ALLOCATORS_MAX];
 } Allocators = {
     .allocators = {
-        { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDealloctor }
+        { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator }
     }
 };
 
@@ -107,7 +107,19 @@ void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
     const CCReallocatorFunction Reallocator = Allocators.allocators[Index].reallocator;
     
-    return Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, Size) + 1) : NULL;
+    const size_t NewSize = Size + sizeof(int);
+    if (NewSize > Size)
+    {
+        Ptr = Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, NewSize) + 1) : NULL;;
+    }
+    
+    else
+    {
+        CC_LOG_DEBUG("Internal error: Integer overflow. Try reducing allocation size (%zu). #Attention #Error", Size);
+        Ptr = NULL;
+    }
+    
+    return Ptr;
 }
 
 void CCDeallocate(void *Ptr)
