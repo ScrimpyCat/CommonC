@@ -725,6 +725,12 @@ size_t CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
                             CurrentOption = 3;
                             break;
                         }
+                        
+                        else if (c == '-')
+                        {
+                            Info->options.precision = 0;
+                            while (isdigit(*++Format));
+                        }
                     }
                     
                 case 3: //length
