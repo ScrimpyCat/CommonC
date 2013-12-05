@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 #include "Logging.h"
 #include "Assertion.h"
 #include "MemoryAllocation.h"
@@ -641,4 +642,131 @@ void CCLogAddFile(const char *File)
 #endif
     
 #endif
+}
+
+const char *CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
+{
+    memset(Info, 0, sizeof(CCFormatSpecifierInfo));
+    
+    if (*Format == '%')
+    {
+        int CurrentOption = 0;
+        while (*++Format)
+        {
+            const char c = *Format;
+            switch (CurrentOption)
+            {
+                case 0: //flags
+                    switch (c)
+                    {
+                        case '-':
+                            Info->options.flags = 1;
+                            Info->flags.leftJustified = 1;
+                            continue;
+                        
+                        case '+':
+                            Info->options.flags = 1;
+                            Info->flags.showPlusSign = 1;
+                            continue;
+                        
+                        case ' ':
+                            Info->options.flags = 1;
+                            Info->flags.spacePrefixed = 1;
+                            continue;
+                        
+                        case '#':
+                            Info->options.flags = 1;
+                            Info->flags.altForm = 1;
+                            continue;
+                        
+                        case '0':
+                            Info->options.flags = 1;
+                            Info->flags.padWithZeros = 1;
+                            continue;
+                    }
+                    
+                case 1: //width
+                    CurrentOption = 1;
+                    if (isdigit(c))
+                    {
+                        Info->options.width = 1;
+                        Info->width.value = (Info->width.value * 10) + (c - '0');
+                        break;
+                    }
+                    
+                    else if (c == '*')
+                    {
+                        Info->options.width = 1;
+                        Info->width.valueInArgs = 1;
+                        CurrentOption = 2;
+                        break;
+                    }
+                    
+                case 2: //precision
+                    CurrentOption = 2;
+                    if (c == '.')
+                    {
+                        Info->options.precision = 1;
+                        break;
+                    }
+                    
+                    else if (Info->options.precision)
+                    {
+                        if (isdigit(c))
+                        {
+                            Info->precision.value = (Info->precision.value * 10) + (c - '0');
+                            break;
+                        }
+                        
+                        else if (c == '*')
+                        {
+                            Info->precision.valueInArgs = 1;
+                            CurrentOption = 3;
+                            break;
+                        }
+                    }
+                    
+                case 3: //length
+                    CurrentOption = 3;
+                    switch (c)
+                    {
+                        case 'h':
+                            Info->options.length = 1;
+                            Info->length = (Info->length << 8) | 'h';
+                            continue;
+                        
+                        case 'l':
+                            Info->options.length = 1;
+                            Info->length = (Info->length << 8) | 'l';
+                            continue;
+                        
+                        case 'j':
+                            Info->options.length = 1;
+                            Info->length = 'j';
+                            break;
+                        
+                        case 'z':
+                            Info->options.length = 1;
+                            Info->length = 'z';
+                            break;
+                        
+                        case 't':
+                            Info->options.length = 1;
+                            Info->length = 't';
+                            break;
+                        
+                        case 'L':
+                            Info->options.length = 1;
+                            Info->length = 'L';
+                            break;
+                        
+                        default:
+                            return Format;
+                    }
+                    return Format + 1;
+            }
+        }
+    }
+    
+    return Format;
 }
