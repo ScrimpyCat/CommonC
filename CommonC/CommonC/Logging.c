@@ -644,10 +644,11 @@ void CCLogAddFile(const char *File)
 #endif
 }
 
-const char *CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
+size_t CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
 {
     memset(Info, 0, sizeof(CCFormatSpecifierInfo));
     
+    const char *Start = Format;
     if (*Format == '%')
     {
         int CurrentOption = 0;
@@ -761,12 +762,12 @@ const char *CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *
                             break;
                         
                         default:
-                            return Format;
+                            return Format - Start;
                     }
-                    return Format + 1;
+                    return (Format - Start) + 1;
             }
         }
     }
     
-    return Format;
+    return Format - Start;
 }

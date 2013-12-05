@@ -230,7 +230,7 @@ void *: CCLogAddFilter)(type, (void*)filter)
 
 
 #pragma mark - Formatting Helper Function
-const char *CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info);
+size_t CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info);
 
 
 #pragma mark - Loggers
