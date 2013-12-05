@@ -23,36 +23,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#pragma mark Documentation
 /*
- Optional defines: These defines affect your code, not internals. For any internal optionals see the functions further below.
- CC_DEBUG : Enables some debug information.
- CC_NO_LOG : Disables all logging.
- CC_NO_ASSERT : Disables all assertions.
+ Some useful custom format specifier filters. These are not added by default and must manually be added.
+ 
+ CCBinaryFormatSpecifier: Adds the specifier "%B", which will display the binary form of the integer. The format will display the full number of bits for the
+                          specified length modifier. If the alternate form is used ('#' flag is present), it will display only up to the highest set bit.
  */
 
-//Other public headers not included here are typically just for internal use/not of much interest outside of the framework itself.
-#ifndef Common_Platform_h
-#define Common_Platform_h
+#pragma mark -
 
-#include <CommonC/Platform.h>
-#include <CommonC/Extensions.h>
-#include <CommonC/Generics.h>
-
-#include <CommonC/Types.h>
-#include <CommonC/DebugTypes.h>
-
-#include <CommonC/Allocator.h>
-#include <CommonC/MemoryAllocation.h>
+#ifndef CommonC_CustomFormatSpecifiers_h
+#define CommonC_CustomFormatSpecifiers_h
 
 #include <CommonC/Logging.h>
-#include <CommonC/Assertion.h>
-#include <CommonC/CustomFormatSpecifiers.h>
 
-#include <CommonC/SystemInfo.h>
-#include <CommonC/ProcessInfo.h>
 
-#include <CommonC/Maths.h>
-#include <CommonC/BitTricks.h>
-#include <CommonC/Random.h>
+#pragma mark - Functions
+size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data); //"%B" : Follows standard for options usage.
+
 
 #endif
