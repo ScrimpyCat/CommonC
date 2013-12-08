@@ -46,7 +46,7 @@ size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierDat
             char Bits[(sizeof(uintmax_t) * 8) + 1];
             switch (Info.length)
             {
-                case (int)'hh':
+                case 'hh':
                     Value = va_arg(*Data->args, unsigned int);
                     Size = sizeof(unsigned char);
                     break;
