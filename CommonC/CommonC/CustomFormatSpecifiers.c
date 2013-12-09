@@ -189,6 +189,7 @@ size_t CCArrayFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData
             ElementCount = va_arg(*Data->args, size_t);
             Format++;
         }
+        
         else if (isdigit(*Format))
         {
             ElementCount = *Format - '0';
@@ -355,3 +356,31 @@ for (size_t Loop = 0; ; ) \
     return 0;
 }
 
+size_t CCDeletionFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
+{
+    if (*Data->specifier == '%')
+    {
+        const char *Format = Data->specifier + 1;
+        size_t Characters = 1;
+        
+        if (*Format == '*')
+        {
+            Characters = va_arg(*Data->args, size_t);
+            Format++;
+        }
+        
+        else if (isdigit(*Format))
+        {
+            Characters = *Format - '0';
+            for (char c = *++Format; isdigit(c); c = *++Format) Characters = (Characters * 10) + (c - '0');
+        }
+        
+        if (!strncmp(Format, "DEL", 3))
+        {
+            Data->msg->remove(Data->msg, Characters);
+            return (Format - Data->specifier) + 3;
+        }
+    }
+    
+    return 0;
+}
