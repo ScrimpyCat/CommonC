@@ -292,7 +292,7 @@ static int MessageBufferWrite(CCLogMessageBuffer *Msg, const char *String, size_
     if (*Msg->bufferSize - *Msg->length < Length)
     {
         *Msg->bufferSize += CC_MESSAGE_BATCH_SIZE + ((Length / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-        CC_SAFE_Realloc(*Msg->message, *Msg->bufferSize + 1,
+        CC_SAFE_Realloc(*Msg->message, sizeof(char) * (*Msg->bufferSize + 1),
                         return -1;
                         );
     }
@@ -378,7 +378,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     if (SpecifierFilters)
     {
         MessageSize = CC_MESSAGE_BATCH_SIZE + ((Length / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-        CC_SAFE_Malloc(Message, MessageSize + 1,
+        CC_SAFE_Malloc(Message, sizeof(char) * (MessageSize + 1),
                        return -1;
                        );
         
@@ -401,7 +401,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             if (MessageSize - Length < NextSpecLength)
             {
                 MessageSize += CC_MESSAGE_BATCH_SIZE + ((NextSpecLength / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-                CC_SAFE_Realloc(Message, MessageSize + 1,
+                CC_SAFE_Realloc(Message, sizeof(char) * (MessageSize + 1),
                                 CC_SAFE_Free(Message);
                                 return -1;
                                 );
@@ -431,7 +431,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                 
                 if (BufferSize < NextSpecLength)
                 {
-                    CC_SAFE_Realloc(Buffer, NextSpecLength + 1,
+                    CC_SAFE_Realloc(Buffer, sizeof(char) * (NextSpecLength + 1),
                                     CC_SAFE_Free(Buffer);
                                     CC_SAFE_Free(Message);
                                     return -1;
@@ -450,7 +450,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                 if (MessageSize - Length < Len)
                 {
                     MessageSize += CC_MESSAGE_BATCH_SIZE + ((Len / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-                    CC_SAFE_Realloc(Message, MessageSize + 1,
+                    CC_SAFE_Realloc(Message, sizeof(char) * (MessageSize + 1),
                                     CC_SAFE_Free(Buffer);
                                     CC_SAFE_Free(Message);
                                     return -1;
@@ -473,7 +473,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                     if (MessageSize - Length < NextSpecLength)
                     {
                         MessageSize += CC_MESSAGE_BATCH_SIZE + ((NextSpecLength / CC_MESSAGE_BATCH_SIZE) * CC_MESSAGE_BATCH_SIZE);
-                        CC_SAFE_Realloc(Message, MessageSize + 1,
+                        CC_SAFE_Realloc(Message, sizeof(char) * (MessageSize + 1),
                                         CC_SAFE_Free(Buffer);
                                         CC_SAFE_Free(Message);
                                         return -1;
@@ -498,7 +498,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
         va_end(ArgsCopy);
         
         
-        CC_SAFE_Malloc(Message, Length + FormatLength,
+        CC_SAFE_Malloc(Message, sizeof(char) * (Length + FormatLength),
                        return -1;
                        );
         
@@ -540,7 +540,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             {
                 const size_t AppLength = strlen(AppName);
                 
-                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + AppLength, NULL, NULL)))
+                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, NULL)))
                 {
                     FreeIdentifier = TRUE;
                     strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
