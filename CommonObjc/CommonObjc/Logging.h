@@ -34,6 +34,12 @@
 char *: CCLog, \
 id: CCLogObjc)(option, tag, identifier, filename, functionName, line, formatString, ##__VA_ARGS__)
 
+#define CCLogCustom(option, tag, identifier, filename, functionName, line, formatString, ...) CC_GENERIC_EVALUATE(formatString, \
+char *: CCLogCustom, \
+id: CCLogObjcCustom)(option, tag, identifier, filename, functionName, line, formatString, ##__VA_ARGS__)
+
+
 int CCLogObjc(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, NSString * const FormatString, ...) CC_FORMAT_NSSTRING(7, 8);
+int CCLogObjcCustom(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, NSString * const FormatString, ...);
 
 #endif

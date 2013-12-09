@@ -61,3 +61,16 @@ int CCLogObjc(CCLoggingOption Option, const char *Tag, const char *Identifier, c
     
     return Ret;
 }
+
+int CCLogObjcCustom(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, NSString * const FormatString, ...)
+{
+    if (!FilterAdded) AddObjectSpecifier();
+    
+    va_list Args;
+    va_start(Args, FormatString);
+    
+    int Ret = CCLogv(Option, Tag, Identifier, Filename, FunctionName, Line, [FormatString UTF8String], Args);
+    va_end(Args);
+    
+    return Ret;
+}
