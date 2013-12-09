@@ -203,6 +203,7 @@ typedef struct {
 
 #pragma mark - Functions
 void CCLogAddFile(const char *File);
+int CCLogCustom(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...);
 int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...) CC_FORMAT_PRINTF(7, 8);
 int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, va_list Args) CC_FORMAT_PRINTF(7, 0);
 void CCLogAddFilter(CCLogFilterType Type, CCLogFilter Filter);
@@ -224,8 +225,10 @@ void *: CCLogAddFilter)(type, (void*)filter)
 
 #if CC_NO_LOG
 #define CC_LOG_(option, tag, identifier, ...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_CUSTOM_(option, tag, identifier, ...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_(option, tag, identifier, ...) CCLog(option, tag, identifier, CC_LOG_FROM_FILE, CC_LOG_FROM_FUNCTION, __LINE__, __VA_ARGS__)
+#define CC_LOG_CUSTOM_(option, tag, identifier, ...) CCLogCustom(option, tag, identifier, CC_LOG_FROM_FILE, CC_LOG_FROM_FUNCTION, __LINE__, __VA_ARGS__)
 #endif
 
 
@@ -235,53 +238,70 @@ size_t CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
 
 #pragma mark - Loggers
 #define CC_LOG(tag, ...) CC_LOG_(CC_LOG_OPTION, tag, CC_LOG_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_CUSTOM(tag, ...) CC_LOG_CUSTOM_(CC_LOG_OPTION, tag, CC_LOG_IDENTIFIER, __VA_ARGS__)
 
 #if CC_NO_LOG_EMERGENCY
 #define CC_LOG_EMERGENCY(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_EMERGENCY_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_EMERGENCY(...) CC_LOG_(CC_LOG_EMERGENCY_OPTION & CC_LOG_OPTION, CCTagEmergency, CC_LOG_EMERGENCY_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_EMERGENCY_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_EMERGENCY_OPTION & CC_LOG_OPTION, CCTagEmergency, CC_LOG_EMERGENCY_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_ALERT
 #define CC_LOG_ALERT(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_ALERT_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_ALERT(...) CC_LOG_(CC_LOG_ALERT_OPTION & CC_LOG_OPTION, CCTagAlert, CC_LOG_ALERT_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_ALERT_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_ALERT_OPTION & CC_LOG_OPTION, CCTagAlert, CC_LOG_ALERT_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_CRITICAL
 #define CC_LOG_CRITICAL(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_CRITICAL_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_CRITICAL(...) CC_LOG_(CC_LOG_CRITICAL_OPTION & CC_LOG_OPTION, CCTagCritical, CC_LOG_CRITICAL_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_CRITICAL_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_CRITICAL_OPTION & CC_LOG_OPTION, CCTagCritical, CC_LOG_CRITICAL_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_ERROR
 #define CC_LOG_ERROR(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_ERROR_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_ERROR(...) CC_LOG_(CC_LOG_ERROR_OPTION & CC_LOG_OPTION, CCTagError, CC_LOG_ERROR_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_ERROR_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_ERROR_OPTION & CC_LOG_OPTION, CCTagError, CC_LOG_ERROR_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_WARNING
 #define CC_LOG_WARNING(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_WARNING_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_WARNING(...) CC_LOG_(CC_LOG_WARNING_OPTION & CC_LOG_OPTION, CCTagWarning, CC_LOG_WARNING_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_WARNING_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_WARNING_OPTION & CC_LOG_OPTION, CCTagWarning, CC_LOG_WARNING_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_NOTICE
 #define CC_LOG_NOTICE(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_NOTICE_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_NOTICE(...) CC_LOG_(CC_LOG_NOTICE_OPTION & CC_LOG_OPTION, CCTagNotice, CC_LOG_NOTICE_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_NOTICE_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_NOTICE_OPTION & CC_LOG_OPTION, CCTagNotice, CC_LOG_NOTICE_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_INFO
 #define CC_LOG_INFO(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_INFO_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_INFO(...) CC_LOG_(CC_LOG_INFO_OPTION & CC_LOG_OPTION, CCTagInfo, CC_LOG_INFO_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_INFO_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_INFO_OPTION & CC_LOG_OPTION, CCTagInfo, CC_LOG_INFO_IDENTIFIER, __VA_ARGS__)
 #endif
 
 #if CC_NO_LOG_DEBUG
 #define CC_LOG_DEBUG(...) CC_SILENCE_UNUSED_WARNING(0)
+#define CC_LOG_DEBUG_CUSTOM(...) CC_SILENCE_UNUSED_WARNING(0)
 #else
 #define CC_LOG_DEBUG(...) CC_LOG_(CC_LOG_DEBUG_OPTION & CC_LOG_OPTION, CCTagDebug, CC_LOG_DEBUG_IDENTIFIER, __VA_ARGS__)
+#define CC_LOG_DEBUG_CUSTOM(...) CC_LOG_CUSTOM_(CC_LOG_DEBUG_OPTION & CC_LOG_OPTION, CCTagDebug, CC_LOG_DEBUG_IDENTIFIER, __VA_ARGS__)
 #endif
 
 

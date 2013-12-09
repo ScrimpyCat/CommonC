@@ -591,6 +591,16 @@ int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const
     return Length;
 }
 
+int CCLogCustom(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...)
+{
+    va_list Args;
+    va_start(Args, FormatString);
+    const int Length = CCLogv(Option, Tag, Identifier, Filename, FunctionName, Line, FormatString, Args);
+    va_end(Args);
+    
+    return Length;
+}
+
 #pragma mark - Logger Outputs
 #if CC_ASL_LOGGER && !CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
 /*
