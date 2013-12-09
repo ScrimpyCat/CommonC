@@ -65,6 +65,12 @@
 #include <Block.h>
 #endif
 
+#if CC_PLATFORM_IOS
+#define CC_VA_LIST_IS_POINTER 0 //need to get it ourselves
+#elif CC_PLATFORM_OS_X
+#define CC_VA_LIST_IS_POINTER 1 //implicit
+#endif
+
 
 const char * const CCTagEmergency = "EMERGENCY";
 const char * const CCTagAlert = "ALERT";
@@ -325,7 +331,14 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
         .line = Line
     };
     
-    CCLogInputData InputData = { .format = FormatString, .args = (va_list*)Args };
+    CCLogInputData InputData = {
+        .format = FormatString,
+#if CC_VA_LIST_IS_POINTER
+        .args = (va_list*)Args
+#else
+        .args = (va_list*)&Args
+#endif
+    };
     for (CCFilter *CurrentFilter = InputFilters; CurrentFilter; CurrentFilter = CurrentFilter->next)
     {
 #if __BLOCKS__
@@ -414,7 +427,15 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
         LogData.filter = CCLogFilterSpecifier;
         while ((FormatString = Specifier))
         {
-            CCLogSpecifierData SpecData = { .msg = (CCLogMessage*)&MessageBuffer, .specifier = Specifier, .args = (va_list*)Args };
+            CCLogSpecifierData SpecData = {
+                .msg = (CCLogMessage*)&MessageBuffer,
+                .specifier = Specifier,
+#if CC_VA_LIST_IS_POINTER
+                .args = (va_list*)Args
+#else
+                .args = (va_list*)&Args
+#endif
+            };
             for (CCFilter *CurrentFilter = SpecifierFilters; CurrentFilter && (FormatString == Specifier); CurrentFilter = CurrentFilter->next)
             {
 #if __BLOCKS__
@@ -457,8 +478,88 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                                     );
                 }
                 
-                vsprintf(&Message[Length], Buffer, Args);
+                va_copy(ArgsCopy, Args);
+                vsprintf(&Message[Length], Buffer, ArgsCopy);
+                va_end(ArgsCopy);
                 Length += Len;
+                
+                CCFormatSpecifierInfo Info;
+                const char ConversionSpecifier = Buffer[CCGetFormatSpecifierInfo(Buffer, &Info)];
+                switch (ConversionSpecifier)
+                {
+                    case 'd':
+                    case 'i':
+                    case 'o':
+                    case 'u':
+                    case 'x':
+                    case 'X':
+                        switch (Info.length)
+                        {
+                            case 'l':
+                                va_arg(Args, unsigned long int);
+                                break;
+                                
+                            case 'll':
+                                va_arg(Args, unsigned long long int);
+                                break;
+                                
+                            case 'j':
+                                va_arg(Args, uintmax_t);
+                                break;
+                                
+                            case 'z':
+                                va_arg(Args, size_t);
+                                break;
+                                
+                            case 't':
+                                va_arg(Args, ptrdiff_t);
+                                break;
+                                
+                            default:
+                                va_arg(Args, unsigned int);
+                                break;
+                        }
+                        break;
+                        
+                    case 'f':
+                    case 'F':
+                    case 'e':
+                    case 'E':
+                    case 'g':
+                    case 'G':
+                    case 'a':
+                    case 'A':
+                        switch (Info.length)
+                        {
+                            case 'L':
+                                va_arg(Args, long double);
+                                break;
+                                
+                            default:
+                                va_arg(Args, double);
+                                break;
+                        }
+                        break;
+                        
+                    case 'c':
+                        switch (Info.length)
+                        {
+                            case 'l':
+                                va_arg(Args, wint_t);
+                                break;
+                                
+                            default:
+                                va_arg(Args, unsigned int);
+                                break;
+                        }
+                        break;
+                        
+                    case 's':
+                    case 'p':
+                    case 'n':
+                        va_arg(Args, void *);
+                        break;
+                }
             }
             
             else
