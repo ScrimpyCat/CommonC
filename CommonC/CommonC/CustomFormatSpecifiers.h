@@ -42,6 +42,6 @@
 
 #pragma mark - Functions
 size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data); //"%B" : Follows standard for options usage.
-
+size_t CCArrayFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data); //"%[count{separator}]format_specifier" : Count can either be a value or * (size_t value in arg), separator is optional can be the text or * (char * value in arg), and then the standard format specifier
 
 #endif

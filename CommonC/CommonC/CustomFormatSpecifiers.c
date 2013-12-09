@@ -30,6 +30,7 @@
 #include <stddef.h>
 #include "CustomFormatSpecifiers.h"
 #include "BitTricks.h"
+#include "MemoryAllocation.h"
 
 size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
 {
@@ -175,5 +176,182 @@ size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierDat
         
         return 0;
     }
+}
+
+size_t CCArrayFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
+{
+    if (!strncmp(Data->specifier, "%[", 2))
+    {
+        size_t ElementCount = 0;
+        const char *Format = Data->specifier + 2;
+        if (*Format == '*')
+        {
+            ElementCount = va_arg(*Data->args, size_t);
+            Format++;
+        }
+        else if (isdigit(*Format))
+        {
+            ElementCount = *Format - '0';
+            for (char c = *++Format; isdigit(c); c = *++Format) ElementCount = (ElementCount * 10) + (c - '0');
+        }
+        
+        else return 0;
+        
+        
+        size_t SeparatorLength = 2;
+        const char *Separator = ", ";
+        if (*Format != ']') //custom separator
+        {
+            if (*Format == '*')
+            {
+                Separator = va_arg(*Data->args, char *);
+                SeparatorLength = strlen(Separator);
+                if (*++Format != ']') return 0;
+            }
+            
+            else
+            {
+                const char *End = strchr(Format, ']');
+                if (!End) return 0;
+                
+                Separator = Format;
+                SeparatorLength = End - Format;
+                Format += SeparatorLength;
+            }
+        }
+        
+        
+        CCFormatSpecifierInfo Info;
+        size_t Length = CCGetFormatSpecifierInfo(++Format, &Info);
+        
+        if (ElementCount)
+        {
+            char *Specifier;
+            CC_SAFE_Malloc(Specifier, sizeof(char) * (Length + 3),
+                           return 0;
+                           );
+            
+            *Specifier = '%';
+            strncpy(Specifier + 1, Format, Length + 1);
+            Specifier[Length + 2] = 0;
+            
+            
+#define CC_PRINT_ARRAY(type) \
+for (size_t Loop = 0; ; ) \
+{ \
+    const type Value = ((type*)Ptr)[Loop++]; \
+    size_t Len = snprintf(NULL, 0, Specifier, Value); \
+    \
+    if (Len > FormattedStringLength) \
+    { \
+        CC_SAFE_Realloc(FormattedString, sizeof(char) * (Len + 1), \
+                        Len = FormattedStringLength; \
+                        ); \
+        FormattedStringLength = Len; \
+    } \
+    \
+    Len = snprintf(FormattedString, FormattedStringLength + 1, Specifier, Value); \
+    \
+    Data->msg->write(Data->msg, FormattedString, Len); \
+    if (Loop >= ElementCount) break; \
+    \
+    Data->msg->write(Data->msg, Separator, SeparatorLength); \
+}
+            
+            const char ConversionSpecifier = Specifier[Length + 1];
+            size_t FormattedStringLength = 0;
+            char *FormattedString = NULL;
+            const void *Ptr = va_arg(*Data->args, void *);
+            switch (ConversionSpecifier)
+            {
+                case 'd':
+                case 'i':
+                case 'o':
+                case 'u':
+                case 'x':
+                case 'X':
+                    switch (Info.length)
+                    {
+                        case 'l':
+                            CC_PRINT_ARRAY(unsigned long int);
+                            break;
+                            
+                        case 'll':
+                            CC_PRINT_ARRAY(unsigned long long int);
+                            break;
+                            
+                        case 'j':
+                            CC_PRINT_ARRAY(uintmax_t);
+                            break;
+                            
+                        case 'z':
+                            CC_PRINT_ARRAY(size_t);
+                            break;
+                            
+                        case 't':
+                            CC_PRINT_ARRAY(ptrdiff_t);
+                            break;
+                            
+                        default:
+                            CC_PRINT_ARRAY(unsigned int);
+                            break;
+                    }
+                    break;
+                    
+                case 'f':
+                case 'F':
+                case 'e':
+                case 'E':
+                case 'g':
+                case 'G':
+                case 'a':
+                case 'A':
+                    //Follows non-standard rule, %f = float, %lf = double, since it is pointer input so there's no promotion so we have to promote it in here
+                    switch (Info.length)
+                    {
+                        case 'l':
+                            CC_PRINT_ARRAY(double);
+                            break;
+                            
+                        case 'L':
+                            CC_PRINT_ARRAY(long double);
+                            break;
+                            
+                        default:
+                            CC_PRINT_ARRAY(float);
+                            break;
+                    }
+                    break;
+                    
+                case 'c':
+                    switch (Info.length)
+                    {
+                        case 'l':
+                            CC_PRINT_ARRAY(wchar_t); //promote to wint_t
+                            break;
+                            
+                        default:
+                            CC_PRINT_ARRAY(unsigned char); //promote to int
+                            break;
+                    }
+                    break;
+                    
+                case 's':
+                case 'p':
+                    CC_PRINT_ARRAY(void *);
+                    break;
+            }
+            
+#undef CC_PRINT_ARRAY
+            
+            
+            CC_SAFE_Free(FormattedString);
+            CC_SAFE_Free(Specifier);
+        }
+        
+        return ((Format + Length) - Data->specifier) + 1;
+    }
+    
+    return 0;
 }
 
