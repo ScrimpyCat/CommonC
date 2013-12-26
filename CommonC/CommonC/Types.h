@@ -26,6 +26,7 @@
 #ifndef CommonC_Types_h
 #define CommonC_Types_h
 
+#include <stdint.h>
 #include <stdbool.h>
 
 #ifndef TRUE
@@ -39,13 +40,25 @@
 
 #include <CommonC/Extensions.h>
 
-typedef struct {
-    float x, y;
-} CC_PACKED CCVector2D;
+typedef union {
+    struct {
+        float x, y;
+    } CC_PACKED;
+    struct {
+        float s, t;
+    } CC_PACKED;
+    float v[2];
+} CCVector2D;
 
-typedef struct {
-    int x, y;
-} CC_PACKED CCVector2Di;
+typedef union {
+    struct {
+        int32_t x, y;
+    } CC_PACKED;
+    struct {
+        int32_t s, t;
+    } CC_PACKED;
+    int32_t v[2];
+} CCVector2Di;
 
 typedef union {
     struct {
@@ -54,15 +67,23 @@ typedef union {
     struct {
         float r, g, b;
     } CC_PACKED;
+    struct {
+        float s, t, p;
+    } CC_PACKED;
+    float v[3];
 } CCVector3D, CCColourRGB;
 
 typedef union {
     struct {
-        int x, y, z;
+        int32_t x, y, z;
     } CC_PACKED;
     struct {
-        int r, g, b;
+        int32_t r, g, b;
     } CC_PACKED;
+    struct {
+        int32_t s, t, p;
+    } CC_PACKED;
+    int32_t v[3];
 } CCVector3Di, CCColourRGBi;
 
 typedef union {
@@ -72,15 +93,23 @@ typedef union {
     struct {
         float r, g, b, a;
     } CC_PACKED;
+    struct {
+        float s, t, p, q;
+    } CC_PACKED;
+    float v[4];
 } CCVector4D, CCColourRGBA;
 
 typedef union {
     struct {
-        int x, y, z, w;
+        int32_t x, y, z, w;
     } CC_PACKED;
     struct {
-        int r, g, b, a;
+        int32_t r, g, b, a;
     } CC_PACKED;
+    struct {
+        int32_t s, t, p, q;
+    } CC_PACKED;
+    int32_t v[4];
 } CCVector4Di, CCColourRGBAi;
 
 typedef struct {
