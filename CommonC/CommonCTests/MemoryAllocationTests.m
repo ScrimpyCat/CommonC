@@ -33,7 +33,7 @@
 -(void) testCCMallocNullAllocator
 {
     void *Ptr = CCMalloc(CC_NULL_ALLOCATOR, 128, NULL, NULL);
-    STAssertTrue(Ptr == NULL, @"NULL Allocator must return null.");
+    XCTAssertTrue(Ptr == NULL, @"NULL Allocator must return null.");
     CCFree(Ptr);
     
     
@@ -41,7 +41,7 @@
 #define CC_DEFAULT_ALLOCATOR CC_NULL_ALLOCATOR
     
     CC_SAFE_Malloc(Ptr, 128);
-    STAssertTrue(Ptr == NULL, @"CC_DEFAULT_ALLOCATOR Should override default allocator when using convenience macro allocates.");
+    XCTAssertTrue(Ptr == NULL, @"CC_DEFAULT_ALLOCATOR Should override default allocator when using convenience macro allocates.");
     CC_SAFE_Free(Ptr);
     
 #undef CC_ALLOC_ON_STACK_MAX
@@ -50,7 +50,7 @@
 #define CC_SHOULD_ALLOC_ON_STACK 0
     
     CC_TEMP_Malloc(Ptr, 128);
-    STAssertTrue(Ptr == NULL, @"CC_DEFAULT_ALLOCATOR Should override default allocator when using convenience macro allocates.");
+    XCTAssertTrue(Ptr == NULL, @"CC_DEFAULT_ALLOCATOR Should override default allocator when using convenience macro allocates.");
     CC_TEMP_Free(Ptr);
 
 #undef CC_ALLOC_ON_STACK_MAX
@@ -70,7 +70,7 @@
     int Failed = 0;
     void *Ptr;
     CC_SAFE_Malloc(Ptr, 128, Failed = 0xdeadbeef;);
-    if (!Ptr) STAssertTrue(Failed == 0xdeadbeef, @"CC_SAFE_Malloc Should fail on null.");
+    if (!Ptr) XCTAssertTrue(Failed == 0xdeadbeef, @"CC_SAFE_Malloc Should fail on null.");
     CC_SAFE_Free(Ptr);
     
 #undef CC_ALLOC_ON_STACK_MAX
@@ -80,7 +80,7 @@
     
     Failed = 0;
     CC_TEMP_Malloc(Ptr, 128, Failed = 0xdeadbeef;);
-    if (!Ptr) STAssertTrue(Failed == 0xdeadbeef, @"CC_SAFE_Malloc Should fail on null.");
+    if (!Ptr) XCTAssertTrue(Failed == 0xdeadbeef, @"CC_SAFE_Malloc Should fail on null.");
     CC_TEMP_Free(Ptr);
     
 #undef CC_ALLOC_ON_STACK_MAX
@@ -99,7 +99,7 @@
     
     void *Ptr;
     CC_TEMP_Malloc(Ptr, 128);
-    STAssertTrue(Ptr != NULL, @"CC_TEMP_Malloc Should fallback to stack based allocation."); //Assumes we didn't run out of stack space (however would crash then)
+    XCTAssertTrue(Ptr != NULL, @"CC_TEMP_Malloc Should fallback to stack based allocation."); //Assumes we didn't run out of stack space (however would crash then)
     CC_TEMP_Free(Ptr);
     
 #undef CC_DEFAULT_ALLOCATOR
@@ -119,18 +119,18 @@ static void *Callback(CCFunctionData *FunctionData, void *Data)
 {
     __block _Bool Called = NO;
     void *Ptr = CCMalloc(CC_NULL_ALLOCATOR, 128, (void*)0xdeadbeef, ^void *(CCFunctionData *FunctionData, void *Data){
-        STAssertTrue(Data == (void*)0xdeadbeef, @"CCMalloc Should pass data to the callback block.");
+        XCTAssertTrue(Data == (void*)0xdeadbeef, @"CCMalloc Should pass data to the callback block.");
         Called = YES;
         return (void*)0xdeadcafe;
     });
     if (Called)
     {
-        STAssertTrue(Ptr == (void*)0xdeadcafe, @"CCMalloc Should return the return of the callback block on failure.");
+        XCTAssertTrue(Ptr == (void*)0xdeadcafe, @"CCMalloc Should return the return of the callback block on failure.");
     }
 
     else
     {
-        STAssertTrue(Ptr != NULL, @"CCMalloc Should call the callback block on failure.");
+        XCTAssertTrue(Ptr != NULL, @"CCMalloc Should call the callback block on failure.");
         CCFree(Ptr);
     }
     
@@ -138,13 +138,13 @@ static void *Callback(CCFunctionData *FunctionData, void *Data)
     Ptr = CCMalloc(CC_NULL_ALLOCATOR, 128, (void*)0xdeadbeef, Callback);
     if (FuncCalled)
     {
-        STAssertTrue(FuncData == (void*)0xdeadbeef, @"CCMalloc Should pass data to the callback function.");
-        STAssertTrue(Ptr == (void*)0xdeadcafe, @"CCMalloc Should return the return of the callback function on failure.");
+        XCTAssertTrue(FuncData == (void*)0xdeadbeef, @"CCMalloc Should pass data to the callback function.");
+        XCTAssertTrue(Ptr == (void*)0xdeadcafe, @"CCMalloc Should return the return of the callback function on failure.");
     }
     
     else
     {
-        STAssertTrue(Ptr != NULL, @"CCMalloc Should call the callback function on failure.");
+        XCTAssertTrue(Ptr != NULL, @"CCMalloc Should call the callback function on failure.");
         CCFree(Ptr);
     }
 }

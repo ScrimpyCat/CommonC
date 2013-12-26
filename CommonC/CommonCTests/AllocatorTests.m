@@ -70,29 +70,29 @@ static void DeallocatorFunction(void *Ptr)
 -(void) testAllocation
 {
     void *Ptr = CCAllocate((CCAllocatorType){ .allocator = 1, .data = &(int){ 0xdeadbeef } }, 1);
-    STAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
-    if (CalledA) STAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
+    XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
+    if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
     
     CCDeallocate(Ptr);
-    STAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
+    XCTAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
     if (CalledD)
     {
-        STAssertTrue(HeaderIntact, @"No function besides this and the allocator should access this section of memory.");
-        STAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
+        XCTAssertTrue(HeaderIntact, @"No function besides this and the allocator should access this section of memory.");
+        XCTAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
     }
     
     
     CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO;
     Ptr = CCMalloc(((CCAllocatorType){ .allocator = 1, .data = &(int){ 0xdeadbeef } }), 1, NULL, NULL);
-    STAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
-    if (CalledA) STAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
+    XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
+    if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
     
     CCFree(Ptr);
-    STAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
+    XCTAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
     if (CalledD)
     {
-        STAssertTrue(HeaderIntact, @"No function besides this and the allocator should access this section of memory.");
-        STAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
+        XCTAssertTrue(HeaderIntact, @"No function besides this and the allocator should access this section of memory.");
+        XCTAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
     }
 }
 

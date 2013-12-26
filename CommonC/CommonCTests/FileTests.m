@@ -49,49 +49,49 @@ static _Bool Working(_Bool ShouldEqual, const char *Str, size_t Length)
     const char *Str;
     
     Str = CCLastComponent(ANSWER, &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
     
     Str = CCLastComponent("/"ANSWER, &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
     
     Str = CCLastComponent("///"ANSWER, &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
     
     Str = CCLastComponent("/first/"ANSWER, &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
     
     Str = CCLastComponent("last/first/"ANSWER, &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%s == %s) (%zu == 0)", Str, ANSWER, Length);
     
     Str = CCLastComponent(ANSWER"/", &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
     
     Str = CCLastComponent(ANSWER"///", &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
     
     Str = CCLastComponent("/////"ANSWER"/////", &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
     
     Str = CCLastComponent("//first///"ANSWER"/////", &Length, '/');
-    STAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
+    XCTAssertTrue(Working(TRUE, Str, Length), @"Should return component: (%.*s == %s) (%zu == %zu)", (int)Length, Str, ANSWER, Length, sizeof(ANSWER) - 1);
     
     Str = CCLastComponent("", &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
     
     Str = CCLastComponent(NULL, &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
     
     Str = CCLastComponent("//////////", &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
     
     Str = CCLastComponent("/", &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
     
     Str = CCLastComponent("\x00"ANSWER, &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
     
     Str = CCLastComponent(ANSWER + sizeof(ANSWER) - 1, &Length, '/');
-    STAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
+    XCTAssertTrue(Working(FALSE, Str, Length), @"Shouldn't return component: (%p == null)", Str);
 }
 
 @end

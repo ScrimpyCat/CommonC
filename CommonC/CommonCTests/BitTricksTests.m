@@ -27,7 +27,7 @@
 #import "BitTricks.h"
 
 
-#define TEST_(x, r, func) STAssertEquals(func(x), (r), @"Test value: (%" PRIu64 ") should be (%" PRIu64 "). Instead saying it is: (%" PRIu64 ").", x, r, func(x));
+#define TEST_(x, r, func) XCTAssertEqual(func(x), (r), @"Test value: (%" PRIu64 ") should be (%" PRIu64 "). Instead saying it is: (%" PRIu64 ").", x, r, func(x));
 
 @implementation BitTricksTests
 
@@ -125,7 +125,7 @@
 
 -(void) testCCCountSetBits
 {
-#define TEST_SET_BIT_COUNT(x, r) STAssertEquals(CCCountSetBits(x), (r), @"Test value: %" PRIu64 " should contain %" PRIu64 " set bits. Instead saying it contains: %" PRIu64, x, r, CCCountSetBits(x));
+#define TEST_SET_BIT_COUNT(x, r) XCTAssertEqual(CCCountSetBits(x), (r), @"Test value: %" PRIu64 " should contain %" PRIu64 " set bits. Instead saying it contains: %" PRIu64, x, r, CCCountSetBits(x));
     //0 set bits
     TEST_SET_BIT_COUNT(UINT64_C(0), UINT64_C(0));
     
