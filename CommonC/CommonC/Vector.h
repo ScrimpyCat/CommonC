@@ -26,6 +26,6 @@
 #ifndef CommonC_Vector_h
 #define CommonC_Vector_h
 
-#include <Common/Vector2D.h>
+#include <CommonC/Vector2D.h>
 
 #endif
