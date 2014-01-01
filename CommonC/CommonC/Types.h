@@ -39,6 +39,7 @@
 
 
 #include <CommonC/Extensions.h>
+#include <CommonC/Platform.h>
 
 typedef union {
     struct {
@@ -115,5 +116,14 @@ typedef union {
 typedef struct {
     CCVector2D position, size;
 } CCRect;
+
+
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+#include <immintrin.h>
+
+typedef __v4sf CCVector;
+#else
+typedef CCVector4D CCVector;
+#endif
 
 #endif
