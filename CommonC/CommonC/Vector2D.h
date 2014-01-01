@@ -380,7 +380,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2Cross(const CCVector a, const CCVect
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector Temp = CCVectorize2Mul(a, _mm_shuffle_ps(b, b, _MM_SHUFFLE(2, 3, 0, 1)));
     
-    __m128 r = CCVectorize2Sub(Temp, _mm_shuffle_ps(Temp, Temp, _MM_SHUFFLE(3, 3, 1, 1)));
+    CCVector r = CCVectorize2Sub(Temp, _mm_shuffle_ps(Temp, Temp, _MM_SHUFFLE(3, 3, 1, 1)));
     return _mm_shuffle_ps(r,r, _MM_SHUFFLE(2, 2, 0, 0));
 #else
     //TODO: add fallback
