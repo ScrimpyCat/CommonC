@@ -107,5 +107,35 @@
 #endif
 #endif
 
+
+
+#if __SSE__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSE 1
+#if __SSE2__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSE2 1
+#if __SSE3__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSE3 1
+#if __SSSE3__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSSE3 1
+#if __SSE4_1__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSE4_1 1
+#if __SSE4_2__
+#define CC_HARDWARE_VECTOR_SUPPORT_SSE4_2 1
+#if __AVX__
+#define CC_HARDWARE_VECTOR_SUPPORT_AVX 1
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+
+
+#if __ARM_NEON__
+#define CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON 1
+#endif
+
+
 #endif
 
