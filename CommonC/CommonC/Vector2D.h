@@ -41,6 +41,7 @@
 
 #pragma mark - Vectorized Vector2D
 
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a); //Allows it to avoid an interleaved move, however is unsafe to use with vectorized normalize.
 static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a);
 static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DPack(const CCVector2D a, const CCVector2D b);
@@ -252,13 +253,18 @@ static CC_FORCE_INLINE CCVector2D CCVector2PerpR(const CCVector2D a)
 #pragma mark -
 #pragma mark Vectorized setters and getters
 
-static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a)
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_loadl_pi(_mm_setzero_ps(), (__m64*)&a);
 #else
     //TODO: add fallback
 #endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a)
+{
+    return CCVectorizeVector2DPack(a, a);
 }
 
 static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a)
@@ -506,7 +512,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2PerpR(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2Normalize(const CCVector a)
 {
     CCVector Length = CCVectorize2Length(a);
-    CCAssertLog((CCVectorizeExtractVector2D(Length, 0).x != 0.0f) || (CCVectorizeExtractVector2D(Length, 1).x != 0.0f));
+    CCAssertLog((CCVectorizeExtractVector2D(Length, 0).x != 0.0f) && (CCVectorizeExtractVector2D(Length, 1).x != 0.0f));
     
     return CCVectorize2Div(a, Length);
 }
