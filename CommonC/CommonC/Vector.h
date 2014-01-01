@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2013, Stefan Johnson
+ *  Copyright (c) 2014, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,37 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- Optional defines: These defines affect your code, not internals. For any internal optionals see the functions further below.
- CC_DEBUG : Enables some debug information.
- CC_NO_LOG : Disables all logging.
- CC_NO_ASSERT : Disables all assertions.
- */
+#ifndef CommonC_Vector_h
+#define CommonC_Vector_h
 
-//Other public headers not included here are typically just for internal use/not of much interest outside of the framework itself.
-#ifndef Common_Platform_h
-#define Common_Platform_h
-
-#include <CommonC/Platform.h>
-#include <CommonC/Extensions.h>
-#include <CommonC/Generics.h>
-
-#include <CommonC/Types.h>
-#include <CommonC/DebugTypes.h>
-
-#include <CommonC/Allocator.h>
-#include <CommonC/MemoryAllocation.h>
-
-#include <CommonC/Logging.h>
-#include <CommonC/Assertion.h>
-#include <CommonC/CustomFormatSpecifiers.h>
-
-#include <CommonC/SystemInfo.h>
-#include <CommonC/ProcessInfo.h>
-
-#include <CommonC/Maths.h>
-#include <CommonC/BitTricks.h>
-#include <CommonC/Random.h>
-#include <CommonC/Vector.h>
+#include <Common/Vector2D.h>
 
 #endif
