@@ -228,7 +228,7 @@ static CC_FORCE_INLINE float CCVector2Length(const CCVector2D a)
 static CC_FORCE_INLINE CCVector2D CCVector2Normalize(const CCVector2D a)
 {
     const float Length = CCVector2Length(a);
-    CCAssertLog(Length == 0.0f);
+    CCAssertLog(Length != 0.0f);
     
     return CCVector2DivScalar(a, Length);
 }
@@ -506,7 +506,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2PerpR(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2Normalize(const CCVector a)
 {
     CCVector Length = CCVectorize2Length(a);
-    CCAssertLog((CCVectorizeExtractVector2D(Length, 0).x == 0.0f) || (CCVectorizeExtractVector2D(Length, 1).x == 0.0f));
+    CCAssertLog((CCVectorizeExtractVector2D(Length, 0).x != 0.0f) || (CCVectorizeExtractVector2D(Length, 1).x != 0.0f));
     
     return CCVectorize2Div(a, Length);
 }
