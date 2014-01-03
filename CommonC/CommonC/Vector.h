@@ -27,5 +27,6 @@
 #define CommonC_Vector_h
 
 #include <CommonC/Vector2D.h>
+#include <CommonC/Vector3D.h>
 
 #endif
