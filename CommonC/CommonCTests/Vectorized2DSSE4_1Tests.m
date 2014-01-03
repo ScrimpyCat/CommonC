@@ -23,7 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if __SSE4_2__
+#if __SSE4_1__
 #import <XCTest/XCTest.h>
 
 //#undef __SSE__
@@ -31,18 +31,18 @@
 //#undef __SSE3__
 //#undef __SSSE3__
 //#undef __SSE4_1__
-//#undef __SSE4_2__
+#undef __SSE4_2__
 #undef __AVX__
 
 #import "Vector2D.h"
 
-@interface Vectorized2DSSE4_2 : XCTestCase
+@interface Vectorized2DSSE4_1Tests : XCTestCase
 
 @end
 
 #define TEST_VECTOR2_EQUAL(v, equal) XCTAssert((v.x == equal.x) && (v.y == equal.y), @"Vector should be equal to { %.1f, %.1f }, not { %.1f, %.1f }", equal.x, equal.y, v.x, v.y)
 
-@implementation Vectorized2DSSE4_2
+@implementation Vectorized2DSSE4_1Tests
 
 -(void) testMake
 {

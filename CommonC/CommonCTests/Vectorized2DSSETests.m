@@ -36,13 +36,13 @@
 
 #import "Vector2D.h"
 
-@interface Vectorized2DSSE : XCTestCase
+@interface Vectorized2DSSETests : XCTestCase
 
 @end
 
 #define TEST_VECTOR2_EQUAL(v, equal) XCTAssert((v.x == equal.x) && (v.y == equal.y), @"Vector should be equal to { %.1f, %.1f }, not { %.1f, %.1f }", equal.x, equal.y, v.x, v.y)
 
-@implementation Vectorized2DSSE
+@implementation Vectorized2DSSETests
 
 -(void) testMake
 {
