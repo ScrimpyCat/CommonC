@@ -363,12 +363,10 @@ static CC_FORCE_INLINE CCVector CCVectorize3Cross(const CCVector a, const CCVect
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector aYZX = _mm_shuffle_ps(a, a, _MM_SHUFFLE(0, 0, 2, 1));
-    CCVector bZXY = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 1, 0, 2));
-    
-    CCVector aZXY = _mm_shuffle_ps(a, a, _MM_SHUFFLE(0, 1, 0, 2));
     CCVector bYZX = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 0, 2, 1));
     
-    return _mm_sub_ps(_mm_mul_ps(aYZX, bZXY), _mm_mul_ps(aZXY, bYZX));
+    CCVector r = _mm_sub_ps(_mm_mul_ps(a, bYZX), _mm_mul_ps(aYZX, b));
+    return _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 0, 2, 1));
 #else
     //TODO: add fallback
 #endif
