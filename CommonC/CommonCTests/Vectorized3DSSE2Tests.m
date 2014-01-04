@@ -23,7 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if __SSE__
+#if __SSE2__
 #import <XCTest/XCTest.h>
 
 //#undef __SSE__
