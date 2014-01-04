@@ -23,7 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if __AVX__
+#if !__AVX__
+#warning "Will not run test. Missing support for AVX either not enabled or hardware can't support."
+#else
 #import <XCTest/XCTest.h>
 
 //#undef __SSE__

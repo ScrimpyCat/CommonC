@@ -23,7 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if __SSE4_2__
+#if !__SSE4_2__
+#warning "Will not run test. Missing support for SSE4.2 either not enabled or hardware can't support."
+#else
 #import <XCTest/XCTest.h>
 
 //#undef __SSE__
