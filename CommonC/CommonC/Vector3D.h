@@ -39,6 +39,40 @@
 
 
 
+#pragma mark - Vectorized Vector3D
+
+static CC_FORCE_INLINE CCVector CCVectorizeVector3D(const CCVector3D a);
+static CC_FORCE_INLINE CCVector3D CCVectorizeGetVector3D(const CCVector a);
+
+static CC_FORCE_INLINE CCVector CCVectorize3Add(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Sub(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Mul(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Div(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3AddScalar(const CCVector a, const float b);
+static CC_FORCE_INLINE CCVector CCVectorize3SubScalar(const CCVector a, const float b);
+static CC_FORCE_INLINE CCVector CCVectorize3MulScalar(const CCVector a, const float b);
+static CC_FORCE_INLINE CCVector CCVectorize3DivScalar(const CCVector a, const float b);
+static CC_FORCE_INLINE CCVector CCVectorize3Dot(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Length(const CCVector a);
+static CC_FORCE_INLINE CCVector CCVectorize3Distance(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3DistanceSquare(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Angle(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Cross(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Lerp(const CCVector a, const CCVector b, const float t);
+static CC_FORCE_INLINE CCVector CCVectorize3Project(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Reject(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Perp(const CCVector a, const CCVector b, const CCVector c);
+static CC_FORCE_INLINE CCVector CCVectorize3PerpR(const CCVector a, const CCVector b, const CCVector c);
+static CC_FORCE_INLINE CCVector CCVectorize3Normal(const CCVector a, const CCVector b, const CCVector c);
+static CC_FORCE_INLINE CCVector CCVectorize3NormalR(const CCVector a, const CCVector b, const CCVector c);
+static CC_FORCE_INLINE CCVector CCVectorize3Normalize(const CCVector a);
+static CC_FORCE_INLINE CCVector CCVectorize3Neg(const CCVector a);
+
+static CC_FORCE_INLINE CCVector CCVectorize3Min(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Max(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3Clamp(const CCVector a, const CCVector min, const CCVector max);
+
+
 #pragma mark - Vector3D
 
 static CC_FORCE_INLINE CCVector3D CCVector3Add(const CCVector3D a, const CCVector3D b);
@@ -230,6 +264,246 @@ static CC_FORCE_INLINE CCVector3D CCVector3Normal(const CCVector3D a, const CCVe
 static CC_FORCE_INLINE CCVector3D CCVector3NormalR(const CCVector3D a, const CCVector3D b, const CCVector3D c)
 {
     return CCVector3Normalize(CCVector3PerpR(a, b, c));
+}
+
+
+
+#pragma mark -
+#pragma mark Vectorized setters and getters
+
+static CC_FORCE_INLINE CCVector CCVectorizeVector3D(const CCVector3D a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return *(CCVector*)&(CCVector4D){ a.x, a.y, a.z, 0.0f };
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector3D CCVectorizeGetVector3D(const CCVector a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return *(CCVector3D*)&a;
+#else
+    //TODO: add fallback
+#endif
+}
+
+#pragma mark -
+#pragma mark Vectorized Vector, Vector operations
+
+static CC_FORCE_INLINE CCVector CCVectorize3Add(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_add_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Sub(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_sub_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Mul(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_mul_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Div(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_div_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Dot(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE4_1
+    return _mm_dp_ps(a, b, 0x77);
+#elif CC_HARDWARE_VECTOR_SUPPORT_SSE
+    CCVector TempXYZ = CCVectorize3Mul(a, b);
+    CCVector TempZXY = _mm_shuffle_ps(TempXYZ, TempXYZ, _MM_SHUFFLE(0, 1, 0, 2));
+    CCVector TempYZX = _mm_shuffle_ps(TempXYZ, TempXYZ, _MM_SHUFFLE(0, 0, 2, 1));
+    
+    return CCVectorize3Add(TempYZX, CCVectorize3Add(TempXYZ, TempZXY));
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Distance(const CCVector a, const CCVector b)
+{
+    return CCVectorize3Length(CCVectorize3Sub(a, b));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3DistanceSquare(const CCVector a, const CCVector b)
+{
+    CCVector d = CCVectorize3Sub(a, b);
+    return CCVectorize3Dot(d, d);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Angle(const CCVector a, const CCVector b)
+{
+    return CCVectorize3Div(CCVectorize3Dot(a, b), CCVectorize3Mul(CCVectorize3Length(a), CCVectorize3Length(b)));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Cross(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    CCVector aYZX = _mm_shuffle_ps(a, a, _MM_SHUFFLE(0, 0, 2, 1));
+    CCVector bZXY = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 1, 0, 2));
+    
+    CCVector aZXY = _mm_shuffle_ps(a, a, _MM_SHUFFLE(0, 1, 0, 2));
+    CCVector bYZX = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 0, 2, 1));
+    
+    return _mm_sub_ps(_mm_mul_ps(aYZX, bZXY), _mm_mul_ps(aZXY, bYZX));
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Lerp(const CCVector a, const CCVector b, const float t)
+{
+    return CCVectorize3Add(a, CCVectorize3MulScalar(CCVectorize3Sub(b, a), t));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Project(const CCVector a, const CCVector b)
+{
+    return CCVectorize3Mul(b, CCVectorize3Div(CCVectorize3Dot(a, b), CCVectorize3Dot(b, b)));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Reject(const CCVector a, const CCVector b)
+{
+    return CCVectorize3Sub(a, CCVectorize3Project(a, b));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Min(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_min_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Max(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_max_ps(a, b);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Clamp(const CCVector a, const CCVector min, const CCVector max)
+{
+    return CCVectorize3Min(CCVectorize3Max(a, min), max);
+}
+
+#pragma mark -
+#pragma mark Vectorized Vector, Scalar operations
+
+static CC_FORCE_INLINE CCVector CCVectorize3AddScalar(const CCVector a, const float b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_add_ps(a, _mm_set1_ps(b));
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3SubScalar(const CCVector a, const float b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_sub_ps(a, _mm_set1_ps(b));
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3MulScalar(const CCVector a, const float b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_mul_ps(a, _mm_set1_ps(b));
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3DivScalar(const CCVector a, const float b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_div_ps(a, _mm_set1_ps(b));
+#else
+    //TODO: add fallback
+#endif
+}
+
+#pragma mark -
+#pragma mark Vectorized Vector operations
+
+static CC_FORCE_INLINE CCVector CCVectorize3Length(const CCVector a)
+{
+    CCVector d = CCVectorize3Dot(a, a);
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_sqrt_ps(d);
+#else
+    //TODO: add fallback
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Normalize(const CCVector a)
+{
+    CCVector Length = CCVectorize3Length(a);
+    CCAssertLog(CCVectorizeGetVector3D(Length).x != 0.0f);
+    
+    return CCVectorize3Div(a, Length);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Neg(const CCVector a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    return _mm_xor_ps(a, _mm_set1_epi32(1 << 31));
+#elif CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
+#else
+    //TODO: add fallback
+#endif
+}
+
+#pragma mark -
+#pragma mark Geometry operations
+
+static CC_FORCE_INLINE CCVector CCVectorize3Perp(const CCVector a, const CCVector b, const CCVector c)
+{
+    return CCVectorize3Cross(CCVectorize3Sub(b, a), CCVectorize3Sub(c, a));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3PerpR(const CCVector a, const CCVector b, const CCVector c)
+{
+    return CCVectorize3Cross(CCVectorize3Sub(c, a), CCVectorize3Sub(b, a));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3Normal(const CCVector a, const CCVector b, const CCVector c)
+{
+    return CCVectorize3Normalize(CCVectorize3Perp(a, b, c));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3NormalR(const CCVector a, const CCVector b, const CCVector c)
+{
+    return CCVectorize3Normalize(CCVectorize3PerpR(a, b, c));
 }
 
 
