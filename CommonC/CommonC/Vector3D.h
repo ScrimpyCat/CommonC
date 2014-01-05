@@ -273,20 +273,12 @@ static CC_FORCE_INLINE CCVector3D CCVector3NormalR(const CCVector3D a, const CCV
 
 static CC_FORCE_INLINE CCVector CCVectorizeVector3D(const CCVector3D a)
 {
-#if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return *(CCVector*)&(CCVector4D){ a.x, a.y, a.z, 0.0f };
-#else
-    //TODO: add fallback
-#endif
 }
 
 static CC_FORCE_INLINE CCVector3D CCVectorizeGetVector3D(const CCVector a)
 {
-#if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return *(CCVector3D*)&a;
-#else
-    //TODO: add fallback
-#endif
 }
 
 #pragma mark -
@@ -297,7 +289,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Add(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_add_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w };
 #endif
 }
 
@@ -306,7 +298,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Sub(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_sub_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w };
 #endif
 }
 
@@ -315,7 +307,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Mul(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_mul_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w };
 #endif
 }
 
@@ -324,7 +316,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Div(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_div_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w };
 #endif
 }
 
@@ -339,7 +331,8 @@ static CC_FORCE_INLINE CCVector CCVectorize3Dot(const CCVector a, const CCVector
     
     return CCVectorize3Add(TempYZX, CCVectorize3Add(TempXYZ, TempZXY));
 #else
-    //TODO: add fallback
+    const float r = (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    return (CCVector){ r, r, r, r };
 #endif
 }
 
@@ -368,7 +361,12 @@ static CC_FORCE_INLINE CCVector CCVectorize3Cross(const CCVector a, const CCVect
     CCVector r = _mm_sub_ps(_mm_mul_ps(a, bYZX), _mm_mul_ps(aYZX, b));
     return _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 0, 2, 1));
 #else
-    //TODO: add fallback
+    return (CCVector){
+        (a.y * b.z) - (a.z * b.y),
+        (a.z * b.x) - (a.x * b.z),
+        (a.x * b.y) - (a.y * b.x),
+        0.0f
+    };
 #endif
 }
 
@@ -392,7 +390,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Min(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_min_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x < b.x ? a.x : b.x, a.y < b.y ? a.y : b.y, a.z < b.z ? a.z : b.z, a.w < b.w ? a.w : b.w };
 #endif
 }
 
@@ -401,7 +399,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Max(const CCVector a, const CCVector
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_max_ps(a, b);
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x > b.x ? a.x : b.x, a.y > b.y ? a.y : b.y, a.z > b.z ? a.z : b.z, a.w > b.w ? a.w : b.w };
 #endif
 }
 
@@ -418,7 +416,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3AddScalar(const CCVector a, const fl
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_add_ps(a, _mm_set1_ps(b));
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x + b, a.y + b, a.z + b, a.w + b };
 #endif
 }
 
@@ -427,7 +425,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3SubScalar(const CCVector a, const fl
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_sub_ps(a, _mm_set1_ps(b));
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x - b, a.y - b, a.z - b, a.w - b };
 #endif
 }
 
@@ -436,7 +434,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3MulScalar(const CCVector a, const fl
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_mul_ps(a, _mm_set1_ps(b));
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x * b, a.y * b, a.z * b, a.w * b };
 #endif
 }
 
@@ -445,7 +443,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3DivScalar(const CCVector a, const fl
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_div_ps(a, _mm_set1_ps(b));
 #else
-    //TODO: add fallback
+    return (CCVector){ a.x / b, a.y / b, a.z / b, a.w / b };
 #endif
 }
 
@@ -458,7 +456,8 @@ static CC_FORCE_INLINE CCVector CCVectorize3Length(const CCVector a)
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_sqrt_ps(d);
 #else
-    //TODO: add fallback
+    float r = sqrtf(d.x);
+    return (CCVector){ r, r, r, r };
 #endif
 }
 
@@ -477,7 +476,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Neg(const CCVector a)
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else
-    //TODO: add fallback
+    return (CCVector){ -a.x, -a.y, -a.z, -a.w };
 #endif
 }
 
