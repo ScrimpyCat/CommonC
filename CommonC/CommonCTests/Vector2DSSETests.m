@@ -23,9 +23,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if !__SSE__
+#warning "Will not run test. Missing support for SSE either not enabled or hardware can't support."
+#else
 #import <XCTest/XCTest.h>
 
-#undef __SSE__
+//#undef __SSE__
 #undef __SSE2__
 #undef __SSE3__
 #undef __SSSE3__
@@ -35,13 +38,13 @@
 
 #import "Vector2D.h"
 
-@interface Vector2DTests : XCTestCase
+@interface Vector2DSSETests : XCTestCase
 
 @end
 
 #define TEST_VECTOR2_EQUAL(v, equal) XCTAssert((v.x == equal.x) && (v.y == equal.y), @"Vector should be equal to { %.1f, %.1f }, not { %.1f, %.1f }", equal.x, equal.y, v.x, v.y)
 
-@implementation Vector2DTests
+@implementation Vector2DSSETests
 
 -(void) testMake
 {
@@ -138,3 +141,5 @@
 }
 
 @end
+
+#endif
