@@ -153,7 +153,7 @@ static void ASLSetup(void)
         return;
     }
     
-    CFStringRef Path = CFURLCopyPath(PathURL);
+    CFStringRef Path = CFURLCopyFileSystemPath(PathURL, kCFURLPOSIXPathStyle);
     CFRelease(PathURL);
     if (!Path)
     {
