@@ -30,13 +30,13 @@
 
 static void *ErrorLog(CCFunctionData *FunctionData, void *Data)
 {
-    CCLog(CCLogOptionOutputAll, CCTagDebug, CC_LOG_IDENTIFIER, FunctionData->filename, FunctionData->functionName, FunctionData->line, "%s", FunctionData->info);
+    CCLog(CCLogOptionOutputAll, CCTagError, CC_LOG_IDENTIFIER, FunctionData->filename, FunctionData->functionName, FunctionData->line, "%s", FunctionData->info);
     return NULL;
 }
 
 static void *ErrorLogAndExit(CCFunctionData *FunctionData, void *Data)
 {
-    CCLog(CCLogOptionOutputAll, CCTagDebug, CC_LOG_IDENTIFIER, FunctionData->filename, FunctionData->functionName, FunctionData->line, "%s", FunctionData->info);
+    CCLog(CCLogOptionOutputAll, CCTagError, CC_LOG_IDENTIFIER, FunctionData->filename, FunctionData->functionName, FunctionData->line, "%s", FunctionData->info);
     exit(0);
     return NULL;
 }
