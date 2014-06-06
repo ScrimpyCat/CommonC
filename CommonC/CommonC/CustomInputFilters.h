@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2013, Stefan Johnson
+ *  Copyright (c) 2014, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,38 +23,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#pragma mark Documentation
 /*
- Optional defines: These defines affect your code, not internals. For any internal optionals see the functions further below.
- CC_DEBUG : Enables some debug information.
- CC_NO_LOG : Disables all logging.
- CC_NO_ASSERT : Disables all assertions.
+ Some useful custom input filters. These are not added by default and must manually be added.
+ 
+ CCFileFilterInput: Adds a simple filename filter. It uses the current list of paths added to CCFileFilterInputAddPath to filter the current filename.
+                    One thing to watchout for is that this is a very naive filter, it simply takes the first match and removes that part. If you happen
+                    to have two paths that would both be true for the current filename, after the first one removes its portion the other one may no
+                    longer be true and so won't remove its portion. The order of precedence for these paths is in the reverse order they were added.
+                    So the last filter added has precedence over all previously added paths.
  */
 
-//Other public headers not included here are typically just for internal use/not of much interest outside of the framework itself.
-#ifndef Common_Platform_h
-#define Common_Platform_h
+#pragma mark -
 
-#include <CommonC/Platform.h>
-#include <CommonC/Extensions.h>
-#include <CommonC/Generics.h>
-
-#include <CommonC/Types.h>
-#include <CommonC/DebugTypes.h>
-
-#include <CommonC/Allocator.h>
-#include <CommonC/MemoryAllocation.h>
+#ifndef CommonC_CustomInputFilters_h
+#define CommonC_CustomInputFilters_h
 
 #include <CommonC/Logging.h>
-#include <CommonC/Assertion.h>
-#include <CommonC/CustomFormatSpecifiers.h>
-#include <CommonC/CustomInputFilters.h>
 
-#include <CommonC/SystemInfo.h>
-#include <CommonC/ProcessInfo.h>
 
-#include <CommonC/Maths.h>
-#include <CommonC/BitTricks.h>
-#include <CommonC/Random.h>
-#include <CommonC/Vector.h>
+#pragma mark - Functions
+void CCFileFilterInputAddPath(const char *Path);
+size_t CCFileFilterInput(const CCLogData *LogData, const CCLogInputData *Data); //Strips the filename path for filepaths added using CCFileFilterInputAddPath()
 
 #endif
