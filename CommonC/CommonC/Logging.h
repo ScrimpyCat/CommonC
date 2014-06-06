@@ -161,14 +161,14 @@ typedef struct {
 typedef CCLogMessage CCLogMessageData;
 
 typedef size_t (*CCLogFilter)(const CCLogData *LogData, void *Data);
-typedef CCLogFilter CCLogInputFilter;
+typedef size_t (*CCLogInputFilter)(const CCLogData *LogData, const CCLogInputData *Data);
 typedef size_t (*CCLogSpecifierFilter)(const CCLogData *LogData, const CCLogSpecifierData *Data);
 typedef size_t (*CCLogMessageFilter)(const CCLogData *LogData, const CCLogMessageData *Data);
 
 
 #if __BLOCKS__
 typedef size_t (^CCLogFilterBlock)(const CCLogData *LogData, void *Data);
-typedef CCLogFilterBlock CCLogInputFilterBlock;
+typedef size_t (^CCLogInputFilterBlock)(const CCLogData *LogData, const CCLogInputData *Data);
 typedef size_t (^CCLogSpecifierFilterBlock)(const CCLogData *LogData, const CCLogSpecifierData *Data);
 typedef size_t (^CCLogMessageFilterBlock)(const CCLogData *LogData, const CCLogMessageData *Data);
 #endif
