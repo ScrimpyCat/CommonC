@@ -27,6 +27,7 @@
 #define CommonC_Allocator_h
 
 #include <stdlib.h>
+#include <CommonC/Platform.h>
 
 typedef struct CCAllocatorType {
     int allocator; //the allocator to be used
@@ -49,6 +50,14 @@ void CCDeallocate(void *Ptr);
 
 #ifndef CC_DEFAULT_ALLOCATOR
 #define CC_DEFAULT_ALLOCATOR CC_STD_ALLOCATOR
+#endif
+
+
+#if CC_PLATFORM_APPLE
+#include <CoreFoundation/CoreFoundation.h>
+
+CFAllocatorRef CCCreateCFAllocator(CCAllocatorType Type);
+CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
 #endif
 
 #endif
