@@ -110,7 +110,7 @@ void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     const size_t NewSize = Size + sizeof(int);
     if (NewSize > Size)
     {
-        Ptr = Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, NewSize) + 1) : NULL;;
+        Ptr = Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, NewSize) + 1) : NULL;
     }
     
     else
