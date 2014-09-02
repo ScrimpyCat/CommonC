@@ -87,13 +87,19 @@
 
 typedef struct {
 #if CC_GL_STATE_BLEND
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_0, 1_3, 1_0, 1_1, struct {
         GLenum src, dst;
     } blendFunc); //glBlendFunc
+    CC_GL_VERSION_ACTIVE(1_4, NA, 2_0, NA, struct {
+        GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
+    } blendFunc); //glBlendFunc + glBlendFuncSeparate
     
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_0, 1_5, NA, NA, struct {
         GLenum mode;
     } blendEquation); //glBlendEquation
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, struct {
+        GLenum modeRGB, modeAlpha;
+    } blendEquation); //glBlendEquation + glBlendEquationSeparate
 #endif
     
 #if CC_GL_STATE_BUFFER
@@ -113,12 +119,6 @@ typedef struct {
         CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, GLuint transformFeedbackBuffer); //GL_TRANSFORM_FEEDBACK_BUFFER
         CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, GLuint uniformBuffer); //GL_UNIFORM_BUFFER
     } bindBuffer); //glBindBuffer
-#endif
-    
-#if CC_GL_STATE_CLEAR
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
-        GLbitfield mask;
-    } clear); //glClear
 #endif
     
 #if CC_GL_STATE_COLOUR
