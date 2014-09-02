@@ -161,11 +161,13 @@ typedef struct {
     
 #if CC_GL_STATE_ENABLED
     struct {
+        CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, uint8_t *clipDistance); //GL_CLIP_DISTANCEi [GL_MAX_CLIP_DISTANCES]
+        CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t *clipPlane); //GL_CLIP_PLANEi [GL_MAX_CLIP_PLANES]
+        CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t *light); //GL_LIGHTi [GL_MAX_LIGHTS]
+        
         CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t alphaTest : 1); //GL_ALPHA_TEST
         CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, uint8_t autoNormal : 1); //GL_AUTO_NORMAL
         CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, uint8_t blend : 1); //GL_BLEND
-        CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, uint8_t *clipDistance); //GL_CLIP_DISTANCEi [GL_MAX_CLIP_DISTANCES]
-        CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t *clipPlane); //GL_CLIP_PLANEi [GL_MAX_CLIP_PLANES]
         CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, 1_1, uint8_t colourLogicOp : 1); //GL_COLOR_LOGIC_OP
         CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t colourMaterial : 1); //GL_COLOR_MATERIAL
         CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, uint8_t colourSum : 1); //GL_COLOR_SUM
@@ -178,7 +180,6 @@ typedef struct {
         CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t fog : 1); //GL_FOG
         CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, uint8_t framebufferSRGB : 1); //GL_FRAMEBUFFER_SRGB
         CC_GL_VERSION_ACTIVE(1_1, 2_1, NA, NA, uint8_t indexLogicOp : 1); //GL_INDEX_LOGIC_OP
-        CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t *light); //GL_LIGHTi [GL_MAX_LIGHTS]
         CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, uint8_t lighting : 1); //GL_LIGHTING
         CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, 1_1, uint8_t lineSmooth : 1); //GL_LINE_SMOOTH
         CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, uint8_t lineStipple : 1); //GL_LINE_STIPPLE
