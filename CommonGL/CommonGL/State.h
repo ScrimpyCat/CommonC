@@ -28,6 +28,7 @@
 
 #import <CommonGL/Defined.h>
 #import <CommonGL/Version.h>
+#import <CommonGL/Context.h>
 #import <CommonC/Types.h>
 
 
@@ -40,7 +41,6 @@
 #define CC_GL_STATE_DEPTH 1
 #define CC_GL_STATE_ENABLED 1
 #define CC_GL_STATE_FRAMEBUFFER 1
-#define CC_GL_STATE_POLYGON 1
 #define CC_GL_STATE_SCISSOR 1
 #define CC_GL_STATE_SHADER 1
 #define CC_GL_STATE_STENCIL 1
@@ -112,7 +112,7 @@ typedef struct {
         CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, GLuint textureBuffer); //GL_TEXTURE_BUFFER
         CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, GLuint transformFeedbackBuffer); //GL_TRANSFORM_FEEDBACK_BUFFER
         CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, GLuint uniformBuffer); //GL_UNIFORM_BUFFER
-    }); //glBindBuffer
+    } bindBuffer); //glBindBuffer
 #endif
     
 #if CC_GL_STATE_CLEAR
@@ -261,16 +261,6 @@ typedef struct {
         GLuint read, write;
     } bindFramebuffer); //glBindFramebuffer
 #endif
-#endif
-    
-#if CC_GL_STATE_POLYGON
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
-        GLenum face, mode;
-    } polygonMode); //glPolygonMode
-    
-    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, struct {
-        GLfloat factor, units;
-    } polygonOffset); //glPolygonOffset
 #endif
     
 #if CC_GL_STATE_SCISSOR
