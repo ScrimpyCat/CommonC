@@ -23,22 +23,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef CommonGL_SelectedState_h
+#define CommonGL_SelectedState_h
+
 /*
- Change here API version used by framework
- 
- Maybe make it so if it's compiled as a framework/library then it will use runtime queries for functions it needs?
+ Define here the state required by the application that you want to keep track of.
  */
 
-#ifndef CommonGL_Default_Private_h
-#define CommonGL_Default_Private_h
-
-#import <CommonC/Platform.h>
-#import "SelectedState.h"
-
-#if CC_PLATFORM_OS_X
-#define CC_OPENGL_MODERN
-#elif CC_PLATFORM_IOS
-#define CC_OPENGL_ES_MODERN
-#endif
+#define CC_GL_STATE_COMPLETE 1
 
 #endif
