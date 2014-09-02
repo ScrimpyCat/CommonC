@@ -43,5 +43,7 @@ _Bool CCGLContextSetCurrent(CCGLContext Context);
 _Bool CCGLContextTryLock(CCGLContext Context);
 void CCGLContextLock(CCGLContext Context);
 void CCGLContextUnlock(CCGLContext Context);
+id CCGLContextGetAssociatedObject(CCGLContext Context, void *Key);
+void CCGLContextSetAssociatedObject(CCGLContext Context, void *Key, id Object);
 
 #endif

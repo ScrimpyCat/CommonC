@@ -26,9 +26,9 @@
 #import "Default_Private.h"
 #import "Context.h"
 #import <CommonC/Types.h>
+#import <Foundation/Foundation.h>
 
 #if CC_PLATFORM_IOS
-#import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <CommonObjc/Assertion.h>
 
@@ -109,4 +109,58 @@ void CCGLContextUnlock(CCGLContext Context)
     CCAssertLog(Lock, @"Attempting to unlock a non-existent lock in GL context: %@", Context);
     [Lock unlock];
 #endif
+}
+
+static CC_NO_INLINE NSMapTable *ContextGetAssociatedObjectTable(CCGLContext Context)
+{
+    NSMapTable *AssociatedObjectTable = nil;
+    
+#if CC_PLATFORM_OS_X
+    _Bool CreatedNewTable = FALSE;
+    static NSMapTable *ContextAssociatedTables = nil;
+    if (!ContextAssociatedTables)
+    {
+        static volatile OSSpinLock CreateLock = OS_SPINLOCK_INIT;
+        OSSpinLockLock(&CreateLock);
+        
+        if (!ContextAssociatedTables)
+        {
+            ContextAssociatedTables = [[NSMapTable alloc] initWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality capacity: 1];
+            CreatedNewTable = TRUE;
+        }
+        
+        OSSpinLockUnlock(&CreateLock);
+    }
+    
+    if ((CreatedNewTable) || !(AssociatedObjectTable = [ContextAssociatedTables objectForKey: (id)Context]))
+    {
+        AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
+        [ContextAssociatedTables setObject: AssociatedObjectTable forKey: (id)Context];
+    }
+#elif CC_PLATFORM_IOS
+    if (!(AssociatedObjectTable = objc_getAssociatedObject(Context, &ContextGetAssociatedObjectTable)))
+    {
+        AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
+        objc_setAssociatedObject(Context, &ContextGetAssociatedObjectTable, AssociatedObjectTable, OBJC_ASSOCIATION_RETAIN);
+    }
+#endif
+    
+    return AssociatedObjectTable;
+}
+
+id CCGLContextGetAssociatedObject(CCGLContext Context, void *Key)
+{
+    id Object = nil;
+    CCGLContextLock(Context);
+    Object = [ContextGetAssociatedObjectTable(Context) objectForKey: Key];
+    CCGLContextUnlock(Context);
+    
+    return Object;
+}
+
+void CCGLContextSetAssociatedObject(CCGLContext Context, void *Key, id Object)
+{
+    CCGLContextLock(Context);
+    [ContextGetAssociatedObjectTable(Context) setObject: Object forKey: Key];
+    CCGLContextUnlock(Context);
 }
