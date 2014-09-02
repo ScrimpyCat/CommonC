@@ -27,6 +27,7 @@
 #import "Debug.h"
 #import "Defined.h"
 #import "Version.h"
+#import "Calling.h"
 #import <CommonC/Assertion.h>
 #import <CommonC/MemoryAllocation.h>
 #import <Foundation/Foundation.h>
@@ -81,6 +82,8 @@ void *CCGLErrorCheck(GLenum ErrorType, const char * const Filename, const char *
 
 NSString *CCGLGetObjectLabel(GLenum type, GLuint object)
 {
+    CC_GL_SETUP;
+    
 #if CC_GL_SUPPORT_DEBUG_LABEL
     if (!glGetObjectLabel) return nil;
     
