@@ -23,12 +23,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
 
-#import <CommonC/Common.h>
 
-#import <CommonObjc/Extensions.h>
+typedef void (^CCGenericContainerReleaser)(void *Data, size_t Size, _Bool IsCopied);
 
-#import <CommonObjc/Logging.h>
-#import <CommonObjc/Assertion.h>
+@interface CCGenericContainer : NSObject
 
-#import <CommonObjc/GenericContainer.h>
+@property (readonly) void *data;
+@property (readonly) size_t size;
+@property (copy) CCGenericContainerReleaser releaser;
+
++(instancetype) containerOfSize: (size_t)theSize;
++(instancetype) containerOfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser;
++(instancetype) containerWithCopiedData: (const void*)theData OfSize: (size_t)theSize;
++(instancetype) containerWithCopiedData: (const void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser;
++(instancetype) containerWithData: (void*)theData OfSize: (size_t)theSize;
++(instancetype) containerWithData: (void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser;
+
+-(instancetype) initWithCopiedData: (const void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser;
+-(instancetype) initWithData: (void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser;
+
+@end
