@@ -36,7 +36,7 @@
 
 #if CC_OPENGL_LEGACY
 #define CGL_MACRO_CACHE_RENDERER
-#define CGL_MACRO_CONTEXT CC_GL_PRIV_context___
+#define CGL_MACRO_CONTEXT CC_GL_CURRENT_CONTEXT
 #define CGL_MACRO_RENDERER CC_GL_PRIV_renderer___
 #include <OpenGL/CGLMacro.h>
 
@@ -52,6 +52,9 @@
 #endif
 
 
+#define CC_GL_CURRENT_CONTEXT CC_GL_PRIV_context___
+
+
 #if CC_GL_SETUP_DECLARES_CONTEXT
 
 #define CC_GL_ENTRY \
@@ -61,14 +64,14 @@ CCGLContextLock(CC_GL_PRIV_context___)
 #else
 
 #define CC_GL_ENTRY \
-CCGLContext CC_GL_PRIV_context___ = CCGLContextGetCurrent() \
+CCGLContext CC_GL_CURRENT_CONTEXT = CCGLContextGetCurrent() \
 CC_GL_SETUP; \
-CCGLContextLock(CC_GL_PRIV_context___)
+CCGLContextLock(CC_GL_CURRENT_CONTEXT)
 
 #endif
 
 
-#define CC_GL_EXIT CCGLContextUnlock(CC_GL_PRIV_context___)
+#define CC_GL_EXIT CCGLContextUnlock(CC_GL_CURRENT_CONTEXT)
 
 #define CC_GL_ENTRY_FOR_CONTEXT(ctx) \
 CCGLContext CC_GL_PRIV_prev_context___ = CCGLContextGetCurrent(); \
