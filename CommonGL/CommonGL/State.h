@@ -330,7 +330,11 @@ typedef struct {
         CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, GLuint texture2DArray); //GL_TEXTURE_2D_ARRAY
 #endif
 #if CC_GL_STATE_TEXTURE_RECTANGLE
+#if GL_ARB_texture_rectangle
+        GLuint textureRectangle; //GL_TEXTURE_RECTANGLE_ARB
+#else
         CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, GLuint textureRectangle); //GL_TEXTURE_RECTANGLE
+#endif
 #endif
 #if CC_GL_STATE_TEXTURE_CUBE_MAP
         CC_GL_VERSION_ACTIVE(1_3, NA, 2_0, NA, GLuint textureCubeMap); //GL_TEXTURE_CUBE_MAP
