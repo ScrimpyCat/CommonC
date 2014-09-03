@@ -379,4 +379,9 @@ typedef struct {
 #endif
 } CCGLState;
 
+
+CCGLState *CCGLStateForContext(CCGLContext Context, size_t Size);
+void CCGLStateInitializeWithDefault(CCGLState *State);
+void CCGLStateInitializeWithCurrent(CCGLState *State);
+
 #endif
