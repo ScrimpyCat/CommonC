@@ -380,7 +380,8 @@ typedef struct {
 } CCGLState;
 
 
-CCGLState *CCGLStateForContext(CCGLContext Context, size_t Size);
+CCGLState *CCGLStateForContext(CCGLContext Context);
+void CCGLStateSetup(CCGLState *State);
 void CCGLStateInitializeWithDefault(CCGLState *State);
 void CCGLStateInitializeWithCurrent(CCGLState *State);
 
