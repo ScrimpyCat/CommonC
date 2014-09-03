@@ -153,6 +153,7 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
         void * const Light = State->enabled.light;
     );
     
+    memset(&State->enabled, 0, sizeof(typeof(State->enabled)));
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.dither = TRUE);
     CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled.multisample = TRUE);
     
