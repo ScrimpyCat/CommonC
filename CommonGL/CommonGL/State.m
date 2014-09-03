@@ -30,21 +30,35 @@
 #import <CommonObjc/GenericContainer.h>
 #import <CommonC/MemoryAllocation.h>
 
+
 CCGLState *CCGLStateForContext(CCGLContext Context)
 {
     CCGenericContainer *StateContainer = CCGLContextGetAssociatedObject(Context, &CCGLStateForContext);
     if (!StateContainer)
     {
-        StateContainer = [CCGenericContainer containerOfSize: sizeof(CCGLState)];
-        CCGLStateSetup(StateContainer.data);
-        CCGLStateInitializeWithCurrent(StateContainer.data);
+        CCGLState *State = CCGLStateCreate();
+        if (State)
+        {
+            CCGLStateInitializeWithCurrent(State);
+            StateContainer = [CCGenericContainer containerWithData: State OfSize: sizeof(CCGLState) ReleaserBlock: ^(void *Data, size_t Size, bool IsCopied){
+                CCGLStateRelease(Data);
+            }];
+            CCGLContextSetAssociatedObject(Context, &CCGLStateForContext, StateContainer);
+        }
+        
+        return State;
     }
     
     return StateContainer.data;
 }
 
-void CCGLStateSetup(CCGLState *State)
+CCGLState *CCGLStateCreate(void)
 {
+    CCGLState *State;
+    CC_SAFE_Malloc(State, sizeof(CCGLState),
+                   return NULL;
+                   );
+    
 #if CC_GL_STATE_ENABLED
     CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA,
         GLint MaxClipDistances;
@@ -72,6 +86,23 @@ void CCGLStateSetup(CCGLState *State)
         CC_SAFE_Malloc(State->bindTexture, MaxTextures * sizeof(typeof(*State->bindTexture)));
     );
 #endif
+    
+    return State;
+}
+
+void CCGLStateRelease(CCGLState *State)
+{
+#if CC_GL_STATE_ENABLED
+    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, CC_SAFE_Free(State->enabled.clipDistance));
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, CC_SAFE_Free(State->enabled.clipPlane));
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, CC_SAFE_Free(State->enabled.light));
+#endif
+    
+#if CC_GL_STATE_TEXTURE && !CC_GL_STATE_TEXTURE_MAX
+    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, CC_SAFE_Free(State->bindTexture));
+#endif
+    
+    CC_SAFE_Free(State);
 }
 
 void CCGLStateInitializeWithDefault(CCGLState *State)

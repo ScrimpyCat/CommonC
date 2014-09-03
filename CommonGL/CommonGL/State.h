@@ -381,7 +381,8 @@ typedef struct {
 
 
 CCGLState *CCGLStateForContext(CCGLContext Context);
-void CCGLStateSetup(CCGLState *State);
+CCGLState *CCGLStateCreate(void);
+void CCGLStateRelease(CCGLState *State);
 void CCGLStateInitializeWithDefault(CCGLState *State);
 void CCGLStateInitializeWithCurrent(CCGLState *State);
 
