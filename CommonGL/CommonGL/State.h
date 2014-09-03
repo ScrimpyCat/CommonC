@@ -35,7 +35,6 @@
 #if CC_GL_STATE_COMPLETE
 #define CC_GL_STATE_BLEND 1
 #define CC_GL_STATE_BUFFER 1
-#define CC_GL_STATE_CLEAR 1
 #define CC_GL_STATE_COLOUR 1
 #define CC_GL_STATE_CULL_FACE 1
 #define CC_GL_STATE_DEPTH 1
@@ -91,14 +90,14 @@ typedef struct {
         GLenum src, dst;
     } blendFunc); //glBlendFunc
     CC_GL_VERSION_ACTIVE(1_4, NA, 2_0, NA, struct {
-        GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
+        struct { GLenum src, dst; } rgb, alpha;
     } blendFunc); //glBlendFunc + glBlendFuncSeparate
     
     CC_GL_VERSION_ACTIVE(1_0, 1_5, NA, NA, struct {
         GLenum mode;
     } blendEquation); //glBlendEquation
     CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, struct {
-        GLenum modeRGB, modeAlpha;
+        struct { GLenum mode; } rgb, alpha;
     } blendEquation); //glBlendEquation + glBlendEquationSeparate
 #endif
     
@@ -281,19 +280,32 @@ typedef struct {
         GLint s;
     } clearStencil); //glClearStencil
     
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_0, 1_5, 1_0, 1_1, struct {
         GLenum func;
         GLint ref;
         GLuint mask;
     } stencilFunc); //glStencilFunc
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, struct {
+        struct {
+            GLenum func;
+            GLint ref;
+            GLuint mask;
+        } front, back;
+    } stencilFunc); //glStencilFunc + glStencilFuncSeparate
     
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_0, 1_5, 1_0, 1_1, struct {
         GLuint mask;
     } stencilMask); //glStencilMask
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, struct {
+        struct { GLuint mask; } front, back;
+    } stencilMask); //glStencilMask + glStencilMaskSeparate
     
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_0, 1_5, 1_0, 1_1, struct {
         GLenum sfail, dpfail, dppass;
     } stencilOp); //glStencilOp
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, struct {
+        struct { GLenum sfail, dpfail, dppass; } front, back;
+    } stencilOp); //glStencilOp + glStencilOpSeparate
 #endif
     
 #if CC_GL_STATE_TEXTURE
