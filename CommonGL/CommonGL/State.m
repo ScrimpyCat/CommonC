@@ -120,20 +120,20 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
 #if CC_GL_STATE_BUFFER
     CC_GL_VERSION_ACTIVE(1_5, NA, 1_0, NA,
         State->bindBuffer = (typeof(State->bindBuffer)){
-            .arrayBuffer = 0,
-            CC_GL_VERSION_ACTIVE(4_2, NA, 3_1, NA, .atomicCounterBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, .copyReadBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, .copyWriteBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, .dispatchIndirectBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, .drawIndirectBuffer = 0,)
-            .elementArrayBuffer = 0,
-            CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, .pixelPackBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, .pixelUnpackBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(4_4, NA, NA, NA, .queryBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, .shaderStorageBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, .textureBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, .transformFeedbackBuffer = 0,)
-            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, .uniformBuffer = 0)
+            ._GL_ARRAY_BUFFER = 0,
+            CC_GL_VERSION_ACTIVE(4_2, NA, 3_1, NA, ._GL_ATOMIC_COUNTER_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, ._GL_COPY_READ_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, ._GL_COPY_WRITE_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, ._GL_DISPATCH_INDIRECT_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, ._GL_DRAW_INDIRECT_BUFFER = 0,)
+            ._GL_ELEMENT_ARRAY_BUFFER = 0,
+            CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, ._GL_PIXEL_PACK_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, ._GL_PIXEL_UNPACK_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(4_4, NA, NA, NA, ._GL_QUERY_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, ._GL_SHADER_STORAGE_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, ._GL_TEXTURE_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, ._GL_TRANSFORM_FEEDBACK_BUFFER = 0,)
+            CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, ._GL_UNIFORM_BUFFER = 0)
         }
     );
 #endif
@@ -185,8 +185,8 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
     );
     
     memset(&State->enabled, 0, sizeof(typeof(State->enabled)));
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.dither = TRUE);
-    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled.multisample = TRUE);
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_DITHER = TRUE);
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled._GL_MULTISAMPLE = TRUE);
     
     CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled.clipDistance = ClipDistance);
     CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.clipPlane = ClipPlane);
@@ -289,26 +289,26 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
     
 #if CC_GL_STATE_BUFFER
     CC_GL_VERSION_ACTIVE(1_5, NA, 1_0, NA,
-        glGetIntegerv(GL_ARRAY_BUFFER_BINDING, (GLint*)&State->bindBuffer.arrayBuffer); CC_GL_CHECK();
-        CC_GL_VERSION_ACTIVE(4_2, NA, 3_1, NA, glGetIntegerv(GL_ATOMIC_COUNTER_BUFFER_BINDING, (GLint*)&State->bindBuffer.atomicCounterBuffer); CC_GL_CHECK());
+        glGetIntegerv(GL_ARRAY_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_ARRAY_BUFFER); CC_GL_CHECK();
+        CC_GL_VERSION_ACTIVE(4_2, NA, 3_1, NA, glGetIntegerv(GL_ATOMIC_COUNTER_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_ATOMIC_COUNTER_BUFFER); CC_GL_CHECK());
 #if GL_COPY_READ_BUFFER_BINDING //bug?
-        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_COPY_READ_BUFFER_BINDING, (GLint*)&State->bindBuffer.copyReadBuffer); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_COPY_READ_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_COPY_READ_BUFFER); CC_GL_CHECK());
 #endif
 #if GL_COPY_WRITE_BUFFER_BINDING //bug?
-        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_COPY_WRITE_BUFFER_BINDING, (GLint*)&State->bindBuffer.copyWriteBuffer); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_COPY_WRITE_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_COPY_WRITE_BUFFER); CC_GL_CHECK());
 #endif
-        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, glGetIntegerv(GL_DISPATCH_INDIRECT_BUFFER_BINDING, (GLint*)&State->bindBuffer.dispatchIndirectBuffer); CC_GL_CHECK());
-        CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, glGetIntegerv(GL_DRAW_INDIRECT_BUFFER_BINDING, (GLint*)&State->bindBuffer.drawIndirectBuffer); CC_GL_CHECK());
-        glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, (GLint*)&State->bindBuffer.elementArrayBuffer); CC_GL_CHECK();
-        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, glGetIntegerv(GL_PIXEL_PACK_BUFFER_BINDING, (GLint*)&State->bindBuffer.pixelPackBuffer); CC_GL_CHECK());
-        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, glGetIntegerv(GL_PIXEL_UNPACK_BUFFER_BINDING, (GLint*)&State->bindBuffer.pixelUnpackBuffer); CC_GL_CHECK());
-        CC_GL_VERSION_ACTIVE(4_4, NA, NA, NA, glGetIntegerv(GL_QUERY_BUFFER_BINDING, (GLint*)&State->bindBuffer.queryBuffer); CC_GL_CHECK());
-        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, glGetIntegerv(GL_SHADER_STORAGE_BUFFER_BINDING, (GLint*)&State->bindBuffer.shaderStorageBuffer); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, glGetIntegerv(GL_DISPATCH_INDIRECT_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_DISPATCH_INDIRECT_BUFFER); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, glGetIntegerv(GL_DRAW_INDIRECT_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_DRAW_INDIRECT_BUFFER); CC_GL_CHECK());
+        glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_ELEMENT_ARRAY_BUFFER); CC_GL_CHECK();
+        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, glGetIntegerv(GL_PIXEL_PACK_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_PIXEL_PACK_BUFFER); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, glGetIntegerv(GL_PIXEL_UNPACK_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_PIXEL_UNPACK_BUFFER); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(4_4, NA, NA, NA, glGetIntegerv(GL_QUERY_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_QUERY_BUFFER); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, glGetIntegerv(GL_SHADER_STORAGE_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_SHADER_STORAGE_BUFFER); CC_GL_CHECK());
 #if GL_TEXTURE_BUFFER_BINDING //bug?
-        CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BUFFER_BINDING, (GLint*)&State->bindBuffer.textureBuffer); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_TEXTURE_BUFFER); CC_GL_CHECK());
 #endif
-        CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, glGetIntegerv(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, (GLint*)&State->bindBuffer.transformFeedbackBuffer); CC_GL_CHECK());
-        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_UNIFORM_BUFFER_BINDING, (GLint*)&State->bindBuffer.uniformBuffer); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, glGetIntegerv(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_TRANSFORM_FEEDBACK_BUFFER); CC_GL_CHECK());
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, glGetIntegerv(GL_UNIFORM_BUFFER_BINDING, (GLint*)&State->bindBuffer._GL_UNIFORM_BUFFER); CC_GL_CHECK());
     );
 #endif
     
@@ -381,92 +381,92 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
         }
     );
     
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.alphaTest = glIsEnabled(GL_ALPHA_TEST); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.autoNormal = glIsEnabled(GL_AUTO_NORMAL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.blend = glIsEnabled(GL_BLEND); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, 1_1, State->enabled.colourLogicOp = glIsEnabled(GL_COLOR_LOGIC_OP); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.colourMaterial = glIsEnabled(GL_COLOR_MATERIAL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.colourSum = glIsEnabled(GL_COLOR_SUM); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.cullFace = glIsEnabled(GL_CULL_FACE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_3, NA, NA, NA, State->enabled.debugOutput = glIsEnabled(GL_DEBUG_OUTPUT); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_3, NA, NA, NA, State->enabled.debugOutputSynchronous = glIsEnabled(GL_DEBUG_OUTPUT_SYNCHRONOUS); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled.depthClamp = glIsEnabled(GL_DEPTH_CLAMP); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.depthTest = glIsEnabled(GL_DEPTH_TEST); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.dither = glIsEnabled(GL_DITHER); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.fog = glIsEnabled(GL_FOG); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled.framebufferSRGB = glIsEnabled(GL_FRAMEBUFFER_SRGB); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_1, 2_1, NA, NA, State->enabled.indexLogicOp = glIsEnabled(GL_INDEX_LOGIC_OP); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.lighting = glIsEnabled(GL_LIGHTING); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, 1_1, State->enabled.lineSmooth = glIsEnabled(GL_LINE_SMOOTH); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.lineStipple = glIsEnabled(GL_LINE_STIPPLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1Colour4 = glIsEnabled(GL_MAP1_COLOR_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1Index = glIsEnabled(GL_MAP1_INDEX); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1Normal = glIsEnabled(GL_MAP1_NORMAL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1TextureCoord1 = glIsEnabled(GL_MAP1_TEXTURE_COORD_1); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1TextureCoord2 = glIsEnabled(GL_MAP1_TEXTURE_COORD_2); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1TextureCoord3 = glIsEnabled(GL_MAP1_TEXTURE_COORD_3); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1TextureCoord4 = glIsEnabled(GL_MAP1_TEXTURE_COORD_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1Vertex3 = glIsEnabled(GL_MAP1_VERTEX_3); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map1Vertex4 = glIsEnabled(GL_MAP1_VERTEX_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2Colour4 = glIsEnabled(GL_MAP2_COLOR_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2Index = glIsEnabled(GL_MAP2_INDEX); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2Normal = glIsEnabled(GL_MAP2_NORMAL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2TextureCoord1 = glIsEnabled(GL_MAP2_TEXTURE_COORD_1); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2TextureCoord2 = glIsEnabled(GL_MAP2_TEXTURE_COORD_2); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2TextureCoord3 = glIsEnabled(GL_MAP2_TEXTURE_COORD_3); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2TextureCoord4 = glIsEnabled(GL_MAP2_TEXTURE_COORD_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2Vertex3 = glIsEnabled(GL_MAP2_VERTEX_3); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.map2Vertex4 = glIsEnabled(GL_MAP2_VERTEX_4); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled.multisample = glIsEnabled(GL_MULTISAMPLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.normalize = glIsEnabled(GL_NORMALIZE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.pointSmooth = glIsEnabled(GL_POINT_SMOOTH); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_ALPHA_TEST = glIsEnabled(GL_ALPHA_TEST); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_AUTO_NORMAL = glIsEnabled(GL_AUTO_NORMAL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_BLEND = glIsEnabled(GL_BLEND); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, 1_1, State->enabled._GL_COLOR_LOGIC_OP = glIsEnabled(GL_COLOR_LOGIC_OP); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_COLOR_MATERIAL = glIsEnabled(GL_COLOR_MATERIAL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_COLOR_SUM = glIsEnabled(GL_COLOR_SUM); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_CULL_FACE = glIsEnabled(GL_CULL_FACE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_3, NA, NA, NA, State->enabled._GL_DEBUG_OUTPUT = glIsEnabled(GL_DEBUG_OUTPUT); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_3, NA, NA, NA, State->enabled._GL_DEBUG_OUTPUT_SYNCHRONOUS = glIsEnabled(GL_DEBUG_OUTPUT_SYNCHRONOUS); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled._GL_DEPTH_CLAMP = glIsEnabled(GL_DEPTH_CLAMP); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_DEPTH_TEST = glIsEnabled(GL_DEPTH_TEST); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_DITHER = glIsEnabled(GL_DITHER); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_FOG = glIsEnabled(GL_FOG); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled._GL_FRAMEBUFFER_SRGB = glIsEnabled(GL_FRAMEBUFFER_SRGB); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, 2_1, NA, NA, State->enabled._GL_INDEX_LOGIC_OP = glIsEnabled(GL_INDEX_LOGIC_OP); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_LIGHTING = glIsEnabled(GL_LIGHTING); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, 1_1, State->enabled._GL_LINE_SMOOTH = glIsEnabled(GL_LINE_SMOOTH); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_LINE_STIPPLE = glIsEnabled(GL_LINE_STIPPLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_COLOR_4 = glIsEnabled(GL_MAP1_COLOR_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_INDEX = glIsEnabled(GL_MAP1_INDEX); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_NORMAL = glIsEnabled(GL_MAP1_NORMAL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_TEXTURE_COORD_1 = glIsEnabled(GL_MAP1_TEXTURE_COORD_1); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_TEXTURE_COORD_2 = glIsEnabled(GL_MAP1_TEXTURE_COORD_2); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_TEXTURE_COORD_3 = glIsEnabled(GL_MAP1_TEXTURE_COORD_3); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_TEXTURE_COORD_4 = glIsEnabled(GL_MAP1_TEXTURE_COORD_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_VERTEX_3 = glIsEnabled(GL_MAP1_VERTEX_3); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP1_VERTEX_4 = glIsEnabled(GL_MAP1_VERTEX_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_COLOR_4 = glIsEnabled(GL_MAP2_COLOR_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_INDEX = glIsEnabled(GL_MAP2_INDEX); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_NORMAL = glIsEnabled(GL_MAP2_NORMAL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_TEXTURE_COORD_1 = glIsEnabled(GL_MAP2_TEXTURE_COORD_1); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_TEXTURE_COORD_2 = glIsEnabled(GL_MAP2_TEXTURE_COORD_2); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_TEXTURE_COORD_3 = glIsEnabled(GL_MAP2_TEXTURE_COORD_3); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_TEXTURE_COORD_4 = glIsEnabled(GL_MAP2_TEXTURE_COORD_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_VERTEX_3 = glIsEnabled(GL_MAP2_VERTEX_3); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MAP2_VERTEX_4 = glIsEnabled(GL_MAP2_VERTEX_4); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled._GL_MULTISAMPLE = glIsEnabled(GL_MULTISAMPLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_NORMALIZE = glIsEnabled(GL_NORMALIZE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_POINT_SMOOTH = glIsEnabled(GL_POINT_SMOOTH); CC_GL_CHECK());
 #if GL_POINT_SPRITE_OES
-    CC_GL_VERSION_ACTIVE(2_0, 2_1, 1_0, 1_1, State->enabled.pointSprite = glIsEnabled(GL_POINT_SPRITE_OES); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, 2_1, 1_0, 1_1, State->enabled._GL_POINT_SPRITE = glIsEnabled(GL_POINT_SPRITE_OES); CC_GL_CHECK());
 #else
-    CC_GL_VERSION_ACTIVE(2_0, 2_1, 1_0, 1_1, State->enabled.pointSprite = glIsEnabled(GL_POINT_SPRITE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, 2_1, 1_0, 1_1, State->enabled._GL_POINT_SPRITE = glIsEnabled(GL_POINT_SPRITE); CC_GL_CHECK());
 #endif
-    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, State->enabled.polygonOffsetFill = glIsEnabled(GL_POLYGON_OFFSET_FILL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled.polygonOffsetLine = glIsEnabled(GL_POLYGON_OFFSET_LINE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled.polygonOffsetPoint = glIsEnabled(GL_POLYGON_OFFSET_POINT); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, NA, NA, State->enabled.polygonSmooth = glIsEnabled(GL_POLYGON_SMOOTH); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.polygonStipple = glIsEnabled(GL_POLYGON_STIPPLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, State->enabled.primitiveRestart = glIsEnabled(GL_PRIMITIVE_RESTART); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_3, NA, 3_0, NA, State->enabled.primitiveRestartFixedIndex = glIsEnabled(GL_PRIMITIVE_RESTART_FIXED_INDEX); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled.programPointSize = glIsEnabled(GL_PROGRAM_POINT_SIZE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_0, NA, 3_0, NA, State->enabled.rasterizerDiscard = glIsEnabled(GL_RASTERIZER_DISCARD); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_2, 2_1, 1_0, 1_1, State->enabled.rescaleNormal = glIsEnabled(GL_RESCALE_NORMAL); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, State->enabled.sampleAlphaToCoverage = glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled.sampleAlphaToOne = glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, State->enabled.sampleCoverage = glIsEnabled(GL_SAMPLE_COVERAGE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_0, NA, NA, NA, State->enabled.sampleShading = glIsEnabled(GL_SAMPLE_SHADING); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, State->enabled.sampleMask = glIsEnabled(GL_SAMPLE_MASK); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.scissorTest = glIsEnabled(GL_SCISSOR_TEST); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled.stencilTest = glIsEnabled(GL_STENCIL_TEST); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.texture1D = glIsEnabled(GL_TEXTURE_1D); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled.texture2D = glIsEnabled(GL_TEXTURE_2D); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_2, 2_1, NA, NA, State->enabled.texture3D = glIsEnabled(GL_TEXTURE_3D); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_3, 2_1, NA, NA, State->enabled.textureCubeMap = glIsEnabled(GL_TEXTURE_CUBE_MAP); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, State->enabled.textureCubeMap = glIsEnabled(GL_TEXTURE_CUBE_MAP_SEAMLESS); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.textureGenQ = glIsEnabled(GL_TEXTURE_GEN_Q); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.textureGenR = glIsEnabled(GL_TEXTURE_GEN_R); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.textureGenS = glIsEnabled(GL_TEXTURE_GEN_S); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.textureGenT = glIsEnabled(GL_TEXTURE_GEN_T); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(2_0, 2_1, NA, NA, State->enabled.vertexProgramPointSize = glIsEnabled(GL_VERTEX_PROGRAM_POINT_SIZE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(2_0, 2_1, NA, NA, State->enabled.vertexProgramTwoSide = glIsEnabled(GL_VERTEX_PROGRAM_TWO_SIDE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, State->enabled._GL_POLYGON_OFFSET_FILL = glIsEnabled(GL_POLYGON_OFFSET_FILL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled._GL_POLYGON_OFFSET_LINE = glIsEnabled(GL_POLYGON_OFFSET_LINE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled._GL_POLYGON_OFFSET_POINT = glIsEnabled(GL_POLYGON_OFFSET_POINT); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, NA, NA, State->enabled._GL_POLYGON_SMOOTH = glIsEnabled(GL_POLYGON_SMOOTH); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_POLYGON_STIPPLE = glIsEnabled(GL_POLYGON_STIPPLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, State->enabled._GL_PRIMITIVE_RESTART = glIsEnabled(GL_PRIMITIVE_RESTART); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_3, NA, 3_0, NA, State->enabled._GL_PRIMITIVE_RESTART_FIXED_INDEX = glIsEnabled(GL_PRIMITIVE_RESTART_FIXED_INDEX); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, State->enabled._GL_PROGRAM_POINT_SIZE = glIsEnabled(GL_PROGRAM_POINT_SIZE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_0, NA, 3_0, NA, State->enabled._GL_RASTERIZER_DISCARD = glIsEnabled(GL_RASTERIZER_DISCARD); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_2, 2_1, 1_0, 1_1, State->enabled._GL_RESCALE_NORMAL = glIsEnabled(GL_RESCALE_NORMAL); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, State->enabled._GL_SAMPLE_ALPHA_TO_COVERAGE = glIsEnabled(GL_SAMPLE_ALPHA_TO_COVERAGE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, 1_1, State->enabled._GL_SAMPLE_ALPHA_TO_ONE = glIsEnabled(GL_SAMPLE_ALPHA_TO_ONE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, State->enabled._GL_SAMPLE_COVERAGE = glIsEnabled(GL_SAMPLE_COVERAGE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_0, NA, NA, NA, State->enabled._GL_SAMPLE_SHADING = glIsEnabled(GL_SAMPLE_SHADING); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, State->enabled._GL_SAMPLE_MASK = glIsEnabled(GL_SAMPLE_MASK); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_SCISSOR_TEST = glIsEnabled(GL_SCISSOR_TEST); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->enabled._GL_STENCIL_TEST = glIsEnabled(GL_STENCIL_TEST); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_TEXTURE_1D = glIsEnabled(GL_TEXTURE_1D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, 1_0, 1_1, State->enabled._GL_TEXTURE_2D = glIsEnabled(GL_TEXTURE_2D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_2, 2_1, NA, NA, State->enabled._GL_TEXTURE_3D = glIsEnabled(GL_TEXTURE_3D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, 2_1, NA, NA, State->enabled._GL_TEXTURE_CUBE_MAP = glIsEnabled(GL_TEXTURE_CUBE_MAP); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, State->enabled._GL_TEXTURE_CUBE_MAP_SEAMLESS = glIsEnabled(GL_TEXTURE_CUBE_MAP_SEAMLESS); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_TEXTURE_GEN_Q = glIsEnabled(GL_TEXTURE_GEN_Q); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_TEXTURE_GEN_R = glIsEnabled(GL_TEXTURE_GEN_R); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_TEXTURE_GEN_S = glIsEnabled(GL_TEXTURE_GEN_S); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_TEXTURE_GEN_T = glIsEnabled(GL_TEXTURE_GEN_T); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, 2_1, NA, NA, State->enabled._GL_VERTEX_PROGRAM_POINT_SIZE = glIsEnabled(GL_VERTEX_PROGRAM_POINT_SIZE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, 2_1, NA, NA, State->enabled._GL_VERTEX_PROGRAM_TWO_SIDE = glIsEnabled(GL_VERTEX_PROGRAM_TWO_SIDE); CC_GL_CHECK());
     
 #if GL_ARB_imaging
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.colourTable = glIsEnabled(GL_COLOR_TABLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.convolution1D = glIsEnabled(GL_CONVOLUTION_1D); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.convolution2D = glIsEnabled(GL_CONVOLUTION_2D); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.histogram = glIsEnabled(GL_HISTOGRAM); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.minmax = glIsEnabled(GL_MINMAX); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.postColourMatrixColourTable = glIsEnabled(GL_POST_COLOR_MATRIX_COLOR_TABLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.postConvolutionColourTable = glIsEnabled(GL_POST_CONVOLUTION_COLOR_TABLE); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled.separable2D = glIsEnabled(GL_SEPARABLE_2D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_COLOR_TABLE = glIsEnabled(GL_COLOR_TABLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_CONVOLUTION_1D = glIsEnabled(GL_CONVOLUTION_1D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_CONVOLUTION_2D = glIsEnabled(GL_CONVOLUTION_2D); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_HISTOGRAM = glIsEnabled(GL_HISTOGRAM); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_MINMAX = glIsEnabled(GL_MINMAX); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_POST_COLOR_MATRIX_COLOR_TABLE = glIsEnabled(GL_POST_COLOR_MATRIX_COLOR_TABLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_POST_CONVOLUTION_COLOR_TABLE = glIsEnabled(GL_POST_CONVOLUTION_COLOR_TABLE); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, 2_1, NA, NA, State->enabled._GL_SEPARABLE_2D = glIsEnabled(GL_SEPARABLE_2D); CC_GL_CHECK());
 #endif
     
 #if GL_ARB_texture_rectangle
-    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled.textureRectangle = glIsEnabled(GL_TEXTURE_RECTANGLE_ARB); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, State->enabled._GL_TEXTURE_RECTANGLE_ARB = glIsEnabled(GL_TEXTURE_RECTANGLE_ARB); CC_GL_CHECK());
 #endif
 #endif
     
@@ -563,41 +563,41 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
         for (GLint Loop = 0; Loop < Count; Loop++)
         {
 #if CC_GL_STATE_TEXTURE_1D
-            CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_1D, (GLint*)&State->bindTexture[Loop].texture1D); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_1D, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_1D); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_2D
-            CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&State->bindTexture[Loop].texture2D); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_2D); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_3D
-            CC_GL_VERSION_ACTIVE(1_1, NA, 3_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_3D, (GLint*)&State->bindTexture[Loop].texture3D); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(1_1, NA, 3_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_3D, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_3D); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_1D_ARRAY
-            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_1D_ARRAY, (GLint*)&State->bindTexture[Loop].texture1DArray); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_1D_ARRAY, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_1D_ARRAY); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_2D_ARRAY
-            CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_ARRAY, (GLint*)&State->bindTexture[Loop].texture2DArray); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_ARRAY, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_2D_ARRAY); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_RECTANGLE
 #if GL_ARB_texture_rectangle
-            glGetIntegerv(GL_TEXTURE_BINDING_RECTANGLE_ARB, (GLint*)&State->bindTexture[Loop].textureRectangle); CC_GL_CHECK();
+            glGetIntegerv(GL_TEXTURE_BINDING_RECTANGLE_ARB, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_RECTANGLE_ARB); CC_GL_CHECK();
 #else
-            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_RECTANGLE, (GLint*)&State->bindTexture[Loop].textureRectangle); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_RECTANGLE, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_RECTANGLE); CC_GL_CHECK());
 #endif
 #endif
 #if CC_GL_STATE_TEXTURE_CUBE_MAP
-            CC_GL_VERSION_ACTIVE(1_3, NA, 2_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP, (GLint*)&State->bindTexture[Loop].textureCubeMap); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(1_3, NA, 2_0, NA, glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_CUBE_MAP); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_CUBE_MAP_ARRAY
-            CC_GL_VERSION_ACTIVE(4_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY, (GLint*)&State->bindTexture[Loop].textureCubeMapArray); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(4_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_CUBE_MAP_ARRAY); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_BUFFER
-            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, (GLint*)&State->bindTexture[Loop].textureBuffer); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_BUFFER, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_BUFFER); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_2D_MULTISAMPLE
-            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE, (GLint*)&State->bindTexture[Loop].texture2DMultisample); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_2D_MULTISAMPLE); CC_GL_CHECK());
 #endif
 #if CC_GL_STATE_TEXTURE_2D_MULTISAMPLE_ARRAY
-            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY, (GLint*)&State->bindTexture[Loop].texture2DMultisampleArray); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_2D_MULTISAMPLE_ARRAY); CC_GL_CHECK());
 #endif
         }
         
