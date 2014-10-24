@@ -28,7 +28,7 @@
 #if CC_PLATFORM_APPLE
 #include <CoreFoundation/CoreFoundation.h>
 #if CC_PLATFORM_IOS
-#include <objc/objc-runtime.h>
+#include <objc/message.h>
 #endif
 #endif
 
