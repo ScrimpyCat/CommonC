@@ -39,7 +39,8 @@
 #define CC_PLATFORM_MAC_10_7      1070
 #define CC_PLATFORM_MAC_10_8      1080
 #define CC_PLATFORM_MAC_10_9      1090
-#define CC_PLATFORM_MAC_NA        9999
+#define CC_PLATFORM_MAC_10_10   101000
+#define CC_PLATFORM_MAC_NA      999999
 
 #define CC_PLATFORM_IOS_2_0     20000
 #define CC_PLATFORM_IOS_2_1     20100
@@ -56,6 +57,8 @@
 #define CC_PLATFORM_IOS_6_0     60000
 #define CC_PLATFORM_IOS_6_1     60100
 #define CC_PLATFORM_IOS_7_0     70000
+#define CC_PLATFORM_IOS_7_1     70100
+#define CC_PLATFORM_IOS_8_0     80000
 #define CC_PLATFORM_IOS_NA      99999
 
 #include <TargetConditionals.h>

@@ -104,7 +104,9 @@ uint32_t CCSystemVersionLiteral(void)
     CCSystemVersion(&Maj, &Min, &Bug);
     
 #if CC_PLATFORM_OS_X
-    return (Maj * 100) + (Min * 10);
+    return (Maj >= 10) && (Min >= 10) ?
+            (Maj * 10000) + (Min * 100) :
+            (Maj * 100) + (Min * 10);
 #elif CC_PLATFORM_IOS
     return (Maj * 10000) + (Min * 100);
 #else
