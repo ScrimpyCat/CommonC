@@ -39,3 +39,6 @@
 #import <CommonGL/Display.h>
 #import <CommonGL/RenderLoop.h>
 #import <CommonGL/RenderTimestamp.h>
+
+#import <CommonGL/SelectedState.h>
+#import <CommonGL/State.h>
