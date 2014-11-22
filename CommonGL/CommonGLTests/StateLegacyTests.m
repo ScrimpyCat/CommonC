@@ -23,6 +23,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "Default_Private.h"
+#ifndef CC_OPENGL_LEGACY
+#warning "Will not run test. Must set the framework's GL version to legacy to run this test."
+#else
+
 @import Cocoa;
 @import OpenGL.GL;
 @import XCTest;
@@ -273,3 +278,5 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 }
 
 @end
+
+#endif
