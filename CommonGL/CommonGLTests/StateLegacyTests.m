@@ -123,32 +123,67 @@
 -(void) testBufferState
 {
 #if CC_GL_STATE_BUFFER
+#define TEST_BUFFER_TARGET(target) { target, &State->bindBuffer._##target, #target }
     CCGLState *State = CCGLStateForContext(ctx);
     
-    glBindBuffer(GL_ARRAY_BUFFER, 0); CC_GL_CHECK();
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); CC_GL_CHECK();
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0); CC_GL_CHECK();
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0); CC_GL_CHECK();
+    const struct {
+        GLenum target;
+        const GLenum *state;
+        char *name;
+    } BufferTargets[] = {
+        TEST_BUFFER_TARGET(GL_ARRAY_BUFFER),
+        CC_GL_VERSION_ACTIVE(4_2, NA, 3_1, NA, TEST_BUFFER_TARGET(GL_ATOMIC_COUNTER_BUFFER),)
+#if GL_COPY_READ_BUFFER_BINDING
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_COPY_READ_BUFFER),)
+#endif
+#if GL_COPY_WRITE_BUFFER_BINDING
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_COPY_WRITE_BUFFER),)
+#endif
+        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, TEST_BUFFER_TARGET(GL_DISPATCH_INDIRECT_BUFFER),)
+        CC_GL_VERSION_ACTIVE(4_0, NA, 3_1, NA, TEST_BUFFER_TARGET(GL_DRAW_INDIRECT_BUFFER),)
+        TEST_BUFFER_TARGET(GL_ELEMENT_ARRAY_BUFFER),
+        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_PIXEL_PACK_BUFFER),)
+        CC_GL_VERSION_ACTIVE(1_5, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_PIXEL_UNPACK_BUFFER),)
+        CC_GL_VERSION_ACTIVE(4_4, NA, NA, NA, TEST_BUFFER_TARGET(GL_QUERY_BUFFER),)
+        CC_GL_VERSION_ACTIVE(4_3, NA, 3_1, NA, TEST_BUFFER_TARGET(GL_SHADER_STORAGE_BUFFER),)
+#if GL_TEXTURE_BUFFER_BINDING
+        CC_GL_VERSION_ACTIVE(3_1, NA, NA, NA, TEST_BUFFER_TARGET(GL_TEXTURE_BUFFER),)
+#endif
+        CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_TRANSFORM_FEEDBACK_BUFFER),)
+        CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_UNIFORM_BUFFER),)
+    };
+    const size_t Count = sizeof(BufferTargets) / sizeof(typeof(*BufferTargets));
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        glBindBuffer(BufferTargets[Loop].target, 0); CC_GL_CHECK();
+    }
     
     CCGLStateInitializeWithCurrent(State);
     
-    XCTAssertEqual(State->bindBuffer._GL_ARRAY_BUFFER, 0, @"should be 0");
-    XCTAssertEqual(State->bindBuffer._GL_ELEMENT_ARRAY_BUFFER, 0, @"should be 0");
-    XCTAssertEqual(State->bindBuffer._GL_PIXEL_PACK_BUFFER, 0, @"should be 0");
-    XCTAssertEqual(State->bindBuffer._GL_PIXEL_UNPACK_BUFFER, 0, @"should be 0");
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        XCTAssertEqual(*BufferTargets[Loop].state, 0, @"%s should be %u", BufferTargets[Loop].name, 0);
+    }
     
     
-    glBindBuffer(GL_ARRAY_BUFFER, 1); CC_GL_CHECK();
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 1); CC_GL_CHECK();
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, 1); CC_GL_CHECK();
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 1); CC_GL_CHECK();
+    GLuint Buffers[Count];
+    
+    glGenBuffers(Count, Buffers); CC_GL_CHECK();
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        glBindBuffer(BufferTargets[Loop].target, Buffers[Loop]); CC_GL_CHECK();
+    }
     
     CCGLStateInitializeWithCurrent(State);
     
-    XCTAssertEqual(State->bindBuffer._GL_ARRAY_BUFFER, 1, @"should be 1");
-    XCTAssertEqual(State->bindBuffer._GL_ELEMENT_ARRAY_BUFFER, 1, @"should be 1");
-    XCTAssertEqual(State->bindBuffer._GL_PIXEL_PACK_BUFFER, 1, @"should be 1");
-    XCTAssertEqual(State->bindBuffer._GL_PIXEL_UNPACK_BUFFER, 1, @"should be 1");
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        XCTAssertEqual(*BufferTargets[Loop].state, Buffers[Loop], @"%s should be %u", BufferTargets[Loop].name, Buffers[Loop]);
+    }
+    
+    glDeleteBuffers(Count, Buffers); CC_GL_CHECK();
 #endif
 }
 
