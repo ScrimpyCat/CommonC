@@ -706,7 +706,7 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     
     XCTAssertEqual(State->bindVertexArray.array, vao, @"should be %u", vao);
     
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, &vao); CC_GL_CHECK();
 #endif
 }
 
