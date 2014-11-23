@@ -310,7 +310,7 @@ typedef struct {
 #endif
     
 #if CC_GL_STATE_TEXTURE
-    CC_GL_VERSION_ACTIVE(2_0, NA, 1_0, NA, struct {
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, struct {
         GLenum texture;
     } activeTexture); //glActiveTexture
     

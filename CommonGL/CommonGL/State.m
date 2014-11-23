@@ -227,7 +227,7 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
 #endif
     
 #if CC_GL_STATE_TEXTURE
-    CC_GL_VERSION_ACTIVE(2_0, NA, 1_0, NA, State->activeTexture.texture = GL_TEXTURE0);
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, State->activeTexture.texture = GL_TEXTURE0);
     
     CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA,
 #if CC_GL_STATE_TEXTURE_MAX
@@ -549,7 +549,7 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
 #endif
     
 #if CC_GL_STATE_TEXTURE
-    CC_GL_VERSION_ACTIVE(2_0, NA, 1_0, NA, glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&State->activeTexture.texture); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&State->activeTexture.texture); CC_GL_CHECK());
     
     CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA,
 #if CC_GL_STATE_TEXTURE_MAX
@@ -564,6 +564,7 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
         
         for (GLint Loop = 0; Loop < Count; Loop++)
         {
+            CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, glActiveTexture((GLenum)(GL_TEXTURE0 + Loop)); CC_GL_CHECK());
 #if CC_GL_STATE_TEXTURE_1D
             CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, glGetIntegerv(GL_TEXTURE_BINDING_1D, (GLint*)&State->bindTexture[Loop]._GL_TEXTURE_1D); CC_GL_CHECK());
 #endif
@@ -605,6 +606,8 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
         
 #if !CC_GL_STATE_TEXTURE_MAX
         }
+    
+    CC_GL_VERSION_ACTIVE(1_3, NA, 1_0, NA, glActiveTexture(State->activeTexture.texture); CC_GL_CHECK());
 #endif
     );
 #endif
