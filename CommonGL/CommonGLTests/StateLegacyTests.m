@@ -590,82 +590,99 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 -(void) testTextureState
 {
 #if CC_GL_STATE_TEXTURE
+#define TEST_TEXTURE_TARGET(target, index) { target, &State->bindTexture[index]._##target, #target }
     CCGLState *State = CCGLStateForContext(ctx);
     
-    glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_1D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_2D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_3D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0); CC_GL_CHECK();
-#if GL_ARB_texture_rectangle
-    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0); CC_GL_CHECK();
+    GLint Max;
+#if !CC_GL_STATE_TEXTURE_MAX
+    CC_GL_VERSION_ACTIVE(1_1, 1_5, 1_0, 1_1, glGetIntegerv(GL_MAX_TEXTURE_UNITS, &Max); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Max); CC_GL_CHECK());
+#else
+    Max = CC_GL_STATE_TEXTURE_MAX;
 #endif
     
-    glActiveTexture(GL_TEXTURE1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_1D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_2D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_3D, 0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0); CC_GL_CHECK();
-#if GL_ARB_texture_rectangle
-    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0); CC_GL_CHECK();
+    for (size_t Active = 0; Active < Max; Active++)
+    {
+        const struct {
+            GLenum target;
+            const GLenum *state;
+            char *name;
+        } TextureTargets[] = {
+#if CC_GL_STATE_TEXTURE_1D
+            CC_GL_VERSION_ACTIVE(1_1, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_1D, Active),)
 #endif
-    
-    CCGLStateInitializeWithCurrent(State);
-    
-    XCTAssertEqual(State->activeTexture.texture, GL_TEXTURE1, @"should be GL_TEXTURE1");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_1D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_2D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_3D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_CUBE_MAP, 0, @"should be 0");
-#if GL_ARB_texture_rectangle
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_RECTANGLE_ARB, 0, @"should be 0");
+#if CC_GL_STATE_TEXTURE_2D
+            CC_GL_VERSION_ACTIVE(1_1, NA, 1_0, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_2D, Active),)
 #endif
-    
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_1D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_2D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_3D, 0, @"should be 0");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_CUBE_MAP, 0, @"should be 0");
-#if GL_ARB_texture_rectangle
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_RECTANGLE_ARB, 0, @"should be 0");
+#if CC_GL_STATE_TEXTURE_3D
+            CC_GL_VERSION_ACTIVE(1_1, NA, 3_0, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_3D, Active),)
 #endif
-    
-    
-    //todo: create valid textures so this will pass (just leave it till texture class is added so this very simple)
-    glBindTexture(GL_TEXTURE_1D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_2D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_3D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 1); CC_GL_CHECK();
-#if GL_ARB_texture_rectangle
-    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 1); CC_GL_CHECK();
+#if CC_GL_STATE_TEXTURE_1D_ARRAY
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_1D_ARRAY, Active),)
 #endif
-    
-    glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_1D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_2D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_3D, 1); CC_GL_CHECK();
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 1); CC_GL_CHECK();
-#if GL_ARB_texture_rectangle
-    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 1); CC_GL_CHECK();
+#if CC_GL_STATE_TEXTURE_2D_ARRAY
+            CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_2D_ARRAY, Active),)
 #endif
-    
-    CCGLStateInitializeWithCurrent(State);
-    
-    XCTAssertEqual(State->activeTexture.texture, GL_TEXTURE0, @"should be GL_TEXTURE0");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_1D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_2D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_3D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_CUBE_MAP, 1, @"should be 1");
+#if CC_GL_STATE_TEXTURE_RECTANGLE
 #if GL_ARB_texture_rectangle
-    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_RECTANGLE_ARB, 1, @"should be 1");
+            TEST_TEXTURE_TARGET(GL_TEXTURE_RECTANGLE_ARB, Active),
+#else
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_RECTANGLE, Active),)
 #endif
-    
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_1D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_2D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_3D, 1, @"should be 1");
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_CUBE_MAP, 1, @"should be 1");
-#if GL_ARB_texture_rectangle
-    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_RECTANGLE_ARB, 1, @"should be 1");
 #endif
+#if CC_GL_STATE_TEXTURE_CUBE_MAP
+            CC_GL_VERSION_ACTIVE(1_3, NA, 2_0, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_CUBE_MAP, Active),)
+#endif
+#if CC_GL_STATE_TEXTURE_CUBE_MAP_ARRAY
+            CC_GL_VERSION_ACTIVE(4_0, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_CUBE_MAP_ARRAY, Active),)
+#endif
+#if CC_GL_STATE_TEXTURE_BUFFER
+            CC_GL_VERSION_ACTIVE(3_0, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_BUFFER, Active),)
+#endif
+#if CC_GL_STATE_TEXTURE_2D_MULTISAMPLE
+            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_2D_MULTISAMPLE, Active),)
+#endif
+#if CC_GL_STATE_TEXTURE_2D_MULTISAMPLE_ARRAY
+            CC_GL_VERSION_ACTIVE(3_2, NA, NA, NA, TEST_TEXTURE_TARGET(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, Active),)
+#endif
+        };
+        const size_t Count = sizeof(TextureTargets) / sizeof(typeof(*TextureTargets));
+        
+        glActiveTexture((GLenum)(GL_TEXTURE0 + Active)); CC_GL_CHECK();
+        for (size_t Loop = 0; Loop < Count; Loop++)
+        {
+            glBindTexture(TextureTargets[Loop].target, 0); CC_GL_CHECK();
+        }
+        
+        CCGLStateInitializeWithCurrent(State);
+        
+        XCTAssertEqual(State->activeTexture.texture, (GLenum)(GL_TEXTURE0 + Active), @"should be GL_TEXTURE%zu", Active);
+        for (size_t Loop = 0; Loop < Count; Loop++)
+        {
+            XCTAssertEqual(*TextureTargets[Loop].state, 0, @"%s (in GL_TEXTURE%zu) should be %u", TextureTargets[Loop].name, Active, 0);
+        }
+        
+        
+        GLuint Textures[Count];
+        
+        glGenTextures(Count, Textures); CC_GL_CHECK();
+        
+        for (size_t Loop = 0; Loop < Count; Loop++)
+        {
+            glBindTexture(TextureTargets[Loop].target, Textures[Loop]); CC_GL_CHECK();
+        }
+        glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
+        
+        CCGLStateInitializeWithCurrent(State);
+        
+        XCTAssertEqual(State->activeTexture.texture, GL_TEXTURE0, @"should be GL_TEXTURE0");
+        for (size_t Loop = 0; Loop < Count; Loop++)
+        {
+            XCTAssertEqual(*TextureTargets[Loop].state, Textures[Loop], @"%s (in GL_TEXTURE%zu) should be %u", TextureTargets[Loop].name, Active, Textures[Loop]);
+        }
+        
+        glDeleteBuffers(Count, Textures); CC_GL_CHECK();
+    }
 #endif
 }
 
