@@ -49,6 +49,7 @@
     CGLPixelFormatObj PixelFormat;
     CGLChoosePixelFormat((CGLPixelFormatAttribute[]){
         kCGLPFAAllRenderers,
+        kCGLPFAStencilSize, 1,
         kCGLPFAOpenGLProfile, (CGLPixelFormatAttribute)kCGLOGLPVersion_Legacy,
         0
     }, &PixelFormat, &(GLint){0});
@@ -469,6 +470,182 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     CCGLStateInitializeWithCurrent(State);
     
     XCTAssertEqual(State->useProgram.program, 1, @"should be 1");
+#endif
+}
+
+-(void) testStencilState
+{
+#if CC_GL_STATE_STENCIL
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glClearStencil(0); CC_GL_CHECK();
+    glStencilFunc(GL_NEVER, 0, 0); CC_GL_CHECK();
+    glStencilMask(0); CC_GL_CHECK();
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearStencil.s, 0, @"should be 0");
+    XCTAssertEqual(State->stencilFunc.front.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(State->stencilFunc.front.ref, 0, @"should be 0");
+    XCTAssertEqual(State->stencilFunc.front.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilFunc.back.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(State->stencilFunc.back.ref, 0, @"should be 0");
+    XCTAssertEqual(State->stencilFunc.back.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilMask.front.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilMask.back.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilOp.front.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    
+    
+    glClearStencil(1); CC_GL_CHECK();
+    glStencilFunc(GL_ALWAYS, 1, 1); CC_GL_CHECK();
+    glStencilMask(1); CC_GL_CHECK();
+    glStencilOp(GL_ZERO, GL_KEEP, GL_KEEP); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearStencil.s, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(State->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(State->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.back.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilMask.back.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(State->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+#endif
+}
+
+-(void) testTextureState
+{
+#if CC_GL_STATE_TEXTURE
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_1D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_2D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_3D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0); CC_GL_CHECK();
+#if GL_ARB_texture_rectangle
+    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0); CC_GL_CHECK();
+#endif
+    
+    glActiveTexture(GL_TEXTURE1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_1D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_2D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_3D, 0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0); CC_GL_CHECK();
+#if GL_ARB_texture_rectangle
+    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0); CC_GL_CHECK();
+#endif
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->activeTexture.texture, GL_TEXTURE1, @"should be GL_TEXTURE1");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_1D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_2D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_3D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_CUBE_MAP, 0, @"should be 0");
+#if GL_ARB_texture_rectangle
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_RECTANGLE_ARB, 0, @"should be 0");
+#endif
+    
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_1D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_2D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_3D, 0, @"should be 0");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_CUBE_MAP, 0, @"should be 0");
+#if GL_ARB_texture_rectangle
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_RECTANGLE_ARB, 0, @"should be 0");
+#endif
+    
+    
+    //todo: create valid textures so this will pass (just leave it till texture class is added so this very simple)
+    glBindTexture(GL_TEXTURE_1D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_2D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_3D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 1); CC_GL_CHECK();
+#if GL_ARB_texture_rectangle
+    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 1); CC_GL_CHECK();
+#endif
+    
+    glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_1D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_2D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_3D, 1); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 1); CC_GL_CHECK();
+#if GL_ARB_texture_rectangle
+    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 1); CC_GL_CHECK();
+#endif
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->activeTexture.texture, GL_TEXTURE0, @"should be GL_TEXTURE0");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_1D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_2D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_3D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_CUBE_MAP, 1, @"should be 1");
+#if GL_ARB_texture_rectangle
+    XCTAssertEqual(State->bindTexture[0]._GL_TEXTURE_RECTANGLE_ARB, 1, @"should be 1");
+#endif
+    
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_1D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_2D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_3D, 1, @"should be 1");
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_CUBE_MAP, 1, @"should be 1");
+#if GL_ARB_texture_rectangle
+    XCTAssertEqual(State->bindTexture[1]._GL_TEXTURE_RECTANGLE_ARB, 1, @"should be 1");
+#endif
+#endif
+}
+
+-(void) testVertexArrayObjectState
+{
+#if CC_GL_STATE_VERTEX_ARRAY_OBJECT
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glBindVertexArray(0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindVertexArray.array, 0, @"should be 0");
+    
+    
+    glBindVertexArray(1); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindVertexArray.array, 1, @"should be 1");
+#endif
+}
+
+-(void) testViewportState
+{
+#if CC_GL_STATE_VIEWPORT
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glViewport(0, 0, 0, 0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->viewport.x, 0, @"should be 0");
+    XCTAssertEqual(State->viewport.y, 0, @"should be 0");
+    XCTAssertEqual(State->viewport.width, 0, @"should be 0");
+    XCTAssertEqual(State->viewport.height, 0, @"should be 0");
+    
+    
+    glViewport(1, 2, 3, 4); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->viewport.x, 1, @"should be 1");
+    XCTAssertEqual(State->viewport.y, 2, @"should be 2");
+    XCTAssertEqual(State->viewport.width, 3, @"should be 3");
+    XCTAssertEqual(State->viewport.height, 4, @"should be 4");
 #endif
 }
 
