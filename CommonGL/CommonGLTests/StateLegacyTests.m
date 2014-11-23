@@ -452,12 +452,16 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     XCTAssertEqual(State->bindFramebuffer.write, 0, @"should be 0");
     
     
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo); CC_GL_CHECK();
     glBindFramebuffer(GL_FRAMEBUFFER, 1); CC_GL_CHECK();
     
     CCGLStateInitializeWithCurrent(State);
     
-    XCTAssertEqual(State->bindFramebuffer.read, 1, @"should be 1");
-    XCTAssertEqual(State->bindFramebuffer.write, 1, @"should be 1");
+    XCTAssertEqual(State->bindFramebuffer.read, fbo, @"should be %u", fbo);
+    XCTAssertEqual(State->bindFramebuffer.write, fbo, @"should be %u", fbo);
+    
+    glDeleteFramebuffers(1, &fbo); CC_GL_CHECK();
 #endif
 }
 
