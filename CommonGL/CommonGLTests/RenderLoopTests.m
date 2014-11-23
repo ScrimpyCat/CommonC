@@ -93,6 +93,11 @@
     const size_t PrevIndex = index;
     [NSThread sleepForTimeInterval: 1.0];
     XCTAssertEqual(PrevIndex, index, @"Should not be calling renderLoop: whilst stopped");
+    
+    
+    CCRenderLoopStart(renderLoop);
+    [NSThread sleepForTimeInterval: 1.0];
+    XCTAssertNotEqual(PrevIndex, index, @"Should resume calling renderLoop: when started again");
 }
 
 -(void) testIsRunning
