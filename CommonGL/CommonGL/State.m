@@ -618,7 +618,7 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
 #if CC_GL_STATE_VIEWPORT
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA,
         GLint Viewport[4];
-        glGetIntegerv(GL_SCISSOR_BOX, Viewport); CC_GL_CHECK();
+        glGetIntegerv(GL_VIEWPORT, Viewport); CC_GL_CHECK();
         State->viewport = (typeof(State->viewport)){ .x = Viewport[0], .y = Viewport[1], .width = Viewport[2], .height = Viewport[3] };
     );
 #endif
