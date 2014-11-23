@@ -84,4 +84,24 @@
 #endif
 }
 
+-(void) testGLErrorString
+{
+#define TEST_ERROR_STRING(type) XCTAssertEqualObjects([NSString stringWithUTF8String: CCGLErrorString(type)], @#type, @"glError type " #type " should return the exact string");
+    
+    TEST_ERROR_STRING(GL_NO_ERROR);
+    TEST_ERROR_STRING(GL_INVALID_ENUM);
+    TEST_ERROR_STRING(GL_INVALID_VALUE);
+    TEST_ERROR_STRING(GL_INVALID_OPERATION);
+#if GL_STACK_OVERFLOW
+    TEST_ERROR_STRING(GL_STACK_OVERFLOW);
+#endif
+#if GL_STACK_UNDERFLOW
+    TEST_ERROR_STRING(GL_STACK_UNDERFLOW);
+#endif
+    TEST_ERROR_STRING(GL_OUT_OF_MEMORY);
+#if GL_INVALID_FRAMEBUFFER_OPERATION_EXT
+    TEST_ERROR_STRING(GL_INVALID_FRAMEBUFFER_OPERATION_EXT);
+#endif
+}
+
 @end
