@@ -33,11 +33,11 @@
 @import XCTest;
 #import "Common.h"
 
-@interface State : XCTestCase
+@interface StateLegacyTests : XCTestCase
 
 @end
 
-@implementation State
+@implementation StateLegacyTests
 {
     CCGLContext ctx;
 }
