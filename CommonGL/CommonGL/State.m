@@ -236,7 +236,8 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
         if (State->bindTexture)
         {
             GLint Count;
-            glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Count); CC_GL_CHECK();
+            CC_GL_VERSION_ACTIVE(1_1, 1_5, 1_0, 1_1, glGetIntegerv(GL_MAX_TEXTURE_UNITS, &Count); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Count); CC_GL_CHECK());
 #endif
         
         memset(State->bindTexture, 0, Count * sizeof(typeof(*State->bindTexture)));
@@ -557,7 +558,8 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
         if (State->bindTexture)
         {
             GLint Count;
-            glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Count); CC_GL_CHECK();
+            CC_GL_VERSION_ACTIVE(1_1, 1_5, 1_0, 1_1, glGetIntegerv(GL_MAX_TEXTURE_UNITS, &Count); CC_GL_CHECK());
+            CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Count); CC_GL_CHECK());
 #endif
         
         for (GLint Loop = 0; Loop < Count; Loop++)
