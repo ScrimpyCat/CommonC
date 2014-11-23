@@ -698,11 +698,15 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     XCTAssertEqual(State->bindVertexArray.array, 0, @"should be 0");
     
     
-    glBindVertexArray(1); CC_GL_CHECK();
+    GLuint vao;
+    glGenVertexArrays(1, &vao); CC_GL_CHECK();
+    glBindVertexArray(vao); CC_GL_CHECK();
     
     CCGLStateInitializeWithCurrent(State);
     
-    XCTAssertEqual(State->bindVertexArray.array, 1, @"should be 1");
+    XCTAssertEqual(State->bindVertexArray.array, vao, @"should be %u", vao);
+    
+    glDeleteVertexArrays(1, &vao);
 #endif
 }
 
