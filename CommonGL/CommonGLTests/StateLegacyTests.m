@@ -503,12 +503,16 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     XCTAssertEqual(State->useProgram.program, 0, @"should be 0");
     
     
-    //todo: create valid program so this will pass (just leave it till shader class is added so this very simple)
-    glUseProgram(1); CC_GL_CHECK();
+    GLuint program = glCreateProgram(); CC_GL_CHECK();
+    glLinkProgram(program); CC_GL_CHECK();
+    
+    glUseProgram(program); CC_GL_CHECK();
     
     CCGLStateInitializeWithCurrent(State);
     
-    XCTAssertEqual(State->useProgram.program, 1, @"should be 1");
+    XCTAssertEqual(State->useProgram.program, program, @"should be %u", program);
+    
+    glDeleteProgram(program); CC_GL_CHECK();
 #endif
 }
 
