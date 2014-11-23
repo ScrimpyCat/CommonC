@@ -497,12 +497,15 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     XCTAssertEqual(State->stencilOp.front.sfail, GL_KEEP, @"should be GL_KEEP");
     XCTAssertEqual(State->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
     XCTAssertEqual(State->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.back.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.back.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.back.dppass, GL_KEEP, @"should be GL_KEEP");
     
     
     glClearStencil(1); CC_GL_CHECK();
     glStencilFunc(GL_ALWAYS, 1, 1); CC_GL_CHECK();
     glStencilMask(1); CC_GL_CHECK();
-    glStencilOp(GL_ZERO, GL_KEEP, GL_KEEP); CC_GL_CHECK();
+    glStencilOp(GL_ZERO, GL_INCR, GL_DECR); CC_GL_CHECK();
     
     CCGLStateInitializeWithCurrent(State);
     
@@ -516,8 +519,36 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     XCTAssertEqual(State->stencilMask.front.mask, 1, @"should be 1");
     XCTAssertEqual(State->stencilMask.back.mask, 1, @"should be 1");
     XCTAssertEqual(State->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
-    XCTAssertEqual(State->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
-    XCTAssertEqual(State->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(State->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(State->stencilOp.front.dppass, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(State->stencilOp.back.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(State->stencilOp.back.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(State->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    glStencilFuncSeparate(GL_FRONT, GL_LESS, 0, 1); CC_GL_CHECK();
+    glStencilMaskSeparate(GL_FRONT, 0); CC_GL_CHECK();
+    glStencilOpSeparate(GL_FRONT, GL_INCR, GL_INCR, GL_INCR); CC_GL_CHECK();
+    glStencilFuncSeparate(GL_BACK, GL_GREATER, 1, 0); CC_GL_CHECK();
+    glStencilMaskSeparate(GL_BACK, 1); CC_GL_CHECK();
+    glStencilOpSeparate(GL_BACK, GL_DECR, GL_DECR, GL_DECR); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->stencilFunc.front.func, GL_LESS, @"should be GL_LESS");
+    XCTAssertEqual(State->stencilFunc.front.ref, 0, @"should be 0");
+    XCTAssertEqual(State->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.back.func, GL_GREATER, @"should be GL_GREATER");
+    XCTAssertEqual(State->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(State->stencilFunc.back.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilMask.front.mask, 0, @"should be 0");
+    XCTAssertEqual(State->stencilMask.back.mask, 1, @"should be 1");
+    XCTAssertEqual(State->stencilOp.front.sfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(State->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(State->stencilOp.front.dppass, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(State->stencilOp.back.sfail, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(State->stencilOp.back.dpfail, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(State->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
 #endif
 }
 
