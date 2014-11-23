@@ -119,6 +119,132 @@
 #endif
 }
 
+-(void) testBufferState
+{
+#if CC_GL_STATE_BUFFER
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0); CC_GL_CHECK();
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); CC_GL_CHECK();
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0); CC_GL_CHECK();
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindBuffer._GL_ARRAY_BUFFER, 0, @"should be 0");
+    XCTAssertEqual(State->bindBuffer._GL_ELEMENT_ARRAY_BUFFER, 0, @"should be 0");
+    XCTAssertEqual(State->bindBuffer._GL_PIXEL_PACK_BUFFER, 0, @"should be 0");
+    XCTAssertEqual(State->bindBuffer._GL_PIXEL_UNPACK_BUFFER, 0, @"should be 0");
+    
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 1); CC_GL_CHECK();
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 1); CC_GL_CHECK();
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, 1); CC_GL_CHECK();
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 1); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindBuffer._GL_ARRAY_BUFFER, 1, @"should be 1");
+    XCTAssertEqual(State->bindBuffer._GL_ELEMENT_ARRAY_BUFFER, 1, @"should be 1");
+    XCTAssertEqual(State->bindBuffer._GL_PIXEL_PACK_BUFFER, 1, @"should be 1");
+    XCTAssertEqual(State->bindBuffer._GL_PIXEL_UNPACK_BUFFER, 1, @"should be 1");
+#endif
+}
+
+-(void) testColourState
+{
+#if CC_GL_STATE_COLOUR
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f); CC_GL_CHECK();
+    glColorMask(FALSE, FALSE, FALSE, FALSE); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearColour.red, 0.0f, @"should be 0.0");
+    XCTAssertEqual(State->clearColour.green, 0.0f, @"should be 0.0");
+    XCTAssertEqual(State->clearColour.blue, 0.0f, @"should be 0.0");
+    XCTAssertEqual(State->clearColour.alpha, 0.0f, @"should be 0.0");
+    XCTAssertFalse(State->colourMask.red, @"should be false");
+    XCTAssertFalse(State->colourMask.green, @"should be false");
+    XCTAssertFalse(State->colourMask.blue, @"should be false");
+    XCTAssertFalse(State->colourMask.alpha, @"should be false");
+    
+    
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); CC_GL_CHECK();
+    glColorMask(TRUE, TRUE, TRUE, TRUE); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearColour.red, 1.0f, @"should be 1.0");
+    XCTAssertEqual(State->clearColour.green, 1.0f, @"should be 1.0");
+    XCTAssertEqual(State->clearColour.blue, 1.0f, @"should be 1.0");
+    XCTAssertEqual(State->clearColour.alpha, 1.0f, @"should be 1.0");
+    XCTAssertTrue(State->colourMask.red, @"should be true");
+    XCTAssertTrue(State->colourMask.green, @"should be true");
+    XCTAssertTrue(State->colourMask.blue, @"should be true");
+    XCTAssertTrue(State->colourMask.alpha, @"should be true");
+#endif
+}
+
+-(void) testCullFaceState
+{
+#if CC_GL_STATE_CULL_FACE
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glCullFace(GL_FRONT); CC_GL_CHECK();
+    glFrontFace(GL_CW); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->cullFace.mode, GL_FRONT, @"should be GL_FRONT");
+    XCTAssertEqual(State->frontFace.mode, GL_CW, @"should be GL_CW");
+    
+    
+    glCullFace(GL_BACK); CC_GL_CHECK();
+    glFrontFace(GL_CCW); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->cullFace.mode, GL_BACK, @"should be GL_BACK");
+    XCTAssertEqual(State->frontFace.mode, GL_CCW, @"should be GL_CCW");
+#endif
+}
+
+-(void) testDepthState
+{
+#if CC_GL_STATE_DEPTH
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glClearDepth(0.0f); CC_GL_CHECK();
+    glDepthFunc(GL_NEVER); CC_GL_CHECK();
+    glDepthMask(FALSE); CC_GL_CHECK();
+    glDepthRange(0.0f, 0.0f); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearDepth.depth, 0.0f, @"should be 0.0");
+    XCTAssertEqual(State->depthFunc.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertFalse(State->depthMask.flag, @"should be false");
+    XCTAssertEqual(State->depthRange.near, 0.0f, @"should be 0.0");
+    XCTAssertEqual(State->depthRange.far, 0.0f, @"should be 0.0");
+    
+    
+    glClearDepth(1.0f); CC_GL_CHECK();
+    glDepthFunc(GL_ALWAYS); CC_GL_CHECK();
+    glDepthMask(TRUE); CC_GL_CHECK();
+    glDepthRange(1.0f, 1.0f); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->clearDepth.depth, 1.0f, @"should be 1.0");
+    XCTAssertEqual(State->depthFunc.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertTrue(State->depthMask.flag, @"should be true");
+    XCTAssertEqual(State->depthRange.near, 1.0f, @"should be 1.0");
+    XCTAssertEqual(State->depthRange.far, 1.0f, @"should be 1.0");
+#endif
+}
+
 #define TEST_GL_ENABLE(cap) \
 glEnable(cap); CC_GL_CHECK(); \
 CCGLStateInitializeWithCurrent(State); \
@@ -274,6 +400,75 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     TEST_GL_DISABLE(GL_POST_CONVOLUTION_COLOR_TABLE);
     TEST_GL_DISABLE(GL_SEPARABLE_2D);
     TEST_GL_DISABLE(GL_TEXTURE_RECTANGLE_ARB);
+#endif
+}
+
+-(void) testFramebufferState
+{
+#if CC_GL_STATE_FRAMEBUFFER
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindFramebuffer.read, 0, @"should be 0");
+    XCTAssertEqual(State->bindFramebuffer.write, 0, @"should be 0");
+    
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 1); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->bindFramebuffer.read, 1, @"should be 1");
+    XCTAssertEqual(State->bindFramebuffer.write, 1, @"should be 1");
+#endif
+}
+
+-(void) testScissorState
+{
+#if CC_GL_STATE_SCISSOR
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glScissor(0, 0, 0, 0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->scissor.x, 0, @"should be 0");
+    XCTAssertEqual(State->scissor.y, 0, @"should be 0");
+    XCTAssertEqual(State->scissor.width, 0, @"should be 0");
+    XCTAssertEqual(State->scissor.height, 0, @"should be 0");
+    
+    
+    glScissor(1, 2, 3, 4); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->scissor.x, 1, @"should be 1");
+    XCTAssertEqual(State->scissor.y, 2, @"should be 2");
+    XCTAssertEqual(State->scissor.width, 3, @"should be 3");
+    XCTAssertEqual(State->scissor.height, 4, @"should be 4");
+#endif
+}
+
+-(void) testShaderState
+{
+#if CC_GL_STATE_SHADER
+    CCGLState *State = CCGLStateForContext(ctx);
+    
+    glUseProgram(0); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->useProgram.program, 0, @"should be 0");
+    
+    
+    //todo: create valid program so this will pass (just leave it till shader class is added so this very simple)
+    glUseProgram(1); CC_GL_CHECK();
+    
+    CCGLStateInitializeWithCurrent(State);
+    
+    XCTAssertEqual(State->useProgram.program, 1, @"should be 1");
 #endif
 }
 
