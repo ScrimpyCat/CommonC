@@ -79,4 +79,91 @@
     XCTAssertEqual(CCGLEnumRemap(2, Mapping, 2), 20, @"Values that are remapped in the mapping struct should return changed");
 }
 
+-(void) testFunctionLookup
+{
+    void *Func = CCGLFunction("glEnable"), *GLFunc = glEnable;
+    XCTAssertEqual(Func, GLFunc, @"Should return the pointer to glEnable");
+    
+    Func = CCGLFunction("");
+    XCTAssertEqual(Func, NULL, @"When GL function does not exist it should return NULL");
+    
+    void *Funcs[3], *GLFuncs[3] = { glEnable, glDisable, glGetError };
+    CCGLFunctionBatch((const char*[]){
+        "glEnable",
+        "glDisable",
+        "glGetError"
+    }, 3, Funcs, NO);
+    
+    XCTAssertEqual(Funcs[0], GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(Funcs[1], GLFuncs[1], @"Should return the pointer to glDisable and at the index it is requested at");
+    XCTAssertEqual(Funcs[2], GLFuncs[2], @"Should return the pointer to glGetError and at the index it is requested at");
+    
+    
+    Funcs[0] = NULL; Funcs[1] = NULL; Funcs[2] = NULL;
+    CCGLFunctionBatch((const char*[]){
+        "glEnable",
+        "",
+        "glGetError"
+    }, 3, Funcs, NO);
+    
+    XCTAssertEqual(Funcs[0], GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(Funcs[1], NULL, @"Should return the null because the function does not exist");
+    XCTAssertEqual(Funcs[2], GLFuncs[2], @"Should not stop and still return the pointer to glGetError and at the index it is requested at");
+    
+    
+    Funcs[0] = NULL; Funcs[1] = NULL; Funcs[2] = NULL;
+    CCGLFunctionBatch((const char*[]){
+        "glEnable",
+        "",
+        "glGetError"
+    }, 3, Funcs, YES);
+    
+    XCTAssertEqual(Funcs[0], GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(Funcs[1], NULL, @"Should return the null because the function does not exist");
+    XCTAssertEqual(Funcs[2], NULL, @"Should stop when reaches first non-existent function");
+    
+    
+    void *GLFuncEnable, *GLFuncDisable, *GLFuncGetError;
+    void **Funcs2[3] = {
+        &GLFuncEnable,
+        &GLFuncDisable,
+        &GLFuncGetError
+    };
+    
+    CCGLFunctionBatchPtr((const char*[]){
+        "glEnable",
+        "glDisable",
+        "glGetError"
+    }, 3, Funcs2, NO);
+    
+    XCTAssertEqual(GLFuncEnable, GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(GLFuncDisable, GLFuncs[1], @"Should return the pointer to glDisable and at the index it is requested at");
+    XCTAssertEqual(GLFuncGetError, GLFuncs[2], @"Should return the pointer to glGetError and at the index it is requested at");
+    
+    
+    GLFuncEnable = NULL, GLFuncDisable = NULL, GLFuncGetError = NULL;
+    CCGLFunctionBatchPtr((const char*[]){
+        "glEnable",
+        "",
+        "glGetError"
+    }, 3, Funcs2, NO);
+    
+    XCTAssertEqual(GLFuncEnable, GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(GLFuncDisable, NULL, @"Should return the null because the function does not exist");
+    XCTAssertEqual(GLFuncGetError, GLFuncs[2], @"Should not stop and still return the pointer to glGetError and at the index it is requested at");
+    
+
+    GLFuncEnable = NULL, GLFuncDisable = NULL, GLFuncGetError = NULL;
+    CCGLFunctionBatchPtr((const char*[]){
+        "glEnable",
+        "",
+        "glGetError"
+    }, 3, Funcs2, YES);
+    
+    XCTAssertEqual(GLFuncEnable, GLFuncs[0], @"Should return the pointer to glEnable and at the index it is requested at");
+    XCTAssertEqual(GLFuncDisable, NULL, @"Should return the null because the function does not exist");
+    XCTAssertEqual(GLFuncGetError, NULL, @"Should stop when reaches first non-existent function");
+
+}
+
 @end
