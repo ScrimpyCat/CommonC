@@ -28,6 +28,7 @@
 
 #import <CommonC/Platform.h>
 #import <CommonGL/Context.h>
+#import <CommonGL/State.h>
 
 
 #if CC_PLATFORM_OS_X && CC_GL_FAST_CALLING
@@ -54,19 +55,24 @@
 
 #define CC_GL_CURRENT_CONTEXT CC_GL_PRIV_context___
 
+#define CC_GL_CURRENT_STATE CC_GL_PRIV_state___
+#define CC_GL_SETUP_STATE CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(CC_GL_CURRENT_CONTEXT)
+
 
 #if CC_GL_SETUP_DECLARES_CONTEXT
 
 #define CC_GL_ENTRY \
 CC_GL_SETUP; \
-CCGLContextLock(CC_GL_PRIV_context___)
+CCGLContextLock(CC_GL_PRIV_context___); \
+CC_GL_SETUP_STATE
 
 #else
 
 #define CC_GL_ENTRY \
-CCGLContext CC_GL_CURRENT_CONTEXT = CCGLContextGetCurrent() \
+CCGLContext CC_GL_CURRENT_CONTEXT = CCGLContextGetCurrent(); \
 CC_GL_SETUP; \
-CCGLContextLock(CC_GL_CURRENT_CONTEXT)
+CCGLContextLock(CC_GL_CURRENT_CONTEXT); \
+CC_GL_SETUP_STATE
 
 #endif
 
