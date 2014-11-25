@@ -46,11 +46,7 @@ void *CCGLFunction(const char *Name)
 {
     void *Func = NULL;
     
-#if CC_PLATFORM_OS_X
-    void *ImageGL = dlopen("OpenGL.framework/OpenGL", RTLD_LAZY | RTLD_GLOBAL | RTLD_FIRST);
-    Func = dlsym(ImageGL, Name);
-    dlclose(ImageGL);
-#elif CC_PLATFORM_IOS
+#if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
     Func = dlsym(RTLD_NEXT, Name);
 #endif
     
@@ -60,12 +56,7 @@ void *CCGLFunction(const char *Name)
 _Bool CCGLFunctionBatch(const char * const *Names, size_t Count, void **Functions, _Bool StopOnFailure)
 {
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
-    void *ImageGL;
-#if CC_PLATFORM_OS_X
-    ImageGL = dlopen("OpenGL.framework/OpenGL", RTLD_LAZY | RTLD_GLOBAL | RTLD_FIRST);
-#else
-    ImageGL = RTLD_NEXT;
-#endif
+    void *ImageGL = RTLD_NEXT;
     
     _Bool Found = TRUE;
     if (StopOnFailure)
@@ -74,10 +65,6 @@ _Bool CCGLFunctionBatch(const char * const *Names, size_t Count, void **Function
     }
     
     else for (size_t Loop = 0; Loop < Count; Loop++) Found &= (Functions[Loop] = dlsym(ImageGL, Names[Loop])) != NULL;
-    
-#if CC_PLATFORM_OS_X
-    dlclose(ImageGL);
-#endif
     
     return Found;
 #else
@@ -88,12 +75,7 @@ _Bool CCGLFunctionBatch(const char * const *Names, size_t Count, void **Function
 _Bool CCGLFunctionBatchPtr(const char * const *Names, size_t Count, void ***Functions, _Bool StopOnFailure)
 {
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
-    void *ImageGL;
-#if CC_PLATFORM_OS_X
-    ImageGL = dlopen("OpenGL.framework/OpenGL", RTLD_LAZY | RTLD_GLOBAL | RTLD_FIRST);
-#else
-    ImageGL = RTLD_NEXT;
-#endif
+    void *ImageGL = RTLD_NEXT;
     
     _Bool Found = TRUE;
     if (StopOnFailure)
@@ -102,10 +84,6 @@ _Bool CCGLFunctionBatchPtr(const char * const *Names, size_t Count, void ***Func
     }
     
     else for (size_t Loop = 0; Loop < Count; Loop++) Found &= (*Functions[Loop] = dlsym(ImageGL, Names[Loop])) != NULL;
-    
-#if CC_PLATFORM_OS_X
-    dlclose(ImageGL);
-#endif
     
     return Found;
 #else
