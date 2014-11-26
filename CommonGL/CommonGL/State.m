@@ -36,17 +36,22 @@ CCGLState *CCGLStateForContext(CCGLContext Context)
     CCGenericContainer *StateContainer = CCGLContextGetAssociatedObject(Context, &CCGLStateForContext);
     if (!StateContainer)
     {
-        CCGLState *State = CCGLStateCreate();
-        if (State)
+        CCGLContextLock(Context);
+        if (!(StateContainer = CCGLContextGetAssociatedObject(Context, &CCGLStateForContext)))
         {
-            CCGLStateInitializeWithCurrent(State);
-            StateContainer = [CCGenericContainer containerWithData: State OfSize: sizeof(CCGLState) ReleaserBlock: ^(void *Data, size_t Size, bool IsCopied){
-                CCGLStateRelease(Data);
-            }];
-            CCGLContextSetAssociatedObject(Context, &CCGLStateForContext, StateContainer);
+            CCGLState *State = CCGLStateCreate();
+            if (State)
+            {
+                CCGLStateInitializeWithCurrent(State);
+                StateContainer = [CCGenericContainer containerWithData: State OfSize: sizeof(CCGLState) ReleaserBlock: ^(void *Data, size_t Size, bool IsCopied){
+                    CCGLStateRelease(Data);
+                }];
+                CCGLContextSetAssociatedObject(Context, &CCGLStateForContext, StateContainer);
+            }
+            
+            return State;
         }
-        
-        return State;
+        CCGLContextUnlock(Context);
     }
     
     return StateContainer.data;
