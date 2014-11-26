@@ -42,3 +42,4 @@
 
 #import <CommonGL/SelectedState.h>
 #import <CommonGL/State.h>
+#import <CommonGL/StateChange.h>
