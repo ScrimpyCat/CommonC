@@ -67,8 +67,8 @@
 -(void) tearDown
 {
     CCGLContextSetCurrent(NULL);
-    CGLDestroyContext(ctx);
-    CGLDestroyContext(ctx2);
+    CCGLContextRelease(ctx);
+    CCGLContextRelease(ctx2);
     ctx = NULL;
     ctx2 = NULL;
     

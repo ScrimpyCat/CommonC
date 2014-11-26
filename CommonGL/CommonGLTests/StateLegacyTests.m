@@ -63,7 +63,7 @@
 -(void) tearDown
 {
     CCGLContextSetCurrent(NULL);
-    CGLDestroyContext(ctx);
+    CCGLContextRelease(ctx);
     ctx = NULL;
     
     [super tearDown];
@@ -83,7 +83,7 @@
     
     XCTAssertNotEqual(CCGLStateForContext(ctx), CCGLStateForContext(Other), @"should each hold their own state object");
     
-    CGLDestroyContext(Other);
+    CCGLContextRelease(Other);
 }
 
 -(void) testBlendState

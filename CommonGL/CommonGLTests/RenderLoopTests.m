@@ -68,7 +68,7 @@
     CCRenderLoopDestroy(renderLoop);
     
     CCGLContextSetCurrent(NULL);
-    CGLDestroyContext(ctx);
+    CCGLContextRelease(ctx);
     ctx = NULL;
     
     [super tearDown];
