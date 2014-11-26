@@ -120,6 +120,318 @@
 #endif
 }
 
+-(void) testBlendFuncMacro
+{
+#if CC_GL_STATE_BLEND
+    glBlendFunc(GL_ZERO, GL_ZERO); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_BLEND_FUNC(GL_DST_COLOR, GL_SRC_COLOR);
+    
+    GLenum SrcRGB, DstRGB, SrcAlpha, DstAlpha;
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+
+    XCTAssertEqual(SrcRGB, GL_DST_COLOR, @"src should be GL_DST_COLOR");
+    XCTAssertEqual(DstRGB, GL_SRC_COLOR, @"dst should be GL_SRC_COLOR");
+    XCTAssertEqual(SrcAlpha, GL_DST_COLOR, @"src should be GL_DST_COLOR");
+    XCTAssertEqual(DstAlpha, GL_SRC_COLOR, @"dst should be GL_SRC_COLOR");
+
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    
+    
+    
+    CC_GL_BLEND_FUNC(GL_ZERO, GL_ONE);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_ZERO, @"src should be GL_ZERO");
+    XCTAssertEqual(DstRGB, GL_ONE, @"dst should be GL_ONE");
+    XCTAssertEqual(SrcAlpha, GL_ZERO, @"src should be GL_ZERO");
+    XCTAssertEqual(DstAlpha, GL_ONE, @"dst should be GL_ONE");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_ZERO, @"src state should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_ONE, @"dst state should be GL_ONE");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_ZERO, @"src state should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_ONE, @"dst state should be GL_ONE");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendFunc.rgb.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.rgb.dst = GL_SRC_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.dst = GL_SRC_COLOR;
+    CC_GL_BLEND_FUNC(GL_DST_COLOR, GL_SRC_COLOR);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_ZERO, @"src should be the same");
+    XCTAssertEqual(DstRGB, GL_ONE, @"dst should be the same");
+    XCTAssertEqual(SrcAlpha, GL_ZERO, @"src should be the same");
+    XCTAssertEqual(DstAlpha, GL_ONE, @"dst should be the same");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendFunc.rgb.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.rgb.dst = GL_SRC_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.dst = GL_ZERO;
+    CC_GL_BLEND_FUNC(GL_DST_COLOR, GL_SRC_COLOR);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_DST_COLOR, @"src should be changed");
+    XCTAssertEqual(DstRGB, GL_SRC_COLOR, @"dst should be changed");
+    XCTAssertEqual(SrcAlpha, GL_DST_COLOR, @"src should be changed");
+    XCTAssertEqual(DstAlpha, GL_SRC_COLOR, @"dst should be changed");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+#endif
+}
+
+-(void) testBlendFuncSeparateMacro
+{
+#if CC_GL_STATE_BLEND
+    glBlendFuncSeparate(GL_ZERO, GL_ZERO, GL_ONE, GL_ONE); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_BLEND_FUNC_SEPARATE(GL_DST_COLOR, GL_SRC_COLOR, GL_DST_ALPHA, GL_SRC_ALPHA);
+    
+    GLenum SrcRGB, DstRGB, SrcAlpha, DstAlpha;
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_DST_COLOR, @"src should be GL_DST_COLOR");
+    XCTAssertEqual(DstRGB, GL_SRC_COLOR, @"dst should be GL_SRC_COLOR");
+    XCTAssertEqual(SrcAlpha, GL_DST_ALPHA, @"src should be GL_DST_ALPHA");
+    XCTAssertEqual(DstAlpha, GL_SRC_ALPHA, @"dst should be GL_SRC_ALPHA");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_ALPHA, @"src state should be GL_DST_ALPHA");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_ALPHA, @"dst state should be GL_SRC_ALPHA");
+    
+    
+    
+    CC_GL_BLEND_FUNC_SEPARATE(GL_ZERO, GL_ONE, GL_ZERO, GL_ONE);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_ZERO, @"src should be GL_ZERO");
+    XCTAssertEqual(DstRGB, GL_ONE, @"dst should be GL_ONE");
+    XCTAssertEqual(SrcAlpha, GL_ZERO, @"src should be GL_ZERO");
+    XCTAssertEqual(DstAlpha, GL_ONE, @"dst should be GL_ONE");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_ZERO, @"src state should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_ONE, @"dst state should be GL_ONE");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_ZERO, @"src state should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_ONE, @"dst state should be GL_ONE");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendFunc.rgb.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.src = GL_DST_ALPHA;
+    CC_GL_CURRENT_STATE->blendFunc.rgb.dst = GL_SRC_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.dst = GL_SRC_ALPHA;
+    CC_GL_BLEND_FUNC_SEPARATE(GL_DST_COLOR, GL_SRC_COLOR, GL_DST_ALPHA, GL_SRC_ALPHA);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_ZERO, @"src should be the same");
+    XCTAssertEqual(DstRGB, GL_ONE, @"dst should be the same");
+    XCTAssertEqual(SrcAlpha, GL_ZERO, @"src should be the same");
+    XCTAssertEqual(DstAlpha, GL_ONE, @"dst should be the same");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_ALPHA, @"src state should be GL_DST_ALPHA");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_ALPHA, @"dst state should be GL_SRC_ALPHA");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendFunc.rgb.src = GL_DST_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.src = GL_DST_ALPHA;
+    CC_GL_CURRENT_STATE->blendFunc.rgb.dst = GL_SRC_COLOR;
+    CC_GL_CURRENT_STATE->blendFunc.alpha.dst = GL_ZERO;
+    CC_GL_BLEND_FUNC_SEPARATE(GL_DST_COLOR, GL_SRC_COLOR, GL_DST_ALPHA, GL_SRC_ALPHA);
+    
+    glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&SrcRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&SrcAlpha); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&DstRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&DstAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(SrcRGB, GL_DST_COLOR, @"src should be changed");
+    XCTAssertEqual(DstRGB, GL_SRC_COLOR, @"dst should be changed");
+    XCTAssertEqual(SrcAlpha, GL_DST_ALPHA, @"src should be changed");
+    XCTAssertEqual(DstAlpha, GL_SRC_ALPHA, @"dst should be changed");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.src, GL_DST_COLOR, @"src state should be GL_DST_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.rgb.dst, GL_SRC_COLOR, @"dst state should be GL_SRC_COLOR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.src, GL_DST_ALPHA, @"src state should be GL_DST_ALPHA");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendFunc.alpha.dst, GL_SRC_ALPHA, @"dst state should be GL_SRC_ALPHA");
+#endif
+}
+
+-(void) testBlendEquationMacro
+{
+#if CC_GL_STATE_BLEND
+    glBlendEquation(GL_FUNC_SUBTRACT); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_BLEND_EQUATION(GL_FUNC_ADD); CC_GL_CHECK();
+    
+    GLenum EqRGB, EqAlpha;
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    XCTAssertEqual(EqAlpha, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    
+    
+    
+    CC_GL_BLEND_EQUATION(GL_FUNC_SUBTRACT); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_SUBTRACT, @"should be GL_FUNC_SUBTRACT");
+    XCTAssertEqual(EqAlpha, GL_FUNC_SUBTRACT, @"should be GL_FUNC_SUBTRACT");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_SUBTRACT, @"state should be GL_FUNC_SUBTRACT");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_SUBTRACT, @"state should be GL_FUNC_SUBTRACT");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendEquation.rgb.mode = GL_FUNC_ADD;
+    CC_GL_CURRENT_STATE->blendEquation.alpha.mode = GL_FUNC_ADD;
+    CC_GL_BLEND_EQUATION(GL_FUNC_ADD); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_SUBTRACT, @"should be unchanged");
+    XCTAssertEqual(EqAlpha, GL_FUNC_SUBTRACT, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendEquation.rgb.mode = GL_FUNC_SUBTRACT;
+    CC_GL_CURRENT_STATE->blendEquation.alpha.mode = GL_FUNC_ADD;
+    CC_GL_BLEND_EQUATION(GL_FUNC_ADD); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    XCTAssertEqual(EqAlpha, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+#endif
+}
+
+-(void) testBlendEquationSeparateMacro
+{
+#if CC_GL_STATE_BLEND
+    glBlendEquationSeparate(GL_FUNC_SUBTRACT, GL_FUNC_ADD); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_BLEND_EQUATION_SEPARATE(GL_FUNC_ADD, GL_FUNC_ADD); CC_GL_CHECK();
+    
+    GLenum EqRGB, EqAlpha;
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    XCTAssertEqual(EqAlpha, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    
+    
+    
+    CC_GL_BLEND_EQUATION_SEPARATE(GL_FUNC_SUBTRACT, GL_FUNC_ADD); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_SUBTRACT, @"should be GL_FUNC_SUBTRACT");
+    XCTAssertEqual(EqAlpha, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_SUBTRACT, @"state should be GL_FUNC_SUBTRACT");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendEquation.rgb.mode = GL_FUNC_ADD;
+    CC_GL_CURRENT_STATE->blendEquation.alpha.mode = GL_FUNC_ADD;
+    CC_GL_BLEND_EQUATION_SEPARATE(GL_FUNC_ADD, GL_FUNC_ADD); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_SUBTRACT, @"should be unchanged");
+    XCTAssertEqual(EqAlpha, GL_FUNC_ADD, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    
+    
+    
+    CC_GL_CURRENT_STATE->blendEquation.rgb.mode = GL_FUNC_ADD;
+    CC_GL_CURRENT_STATE->blendEquation.alpha.mode = GL_FUNC_ADD;
+    CC_GL_BLEND_EQUATION_SEPARATE(GL_FUNC_ADD, GL_FUNC_SUBTRACT); CC_GL_CHECK();
+    
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&EqRGB); CC_GL_CHECK();
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&EqAlpha); CC_GL_CHECK();
+    
+    XCTAssertEqual(EqRGB, GL_FUNC_ADD, @"should be GL_FUNC_ADD");
+    XCTAssertEqual(EqAlpha, GL_FUNC_SUBTRACT, @"should be GL_FUNC_SUBTRACT");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.rgb.mode, GL_FUNC_ADD, @"state should be GL_FUNC_ADD");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->blendEquation.alpha.mode, GL_FUNC_SUBTRACT, @"state should be GL_FUNC_SUBTRACT");
+#endif
+}
+
 -(void) testBufferState
 {
 #if CC_GL_STATE_BUFFER
@@ -352,6 +664,36 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     TEST_GL_DISABLE(GL_SCISSOR_TEST);
     TEST_GL_DISABLE(GL_STENCIL_TEST);
     TEST_GL_DISABLE(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+#endif
+}
+
+-(void) testEnabledMacro
+{
+#if CC_GL_STATE_ENABLED
+    glDisable(GL_BLEND); CC_GL_CHECK();
+    glDisable(GL_DEPTH_TEST); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_ENABLE(GL_BLEND);
+    CC_GL_CURRENT_STATE->enabled._GL_DEPTH_TEST = TRUE;
+    CC_GL_ENABLE(GL_DEPTH_TEST);
+    
+    XCTAssertTrue(glIsEnabled(GL_BLEND), @"GL_BLEND should be enabled"); CC_GL_CHECK();
+    XCTAssertTrue(CC_GL_CURRENT_STATE->enabled._GL_BLEND, @"GL_BLEND state should be true");
+    XCTAssertFalse(glIsEnabled(GL_DEPTH_TEST), @"GL_DEPTH_TEST should stay disabled"); CC_GL_CHECK();
+    XCTAssertTrue(CC_GL_CURRENT_STATE->enabled._GL_DEPTH_TEST, @"GL_DEPTH_TEST state should be true");
+    
+    
+    CC_GL_DISABLE(GL_BLEND);
+    glEnable(GL_DEPTH_TEST); CC_GL_CHECK();
+    CC_GL_CURRENT_STATE->enabled._GL_DEPTH_TEST = FALSE;
+    CC_GL_DISABLE(GL_DEPTH_TEST);
+    
+    XCTAssertFalse(glIsEnabled(GL_BLEND), @"GL_BLEND should be disabled"); CC_GL_CHECK();
+    XCTAssertFalse(CC_GL_CURRENT_STATE->enabled._GL_BLEND, @"GL_BLEND state should be false");
+    XCTAssertTrue(glIsEnabled(GL_DEPTH_TEST), @"GL_DEPTH_TEST should stay enabled"); CC_GL_CHECK();
+    XCTAssertFalse(CC_GL_CURRENT_STATE->enabled._GL_DEPTH_TEST, @"GL_DEPTH_TEST state should be false");
 #endif
 }
 
