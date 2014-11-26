@@ -30,7 +30,7 @@
 {
     _Bool shouldFreeData;
 }
-@synthesize data, size;
+@synthesize data, size, releaser;
 
 +(instancetype) containerOfSize: (size_t)theSize
 {
@@ -49,7 +49,7 @@
 
 +(instancetype) containerWithCopiedData: (const void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser
 {
-    return [[self alloc] initWithCopiedData: theData OfSize: theSize ReleaserBlock: theReleaser];
+    return [[[self alloc] initWithCopiedData: theData OfSize: theSize ReleaserBlock: theReleaser] autorelease];
 }
 
 +(instancetype) containerWithData: (void*)theData OfSize: (size_t)theSize
@@ -59,7 +59,7 @@
 
 +(instancetype) containerWithData: (void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser
 {
-    return [[self alloc] initWithData: theData OfSize: theSize ReleaserBlock: theReleaser];
+    return [[[self alloc] initWithData: theData OfSize: theSize ReleaserBlock: theReleaser] autorelease];
 }
 
 -(instancetype) initWithCopiedData: (const void*)theData OfSize: (size_t)theSize ReleaserBlock: (CCGenericContainerReleaser)theReleaser
