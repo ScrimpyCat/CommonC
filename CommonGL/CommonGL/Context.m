@@ -134,14 +134,24 @@ static CC_NO_INLINE NSMapTable *ContextGetAssociatedObjectTable(CCGLContext Cont
     
     if ((CreatedNewTable) || !(AssociatedObjectTable = [ContextAssociatedTables objectForKey: (id)Context]))
     {
-        AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
-        [ContextAssociatedTables setObject: AssociatedObjectTable forKey: (id)Context];
+        CCGLContextLock(Context);
+        if (!(AssociatedObjectTable = [ContextAssociatedTables objectForKey: (id)Context]))
+        {
+            AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
+            [ContextAssociatedTables setObject: AssociatedObjectTable forKey: (id)Context];
+        }
+        CCGLContextUnlock(Context);
     }
 #elif CC_PLATFORM_IOS
     if (!(AssociatedObjectTable = objc_getAssociatedObject(Context, &ContextGetAssociatedObjectTable)))
     {
-        AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
-        objc_setAssociatedObject(Context, &ContextGetAssociatedObjectTable, AssociatedObjectTable, OBJC_ASSOCIATION_RETAIN);
+        CCGLContextLock(Context);
+        if (!(AssociatedObjectTable = objc_getAssociatedObject(Context, &ContextGetAssociatedObjectTable)))
+        {
+            AssociatedObjectTable = [NSMapTable mapTableWithKeyOptions: NSPointerFunctionsOpaqueMemory | NSPointerFunctionsOpaquePersonality valueOptions: NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
+            objc_setAssociatedObject(Context, &ContextGetAssociatedObjectTable, AssociatedObjectTable, OBJC_ASSOCIATION_RETAIN);
+        }
+        CCGLContextUnlock(Context);
     }
 #endif
     
@@ -150,17 +160,10 @@ static CC_NO_INLINE NSMapTable *ContextGetAssociatedObjectTable(CCGLContext Cont
 
 id CCGLContextGetAssociatedObject(CCGLContext Context, void *Key)
 {
-    id Object = nil;
-    CCGLContextLock(Context);
-    Object = [ContextGetAssociatedObjectTable(Context) objectForKey: Key];
-    CCGLContextUnlock(Context);
-    
-    return Object;
+    return [ContextGetAssociatedObjectTable(Context) objectForKey: Key];
 }
 
 void CCGLContextSetAssociatedObject(CCGLContext Context, void *Key, id Object)
 {
-    CCGLContextLock(Context);
     [ContextGetAssociatedObjectTable(Context) setObject: Object forKey: Key];
-    CCGLContextUnlock(Context);
 }
