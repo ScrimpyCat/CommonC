@@ -36,6 +36,7 @@
 @implementation CallingTests
 {
     CCGLContext ctx, ctx2;
+    _Bool finished, finished2;
 }
 
 -(void) setUp
@@ -115,6 +116,57 @@
     CC_GL_EXIT_FROM_CONTEXT(ctx2);
     
     XCTAssertEqual(ctx, CCGLContextGetCurrent(), @"Should be restored back to previous current context");
+}
+
+-(void) useMainContext
+{
+    CCGLContextSetCurrent(ctx);
+    CC_GL_ENTRY;
+    CC_GL_EXIT;
+    
+    finished = TRUE;
+}
+
+-(void) useCtx
+{
+    CC_GL_ENTRY_FOR_CONTEXT(ctx);
+    CC_GL_EXIT_FROM_CONTEXT(ctx);
+    
+    finished = TRUE;
+}
+
+-(void) useCtx2
+{
+    CC_GL_ENTRY_FOR_CONTEXT(ctx2);
+    CC_GL_EXIT_FROM_CONTEXT(ctx2);
+    
+    finished2 = TRUE;
+}
+
+-(void) testLocks
+{
+    CC_GL_ENTRY;
+    
+    [NSThread detachNewThreadSelector: @selector(useMainContext) toTarget: self withObject: nil];
+    [NSThread sleepForTimeInterval: 1.0];
+    
+    XCTAssertFalse(finished, @"The other thread should be locked");
+    
+    CC_GL_EXIT;
+}
+
+-(void) testLocksForSpecifiedContext
+{
+    CC_GL_ENTRY_FOR_CONTEXT(ctx2);
+    
+    [NSThread detachNewThreadSelector: @selector(useCtx) toTarget: self withObject: nil];
+    [NSThread detachNewThreadSelector: @selector(useCtx2) toTarget: self withObject: nil];
+    [NSThread sleepForTimeInterval: 1.0];
+    
+    XCTAssertTrue(finished, @"The other thread should not be locked as it is a separate context");
+    XCTAssertFalse(finished2, @"The other thread should be locked");
+    
+    CC_GL_EXIT_FROM_CONTEXT(ctx2);
 }
 
 @end
