@@ -38,6 +38,8 @@ typedef void *CCGLContext;
 #endif
 
 
+CCGLContext CCGLContextRetain(CCGLContext Context);
+void CCGLContextRelease(CCGLContext Context);
 CCGLContext CCGLContextGetCurrent(void);
 _Bool CCGLContextSetCurrent(CCGLContext Context);
 _Bool CCGLContextTryLock(CCGLContext Context);

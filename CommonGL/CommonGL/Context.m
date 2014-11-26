@@ -35,6 +35,31 @@
 static uint8_t LockKey;
 #endif
 
+#if CC_PLATFORM_OS_X
+static NSMapTable *ContextAssociatedTables = nil;
+#endif
+
+CCGLContext CCGLContextRetain(CCGLContext Context)
+{
+#if CC_PLATFORM_OS_X
+    return CGLRetainContext(Context);
+#elif CC_PLATFORM_IOS
+    return [Context retain];
+#else
+    return NULL;
+#endif
+}
+
+void CCGLContextRelease(CCGLContext Context)
+{
+#if CC_PLATFORM_OS_X
+    if (CGLGetContextRetainCount(Context) == 1) [ContextAssociatedTables removeObjectForKey: (id)Context];
+    CGLReleaseContext(Context);
+#elif CC_PLATFORM_IOS
+    [Context release];
+#endif
+}
+
 CCGLContext CCGLContextGetCurrent(void)
 {
 #if CC_PLATFORM_OS_X
@@ -117,7 +142,6 @@ static CC_NO_INLINE NSMapTable *ContextGetAssociatedObjectTable(CCGLContext Cont
     
 #if CC_PLATFORM_OS_X
     _Bool CreatedNewTable = FALSE;
-    static NSMapTable *ContextAssociatedTables = nil;
     if (!ContextAssociatedTables)
     {
         static volatile OSSpinLock CreateLock = OS_SPINLOCK_INIT;
