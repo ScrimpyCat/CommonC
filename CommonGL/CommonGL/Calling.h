@@ -41,7 +41,10 @@
 #define CGL_MACRO_RENDERER CC_GL_PRIV_renderer___
 #include <OpenGL/CGLMacro.h>
 
-#define CC_GL_SETUP CGL_MACRO_DECLARE_VARIABLES()
+#define CC_GL_SETUP \
+CGL_MACRO_DECLARE_VARIABLES(); \
+CC_GL_SETUP_STATE
+
 #define CC_GL_SETUP_DECLARES_CONTEXT 1
 #endif
 
@@ -49,7 +52,7 @@
 
 
 #ifndef CC_GL_SETUP
-#define CC_GL_SETUP
+#define CC_GL_SETUP CC_GL_SETUP_STATE
 #endif
 
 
@@ -65,16 +68,14 @@ CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(CC_GL_CURRENT_CONTEXT); \
 
 #define CC_GL_ENTRY \
 CC_GL_SETUP; \
-CCGLContextLock(CC_GL_PRIV_context___); \
-CC_GL_SETUP_STATE
+CCGLContextLock(CC_GL_PRIV_context___)
 
 #else
 
 #define CC_GL_ENTRY \
 CCGLContext CC_GL_CURRENT_CONTEXT = CCGLContextGetCurrent(); \
 CC_GL_SETUP; \
-CCGLContextLock(CC_GL_CURRENT_CONTEXT); \
-CC_GL_SETUP_STATE
+CCGLContextLock(CC_GL_CURRENT_CONTEXT)
 
 #endif
 
