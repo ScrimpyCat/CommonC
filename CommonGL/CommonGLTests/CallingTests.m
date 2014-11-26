@@ -59,6 +59,9 @@
     CGLDestroyPixelFormat(PixelFormat);
     
     CCGLContextSetCurrent(ctx);
+    
+    finished = FALSE;
+    finished2 = FALSE;
 }
 
 -(void) tearDown
@@ -153,6 +156,9 @@
     XCTAssertFalse(finished, @"The other thread should be locked");
     
     CC_GL_EXIT;
+    
+    [NSThread sleepForTimeInterval: 1.0];
+    XCTAssertTrue(finished, @"The other thread should no longer be locked as this thread has exited");
 }
 
 -(void) testLocksForSpecifiedContext
@@ -167,6 +173,9 @@
     XCTAssertFalse(finished2, @"The other thread should be locked");
     
     CC_GL_EXIT_FROM_CONTEXT(ctx2);
+    
+    [NSThread sleepForTimeInterval: 1.0];
+    XCTAssertTrue(finished2, @"The other thread should no longer be locked as this thread has exited");
 }
 
 @end
