@@ -916,7 +916,7 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
     GLint Max;
 #if !CC_GL_STATE_TEXTURE_MAX
     CC_GL_VERSION_ACTIVE(1_1, 1_5, 1_0, 1_1, glGetIntegerv(GL_MAX_TEXTURE_UNITS, &Max); CC_GL_CHECK());
-    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Max); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(2_0, NA, 2_0, NA, glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &Max); CC_GL_CHECK()); //bug? will generate GL errors for the GL enables when it gets over GL_MAX_TEXTURE_UNITS
 #else
     Max = CC_GL_STATE_TEXTURE_MAX;
 #endif
