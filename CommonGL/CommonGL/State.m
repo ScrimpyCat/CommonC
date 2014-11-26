@@ -48,6 +48,7 @@ CCGLState *CCGLStateForContext(CCGLContext Context)
                 }];
                 CCGLContextSetAssociatedObject(Context, &CCGLStateForContext, StateContainer);
             }
+            CCGLContextUnlock(Context);
             
             return State;
         }
@@ -272,7 +273,7 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
 
 void CCGLStateInitializeWithCurrent(CCGLState *State)
 {
-    CC_GL_SETUP;
+    CC_GL_SETUP_CONTEXT;
     
 #if CC_GL_STATE_BLEND
     CC_GL_VERSION_ACTIVE(1_0, 1_3, 1_0, 1_1,
