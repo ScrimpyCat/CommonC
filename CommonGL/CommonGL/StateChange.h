@@ -112,6 +112,24 @@ if ((CC_GL_CURRENT_STATE->blendEquation.rgb.mode != (modeRGB)) || \
 
 
 
+#if CC_GL_STATE_BUFFER
+#if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_1_5, CC_OPENGL_ES_VERSION_1_0) && CC_GL_VERSION_MAX_SUPPORTED(CC_OPENGL_VERSION_NA, CC_OPENGL_ES_VERSION_NA)
+
+#define CC_GL_BIND_BUFFER(target, buffer) \
+if (CC_GL_CURRENT_STATE->bindBuffer._##target != buffer) \
+{ \
+    CC_GL_CURRENT_STATE->bindBuffer._##target = buffer; \
+    glBindBuffer((target), (buffer)); CC_GL_CHECK(); \
+}
+
+#endif
+
+#else
+#define CC_GL_BIND_BUFFER(target, buffer) glBindBuffer((target), (buffer)); CC_GL_CHECK()
+#endif
+
+
+
 #if CC_GL_STATE_ENABLED
 #define CC_GL_ENABLE(type) \
 if (!CC_GL_CURRENT_STATE->enabled._##type) \
