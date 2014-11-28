@@ -29,8 +29,8 @@
 #import <CommonGL/Defined.h>
 
 #if CC_OPENGL_ES
-typedef double GLdouble;
-typedef double GLclampd;
+typedef /*double*/ GLfloat GLdouble;
+typedef /*double*/ GLclampf GLclampd;
 #endif
 
 #endif
