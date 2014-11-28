@@ -23,24 +23,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <CommonObjc/Common.h>
+#ifndef CommonGL_Types_h
+#define CommonGL_Types_h
 
 #import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
 
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
+#if CC_OPENGL_ES
+typedef double GLdouble;
+typedef double GLclampd;
+#endif
 
-#import <CommonGL/Debug.h>
-
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
-
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
+#endif
