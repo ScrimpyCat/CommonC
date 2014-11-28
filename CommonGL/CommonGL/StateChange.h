@@ -130,6 +130,40 @@ if (CC_GL_CURRENT_STATE->bindBuffer._##target != buffer) \
 
 
 
+#if CC_GL_STATE_COLOUR
+#define CC_GL_CLEAR_COLOR(r, g, b, a) \
+if ((CC_GL_CURRENT_STATE->clearColour.red != (r)) || \
+    (CC_GL_CURRENT_STATE->clearColour.green != (g)) || \
+    (CC_GL_CURRENT_STATE->clearColour.blue != (b)) || \
+    (CC_GL_CURRENT_STATE->clearColour.alpha != (a))) \
+{ \
+    CC_GL_CURRENT_STATE->clearColour.red = (r); \
+    CC_GL_CURRENT_STATE->clearColour.green = (g); \
+    CC_GL_CURRENT_STATE->clearColour.blue = (b); \
+    CC_GL_CURRENT_STATE->clearColour.alpha = (a); \
+    glClearColor((r), (g), (b), (a)); CC_GL_CHECK(); \
+}
+
+#define CC_GL_COLOR_MASK(r, g, b, a) \
+if ((CC_GL_CURRENT_STATE->colourMask.red != (r)) || \
+    (CC_GL_CURRENT_STATE->colourMask.green != (g)) || \
+    (CC_GL_CURRENT_STATE->colourMask.blue != (b)) || \
+    (CC_GL_CURRENT_STATE->colourMask.alpha != (a))) \
+{ \
+    CC_GL_CURRENT_STATE->colourMask.red = (r); \
+    CC_GL_CURRENT_STATE->colourMask.green = (g); \
+    CC_GL_CURRENT_STATE->colourMask.blue = (b); \
+    CC_GL_CURRENT_STATE->colourMask.alpha = (a); \
+    glColorMask((r), (g), (b), (a)); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_CLEAR_COLOR(r, g, b, a) glClearColor((r), (g), (b), (a)); CC_GL_CHECK()
+#define CC_GL_COLOR_MASK(r, g, b, a) glColorMask((r), (g), (b), (a)); CC_GL_CHECK()
+#endif
+
+
+
 #if CC_GL_STATE_ENABLED
 #define CC_GL_ENABLE(type) \
 if (!CC_GL_CURRENT_STATE->enabled._##type) \

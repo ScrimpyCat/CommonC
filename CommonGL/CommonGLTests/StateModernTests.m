@@ -718,6 +718,122 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindBuffer._##target, CurrentBuffer, @"State
 #endif
 }
 
+-(void) testClearColourMacros
+{
+#if CC_GL_STATE_COLOUR
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_CLEAR_COLOR(0.2f, 0.4f, 0.6f, 0.8f);
+    
+    GLclampf ClearColour[4];
+    glGetFloatv(GL_COLOR_CLEAR_VALUE, ClearColour); CC_GL_CHECK();
+    XCTAssertEqual(ClearColour[0], 0.2f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[1], 0.4f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[2], 0.6f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[3], 0.8f, @"Should have correct value");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.red, 0.2f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.green, 0.4f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.blue, 0.6f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.alpha, 0.8f, @"State should have correct value");
+    
+    
+    
+    CC_GL_CLEAR_COLOR(0.0f, 0.4f, 0.6f, 0.8f);
+    
+    glGetFloatv(GL_COLOR_CLEAR_VALUE, ClearColour); CC_GL_CHECK();
+    XCTAssertEqual(ClearColour[0], 0.0f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[1], 0.4f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[2], 0.6f, @"Should have correct value");
+    XCTAssertEqual(ClearColour[3], 0.8f, @"Should have correct value");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.red, 0.0f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.green, 0.4f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.blue, 0.6f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.alpha, 0.8f, @"State should have correct value");
+    
+    
+    
+    CC_GL_CURRENT_STATE->clearColour.red = 1.0f;
+    CC_GL_CURRENT_STATE->clearColour.green = 1.0f;
+    CC_GL_CURRENT_STATE->clearColour.blue = 1.0f;
+    CC_GL_CURRENT_STATE->clearColour.alpha = 1.0f;
+    
+    CC_GL_CLEAR_COLOR(1.0f, 1.0f, 1.0f, 1.0f);
+    
+    glGetFloatv(GL_COLOR_CLEAR_VALUE, ClearColour); CC_GL_CHECK();
+    XCTAssertEqual(ClearColour[0], 0.0f, @"Should remain the same");
+    XCTAssertEqual(ClearColour[1], 0.4f, @"Should remain the same");
+    XCTAssertEqual(ClearColour[2], 0.6f, @"Should remain the same");
+    XCTAssertEqual(ClearColour[3], 0.8f, @"Should remain the same");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.red, 1.0f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.green, 1.0f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.blue, 1.0f, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearColour.alpha, 1.0f, @"State should have correct value");
+#endif
+}
+
+-(void) testColourMaskMacros
+{
+#if CC_GL_STATE_COLOUR
+    glColorMask(TRUE, TRUE, TRUE, TRUE); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_COLOR_MASK(TRUE, FALSE, TRUE, FALSE);
+    
+    GLboolean ColourMask[4];
+    glGetBooleanv(GL_COLOR_WRITEMASK, ColourMask); CC_GL_CHECK();
+    XCTAssertEqual(ColourMask[0], TRUE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[1], FALSE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[2], TRUE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[3], FALSE, @"Should have correct value");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.red, TRUE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.green, FALSE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.blue, TRUE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.alpha, FALSE, @"State should have correct value");
+    
+    
+    
+    CC_GL_COLOR_MASK(TRUE, FALSE, TRUE, TRUE);
+    
+    glGetBooleanv(GL_COLOR_WRITEMASK, ColourMask); CC_GL_CHECK();
+    XCTAssertEqual(ColourMask[0], TRUE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[1], FALSE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[2], TRUE, @"Should have correct value");
+    XCTAssertEqual(ColourMask[3], TRUE, @"Should have correct value");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.red, TRUE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.green, FALSE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.blue, TRUE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.alpha, TRUE, @"State should have correct value");
+    
+    
+    
+    CC_GL_CURRENT_STATE->colourMask.red = FALSE;
+    CC_GL_CURRENT_STATE->colourMask.green = FALSE;
+    CC_GL_CURRENT_STATE->colourMask.blue = FALSE;
+    CC_GL_CURRENT_STATE->colourMask.alpha = FALSE;
+    
+    CC_GL_COLOR_MASK(FALSE, FALSE, FALSE, FALSE);
+    
+    glGetBooleanv(GL_COLOR_WRITEMASK, ColourMask); CC_GL_CHECK();
+    XCTAssertEqual(ColourMask[0], TRUE, @"Should remain the same");
+    XCTAssertEqual(ColourMask[1], FALSE, @"Should remain the same");
+    XCTAssertEqual(ColourMask[2], TRUE, @"Should remain the same");
+    XCTAssertEqual(ColourMask[3], TRUE, @"Should remain the same");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.red, FALSE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.green, FALSE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.blue, FALSE, @"State should have correct value");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->colourMask.alpha, FALSE, @"State should have correct value");
+#endif
+}
+
 -(void) testCullFaceState
 {
 #if CC_GL_STATE_CULL_FACE
