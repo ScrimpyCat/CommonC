@@ -858,6 +858,60 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindBuffer._##target, CurrentBuffer, @"State
 #endif
 }
 
+-(void) testCullFaceMacro
+{
+#if CC_GL_STATE_CULL_FACE
+    glCullFace(GL_FRONT); CC_GL_CHECK();
+    glFrontFace(GL_CW); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_CULL_FACE(GL_BACK);
+    CC_GL_FRONT_FACE(GL_CCW);
+    
+    GLenum CullFace, FrontFace;
+    glGetIntegerv(GL_CULL_FACE_MODE, (GLint*)&CullFace); CC_GL_CHECK();
+    glGetIntegerv(GL_FRONT_FACE, (GLint*)&FrontFace); CC_GL_CHECK();
+    
+    XCTAssertEqual(CullFace, GL_BACK, @"should be GL_BACK");
+    XCTAssertEqual(FrontFace, GL_CCW, @"should be GL_CCW");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->cullFace.mode, GL_BACK, @"should be GL_BACK");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->frontFace.mode, GL_CCW, @"should be GL_CCW");
+    
+    
+    
+    CC_GL_CULL_FACE(GL_FRONT);
+    CC_GL_FRONT_FACE(GL_CW);
+    
+    glGetIntegerv(GL_CULL_FACE_MODE, (GLint*)&CullFace); CC_GL_CHECK();
+    glGetIntegerv(GL_FRONT_FACE, (GLint*)&FrontFace); CC_GL_CHECK();
+    
+    XCTAssertEqual(CullFace, GL_FRONT, @"should be GL_FRONT");
+    XCTAssertEqual(FrontFace, GL_CW, @"should be GL_CW");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->cullFace.mode, GL_FRONT, @"should be GL_FRONT");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->frontFace.mode, GL_CW, @"should be GL_CW");
+    
+    
+    
+    CC_GL_CURRENT_STATE->cullFace.mode = GL_BACK;
+    CC_GL_CURRENT_STATE->frontFace.mode = GL_CCW;
+    
+    CC_GL_CULL_FACE(GL_BACK);
+    CC_GL_FRONT_FACE(GL_CCW);
+    
+    glGetIntegerv(GL_CULL_FACE_MODE, (GLint*)&CullFace); CC_GL_CHECK();
+    glGetIntegerv(GL_FRONT_FACE, (GLint*)&FrontFace); CC_GL_CHECK();
+    
+    XCTAssertEqual(CullFace, GL_FRONT, @"should be unchanged");
+    XCTAssertEqual(FrontFace, GL_CW, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->cullFace.mode, GL_BACK, @"should be GL_BACK");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->frontFace.mode, GL_CCW, @"should be GL_CCW");
+#endif
+}
+
 -(void) testDepthState
 {
 #if CC_GL_STATE_DEPTH

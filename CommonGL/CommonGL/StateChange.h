@@ -164,6 +164,28 @@ if ((CC_GL_CURRENT_STATE->colourMask.red != (r)) || \
 
 
 
+#if CC_GL_STATE_CULL_FACE
+#define CC_GL_CULL_FACE(m) \
+if (CC_GL_CURRENT_STATE->cullFace.mode != (m)) \
+{ \
+    CC_GL_CURRENT_STATE->cullFace.mode = (m); \
+    glCullFace(m); CC_GL_CHECK(); \
+}
+
+#define CC_GL_FRONT_FACE(m) \
+if (CC_GL_CURRENT_STATE->frontFace.mode != (m)) \
+{ \
+    CC_GL_CURRENT_STATE->frontFace.mode = (m); \
+    glFrontFace(m); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_CULL_FACE(mode) glCullFace(mode); CC_GL_CHECK()
+#define CC_GL_FRONT_FACE(mode) glFrontFace(mode); CC_GL_CHECK()
+#endif
+
+
+
 #if CC_GL_STATE_ENABLED
 #define CC_GL_ENABLE(type) \
 if (!CC_GL_CURRENT_STATE->enabled._##type) \
