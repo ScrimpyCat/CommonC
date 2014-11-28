@@ -348,7 +348,7 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, glGetBooleanv(GL_DEPTH_WRITEMASK, &State->depthMask.flag); CC_GL_CHECK());
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA,
-        GLclampd DepthRange[4];
+        GLclampd DepthRange[2];
         glGetDoublev(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
         State->depthRange = (typeof(State->depthRange)){ .near = DepthRange[0], .far = DepthRange[1] };
     );
