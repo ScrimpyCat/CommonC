@@ -27,6 +27,7 @@
 #import "State.h"
 #import "Debug.h"
 #import "Calling.h"
+#import "MissingFunctions.h"
 #import <CommonObjc/GenericContainer.h>
 #import <CommonC/MemoryAllocation.h>
 
@@ -155,10 +156,10 @@ void CCGLStateInitializeWithDefault(CCGLState *State)
 #endif
     
 #if CC_GL_STATE_DEPTH
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->clearDepth.depth = 1.0f);
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->clearDepth.depth = 1.0);
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->depthFunc.func = GL_LESS);
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->depthMask.flag = GL_TRUE);
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->depthRange = (typeof(State->depthRange)){ .near = 0.0f, .far = 1.0f });
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, State->depthRange = (typeof(State->depthRange)){ .near = 0.0, .far = 1.0 });
 #endif
     
 #if CC_GL_STATE_ENABLED
@@ -340,15 +341,15 @@ void CCGLStateInitializeWithCurrent(CCGLState *State)
 #endif
     
 #if CC_GL_STATE_DEPTH
-    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, glGetFloatv(GL_DEPTH_CLEAR_VALUE, &State->clearDepth.depth); CC_GL_CHECK());
+    CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, glGetDoublev(GL_DEPTH_CLEAR_VALUE, &State->clearDepth.depth); CC_GL_CHECK());
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, glGetIntegerv(GL_DEPTH_FUNC, (GLint*)&State->depthFunc.func); CC_GL_CHECK());
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, glGetBooleanv(GL_DEPTH_WRITEMASK, &State->depthMask.flag); CC_GL_CHECK());
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA,
-        GLclampf DepthRange[4];
-        glGetFloatv(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
+        GLclampd DepthRange[4];
+        glGetDoublev(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
         State->depthRange = (typeof(State->depthRange)){ .near = DepthRange[0], .far = DepthRange[1] };
     );
 #endif

@@ -29,6 +29,7 @@
 #import <CommonGL/Defined.h>
 #import <CommonGL/Version.h>
 #import <CommonGL/Context.h>
+#import <CommonGL/Types.h>
 #import <CommonC/Types.h>
 
 
@@ -142,8 +143,8 @@ typedef struct {
     
 #if CC_GL_STATE_DEPTH
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
-        GLclampf depth;
-    } clearDepth); //glClearDepthf
+        GLclampd depth;
+    } clearDepth); //glClearDepth
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
         GLenum func;
@@ -154,8 +155,8 @@ typedef struct {
     } depthMask); //glDepthMask
     
     CC_GL_VERSION_ACTIVE(1_0, NA, 1_0, NA, struct {
-        GLclampf near, far;
-    } depthRange); //glDepthRangef
+        GLclampd near, far;
+    } depthRange); //glDepthRange
 #endif
     
 #if CC_GL_STATE_ENABLED
