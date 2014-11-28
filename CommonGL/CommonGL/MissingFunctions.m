@@ -23,25 +23,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "Default_Private.h"
+#import "MissingFunctions.h"
 
-#import <CommonObjc/Common.h>
-
-#import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
-
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
-#import <CommonGL/MissingFunctions.h>
-
-#import <CommonGL/Debug.h>
-
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
-
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
+#if CC_OPENGL_ES
+void glGetDoublev(GLenum pname, GLdouble *params)
+{
+    glGetFloatv(pname, params);
+}
+#endif
