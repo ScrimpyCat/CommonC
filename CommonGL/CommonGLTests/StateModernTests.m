@@ -946,6 +946,97 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindBuffer._##target, CurrentBuffer, @"State
 #endif
 }
 
+-(void) testDepthMacro
+{
+#if CC_GL_STATE_DEPTH
+    glClearDepth(0.0f); CC_GL_CHECK();
+    glDepthFunc(GL_NEVER); CC_GL_CHECK();
+    glDepthMask(FALSE); CC_GL_CHECK();
+    glDepthRange(0.0f, 0.0f); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_CLEAR_DEPTH(1.0f);
+    CC_GL_DEPTH_FUNC(GL_ALWAYS);
+    CC_GL_DEPTH_MASK(TRUE);
+    CC_GL_DEPTH_RANGE(0.5f, 1.0f);
+    
+    GLclampd ClearDepth, DepthRange[2];
+    GLenum DepthFunc;
+    GLboolean DepthMask;
+    glGetDoublev(GL_DEPTH_CLEAR_VALUE, &ClearDepth); CC_GL_CHECK();
+    glGetIntegerv(GL_DEPTH_FUNC, (GLint*)&DepthFunc); CC_GL_CHECK();
+    glGetBooleanv(GL_DEPTH_WRITEMASK, &DepthMask); CC_GL_CHECK();
+    glGetDoublev(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
+    
+    XCTAssertEqual(ClearDepth, 1.0f, @"should be 1.0");
+    XCTAssertEqual(DepthFunc, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertTrue(DepthMask, @"should be true");
+    XCTAssertEqual(DepthRange[0], 0.5f, @"should be 0.5");
+    XCTAssertEqual(DepthRange[1], 1.0f, @"should be 1.0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearDepth.depth, 1.0f, @"should be 1.0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthFunc.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertTrue(CC_GL_CURRENT_STATE->depthMask.flag, @"should be true");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.near, 0.5f, @"should be 0.5");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.far, 1.0f, @"should be 1.0");
+    
+    
+    
+    CC_GL_CLEAR_DEPTH(0.0f);
+    CC_GL_DEPTH_FUNC(GL_NEVER);
+    CC_GL_DEPTH_MASK(FALSE);
+    CC_GL_DEPTH_RANGE(0.5f, 0.5f);
+    
+    glGetDoublev(GL_DEPTH_CLEAR_VALUE, &ClearDepth); CC_GL_CHECK();
+    glGetIntegerv(GL_DEPTH_FUNC, (GLint*)&DepthFunc); CC_GL_CHECK();
+    glGetBooleanv(GL_DEPTH_WRITEMASK, &DepthMask); CC_GL_CHECK();
+    glGetDoublev(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
+    
+    XCTAssertEqual(ClearDepth, 0.0f, @"should be 0.0");
+    XCTAssertEqual(DepthFunc, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertFalse(DepthMask, @"should be false");
+    XCTAssertEqual(DepthRange[0], 0.5f, @"should be 0.5");
+    XCTAssertEqual(DepthRange[1], 0.5f, @"should be 0.5");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearDepth.depth, 0.0f, @"should be 0.0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthFunc.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertFalse(CC_GL_CURRENT_STATE->depthMask.flag, @"should be false");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.near, 0.5f, @"should be 0.5");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.far, 0.5f, @"should be 0.5");
+    
+    
+    
+    CC_GL_CURRENT_STATE->clearDepth.depth = 1.0f;
+    CC_GL_CURRENT_STATE->depthFunc.func = GL_ALWAYS;
+    CC_GL_CURRENT_STATE->depthMask.flag = TRUE;
+    CC_GL_CURRENT_STATE->depthRange.near = 0.0f;
+    CC_GL_CURRENT_STATE->depthRange.far = 1.0f;
+    
+    CC_GL_CLEAR_DEPTH(1.0f);
+    CC_GL_DEPTH_FUNC(GL_ALWAYS);
+    CC_GL_DEPTH_MASK(TRUE);
+    CC_GL_DEPTH_RANGE(0.0f, 1.0f);
+    
+    glGetDoublev(GL_DEPTH_CLEAR_VALUE, &ClearDepth); CC_GL_CHECK();
+    glGetIntegerv(GL_DEPTH_FUNC, (GLint*)&DepthFunc); CC_GL_CHECK();
+    glGetBooleanv(GL_DEPTH_WRITEMASK, &DepthMask); CC_GL_CHECK();
+    glGetDoublev(GL_DEPTH_RANGE, DepthRange); CC_GL_CHECK();
+    
+    XCTAssertEqual(ClearDepth, 0.0f, @"should be unchanged");
+    XCTAssertEqual(DepthFunc, GL_NEVER, @"should be unchanged");
+    XCTAssertFalse(DepthMask, @"should be unchanged");
+    XCTAssertEqual(DepthRange[0], 0.5f, @"should be unchanged");
+    XCTAssertEqual(DepthRange[1], 0.5f, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearDepth.depth, 1.0f, @"should be 1.0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthFunc.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertTrue(CC_GL_CURRENT_STATE->depthMask.flag, @"should be true");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.near, 0.0f, @"should be 0.0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->depthRange.far, 1.0f, @"should be 1.0");
+#endif
+}
+
 #define TEST_GL_ENABLE(cap) \
 glEnable(cap); CC_GL_CHECK(); \
 CCGLStateInitializeWithCurrent(State); \

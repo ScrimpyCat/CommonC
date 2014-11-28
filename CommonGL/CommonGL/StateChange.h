@@ -186,6 +186,46 @@ if (CC_GL_CURRENT_STATE->frontFace.mode != (m)) \
 
 
 
+#if CC_GL_STATE_DEPTH
+#define CC_GL_CLEAR_DEPTH(d) \
+if (CC_GL_CURRENT_STATE->clearDepth.depth != (d)) \
+{ \
+    CC_GL_CURRENT_STATE->clearDepth.depth = (d); \
+    glClearDepth(d); CC_GL_CHECK(); \
+}
+
+#define CC_GL_DEPTH_FUNC(f) \
+if (CC_GL_CURRENT_STATE->depthFunc.func != (f)) \
+{ \
+    CC_GL_CURRENT_STATE->depthFunc.func = (f); \
+    glDepthFunc(f); CC_GL_CHECK(); \
+}
+
+#define CC_GL_DEPTH_MASK(f) \
+if (CC_GL_CURRENT_STATE->depthMask.flag != (f)) \
+{ \
+    CC_GL_CURRENT_STATE->depthMask.flag = (f); \
+    glDepthMask(f); CC_GL_CHECK(); \
+}
+
+#define CC_GL_DEPTH_RANGE(n, f) \
+if ((CC_GL_CURRENT_STATE->depthRange.near != (n)) || \
+    (CC_GL_CURRENT_STATE->depthRange.far != (f))) \
+{ \
+    CC_GL_CURRENT_STATE->depthRange.near = (n); \
+    CC_GL_CURRENT_STATE->depthRange.far = (f); \
+    glDepthRange((n), (f)); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_CLEAR_DEPTH(d) glClearDepth(d); CC_GL_CHECK()
+#define CC_GL_DEPTH_FUNC(f) glDepthFunc(f); CC_GL_CHECK()
+#define CC_GL_DEPTH_MASK(f) glDepthMask(f); CC_GL_CHECK()
+#define CC_GL_DEPTH_RANGE(n, f) glDepthRange((n), (f)); CC_GL_CHECK()
+#endif
+
+
+
 #if CC_GL_STATE_ENABLED
 #define CC_GL_ENABLE(type) \
 if (!CC_GL_CURRENT_STATE->enabled._##type) \
