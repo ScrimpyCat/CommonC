@@ -33,7 +33,7 @@
 
 -(void) testCCLowestUnsetBit
 {
-#define TEST_LUB(x, r) TEST_(x, r, CCLowestUnsetBit)
+#define TEST_LUB(x, r) TEST_(x, r, CCBitLowestUnset)
     //0 set bits
     TEST_LUB(UINT64_C(0), UINT64_C(1));
     
@@ -47,7 +47,7 @@
 
 -(void) testCCLowestSetBit
 {
-#define TEST_LSB(x, r) TEST_(x, r, CCLowestSetBit)
+#define TEST_LSB(x, r) TEST_(x, r, CCBitLowestSet)
     //0 set bits
     TEST_LSB(UINT64_C(0), UINT64_C(0));
     
@@ -60,7 +60,7 @@
 
 -(void) testCCHighestSetBit
 {
-#define TEST_MSB(x, r) TEST_(x, r, CCHighestSetBit)
+#define TEST_MSB(x, r) TEST_(x, r, CCBitHighestSet)
     //0 set bits
     TEST_MSB(UINT64_C(0), UINT64_C(0));
     
@@ -73,7 +73,7 @@
 
 -(void) testCCNextPowerOf2
 {
-#define TEST_NEXT_POWER_2(x, r) TEST_(x, r, CCNextPowerOf2)
+#define TEST_NEXT_POWER_2(x, r) TEST_(x, r, CCBitNextPowerOf2)
     //0 set bits
     TEST_NEXT_POWER_2(UINT64_C(0), UINT64_C(0));
     
@@ -86,7 +86,7 @@
 
 -(void) testCCMaskForValue
 {
-#define TEST_MASK_FOR_VALUE(x, r) TEST_(x, r, CCMaskForValue)
+#define TEST_MASK_FOR_VALUE(x, r) TEST_(x, r, CCBitMaskForValue)
     //0 set bits
     TEST_MASK_FOR_VALUE(UINT64_C(0), UINT64_C(0));
     
@@ -99,7 +99,7 @@
 
 -(void) testCCMaskForLowerBits2
 {
-#define TEST_MASK_FOR_LOWER_BITS_POWER_2(x, r) TEST_(x, r, CCMaskForLowerBits2)
+#define TEST_MASK_FOR_LOWER_BITS_POWER_2(x, r) TEST_(x, r, CCBitMaskForLowerPowerOf2)
     //0 set bits
     TEST_MASK_FOR_LOWER_BITS_POWER_2(UINT64_C(0), UINT64_C(0));
     
@@ -109,7 +109,7 @@
 
 -(void) testCCMaskForUnsetValue
 {
-#define TEST_MASK_FOR_UNSET_VALUE(x, r) TEST_(x, r, CCMaskForUnsetValue)
+#define TEST_MASK_FOR_UNSET_VALUE(x, r) TEST_(x, r, CCBitMaskForUnsetValue)
     //0 set bits
     TEST_MASK_FOR_UNSET_VALUE(UINT64_C(0), UINT64_MAX);
     
@@ -125,7 +125,7 @@
 
 -(void) testCCCountSetBits
 {
-#define TEST_SET_BIT_COUNT(x, r) XCTAssertEqual(CCCountSetBits(x), (r), @"Test value: %" PRIu64 " should contain %" PRIu64 " set bits. Instead saying it contains: %" PRIu64, x, r, CCCountSetBits(x));
+#define TEST_SET_BIT_COUNT(x, r) XCTAssertEqual(CCBitCountSet(x), (r), @"Test value: %" PRIu64 " should contain %" PRIu64 " set bits. Instead saying it contains: %" PRIu64, x, r, CCBitCountSet(x));
     //0 set bits
     TEST_SET_BIT_COUNT(UINT64_C(0), UINT64_C(0));
     

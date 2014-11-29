@@ -102,7 +102,7 @@ size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierDat
             {
                 if (sizeof(uintmax_t) <= sizeof(uint64_t))
                 {
-                    uint64_t HighestSetBitIndex = CCCountSetBits(CCMaskForValue(CCHighestSetBit(Value)));
+                    uint64_t HighestSetBitIndex = CCBitCountSet(CCBitMaskForValue(CCBitHighestSet(Value)));
                     if (HighestSetBitIndex)
                     {
                         Formatted = Bits + (Count - HighestSetBitIndex);
