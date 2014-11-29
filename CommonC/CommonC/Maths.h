@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <CommonC/Platform.h>
+#include <CommonC/Extensions.h>
 
 #if CC_PLATFORM_POSIX_COMPLIANT
 #define CC_PI M_PI
@@ -35,17 +36,17 @@
 #define CC_PI (4.0 * atan(1.0))
 #endif
 
-static inline float CCClampf(const float val, const float min, const float max)
+static CC_FORCE_INLINE float CCClampf(const float val, const float min, const float max)
 {
     return fminf(fmaxf(val, min), max);
 }
 
-static inline double CCClampd(const double val, const double min, const double max)
+static CC_FORCE_INLINE double CCClampd(const double val, const double min, const double max)
 {
     return fmin(fmax(val, min), max);
 }
 
-static inline int CCClampi(const int val, const int min, const int max)
+static CC_FORCE_INLINE int CCClampi(const int val, const int min, const int max)
 {
     return (val > min? (val < max? val : max ) : min);
 }
