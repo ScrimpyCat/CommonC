@@ -340,4 +340,24 @@ if (CC_GL_CURRENT_STATE->useProgram.program != prog) \
 #endif
 
 
+
+#if CC_GL_STATE_VIEWPORT
+#define CC_GL_VIEWPORT(posx, posy, sizew, sizeh) \
+if ((CC_GL_CURRENT_STATE->viewport.x != posx) || \
+    (CC_GL_CURRENT_STATE->viewport.y != posy) || \
+    (CC_GL_CURRENT_STATE->viewport.width != sizew) || \
+    (CC_GL_CURRENT_STATE->viewport.height != sizeh)) \
+{ \
+    CC_GL_CURRENT_STATE->viewport.x = posx; \
+    CC_GL_CURRENT_STATE->viewport.y = posy; \
+    CC_GL_CURRENT_STATE->viewport.width = sizew; \
+    CC_GL_CURRENT_STATE->viewport.height = sizeh; \
+    glViewport(posx, posy, sizew, sizeh); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_VIEWPORT(x, y, width, height) glViewport(x, y, width, height); CC_GL_CHECK()
+#endif
+
+
 #endif

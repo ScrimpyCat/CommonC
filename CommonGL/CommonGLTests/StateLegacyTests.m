@@ -1731,6 +1731,66 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testViewportMacro
+{
+#if CC_GL_STATE_VIEWPORT
+    glViewport(0, 0, 0, 0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_VIEWPORT(1, 2, 3, 4);
+    
+    GLint Viewport[4];
+    glGetIntegerv(GL_VIEWPORT, Viewport); CC_GL_CHECK();
+    
+    XCTAssertEqual(Viewport[0], 1, @"should be 1");
+    XCTAssertEqual(Viewport[1], 2, @"should be 2");
+    XCTAssertEqual(Viewport[2], 3, @"should be 3");
+    XCTAssertEqual(Viewport[3], 4, @"should be 4");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.x, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.y, 2, @"should be 2");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.width, 3, @"should be 3");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.height, 4, @"should be 4");
+    
+    
+    
+    CC_GL_VIEWPORT(0, 0, 0, 0);
+    
+    glGetIntegerv(GL_VIEWPORT, Viewport); CC_GL_CHECK();
+    
+    XCTAssertEqual(Viewport[0], 0, @"should be 0");
+    XCTAssertEqual(Viewport[1], 0, @"should be 0");
+    XCTAssertEqual(Viewport[2], 0, @"should be 0");
+    XCTAssertEqual(Viewport[3], 0, @"should be 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.x, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.y, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.width, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.height, 0, @"should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->viewport.x = 1;
+    CC_GL_CURRENT_STATE->viewport.y = 2;
+    CC_GL_CURRENT_STATE->viewport.width = 3;
+    CC_GL_CURRENT_STATE->viewport.height = 4;
+    CC_GL_VIEWPORT(1, 2, 3, 4);
+    
+    glGetIntegerv(GL_VIEWPORT, Viewport); CC_GL_CHECK();
+    
+    XCTAssertEqual(Viewport[0], 0, @"should be 0");
+    XCTAssertEqual(Viewport[1], 0, @"should be 0");
+    XCTAssertEqual(Viewport[2], 0, @"should be 0");
+    XCTAssertEqual(Viewport[3], 0, @"should be 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.x, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.y, 2, @"should be 2");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.width, 3, @"should be 3");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->viewport.height, 4, @"should be 4");
+#endif
+}
+
 @end
 
 #endif
