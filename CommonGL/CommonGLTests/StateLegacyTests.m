@@ -1221,6 +1221,136 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testFramebufferMacro
+{
+#if CC_GL_STATE_FRAMEBUFFER
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo); CC_GL_CHECK();
+    glBindFramebuffer(GL_FRAMEBUFFER, 1); CC_GL_CHECK();
+    
+    CC_GL_BIND_FRAMEBUFFER(GL_FRAMEBUFFER, fbo);
+    
+    GLuint BoundFBORead, BoundFBOWrite;
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, fbo, @"should be bound to the fbo");
+    XCTAssertEqual(BoundFBORead, fbo, @"should be bound to the fbo");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, fbo, @"state should be the fbo");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, fbo, @"state should be the fbo");
+    
+    
+    
+    CC_GL_BIND_FRAMEBUFFER(GL_FRAMEBUFFER, 0);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, 0, @"should be bound to 0");
+    XCTAssertEqual(BoundFBORead, 0, @"should be bound to 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, 0, @"state should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, 0, @"state should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = fbo;
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = fbo;
+    CC_GL_BIND_FRAMEBUFFER(GL_FRAMEBUFFER, fbo);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, 0, @"should be unchanged");
+    XCTAssertEqual(BoundFBORead, 0, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, fbo, @"state should changed");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, fbo, @"state should changed");
+    
+    
+    
+    GLenum Target = GL_FRAMEBUFFER;
+    CC_GL_BIND_FRAMEBUFFER_TARGET(Target, 0);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, 0, @"should be bound to 0");
+    XCTAssertEqual(BoundFBORead, 0, @"should be bound to 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, 0, @"state should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, 0, @"state should be 0");
+    
+    
+    
+    CC_GL_BIND_FRAMEBUFFER(GL_DRAW_FRAMEBUFFER, 0);
+    CC_GL_BIND_FRAMEBUFFER(GL_READ_FRAMEBUFFER, fbo);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, 0, @"should be bound to 0");
+    XCTAssertEqual(BoundFBORead, fbo, @"should be bound to the fbo");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, fbo, @"state should be the fbo");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, 0, @"state should be 0");
+    
+    
+    
+    CC_GL_BIND_FRAMEBUFFER(GL_DRAW_FRAMEBUFFER, fbo);
+    CC_GL_BIND_FRAMEBUFFER(GL_READ_FRAMEBUFFER, 0);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, fbo, @"should be bound to the fbo");
+    XCTAssertEqual(BoundFBORead, 0, @"should be bound to 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, 0, @"state should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, fbo, @"state should be the fbo");
+    
+    
+    
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = fbo;
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = 0;
+    
+    CC_GL_BIND_FRAMEBUFFER(GL_DRAW_FRAMEBUFFER, 0);
+    CC_GL_BIND_FRAMEBUFFER(GL_READ_FRAMEBUFFER, fbo);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, fbo, @"should be unchanged");
+    XCTAssertEqual(BoundFBORead, 0, @"should be unchanged");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, fbo, @"state should be the fbo");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, 0, @"state should be 0");
+    
+    
+    
+    Target = GL_DRAW_FRAMEBUFFER;
+    CC_GL_BIND_FRAMEBUFFER_TARGET(Target, fbo);
+    Target = GL_READ_FRAMEBUFFER;
+    CC_GL_BIND_FRAMEBUFFER_TARGET(Target, 0);
+    
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, (GLint*)&BoundFBOWrite); CC_GL_CHECK();
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, (GLint*)&BoundFBORead); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundFBOWrite, fbo, @"should be bound to the fbo");
+    XCTAssertEqual(BoundFBORead, 0, @"should be bound to 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.read, 0, @"state should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindFramebuffer.write, fbo, @"state should be to the fbo");
+    
+    glDeleteFramebuffers(1, &fbo); CC_GL_CHECK();
+#endif
+}
+
 -(void) testScissorState
 {
 #if CC_GL_STATE_SCISSOR

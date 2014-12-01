@@ -247,6 +247,63 @@ if (CC_GL_CURRENT_STATE->enabled._##type) \
 
 
 
+#if CC_GL_STATE_FRAMEBUFFER
+#if GL_DRAW_FRAMEBUFFER && GL_READ_FRAMEBUFFER
+#define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_READ_FRAMEBUFFER(framebuffer) \
+if (CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) \
+{ \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+}
+
+#define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_DRAW_FRAMEBUFFER(framebuffer) \
+if (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer) \
+{ \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+}
+
+#define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_FRAMEBUFFER(framebuffer) \
+if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer)) \
+{ \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+}
+
+#define CC_GL_BIND_FRAMEBUFFER_TARGET(target, framebuffer) \
+switch (target) \
+{ \
+    case GL_READ_FRAMEBUFFER: \
+        CC_GL_BIND_FRAMEBUFFER_TARGET_GL_READ_FRAMEBUFFER(framebuffer); \
+        break; \
+ \
+    case GL_DRAW_FRAMEBUFFER: \
+        CC_GL_BIND_FRAMEBUFFER_TARGET_GL_DRAW_FRAMEBUFFER(framebuffer); \
+        break; \
+ \
+    default: \
+        CC_GL_BIND_FRAMEBUFFER_TARGET_GL_FRAMEBUFFER(framebuffer); \
+        break; \
+}
+
+#define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) CC_GL_BIND_FRAMEBUFFER_TARGET_##target(framebuffer)
+
+#else
+#define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) \
+if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer)) \
+{ \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+}
+
+#endif
+
+#else
+#define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) glBindFramebuffer(target, framebuffer); CC_GL_CHECK()
+#define CC_GL_BIND_FRAMEBUFFER_TARGET(target, framebuffer) glBindFramebuffer(target, framebuffer); CC_GL_CHECK()
+#endif
 
 
 #endif
