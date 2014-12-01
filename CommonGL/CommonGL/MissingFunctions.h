@@ -31,7 +31,7 @@
 
 
 #if CC_OPENGL_ES
-void glGetDoublev(GLenum pname, GLdouble *params);
+#define glGetDoublev(pname, params) glGetFloatv(pname, params)
 #endif
 
 #endif
