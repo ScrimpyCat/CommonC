@@ -306,4 +306,24 @@ if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) || (CC_GL_CURRENT
 #endif
 
 
+
+#if CC_GL_STATE_SCISSOR
+#define CC_GL_SCISSOR(posx, posy, sizew, sizeh) \
+if ((CC_GL_CURRENT_STATE->scissor.x != posx) || \
+    (CC_GL_CURRENT_STATE->scissor.y != posy) || \
+    (CC_GL_CURRENT_STATE->scissor.width != sizew) || \
+    (CC_GL_CURRENT_STATE->scissor.height != sizeh)) \
+{ \
+    CC_GL_CURRENT_STATE->scissor.x = posx; \
+    CC_GL_CURRENT_STATE->scissor.y = posy; \
+    CC_GL_CURRENT_STATE->scissor.width = sizew; \
+    CC_GL_CURRENT_STATE->scissor.height = sizeh; \
+    glScissor(posx, posy, sizew, sizeh); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_SCISSOR(x, y, width, height) glScissor(x, y, width, height); CC_GL_CHECK()
+#endif
+
+
 #endif

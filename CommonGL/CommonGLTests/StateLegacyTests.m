@@ -1377,6 +1377,66 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testScissorMacro
+{
+#if CC_GL_STATE_SCISSOR
+    glScissor(0, 0, 0, 0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_SCISSOR(1, 2, 3, 4);
+    
+    GLint ScissorBox[4];
+    glGetIntegerv(GL_SCISSOR_BOX, ScissorBox); CC_GL_CHECK();
+    
+    XCTAssertEqual(ScissorBox[0], 1, @"should be 1");
+    XCTAssertEqual(ScissorBox[1], 2, @"should be 2");
+    XCTAssertEqual(ScissorBox[2], 3, @"should be 3");
+    XCTAssertEqual(ScissorBox[3], 4, @"should be 4");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.x, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.y, 2, @"should be 2");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.width, 3, @"should be 3");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.height, 4, @"should be 4");
+    
+    
+    
+    CC_GL_SCISSOR(0, 0, 0, 0);
+    
+    glGetIntegerv(GL_SCISSOR_BOX, ScissorBox); CC_GL_CHECK();
+    
+    XCTAssertEqual(ScissorBox[0], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[1], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[2], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[3], 0, @"should be 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.x, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.y, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.width, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.height, 0, @"should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->scissor.x = 1;
+    CC_GL_CURRENT_STATE->scissor.y = 2;
+    CC_GL_CURRENT_STATE->scissor.width = 3;
+    CC_GL_CURRENT_STATE->scissor.height = 4;
+    CC_GL_SCISSOR(1, 2, 3, 4);
+    
+    glGetIntegerv(GL_SCISSOR_BOX, ScissorBox); CC_GL_CHECK();
+    
+    XCTAssertEqual(ScissorBox[0], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[1], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[2], 0, @"should be 0");
+    XCTAssertEqual(ScissorBox[3], 0, @"should be 0");
+    
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.x, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.y, 2, @"should be 2");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.width, 3, @"should be 3");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->scissor.height, 4, @"should be 4");
+#endif
+}
+
 -(void) testShaderState
 {
 #if CC_GL_STATE_SHADER
