@@ -28,6 +28,8 @@
 
 
 #define TEST_(x, r, func) XCTAssertEqual(func(x), (r), @"Test value: (%" PRIu64 ") should be (%" PRIu64 "). Instead saying it is: (%" PRIu64 ").", x, r, func(x));
+#define TEST_BOOL_(x, r, func) XCTAssertEqual(func(x), (r), @"Test value: (%" PRIu64 ") should be (%d). Instead saying it is: (%d).", x, r, func(x));
+#define TEST_FLOAT_BOOL_(x, r, func) XCTAssertEqual(func(x), (r), @"Test value: (%f) should be (%d). Instead saying it is: (%d).", x, r, func(x));
 
 @implementation BitTricksTests
 
@@ -134,6 +136,48 @@
     
     //n set bits
     for (uint64_t Loop = 0, n = 1; Loop < 64; Loop++, n = (n << 1) | 1) TEST_SET_BIT_COUNT(n, Loop + 1);
+}
+
+-(void) testCCBitIsPowerOf2
+{
+#define TEST_BIT_IS_POWER_2(x, r) TEST_BOOL_(x, r, CCBitIsPowerOf2)
+    
+    //0 set bits
+    TEST_BIT_IS_POWER_2(UINT64_C(0), FALSE);
+    
+    //1 set bits
+    for (int Loop = 0; Loop < 64; Loop++) TEST_BIT_IS_POWER_2(UINT64_C(1) << Loop, TRUE);
+    
+    //n set bits
+    for (uint64_t Loop = 1, n = 3; Loop < 64; Loop++, n = (n << 1) | 1) TEST_BIT_IS_POWER_2(n, FALSE);
+}
+
+-(void) testCCBitFloat32IsPowerOf2
+{
+#define TEST_FLOAT_IS_POWER_2(x, r) TEST_FLOAT_BOOL_(x, r, CCBitFloat32IsPowerOf2)
+    
+    //0.0
+    TEST_FLOAT_IS_POWER_2(0.0f, FALSE);
+    
+    //Powers of 2
+    for (int Loop = 1; Loop < 255; Loop++) TEST_FLOAT_IS_POWER_2((*(float*)&(uint32_t){ (Loop << 23) }), TRUE);
+    
+    //Non powers of 2
+    for (int Loop = 0; Loop < 255; Loop++) TEST_FLOAT_IS_POWER_2((*(float*)&(uint32_t){ (Loop << 23) | 1 }), FALSE);
+}
+
+-(void) testCCBitFloat64IsPowerOf2
+{
+#define TEST_DOUBLE_IS_POWER_2(x, r) TEST_FLOAT_BOOL_(x, r, CCBitFloat64IsPowerOf2)
+    
+    //0.0
+    TEST_DOUBLE_IS_POWER_2(0.0, FALSE);
+    
+    //Powers of 2
+    for (uint64_t Loop = 1; Loop < 2047; Loop++) TEST_DOUBLE_IS_POWER_2((*(double*)&(uint64_t){ (Loop << 52) }), TRUE);
+    
+    //Non powers of 2
+    for (uint64_t Loop = 0; Loop < 2047; Loop++) TEST_DOUBLE_IS_POWER_2((*(double*)&(uint64_t){ (Loop << 52) | 1 }), FALSE);
 }
 
 @end

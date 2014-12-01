@@ -44,6 +44,10 @@ static CC_FORCE_INLINE uint64_t CCBitMaskForValue(uint64_t x) CC_CONSTANT_FUNCTI
 static CC_FORCE_INLINE uint64_t CCBitMaskForLowerPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE uint64_t CCBitMaskForUnsetValue(uint64_t x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE uint64_t CCBitCountSet(uint64_t x) CC_CONSTANT_FUNCTION;
+static CC_FORCE_INLINE _Bool CCBitIsPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
+static CC_FORCE_INLINE _Bool CCBitFloat32IsPowerOf2(float x) CC_CONSTANT_FUNCTION;
+static CC_FORCE_INLINE _Bool CCBitFloat64IsPowerOf2(double x) CC_CONSTANT_FUNCTION;
+
 
 
 //Finds lowest unset bit (00010110 -> 00000001, 00001000 -> 00000001)
@@ -124,6 +128,26 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitCountSet(uint64_t x)
     x = (x * 0x0101010101010101) >> 56;
     
     return x;
+}
+
+//Checks if the value is a power of 2
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION _Bool CCBitIsPowerOf2(uint64_t x)
+{
+    return x && !(x & ~-x);
+}
+
+//Checks if the float value is a power of 2
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION _Bool CCBitFloat32IsPowerOf2(float x)
+{
+//    return !!((*(uint32_t*)&x) & 0x7f800000) & !((*(uint32_t*)&x) & 0x7fffff);
+    return x != 0.0f && !((*(uint32_t*)&x) & 0x7fffff);
+}
+
+//Checks if the double value is a power of 2
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION _Bool CCBitFloat64IsPowerOf2(double x)
+{
+//    return !!((*(uint64_t*)&x) & 0x7ff0000000000000) & !((*(uint64_t*)&x) & 0xfffffffffffff);
+    return x != 0.0 && !((*(uint64_t*)&x) & 0xfffffffffffff);
 }
 
 #endif
