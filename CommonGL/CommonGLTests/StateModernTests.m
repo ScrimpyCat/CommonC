@@ -1408,6 +1408,47 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testShaderMacro
+{
+#if CC_GL_STATE_SHADER
+    glUseProgram(0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    GLuint program = glCreateProgram(); CC_GL_CHECK();
+    glLinkProgram(program); CC_GL_CHECK();
+    
+    CC_GL_USE_PROGRAM(program);
+    
+    GLuint BoundProgram;
+    glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&BoundProgram); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundProgram, program, @"should be %u", program);
+    XCTAssertEqual(CC_GL_CURRENT_STATE->useProgram.program, program, @"should be %u", program);
+    
+    
+    
+    CC_GL_USE_PROGRAM(0);
+    
+    glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&BoundProgram); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundProgram, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->useProgram.program, 0, @"should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->useProgram.program = program;
+    CC_GL_USE_PROGRAM(program);
+    
+    glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&BoundProgram); CC_GL_CHECK();
+    
+    XCTAssertEqual(BoundProgram, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->useProgram.program, program, @"should be %u", program);
+    
+    glDeleteProgram(program); CC_GL_CHECK();
+#endif
+}
+
 -(void) testStencilState
 {
 #if CC_GL_STATE_STENCIL

@@ -326,4 +326,18 @@ if ((CC_GL_CURRENT_STATE->scissor.x != posx) || \
 #endif
 
 
+
+#if CC_GL_STATE_SHADER
+#define CC_GL_USE_PROGRAM(prog) \
+if (CC_GL_CURRENT_STATE->useProgram.program != prog) \
+{ \
+    CC_GL_CURRENT_STATE->useProgram.program = prog; \
+    glUseProgram(prog); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_USE_PROGRAM(prog) glUseProgram(prog); CC_GL_CHECK()
+#endif
+
+
 #endif
