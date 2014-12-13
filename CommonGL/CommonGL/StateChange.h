@@ -116,9 +116,9 @@ if ((CC_GL_CURRENT_STATE->blendEquation.rgb.mode != (modeRGB)) || \
 #if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_1_5, CC_OPENGL_ES_VERSION_1_0) && CC_GL_VERSION_MAX_SUPPORTED(CC_OPENGL_VERSION_NA, CC_OPENGL_ES_VERSION_NA)
 
 #define CC_GL_BIND_BUFFER(target, buffer) \
-if (CC_GL_CURRENT_STATE->bindBuffer._##target != buffer) \
+if (CC_GL_CURRENT_STATE->bindBuffer._##target != (buffer)) \
 { \
-    CC_GL_CURRENT_STATE->bindBuffer._##target = buffer; \
+    CC_GL_CURRENT_STATE->bindBuffer._##target = (buffer); \
     glBindBuffer((target), (buffer)); CC_GL_CHECK(); \
 }
 
@@ -250,25 +250,25 @@ if (CC_GL_CURRENT_STATE->enabled._##type) \
 #if CC_GL_STATE_FRAMEBUFFER
 #if GL_DRAW_FRAMEBUFFER && GL_READ_FRAMEBUFFER
 #define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_READ_FRAMEBUFFER(framebuffer) \
-if (CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) \
+if (CC_GL_CURRENT_STATE->bindFramebuffer.read != (framebuffer)) \
 { \
-    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = (framebuffer); \
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, (framebuffer)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_DRAW_FRAMEBUFFER(framebuffer) \
-if (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer) \
+if (CC_GL_CURRENT_STATE->bindFramebuffer.write != (framebuffer)) \
 { \
-    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = (framebuffer); \
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, (framebuffer)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_BIND_FRAMEBUFFER_TARGET_GL_FRAMEBUFFER(framebuffer) \
-if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer)) \
+if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != (framebuffer)) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != (framebuffer))) \
 { \
-    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
-    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = (framebuffer); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = (framebuffer); \
+    glBindFramebuffer(GL_FRAMEBUFFER, (framebuffer)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_BIND_FRAMEBUFFER_TARGET(target, framebuffer) \
@@ -291,47 +291,47 @@ switch (target) \
 
 #else
 #define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) \
-if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != framebuffer) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != framebuffer)) \
+if ((CC_GL_CURRENT_STATE->bindFramebuffer.read != (framebuffer)) || (CC_GL_CURRENT_STATE->bindFramebuffer.write != (framebuffer))) \
 { \
-    CC_GL_CURRENT_STATE->bindFramebuffer.read = framebuffer; \
-    CC_GL_CURRENT_STATE->bindFramebuffer.write = framebuffer; \
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.read = (framebuffer); \
+    CC_GL_CURRENT_STATE->bindFramebuffer.write = (framebuffer); \
+    glBindFramebuffer(GL_FRAMEBUFFER, (framebuffer)); CC_GL_CHECK(); \
 }
 
 #endif
 
 #else
-#define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) glBindFramebuffer(target, framebuffer); CC_GL_CHECK()
-#define CC_GL_BIND_FRAMEBUFFER_TARGET(target, framebuffer) glBindFramebuffer(target, framebuffer); CC_GL_CHECK()
+#define CC_GL_BIND_FRAMEBUFFER(target, framebuffer) glBindFramebuffer((target), (framebuffer)); CC_GL_CHECK()
+#define CC_GL_BIND_FRAMEBUFFER_TARGET(target, framebuffer) glBindFramebuffer((target), (framebuffer)); CC_GL_CHECK()
 #endif
 
 
 
 #if CC_GL_STATE_SCISSOR
 #define CC_GL_SCISSOR(posx, posy, sizew, sizeh) \
-if ((CC_GL_CURRENT_STATE->scissor.x != posx) || \
-    (CC_GL_CURRENT_STATE->scissor.y != posy) || \
-    (CC_GL_CURRENT_STATE->scissor.width != sizew) || \
-    (CC_GL_CURRENT_STATE->scissor.height != sizeh)) \
+if ((CC_GL_CURRENT_STATE->scissor.x != (posx)) || \
+    (CC_GL_CURRENT_STATE->scissor.y != (posy)) || \
+    (CC_GL_CURRENT_STATE->scissor.width != (sizew)) || \
+    (CC_GL_CURRENT_STATE->scissor.height != (sizeh))) \
 { \
-    CC_GL_CURRENT_STATE->scissor.x = posx; \
-    CC_GL_CURRENT_STATE->scissor.y = posy; \
-    CC_GL_CURRENT_STATE->scissor.width = sizew; \
-    CC_GL_CURRENT_STATE->scissor.height = sizeh; \
-    glScissor(posx, posy, sizew, sizeh); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->scissor.x = (posx); \
+    CC_GL_CURRENT_STATE->scissor.y = (posy); \
+    CC_GL_CURRENT_STATE->scissor.width = (sizew); \
+    CC_GL_CURRENT_STATE->scissor.height = (sizeh); \
+    glScissor((posx), (posy), (sizew), (sizeh)); CC_GL_CHECK(); \
 }
 
 #else
-#define CC_GL_SCISSOR(x, y, width, height) glScissor(x, y, width, height); CC_GL_CHECK()
+#define CC_GL_SCISSOR(x, y, width, height) glScissor((x), (y), (width), (height)); CC_GL_CHECK()
 #endif
 
 
 
 #if CC_GL_STATE_SHADER
 #define CC_GL_USE_PROGRAM(prog) \
-if (CC_GL_CURRENT_STATE->useProgram.program != prog) \
+if (CC_GL_CURRENT_STATE->useProgram.program != (prog)) \
 { \
-    CC_GL_CURRENT_STATE->useProgram.program = prog; \
+    CC_GL_CURRENT_STATE->useProgram.program = (prog); \
     glUseProgram(prog); CC_GL_CHECK(); \
 }
 
@@ -343,64 +343,64 @@ if (CC_GL_CURRENT_STATE->useProgram.program != prog) \
 
 #if CC_GL_STATE_STENCIL
 #define CC_GL_CLEAR_STENCIL(v) \
-if (CC_GL_CURRENT_STATE->clearStencil.s != v) \
+if (CC_GL_CURRENT_STATE->clearStencil.s != (v)) \
 { \
-    CC_GL_CURRENT_STATE->clearStencil.s = v; \
+    CC_GL_CURRENT_STATE->clearStencil.s = (v); \
     glClearStencil(v); CC_GL_CHECK(); \
 }
 
 #if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_1_0, CC_OPENGL_ES_VERSION_1_0) && CC_GL_VERSION_MAX_SUPPORTED(CC_OPENGL_VERSION_1_5, CC_OPENGL_ES_VERSION_1_1)
 #define CC_GL_STENCIL_FUNC(f, r, m) \
-if ((CC_GL_CURRENT_STATE->stencilFunc.func != f) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.ref != r) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.mask != m)) \
+if ((CC_GL_CURRENT_STATE->stencilFunc.func != (f)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.ref != (r)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.mask != (m))) \
 { \
-    CC_GL_CURRENT_STATE->stencilFunc.func = f; \
-    CC_GL_CURRENT_STATE->stencilFunc.ref = r; \
-    CC_GL_CURRENT_STATE->stencilFunc.mask = m; \
-    glStencilFunc(f, r, m); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilFunc.func = (f); \
+    CC_GL_CURRENT_STATE->stencilFunc.ref = (r); \
+    CC_GL_CURRENT_STATE->stencilFunc.mask = (m); \
+    glStencilFunc((f), (r), (m)); CC_GL_CHECK(); \
 }
 
 #else
 #define CC_GL_STENCIL_FUNC(f, r, m) \
-if ((CC_GL_CURRENT_STATE->stencilFunc.front.func != f) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.front.ref != r) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.front.mask != m) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.back.func != f) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.back.ref != r) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.back.mask != m)) \
+if ((CC_GL_CURRENT_STATE->stencilFunc.front.func != (f)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.front.ref != (r)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.front.mask != (m)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.back.func != (f)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.back.ref != (r)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.back.mask != (m))) \
 { \
-    CC_GL_CURRENT_STATE->stencilFunc.front.func = f; \
-    CC_GL_CURRENT_STATE->stencilFunc.front.ref = r; \
-    CC_GL_CURRENT_STATE->stencilFunc.front.mask = m; \
-    CC_GL_CURRENT_STATE->stencilFunc.back.func = f; \
-    CC_GL_CURRENT_STATE->stencilFunc.back.ref = r; \
-    CC_GL_CURRENT_STATE->stencilFunc.back.mask = m; \
-    glStencilFunc(f, r, m); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.func = (f); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.ref = (r); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.mask = (m); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.func = (f); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.ref = (r); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.mask = (m); \
+    glStencilFunc((f), (r), (m)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_FUNC_SEPARATE_FACE_GL_FRONT_AND_BACK(f, r, m) CC_GL_STENCIL_FUNC(f, r, m)
 
 #define CC_GL_STENCIL_FUNC_SEPARATE_FACE_GL_FRONT(f, r, m) \
-if ((CC_GL_CURRENT_STATE->stencilFunc.front.func != f) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.front.ref != r) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.front.mask != m)) \
+if ((CC_GL_CURRENT_STATE->stencilFunc.front.func != (f)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.front.ref != (r)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.front.mask != (m))) \
 { \
-    CC_GL_CURRENT_STATE->stencilFunc.front.func = f; \
-    CC_GL_CURRENT_STATE->stencilFunc.front.ref = r; \
-    CC_GL_CURRENT_STATE->stencilFunc.front.mask = m; \
-    glStencilFuncSeparate(GL_FRONT, f, r, m); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.func = (f); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.ref = (r); \
+    CC_GL_CURRENT_STATE->stencilFunc.front.mask = (m); \
+    glStencilFuncSeparate(GL_FRONT, (f), (r), (m)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_FUNC_SEPARATE_FACE_GL_BACK(f, r, m) \
-if ((CC_GL_CURRENT_STATE->stencilFunc.back.func != f) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.back.ref != r) || \
-    (CC_GL_CURRENT_STATE->stencilFunc.back.mask != m)) \
+if ((CC_GL_CURRENT_STATE->stencilFunc.back.func != (f)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.back.ref != (r)) || \
+    (CC_GL_CURRENT_STATE->stencilFunc.back.mask != (m))) \
 { \
-    CC_GL_CURRENT_STATE->stencilFunc.back.func = f; \
-    CC_GL_CURRENT_STATE->stencilFunc.back.ref = r; \
-    CC_GL_CURRENT_STATE->stencilFunc.back.mask = m; \
-    glStencilFuncSeparate(GL_BACK, f, r, m); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.func = (f); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.ref = (r); \
+    CC_GL_CURRENT_STATE->stencilFunc.back.mask = (m); \
+    glStencilFuncSeparate(GL_BACK, (f), (r), (m)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_FUNC_SEPARATE(face, f, r, m) CC_GL_STENCIL_FUNC_SEPARATE_FACE_##face(f, r, m)
@@ -425,35 +425,35 @@ switch (face) \
 
 #if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_1_0, CC_OPENGL_ES_VERSION_1_0) && CC_GL_VERSION_MAX_SUPPORTED(CC_OPENGL_VERSION_1_5, CC_OPENGL_ES_VERSION_1_1)
 #define CC_GL_STENCIL_MASK(m) \
-if (CC_GL_CURRENT_STATE->stencilMask.mask != m) \
+if (CC_GL_CURRENT_STATE->stencilMask.mask != (m)) \
 { \
-    CC_GL_CURRENT_STATE->stencilMask.mask = m; \
+    CC_GL_CURRENT_STATE->stencilMask.mask = (m); \
     glStencilMask(m); CC_GL_CHECK(); \
 }
 
 #else
 #define CC_GL_STENCIL_MASK(m) \
-if ((CC_GL_CURRENT_STATE->stencilMask.front.mask != m) || \
-    (CC_GL_CURRENT_STATE->stencilMask.back.mask != m)) \
+if ((CC_GL_CURRENT_STATE->stencilMask.front.mask != (m)) || \
+    (CC_GL_CURRENT_STATE->stencilMask.back.mask != (m))) \
 { \
-    CC_GL_CURRENT_STATE->stencilMask.front.mask = m; \
-    CC_GL_CURRENT_STATE->stencilMask.back.mask = m; \
+    CC_GL_CURRENT_STATE->stencilMask.front.mask = (m); \
+    CC_GL_CURRENT_STATE->stencilMask.back.mask = (m); \
     glStencilMask(m); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_MASK_SEPARATE_FACE_GL_FRONT_AND_BACK(m) CC_GL_STENCIL_MASK(m)
 
 #define CC_GL_STENCIL_MASK_SEPARATE_FACE_GL_FRONT(m) \
-if (CC_GL_CURRENT_STATE->stencilMask.front.mask != m) \
+if (CC_GL_CURRENT_STATE->stencilMask.front.mask != (m)) \
 { \
-    CC_GL_CURRENT_STATE->stencilMask.front.mask = m; \
+    CC_GL_CURRENT_STATE->stencilMask.front.mask = (m); \
     glStencilMaskSeparate(GL_FRONT, m); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_MASK_SEPARATE_FACE_GL_BACK(m) \
-if (CC_GL_CURRENT_STATE->stencilMask.back.mask != m) \
+if (CC_GL_CURRENT_STATE->stencilMask.back.mask != (m)) \
 { \
-    CC_GL_CURRENT_STATE->stencilMask.back.mask = m; \
+    CC_GL_CURRENT_STATE->stencilMask.back.mask = (m); \
     glStencilMaskSeparate(GL_BACK, m); CC_GL_CHECK(); \
 }
 
@@ -479,56 +479,56 @@ switch (face) \
 
 #if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_1_0, CC_OPENGL_ES_VERSION_1_0) && CC_GL_VERSION_MAX_SUPPORTED(CC_OPENGL_VERSION_1_5, CC_OPENGL_ES_VERSION_1_1)
 #define CC_GL_STENCIL_OP(fail, zfail, zpass) \
-if ((CC_GL_CURRENT_STATE->stencilOp.sfail != fail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.dpfail != zfail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.dppass != zpass)) \
+if ((CC_GL_CURRENT_STATE->stencilOp.sfail != (fail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.dpfail != (zfail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.dppass != (zpass))) \
 { \
-    CC_GL_CURRENT_STATE->stencilOp.sfail = fail; \
-    CC_GL_CURRENT_STATE->stencilOp.dpfail = zfail; \
-    CC_GL_CURRENT_STATE->stencilOp.dppass = zpass; \
-    glStencilOp(fail, zfail, zpass); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilOp.sfail = (fail); \
+    CC_GL_CURRENT_STATE->stencilOp.dpfail = (zfail); \
+    CC_GL_CURRENT_STATE->stencilOp.dppass = (zpass); \
+    glStencilOp((fail), (zfail), (zpass)); CC_GL_CHECK(); \
 }
 
 #else
 #define CC_GL_STENCIL_OP(fail, zfail, zpass) \
-if ((CC_GL_CURRENT_STATE->stencilOp.front.sfail != fail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.front.dpfail != zfail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.front.dppass != zpass) || \
-    (CC_GL_CURRENT_STATE->stencilOp.back.sfail != fail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.back.dpfail != zfail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.back.dppass != zpass)) \
+if ((CC_GL_CURRENT_STATE->stencilOp.front.sfail != (fail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.front.dpfail != (zfail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.front.dppass != (zpass)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.back.sfail != (fail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.back.dpfail != (zfail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.back.dppass != (zpass))) \
 { \
-    CC_GL_CURRENT_STATE->stencilOp.front.sfail = fail; \
-    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = zfail; \
-    CC_GL_CURRENT_STATE->stencilOp.front.dppass = zpass; \
-    CC_GL_CURRENT_STATE->stencilOp.back.sfail = fail; \
-    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = zfail; \
-    CC_GL_CURRENT_STATE->stencilOp.back.dppass = zpass; \
-    glStencilOp(fail, zfail, zpass); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilOp.front.sfail = (fail); \
+    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = (zfail); \
+    CC_GL_CURRENT_STATE->stencilOp.front.dppass = (zpass); \
+    CC_GL_CURRENT_STATE->stencilOp.back.sfail = (fail); \
+    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = (zfail); \
+    CC_GL_CURRENT_STATE->stencilOp.back.dppass = (zpass); \
+    glStencilOp((fail), (zfail), (zpass)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_OP_SEPARATE_FACE_GL_FRONT_AND_BACK(fail, zfail, zpass) CC_GL_STENCIL_OP(fail, zfail, zpass)
 
 #define CC_GL_STENCIL_OP_SEPARATE_FACE_GL_FRONT(fail, zfail, zpass) \
-if ((CC_GL_CURRENT_STATE->stencilOp.front.sfail != fail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.front.dpfail != zfail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.front.dppass != zpass)) \
+if ((CC_GL_CURRENT_STATE->stencilOp.front.sfail != (fail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.front.dpfail != (zfail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.front.dppass != (zpass))) \
 { \
-    CC_GL_CURRENT_STATE->stencilOp.front.sfail = fail; \
-    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = zfail; \
-    CC_GL_CURRENT_STATE->stencilOp.front.dppass = zpass; \
-    glStencilOpSeparate(GL_FRONT, fail, zfail, zpass); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilOp.front.sfail = (fail); \
+    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = (zfail); \
+    CC_GL_CURRENT_STATE->stencilOp.front.dppass = (zpass); \
+    glStencilOpSeparate(GL_FRONT, (fail), (zfail), (zpass)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_OP_SEPARATE_FACE_GL_BACK(fail, zfail, zpass) \
-if ((CC_GL_CURRENT_STATE->stencilOp.back.sfail != fail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.back.dpfail != zfail) || \
-    (CC_GL_CURRENT_STATE->stencilOp.back.dppass != zpass)) \
+if ((CC_GL_CURRENT_STATE->stencilOp.back.sfail != (fail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.back.dpfail != (zfail)) || \
+    (CC_GL_CURRENT_STATE->stencilOp.back.dppass != (zpass))) \
 { \
-    CC_GL_CURRENT_STATE->stencilOp.back.sfail = fail; \
-    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = zfail; \
-    CC_GL_CURRENT_STATE->stencilOp.back.dppass = zpass; \
-    glStencilOpSeparate(GL_BACK, fail, zfail, zpass); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->stencilOp.back.sfail = (fail); \
+    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = (zfail); \
+    CC_GL_CURRENT_STATE->stencilOp.back.dppass = (zpass); \
+    glStencilOpSeparate(GL_BACK, (fail), (zfail), (zpass)); CC_GL_CHECK(); \
 }
 
 #define CC_GL_STENCIL_OP_SEPARATE(face, fail, zfail, zpass) CC_GL_STENCIL_OP_SEPARATE_FACE_##face(fail, zfail, zpass)
@@ -553,14 +553,14 @@ switch (face) \
 
 #else
 #define CC_GL_CLEAR_STENCIL(v) glClearStencil(v); CC_GL_CHECK()
-#define CC_GL_STENCIL_FUNC(f, r, m) glStencilFunc(f, r, m); CC_GL_CHECK()
+#define CC_GL_STENCIL_FUNC(f, r, m) glStencilFunc((f), (r), (m)); CC_GL_CHECK()
 #define CC_GL_STENCIL_MASK(m) glStencilMask(m); CC_GL_CHECK()
-#define CC_GL_STENCIL_OP(fail, zfail, zpass) glStencilOp(fail, zfail, zpass); CC_GL_CHECK()
+#define CC_GL_STENCIL_OP(fail, zfail, zpass) glStencilOp((fail), (zfail), (zpass)); CC_GL_CHECK()
 
 #if CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_2_0, CC_OPENGL_ES_VERSION_2_0)
-#define CC_GL_STENCIL_FUNC_SEPARATE(face, f, r, m) glStencilFuncSeparate(face, f, r, m); CC_GL_CHECK()
-#define CC_GL_STENCIL_MASK_SEPARATE(face, m) glStencilMaskSeparate(face, m); CC_GL_CHECK()
-#define CC_GL_STENCIL_OP_SEPARATE(face, fail, zfail, zpass) glStencilOpSeparate(face, fail, zfail, zpass); CC_GL_CHECK()
+#define CC_GL_STENCIL_FUNC_SEPARATE(face, f, r, m) glStencilFuncSeparate((face), (f), (r), (m)); CC_GL_CHECK()
+#define CC_GL_STENCIL_MASK_SEPARATE(face, m) glStencilMaskSeparate((face), (m)); CC_GL_CHECK()
+#define CC_GL_STENCIL_OP_SEPARATE(face, fail, zfail, zpass) glStencilOpSeparate((face), (fail), (zfail), (zpass)); CC_GL_CHECK()
 #endif
 
 #endif
@@ -569,20 +569,20 @@ switch (face) \
 
 #if CC_GL_STATE_VIEWPORT
 #define CC_GL_VIEWPORT(posx, posy, sizew, sizeh) \
-if ((CC_GL_CURRENT_STATE->viewport.x != posx) || \
-    (CC_GL_CURRENT_STATE->viewport.y != posy) || \
-    (CC_GL_CURRENT_STATE->viewport.width != sizew) || \
-    (CC_GL_CURRENT_STATE->viewport.height != sizeh)) \
+if ((CC_GL_CURRENT_STATE->viewport.x != (posx)) || \
+    (CC_GL_CURRENT_STATE->viewport.y != (posy)) || \
+    (CC_GL_CURRENT_STATE->viewport.width != (sizew)) || \
+    (CC_GL_CURRENT_STATE->viewport.height != (sizeh))) \
 { \
-    CC_GL_CURRENT_STATE->viewport.x = posx; \
-    CC_GL_CURRENT_STATE->viewport.y = posy; \
-    CC_GL_CURRENT_STATE->viewport.width = sizew; \
-    CC_GL_CURRENT_STATE->viewport.height = sizeh; \
-    glViewport(posx, posy, sizew, sizeh); CC_GL_CHECK(); \
+    CC_GL_CURRENT_STATE->viewport.x = (posx); \
+    CC_GL_CURRENT_STATE->viewport.y = (posy); \
+    CC_GL_CURRENT_STATE->viewport.width = (sizew); \
+    CC_GL_CURRENT_STATE->viewport.height = (sizeh); \
+    glViewport((posx), (posy), (sizew), (sizeh)); CC_GL_CHECK(); \
 }
 
 #else
-#define CC_GL_VIEWPORT(x, y, width, height) glViewport(x, y, width, height); CC_GL_CHECK()
+#define CC_GL_VIEWPORT(x, y, width, height) glViewport((x), (y), (width), (height)); CC_GL_CHECK()
 #endif
 
 
