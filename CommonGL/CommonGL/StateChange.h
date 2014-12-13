@@ -589,6 +589,22 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
 
 
 
+#if GL_APPLE_vertex_array_object || GL_OES_vertex_array_object || CC_GL_VERSION_MIN_REQUIRED(CC_OPENGL_VERSION_3_0, CC_OPENGL_ES_VERSION_3_0)
+#if CC_GL_STATE_VERTEX_ARRAY_OBJECT
+#define CC_GL_BIND_VERTEX_ARRAY(vao) \
+if (CC_GL_CURRENT_STATE->bindVertexArray.array != (vao)) \
+{ \
+    CC_GL_CURRENT_STATE->bindVertexArray.array = (vao); \
+    glBindVertexArray(vao); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_BIND_VERTEX_ARRAY(vao) glBindVertexArray(vao); CC_GL_CHECK()
+#endif
+#endif
+
+
+
 #if CC_GL_STATE_VIEWPORT
 #define CC_GL_VIEWPORT(posx, posy, sizew, sizeh) \
 if ((CC_GL_CURRENT_STATE->viewport.x != (posx)) || \

@@ -2393,6 +2393,43 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._##target, 
 #endif
 }
 
+-(void) testBindVertexArrayMacro
+{
+#if CC_GL_STATE_VERTEX_ARRAY_OBJECT
+    glBindVertexArray(0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    GLuint vao;
+    glGenVertexArrays(1, &vao); CC_GL_CHECK();
+    CC_GL_BIND_VERTEX_ARRAY(vao);
+    
+    GLuint BoundVAO;
+    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&BoundVAO); CC_GL_CHECK();
+    XCTAssertEqual(BoundVAO, vao, @"should be %u", vao);
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindVertexArray.array, vao, @"should be %u", vao);
+    
+    
+    
+    CC_GL_BIND_VERTEX_ARRAY(0);
+    
+    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&BoundVAO); CC_GL_CHECK();
+    XCTAssertEqual(BoundVAO, 0, @"should be %u", 0);
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindVertexArray.array, 0, @"should be %u", 0);
+    
+    
+    
+    CC_GL_CURRENT_STATE->bindVertexArray.array = vao;
+    CC_GL_BIND_VERTEX_ARRAY(vao);
+    
+    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, (GLint*)&BoundVAO); CC_GL_CHECK();
+    XCTAssertEqual(BoundVAO, 0, @"should be %u", 0);
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindVertexArray.array, vao, @"should be %u", vao);
+    
+    glDeleteVertexArrays(1, &vao); CC_GL_CHECK();
+#endif
+}
+
 -(void) testViewportState
 {
 #if CC_GL_STATE_VIEWPORT
