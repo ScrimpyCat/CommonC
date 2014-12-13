@@ -587,8 +587,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_1D
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_1D(t)
 #endif
 
@@ -597,8 +596,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_2D, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D(t)
 #endif
 
@@ -607,8 +605,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_3D, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_3D
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_3D(t)
 #endif
 
@@ -617,8 +614,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_1D_ARRAY, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_1D_ARRAY
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_1D_ARRAY(t)
 #endif
 
@@ -627,8 +623,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_2D_ARRAY, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_ARRAY
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_ARRAY(t)
 #endif
 
@@ -654,8 +649,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_CUBE_MAP, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_CUBE_MAP
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_CUBE_MAP(t)
 #endif
 
@@ -664,8 +658,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_CUBE_MAP_ARRAY, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_CUBE_MAP_ARRAY
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_CUBE_MAP_ARRAY(t)
 #endif
 
@@ -674,8 +667,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_BUFFER, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_BUFFER
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_BUFFER(t)
 #endif
 
@@ -684,8 +676,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_2D_MULTISAMPLE, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_MULTISAMPLE
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_MULTISAMPLE(t)
 #endif
 
@@ -694,8 +685,7 @@ if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture 
     CC_GL_BIND_TEXTURE(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, t); \
     break; \
 )
-#endif
-#ifndef CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+#else
 #define CC_GL_BIND_TEXTURE_TARGET_GL_TEXTURE_2D_MULTISAMPLE_ARRAY(t)
 #endif
 
