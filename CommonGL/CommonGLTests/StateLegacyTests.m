@@ -2365,6 +2365,19 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._##target, 
     XCTAssertEqual(BoundTexture, Texture, @"Should be unchanged");
     XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._GL_TEXTURE_1D, CurrentTexture, @"State should be the texture");
     
+    
+    
+    GLenum Target = GL_TEXTURE_1D;
+    CurrentTexture = Texture;
+    CC_GL_BIND_TEXTURE_TARGET(Target, CurrentTexture);
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    
+    
+    
+    CurrentTexture = 0;
+    CC_GL_BIND_TEXTURE_TARGET(Target, CurrentTexture);
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    
     glDeleteTextures(1, &Texture); CC_GL_CHECK();
 #endif
 }
