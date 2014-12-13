@@ -1528,6 +1528,606 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testStencilClearMacro
+{
+#if CC_GL_STATE_STENCIL
+    glClearStencil(0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_CLEAR_STENCIL(1);
+    
+    GLint s;
+    glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &s); CC_GL_CHECK();
+    
+    XCTAssertEqual(s, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearStencil.s, 1, @"should be 1");
+    
+    
+    CC_GL_CLEAR_STENCIL(0);
+    
+    glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &s); CC_GL_CHECK();
+    
+    XCTAssertEqual(s, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearStencil.s, 0, @"should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->clearStencil.s = 1;
+    CC_GL_CLEAR_STENCIL(1);
+    
+    glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &s); CC_GL_CHECK();
+    
+    XCTAssertEqual(s, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->clearStencil.s, 1, @"should be 1");
+#endif
+}
+
+-(void) testStencilFuncMacro
+{
+#if CC_GL_STATE_STENCIL
+    glStencilFunc(GL_NEVER, 0, 0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_STENCIL_FUNC(GL_ALWAYS, 1, 1);
+    
+    GLint front[3], back[3];
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(front[1], 1, @"should be 1");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(back[1], 1, @"should be 1");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(front[1], 0, @"should be 0");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(back[1], 0, @"should be 0");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_CURRENT_STATE->stencilFunc.front.func = GL_ALWAYS;
+    CC_GL_CURRENT_STATE->stencilFunc.front.ref = 1;
+    CC_GL_CURRENT_STATE->stencilFunc.front.mask = 0;
+    CC_GL_CURRENT_STATE->stencilFunc.back.func = GL_ALWAYS;
+    CC_GL_CURRENT_STATE->stencilFunc.back.ref = 1;
+    CC_GL_CURRENT_STATE->stencilFunc.back.mask = 0;
+    
+    CC_GL_STENCIL_FUNC(GL_ALWAYS, 1, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(front[1], 0, @"should be 0");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(back[1], 0, @"should be 0");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    CC_GL_STENCIL_FUNC_SEPARATE(GL_FRONT, GL_ALWAYS, 1, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(front[1], 1, @"should be 1");
+    XCTAssertEqual(front[2], 0, @"should be 0");
+    XCTAssertEqual(back[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(back[1], 0, @"should be 0");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    CC_GL_STENCIL_FUNC_SEPARATE(GL_BACK, GL_ALWAYS, 1, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(front[1], 0, @"should be 0");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(back[1], 1, @"should be 1");
+    XCTAssertEqual(back[2], 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    
+    CC_GL_CURRENT_STATE->stencilFunc.front.func = GL_ALWAYS;
+    CC_GL_CURRENT_STATE->stencilFunc.front.ref = 1;
+    CC_GL_CURRENT_STATE->stencilFunc.front.mask = 1;
+    CC_GL_CURRENT_STATE->stencilFunc.back.func = GL_ALWAYS;
+    CC_GL_CURRENT_STATE->stencilFunc.back.ref = 0;
+    CC_GL_CURRENT_STATE->stencilFunc.back.mask = 0;
+    
+    CC_GL_STENCIL_FUNC_SEPARATE(GL_FRONT, GL_ALWAYS, 1, 1);
+    CC_GL_STENCIL_FUNC_SEPARATE(GL_BACK, GL_ALWAYS, 0, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(front[1], 0, @"should be 0");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(back[1], 0, @"should be 0");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    GLenum face = GL_BACK;
+    CC_GL_STENCIL_FUNC_SEPARATE_FACE(face, GL_ALWAYS, 1, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(front[1], 0, @"should be 0");
+    XCTAssertEqual(front[2], 1, @"should be 1");
+    XCTAssertEqual(back[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(back[1], 1, @"should be 1");
+    XCTAssertEqual(back[2], 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_STENCIL_FUNC(GL_NEVER, 0, 1);
+    face = GL_FRONT;
+    CC_GL_STENCIL_FUNC_SEPARATE_FACE(face, GL_ALWAYS, 1, 0);
+    
+    glGetIntegerv(GL_STENCIL_FUNC, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_REF, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FUNC, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_REF, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_VALUE_MASK, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(front[1], 1, @"should be 1");
+    XCTAssertEqual(front[2], 0, @"should be 0");
+    XCTAssertEqual(back[0], GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(back[1], 0, @"should be 0");
+    XCTAssertEqual(back[2], 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.func, GL_ALWAYS, @"should be GL_ALWAYS");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.ref, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.func, GL_NEVER, @"should be GL_NEVER");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.ref, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilFunc.back.mask, 1, @"should be 1");
+#endif
+}
+
+-(void) testStencilMaskMacro
+{
+#if CC_GL_STATE_STENCIL
+    glStencilMask(0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_STENCIL_MASK(1);
+    
+    GLint front, back;
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 1, @"should be 1");
+    XCTAssertEqual(back, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 0, @"should be 0");
+    XCTAssertEqual(back, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->stencilMask.front.mask = 1;
+    CC_GL_CURRENT_STATE->stencilMask.back.mask = 1;
+    
+    CC_GL_STENCIL_MASK(1);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 0, @"should be 0");
+    XCTAssertEqual(back, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    CC_GL_STENCIL_MASK_SEPARATE(GL_FRONT, 1);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 1, @"should be 1");
+    XCTAssertEqual(back, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 0, @"should be 0");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    CC_GL_STENCIL_MASK_SEPARATE(GL_BACK, 1);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 0, @"should be 0");
+    XCTAssertEqual(back, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    
+    CC_GL_CURRENT_STATE->stencilFunc.front.mask = 1;
+    CC_GL_CURRENT_STATE->stencilFunc.back.mask = 0xff;
+    
+    CC_GL_STENCIL_MASK_SEPARATE(GL_FRONT, 1);
+    CC_GL_STENCIL_MASK_SEPARATE(GL_BACK, 0xff);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 1, @"should be 1");
+    XCTAssertEqual(back, 0xff, @"should be 0xff");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 0xff, @"should be 0xff");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    GLenum face = GL_BACK;
+    CC_GL_STENCIL_MASK_SEPARATE_FACE(face, 1);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 0, @"should be 0");
+    XCTAssertEqual(back, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 1, @"should be 1");
+    
+    
+    
+    CC_GL_STENCIL_MASK(0);
+    face = GL_FRONT;
+    CC_GL_STENCIL_MASK_SEPARATE_FACE(face, 1);
+    
+    glGetIntegerv(GL_STENCIL_WRITEMASK, &front); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_WRITEMASK, &back); CC_GL_CHECK();
+    
+    XCTAssertEqual(front, 1, @"should be 1");
+    XCTAssertEqual(back, 0, @"should be 0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.front.mask, 1, @"should be 1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilMask.back.mask, 0, @"should be 0");
+#endif
+}
+
+-(void) testStencilOpMacro
+{
+#if CC_GL_STATE_STENCIL
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_STENCIL_OP(GL_ZERO, GL_INCR, GL_DECR);
+    
+    GLint front[3], back[3];
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(front[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(front[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(back[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(back[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(back[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_KEEP, @"should be GL_KEEP");
+    
+    
+    
+    CC_GL_CURRENT_STATE->stencilOp.front.sfail = GL_ZERO;
+    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = GL_INCR;
+    CC_GL_CURRENT_STATE->stencilOp.front.dppass = GL_DECR;
+    CC_GL_CURRENT_STATE->stencilOp.back.sfail = GL_ZERO;
+    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = GL_INCR;
+    CC_GL_CURRENT_STATE->stencilOp.back.dppass = GL_DECR;
+    
+    CC_GL_STENCIL_OP(GL_ZERO, GL_INCR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    CC_GL_STENCIL_OP_SEPARATE(GL_FRONT, GL_ZERO, GL_INCR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(front[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(front[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(back[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_KEEP, @"should be GL_KEEP");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    CC_GL_STENCIL_OP_SEPARATE(GL_BACK, GL_ZERO, GL_INCR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(back[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(back[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    
+    CC_GL_CURRENT_STATE->stencilOp.front.sfail = GL_INCR;
+    CC_GL_CURRENT_STATE->stencilOp.front.dpfail = GL_INCR;
+    CC_GL_CURRENT_STATE->stencilOp.front.dppass = GL_INCR;
+    CC_GL_CURRENT_STATE->stencilOp.back.sfail = GL_DECR;
+    CC_GL_CURRENT_STATE->stencilOp.back.dpfail = GL_DECR;
+    CC_GL_CURRENT_STATE->stencilOp.back.dppass = GL_DECR;
+    
+    CC_GL_STENCIL_OP_SEPARATE(GL_FRONT, GL_INCR, GL_INCR, GL_INCR);
+    CC_GL_STENCIL_OP_SEPARATE(GL_BACK, GL_DECR, GL_DECR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    GLenum face = GL_BACK;
+    CC_GL_STENCIL_OP_SEPARATE_FACE(face, GL_ZERO, GL_INCR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(front[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(back[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(back[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_DECR, @"should be GL_DECR");
+    
+    
+    
+    CC_GL_STENCIL_OP(GL_KEEP, GL_KEEP, GL_KEEP);
+    face = GL_FRONT;
+    CC_GL_STENCIL_OP_SEPARATE_FACE(face, GL_ZERO, GL_INCR, GL_DECR);
+    
+    glGetIntegerv(GL_STENCIL_FAIL, &front[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &front[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &front[2]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_FAIL, &back[0]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_FAIL, &back[1]); CC_GL_CHECK();
+    glGetIntegerv(GL_STENCIL_BACK_PASS_DEPTH_PASS, &back[2]); CC_GL_CHECK();
+    
+    XCTAssertEqual(front[0], GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(front[1], GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(front[2], GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(back[0], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[1], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(back[2], GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.sfail, GL_ZERO, @"should be GL_ZERO");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dpfail, GL_INCR, @"should be GL_INCR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.front.dppass, GL_DECR, @"should be GL_DECR");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.sfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dpfail, GL_KEEP, @"should be GL_KEEP");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->stencilOp.back.dppass, GL_KEEP, @"should be GL_KEEP");
+#endif
+}
+
 -(void) testTextureState
 {
 #if CC_GL_STATE_TEXTURE
