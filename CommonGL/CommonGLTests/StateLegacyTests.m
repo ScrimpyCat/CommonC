@@ -2276,7 +2276,7 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
             XCTAssertEqual(*TextureTargets[Loop].state, Textures[Loop], @"%s (in GL_TEXTURE%zu) should be %u", TextureTargets[Loop].name, Active, Textures[Loop]);
         }
         
-        glDeleteBuffers(Count, Textures); CC_GL_CHECK();
+        glDeleteTextures(Count, Textures); CC_GL_CHECK();
     }
 #endif
 }
