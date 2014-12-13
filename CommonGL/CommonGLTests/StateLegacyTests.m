@@ -2283,6 +2283,92 @@ XCTAssertFalse(State->enabled._##cap, @#cap " should be disabled");
 #endif
 }
 
+-(void) testActiveTextureMacro
+{
+#if CC_GL_STATE_TEXTURE
+    glActiveTexture(GL_TEXTURE0); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    CC_GL_ACTIVE_TEXTURE(GL_TEXTURE1);
+    GLenum Active;
+    glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&Active); CC_GL_CHECK();
+    XCTAssertEqual(Active, GL_TEXTURE1, @"ActiveTexture should be GL_TEXTURE1");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->activeTexture.texture, GL_TEXTURE1, @"State should be GL_TEXTURE1");
+    
+    
+    
+    CC_GL_ACTIVE_TEXTURE(GL_TEXTURE0);
+    glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&Active); CC_GL_CHECK();
+    XCTAssertEqual(Active, GL_TEXTURE0, @"ActiveTexture should be GL_TEXTURE0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->activeTexture.texture, GL_TEXTURE0, @"State should be GL_TEXTURE0");
+    
+    
+    
+    CC_GL_CURRENT_STATE->activeTexture.texture = GL_TEXTURE1;
+    
+    CC_GL_ACTIVE_TEXTURE(GL_TEXTURE1);
+    glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&Active); CC_GL_CHECK();
+    XCTAssertEqual(Active, GL_TEXTURE0, @"ActiveTexture should be GL_TEXTURE0");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->activeTexture.texture, GL_TEXTURE1, @"State should be GL_TEXTURE1");
+#endif
+}
+
+-(void) testBindTextureMacro
+{
+#if CC_GL_STATE_TEXTURE && CC_GL_STATE_TEXTURE_1D
+    
+#undef TEST_TEXTURE_TARGET
+#define TEST_TEXTURE_TARGET(target, getTarget) \
+glGetIntegerv(getTarget, (GLint*)&BoundTexture); CC_GL_CHECK(); \
+XCTAssertEqual(BoundTexture, CurrentTexture, @"Should be bound to the texture"); \
+XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._##target, CurrentTexture, @"State should be the texture");
+    
+    GLuint CurrentTexture = 0, Index = GL_TEXTURE0;
+    
+    glActiveTexture(Index); CC_GL_CHECK();
+    glBindTexture(GL_TEXTURE_1D, CurrentTexture); CC_GL_CHECK();
+    
+    CCGLState *CC_GL_CURRENT_STATE = CCGLStateForContext(ctx);
+    
+    GLuint Texture;
+    glGenTextures(1, &Texture); CC_GL_CHECK();
+    
+    CurrentTexture = Texture;
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    
+    GLuint BoundTexture;
+    TEST_TEXTURE_TARGET(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D);
+    
+    
+    
+    CurrentTexture = 0;
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    TEST_TEXTURE_TARGET(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D);
+    
+    
+    
+    Index = GL_TEXTURE1;
+    CC_GL_ACTIVE_TEXTURE(Index);
+    CurrentTexture = Texture;
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    TEST_TEXTURE_TARGET(GL_TEXTURE_1D, GL_TEXTURE_BINDING_1D);
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[0]._GL_TEXTURE_1D, 0, @"Should be unchanged");
+    
+    
+    
+    CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._GL_TEXTURE_1D = 0;
+    
+    CurrentTexture = 0;
+    CC_GL_BIND_TEXTURE(GL_TEXTURE_1D, CurrentTexture);
+    glGetIntegerv(GL_TEXTURE_BINDING_1D, (GLint*)&BoundTexture); CC_GL_CHECK();
+    XCTAssertEqual(BoundTexture, Texture, @"Should be unchanged");
+    XCTAssertEqual(CC_GL_CURRENT_STATE->bindTexture[Index - GL_TEXTURE0]._GL_TEXTURE_1D, CurrentTexture, @"State should be the texture");
+    
+    glDeleteTextures(1, &Texture); CC_GL_CHECK();
+#endif
+}
+
 -(void) testVertexArrayObjectState
 {
 #if CC_GL_STATE_VERTEX_ARRAY_OBJECT

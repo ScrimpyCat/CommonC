@@ -567,6 +567,28 @@ switch (face) \
 
 
 
+#if CC_GL_STATE_TEXTURE
+#define CC_GL_ACTIVE_TEXTURE(t) \
+if (CC_GL_CURRENT_STATE->activeTexture.texture != (t)) \
+{ \
+    CC_GL_CURRENT_STATE->activeTexture.texture = (t); \
+    glActiveTexture(t); CC_GL_CHECK(); \
+}
+
+#define CC_GL_BIND_TEXTURE(target, t) \
+if (CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture - GL_TEXTURE0]._##target != (t)) \
+{ \
+    CC_GL_CURRENT_STATE->bindTexture[CC_GL_CURRENT_STATE->activeTexture.texture - GL_TEXTURE0]._##target = (t); \
+    glBindTexture((target), (t)); CC_GL_CHECK(); \
+}
+
+#else
+#define CC_GL_ACTIVE_TEXTURE(texture) glActiveTexture(texture); CC_GL_CHECK()
+#define CC_GL_BIND_TEXTURE(target, texture) glBindTexture((target), (texture)); CC_GL_CHECK()
+#endif
+
+
+
 #if CC_GL_STATE_VIEWPORT
 #define CC_GL_VIEWPORT(posx, posy, sizew, sizeh) \
 if ((CC_GL_CURRENT_STATE->viewport.x != (posx)) || \
