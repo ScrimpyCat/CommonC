@@ -679,6 +679,8 @@ XCTAssertEqual(CC_GL_CURRENT_STATE->bindBuffer._##target, CurrentBuffer, @"State
 #endif
     CC_GL_VERSION_ACTIVE(3_0, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_TRANSFORM_FEEDBACK_BUFFER));
     CC_GL_VERSION_ACTIVE(3_1, NA, 3_0, NA, TEST_BUFFER_TARGET(GL_UNIFORM_BUFFER));
+    
+    glDeleteBuffers(1, &Buffer); CC_GL_CHECK();
 #endif
 }
 
