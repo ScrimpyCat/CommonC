@@ -32,6 +32,9 @@
 #import <Foundation/Foundation.h>
 #endif
 
+#import <CommonGL/Defined.h>
+
+
 /*
  rrrrrrrr rrrrrrrr rrrrrrrr rrrrrrrr rrrrrrrr ccccccxx ooxxxxpn sssmmmtt
  
@@ -70,24 +73,26 @@ typedef NS_OPTIONS(uint64_t, CCColourFormat) {
     
     //Colour Model
     CCColourFormatModelMask = (7 << 2),
-    CCColourFormatModelRGB = (0 << 2), //whether the format is a RGB colour model (e.g. RGB, sRGB, BGR, HSL, HSV)
+    CCColourFormatModelRGB = (0 << 2), //whether the format is a RGB colour model (e.g. RGB, sRGB, BGR)
     CCColourFormatModelYUV = (1 << 2), //whether the format is a YUV colour model (e.g. Y'CbCr)
-    CCColourFormatModelCMYK = (2 << 2), //whether the format is a CMYK colour model (e.g. CMY, CMYK)
-    CCColourFormatModelCIE = (3 << 2), //whether the format is a CIE colour model (e.g. CIELAB, CIELUV)
-    CCColourFormatModelMonochrome = (4 << 2),
+    CCColourFormatModelHS = (2 << 2), //whether the format is a HSV/HSL colour model (e.g. HSL, HSV)
+    CCColourFormatModelCMYK = (3 << 2), //whether the format is a CMYK colour model (e.g. CMY, CMYK)
+    CCColourFormatModelCIE = (4 << 2), //whether the format is a CIE colour model (e.g. CIELAB, CIELUV)
+    CCColourFormatModelMonochrome = (5 << 2),
     
     //Colour Space
     CCColourFormatSpaceMask = (7 << 5),
     //RGB Colour Spaces
     CCColourFormatSpaceRGB_RGB =    CCColourFormatModelRGB | (0 << 5),
     CCColourFormatSpaceRGB_sRGB =   CCColourFormatModelRGB | (1 << 5),
-    CCColourFormatSpaceRGB_HSL =    CCColourFormatModelRGB | (2 << 5),
-    CCColourFormatSpaceRGB_HSV =    CCColourFormatModelRGB | (3 << 5),
-    CCColourFormatSpaceRGB_HSB =    CCColourFormatSpaceRGB_HSV,
-    CCColourFormatSpaceRGB_HSI =    CCColourFormatModelRGB | (4 << 5), //component average
-    CCColourFormatSpaceRGB_HSluma = CCColourFormatModelRGB | (5 << 5),
     //YUV Colour Spaces
     CCColourFormatSpaceYUV_YpCbCr = (0 << 5),
+    //HSL/HSV Colour Spaces
+    CCColourFormatSpaceHS_HSL =    CCColourFormatModelHS | (0 << 5),
+    CCColourFormatSpaceHS_HSV =    CCColourFormatModelHS | (1 << 5),
+    CCColourFormatSpaceHS_HSB =    CCColourFormatSpaceHS_HSV,
+    CCColourFormatSpaceHS_HSI =    CCColourFormatModelHS | (2 << 5), //component average
+    CCColourFormatSpaceHS_HSluma = CCColourFormatModelHS | (3 << 5),
     //CMYK Colour Spaces
     //CIE Colour Spaces
     //Monochrome Colour Spaces
