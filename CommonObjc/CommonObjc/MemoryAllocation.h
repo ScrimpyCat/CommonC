@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2013, Stefan Johnson
+ *  Copyright (c) 2011, 2014, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,13 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef CommonObjc_MemoryAllocation_h
+#define CommonObjc_MemoryAllocation_h
 
-#import <CommonC/Common.h>
+#define CC_SAFE_Release(x) [x release]; x = nil;
 
-#import <CommonObjc/Extensions.h>
-
-#import <CommonObjc/Logging.h>
-#import <CommonObjc/Assertion.h>
-#import <CommonObjc/MemoryAllocation.h>
-
-#import <CommonObjc/GenericContainer.h>
+#endif
