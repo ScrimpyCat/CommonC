@@ -58,10 +58,10 @@
  b: bit size (N << CCColourFormatChannelBitSize)
  p: planar index (CCColourFormatChannelPlanarIndexN)
  c: channel (CCColourFormatChannelIndexN)
- 0: CCColourFormatChannelPlanarIndex0
- 1: CCColourFormatChannelPlanarIndex1
- 2: CCColourFormatChannelPlanarIndex2
- 3: CCColourFormatChannelPlanarIndex3
+ 0: CCColourFormatChannelOffset0
+ 1: CCColourFormatChannelOffset1
+ 2: CCColourFormatChannelOffset2
+ 3: CCColourFormatChannelOffset3
  */
 
 typedef NS_OPTIONS(uint64_t, CCColourFormat) {
@@ -924,5 +924,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
 
 #pragma mark -
 
+
+void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4]);
 
 #endif
