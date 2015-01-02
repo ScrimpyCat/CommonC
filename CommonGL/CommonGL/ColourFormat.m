@@ -25,7 +25,7 @@
 
 #import "Default_Private.h"
 #import "ColourFormat.h"
-#import "VersionMacro.h"
+#import "Version.h"
 #import <CommonC/Types.h>
 #import <CommonObjC/Assertion.h>
 
