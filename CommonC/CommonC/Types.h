@@ -121,7 +121,7 @@ typedef struct {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
 #include <immintrin.h>
 
-typedef __v4sf CCVector;
+typedef __m128 CCVector;
 #else
 typedef CCVector4D CCVector;
 #endif
