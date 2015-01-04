@@ -60,7 +60,7 @@
 #define CC_UNLIKELY(e) __builtin_expect(!!(e), 0)
 #define CC_PACKED __attribute__((packed))
 #define CC_CONSTRUCTOR __attribute__((constructor))
-#define CC_DESTRUCTOR __attribute__((constructor))
+#define CC_DESTRUCTOR __attribute__((destructor))
 #else
 #define CC_FORCE_INLINE inline
 #define CC_NO_INLINE
