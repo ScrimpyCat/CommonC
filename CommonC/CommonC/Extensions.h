@@ -46,10 +46,6 @@
 #include <CommonC/Platform.h>
 
 
-#if CC_COMPILER_CLANG
-#else
-#endif
-
 
 #if CC_COMPILER_CLANG || CC_COMPILER_GCC
 #define CC_FORCE_INLINE inline __attribute__((always_inline))
@@ -74,8 +70,8 @@
 #define CC_FORMAT_SCANF(fmt, args)
 #define CC_PURE_FUNCTION
 #define CC_CONSTANT_FUNCTION
-#define CC_LIKELY(e)
-#define CC_UNLIKELY(e)
+#define CC_LIKELY(e) (!!(e) == 1)
+#define CC_UNLIKELY(e) (!!(e) == 0)
 #define CC_PACKED
 #define CC_CONSTRUCTOR
 #define CC_DESTRUCTOR
