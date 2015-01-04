@@ -735,7 +735,9 @@ int CCLogCustom(CCLoggingOption Option, const char *Tag, const char *Identifier,
 #define ASL_TIME_FMT_SEC "sec"
 #define ASL_TIME_FMT_UTC "utc"
 #define ASL_TIME_FMT_LCL "lcl"
+#endif
 
+#if CC_ASL_LOGGER
 extern int asl_add_output(aslclient asl, int fd, const char *msg_fmt, const char *time_fmt, uint32_t text_encoding) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);
 #endif
 
