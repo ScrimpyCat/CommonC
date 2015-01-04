@@ -88,6 +88,10 @@
 
 #define CC_PLATFORM_UNIX 1
 
+#elif WIN32 || _WIN32 || __WIN32 || __WIN32__
+
+#define CC_PLATFORM_WIN 1
+
 #else
 #if CC_DEBUG
 #warning Unknown platform.
