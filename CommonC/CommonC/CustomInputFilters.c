@@ -25,9 +25,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "Logging_Private.h"
 #include "CustomInputFilters.h"
 #include "MemoryAllocation.h"
-#include "Logging_Private.h"
 
 static size_t PathCount = 0;
 static struct { char *path; size_t length; } *Paths = NULL;
