@@ -110,5 +110,6 @@ uint32_t CCSystemVersionLiteral(void)
 #elif CC_PLATFORM_IOS
     return (Maj * 10000) + (Min * 100);
 #else
+    return UINT32_MAX;
 #endif
 }
