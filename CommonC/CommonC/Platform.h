@@ -88,9 +88,17 @@
 
 #define CC_PLATFORM_UNIX 1
 
-#elif WIN32 || _WIN32 || __WIN32 || __WIN32__
+#elif WIN32 || _WIN32 || __WIN32 || __WIN32__ || WIN64 || _WIN64 || __WIN64 || __WIN64__
 
-#define CC_PLATFORM_WIN 1
+#define CC_PLATFORM_WINDOWS 1
+
+#if WIN32 || _WIN32 || __WIN32 || __WIN32__
+#define CC_PLATFORM_WIN32 1
+#endif
+
+#if WIN64 || _WIN64 || __WIN64 || __WIN64__
+#define CC_PLATFORM_WIN64 1
+#endif
 
 #else
 #if CC_DEBUG
