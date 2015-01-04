@@ -472,7 +472,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Normalize(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize3Neg(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    return _mm_xor_ps(a, _mm_set1_epi32(1 << 31));
+    return _mm_xor_ps(a, (CCVector)_mm_set1_epi32(1 << 31));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else

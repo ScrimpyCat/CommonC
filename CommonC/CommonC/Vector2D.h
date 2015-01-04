@@ -633,7 +633,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2ScalarLength(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2Perp(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    CCVector r =  _mm_xor_ps(a, _mm_set_epi32(1 << 31, 0, 1 << 31, 0));
+    CCVector r =  _mm_xor_ps(a, (CCVector)_mm_set_epi32(1 << 31, 0, 1 << 31, 0));
     return _mm_shuffle_ps(r, r, _MM_SHUFFLE(2, 3, 0, 1));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector r = _mm_xor_ps(a, _mm_set_ps(-0.0f, 0.0f, -0.0f, 0.0f));
@@ -646,7 +646,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2Perp(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2PerpR(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    CCVector r =  _mm_xor_ps(a, _mm_set_epi32(0, 1 << 31, 0, 1 << 31));
+    CCVector r =  _mm_xor_ps(a, (CCVector)_mm_set_epi32(0, 1 << 31, 0, 1 << 31));
     return _mm_shuffle_ps(r, r, _MM_SHUFFLE(2, 3, 0, 1));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector r =  _mm_xor_ps(a, _mm_set_ps(0.0f, -0.0f, 0.0f, -0.0f));
@@ -667,7 +667,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2Normalize(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2Neg(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    return _mm_xor_ps(a, _mm_set1_epi32(1 << 31));
+    return _mm_xor_ps(a, (CCVector)_mm_set1_epi32(1 << 31));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else
@@ -907,7 +907,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2ScalarPackedLength(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2PackedPerp(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    CCVector r =  _mm_xor_ps(a, _mm_set_epi32(1 << 31, 0, 1 << 31, 0));
+    CCVector r =  _mm_xor_ps(a, (CCVector)_mm_set_epi32(1 << 31, 0, 1 << 31, 0));
     return _mm_shuffle_ps(r, r, _MM_SHUFFLE(2, 3, 0, 1));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector r = _mm_xor_ps(a, _mm_set_ps(-0.0f, 0.0f, -0.0f, 0.0f));
@@ -920,7 +920,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedPerp(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2PackedPerpR(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    CCVector r =  _mm_xor_ps(a, _mm_set_epi32(0, 1 << 31, 0, 1 << 31));
+    CCVector r =  _mm_xor_ps(a, (CCVector)_mm_set_epi32(0, 1 << 31, 0, 1 << 31));
     return _mm_shuffle_ps(r, r, _MM_SHUFFLE(2, 3, 0, 1));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector r =  _mm_xor_ps(a, _mm_set_ps(0.0f, -0.0f, 0.0f, -0.0f));
@@ -941,7 +941,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedNormalize(const CCVector a)
 static CC_FORCE_INLINE CCVector CCVectorize2PackedNeg(const CCVector a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE2
-    return _mm_xor_ps(a, _mm_set1_epi32(1 << 31));
+    return _mm_xor_ps(a, (CCVector)_mm_set1_epi32(1 << 31));
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else
