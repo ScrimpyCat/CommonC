@@ -88,7 +88,9 @@ const char * const CCTagDebug = "DEBUG";
 #define CC_EXTENSION_ ".log"
 
 
+#if CC_ASL_LOGGER
 static aslclient Client;
+#endif
 
 #if CC_USE_GCD
 static dispatch_queue_t LogQueue;
@@ -729,9 +731,9 @@ int CCLogCustom(CCLoggingOption Option, const char *Tag, const char *Identifier,
 #define ASL_TIME_FMT_SEC "sec"
 #define ASL_TIME_FMT_UTC "utc"
 #define ASL_TIME_FMT_LCL "lcl"
-#endif
 
 extern int asl_add_output(aslclient asl, int fd, const char *msg_fmt, const char *time_fmt, uint32_t text_encoding) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);
+#endif
 
 
 void CCLogAddFile(const char *File)
