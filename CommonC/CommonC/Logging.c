@@ -547,7 +547,11 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                         switch (Info.length)
                         {
                             case 'l':
+#if CC_COMPILER_MINGW
+                                va_arg(Args, int);
+#else
                                 va_arg(Args, wint_t);
+#endif
                                 break;
                                 
                             default:
