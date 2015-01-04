@@ -33,7 +33,7 @@
 #include <math.h>
 
 
-#define CCVector2DMake(x, y) (CCVector2D){ x, y }
+#define CCVector2DMake(x, y) (CCVector2D){ (x), (y) }
 #define CCVector2DFill(x) CCVector2DMake(x, x)
 #define CCVector2DZero CCVector2DFill(0.0f)
 

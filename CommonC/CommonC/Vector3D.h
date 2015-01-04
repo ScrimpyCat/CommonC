@@ -33,7 +33,7 @@
 #include <math.h>
 
 
-#define CCVector3DMake(x, y, z) (CCVector3D){ x, y, z }
+#define CCVector3DMake(x, y, z) (CCVector3D){ (x), (y), (z) }
 #define CCVector3DFill(x) CCVector3DMake(x, x, x)
 #define CCVector3DZero CCVector3DFill(0.0f)
 
