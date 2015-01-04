@@ -113,6 +113,8 @@
 #define CC_COMPILER_CLANG 1
 #elif __GCC__
 #define CC_COMPILER_GCC 1
+#elif __MINGW32__ || __MINGW64__
+#define CC_COMPILER_MINGW 1
 #else
 #if CC_DEBUG
 #warning Unknown compiler.
