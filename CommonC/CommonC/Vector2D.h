@@ -43,6 +43,7 @@
 
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a); //Allows it to avoid an interleaved move, however is unsafe to use with vectorized normalize.
 static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a);
+static CC_FORCE_INLINE float CCVectorizeGetFloat(const CCVector a);
 static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DPack(const CCVector2D a, const CCVector2D b);
 static CC_FORCE_INLINE void CCVectorizeVector2DUnpack(const CCVector v, CCVector2D *a, CCVector2D *b);
@@ -158,9 +159,9 @@ static CC_FORCE_INLINE CCVector2D CCVector2Add(const CCVector2D a, const CCVecto
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE3
     CCVector v = *(CCVector*)&(CCVector4D){ a.x, b.x, a.y, b.y };
     v = _mm_hadd_ps(v, v);
-    return *(CCVector2D*)&v;
+    return CCVectorizeGetVector2D(v);
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(CCVector2D*)&(CCVector){ CCVectorize2Add(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetVector2D(CCVectorize2Add(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (CCVector2D){ a.x + b.x, a.y + b.y };
 #endif
@@ -171,9 +172,9 @@ static CC_FORCE_INLINE CCVector2D CCVector2Sub(const CCVector2D a, const CCVecto
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE3
     CCVector v = *(CCVector*)&(CCVector4D){ a.x, b.x, a.y, b.y };
     v = _mm_hsub_ps(v, v);
-    return *(CCVector2D*)&v;
+    return CCVectorizeGetVector2D(v);
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(CCVector2D*)&(CCVector){ CCVectorize2Sub(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetVector2D(CCVectorize2Sub(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (CCVector2D){ a.x - b.x, a.y - b.y };
 #endif
@@ -182,7 +183,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2Sub(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE CCVector2D CCVector2Mul(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(CCVector2D*)&(CCVector){ CCVectorize2Mul(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetVector2D(CCVectorize2Mul(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (CCVector2D){ a.x * b.x, a.y * b.y };
 #endif
@@ -191,7 +192,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2Mul(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE CCVector2D CCVector2Div(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(CCVector2D*)&(CCVector){ CCVectorize2Div(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetVector2D(CCVectorize2Div(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (CCVector2D){ a.x / b.x, a.y / b.y };
 #endif
@@ -200,7 +201,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2Div(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE float CCVector2Dot(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarDot(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarDot(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (a.x * b.x) + (a.y * b.y);
 #endif
@@ -209,7 +210,7 @@ static CC_FORCE_INLINE float CCVector2Dot(const CCVector2D a, const CCVector2D b
 static CC_FORCE_INLINE float CCVector2Distance(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarDistance(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarDistance(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return CCVector2Length(CCVector2Sub(a, b));
 #endif
@@ -218,7 +219,7 @@ static CC_FORCE_INLINE float CCVector2Distance(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE float CCVector2DistanceSquare(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarDistanceSquare(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarDistanceSquare(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     CCVector2D d = CCVector2Sub(a, b);
     return CCVector2Dot(d, d);
@@ -228,7 +229,7 @@ static CC_FORCE_INLINE float CCVector2DistanceSquare(const CCVector2D a, const C
 static CC_FORCE_INLINE float CCVector2Angle(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarAngle(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarAngle(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return CCVector2Dot(a, b) / (CCVector2Length(a) * CCVector2Length(b));
 #endif
@@ -238,7 +239,7 @@ static CC_FORCE_INLINE float CCVector2Angle(const CCVector2D a, const CCVector2D
 static CC_FORCE_INLINE float CCVector2Cross(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarCross(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarCross(CCVectorizeVector2DWithZero(a), CCVectorizeVector2DWithZero(b)));
 #else
     return (a.x * b.y) - (a.y * b.x);
 #endif
@@ -248,7 +249,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2Lerp(const CCVector2D a, const CCVect
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
     CCVector v0 = CCVectorizeVector2DWithZero(a), v1 = CCVectorizeVector2DWithZero(b);
-    return *(CCVector2D*)&(CCVector){ CCVectorize2Add(v0, CCVectorize2MulScalar(CCVectorize2Sub(v1, v0), t)) };
+    return CCVectorizeGetVector2D(CCVectorize2Add(v0, CCVectorize2MulScalar(CCVectorize2Sub(v1, v0), t)));
 #else
     return CCVector2Add(a, CCVector2MulScalar(CCVector2Sub(b, a), t));
 #endif
@@ -317,7 +318,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2DivScalar(const CCVector2D a, const f
 static CC_FORCE_INLINE float CCVector2Length(const CCVector2D a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    return *(float*)&(CCVector){ CCVectorize2ScalarLength(CCVectorizeVector2DWithZero(a)) };
+    return CCVectorizeGetFloat(CCVectorize2ScalarLength(CCVectorizeVector2DWithZero(a)));
 #else
     return sqrtf(CCVector2Dot(a, a));
 #endif
@@ -372,6 +373,18 @@ static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a)
 static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a)
 {
     return CCVectorizeVector2DPack(a, a);
+}
+
+static CC_FORCE_INLINE float CCVectorizeGetFloat(const CCVector a)
+{
+    /*
+     Note: Or should we use explicit store operations (same goes for all CCVectorizeGet* variants)
+     
+     _Alignas(16) CCVector4D Temp;
+     _mm_store_ps((float*)&Temp, v);
+     return *(float*)&Temp; //Or CCVector2D, CCVector3D, 4D (return Temp)
+     */
+    return *(float*)&a;
 }
 
 static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a)
