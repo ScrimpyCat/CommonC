@@ -353,6 +353,16 @@ static CC_FORCE_INLINE CCVector2D CCVector2PerpR(const CCVector2D a)
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    /*
+     Note:
+     Alternatively could be _mm_set_ps(0.0f, 0.0f, a.y, a.x)
+     However the compiler seems to generate much worser code majority of the time. When it
+     doesn't, it actually generates better code (understands that it doesn't need to perform
+     any explicit load).
+     
+     While the _mm_loadl_pi(_mm_setzero_ps(), (__m64*)&a) always seems (if already in register)
+     to get translated into a redundant movq operation.
+     */
     return _mm_loadl_pi(_mm_setzero_ps(), (__m64*)&a);
 #else
     return (CCVector){ a.x, a.y, 0.0f, 0.0f };
