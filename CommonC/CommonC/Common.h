@@ -57,4 +57,6 @@
 #include <CommonC/Random.h>
 #include <CommonC/Vector.h>
 
+#include <CommonC/LinkedList.h>
+
 #endif
