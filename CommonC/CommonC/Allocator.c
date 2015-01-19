@@ -45,6 +45,34 @@ static void StandardDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Custom Allocator Implementation
+static void *CustomAllocator(void **Data, size_t Size)
+{
+    void **Ptr = NULL;
+    if ((Data) && (Data[0]))
+    {
+        Ptr = ((CCAllocatorFunction)Data[0])(NULL, Size + (sizeof(void*) * 3));
+        *Ptr++ = Data[0];
+        *Ptr++ = Data[1];
+        *Ptr++ = Data[2];
+    }
+    
+    return Ptr;
+}
+
+static void *CustomReallocator(void **Data, void **Ptr, size_t Size)
+{
+    Ptr = Ptr - 3;
+    return (void**)((CCReallocatorFunction)Ptr[1])(NULL, Ptr, Size + (sizeof(void*) * 3)) + 3;
+}
+
+static void CustomDeallocator(void **Ptr)
+{
+    Ptr = Ptr - 3;
+    ((CCDeallocatorFunction)Ptr[2])(Ptr);
+}
+
+
 #pragma mark - Callback Allocator Implementation
 static void *CallbackAllocator(CCCallbackAllocatorFunction Data, size_t Size)
 {
@@ -96,6 +124,7 @@ static struct {
 } Allocators = {
     .allocators = {
         { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator },
+        { .allocator = (CCAllocatorFunction)CustomAllocator, .reallocator = (CCReallocatorFunction)CustomReallocator, .deallocator = (CCDeallocatorFunction)CustomDeallocator },
         { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator }
     }
 };
@@ -103,7 +132,7 @@ static struct {
 
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator)
 {
-    CCAssertLog((Index > 0) && (Index < CC_ALLOCATORS_MAX), "Index (%d) cannot be negative, or 0 (replace standard allocator), or exceed the maximum number of allocators (%d).", Index, CC_ALLOCATORS_MAX);
+    CCAssertLog((Index > 2) && (Index < CC_ALLOCATORS_MAX), "Index (%d) cannot be negative, or replace any standard allocators, or exceed the maximum number of allocators (%d).", Index, CC_ALLOCATORS_MAX);
     
     //Allocators.lock <- lock
     if ((Allocators.allocators[Index].allocator) || (Allocators.allocators[Index].reallocator) || (Allocators.allocators[Index].deallocator)) CC_LOG_WARNING("Replacing allocator (%p:%p:%p) at index (%d) with (%p:%p:%p).", Allocators.allocators[Index].allocator, Allocators.allocators[Index].reallocator, Allocators.allocators[Index].deallocator, Index, Allocator, Reallocator, Deallocator);
