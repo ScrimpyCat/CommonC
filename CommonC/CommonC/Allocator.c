@@ -25,8 +25,10 @@
 
 #include "Allocator.h"
 #include "Assertion_Private.h"
+#include "CallbackAllocator.h"
 
 
+#pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
 {
     return malloc(Size);
@@ -43,9 +45,44 @@ static void StandardDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Callback Allocator Implementation
+static void *CallbackAllocator(CCCallbackAllocatorFunction Data, size_t Size)
+{
+    if (Data) Data(CCCallbackAllocatorEventAllocatePre, NULL, &Size);
+    
+    void **Ptr = malloc(Size + sizeof(CCCallbackAllocatorFunction));
+    if (Ptr) *Ptr++ = Data;
+    
+    if (Data) Data(CCCallbackAllocatorEventAllocatePost, Ptr, &Size);
+    
+    return Ptr;
+}
+
+static void *CallbackReallocator(CCCallbackAllocatorFunction Data, void *Ptr, size_t Size)
+{
+    Data = ((void**)Ptr)[-1];
+    if (Data) Data(CCCallbackAllocatorEventReallocatePre, Ptr, &Size);
+    
+    Ptr = (void**)realloc((void**)Ptr - 1, Size + sizeof(CCCallbackAllocatorFunction)) + 1;
+    
+    if (Data) Data(CCCallbackAllocatorEventReallocatePost, Ptr, &Size);
+    
+    return Ptr;
+}
+
+static void CallbackDeallocator(void *Ptr)
+{
+    CCCallbackAllocatorFunction Data = ((void**)Ptr)[-1];
+    if (Data) Data(CCCallbackAllocatorEventDeallocatePre, Ptr, NULL);
+    
+    free((void**)Ptr - 1);
+}
+
+
+#pragma mark -
 
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
-_Static_assert(CC_ALLOCATORS_MAX >= 1, "Allocator max too small, must allow for the standard allocator.");
+_Static_assert(CC_ALLOCATORS_MAX >= 3, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -58,7 +95,8 @@ static struct {
     } allocators[CC_ALLOCATORS_MAX];
 } Allocators = {
     .allocators = {
-        { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator }
+        { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator },
+        { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator }
     }
 };
 

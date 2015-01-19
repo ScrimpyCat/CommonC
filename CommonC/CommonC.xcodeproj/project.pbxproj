@@ -59,6 +59,7 @@
 		F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99301A6D0FFF00212838 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99311A6D0FFF00212838 /* LinkedList.c */; };
 		F3AE99351A6D508200212838 /* LinkedListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99341A6D508200212838 /* LinkedListTests.m */; };
+		F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99371A6D613600212838 /* CallbackAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BC6A1E1877030B00934291 /* Vector3D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BC6A241877637800934291 /* Vector3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A231877637800934291 /* Vector3DTests.m */; };
 		F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */; };
@@ -157,6 +158,7 @@
 		F3AE99301A6D0FFF00212838 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		F3AE99311A6D0FFF00212838 /* LinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LinkedList.c; sourceTree = "<group>"; };
 		F3AE99341A6D508200212838 /* LinkedListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedListTests.m; sourceTree = "<group>"; };
+		F3AE99371A6D613600212838 /* CallbackAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallbackAllocator.h; sourceTree = "<group>"; };
 		F3BC6A1E1877030B00934291 /* Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector3D.h; sourceTree = "<group>"; };
 		F3BC6A231877637800934291 /* Vector3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector3DTests.m; sourceTree = "<group>"; };
 		F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DAVXTests.m; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 			children = (
 				F353DD5517ADF3BC00D1674C /* Allocator.h */,
 				F353DD5717ADF3C600D1674C /* Allocator.c */,
+				F3AE99371A6D613600212838 /* CallbackAllocator.h */,
 				F3FEE9E219428E1400C3626C /* CFAllocator.c */,
 				F36202F117AC510700153E85 /* MemoryAllocation.h */,
 				F353DD4317AC767800D1674C /* MemoryAllocation.c */,
@@ -540,6 +543,7 @@
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
 				F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */,
+				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
 			);
