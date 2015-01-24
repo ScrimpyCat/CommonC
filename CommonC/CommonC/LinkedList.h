@@ -37,9 +37,8 @@
 #ifndef CommonC_LinkedList_h
 #define CommonC_LinkedList_h
 
-#include <stdint.h>
 #include <stddef.h>
-#include <CommonC/Common.h>
+#include <CommonC/Allocator.h>
 
 typedef struct CCLinkedListNode {
     struct CCLinkedListNode *next, *prev;

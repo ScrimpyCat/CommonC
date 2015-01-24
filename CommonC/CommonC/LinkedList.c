@@ -24,6 +24,9 @@
  */
 
 #include "LinkedList.h"
+#include "MemoryAllocation.h"
+#include "Assertion.h"
+#include <stdint.h>
 
 
 typedef struct {
