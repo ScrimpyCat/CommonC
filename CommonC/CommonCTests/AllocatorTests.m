@@ -49,7 +49,7 @@ static void DeallocatorFunction(void *Ptr)
     CorrectPtr = Data == (void*)Memory;
 }
 
-
+static const uint32_t TestAllocator = 3;
 @implementation AllocatorTests
 
 -(void) setUp
@@ -57,7 +57,7 @@ static void DeallocatorFunction(void *Ptr)
     [super setUp];
     
     // Set-up code here.
-    CCAllocatorAdd(1, AllocatorFunction, NULL, DeallocatorFunction);
+    CCAllocatorAdd(TestAllocator, AllocatorFunction, NULL, DeallocatorFunction);
 }
 
 -(void) tearDown
@@ -69,7 +69,7 @@ static void DeallocatorFunction(void *Ptr)
 
 -(void) testAllocation
 {
-    void *Ptr = CCAllocate((CCAllocatorType){ .allocator = 1, .data = &(int){ 0xdeadbeef } }, 1);
+    void *Ptr = CCAllocate((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }, 1);
     XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
     if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
     
@@ -83,7 +83,7 @@ static void DeallocatorFunction(void *Ptr)
     
     
     CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO;
-    Ptr = CCMalloc(((CCAllocatorType){ .allocator = 1, .data = &(int){ 0xdeadbeef } }), 1, NULL, NULL);
+    Ptr = CCMalloc(((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }), 1, NULL, NULL);
     XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
     if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
     
