@@ -59,5 +59,6 @@
 #include <CommonC/Vector.h>
 
 #include <CommonC/LinkedList.h>
+#include <CommonC/Array.h>
 
 #endif
