@@ -27,11 +27,11 @@
 #import <XCTest/XCTest.h>
 #import "Array.h"
 
-@interface Array : XCTestCase
+@interface ArrayTests : XCTestCase
 
 @end
 
-@implementation Array
+@implementation ArrayTests
 
 -(void) setUp
 {
