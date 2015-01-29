@@ -24,6 +24,7 @@
  */
 
 #include "Collection.h"
+#include "CollectionEnumerator.h"
 #include "MemoryAllocation.h"
 #include "Logging.h"
 #include "Assertion.h"
@@ -76,7 +77,11 @@ void CCCollectionDestroy(CCCollection Collection)
         CCEnumerator Enumerator;
         CCCollectionGetEnumerator(Collection, &Enumerator);
         
-        //TODO: loop through enumerator destroying elements
+        void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
+        do
+        {
+            Collection->destructor(Collection, Element);
+        } while ((Element = CCCollectionEnumeratorNext(&Enumerator)));
     }
     
     Collection->interface->destroy(Collection->internal);
