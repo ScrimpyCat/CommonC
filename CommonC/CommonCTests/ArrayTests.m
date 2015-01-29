@@ -47,8 +47,8 @@
 {
     CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 1);
 
-    XCTAssertEqual(CCArrayGetCount(Array), 0, "Should be empty");
-    XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), "Should be the size specified on creation");
+    XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should be empty");
+    XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), @"Should be the size specified on creation");
     
     CCArrayDestroy(Array);
 }
@@ -61,10 +61,10 @@
     CCArrayAppendElement(Array, &(int){ 2 });
     CCArrayAppendElement(Array, &(int){ 3 });
     
-    XCTAssertEqual(CCArrayGetCount(Array), 3, "Should contain 3 elements");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, "Should be the first element");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, "Should be the second element");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, "Should be the third element");
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
     
     CCArrayDestroy(Array);
 }
@@ -79,10 +79,10 @@
     
     CCArrayReplaceElementAtIndex(Array, 1, &(int){ 123 });
     
-    XCTAssertEqual(CCArrayGetCount(Array), 3, "Should contain 3 elements");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, "Should be the first element");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 123, "Should be the replaced element");
-    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, "Should be the third element");
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 123, @"Should be the replaced element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
     
     CCArrayDestroy(Array);
 }
