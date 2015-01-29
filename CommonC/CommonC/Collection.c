@@ -98,6 +98,8 @@ void CCCollectionRemoveElement(CCCollection Collection, CCCollectionEntry Entry)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
+    if (!Entry) return;
+    
     if (Collection->destructor)
     {
         Collection->destructor(Collection, CCCollectionGetElement(Collection, Entry));
@@ -110,7 +112,7 @@ void *CCCollectionGetElement(CCCollection Collection, CCCollectionEntry Entry)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    return Collection->interface->element(Collection->internal, Entry);
+    return Entry ? Collection->interface->element(Collection->internal, Entry) : NULL;
 }
 
 size_t CCCollectionGetCount(CCCollection Collection)
