@@ -35,7 +35,9 @@ typedef enum {
     ///Left and Right are the same
     CCComparisonResultEqual,
     ///Left is bigger than Right
-    CCComparisonResultDescending
+    CCComparisonResultDescending,
+    ///A comparison between left and right is not valid
+    CCComparisonResultInvalid
 } CCComparisonResult;
 
 /*!
