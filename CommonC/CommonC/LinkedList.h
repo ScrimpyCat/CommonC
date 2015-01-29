@@ -54,7 +54,7 @@ typedef struct CCLinkedListNode {
  * @return A pointer to the created node containing the data (if not NULL), or NULL on failure.
  *         Must be destroyed to free the memory.
  */
-CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, void *Data);
+CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data);
 
 /*!
  * @brief Remove and destroy a node from the list.

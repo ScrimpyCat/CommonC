@@ -34,7 +34,7 @@ typedef struct {
     uint8_t data[];
 } CCLinkedListNodeData;
 
-CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, void *Data)
+CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data)
 {
     CCLinkedListNode *List = CCMalloc(Allocator, sizeof(CCLinkedListNode) + Size, NULL, CC_DEFAULT_ERROR_CALLBACK);
     
