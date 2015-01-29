@@ -339,7 +339,7 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     return *left == *right ? CCComparisonResultEqual : CCComparisonResultInvalid;
 }
 
--(void) testFind
+-(void) testFinding
 {
     CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
     
