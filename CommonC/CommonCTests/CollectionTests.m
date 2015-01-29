@@ -26,6 +26,7 @@
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 #import "Collection.h"
+#import "CollectionEnumerator.h"
 #import "LinkedList.h"
 
 
@@ -139,7 +140,7 @@ static void *TestEnumeratorInternal(CCLinkedList Internal, CCEnumeratorState *En
     {
         case CCCollectionEnumeratorActionHead:
             Enumerator->type = CCEnumeratorFormatInternal;
-            Enumerator->internal.ptr = Internal;
+            Enumerator->internal.ptr = CCLinkedListEnumerateNext(Internal);
             break;
             
         case CCCollectionEnumeratorActionTail:
@@ -153,6 +154,7 @@ static void *TestEnumeratorInternal(CCLinkedList Internal, CCEnumeratorState *En
             
         case CCCollectionEnumeratorActionPrevious:
             Enumerator->internal.ptr = CCLinkedListEnumeratePrevious(Enumerator->internal.ptr);
+            if (Enumerator->internal.ptr == Internal) Enumerator->internal.ptr = NULL;
             break;
             
         case CCCollectionEnumeratorActionCurrent:
@@ -398,6 +400,50 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
     XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
     XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
+    
+    CCCollectionDestroy(Collection);
+}
+
+-(void) testEnumerating
+{
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    CCEnumerator Enumerator;
+    CCCollectionGetEnumerator(Collection, &Enumerator);
+    
+    XCTAssertEqual(CCCollectionEnumeratorGetCurrent(&Enumerator), CCCollectionEnumeratorGetHead(&Enumerator), @"Initially obtaining the enumerator should be positioned to the head");
+    
+    int *Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
+    int Total = 0;
+    size_t Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCCollectionEnumeratorNext(&Enumerator)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    Element = CCCollectionEnumeratorGetTail(&Enumerator);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCCollectionEnumeratorPrevious(&Enumerator)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
     
     CCCollectionDestroy(Collection);
 }
