@@ -61,6 +61,9 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorGetTail(CCEnumerator *Enumera
 
 /*!
  * @brief Set the enumerator to the next position.
+ * @description Once the enumerator has reached the end, further usage is undefined. To
+ *              correctly use it again its position must be set again.
+ *
  * @param Enumerator The enumerator to point to the next element.
  * @return The current element or NULL if it has reached the end.
  */
@@ -68,6 +71,9 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorNext(CCEnumerator *Enumerator
 
 /*!
  * @brief Set the enumerator to the previous position.
+ * @description Once the enumerator has reached the end, further usage is undefined. To
+ *              correctly use it again its position must be set again.
+ *
  * @param Enumerator The enumerator to point to the previous element.
  * @return The current element or NULL if it has reached the end.
  */
