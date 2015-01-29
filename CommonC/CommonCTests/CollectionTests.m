@@ -334,4 +334,72 @@ static void TestElementDestructor(CCCollection Collection, int *Element)
     XCTAssertFalse(TestElementDestroyed, @"Should have destroyed the remaining elements");
 }
 
+static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
+{
+    return *left == *right ? CCComparisonResultEqual : CCComparisonResultInvalid;
+}
+
+-(void) testFind
+{
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    CCCollectionEntry a1 = CCCollectionFindElement(Collection, &(int){ 1 }, NULL);
+    CCCollectionEntry a2 = CCCollectionFindElement(Collection, &(int){ 2 }, NULL);
+    CCCollectionEntry a3 = CCCollectionFindElement(Collection, &(int){ 3 }, NULL);
+    CCCollectionEntry a4 = CCCollectionFindElement(Collection, &(int){ 4 }, NULL);
+    
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
+    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
+    
+    
+    a1 = CCCollectionFindElement(Collection, &(int){ 1 }, (CCComparator)TestComparatorEqual);
+    a2 = CCCollectionFindElement(Collection, &(int){ 2 }, (CCComparator)TestComparatorEqual);
+    a3 = CCCollectionFindElement(Collection, &(int){ 3 }, (CCComparator)TestComparatorEqual);
+    a4 = CCCollectionFindElement(Collection, &(int){ 4 }, (CCComparator)TestComparatorEqual);
+    
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
+    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
+    
+    CCCollectionDestroy(Collection);
+    
+    
+    
+    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternalWithoutFind);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    a1 = CCCollectionFindElement(Collection, &(int){ 1 }, NULL);
+    a2 = CCCollectionFindElement(Collection, &(int){ 2 }, NULL);
+    a3 = CCCollectionFindElement(Collection, &(int){ 3 }, NULL);
+    a4 = CCCollectionFindElement(Collection, &(int){ 4 }, NULL);
+    
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
+    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
+    
+    
+    a1 = CCCollectionFindElement(Collection, &(int){ 1 }, (CCComparator)TestComparatorEqual);
+    a2 = CCCollectionFindElement(Collection, &(int){ 2 }, (CCComparator)TestComparatorEqual);
+    a3 = CCCollectionFindElement(Collection, &(int){ 3 }, (CCComparator)TestComparatorEqual);
+    a4 = CCCollectionFindElement(Collection, &(int){ 4 }, (CCComparator)TestComparatorEqual);
+    
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
+    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
+    
+    CCCollectionDestroy(Collection);
+}
+
 @end
