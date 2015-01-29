@@ -131,9 +131,10 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
 {
     CCAssertLog(Collection, "Collection must not be null");
     
+    CCCollectionEntry Found = NULL;
     if (Collection->interface->optional.find)
     {
-        Collection->interface->optional.find(Collection->internal, Element, Comparator, Collection->size);
+        Found = Collection->interface->optional.find(Collection->internal, Element, Comparator, Collection->size);
     }
     
     else
@@ -141,10 +142,33 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
         CCEnumerator Enumerator;
         CCCollectionGetEnumerator(Collection, &Enumerator);
         
-        //TODO: loop through enumerator calling Comparator or memcmp (of Collection->size)
+        void *E = CCCollectionEnumeratorGetCurrent(&Enumerator);
+        if (Comparator)
+        {
+            do
+            {
+                if (Comparator(E, Element) == CCComparisonResultEqual)
+                {
+                    Found = CCCollectionEnumeratorGetEntry(&Enumerator);
+                    break;
+                }
+            } while ((E = CCCollectionEnumeratorNext(&Enumerator)));
+        }
+        
+        else
+        {
+            do
+            {
+                if (!memcmp(E, Element, Collection->size))
+                {
+                    Found = CCCollectionEnumeratorGetEntry(&Enumerator);
+                    break;
+                }
+            } while ((E = CCCollectionEnumeratorNext(&Enumerator)));
+        }
     }
     
-    return NULL;
+    return Found;
 }
 
 void CCCollectionGetEnumerator(CCCollection Collection, CCEnumerator *Enumerator)
