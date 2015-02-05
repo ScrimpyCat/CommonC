@@ -79,6 +79,7 @@ static void *TestElement(CCLinkedList Internal, CCCollectionEntry Entry)
 
 static void *TestEnumeratorFixed(CCLinkedList Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action)
 {
+    CCLinkedListNode *Nodes[4];
     size_t Index;
     switch (Action)
     {
@@ -100,16 +101,16 @@ static void *TestEnumeratorFixed(CCLinkedList Internal, CCEnumeratorState *Enume
             
             Internal = CCLinkedListGetTail(Internal);
             
-            CCLinkedListNode *Nodes[4] = { Internal };
+            Nodes[0] = Internal;
             Index = 1;
-            for ( ; (Internal = CCLinkedListEnumeratePrevious(Internal)) && Index < 4; Index++)
+            for ( ; (Internal = CCLinkedListEnumeratePrevious(Internal)) && Internal->prev && Index < 4; Index++)
             {
                 Nodes[Index] = Internal;
             }
             
-            if (Index > 1)
+            if ((Nodes[0]) && (Nodes[0]->prev))
             {
-                for (size_t Loop = 0; Loop < Index; Loop++)
+                for (size_t Loop = 0; (Loop < Index) && (Nodes[Loop]->prev); Loop++)
                 {
                     Enumerator->fixedBatch.ptr[(Index - 1) - Loop] = ((CCLinkedListNodeData*)Nodes[Loop])->data;
                 }
@@ -122,16 +123,54 @@ static void *TestEnumeratorFixed(CCLinkedList Internal, CCEnumeratorState *Enume
             break;
             
         case CCCollectionEnumeratorActionNext:
+            for (void *Last = Enumerator->fixedBatch.ptr[Enumerator->fixedBatch.index]; (Internal = CCLinkedListEnumerateNext(Internal)) && (Last != ((CCLinkedListNodeData*)Internal)->data); );
+            
+            Index = 0;
+            for ( ; (Internal = CCLinkedListEnumerateNext(Internal)) && Index < 4; Index++)
+            {
+                Enumerator->fixedBatch.ptr[Index] = ((CCLinkedListNodeData*)Internal)->data;
+            }
+            
+            Enumerator->fixedBatch.index = 0;
+            Enumerator->fixedBatch.count = Index;
             break;
         
         case CCCollectionEnumeratorActionPrevious:
+            Internal = CCLinkedListGetTail(Internal);
+            
+            for (void *Last = Enumerator->fixedBatch.ptr[Enumerator->fixedBatch.index]; Internal && (Last != ((CCLinkedListNodeData*)Internal)->data); Internal = CCLinkedListEnumeratePrevious(Internal));
+            
+            if (((CCLinkedListNodeData*)Internal)->data != Enumerator->fixedBatch.ptr[Enumerator->fixedBatch.index])
+            {
+                Nodes[0] = Internal;
+                Index = 1;
+                for ( ; (Internal = CCLinkedListEnumeratePrevious(Internal)) && Index < 4; Index++)
+                {
+                    Nodes[Index] = Internal;
+                }
+                
+                if ((Nodes[0]) && (Nodes[0]->prev))
+                {
+                    for (size_t Loop = 0; (Loop < Index) && (Nodes[Loop]->prev); Loop++)
+                    {
+                        Enumerator->fixedBatch.ptr[(Index - 1) - Loop] = ((CCLinkedListNodeData*)Nodes[Loop])->data;
+                    }
+                    
+                    Enumerator->fixedBatch.index = Index - 1;
+                    Enumerator->fixedBatch.count = Index;
+                }
+                
+                else Enumerator->fixedBatch.count = 0;
+            }
+            
+            else Enumerator->fixedBatch.count = 0;
             break;
             
         case CCCollectionEnumeratorActionCurrent:
             break;
     }
-    //TODO: finish
-    return NULL;
+    
+    return Enumerator->fixedBatch.count ? Enumerator->fixedBatch.ptr[Enumerator->fixedBatch.index] : NULL;
 }
 
 static void *TestEnumeratorInternal(CCLinkedList Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action)
@@ -420,6 +459,49 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     int *Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
     int Total = 0;
     size_t Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCCollectionEnumeratorNext(&Enumerator)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    Element = CCCollectionEnumeratorGetTail(&Enumerator);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCCollectionEnumeratorPrevious(&Enumerator)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    CCCollectionDestroy(Collection);
+    
+    
+    
+    
+    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionFixed);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    CCCollectionGetEnumerator(Collection, &Enumerator);
+    
+    XCTAssertEqual(CCCollectionEnumeratorGetCurrent(&Enumerator), CCCollectionEnumeratorGetHead(&Enumerator), @"Initially obtaining the enumerator should be positioned to the head");
+    
+    Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
+    Total = 0;
+    Count = 0;
     do
     {
         Total += *Element;

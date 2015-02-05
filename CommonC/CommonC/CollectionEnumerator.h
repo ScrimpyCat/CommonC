@@ -117,11 +117,13 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorNext(CCEnumerator *Enumerator
     switch (Enumerator->state.type)
     {
         case CCEnumeratorFormatFixedBatch:
-            if (Enumerator->state.fixedBatch.index + 1 < Enumerator->state.fixedBatch.count) return Enumerator->state.fixedBatch.ptr[++Enumerator->state.fixedBatch.index];
+            if (Enumerator->state.fixedBatch.count == 0) return NULL;
+            else if (Enumerator->state.fixedBatch.index + 1 < Enumerator->state.fixedBatch.count) return Enumerator->state.fixedBatch.ptr[++Enumerator->state.fixedBatch.index];
             break;
             
         case CCEnumeratorFormatBatch:
-            if (Enumerator->state.batch.index + 1 < Enumerator->state.batch.count) return Enumerator->state.batch.ptr + (++Enumerator->state.batch.index * Enumerator->state.batch.stride);
+            if (Enumerator->state.batch.count == 0) return NULL;
+            else if (Enumerator->state.batch.index + 1 < Enumerator->state.batch.count) return Enumerator->state.batch.ptr + (++Enumerator->state.batch.index * Enumerator->state.batch.stride);
             break;
             
         default:
@@ -136,11 +138,13 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorPrevious(CCEnumerator *Enumer
     switch (Enumerator->state.type)
     {
         case CCEnumeratorFormatFixedBatch:
-            if (Enumerator->state.fixedBatch.index > 0) return Enumerator->state.fixedBatch.ptr[--Enumerator->state.fixedBatch.index];
+            if (Enumerator->state.fixedBatch.count == 0) return NULL;
+            else if (Enumerator->state.fixedBatch.index > 0) return Enumerator->state.fixedBatch.ptr[--Enumerator->state.fixedBatch.index];
             break;
             
         case CCEnumeratorFormatBatch:
-            if (Enumerator->state.batch.index > 0) return Enumerator->state.batch.ptr + (--Enumerator->state.batch.index * Enumerator->state.batch.stride);
+            if (Enumerator->state.batch.count == 0) return NULL;
+            else if (Enumerator->state.batch.index > 0) return Enumerator->state.batch.ptr + (--Enumerator->state.batch.index * Enumerator->state.batch.stride);
             break;
             
         default:
