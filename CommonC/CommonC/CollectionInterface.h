@@ -27,6 +27,9 @@
 #define CommonC_CollectionInterface_h
 
 #include <CommonC/CollectionTypes.h>
+#include <CommonC/Enumerator.h>
+#include <CommonC/Comparator.h>
+#include <CommonC/Allocator.h>
 
 
 #pragma mark - Required Callbacks
