@@ -23,13 +23,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
-#import "CollectionInterface.h"
+#import "CollectionArray.h"
+#import "CollectionTests.h"
 
-@interface CollectionTests : XCTestCase
+@interface CollectionArrayTests : CollectionTests
 
-@property const CCCollectionInterface *interface;
+@end
+
+@implementation CollectionArrayTests
+
+-(void) setUp
+{
+    [super setUp];
+    self.interface = &CCCollectionArray;
+}
+
+-(void) tearDown
+{
+    [super tearDown];
+}
 
 @end
