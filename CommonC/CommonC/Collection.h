@@ -50,7 +50,7 @@ typedef void (*CCCollectionElementDestructor)(CCCollection Collection, void *Ele
 
 
 typedef struct CCCollectionInfo {
-    CCCollectionInterface *interface;
+    const CCCollectionInterface *interface;
     CCAllocatorType allocator;
     CCCollectionElementDestructor destructor;
     size_t size;
