@@ -31,12 +31,6 @@
 #import "LinkedList.h"
 
 
-typedef struct {
-    CCLinkedListNode node;
-    uint8_t data[];
-} CCLinkedListNodeData;
-
-
 static int TestHintWeight(CCCollectionHint Hint)
 {
     return INT_MAX;
