@@ -39,7 +39,7 @@
  *
  * @return A higher value is weighted in-favour of a lower value.
  */
-typedef int (*CCCollectioHintWeight)(CCCollectionHint Hint);
+typedef int (*CCCollectionHintWeight)(CCCollectionHint Hint);
 
 /*!
  * @brief A callback to create the internal implementation for the collection.
@@ -128,7 +128,7 @@ typedef CCCollectionEntry (*CCCollectionFind)(void *Internal, const void *Elemen
  *              through reusing the required interfaces.
  */
 typedef struct {
-    CCCollectioHintWeight hintWeight;
+    CCCollectionHintWeight hintWeight;
     CCCollectionConstructor create;
     CCCollectionDestructor destroy;
     CCCollectionCount count;
