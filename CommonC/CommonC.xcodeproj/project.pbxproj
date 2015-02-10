@@ -15,6 +15,7 @@
 		F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = F30640101850FB2E00122BE9 /* CustomFormatSpecifiers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */; };
 		F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */; };
+		F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */; };
 		F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4517AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4817AC788100D1674C /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -89,6 +90,7 @@
 		F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */; };
 		F3D657D017D5DA8F00B54101 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
 		F3E3E095187A5A5E00A38E72 /* Vector2DSSETests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E094187A5A5E00A38E72 /* Vector2DSSETests.m */; };
 		F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E096187A5AE300A38E72 /* Vector2DSSE2Tests.m */; };
 		F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E098187A5AED00A38E72 /* Vector2DSSE3Tests.m */; };
@@ -120,6 +122,8 @@
 		F30640101850FB2E00122BE9 /* CustomFormatSpecifiers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomFormatSpecifiers.h; sourceTree = "<group>"; };
 		F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DTests.m; sourceTree = "<group>"; };
 		F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DTests.m; sourceTree = "<group>"; };
+		F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionArrayTests.m; sourceTree = "<group>"; };
+		F3143A9C1A8A683F004EB810 /* CollectionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionTests.h; sourceTree = "<group>"; };
 		F353DD4317AC767800D1674C /* MemoryAllocation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MemoryAllocation.c; sourceTree = "<group>"; };
 		F353DD4717AC788100D1674C /* DebugTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTypes.h; sourceTree = "<group>"; };
 		F353DD4917AC88BA00D1674C /* DebugTypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DebugTypes.c; sourceTree = "<group>"; };
@@ -199,6 +203,8 @@
 		F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DAVXTests.m; sourceTree = "<group>"; };
 		F3D657CF17D5DA8F00B54101 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		F3D657D317D5FD5200B54101 /* Maths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Maths.h; sourceTree = "<group>"; };
+		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
+		F3D85E601A84C0BD00C4A362 /* CollectionArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionArray.c; sourceTree = "<group>"; };
 		F3E3E094187A5A5E00A38E72 /* Vector2DSSETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSETests.m; sourceTree = "<group>"; };
 		F3E3E096187A5AE300A38E72 /* Vector2DSSE2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE2Tests.m; sourceTree = "<group>"; };
 		F3E3E098187A5AED00A38E72 /* Vector2DSSE3Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE3Tests.m; sourceTree = "<group>"; };
@@ -486,6 +492,7 @@
 				F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */,
 				F3AE99BB1A7511D500212838 /* Collection.h */,
 				F3AE99BA1A7511D500212838 /* Collection.c */,
+				F3D85E5D1A84C07000C4A362 /* Collections */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -495,7 +502,9 @@
 			children = (
 				F3AE99341A6D508200212838 /* LinkedListTests.m */,
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
+				F3143A9C1A8A683F004EB810 /* CollectionTests.h */,
 				F37AFAA61A7913F20037ECB2 /* CollectionTests.m */,
+				F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -544,6 +553,15 @@
 			children = (
 			);
 			name = Vector4D;
+			sourceTree = "<group>";
+		};
+		F3D85E5D1A84C07000C4A362 /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */,
+				F3D85E601A84C0BD00C4A362 /* CollectionArray.c */,
+			);
+			name = Collections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -701,6 +719,7 @@
 				F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */,
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F353DD4F17AC8C9000D1674C /* Logging.c in Sources */,
+				F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
@@ -732,6 +751,7 @@
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
 				F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */,
 				F353DD4B17AC88BA00D1674C /* DebugTypes.c in Sources */,
+				F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */,
 				F353DD5017AC8C9000D1674C /* Logging.c in Sources */,
 				F3BC6A3018776CAE00934291 /* Vectorized2DSSE4_2Tests.m in Sources */,
 				F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */,
