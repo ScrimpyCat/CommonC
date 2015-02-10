@@ -40,6 +40,7 @@ CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint
 CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface)
 {
     CCAssertLog(Interface, "Interface must not be null");
+    CCAssertLog(!(Hint & CCCollectionHintOrdered) || Interface->optional.ordered, "Interface must implement an ordered collection when creating an ordered collection");
     
     CCCollection Collection = CCMalloc(Allocator, sizeof(CCCollectionInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Collection)

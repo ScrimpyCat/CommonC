@@ -68,6 +68,7 @@ typedef size_t (*CCCollectionCount)(void *Internal);
  * @param Internal The pointer to the internal of the collection.
  * @param Element The pointer to the element to be copied to the collection.
  * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
 typedef CCCollectionEntry (*CCCollectionInsert)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
@@ -106,6 +107,36 @@ typedef void *(*CCCollectionEnumerator)(void *Internal, CCEnumeratorState *Enume
  */
 typedef CCCollectionEntry (*CCCollectionEnumeratorEntry)(void *Internal, CCEnumeratorState *Enumerator);
 
+#pragma mark Ordered
+
+/*!
+ * @brief A callback to insert an element into the collection at a given index.
+ * @description Index may be the next position after the last.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Element The pointer to the element to be copied to the collection.
+ * @param Index The index in the collection the element should be inserted.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
+ * @return A reference to this entry.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionInsert)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+
+/*!
+ * @brief A callback to get the entry reference for an element at an index.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Index The index in the collection to get an entry reference to.
+ * @return An entry reference to element at the given index.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionEntry)(void *Internal, size_t Index);
+
+/*!
+ * @brief A callback to retrieve an index for an entry in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Entry The entry reference in the collection to get the index of.
+ * @return The index.
+ */
+typedef size_t (*CCOrderedCollectionIndex)(void *Internal, CCCollectionEntry Entry);
+
 #pragma mark - Optional Callbacks
 
 /*!
@@ -120,7 +151,75 @@ typedef CCCollectionEntry (*CCCollectionEnumeratorEntry)(void *Internal, CCEnume
  */
 typedef CCCollectionEntry (*CCCollectionFind)(void *Internal, const void *Element, CCComparator Comparator, size_t ElementSize);
 
+#pragma mark Ordered
+
+/*!
+ * @brief An optional callback to replace an element in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Element The pointer to the element to be copied to the collection.
+ * @param Index The index of the element to be replaced.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
+ * @return A reference to this entry.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionReplace)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+
+/*!
+ * @brief An optional callback to remove an element in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Index The index of the element to be removed.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCOrderedCollectionRemove)(void *Internal, size_t Index, CCAllocatorType Allocator);
+
+/*!
+ * @brief An optional callback to append an element to the end of a collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Element The pointer to the element to be copied to the collection.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
+ * @return A reference to this entry.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionAppend)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+
+/*!
+ * @brief An optional callback to prepend an element to the end of a collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Element The pointer to the element to be copied to the collection.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
+ * @return A reference to this entry.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionPrepend)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+
+/*!
+ * @brief An optional callback to get the element at index.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Index The index in the collection to get the element.
+ * @return The element at the given index.
+ */
+typedef void *(*CCOrderedCollectionElement)(void *Internal, size_t Index);
+
+
 #pragma mark -
+
+/*!
+ * @brief The interface to te internal ordered implementation.
+ * @description Optional interfaces do not need to be implemented and will instead be supported
+ *              through reusing the required interfaces.
+ */
+typedef struct {
+    CCOrderedCollectionInsert insert;
+    CCOrderedCollectionEntry entry;
+    CCOrderedCollectionIndex index;
+    struct {
+        CCOrderedCollectionReplace replace;
+        CCOrderedCollectionRemove remove;
+        CCOrderedCollectionAppend append;
+        CCOrderedCollectionPrepend prepend;
+        CCOrderedCollectionElement element;
+    } optional;
+} CCOrderedCollectionInterface;
 
 /*!
  * @brief The interface to the internal implementation.
@@ -138,6 +237,7 @@ typedef struct {
     CCCollectionEnumerator enumerator;
     CCCollectionEnumeratorEntry enumeratorReference;
     struct {
+        const CCOrderedCollectionInterface *ordered;
         CCCollectionFind find;
     } optional;
 } CCCollectionInterface;

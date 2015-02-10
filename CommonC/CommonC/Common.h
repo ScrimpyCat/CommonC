@@ -63,6 +63,7 @@
 #include <CommonC/LinkedList.h>
 #include <CommonC/Array.h>
 #include <CommonC/Collection.h>
+#include <CommonC/OrderedCollection.h>
 #include <CommonC/CollectionEnumerator.h>
 
 #endif

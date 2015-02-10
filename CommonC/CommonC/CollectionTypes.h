@@ -44,8 +44,30 @@ typedef enum {
     ///The number of elements in the collection won't change (unlikely to do any inserting/deleting).
     CCCollectionHintConstantLength = (1 << 4),
     ///The elements won't change (unlikely to do any deleting/replacing).
-    CCCollectionHintConstantElements = (1 << 5)
+    CCCollectionHintConstantElements = (1 << 5),
+    ///The collection is ordered.
+    CCCollectionHintOrdered = (1 << 6),
 } CCCollectionHint;
+
+/*!
+ * @typedef CCOrderedCollectionHint
+ * @brief Hints for the indended usage of the ordered collection.
+ * @description Can be combined with CCCollectionHint.
+ */
+typedef enum {
+    ///Mask for hints for a ordered collection.
+    CCOrderedCollectionHintMask = 0xff00,
+    ///Collection will involve a lot of replacing.
+    CCOrderedCollectionHintHeavyReplacing = (1 << 0) | CCCollectionHintOrdered,
+    ///Collection will involve a lot of appending.
+    CCOrderedCollectionHintHeavyAppending = (1 << 1) | CCCollectionHintOrdered,
+    ///Collection will involve a lot of prepending.
+    CCOrderedCollectionHintHeavyPrepending = (1 << 2) | CCCollectionHintOrdered,
+    ///Collection will involve a lot of sorting.
+    CCOrderedCollectionHintHeavySorting = (1 << 3) | CCCollectionHintOrdered,
+    ///Collection will involve a lot of inserting.
+    CCOrderedCollectionHintHeavyInserting = (1 << 4) | CCCollectionHintHeavyInserting | CCCollectionHintOrdered
+} CCOrderedCollectionHint;
 
 /*!
  * @brief The type of action the enumerator callback will need to perform.
@@ -67,6 +89,11 @@ typedef enum {
  * @brief The collection.
  */
 typedef struct CCCollectionInfo *CCCollection;
+
+/*!
+ * @brief The ordered collection
+ */
+typedef CCCollection CCOrderedCollection;
 
 /*!
  * @brief The reference to an entry in the collection.
