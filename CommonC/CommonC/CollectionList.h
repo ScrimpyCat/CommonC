@@ -50,6 +50,6 @@
 
 #include <CommonC/CollectionInterface.h>
 
-extern const CCCollectionInterface CCCollectionList;
+extern const CCCollectionInterface * const CCCollectionList;
 
 #endif

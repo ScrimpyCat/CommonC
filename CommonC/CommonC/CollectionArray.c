@@ -51,7 +51,7 @@ static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CC
 static CCCollectionEntry CCCollectionArrayEnumeratorEntry(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator);
 
 
-const CCCollectionInterface CCCollectionArray = {
+const CCCollectionInterface CollectionArray = {
     .hintWeight = CCCollectionArrayHintWeight,
     .create = CCCollectionArrayConstructor,
     .destroy = (CCCollectionDestructor)CCCollectionArrayDestructor,
@@ -62,6 +62,8 @@ const CCCollectionInterface CCCollectionArray = {
     .enumerator = (CCCollectionEnumerator)CCCollectionArrayEnumerator,
     .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionArrayEnumeratorEntry,
 };
+
+const CCCollectionInterface * const CCCollectionArray = &CollectionArray;
 
 
 static CCCollectionArrayEntry *FindEntryForIndex(CCCollectionArrayInternal *Internal, size_t Index)

@@ -37,7 +37,7 @@
 -(void) setUp
 {
     [super setUp];
-    self.interface = &CCCollectionList;
+    self.interface = CCCollectionList;
 }
 
 @end

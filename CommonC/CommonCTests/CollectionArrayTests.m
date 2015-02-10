@@ -37,7 +37,7 @@
 -(void) setUp
 {
     [super setUp];
-    self.interface = &CCCollectionArray;
+    self.interface = CCCollectionArray;
 }
 
 -(void) tearDown

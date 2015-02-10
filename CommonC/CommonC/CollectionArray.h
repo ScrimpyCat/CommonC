@@ -52,6 +52,6 @@
 
 #include <CommonC/CollectionInterface.h>
 
-extern const CCCollectionInterface CCCollectionArray;
+extern const CCCollectionInterface * const CCCollectionArray;
 
 #endif

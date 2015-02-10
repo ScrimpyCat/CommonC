@@ -48,7 +48,7 @@ static void *CCCollectionListEnumerator(CCCollectionListInternal *Internal, CCEn
 static CCCollectionEntry CCCollectionListEnumeratorEntry(CCCollectionListInternal *Internal, CCEnumeratorState *Enumerator);
 
 
-const CCCollectionInterface CCCollectionList = {
+static const CCCollectionInterface CollectionList = {
     .hintWeight = CCCollectionListHintWeight,
     .create = CCCollectionListConstructor,
     .destroy = (CCCollectionDestructor)CCCollectionListDestructor,
@@ -59,6 +59,8 @@ const CCCollectionInterface CCCollectionList = {
     .enumerator = (CCCollectionEnumerator)CCCollectionListEnumerator,
     .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionListEnumeratorEntry,
 };
+
+const CCCollectionInterface * const CCCollectionList = &CollectionList;
 
 
 static int CCCollectionListHintWeight(CCCollectionHint Hint)
