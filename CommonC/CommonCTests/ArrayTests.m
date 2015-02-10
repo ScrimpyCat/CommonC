@@ -87,4 +87,40 @@
     CCArrayDestroy(Array);
 }
 
+-(void) testInserting
+{
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    CCArrayInsertElementAtIndex(Array, 1, &(int){ 123 });
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 4, @"Should contain 4 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 123, @"Should be the inserted element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 2, @"Should now be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 3), 3, @"Should now be the third element");
+    
+    CCArrayDestroy(Array);
+}
+
+-(void) testRemoval
+{
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    CCArrayRemoveElementAtIndex(Array, 1);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 2, @"Should contain 2 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 3, @"Should now be the third element");
+    
+    CCArrayDestroy(Array);
+}
+
 @end

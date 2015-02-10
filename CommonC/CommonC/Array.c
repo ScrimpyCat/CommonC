@@ -49,6 +49,7 @@ CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t Chun
 void CCArrayDestroy(CCArray Array)
 {
     CCAssertLog(Array, "Array must not be null");
+    CCFree(Array->data);
     CCFree(Array);
 }
 
@@ -58,14 +59,14 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element)
     
     if (((Array->count % Array->chunkSize) == 0) && ((Array->count) || (!Array->data)))
     {
-        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
             CC_LOG_ERROR("Failed to append element to array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
-        Array = Temp;
+        Array->data = Temp;
     }
     
     memcpy(Array->data + (Array->count++ * Array->size), Element, Array->size);
@@ -81,4 +82,33 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
     memcpy(Array->data + (Index * Array->size), Element, Array->size);
 }
 
+size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > Index, "Index must not be out of bounds");
+    
+    if (((Array->count % Array->chunkSize) == 0) && ((Array->count) || (!Array->data)))
+    {
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        if (!Temp)
+        {
+            CC_LOG_ERROR("Failed to append element to array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            return SIZE_MAX;
+        }
+        
+        Array->data = Temp;
+    }
+    
+    memmove(Array->data + ((Index + 1) * Array->size), Array->data + (Index * Array->size), (++Array->count - (Index + 1)) * Array->size);
+    memcpy(Array->data + (Index * Array->size), Element, Array->size);
+    
+    return Index;
+}
 
+void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > Index, "Index must not be out of bounds");
+    
+    memmove(Array->data + (Index * Array->size), Array->data + ((Index + 1) * Array->size), (Array->count-- - (Index + 1)) * Array->size);
+}

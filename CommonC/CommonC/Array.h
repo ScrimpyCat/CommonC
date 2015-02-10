@@ -66,7 +66,7 @@ void CCArrayDestroy(CCArray Array);
 #pragma mark - Insertions/Deletions
 /*!
  * @brief Appends the element to the end of the array.
- * @description Increases the arrays count by 1.
+ * @description Increases the array's count by 1.
  * @warning The size of element must be the same size as specified in the array creation.
  * @param Element The pointer to the element to be copied to the end of the array.
  * @return The index the element was added or SIZE_MAX on failure.
@@ -75,12 +75,42 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element);
 
 /*!
  * @brief Replace element at index with new element.
- * @warning Index must not be out of bounds.
+ * @warning The size of element must be the same size as specified in the array creation. And the
+ *          Index must not be out of bounds.
+ *
  * @param Array The array to replace an element of.
  * @param Index The position of the element to be replaced.
  * @param Element The replacement element.
  */
 void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Element);
+
+/*!
+ * @brief Insert an element at a given index into the array.
+ * @description Increases the array's count by 1.
+ * @performance The further away from the end of the array the index is, the slower it is. It has
+ *              a worst case of O(n).
+ *
+ * @warning The size of element must be the same size as specified in the array creation. And the
+ *          Index must not be out of bounds
+ *
+ * @param Array The array to replace an element of.
+ * @param Index The position in the array for the element to be inserted.
+ * @param Element The pointer to the element to be copied to the end of the array.
+ * @return The index the element was added or SIZE_MAX on failure.
+ */
+size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element);
+
+/*!
+ * @brief Removes an element at a given index from the array.
+ * @description decreases the array's count by 1.
+ * @performance The further away from the end of the array the index is, the slower it is. It has
+ *              a worst case of O(n).
+ *
+ * @warning Index must not be out of bounds
+ * @param Array The array to replace an element of.
+ * @param Index The position in the array for the element to be removed from.
+ */
+void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index);
 
 
 #pragma mark - Query Info
