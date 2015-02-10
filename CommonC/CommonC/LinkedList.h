@@ -44,6 +44,11 @@ typedef struct CCLinkedListNode {
     struct CCLinkedListNode *next, *prev;
 } CCLinkedListNode, *CCLinkedList;
 
+typedef struct {
+    CCLinkedListNode node;
+    uint8_t data[];
+} CCLinkedListNodeData;
+
 
 #pragma mark - Creation / Destruction
 /*!
@@ -221,6 +226,13 @@ static inline CCLinkedList CCLinkedListGetHead(CCLinkedList List);
  */
 static inline CCLinkedList CCLinkedListGetTail(CCLinkedList List);
 
+/*!
+ * @brief Get a pointer to the data in the node.
+ * @param Node The node to get the data of.
+ * @return A pointer to the data it contains.
+ */
+static inline void *CCLinkedListGetNodeData(CCLinkedListNode *Node);
+
 
 #pragma mark -
 static inline CCLinkedListNode *CCLinkedListEnumerateNext(CCLinkedList List)
@@ -257,6 +269,11 @@ static inline CCLinkedList CCLinkedListGetTail(CCLinkedList List)
     while ((List = CCLinkedListEnumerateNext(List))) Tail = List;
     
     return Tail;
+}
+
+static inline void *CCLinkedListGetNodeData(CCLinkedListNode *Node)
+{
+    return ((CCLinkedListNodeData*)Node)->data;
 }
 
 #endif
