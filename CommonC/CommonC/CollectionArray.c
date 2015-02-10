@@ -25,31 +25,125 @@
 
 #include "CollectionArray.h"
 #include "Array.h"
+#include "LinkedList.h"
+#include "MemoryAllocation.h"
+
+
+typedef struct {
+    CCLinkedListNode node;
+    size_t index;
+} CCCollectionArrayEntry;
+
+typedef struct {
+    CCArray array;
+    CCLinkedList entries; //TODO: change to a hash map
+} CCCollectionArrayInternal;
 
 
 static int CCCollectionArrayHintWeight(CCCollectionHint Hint);
 static void *CCCollectionArrayConstructor(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize);
-static void CCCollectionArrayDestructor(void *Internal);
-static size_t CCCollectionArrayCount(void *Internal);
-static CCCollectionEntry CCCollectionArrayInsert(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
-static void CCCollectionArrayRemove(void *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator);
-static void *CCCollectionArrayElement(void *Internal, CCCollectionEntry Entry);
-static void *CCCollectionArrayEnumerator(void *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
-static CCCollectionEntry CCCollectionArrayEnumeratorEntry(void *Internal, CCEnumeratorState *Enumerator);
+static void CCCollectionArrayDestructor(CCCollectionArrayInternal *Internal);
+static size_t CCCollectionArrayCount(CCCollectionArrayInternal *Internal);
+static CCCollectionEntry CCCollectionArrayInsert(CCCollectionArrayInternal *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+static void CCCollectionArrayRemove(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator);
+static void *CCCollectionArrayElement(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry);
+static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
+static CCCollectionEntry CCCollectionArrayEnumeratorEntry(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator);
 
 
 const CCCollectionInterface CCCollectionArray = {
     .hintWeight = CCCollectionArrayHintWeight,
     .create = CCCollectionArrayConstructor,
-    .destroy = CCCollectionArrayDestructor,
-    .count = CCCollectionArrayCount,
-    .insert = CCCollectionArrayInsert,
-    .remove =  CCCollectionArrayRemove,
-    .element = CCCollectionArrayElement,
-    .enumerator = CCCollectionArrayEnumerator,
-    .enumeratorReference = CCCollectionArrayEnumeratorEntry,
+    .destroy = (CCCollectionDestructor)CCCollectionArrayDestructor,
+    .count = (CCCollectionCount)CCCollectionArrayCount,
+    .insert = (CCCollectionInsert)CCCollectionArrayInsert,
+    .remove =  (CCCollectionRemove)CCCollectionArrayRemove,
+    .element = (CCCollectionElement)CCCollectionArrayElement,
+    .enumerator = (CCCollectionEnumerator)CCCollectionArrayEnumerator,
+    .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionArrayEnumeratorEntry,
 };
 
+
+static CCCollectionArrayEntry *FindEntryForIndex(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    CCCollectionArrayEntry *Node = NULL;
+    if (Internal->entries)
+    {
+        CCLinkedListNode *N = Internal->entries;
+        do
+        {
+            if (((CCCollectionArrayEntry*)N)->index == Index)
+            {
+                Node = (CCCollectionArrayEntry*)N;
+                break;
+            }
+        } while ((N = CCLinkedListEnumerateNext(N)));
+    }
+    
+    return Node;
+}
+
+static CCCollectionEntry ConvertIndexToEntry(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    CCCollectionArrayEntry *Node = FindEntryForIndex(Internal, Index);
+    if (!Node)
+    {
+        Node = (CCCollectionArrayEntry*)CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(size_t), &Index);
+        if (Internal->entries) Internal->entries = CCLinkedListInsert(Internal->entries, (CCLinkedListNode*)Node);
+        else Internal->entries = (CCLinkedList)Node;
+    }
+    
+    return Node;
+}
+
+static size_t ConvertEntryToIndex(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry)
+{
+    return Entry ? ((CCCollectionArrayEntry*)Entry)->index : SIZE_MAX;
+}
+
+static void ShiftEntriesDownAfterIndex(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    CCLinkedListNode *N = Internal->entries;
+    do
+    {
+        if (((CCCollectionArrayEntry*)N)->index > Index)
+        {
+            ((CCCollectionArrayEntry*)N)->index--;
+            break;
+        }
+    } while ((N = CCLinkedListEnumerateNext(N)));
+}
+
+static void ShiftEntriesUpAfterIndex(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    CCLinkedListNode *N = Internal->entries;
+    do
+    {
+        if (((CCCollectionArrayEntry*)N)->index > Index)
+        {
+            ((CCCollectionArrayEntry*)N)->index++;
+            break;
+        }
+    } while ((N = CCLinkedListEnumerateNext(N)));
+}
+
+static void RemoveEntry(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry)
+{
+    if (Entry)
+    {
+        const size_t Index = ((CCCollectionArrayEntry*)Entry)->index;
+        
+        if (CCLinkedListIsHead((CCLinkedList)Entry)) Internal->entries = CCLinkedListEnumerateNext((CCLinkedList)Entry);
+        CCLinkedListDestroyNode((CCLinkedListNode*)Entry);
+        
+        ShiftEntriesDownAfterIndex(Internal, Index);
+    }
+}
+
+static void RemoveEntryForIndex(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    RemoveEntry(Internal, FindEntryForIndex(Internal, Index));
+}
 
 static int CCCollectionArrayHintWeight(CCCollectionHint Hint)
 {
@@ -58,55 +152,74 @@ static int CCCollectionArrayHintWeight(CCCollectionHint Hint)
 
 static void *CCCollectionArrayConstructor(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize)
 {
-    return CCArrayCreate(Allocator, ElementSize, 5);
-}
-
-static void CCCollectionArrayDestructor(void *Internal)
-{
-    CCArrayDestroy(Internal);
-}
-
-static size_t CCCollectionArrayCount(void *Internal)
-{
-    return CCArrayGetCount(Internal);
-}
-
-static CCCollectionEntry CCCollectionArrayInsert(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize)
-{
-    size_t Index = CCArrayAppendElement(Internal, Element);
+    CCCollectionArrayInternal *Internal = CCMalloc(Allocator, sizeof(CCCollectionArrayInternal), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    if (Internal)
+    {
+        *Internal = (CCCollectionArrayInternal){
+            .array = CCArrayCreate(Allocator, ElementSize, 5),
+            .entries = NULL
+        };
+        
+        if (!Internal->array)
+        {
+            CCFree(Internal);
+            Internal = NULL;
+        }
+    }
     
-    return Index != SIZE_MAX ? (CCCollectionEntry)Index : NULL;
+    return Internal;
 }
 
-static void CCCollectionArrayRemove(void *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator)
+static void CCCollectionArrayDestructor(CCCollectionArrayInternal *Internal)
 {
-    CCArrayRemoveElementAtIndex(Internal, Entry ? (size_t)Entry : SIZE_MAX);
+    CCArrayDestroy(Internal->array);
+    if (Internal->entries) CCLinkedListDestroy(Internal->entries);
+    
+    CCFree(Internal);
 }
 
-static void *CCCollectionArrayElement(void *Internal, CCCollectionEntry Entry)
+static size_t CCCollectionArrayCount(CCCollectionArrayInternal *Internal)
 {
-    return CCArrayGetElementAtIndex(Internal, Entry ? (size_t)Entry : SIZE_MAX);
+    return CCArrayGetCount(Internal->array);
 }
 
-static void *CCCollectionArrayEnumerator(void *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action)
+static CCCollectionEntry CCCollectionArrayInsert(CCCollectionArrayInternal *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize)
+{
+    size_t Index = CCArrayAppendElement(Internal->array, Element);
+    
+    return ConvertIndexToEntry(Internal, Index);
+}
+
+static void CCCollectionArrayRemove(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator)
+{
+    CCArrayRemoveElementAtIndex(Internal->array, ConvertEntryToIndex(Internal, Entry));
+    RemoveEntry(Internal, Entry);
+}
+
+static void *CCCollectionArrayElement(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry)
+{
+    return CCArrayGetElementAtIndex(Internal->array, ConvertEntryToIndex(Internal, Entry));
+}
+
+static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action)
 {
     switch (Action)
     {
         case CCCollectionEnumeratorActionHead:
             Enumerator->type = CCEnumeratorFormatBatch;
-            Enumerator->batch.count = CCArrayGetCount(Internal);
+            Enumerator->batch.count = CCArrayGetCount(Internal->array);
             Enumerator->batch.index = 0;
-            Enumerator->batch.stride = CCArrayGetElementSize(Internal);
-            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal, 0);
-            return CCArrayGetElementAtIndex(Internal, Enumerator->batch.index);
+            Enumerator->batch.stride = CCArrayGetElementSize(Internal->array);
+            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal->array, 0);
+            return CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index);
             
         case CCCollectionEnumeratorActionTail:
             Enumerator->type = CCEnumeratorFormatBatch;
-            Enumerator->batch.count = CCArrayGetCount(Internal);
-            Enumerator->batch.index = CCArrayGetCount(Internal) - 1;
-            Enumerator->batch.stride = CCArrayGetElementSize(Internal);
-            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal, 0);
-            return CCArrayGetElementAtIndex(Internal, Enumerator->batch.index);
+            Enumerator->batch.count = CCArrayGetCount(Internal->array);
+            Enumerator->batch.index = CCArrayGetCount(Internal->array) - 1;
+            Enumerator->batch.stride = CCArrayGetElementSize(Internal->array);
+            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal->array, 0);
+            return CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index);
             
         default:
             break;
@@ -115,7 +228,7 @@ static void *CCCollectionArrayEnumerator(void *Internal, CCEnumeratorState *Enum
     return NULL;
 }
 
-static CCCollectionEntry CCCollectionArrayEnumeratorEntry(void *Internal, CCEnumeratorState *Enumerator)
+static CCCollectionEntry CCCollectionArrayEnumeratorEntry(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator)
 {
-    return (CCCollectionEntry)Enumerator->batch.index;
+    return ConvertIndexToEntry(Internal, Enumerator->batch.index);
 }
