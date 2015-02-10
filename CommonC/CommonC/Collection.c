@@ -37,7 +37,7 @@ CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint
     return NULL;
 }
 
-CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, CCCollectionInterface *Interface)
+CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface)
 {
     CCAssertLog(Interface, "Interface must not be null");
     

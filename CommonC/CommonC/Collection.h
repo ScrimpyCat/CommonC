@@ -80,7 +80,7 @@ CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint
  * @param Interface The interface to the internal implementation to be used.
  * @return An empty collection, or NULL on failure. Must be destroyed to free the memory.
  */
-CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, CCCollectionInterface *Interface);
+CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface);
 
 /*!
  * @brief Destroy a collection.
