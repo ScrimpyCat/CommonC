@@ -25,6 +25,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
+#import "CollectionTests.h"
 #import "Collection.h"
 #import "CollectionEnumerator.h"
 #import "LinkedList.h"
@@ -290,15 +291,14 @@ static CCCollectionInterface TestCollectionFixed = {
     }
 };
 
-@interface CollectionTests : XCTestCase
-
-@end
 
 @implementation CollectionTests
+@synthesize interface;
 
 -(void) setUp
 {
     [super setUp];
+    self.interface = &TestCollectionInternal;
 }
 
 -(void) tearDown
@@ -308,7 +308,7 @@ static CCCollectionInterface TestCollectionFixed = {
 
 -(void) testCreation
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
     XCTAssertEqual(CCCollectionGetCount(Collection), 0, @"Should be empty");
     XCTAssertEqual(CCCollectionGetElement(Collection, NULL), NULL, @"Should return null for invalid entry");
@@ -319,7 +319,7 @@ static CCCollectionInterface TestCollectionFixed = {
 
 -(void) testInsertion
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -335,7 +335,7 @@ static CCCollectionInterface TestCollectionFixed = {
 
 -(void) testRemoval
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -358,14 +358,14 @@ static void TestElementDestructor(CCCollection Collection, int *Element)
 
 -(void) testDestructor
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), (CCCollectionElementDestructor)TestElementDestructor, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), (CCCollectionElementDestructor)TestElementDestructor, self.interface);
     
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCCollectionInsertElement(Collection, &(int){ 2 });
     CCCollectionInsertElement(Collection, &(int){ 3 });
     
     XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
-
+    
     CCCollectionRemoveElement(Collection, a2);
     
     XCTAssertTrue(TestElementDestroyed, @"Should have destroyed the correct element");
@@ -382,7 +382,7 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
 
 -(void) testFinding
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -410,42 +410,11 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
     
     CCCollectionDestroy(Collection);
-    
-    
-    
-    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternalWithoutFind);
-    
-    CCCollectionInsertElement(Collection, &(int){ 1 });
-    CCCollectionInsertElement(Collection, &(int){ 2 });
-    CCCollectionInsertElement(Collection, &(int){ 3 });
-    
-    a1 = CCCollectionFindElement(Collection, &(int){ 1 }, NULL);
-    a2 = CCCollectionFindElement(Collection, &(int){ 2 }, NULL);
-    a3 = CCCollectionFindElement(Collection, &(int){ 3 }, NULL);
-    a4 = CCCollectionFindElement(Collection, &(int){ 4 }, NULL);
-    
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
-    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
-    
-    
-    a1 = CCCollectionFindElement(Collection, &(int){ 1 }, (CCComparator)TestComparatorEqual);
-    a2 = CCCollectionFindElement(Collection, &(int){ 2 }, (CCComparator)TestComparatorEqual);
-    a3 = CCCollectionFindElement(Collection, &(int){ 3 }, (CCComparator)TestComparatorEqual);
-    a4 = CCCollectionFindElement(Collection, &(int){ 4 }, (CCComparator)TestComparatorEqual);
-    
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a2), 2, @"Should return the valid element");
-    XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a3), 3, @"Should return the valid element");
-    XCTAssertEqual(CCCollectionGetElement(Collection, a4), NULL, @"Should return null for an invalid entry");
-    
-    CCCollectionDestroy(Collection);
 }
 
 -(void) testEnumerating
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionInternal);
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -485,49 +454,38 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     
     
     CCCollectionDestroy(Collection);
-    
-    
-    
-    
-    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, &TestCollectionFixed);
-    
-    CCCollectionInsertElement(Collection, &(int){ 1 });
-    CCCollectionInsertElement(Collection, &(int){ 2 });
-    CCCollectionInsertElement(Collection, &(int){ 3 });
-    
-    CCCollectionGetEnumerator(Collection, &Enumerator);
-    
-    XCTAssertEqual(CCCollectionEnumeratorGetCurrent(&Enumerator), CCCollectionEnumeratorGetHead(&Enumerator), @"Initially obtaining the enumerator should be positioned to the head");
-    
-    Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
-    Total = 0;
-    Count = 0;
-    do
-    {
-        Total += *Element;
-        Count++;
-    }
-    while ((Element = CCCollectionEnumeratorNext(&Enumerator)));
-    
-    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
-    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
-    
-    
-    Element = CCCollectionEnumeratorGetTail(&Enumerator);
-    Total = 0;
-    Count = 0;
-    do
-    {
-        Total += *Element;
-        Count++;
-    }
-    while ((Element = CCCollectionEnumeratorPrevious(&Enumerator)));
-    
-    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
-    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
-    
-    
-    CCCollectionDestroy(Collection);
+}
+
+@end
+
+
+
+@interface CollectionInternalWithoutFindTests : CollectionTests
+
+@end
+
+@implementation CollectionInternalWithoutFindTests
+
+-(void) setUp
+{
+    [super setUp];
+    self.interface = &TestCollectionInternalWithoutFind;
+}
+
+@end
+
+
+
+@interface CollectionFixedTests : CollectionTests
+
+@end
+
+@implementation CollectionFixedTests
+
+-(void) setUp
+{
+    [super setUp];
+    self.interface = &TestCollectionFixed;
 }
 
 @end
