@@ -78,6 +78,7 @@
 		F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99791A74F56C00212838 /* ArrayTests.m */; };
 		F3AE99BC1A7511D500212838 /* Collection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99BA1A7511D500212838 /* Collection.c */; };
 		F3AE99BD1A7511D500212838 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3B30AC01A8F9C9D0007FA7B /* OrderedCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */; };
 		F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BC6A1E1877030B00934291 /* Vector3D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BC6A241877637800934291 /* Vector3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A231877637800934291 /* Vector3DTests.m */; };
 		F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */; };
@@ -196,6 +197,8 @@
 		F3AE99791A74F56C00212838 /* ArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayTests.m; sourceTree = "<group>"; };
 		F3AE99BA1A7511D500212838 /* Collection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Collection.c; sourceTree = "<group>"; };
 		F3AE99BB1A7511D500212838 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
+		F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedCollectionTests.m; sourceTree = "<group>"; };
+		F3B30AC11A8F9CAB0007FA7B /* OrderedCollectionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderedCollectionTests.h; sourceTree = "<group>"; };
 		F3BC6A1E1877030B00934291 /* Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector3D.h; sourceTree = "<group>"; };
 		F3BC6A231877637800934291 /* Vector3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector3DTests.m; sourceTree = "<group>"; };
 		F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DAVXTests.m; sourceTree = "<group>"; };
@@ -517,6 +520,8 @@
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
 				F3143A9C1A8A683F004EB810 /* CollectionTests.h */,
 				F37AFAA61A7913F20037ECB2 /* CollectionTests.m */,
+				F3B30AC11A8F9CAB0007FA7B /* OrderedCollectionTests.h */,
+				F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */,
 				F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */,
 				F3143AA01A8A8B19004EB810 /* CollectionListTests.m */,
 			);
@@ -786,6 +791,7 @@
 				F3E3E0A1187A5B1400A38E72 /* Vector2DAVXTests.m in Sources */,
 				F3BC6A2F18776CAE00934291 /* Vectorized2DSSE4_1Tests.m in Sources */,
 				F353DD5E17AE2C6400D1674C /* AllocatorTests.m in Sources */,
+				F3B30AC01A8F9C9D0007FA7B /* OrderedCollectionTests.m in Sources */,
 				F3E3E09F187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m in Sources */,
 				F353DD6117AE521800D1674C /* LoggingTests.m in Sources */,
 				F353DD7417B02C3E00D1674C /* ProcessInfo.c in Sources */,
