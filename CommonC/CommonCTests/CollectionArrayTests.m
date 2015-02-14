@@ -40,9 +40,4 @@
     self.interface = CCCollectionArray;
 }
 
--(void) tearDown
-{
-    [super tearDown];
-}
-
 @end
