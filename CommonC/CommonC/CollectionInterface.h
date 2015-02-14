@@ -200,6 +200,20 @@ typedef CCCollectionEntry (*CCOrderedCollectionPrepend)(void *Internal, const vo
  */
 typedef void *(*CCOrderedCollectionElement)(void *Internal, size_t Index);
 
+/*!
+ * @brief An optional callback to get the entry reference for the last element.
+ * @param Internal The pointer to the internal of the collection.
+ * @return An entry reference to the last element.
+ */
+typedef CCCollectionEntry (*CCOrderedCollectionEntryLast)(void *Internal);
+
+/*!
+ * @brief An optional callback to remove the last element in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCOrderedCollectionRemoveLast)(void *Internal, CCAllocatorType Allocator);
+
 
 #pragma mark -
 
@@ -218,6 +232,8 @@ typedef struct {
         CCOrderedCollectionAppend append;
         CCOrderedCollectionPrepend prepend;
         CCOrderedCollectionElement element;
+        CCOrderedCollectionEntryLast lastEntry;
+        CCOrderedCollectionRemoveLast removeLast;
     } optional;
 } CCOrderedCollectionInterface;
 

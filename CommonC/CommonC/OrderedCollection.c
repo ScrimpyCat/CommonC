@@ -79,8 +79,8 @@ void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    //TODO: optional
-    CCOrderedCollectionRemoveElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
+    if (Collection->interface->optional.ordered->optional.removeLast) Collection->interface->optional.ordered->optional.removeLast(Collection, Collection->allocator);
+    else CCOrderedCollectionRemoveElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
 }
 
 CCCollectionEntry CCOrderedCollectionGetEntryAtIndex(CCOrderedCollection Collection, size_t Index)
@@ -95,8 +95,8 @@ CCCollectionEntry CCOrderedCollectionGetLastEntry(CCOrderedCollection Collection
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    //TODO: optional
-    return CCOrderedCollectionGetEntryAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
+    if (Collection->interface->optional.ordered->optional.lastEntry) return Collection->interface->optional.ordered->optional.lastEntry(Collection->internal);
+    else return CCOrderedCollectionGetEntryAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
 }
 
 size_t CCOrderedCollectionGetIndex(CCOrderedCollection Collection, CCCollectionEntry Entry)
