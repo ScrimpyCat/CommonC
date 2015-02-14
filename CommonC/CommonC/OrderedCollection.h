@@ -89,12 +89,6 @@ void CCOrderedCollectionRemoveElementAtIndex(CCOrderedCollection Collection, siz
  */
 void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection);
 
-/*!
- * @brief Remove the first element from the collection.
- * @param Collection The collection to add the element to.
- */
-void CCOrderedCollectionRemoveFirstElement(CCOrderedCollection Collection);
-
 #pragma mark - Query Info
 
 /*!
@@ -112,13 +106,6 @@ CCCollectionEntry CCOrderedCollectionGetEntryAtIndex(CCOrderedCollection Collect
  * @return The entry.
  */
 CCCollectionEntry CCOrderedCollectionGetLastEntry(CCOrderedCollection Collection);
-
-/*!
- * @brief Get the first entry in the collection.
- * @param Collection The collection to get the element from.
- * @return The entry.
- */
-CCCollectionEntry CCOrderedCollectionGetFirstEntry(CCOrderedCollection Collection);
 
 /*!
  * @brief Get the element from the collection.
