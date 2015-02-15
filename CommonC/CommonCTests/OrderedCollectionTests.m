@@ -126,7 +126,7 @@ static CCCollectionEntry CollectionListEnumeratorEntry(CollectionListInternal *I
     return Enumerator->internal.ptr;
 }
 
-CCCollectionEntry OrderedCollectionEntry(CollectionListInternal *Internal, size_t Index)
+static CCCollectionEntry OrderedCollectionEntry(CollectionListInternal *Internal, size_t Index)
 {
     CCLinkedListNode *Node = CCLinkedListEnumerateNext((CCLinkedList)Internal);
     for (size_t Loop = 0; Loop < Index && Node; Loop++) Node = CCLinkedListEnumerateNext(Node);
@@ -134,7 +134,7 @@ CCCollectionEntry OrderedCollectionEntry(CollectionListInternal *Internal, size_
     return (CCCollectionEntry)Node;
 }
 
-size_t OrderedCollectionIndex(CollectionListInternal *Internal, CCCollectionEntry Entry)
+static size_t OrderedCollectionIndex(CollectionListInternal *Internal, CCCollectionEntry Entry)
 {
     CCLinkedListNode *Node = CCLinkedListEnumerateNext((CCLinkedList)Internal);
     for (size_t Loop = 0; Node; Loop++)
@@ -147,7 +147,7 @@ size_t OrderedCollectionIndex(CollectionListInternal *Internal, CCCollectionEntr
     return SIZE_MAX;
 }
 
-CCCollectionEntry OrderedCollectionInsert(CollectionListInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
+static CCCollectionEntry OrderedCollectionInsert(CollectionListInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
 {
     CCLinkedListNode *Node = OrderedCollectionEntry(Internal, Index), *E = CCLinkedListCreateNode(Allocator, ElementSize, Element);
     if (Node) CCLinkedListInsertBefore(Node, E);
