@@ -267,4 +267,32 @@ static const CCCollectionInterface CollectionList = {
     CCCollectionDestroy(Collection);
 }
 
+-(void) testIndexedReplacing
+{
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    
+    CCCollectionEntry a1 = CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
+    CCCollectionEntry a2 = CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
+    CCCollectionEntry a3 = CCOrderedCollectionAppendElement(Collection, &(int){ 3 });
+    
+    a2 = CCOrderedCollectionReplaceElementAtIndex(Collection, &(int){ 4 }, 1);
+    
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(Collection, 0), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(Collection, 1), 4, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(Collection, 2), 3, @"Should return the valid element");
+    
+    CCEnumerator Enumerator;
+    CCCollectionGetEnumerator(Collection, &Enumerator);
+    
+    XCTAssertEqual(*(int*)CCCollectionEnumeratorGetCurrent(&Enumerator), 1, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionEnumeratorNext(&Enumerator), 4, @"Should return the valid element");
+    XCTAssertEqual(*(int*)CCCollectionEnumeratorNext(&Enumerator), 3, @"Should return the valid element");
+    
+    XCTAssertEqual(CCOrderedCollectionGetIndex(Collection, a1), 0, @"Should return the correct index");
+    XCTAssertEqual(CCOrderedCollectionGetIndex(Collection, a2), 1, @"Should return the correct index");
+    XCTAssertEqual(CCOrderedCollectionGetIndex(Collection, a3), 2, @"Should return the correct index");
+    
+    CCCollectionDestroy(Collection);
+}
+
 @end
