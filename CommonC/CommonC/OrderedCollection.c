@@ -56,7 +56,16 @@ CCCollectionEntry CCOrderedCollectionReplaceElementAtIndex(CCOrderedCollection C
     CCAssertLog(Collection, "Collection must not be null");
     CCAssertLog(Index < CCCollectionGetCount(Collection), "Index outside of bounds");
     
-    if (Collection->interface->optional.ordered->optional.replace) return Collection->interface->optional.ordered->optional.replace(Collection->internal, Element, Index, Collection->allocator, Collection->size);
+    if (Collection->interface->optional.ordered->optional.replace)
+    {
+        if (Collection->destructor)
+        {
+            Collection->destructor(Collection, CCOrderedCollectionGetElementAtIndex(Collection, Index));
+        }
+        
+        return Collection->interface->optional.ordered->optional.replace(Collection->internal, Element, Index, Collection->allocator, Collection->size);
+    }
+    
     else
     {
         CCCollectionEntry Entry = CCOrderedCollectionInsertElementAtIndex(Collection, Element, Index);
@@ -71,7 +80,15 @@ void CCOrderedCollectionRemoveElementAtIndex(CCOrderedCollection Collection, siz
     CCAssertLog(Collection, "Collection must not be null");
     CCAssertLog(Index < CCCollectionGetCount(Collection), "Index outside of bounds");
     
-    if (Collection->interface->optional.ordered->optional.remove) Collection->interface->optional.ordered->optional.remove(Collection->internal, Index, Collection->allocator);
+    if (Collection->interface->optional.ordered->optional.remove)
+    {
+        if (Collection->destructor)
+        {
+            Collection->destructor(Collection, CCOrderedCollectionGetElementAtIndex(Collection, Index));
+        }
+        
+        Collection->interface->optional.ordered->optional.remove(Collection->internal, Index, Collection->allocator);
+    }
     else CCCollectionRemoveElement(Collection, CCOrderedCollectionGetEntryAtIndex(Collection, Index));
 }
 
@@ -79,7 +96,15 @@ void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    if (Collection->interface->optional.ordered->optional.removeLast) Collection->interface->optional.ordered->optional.removeLast(Collection, Collection->allocator);
+    if (Collection->interface->optional.ordered->optional.removeLast)
+    {
+        if (Collection->destructor)
+        {
+            Collection->destructor(Collection, CCOrderedCollectionGetElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1));
+        }
+        
+        Collection->interface->optional.ordered->optional.removeLast(Collection, Collection->allocator);
+    }
     else CCOrderedCollectionRemoveElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
 }
 
