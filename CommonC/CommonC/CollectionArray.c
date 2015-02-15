@@ -50,6 +50,22 @@ static void *CCCollectionArrayElement(CCCollectionArrayInternal *Internal, CCCol
 static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
 static CCCollectionEntry CCCollectionArrayEnumeratorEntry(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator);
 
+static CCCollectionEntry ConvertIndexToEntry(CCCollectionArrayInternal *Internal, size_t Index);
+static size_t ConvertEntryToIndex(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry);
+static CCCollectionEntry CCOrderedCollectionArrayInsert(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+static CCCollectionEntry CCOrderedCollectionArrayReplace(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal, size_t Index);
+
+
+const CCOrderedCollectionInterface OrderedCollectionArray = {
+    .insert = (CCOrderedCollectionInsert)CCOrderedCollectionArrayInsert,
+    .entry = (CCOrderedCollectionEntry)ConvertIndexToEntry,
+    .index = (CCOrderedCollectionIndex)ConvertEntryToIndex,
+    .optional = {
+        .replace = (CCOrderedCollectionReplace)CCOrderedCollectionArrayReplace,
+        .element = (CCOrderedCollectionElement)CCOrderedCollectionArrayElement
+    }
+};
 
 const CCCollectionInterface CollectionArray = {
     .hintWeight = CCCollectionArrayHintWeight,
@@ -61,6 +77,9 @@ const CCCollectionInterface CollectionArray = {
     .element = (CCCollectionElement)CCCollectionArrayElement,
     .enumerator = (CCCollectionEnumerator)CCCollectionArrayEnumerator,
     .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionArrayEnumeratorEntry,
+    .optional = {
+        .ordered = &OrderedCollectionArray
+    }
 };
 
 const CCCollectionInterface * const CCCollectionArray = &CollectionArray;
@@ -105,28 +124,18 @@ static size_t ConvertEntryToIndex(CCCollectionArrayInternal *Internal, CCCollect
 
 static void ShiftEntriesDownAfterIndex(CCCollectionArrayInternal *Internal, size_t Index)
 {
-    CCLinkedListNode *N = Internal->entries;
-    do
+    for (CCLinkedListNode *N = Internal->entries; N; N = CCLinkedListEnumerateNext(N))
     {
-        if (((CCCollectionArrayEntry*)N)->index > Index)
-        {
-            ((CCCollectionArrayEntry*)N)->index--;
-            break;
-        }
-    } while ((N = CCLinkedListEnumerateNext(N)));
+        if (((CCCollectionArrayEntry*)N)->index >= Index) ((CCCollectionArrayEntry*)N)->index--;
+    }
 }
 
 static void ShiftEntriesUpAfterIndex(CCCollectionArrayInternal *Internal, size_t Index)
 {
-    CCLinkedListNode *N = Internal->entries;
-    do
+    for (CCLinkedListNode *N = Internal->entries; N; N = CCLinkedListEnumerateNext(N))
     {
-        if (((CCCollectionArrayEntry*)N)->index > Index)
-        {
-            ((CCCollectionArrayEntry*)N)->index++;
-            break;
-        }
-    } while ((N = CCLinkedListEnumerateNext(N)));
+        if (((CCCollectionArrayEntry*)N)->index >= Index) ((CCCollectionArrayEntry*)N)->index++;
+    }
 }
 
 static void RemoveEntry(CCCollectionArrayInternal *Internal, CCCollectionEntry Entry)
@@ -233,4 +242,26 @@ static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CC
 static CCCollectionEntry CCCollectionArrayEnumeratorEntry(CCCollectionArrayInternal *Internal, CCEnumeratorState *Enumerator)
 {
     return ConvertIndexToEntry(Internal, Enumerator->batch.index);
+}
+
+static CCCollectionEntry CCOrderedCollectionArrayInsert(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
+{
+    if (Index == CCArrayGetCount(Internal->array)) Index = CCArrayAppendElement(Internal->array, Element);
+    else Index = CCArrayInsertElementAtIndex(Internal->array, Index, Element);
+    
+    ShiftEntriesUpAfterIndex(Internal, Index);
+    
+    return ConvertIndexToEntry(Internal, Index);
+}
+
+static CCCollectionEntry CCOrderedCollectionArrayReplace(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
+{
+    CCArrayReplaceElementAtIndex(Internal->array, Index, Element);
+    
+    return ConvertIndexToEntry(Internal, Index);
+}
+
+static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal, size_t Index)
+{
+    return CCArrayGetElementAtIndex(Internal->array, Index);
 }
