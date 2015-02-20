@@ -26,9 +26,9 @@
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 #import "CollectionList.h"
-#import "CollectionTests.h"
+#import "OrderedCollectionTests.h"
 
-@interface CollectionListTests : CollectionTests
+@interface CollectionListTests : OrderedCollectionTests
 
 @end
 

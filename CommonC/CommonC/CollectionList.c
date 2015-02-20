@@ -47,6 +47,22 @@ static void *CCCollectionListElement(CCCollectionListInternal *Internal, CCColle
 static void *CCCollectionListEnumerator(CCCollectionListInternal *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
 static CCCollectionEntry CCCollectionListEnumeratorEntry(CCCollectionListInternal *Internal, CCEnumeratorState *Enumerator);
 
+static CCCollectionEntry CCOrderedCollectionListInsert(CCCollectionListInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+static CCCollectionEntry CCOrderedCollectionListEntry(CCCollectionListInternal *Internal, size_t Index);
+static size_t CCOrderedCollectionListIndex(CCCollectionListInternal *Internal, CCCollectionEntry Entry);
+static CCCollectionEntry CCOrderedCollectionListEntryLast(CCCollectionListInternal *Internal);
+static void CCOrderedCollectionListRemoveLast(CCCollectionListInternal *Internal, CCAllocatorType Allocator);
+
+
+const CCOrderedCollectionInterface OrderedCollectionList = {
+    .insert = (CCOrderedCollectionInsert)CCOrderedCollectionListInsert,
+    .entry = (CCOrderedCollectionEntry)CCOrderedCollectionListEntry,
+    .index = (CCOrderedCollectionIndex)CCOrderedCollectionListIndex,
+    .optional = {
+        .lastEntry = (CCOrderedCollectionEntryLast)CCOrderedCollectionListEntryLast,
+        .removeLast = (CCOrderedCollectionRemoveLast)CCOrderedCollectionListRemoveLast
+    }
+};
 
 static const CCCollectionInterface CollectionList = {
     .hintWeight = CCCollectionListHintWeight,
@@ -58,6 +74,9 @@ static const CCCollectionInterface CollectionList = {
     .element = (CCCollectionElement)CCCollectionListElement,
     .enumerator = (CCCollectionEnumerator)CCCollectionListEnumerator,
     .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionListEnumeratorEntry,
+    .optional = {
+        .ordered = &OrderedCollectionList
+    }
 };
 
 const CCCollectionInterface * const CCCollectionList = &CollectionList;
@@ -148,3 +167,77 @@ static CCCollectionEntry CCCollectionListEnumeratorEntry(CCCollectionListInterna
     return Enumerator->internal.ptr;
 }
 
+static CCCollectionEntry CCOrderedCollectionListInsert(CCCollectionListInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
+{
+    CCLinkedListNode *Node = CCLinkedListCreateNode(Allocator, ElementSize, Element);
+    if (Node)
+    {
+        CCLinkedListNode *Next = CCOrderedCollectionListEntry(Internal, Index);
+        if (Next)
+        {
+            CCLinkedListInsertBefore(Next, Node);
+        }
+        
+        else
+        {
+            CCLinkedListNode *End = Internal->data.end ? Internal->data.end : (CCLinkedListNode*)Internal;
+            Internal->data.end = CCLinkedListAppend(End, Node);
+        }
+        
+        Internal->data.count++;
+    }
+    
+    return Node;
+}
+
+static CCCollectionEntry CCOrderedCollectionListEntry(CCCollectionListInternal *Internal, size_t Index)
+{
+    CCLinkedListNode *Node = NULL;
+    if ((Internal->data.count / 2) >= Index)
+    {
+        Node = CCLinkedListEnumerateNext((CCLinkedList)Internal);
+        for (size_t Loop = 0; Loop < Index && Node; Loop++)
+        {
+            Node = CCLinkedListEnumerateNext(Node);
+        }
+    }
+    
+    else if (Internal->data.count != Index)
+    {
+        Node = Internal->data.end;
+        for (size_t Loop = Internal->data.count - 1; Loop > Index && Node; Loop--)
+        {
+            Node = CCLinkedListEnumeratePrevious(Node);
+        }
+    }
+    
+    return Node;
+}
+
+static size_t CCOrderedCollectionListIndex(CCCollectionListInternal *Internal, CCCollectionEntry Entry)
+{
+    if (CCLinkedListIsTail((CCLinkedListNode*)Entry)) return Internal->data.count - 1;
+    
+    CCLinkedListNode *Node = CCLinkedListEnumerateNext((CCLinkedList)Internal);
+    for (size_t Loop = 0; Node; Loop++)
+    {
+        if (Node == Entry)
+        {
+            return Loop;
+        }
+        
+        Node = CCLinkedListEnumerateNext(Node);
+    }
+    
+    return SIZE_MAX;
+}
+
+static CCCollectionEntry CCOrderedCollectionListEntryLast(CCCollectionListInternal *Internal)
+{
+    return Internal->data.end;
+}
+
+static void CCOrderedCollectionListRemoveLast(CCCollectionListInternal *Internal, CCAllocatorType Allocator)
+{
+    if (Internal->data.end) CCCollectionListRemove(Internal, Internal->data.end, Allocator);
+}
