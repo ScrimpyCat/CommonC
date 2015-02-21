@@ -84,7 +84,19 @@ const CCCollectionInterface * const CCCollectionList = &CCCollectionListInterfac
 
 static int CCCollectionListHintWeight(CCCollectionHint Hint)
 {
-    return 0;
+    return CCCollectionHintWeightCreate(Hint,
+                                        CCCollectionHintHeavyInserting
+                                        | CCCollectionHintConstantLength
+                                        | CCCollectionHintConstantElements
+                                        | CCOrderedCollectionHintHeavyReplacing
+                                        | CCOrderedCollectionHintHeavyAppending
+                                        | CCOrderedCollectionHintHeavyPrepending,
+                                        CCCollectionHintHeavyEnumerating
+                                        | CCCollectionHintHeavyDeleting
+                                        | CCOrderedCollectionHintHeavyInserting,
+                                        CCCollectionHintOrdered
+                                        | CCCollectionHintHeavyFinding
+                                        | CCOrderedCollectionHintHeavySorting);
 }
 
 static void *CCCollectionListConstructor(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize)

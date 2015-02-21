@@ -158,7 +158,20 @@ static void RemoveEntryForIndex(CCCollectionArrayInternal *Internal, size_t Inde
 
 static int CCCollectionArrayHintWeight(CCCollectionHint Hint)
 {
-    return 0;
+    return CCCollectionHintWeightCreate(Hint,
+                                        CCCollectionHintHeavyEnumerating
+                                        | CCCollectionHintHeavyInserting
+                                        | CCCollectionHintConstantLength
+                                        | CCCollectionHintConstantElements
+                                        | CCCollectionHintOrdered
+                                        | CCOrderedCollectionHintHeavyReplacing
+                                        | CCOrderedCollectionHintHeavyAppending,
+                                        0,
+                                        CCCollectionHintHeavyFinding
+                                        | CCCollectionHintHeavyDeleting
+                                        | CCOrderedCollectionHintHeavyPrepending
+                                        | CCOrderedCollectionHintHeavySorting
+                                        | CCOrderedCollectionHintHeavyInserting);
 }
 
 static void *CCCollectionArrayConstructor(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize)
