@@ -47,6 +47,15 @@ typedef enum {
     CCCollectionHintConstantElements = (1 << 5),
     ///The collection is ordered.
     CCCollectionHintOrdered = (1 << 6),
+    
+    ///Mask for size hints.
+    CCCollectionHintSizeMask = 0xc0000000,
+    ///Collection will have not many elements.
+    CCCollectionHintSizeSmall = (1 << 30),
+    ///Collection will have a moderate amount of elements.
+    CCCollectionHintSizeMedium = (0 << 30),
+    ///Collection will have lots of elements.
+    CCCollectionHintSizeLarge = (2 << 30)
 } CCCollectionHint;
 
 /*!
@@ -58,15 +67,15 @@ typedef enum {
     ///Mask for hints for a ordered collection.
     CCOrderedCollectionHintMask = 0xff00,
     ///Collection will involve a lot of replacing.
-    CCOrderedCollectionHintHeavyReplacing = (1 << 0) | CCCollectionHintOrdered,
+    CCOrderedCollectionHintHeavyReplacing = (1 << 8) | CCCollectionHintOrdered,
     ///Collection will involve a lot of appending.
-    CCOrderedCollectionHintHeavyAppending = (1 << 1) | CCCollectionHintOrdered,
+    CCOrderedCollectionHintHeavyAppending = (1 << 9) | CCCollectionHintOrdered,
     ///Collection will involve a lot of prepending.
-    CCOrderedCollectionHintHeavyPrepending = (1 << 2) | CCCollectionHintOrdered,
+    CCOrderedCollectionHintHeavyPrepending = (1 << 10) | CCCollectionHintOrdered,
     ///Collection will involve a lot of sorting.
-    CCOrderedCollectionHintHeavySorting = (1 << 3) | CCCollectionHintOrdered,
+    CCOrderedCollectionHintHeavySorting = (1 << 11) | CCCollectionHintOrdered,
     ///Collection will involve a lot of inserting.
-    CCOrderedCollectionHintHeavyInserting = (1 << 4) | CCCollectionHintHeavyInserting | CCCollectionHintOrdered
+    CCOrderedCollectionHintHeavyInserting = (1 << 12) | CCCollectionHintHeavyInserting | CCCollectionHintOrdered
 } CCOrderedCollectionHint;
 
 /*!
