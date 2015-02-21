@@ -29,12 +29,97 @@
 #include "Logging.h"
 #include "Assertion.h"
 #include "Types.h"
+#include "BitTricks.h"
+#include "LinkedList.h"
+#include "CollectionArray.h"
+#include "CollectionList.h"
 
 
-CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize,CCCollectionElementDestructor Destructor)
+typedef struct {
+    CCLinkedListNode node;
+    const CCCollectionInterface *interface;
+} CCCollectionInterfaceNode;
+
+typedef struct {
+    int allocator;
+    CCCollectionInterfaceNode data;
+} CCCollectionInternalInterfaceNode;
+
+
+const int CCCollectionHintWeightMax = 30000; //CCCollectionHintWeightCreate((UINT_MAX & ~CCCollectionHintSizeMask) | CCCollectionHintSizeLarge, UINT_MAX, 0, 0)
+
+int CCCollectionHintWeightCreate(CCCollectionHint Hint, CCCollectionHint FastHints, CCCollectionHint ModerateHints, CCCollectionHint SlowHints)
 {
-    //TODO: Get weights of all currently available implementations and use best one
-    return NULL;
+    const int Size = (int[]){ 10, 1, 100, 0 }[(Hint & CCCollectionHintSizeMask) >> 30];
+    Hint &= ~CCCollectionHintSizeMask;
+    
+    FastHints &= Hint;
+    ModerateHints &= Hint;
+    SlowHints &= Hint;
+    
+    return ((int)CCBitCountSet(FastHints) * 10 * Size) + ((int)CCBitCountSet(ModerateHints) * -1 * Size) + ((int)CCBitCountSet(SlowHints) * -100 * Size);
+}
+
+const CCCollectionInterface CCCollectionArrayInterface, CCCollectionListInterface;
+static CCCollectionInternalInterfaceNode InternalInterfaces[] = {
+    { .allocator = -1, .data = { .node = { .prev = NULL, .next = (void*)(InternalInterfaces + 1) + offsetof(CCCollectionInternalInterfaceNode, data) }, .interface = &CCCollectionArrayInterface } },
+    { .allocator = -1, .data = { .node = { .prev = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data), .next = NULL }, .interface = &CCCollectionListInterface } }
+};
+static CCCollectionInterfaceNode *Interfaces = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data);
+void CCCollectionRegisterInterface(const CCCollectionInterface *Interface)
+{
+    CCAssertLog(Interface, "Interface must not be null");
+    
+    CCLinkedListNode *Node = CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(CCCollectionInterface*), &Interface);
+    if (Node)
+    {
+        if (Interfaces)
+        {
+            Interfaces = (CCCollectionInterfaceNode*)CCLinkedListInsert((CCLinkedList)Interfaces, Node);
+        }
+        
+        else Interfaces = (CCCollectionInterfaceNode*)Node;
+    }
+    
+    else
+    {
+        CC_LOG_ERROR("Failed to add interface (%p): Failed to allocate memory of size (%zu)", Interface, sizeof(CCCollectionInterfaceNode));
+    }
+}
+
+void CCCollectionDeregisterInterface(const CCCollectionInterface *Interface)
+{
+    for (CCLinkedListNode *Node = (CCLinkedListNode*)Interfaces; Node; Node = CCLinkedListEnumerateNext(Node))
+    {
+        if (((CCCollectionInterfaceNode*)Node)->interface == Interface)
+        {
+            if (CCLinkedListIsHead(Node))
+            {
+                Interfaces = (CCCollectionInterfaceNode*)CCLinkedListEnumerateNext(Node);
+            }
+            
+            CCLinkedListDestroyNode(Node);
+            break;
+        }
+    }
+}
+
+CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor)
+{
+    int Weight = INT_MIN;
+    const CCCollectionInterface *BestInterface = NULL;
+    
+    for (CCLinkedListNode *Node = (CCLinkedListNode*)Interfaces; Node; Node = CCLinkedListEnumerateNext(Node))
+    {
+        const int NewWeight = ((CCCollectionInterfaceNode*)Node)->interface->hintWeight(Hint);
+        if (NewWeight > Weight)
+        {
+            Weight = NewWeight;
+            BestInterface = ((CCCollectionInterfaceNode*)Node)->interface;
+        }
+    }
+    
+    return CCCollectionCreateWithImplementation(Allocator, Hint, ElementSize, Destructor, BestInterface);
 }
 
 CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface)

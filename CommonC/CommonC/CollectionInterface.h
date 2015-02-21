@@ -37,6 +37,7 @@
  * @brief A callback that will return a weight for how ideal this implementation is for the intended
  * usage.
  *
+ * @param Hint The hints describing the intended usage of the collection.
  * @return A higher value is weighted in-favour of a lower value.
  */
 typedef int (*CCCollectionHintWeight)(CCCollectionHint Hint);
@@ -257,5 +258,42 @@ typedef struct {
         CCCollectionFind find;
     } optional;
 } CCCollectionInterface;
+
+
+#pragma mark - Interface Handling
+
+/*!
+ * @brief The maximum weight value produced by CCCollectionHintWeightCreate.
+ * @description This is the maximum weight any of the framework's interfaces may reach. To push
+ * your own interfaces above the internal ones, you use can use this max weight to add onto. Where
+ * CCCollectionHintWeightMax + 1 is guaranteed to be chosen above any of the internal interfaces
+ * that are provided.
+ */
+extern const int CCCollectionHintWeightMax;
+
+/*!
+ * @brief Calculate a weight for the given hint combination.
+ * @description The max value returned by this is CCCollectionHintWeightMax.
+ * @param Hint The hints describing the intended usage of the collection.
+ * @param FastHints Hints with a worst case that is considered fast for the given operation.
+ * @param ModerateHints Hints with a worst case that is considered decent for the given operation.
+ * @param SlowHints Hints with worst case that is considered slow for the given operation.
+ * @return The weight value.
+ */
+int CCCollectionHintWeightCreate(CCCollectionHint Hint, CCCollectionHint FastHints, CCCollectionHint ModerateHints, CCCollectionHint SlowHints);
+
+/*!
+ * @brief Register a collection interface with the system.
+ * @description The interface is chosen based on how appropriate it is with the current hints.
+ * @param Interface The interface to register.
+ */
+void CCCollectionRegisterInterface(const CCCollectionInterface *Interface);
+
+/*!
+ * @brief Deregister a collection interface from the system.
+ * @description The interface can no longer be chosen.
+ * @param Interface The interface to register.
+ */
+void CCCollectionDeregisterInterface(const CCCollectionInterface *Interface);
 
 #endif

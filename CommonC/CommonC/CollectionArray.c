@@ -57,7 +57,7 @@ static CCCollectionEntry CCOrderedCollectionArrayReplace(CCCollectionArrayIntern
 static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal, size_t Index);
 
 
-const CCOrderedCollectionInterface OrderedCollectionArray = {
+const CCOrderedCollectionInterface CCOrderedCollectionArrayInterface = {
     .insert = (CCOrderedCollectionInsert)CCOrderedCollectionArrayInsert,
     .entry = (CCOrderedCollectionEntry)ConvertIndexToEntry,
     .index = (CCOrderedCollectionIndex)ConvertEntryToIndex,
@@ -67,7 +67,7 @@ const CCOrderedCollectionInterface OrderedCollectionArray = {
     }
 };
 
-const CCCollectionInterface CollectionArray = {
+const CCCollectionInterface CCCollectionArrayInterface = {
     .hintWeight = CCCollectionArrayHintWeight,
     .create = CCCollectionArrayConstructor,
     .destroy = (CCCollectionDestructor)CCCollectionArrayDestructor,
@@ -78,11 +78,11 @@ const CCCollectionInterface CollectionArray = {
     .enumerator = (CCCollectionEnumerator)CCCollectionArrayEnumerator,
     .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionArrayEnumeratorEntry,
     .optional = {
-        .ordered = &OrderedCollectionArray
+        .ordered = &CCOrderedCollectionArrayInterface
     }
 };
 
-const CCCollectionInterface * const CCCollectionArray = &CollectionArray;
+const CCCollectionInterface * const CCCollectionArray = &CCCollectionArrayInterface;
 
 
 static CCCollectionArrayEntry *FindEntryForIndex(CCCollectionArrayInternal *Internal, size_t Index)

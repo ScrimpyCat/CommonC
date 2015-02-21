@@ -69,7 +69,7 @@ typedef struct CCCollectionInfo {
  * @param Destructor An optional element destructor.
  * @return An empty collection, or NULL on failure. Must be destroyed to free the memory.
  */
-CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize,CCCollectionElementDestructor Destructor);
+CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor);
 
 /*!
  * @brief Create a collection with the specified implementation.
