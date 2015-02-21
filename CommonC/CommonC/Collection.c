@@ -106,13 +106,14 @@ void CCCollectionDeregisterInterface(const CCCollectionInterface *Interface)
 
 CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor)
 {
+    const _Bool Ordered = Hint & CCCollectionHintOrdered;
     int Weight = INT_MIN;
     const CCCollectionInterface *BestInterface = NULL;
     
     for (CCLinkedListNode *Node = (CCLinkedListNode*)Interfaces; Node; Node = CCLinkedListEnumerateNext(Node))
     {
         const int NewWeight = ((CCCollectionInterfaceNode*)Node)->interface->hintWeight(Hint);
-        if (NewWeight > Weight)
+        if ((NewWeight > Weight) && ((!Ordered) || (((CCCollectionInterfaceNode*)Node)->interface->optional.ordered)))
         {
             Weight = NewWeight;
             BestInterface = ((CCCollectionInterfaceNode*)Node)->interface;
