@@ -33,17 +33,19 @@
 
 static int TestHintWeight(CCCollectionHint Hint)
 {
-    return INT_MAX;
+    return CCCollectionHintWeightMax + 1;
 }
 
+static _Bool InUse = FALSE;
 static void *TestConstructor(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize)
 {
+    InUse = TRUE;
     return CCLinkedListCreateNode(Allocator, 0, NULL);
 }
 
 static void TestDestructor(void *Internal)
 {
-    
+    InUse = FALSE;
 }
 
 size_t TestCount(CCLinkedList Internal)
@@ -298,6 +300,29 @@ static CCCollectionInterface TestCollectionFixed = {
 -(void) tearDown
 {
     [super tearDown];
+}
+
+-(void) testInterfaceRegistration
+{
+    CCCollection Collection = CCCollectionCreate(CC_STD_ALLOCATOR, 0, sizeof(int), NULL);
+    XCTAssertFalse(InUse, "Should be using one of the internal interfaces");
+    CCCollectionDestroy(Collection);
+    
+    
+    CCCollectionRegisterInterface(&TestCollectionInternal);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, 0, sizeof(int), NULL);
+    XCTAssertTrue(InUse, "Should be the custom interface");
+    CCCollectionDestroy(Collection);
+    
+    
+    CCCollectionDeregisterInterface(&TestCollectionInternal);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, 0, sizeof(int), NULL);
+    XCTAssertFalse(InUse, "Should be using one of the internal interfaces");
+    CCCollectionDestroy(Collection);
 }
 
 -(void) testCreation
