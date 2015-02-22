@@ -40,7 +40,7 @@
  * @param Hint The hints describing the intended usage of the collection.
  * @return A higher value is weighted in-favour of a lower value.
  */
-typedef int (*CCCollectionHintWeight)(CCCollectionHint Hint);
+typedef int (*CCCollectionHintWeightCallback)(CCCollectionHint Hint);
 
 /*!
  * @brief A callback to create the internal implementation for the collection.
@@ -49,20 +49,20 @@ typedef int (*CCCollectionHintWeight)(CCCollectionHint Hint);
  * @param ElementSize The size of the elements.
  * @return The created internal structure.
  */
-typedef void *(*CCCollectionConstructor)(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize);
+typedef void *(*CCCollectionConstructorCallback)(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize);
 
 /*!
  * @brief A callback to destroy the internal implementation for the collection.
  * @param Internal The pointer to the internal of the collection.
  */
-typedef void (*CCCollectionDestructor)(void *Internal);
+typedef void (*CCCollectionDestructorCallback)(void *Internal);
 
 /*!
  * @brief A callback to get the current number of elements in the collection.
  * @param Internal The pointer to the internal of the collection.
  * @return The number of elements in the collection.
  */
-typedef size_t (*CCCollectionCount)(void *Internal);
+typedef size_t (*CCCollectionCountCallback)(void *Internal);
 
 /*!
  * @brief A callback to add an element into the collection.
@@ -72,16 +72,15 @@ typedef size_t (*CCCollectionCount)(void *Internal);
  * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
-typedef CCCollectionEntry (*CCCollectionInsert)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+typedef CCCollectionEntry (*CCCollectionInsertCallback)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
  * @brief A callback to remove an element from the collection.
  * @param Internal The pointer to the internal of the collection.
  * @param Entry The entry reference in the collection to be removed.
  * @param Allocator The allocator to be used for any internal allocation needed.
- * @return A reference to this entry.
  */
-typedef void (*CCCollectionRemove)(void *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator);
+typedef void (*CCCollectionRemoveCallback)(void *Internal, CCCollectionEntry Entry, CCAllocatorType Allocator);
 
 /*!
  * @brief A callback to retrieve an element from the collection.
@@ -89,7 +88,7 @@ typedef void (*CCCollectionRemove)(void *Internal, CCCollectionEntry Entry, CCAl
  * @param Entry The entry reference in the collection to be retrieved.
  * @return The element.
  */
-typedef void *(*CCCollectionElement)(void *Internal, CCCollectionEntry Entry);
+typedef void *(*CCCollectionElementCallback)(void *Internal, CCCollectionEntry Entry);
 
 /*!
  * @brief A callback to set the enumerator for the collection on a given action.
@@ -98,7 +97,7 @@ typedef void *(*CCCollectionElement)(void *Internal, CCCollectionEntry Entry);
  * @param Action The action to be performed.
  * @return The current element at the new position the enumerator has been set to.
  */
-typedef void *(*CCCollectionEnumerator)(void *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
+typedef void *(*CCCollectionEnumeratorCallback)(void *Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
 
 /*!
  * @brief A callback to get the entry reference for the current enumerator position.
@@ -106,7 +105,7 @@ typedef void *(*CCCollectionEnumerator)(void *Internal, CCEnumeratorState *Enume
  * @param Enumerator The pointer enumerator to be used.
  * @return An entry reference to the current enumerator position.
  */
-typedef CCCollectionEntry (*CCCollectionEnumeratorEntry)(void *Internal, CCEnumeratorState *Enumerator);
+typedef CCCollectionEntry (*CCCollectionEnumeratorEntryCallback)(void *Internal, CCEnumeratorState *Enumerator);
 
 #pragma mark Ordered
 
@@ -120,7 +119,7 @@ typedef CCCollectionEntry (*CCCollectionEnumeratorEntry)(void *Internal, CCEnume
  * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionInsert)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+typedef CCCollectionEntry (*CCOrderedCollectionInsertCallback)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
  * @brief A callback to get the entry reference for an element at an index.
@@ -128,7 +127,7 @@ typedef CCCollectionEntry (*CCOrderedCollectionInsert)(void *Internal, const voi
  * @param Index The index in the collection to get an entry reference to.
  * @return An entry reference to element at the given index.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionEntry)(void *Internal, size_t Index);
+typedef CCCollectionEntry (*CCOrderedCollectionEntryCallback)(void *Internal, size_t Index);
 
 /*!
  * @brief A callback to retrieve an index for an entry in the collection.
@@ -136,7 +135,7 @@ typedef CCCollectionEntry (*CCOrderedCollectionEntry)(void *Internal, size_t Ind
  * @param Entry The entry reference in the collection to get the index of.
  * @return The index.
  */
-typedef size_t (*CCOrderedCollectionIndex)(void *Internal, CCCollectionEntry Entry);
+typedef size_t (*CCOrderedCollectionIndexCallback)(void *Internal, CCCollectionEntry Entry);
 
 #pragma mark - Optional Callbacks
 
@@ -150,7 +149,27 @@ typedef size_t (*CCOrderedCollectionIndex)(void *Internal, CCCollectionEntry Ent
  * @param ElementSize The size of the element.
  * @return The entry reference to the element, or NULL if it was not found.
  */
-typedef CCCollectionEntry (*CCCollectionFind)(void *Internal, const void *Element, CCComparator Comparator, size_t ElementSize);
+typedef CCCollectionEntry (*CCCollectionFindCallback)(void *Internal, const void *Element, CCComparator Comparator, size_t ElementSize);
+
+/*!
+ * @brief A callback to add a collection of elements into the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Elements The collection of elements to be added.
+ * @param Entries The pointer to where a collection of the entries should be created, or NULL
+ *        in which case no entries need to be returned.
+ *
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ * @param ElementSize The size of the element.
+ */
+typedef void (*CCCollectionInsertCollectionCallback)(void *Internal, CCCollection Elements, CCCollection *Entries, CCAllocatorType Allocator, size_t ElementSize);
+
+/*!
+ * @brief A callback to remove a collection of elements from the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Entries The collection of entry references in the collection to be removed.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCCollectionRemoveCollectionCallback)(void *Internal, CCCollection Entries, CCAllocatorType Allocator);
 
 #pragma mark Ordered
 
@@ -163,7 +182,7 @@ typedef CCCollectionEntry (*CCCollectionFind)(void *Internal, const void *Elemen
  * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionReplace)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
+typedef CCCollectionEntry (*CCOrderedCollectionReplaceCallback)(void *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
  * @brief An optional callback to remove an element in the collection.
@@ -171,7 +190,7 @@ typedef CCCollectionEntry (*CCOrderedCollectionReplace)(void *Internal, const vo
  * @param Index The index of the element to be removed.
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
-typedef void (*CCOrderedCollectionRemove)(void *Internal, size_t Index, CCAllocatorType Allocator);
+typedef void (*CCOrderedCollectionRemoveCallback)(void *Internal, size_t Index, CCAllocatorType Allocator);
 
 /*!
  * @brief An optional callback to append an element to the end of a collection.
@@ -181,7 +200,7 @@ typedef void (*CCOrderedCollectionRemove)(void *Internal, size_t Index, CCAlloca
  * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionAppend)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+typedef CCCollectionEntry (*CCOrderedCollectionAppendCallback)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
  * @brief An optional callback to prepend an element to the end of a collection.
@@ -191,7 +210,7 @@ typedef CCCollectionEntry (*CCOrderedCollectionAppend)(void *Internal, const voi
  * @param ElementSize The size of the element.
  * @return A reference to this entry.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionPrepend)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
+typedef CCCollectionEntry (*CCOrderedCollectionPrependCallback)(void *Internal, const void *Element, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
  * @brief An optional callback to get the element at index.
@@ -199,21 +218,21 @@ typedef CCCollectionEntry (*CCOrderedCollectionPrepend)(void *Internal, const vo
  * @param Index The index in the collection to get the element.
  * @return The element at the given index.
  */
-typedef void *(*CCOrderedCollectionElement)(void *Internal, size_t Index);
+typedef void *(*CCOrderedCollectionElementCallback)(void *Internal, size_t Index);
 
 /*!
  * @brief An optional callback to get the entry reference for the last element.
  * @param Internal The pointer to the internal of the collection.
  * @return An entry reference to the last element.
  */
-typedef CCCollectionEntry (*CCOrderedCollectionEntryLast)(void *Internal);
+typedef CCCollectionEntry (*CCOrderedCollectionEntryLastCallback)(void *Internal);
 
 /*!
  * @brief An optional callback to remove the last element in the collection.
  * @param Internal The pointer to the internal of the collection.
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
-typedef void (*CCOrderedCollectionRemoveLast)(void *Internal, CCAllocatorType Allocator);
+typedef void (*CCOrderedCollectionRemoveLastCallback)(void *Internal, CCAllocatorType Allocator);
 
 
 #pragma mark -
@@ -224,17 +243,17 @@ typedef void (*CCOrderedCollectionRemoveLast)(void *Internal, CCAllocatorType Al
  *              through reusing the required interfaces.
  */
 typedef struct {
-    CCOrderedCollectionInsert insert;
-    CCOrderedCollectionEntry entry;
-    CCOrderedCollectionIndex index;
+    CCOrderedCollectionInsertCallback insert;
+    CCOrderedCollectionEntryCallback entry;
+    CCOrderedCollectionIndexCallback index;
     struct {
-        CCOrderedCollectionReplace replace;
-        CCOrderedCollectionRemove remove;
-        CCOrderedCollectionAppend append;
-        CCOrderedCollectionPrepend prepend;
-        CCOrderedCollectionElement element;
-        CCOrderedCollectionEntryLast lastEntry;
-        CCOrderedCollectionRemoveLast removeLast;
+        CCOrderedCollectionReplaceCallback replace;
+        CCOrderedCollectionRemoveCallback remove;
+        CCOrderedCollectionAppendCallback append;
+        CCOrderedCollectionPrependCallback prepend;
+        CCOrderedCollectionElementCallback element;
+        CCOrderedCollectionEntryLastCallback lastEntry;
+        CCOrderedCollectionRemoveLastCallback removeLast;
     } optional;
 } CCOrderedCollectionInterface;
 
@@ -244,18 +263,20 @@ typedef struct {
  *              through reusing the required interfaces.
  */
 typedef struct {
-    CCCollectionHintWeight hintWeight;
-    CCCollectionConstructor create;
-    CCCollectionDestructor destroy;
-    CCCollectionCount count;
-    CCCollectionInsert insert;
-    CCCollectionRemove remove;
-    CCCollectionElement element;
-    CCCollectionEnumerator enumerator;
-    CCCollectionEnumeratorEntry enumeratorReference;
+    CCCollectionHintWeightCallback hintWeight;
+    CCCollectionConstructorCallback create;
+    CCCollectionDestructorCallback destroy;
+    CCCollectionCountCallback count;
+    CCCollectionInsertCallback insert;
+    CCCollectionRemoveCallback remove;
+    CCCollectionElementCallback element;
+    CCCollectionEnumeratorCallback enumerator;
+    CCCollectionEnumeratorEntryCallback enumeratorReference;
     struct {
         const CCOrderedCollectionInterface *ordered;
-        CCCollectionFind find;
+        CCCollectionFindCallback find;
+        CCCollectionInsertCollectionCallback insertCollection;
+        CCCollectionRemoveCollectionCallback removeCollection;
     } optional;
 } CCCollectionInterface;
 

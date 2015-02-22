@@ -58,25 +58,25 @@ static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal
 
 
 const CCOrderedCollectionInterface CCOrderedCollectionArrayInterface = {
-    .insert = (CCOrderedCollectionInsert)CCOrderedCollectionArrayInsert,
-    .entry = (CCOrderedCollectionEntry)ConvertIndexToEntry,
-    .index = (CCOrderedCollectionIndex)ConvertEntryToIndex,
+    .insert = (CCOrderedCollectionInsertCallback)CCOrderedCollectionArrayInsert,
+    .entry = (CCOrderedCollectionEntryCallback)ConvertIndexToEntry,
+    .index = (CCOrderedCollectionIndexCallback)ConvertEntryToIndex,
     .optional = {
-        .replace = (CCOrderedCollectionReplace)CCOrderedCollectionArrayReplace,
-        .element = (CCOrderedCollectionElement)CCOrderedCollectionArrayElement
+        .replace = (CCOrderedCollectionReplaceCallback)CCOrderedCollectionArrayReplace,
+        .element = (CCOrderedCollectionElementCallback)CCOrderedCollectionArrayElement
     }
 };
 
 const CCCollectionInterface CCCollectionArrayInterface = {
     .hintWeight = CCCollectionArrayHintWeight,
     .create = CCCollectionArrayConstructor,
-    .destroy = (CCCollectionDestructor)CCCollectionArrayDestructor,
-    .count = (CCCollectionCount)CCCollectionArrayCount,
-    .insert = (CCCollectionInsert)CCCollectionArrayInsert,
-    .remove =  (CCCollectionRemove)CCCollectionArrayRemove,
-    .element = (CCCollectionElement)CCCollectionArrayElement,
-    .enumerator = (CCCollectionEnumerator)CCCollectionArrayEnumerator,
-    .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionArrayEnumeratorEntry,
+    .destroy = (CCCollectionDestructorCallback)CCCollectionArrayDestructor,
+    .count = (CCCollectionCountCallback)CCCollectionArrayCount,
+    .insert = (CCCollectionInsertCallback)CCCollectionArrayInsert,
+    .remove =  (CCCollectionRemoveCallback)CCCollectionArrayRemove,
+    .element = (CCCollectionElementCallback)CCCollectionArrayElement,
+    .enumerator = (CCCollectionEnumeratorCallback)CCCollectionArrayEnumerator,
+    .enumeratorReference = (CCCollectionEnumeratorEntryCallback)CCCollectionArrayEnumeratorEntry,
     .optional = {
         .ordered = &CCOrderedCollectionArrayInterface
     }

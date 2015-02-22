@@ -55,25 +55,25 @@ static void CCOrderedCollectionListRemoveLast(CCCollectionListInternal *Internal
 
 
 const CCOrderedCollectionInterface CCOrderedCollectionListInterface = {
-    .insert = (CCOrderedCollectionInsert)CCOrderedCollectionListInsert,
-    .entry = (CCOrderedCollectionEntry)CCOrderedCollectionListEntry,
-    .index = (CCOrderedCollectionIndex)CCOrderedCollectionListIndex,
+    .insert = (CCOrderedCollectionInsertCallback)CCOrderedCollectionListInsert,
+    .entry = (CCOrderedCollectionEntryCallback)CCOrderedCollectionListEntry,
+    .index = (CCOrderedCollectionIndexCallback)CCOrderedCollectionListIndex,
     .optional = {
-        .lastEntry = (CCOrderedCollectionEntryLast)CCOrderedCollectionListEntryLast,
-        .removeLast = (CCOrderedCollectionRemoveLast)CCOrderedCollectionListRemoveLast
+        .lastEntry = (CCOrderedCollectionEntryLastCallback)CCOrderedCollectionListEntryLast,
+        .removeLast = (CCOrderedCollectionRemoveLastCallback)CCOrderedCollectionListRemoveLast
     }
 };
 
 const CCCollectionInterface CCCollectionListInterface = {
     .hintWeight = CCCollectionListHintWeight,
     .create = CCCollectionListConstructor,
-    .destroy = (CCCollectionDestructor)CCCollectionListDestructor,
-    .count = (CCCollectionCount)CCCollectionListCount,
-    .insert = (CCCollectionInsert)CCCollectionListInsert,
-    .remove =  (CCCollectionRemove)CCCollectionListRemove,
-    .element = (CCCollectionElement)CCCollectionListElement,
-    .enumerator = (CCCollectionEnumerator)CCCollectionListEnumerator,
-    .enumeratorReference = (CCCollectionEnumeratorEntry)CCCollectionListEnumeratorEntry,
+    .destroy = (CCCollectionDestructorCallback)CCCollectionListDestructor,
+    .count = (CCCollectionCountCallback)CCCollectionListCount,
+    .insert = (CCCollectionInsertCallback)CCCollectionListInsert,
+    .remove =  (CCCollectionRemoveCallback)CCCollectionListRemove,
+    .element = (CCCollectionElementCallback)CCCollectionListElement,
+    .enumerator = (CCCollectionEnumeratorCallback)CCCollectionListEnumerator,
+    .enumeratorReference = (CCCollectionEnumeratorEntryCallback)CCCollectionListEnumeratorEntry,
     .optional = {
         .ordered = &CCOrderedCollectionListInterface
     }

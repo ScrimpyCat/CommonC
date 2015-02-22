@@ -161,21 +161,21 @@ static CCCollectionEntry OrderedCollectionInsert(CollectionListInternal *Interna
 
 
 static const CCOrderedCollectionInterface OrderedCollectionList = {
-    .insert = (CCOrderedCollectionInsert)OrderedCollectionInsert,
-    .entry = (CCOrderedCollectionEntry)OrderedCollectionEntry,
-    .index = (CCOrderedCollectionIndex)OrderedCollectionIndex
+    .insert = (CCOrderedCollectionInsertCallback)OrderedCollectionInsert,
+    .entry = (CCOrderedCollectionEntryCallback)OrderedCollectionEntry,
+    .index = (CCOrderedCollectionIndexCallback)OrderedCollectionIndex
 };
 
 static const CCCollectionInterface CollectionList = {
     .hintWeight = CollectionListHintWeight,
     .create = CollectionListConstructor,
-    .destroy = (CCCollectionDestructor)CollectionListDestructor,
-    .count = (CCCollectionCount)CollectionListCount,
-    .insert = (CCCollectionInsert)CollectionListInsert,
-    .remove =  (CCCollectionRemove)CollectionListRemove,
-    .element = (CCCollectionElement)CollectionListElement,
-    .enumerator = (CCCollectionEnumerator)CollectionListEnumerator,
-    .enumeratorReference = (CCCollectionEnumeratorEntry)CollectionListEnumeratorEntry,
+    .destroy = (CCCollectionDestructorCallback)CollectionListDestructor,
+    .count = (CCCollectionCountCallback)CollectionListCount,
+    .insert = (CCCollectionInsertCallback)CollectionListInsert,
+    .remove =  (CCCollectionRemoveCallback)CollectionListRemove,
+    .element = (CCCollectionElementCallback)CollectionListElement,
+    .enumerator = (CCCollectionEnumeratorCallback)CollectionListEnumerator,
+    .enumeratorReference = (CCCollectionEnumeratorEntryCallback)CollectionListEnumeratorEntry,
     .optional = {
         .ordered = &OrderedCollectionList
     }

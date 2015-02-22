@@ -246,14 +246,14 @@ static CCCollectionInterface TestCollectionInternal = {
     .hintWeight = TestHintWeight,
     .create = TestConstructor,
     .destroy = TestDestructor,
-    .count = (CCCollectionCount)TestCount,
-    .insert = (CCCollectionInsert)TestInsert,
-    .remove = (CCCollectionRemove)TestRemove,
-    .element = (CCCollectionElement)TestElement,
-    .enumerator = (CCCollectionEnumerator)TestEnumeratorInternal,
+    .count = (CCCollectionCountCallback)TestCount,
+    .insert = (CCCollectionInsertCallback)TestInsert,
+    .remove = (CCCollectionRemoveCallback)TestRemove,
+    .element = (CCCollectionElementCallback)TestElement,
+    .enumerator = (CCCollectionEnumeratorCallback)TestEnumeratorInternal,
     .enumeratorReference = TestEnumeratorEntryInternal,
     .optional = {
-        .find = (CCCollectionFind)TestFind
+        .find = (CCCollectionFindCallback)TestFind
     }
 };
 
@@ -261,11 +261,11 @@ static CCCollectionInterface TestCollectionInternalWithoutFind = {
     .hintWeight = TestHintWeight,
     .create = TestConstructor,
     .destroy = TestDestructor,
-    .count = (CCCollectionCount)TestCount,
-    .insert = (CCCollectionInsert)TestInsert,
-    .remove = (CCCollectionRemove)TestRemove,
-    .element = (CCCollectionElement)TestElement,
-    .enumerator = (CCCollectionEnumerator)TestEnumeratorInternal,
+    .count = (CCCollectionCountCallback)TestCount,
+    .insert = (CCCollectionInsertCallback)TestInsert,
+    .remove = (CCCollectionRemoveCallback)TestRemove,
+    .element = (CCCollectionElementCallback)TestElement,
+    .enumerator = (CCCollectionEnumeratorCallback)TestEnumeratorInternal,
     .enumeratorReference = TestEnumeratorEntryInternal,
     .optional = {
         .find = NULL
@@ -276,14 +276,14 @@ static CCCollectionInterface TestCollectionFixed = {
     .hintWeight = TestHintWeight,
     .create = TestConstructor,
     .destroy = TestDestructor,
-    .count = (CCCollectionCount)TestCount,
-    .insert = (CCCollectionInsert)TestInsert,
-    .remove = (CCCollectionRemove)TestRemove,
-    .element = (CCCollectionElement)TestElement,
-    .enumerator = (CCCollectionEnumerator)TestEnumeratorFixed,
+    .count = (CCCollectionCountCallback)TestCount,
+    .insert = (CCCollectionInsertCallback)TestInsert,
+    .remove = (CCCollectionRemoveCallback)TestRemove,
+    .element = (CCCollectionElementCallback)TestElement,
+    .enumerator = (CCCollectionEnumeratorCallback)TestEnumeratorFixed,
     .enumeratorReference = TestEnumeratorEntryFixed,
     .optional = {
-        .find = (CCCollectionFind)TestFind
+        .find = (CCCollectionFindCallback)TestFind
     }
 };
 
