@@ -65,5 +65,7 @@
 #include <CommonC/Collection.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/CollectionEnumerator.h>
+#include <CommonC/CollectionArray.h>
+#include <CommonC/CollectionList.h>
 
 #endif
