@@ -101,10 +101,27 @@ CCCollectionEntry CCCollectionInsertElement(CCCollection Collection, const void 
 
 /*!
  * @brief Remove an element from the collection.
- * @param Collection The collection to add the element to.
+ * @param Collection The collection to remove the element from.
  * @param Entry The reference to the element in the collection to be removed.
  */
 void CCCollectionRemoveElement(CCCollection Collection, CCCollectionEntry Entry);
+
+/*!
+ * @brief Add a collection of elements to the collection.
+ * @param Collection The collection to add the elements to.
+ * @param Elements The collection of elements that will be added.
+ * @param Entries A pointer to where the collection of entry references to the added elements
+ *        will be stored. Requires collection to be destroyed when no longer needed. May be NULL.
+ */
+void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements, CCCollection *Entries);
+
+/*!
+ * @brief Remove a collection of elements from the collection.
+ * @param Collection The collection to remove the elements from.
+ * @param Entries The collection of references to the elements in the collection that will be
+ *        removed.
+ */
+void CCCollectionRemoveCollection(CCCollection Collection, CCCollection Entries);
 
 
 #pragma mark - Query Info
@@ -132,15 +149,41 @@ size_t CCCollectionGetCount(CCCollection Collection);
 size_t CCCollectionGetElementSize(CCCollection Collection);
 
 /*!
+ * @brief Get a collection's internal structure.
+ * @param Collection The collection to get the internal structure.
+ * @return The internal structure.
+ */
+void *CCCollectionGetInternal(CCCollection Collection);
+
+/*!
+ * @brief Get a collection's interface.
+ * @param Collection The collection to get the interface for.
+ * @return The interface.
+ */
+const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection);
+
+/*!
  * @brief Find an element in the collection.
  * @param Collection The collection to search for the element in.
- * @param The element to find.
+ * @param Element The element to find.
  * @param Comparator An optional comparator function, returning CCComparatorEqual when found the
  *        the match. If NULL it reverts to a memcmp compare.
  * 
  * @return An entry reference to the element if it is found, otherwise NULL if it was not found.
  */
 CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *Element, CCComparator Comparator);
+
+/*!
+ * @brief Find an element in the collection.
+ * @param Collection The collection to search for the element in.
+ * @param Elements The elements to find.
+ * @param Comparator An optional comparator function, returning CCComparatorEqual when found the
+ *        the match. If NULL it reverts to a memcmp compare.
+ *
+ * @return A collection of entry references to the elements it found. An empty collection means no
+ *         elements were found. The returned collection must be destroyed when it is no longer needed.
+ */
+CCCollection CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator);
 
 /*!
  * @brief Get an enumerator for the collection.

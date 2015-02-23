@@ -195,6 +195,67 @@ void CCCollectionRemoveElement(CCCollection Collection, CCCollectionEntry Entry)
     Collection->interface->remove(Collection->internal, Entry, Collection->allocator);
 }
 
+void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements, CCCollection *Entries)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    CCAssertLog(Elements, "Collection must not be null");
+    CCAssertLog(CCCollectionGetElementSize(Collection) == CCCollectionGetElementSize(Elements), "The two collections must be of equal size");
+    
+    if (Collection->interface->optional.insertCollection) Collection->interface->optional.insertCollection(Collection->internal, Elements, Entries, Collection->allocator, Collection->size);
+    else
+    {
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Elements, &Enumerator);
+        
+        if (Entries)
+        {
+            *Entries = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintHeavyInserting, sizeof(CCCollectionEntry), NULL);
+            for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+            {
+                CCCollectionEntry Entry = CCCollectionInsertElement(Collection, Element);
+                CCCollectionInsertElement(*Entries, &Entry);
+            }
+        }
+        
+        else
+        {
+            for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+            {
+                CCCollectionInsertElement(Collection, Element);
+            }
+        }
+    }
+}
+
+void CCCollectionRemoveCollection(CCCollection Collection, CCCollection Entries)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    CCAssertLog(Entries, "Collection must not be null");
+    
+    if (Collection->destructor)
+    {
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Entries, &Enumerator);
+        
+        for (CCCollectionEntry *Entry = CCCollectionEnumeratorGetCurrent(&Enumerator); Entry; Entry = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            Collection->destructor(Collection, CCCollectionGetElement(Collection, *Entry));
+        }
+    }
+    
+    if (Collection->interface->optional.removeCollection) Collection->interface->optional.removeCollection(Collection->internal, Entries, Collection->allocator);
+    else
+    {
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Entries, &Enumerator);
+        
+        for (CCCollectionEntry *Entry = CCCollectionEnumeratorGetCurrent(&Enumerator); Entry; Entry = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            CCCollectionRemoveElement(Collection, *Entry);
+        }
+    }
+}
+
 void *CCCollectionGetElement(CCCollection Collection, CCCollectionEntry Entry)
 {
     CCAssertLog(Collection, "Collection must not be null");
@@ -214,6 +275,20 @@ size_t CCCollectionGetElementSize(CCCollection Collection)
     CCAssertLog(Collection, "Collection must not be null");
     
     return Collection->size;
+}
+
+void *CCCollectionGetInternal(CCCollection Collection)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    return Collection->internal;
+}
+
+const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    return Collection->interface;
 }
 
 CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *Element, CCComparator Comparator)
@@ -258,6 +333,31 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
     }
     
     return Found;
+}
+
+CCCollection CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    CCAssertLog(Elements, "Collection must not be null");
+    CCAssertLog(CCCollectionGetElementSize(Collection) == CCCollectionGetElementSize(Elements), "The two collections must be of equal size");
+    
+    CCCollection Entries;
+    if (Collection->interface->optional.findCollection) Entries = Collection->interface->optional.findCollection(Collection->internal, Elements, Comparator, Collection->size);
+    else
+    {
+        Entries = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintHeavyInserting, sizeof(CCCollectionEntry), NULL);
+        
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Elements, &Enumerator);
+        
+        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            CCCollectionEntry Entry = CCCollectionFindElement(Collection, Element, Comparator);
+            if (Entry) CCCollectionInsertElement(Entries, &Entry);
+        }
+    }
+    
+    return Entries;
 }
 
 void CCCollectionGetEnumerator(CCCollection Collection, CCEnumerator *Enumerator)

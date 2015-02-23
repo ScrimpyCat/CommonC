@@ -152,7 +152,7 @@ typedef size_t (*CCOrderedCollectionIndexCallback)(void *Internal, CCCollectionE
 typedef CCCollectionEntry (*CCCollectionFindCallback)(void *Internal, const void *Element, CCComparator Comparator, size_t ElementSize);
 
 /*!
- * @brief A callback to add a collection of elements into the collection.
+ * @brief An optional callback to add a collection of elements into the collection.
  * @param Internal The pointer to the internal of the collection.
  * @param Elements The collection of elements to be added.
  * @param Entries The pointer to where a collection of the entries should be created, or NULL
@@ -164,12 +164,25 @@ typedef CCCollectionEntry (*CCCollectionFindCallback)(void *Internal, const void
 typedef void (*CCCollectionInsertCollectionCallback)(void *Internal, CCCollection Elements, CCCollection *Entries, CCAllocatorType Allocator, size_t ElementSize);
 
 /*!
- * @brief A callback to remove a collection of elements from the collection.
+ * @brief An optional callback to remove a collection of elements from the collection.
  * @param Internal The pointer to the internal of the collection.
  * @param Entries The collection of entry references in the collection to be removed.
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
 typedef void (*CCCollectionRemoveCollectionCallback)(void *Internal, CCCollection Entries, CCAllocatorType Allocator);
+
+/*!
+ * @brief An optional callback to find a collection of elements in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Elements The collection of elements to find.
+ * @param Comparator The comparison to be performed, or NULL in which case it defaults to
+ *        comparing using a memcmp.
+ *
+ * @param ElementSize The size of the element.
+ * @return The collection of entry references to the elements found. If no elements are found, the
+ *         collection should be empty.
+ */
+typedef CCCollectionEntry (*CCCollectionFindCollectionCallback)(void *Internal, CCCollection Elements, CCComparator Comparator, size_t ElementSize);
 
 #pragma mark Ordered
 
@@ -277,6 +290,7 @@ typedef struct {
         CCCollectionFindCallback find;
         CCCollectionInsertCollectionCallback insertCollection;
         CCCollectionRemoveCollectionCallback removeCollection;
+        CCCollectionFindCollectionCallback findCollection;
     } optional;
 } CCCollectionInterface;
 
