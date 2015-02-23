@@ -200,10 +200,11 @@ static void *TestEnumeratorInternal(CCLinkedList Internal, CCEnumeratorState *En
     return Enumerator->internal.ptr ? ((CCLinkedListNodeData*)Enumerator->internal.ptr)->data : NULL;
 }
 
-static CCCollectionEntry TestEnumeratorEntryFixed(void *Internal, CCEnumeratorState *Enumerator)
+static CCCollectionEntry TestEnumeratorEntryFixed(CCLinkedList Internal, CCEnumeratorState *Enumerator)
 {
-    //TODO: implement
-    return NULL;
+    for (void *Last = Enumerator->fixedBatch.ptr[Enumerator->fixedBatch.index]; (Internal = CCLinkedListEnumerateNext(Internal)) && (Last != ((CCLinkedListNodeData*)Internal)->data); );
+    
+    return Internal;
 }
 
 static CCCollectionEntry TestEnumeratorEntryInternal(void *Internal, CCEnumeratorState *Enumerator)
@@ -281,7 +282,7 @@ static CCCollectionInterface TestCollectionFixed = {
     .remove = (CCCollectionRemoveCallback)TestRemove,
     .element = (CCCollectionElementCallback)TestElement,
     .enumerator = (CCCollectionEnumeratorCallback)TestEnumeratorFixed,
-    .enumeratorReference = TestEnumeratorEntryFixed,
+    .enumeratorReference = (CCCollectionEnumeratorEntryCallback)TestEnumeratorEntryFixed,
     .optional = {
         .find = (CCCollectionFindCallback)TestFind
     }
@@ -416,6 +417,21 @@ static CCCollectionInterface TestCollectionFixed = {
     XCTAssertEqual(*(int*)CCCollectionGetElement(Collection, a1), 1, @"Should return the valid element");
     
     CCCollectionDestroy(Entries);
+    CCCollectionDestroy(Collection);
+}
+
+-(void) testRemovalAll
+{
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    CCCollectionRemoveAllElements(Collection);
+    
+    XCTAssertEqual(CCCollectionGetCount(Collection), 0, @"Should be empty");
+    
     CCCollectionDestroy(Collection);
 }
 

@@ -107,6 +107,12 @@ CCCollectionEntry CCCollectionInsertElement(CCCollection Collection, const void 
 void CCCollectionRemoveElement(CCCollection Collection, CCCollectionEntry Entry);
 
 /*!
+ * @brief Remove all elements in the collection.
+ * @param Collection The collection to remove all the elements from.
+ */
+void CCCollectionRemoveAllElements(CCCollection Collection);
+
+/*!
  * @brief Add a collection of elements to the collection.
  * @param Collection The collection to add the elements to.
  * @param Elements The collection of elements that will be added.
@@ -161,6 +167,14 @@ void *CCCollectionGetInternal(CCCollection Collection);
  * @return The interface.
  */
 const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection);
+
+/*!
+ * @brief Get entry references to all of the elements in a collection.
+ * @param Collection The collection to get all the entry references to.
+ * @return A collection with all the entry references. This collection must be destroyed when no longer
+ *         in use.
+ */
+CCCollection CCCollectionGetAllEntries(CCCollection Collection);
 
 /*!
  * @brief Find an element in the collection.

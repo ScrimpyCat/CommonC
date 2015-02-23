@@ -195,6 +195,30 @@ void CCCollectionRemoveElement(CCCollection Collection, CCCollectionEntry Entry)
     Collection->interface->remove(Collection->internal, Entry, Collection->allocator);
 }
 
+void CCCollectionRemoveAllElements(CCCollection Collection)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    if (Collection->destructor)
+    {
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Collection, &Enumerator);
+        
+        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            Collection->destructor(Collection, Element);
+        }
+    }
+    
+    if (Collection->interface->optional.removeAll) Collection->interface->optional.removeAll(Collection->internal, Collection->allocator);
+    else
+    {
+        CCCollection AllEntries = CCCollectionGetAllEntries(Collection);
+        CCCollectionRemoveCollection(Collection, AllEntries);
+        CCCollectionDestroy(AllEntries);
+    }
+}
+
 void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements, CCCollection *Entries)
 {
     CCAssertLog(Collection, "Collection must not be null");
@@ -289,6 +313,28 @@ const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection)
     CCAssertLog(Collection, "Collection must not be null");
     
     return Collection->interface;
+}
+
+CCCollection CCCollectionGetAllEntries(CCCollection Collection)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    CCCollection Entries;
+    if (Collection->interface->optional.allEntries) Entries = Collection->interface->optional.allEntries(Collection->internal);
+    else
+    {
+        Entries = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintHeavyInserting, sizeof(CCCollectionEntry), NULL);
+        
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Collection, &Enumerator);
+        
+        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            CCCollectionInsertElement(Entries, &(CCCollectionEntry){ CCCollectionEnumeratorGetEntry(&Enumerator) });
+        }
+    }
+    
+    return Entries;
 }
 
 CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *Element, CCComparator Comparator)

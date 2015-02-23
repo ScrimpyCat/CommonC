@@ -152,6 +152,20 @@ typedef size_t (*CCOrderedCollectionIndexCallback)(void *Internal, CCCollectionE
 typedef CCCollectionEntry (*CCCollectionFindCallback)(void *Internal, const void *Element, CCComparator Comparator, size_t ElementSize);
 
 /*!
+ * @brief An optional callback to get entry references to all the elements in the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @return The collection of entry references.
+ */
+typedef CCCollection (*CCCollectionAllEntriesCallback)(void *Internal);
+
+/*!
+ * @brief An optional callback to remove all elements from the collection.
+ * @param Internal The pointer to the internal of the collection.
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCCollectionRemoveAllCallback)(void *Internal, CCAllocatorType Allocator);
+
+/*!
  * @brief An optional callback to add a collection of elements into the collection.
  * @param Internal The pointer to the internal of the collection.
  * @param Elements The collection of elements to be added.
@@ -288,6 +302,8 @@ typedef struct {
     struct {
         const CCOrderedCollectionInterface *ordered;
         CCCollectionFindCallback find;
+        CCCollectionAllEntriesCallback allEntries;
+        CCCollectionRemoveAllCallback removeAll;
         CCCollectionInsertCollectionCallback insertCollection;
         CCCollectionRemoveCollectionCallback removeCollection;
         CCCollectionFindCollectionCallback findCollection;
