@@ -93,6 +93,8 @@
 #define CC_PROPERTY_NONNULL nonnull
 #define CC_PROPERTY_NULLABLE nullable
 #define CC_PROPERTY_NULL_RESETTABLE null_resettable
+
+#define CC_NOESCAPE __attribute__((noescape))
 #else
 #define CC_NONNULL
 #define CC_NULLABLE
@@ -101,6 +103,8 @@
 #define CC_PROPERTY_NONNULL
 #define CC_PROPERTY_NULLABLE
 #define CC_PROPERTY_NULL_RESETTABLE
+
+#define CC_NOESCAPE
 #endif
 
 #endif
