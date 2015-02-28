@@ -84,4 +84,23 @@
 #define CC_SUPPORT_BLOCKS(...)
 #endif
 
+
+#if __clang_major__ >= 6 && __clang_minor__ >= 1 //or should check? __apple_build_version__ > 6000056
+#define CC_NONNULL __nonnull
+#define CC_NULLABLE __nullable
+#define CC_NULL_UNSPECIFIED __null_unspecified
+
+#define CC_PROPERTY_NONNULL nonnull
+#define CC_PROPERTY_NULLABLE nullable
+#define CC_PROPERTY_NULL_RESETTABLE null_resettable
+#else
+#define CC_NONNULL
+#define CC_NULLABLE
+#define CC_NULL_UNSPECIFIED
+
+#define CC_PROPERTY_NONNULL
+#define CC_PROPERTY_NULLABLE
+#define CC_PROPERTY_NULL_RESETTABLE
+#endif
+
 #endif
