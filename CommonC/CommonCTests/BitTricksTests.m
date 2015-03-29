@@ -138,6 +138,15 @@
     for (uint64_t Loop = 0, n = 1; Loop < 64; Loop++, n = (n << 1) | 1) TEST_SET_BIT_COUNT(n, Loop + 1);
 }
 
+-(void) testCCBitSet
+{
+    XCTAssertEqual(CCBitSet(0), 0, @"Should set 0 bits");
+    XCTAssertEqual(CCBitSet(1), 1, @"Should set 1 bits");
+    XCTAssertEqual(CCBitSet(2), 3, @"Should set 2 bits");
+    XCTAssertEqual(CCBitSet(3), 7, @"Should set 3 bits");
+    XCTAssertEqual(CCBitSet(64), UINT64_MAX, @"Should set all bits");
+}
+
 -(void) testCCBitIsPowerOf2
 {
 #define TEST_BIT_IS_POWER_2(x, r) TEST_BOOL_(x, r, CCBitIsPowerOf2)

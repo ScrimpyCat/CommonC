@@ -44,6 +44,7 @@ static CC_FORCE_INLINE uint64_t CCBitMaskForValue(uint64_t x) CC_CONSTANT_FUNCTI
 static CC_FORCE_INLINE uint64_t CCBitMaskForLowerPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE uint64_t CCBitMaskForUnsetValue(uint64_t x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE uint64_t CCBitCountSet(uint64_t x) CC_CONSTANT_FUNCTION;
+static CC_FORCE_INLINE uint64_t CCBitSet(uint64_t n) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE _Bool CCBitIsPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE _Bool CCBitFloat32IsPowerOf2(float x) CC_CONSTANT_FUNCTION;
 static CC_FORCE_INLINE _Bool CCBitFloat64IsPowerOf2(double x) CC_CONSTANT_FUNCTION;
@@ -128,6 +129,12 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitCountSet(uint64_t x)
     x = (x * 0x0101010101010101) >> 56;
     
     return x;
+}
+
+//Set n least significant bits
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitSet(uint64_t n)
+{
+    return n == 64 ? UINT64_MAX : ((UINT64_C(1) << n) - 1);
 }
 
 //Checks if the value is a power of 2
