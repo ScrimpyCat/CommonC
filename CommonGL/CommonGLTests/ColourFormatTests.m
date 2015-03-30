@@ -106,4 +106,86 @@
     XCTAssertEqual(Channels[3], 0, @"Should not contain any element");
 }
 
+-(void) testPackIntoBuffer
+{
+    uint8_t Data[64] = {0};
+    CCPixel Pixel = {
+        .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 0 },
+            [1] = { .type = CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [2] = { .type = CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [3] = { .type = 0 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourFormatPackIntoBuffer(Pixel, Data), 2, @"Should only write out 2 bytes");
+    XCTAssertEqual(*(uint16_t*)Data, 2080, @"Should contain the correct value");
+    
+    
+    Pixel = (CCPixel){
+        .type = (CCColourFormat)CCColourFormatR32Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed | (32 << CCColourFormatChannelBitSize), .u32 = 0xdeadbeef },
+            [1] = { .type = 0 },
+            [2] = { .type = 0 },
+            [3] = { .type = 0 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourFormatPackIntoBuffer(Pixel, Data), 4, @"Should only write out 4 bytes");
+    XCTAssertEqual(*(uint32_t*)Data, 0xdeadbeef, @"Should contain the correct value");
+    
+    
+    Pixel = (CCPixel){
+        .type = (CCColourFormat)CCColourFormatRGBA8Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [1] = { .type = CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize), .u8 = 2 },
+            [2] = { .type = CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize), .u8 = 3 },
+            [3] = { .type = CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize), .u8 = 4 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourFormatPackIntoBuffer(Pixel, Data), 4, @"Should only write out 4 bytes");
+    XCTAssertEqual(((uint8_t*)Data)[0], 1, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[1], 2, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[2], 3, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[3], 4, @"Should contain the correct value");
+    
+    
+    Pixel = (CCPixel){
+        .type = (CCColourFormat)CCColourFormatRGBA32Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize), .u32 = 0x10000002 },
+            [1] = { .type = CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize), .u32 = 0x30000004 },
+            [2] = { .type = CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize), .u32 = 0x50000006 },
+            [3] = { .type = CCColourFormatChannelAlpha  | (32 << CCColourFormatChannelBitSize), .u32 = 0x70000008 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourFormatPackIntoBuffer(Pixel, Data), 16, @"Should only write out 16 bytes");
+    XCTAssertEqual(((uint32_t*)Data)[0], 0x10000002, @"Should contain the correct value");
+    XCTAssertEqual(((uint32_t*)Data)[1], 0x30000004, @"Should contain the correct value");
+    XCTAssertEqual(((uint32_t*)Data)[2], 0x50000006, @"Should contain the correct value");
+    XCTAssertEqual(((uint32_t*)Data)[3], 0x70000008, @"Should contain the correct value");
+    
+    
+    Pixel = (CCPixel){
+        .type = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+        | ((CCColourFormatChannelRed  | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+        | ((CCColourFormatChannelBlue | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (50 << CCColourFormatChannelBitSize), .u64 = 0x3000000000001 },
+            [1] = { .type = CCColourFormatChannelBlue   | (50 << CCColourFormatChannelBitSize), .u64 = 0x2000000000003 },
+            [2] = { .type = 0 },
+            [3] = { .type = 0 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourFormatPackIntoBuffer(Pixel, Data), 13, @"Should only write out 13 bytes");
+    XCTAssertEqual((((uint64_t*)Data)[0] & 0x3ffffffffffff), 0x3000000000001, @"Should contain the correct value");
+    XCTAssertEqual(((((uint64_t*)Data)[0] & 0xfffc000000000000) >> 50) + ((((uint64_t*)Data)[1] & 0xfffffffff) << 14), 0x2000000000003, @"Should contain the correct value");
+}
+
 @end

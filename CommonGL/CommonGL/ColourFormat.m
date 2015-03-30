@@ -213,3 +213,43 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
     
     return FALSE;
 }
+
+size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data)
+{
+    CCAssertLog((Colour.type & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, @"Only supports colour formats with 4 channel configuration");
+    _Static_assert((CCColourFormatChannelBitSizeMask >> CCColourFormatChannelBitSize) <= (sizeof(uint64_t) * 8), "Exceeds limit of packed data");
+    
+    int ChunkIndex = 0, ChunkSize = 0;
+    uint64_t Chunk = 0;
+    
+    for (int Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
+    {
+        const int Bits = ((Colour.channel[Loop].type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize);
+        
+        if ((ChunkSize + Bits) > (sizeof(Chunk) * 8))
+        {
+            const int Remaining = (ChunkSize + Bits) - (sizeof(Chunk) * 8);
+            const int Fit = Bits - Remaining;
+            
+            Chunk |= (Colour.channel[Loop].u64 & CCBitSet(Fit)) << ChunkSize;
+            ((typeof(Chunk)*)Data)[ChunkIndex++] = Chunk;
+            
+            Chunk = (Colour.channel[Loop].u64 >> Fit) & CCBitSet(Remaining);
+            ChunkSize = Remaining;
+        }
+        
+        else
+        {
+            Chunk |= (Colour.channel[Loop].u64 & CCBitSet(Bits)) << ChunkSize;
+            ChunkSize += Bits;
+        }
+    }
+    
+    const int Count = (ChunkSize + 7) / 8;
+    for (int Loop = 0, Loop2 = ChunkIndex * sizeof(Chunk); Loop < Count; Loop++, Loop2++)
+    {
+        ((uint8_t*)Data)[Loop2] = ((uint8_t*)&Chunk)[Loop];
+    }
+    
+    return (ChunkIndex * sizeof(Chunk)) + Count;
+}

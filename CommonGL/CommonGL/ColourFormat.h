@@ -86,7 +86,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormat) {
     CCColourFormatSpaceRGB_RGB =    CCColourFormatModelRGB | (0 << 5),
     CCColourFormatSpaceRGB_sRGB =   CCColourFormatModelRGB | (1 << 5),
     //YUV Colour Spaces
-    CCColourFormatSpaceYUV_YpCbCr = (0 << 5),
+    CCColourFormatSpaceYUV_YpCbCr = CCColourFormatModelYUV | (0 << 5),
     //HSL/HSV Colour Spaces
     CCColourFormatSpaceHS_HSL =    CCColourFormatModelHS | (0 << 5),
     CCColourFormatSpaceHS_HSV =    CCColourFormatModelHS | (1 << 5),
@@ -924,9 +924,41 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
 
 #pragma mark -
 
+typedef struct {
+    CCColourFormat type;
+    union {
+        float f32;
+        double f64;
+        
+        int8_t i8;
+        int16_t i16;
+        int32_t i32;
+        int64_t i64;
+        
+        uint8_t u8;
+        uint16_t u16;
+        uint32_t u32;
+        uint64_t u64;
+    };
+} CCColour;
+
+typedef struct {
+    CCColourFormat type;
+    CCColour channel[4];
+} CCPixel;
+
+#pragma mark -
+
 
 void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4]);
 _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int PlanarIndex, GLenum *InputType, GLenum *InputFormat, GLenum *InternalFormat);
 
+/*!
+ * @brief Packs the pixel colour into the buffer.
+ * @param Colour The pixel colour to be packed onto the buffer.
+ * @param Data The buffer to store the colour.
+ * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
+ */
+size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data);
 
 #endif
