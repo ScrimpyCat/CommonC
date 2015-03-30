@@ -25,3 +25,40 @@
 
 #import "Default_Private.h"
 #import "CCPixelData.h"
+#import <CommonObjc/Assertion.h>
+
+@implementation CCPixelData
+@synthesize format, planes;
+
+-(CCPixel) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z
+{
+    @throw [NSException exceptionWithName: NSInternalInconsistencyException reason: @"Must override in subclass" userInfo: nil];
+}
+
+-(void) getPackedData: (void*)data WithWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth
+{
+    [self getPackedData: data AsFormat: self.format WithWidth: width Height: height Depth: depth];
+}
+
+-(void) getPackedData: (void*)data AsFormat: (CCColourFormat)type WithWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth
+{
+    CCAssertLog(self.format == type, @"Currently does not support conversions");
+    
+    for (size_t LoopZ = 0; LoopZ < depth; LoopZ++)
+    {
+        for (size_t LoopY = 0; LoopY < height; LoopY++)
+        {
+            for (size_t LoopX = 0; LoopX < width; LoopX++)
+            {
+                CCPixel Pixel = [self colourAtX: LoopX Y: LoopY Z: LoopZ];
+                CCAssertLog((Pixel.type & CCColourFormatOptionChannel4), @"Only supports colour formats with 4 channel configuration");
+                
+                //convert
+                
+                data += CCColourFormatPackIntoBuffer(Pixel, data);
+            }
+        }
+    }
+}
+
+@end
