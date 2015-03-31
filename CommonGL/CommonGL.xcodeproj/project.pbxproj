@@ -36,8 +36,8 @@
 		F3A97F4819A9240300F21E00 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A97F4719A9240300F21E00 /* CommonC.framework */; };
 		F3D944B11A2489E200EF1251 /* ContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D944B01A2489E200EF1251 /* ContextTests.m */; };
 		F3D96AC41A260E8B005F518F /* StateChange.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D96AC31A260CE7005F518F /* StateChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3E6DD2F1A3FEF6400563DAB /* CCPixelData.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E6DD2D1A3FEF6400563DAB /* CCPixelData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3E6DD301A3FEF6400563DAB /* CCPixelData.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E6DD2E1A3FEF6400563DAB /* CCPixelData.m */; };
+		F3E6DD2F1A3FEF6400563DAB /* PixelData.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E6DD2D1A3FEF6400563DAB /* PixelData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3E6DD301A3FEF6400563DAB /* PixelData.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E6DD2E1A3FEF6400563DAB /* PixelData.m */; };
 		F3E6DD341A40334100563DAB /* ColourFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E6DD321A40334100563DAB /* ColourFormat.m */; };
 		F3E6DD351A40334100563DAB /* ColourFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E6DD331A40334100563DAB /* ColourFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3EA01EC19AA337700758D52 /* Portability.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EA01EB19AA337700758D52 /* Portability.m */; };
@@ -96,8 +96,8 @@
 		F3A97F4719A9240300F21E00 /* CommonC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonC.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Common-egrtbycbiolrbjaozekkuuykoruu/Build/Products/Debug/CommonC.framework"; sourceTree = "<group>"; };
 		F3D944B01A2489E200EF1251 /* ContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextTests.m; sourceTree = "<group>"; };
 		F3D96AC31A260CE7005F518F /* StateChange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateChange.h; sourceTree = "<group>"; };
-		F3E6DD2D1A3FEF6400563DAB /* CCPixelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPixelData.h; sourceTree = "<group>"; };
-		F3E6DD2E1A3FEF6400563DAB /* CCPixelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPixelData.m; sourceTree = "<group>"; };
+		F3E6DD2D1A3FEF6400563DAB /* PixelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelData.h; sourceTree = "<group>"; };
+		F3E6DD2E1A3FEF6400563DAB /* PixelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelData.m; sourceTree = "<group>"; };
 		F3E6DD321A40334100563DAB /* ColourFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColourFormat.m; sourceTree = "<group>"; };
 		F3E6DD331A40334100563DAB /* ColourFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColourFormat.h; sourceTree = "<group>"; };
 		F3EA01EB19AA337700758D52 /* Portability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Portability.m; sourceTree = "<group>"; };
@@ -269,8 +269,8 @@
 		F3E6DD2C1A3FEF2900563DAB /* Pixel Data */ = {
 			isa = PBXGroup;
 			children = (
-				F3E6DD2D1A3FEF6400563DAB /* CCPixelData.h */,
-				F3E6DD2E1A3FEF6400563DAB /* CCPixelData.m */,
+				F3E6DD2D1A3FEF6400563DAB /* PixelData.h */,
+				F3E6DD2E1A3FEF6400563DAB /* PixelData.m */,
 			);
 			name = "Pixel Data";
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 				F3E6DD351A40334100563DAB /* ColourFormat.h in Headers */,
 				F3D96AC41A260E8B005F518F /* StateChange.h in Headers */,
 				F37E92611A28D91800F3A5B1 /* Types.h in Headers */,
-				F3E6DD2F1A3FEF6400563DAB /* CCPixelData.h in Headers */,
+				F3E6DD2F1A3FEF6400563DAB /* PixelData.h in Headers */,
 				F37E92651A28DBBD00F3A5B1 /* MissingFunctions.h in Headers */,
 				F30A79BB1A244F6B00FE6471 /* TextureSetup.h in Headers */,
 				F3A97F4019A8FD9E00F21E00 /* Defined.h in Headers */,
@@ -468,7 +468,7 @@
 				F30A79BC1A244F6B00FE6471 /* TextureSetup.m in Sources */,
 				F3EA01EC19AA337700758D52 /* Portability.m in Sources */,
 				F3974A8219ADBE3C0018B133 /* RenderLoop.m in Sources */,
-				F3E6DD301A3FEF6400563DAB /* CCPixelData.m in Sources */,
+				F3E6DD301A3FEF6400563DAB /* PixelData.m in Sources */,
 				F354D21319B032BA009BF808 /* RenderTimestamp.m in Sources */,
 				F3E6DD341A40334100563DAB /* ColourFormat.m in Sources */,
 				F3FCF28719AE5B620061F6CA /* Display.m in Sources */,
