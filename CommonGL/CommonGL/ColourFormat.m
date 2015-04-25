@@ -253,3 +253,18 @@ size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data)
     
     return (ChunkIndex * sizeof(Chunk)) + Count;
 }
+
+CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index)
+{
+    CCColour Component = { .type = 0, .u64 = 0 };
+    for (int Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
+    {
+        if ((Colour.channel[Loop].type & CCColourFormatChannelIndexMask) == Index)
+        {
+            Component = Colour.channel[Loop];
+            break;
+        }
+    }
+    
+    return Component;
+}

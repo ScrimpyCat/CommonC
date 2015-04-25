@@ -188,4 +188,29 @@
     XCTAssertEqual(((((uint64_t*)Data)[0] & 0xfffc000000000000) >> 50) + ((((uint64_t*)Data)[1] & 0xfffffffff) << 14), 0x2000000000003, @"Should contain the correct value");
 }
 
+-(void) testGetComponent
+{
+    CCPixel Pixel = {
+        .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [1] = { .type = CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize), .u8 = 2 },
+            [2] = { .type = CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize), .u8 = 3 },
+            [3] = { .type = 0 }
+        }
+    };
+    
+    CCColour Component = CCColourFormatGetComponent(Pixel, CCColourFormatChannelRed);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.u8, 1, @"Should retrieve the correct component value");
+    
+    Component = CCColourFormatGetComponent(Pixel, CCColourFormatChannelGreen);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.u8, 2, @"Should retrieve the correct component value");
+    
+    Component = CCColourFormatGetComponent(Pixel, CCColourFormatChannelBlue);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.u8, 3, @"Should retrieve the correct component value");
+}
+
 @end
