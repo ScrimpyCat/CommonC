@@ -203,9 +203,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                     | ((CCColourFormatChannelRed | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatR8Unorm_sRGB  = CCColourFormatSpaceRGB_sRGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatR8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatR8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatR8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatR8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatR8Sint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelRed | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -216,9 +216,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                     | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatG8Unorm_sRGB  = CCColourFormatSpaceRGB_sRGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatG8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatG8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatG8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatG8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatG8Sint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -229,9 +229,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                     | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatB8Unorm_sRGB  = CCColourFormatSpaceRGB_sRGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatB8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatB8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatB8Sint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -240,9 +240,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     //A8
     CCColourFormatA8Unorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelAlpha | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatA8Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelAlpha | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatA8Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelAlpha | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatA8Sint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelAlpha | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -252,9 +252,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     //R16
     CCColourFormatR16Unorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatR16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatR16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatR16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatR16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatR16Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelRed | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -265,9 +265,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     //G16
     CCColourFormatG16Unorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelGreen | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatG16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatG16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelGreen | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatG16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatG16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelGreen | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatG16Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelGreen | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -278,9 +278,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     //B16
     CCColourFormatB16Unorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelBlue | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatB16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelBlue | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatB16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelBlue | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatB16Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelBlue | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -291,9 +291,9 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     //A16
     CCColourFormatA16Unorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelAlpha | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatA16Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelAlpha | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatA16Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelAlpha | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatA16Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelAlpha | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -308,10 +308,10 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     CCColourFormatRG8Unorm_sRGB = CCColourFormatSpaceRGB_sRGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
-    CCColourFormatRG8Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRG8Snorm      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
-    CCColourFormatRG8Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRG8Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
     CCColourFormatRG8Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
@@ -324,11 +324,11 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2),
-    CCColourFormatR5G6B5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatR5G6B5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2),
-    CCColourFormatR5G6B5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatR5G6B5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2),
@@ -343,11 +343,11 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB5G6R5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatB5G6R5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatB5G6R5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatB5G6R5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -363,12 +363,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGB5A1Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRGB5A1Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGB5A1Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRGB5A1Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
@@ -386,12 +386,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGR5A1Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatBGR5A1Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGR5A1Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatBGR5A1Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
@@ -409,12 +409,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA1RGB5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatA1RGB5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA1RGB5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatA1RGB5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
@@ -432,12 +432,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA1BGR5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatA1BGR5Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (1 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatA1BGR5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatA1BGR5Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
@@ -455,12 +455,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA4Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRGBA4Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA4Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRGBA4Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
@@ -478,12 +478,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA4Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatBGRA4Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA4Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatBGRA4Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
@@ -501,12 +501,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB4Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatARGB4Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB4Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatARGB4Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
@@ -524,12 +524,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR4Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatABGR4Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR4Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatABGR4Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (4 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
@@ -543,7 +543,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     //32-bit
     //R32
-    CCColourFormatR32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatR32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatR32Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelRed | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -552,7 +552,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //G32
-    CCColourFormatG32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatG32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelGreen | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatG32Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelGreen | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -561,7 +561,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //B32
-    CCColourFormatB32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatB32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelBlue | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatB32Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelBlue | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -570,7 +570,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //A32
-    CCColourFormatA32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatA32Uint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelAlpha | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
     CCColourFormatA32Sint       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
                                     | ((CCColourFormatChannelAlpha | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
@@ -582,10 +582,10 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     CCColourFormatRG16Unorm     = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
-    CCColourFormatRG16Snorm     = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRG16Snorm     = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                     | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
-    CCColourFormatRG16Uint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRG16Uint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
     CCColourFormatRG16Sint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
@@ -607,12 +607,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRGBA8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRGBA8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
@@ -635,12 +635,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatBGRA8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatBGRA8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
@@ -663,12 +663,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatARGB8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatARGB8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
@@ -691,12 +691,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatABGR8Snorm        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatABGR8Uint         = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
@@ -711,7 +711,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     //64-bit
     //RG32
-    CCColourFormatRG32Uint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRG32Uint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                     | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                     | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
     CCColourFormatRG32Sint      = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
@@ -728,12 +728,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatRGBA16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatRGBA16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRGBA16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
@@ -756,12 +756,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatBGRA16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3),
-    CCColourFormatBGRA16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatBGRA16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
@@ -784,12 +784,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatARGB16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatARGB16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatARGB16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
@@ -812,12 +812,12 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatABGR16Snorm       = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger | CCColourFormatNormalized
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelAlpha  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
-    CCColourFormatABGR16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatABGR16Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (16 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
@@ -836,7 +836,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     //128-bit
     //RGBA32
-    CCColourFormatRGBA32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatRGBA32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                         | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
@@ -854,7 +854,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //BGRA32
-    CCColourFormatBGRA32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatBGRA32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
@@ -872,7 +872,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //ARGB32
-    CCColourFormatARGB32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatARGB32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                         | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
@@ -890,7 +890,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
     
     
     //ABGR32
-    CCColourFormatABGR32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeSignedInteger
+    CCColourFormatABGR32Uint        = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
                                         | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset3)
                                         | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
                                         | ((CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
