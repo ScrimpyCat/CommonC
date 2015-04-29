@@ -28,8 +28,9 @@ RSpec.describe 'Colour format' do
             name = format[/(?<=CCColourFormat).*?(?==)/]
             representation = format[/(?<==).*/]
 
-            type = name[/(?<=\d)\D+/]
-            describe type do
+            index = 0
+            context name do
+                type = name[/(?<=\d)\D+/]
                 case type
                 when 'Unorm'
                     it_should_behave_like 'format type', representation, 'CCColourFormatTypeUnsignedInteger|CCColourFormatNormalized'
@@ -42,10 +43,7 @@ RSpec.describe 'Colour format' do
                 when 'Float'
                     it_should_behave_like 'format type', representation, 'CCColourFormatTypeFloat'
                 end
-            end
 
-            index = 0
-            context name do
                 name.scan(/\D+\d+/).each { |channel_size|
                     bits = channel_size[/\d+/]
                     channel_size.scan(/\D/).each { |channel|
