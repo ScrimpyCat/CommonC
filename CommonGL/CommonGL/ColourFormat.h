@@ -962,5 +962,6 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
 size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data);
 
 CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index);
+CCColour CCColourFormatRGBGetComponent(CCPixel Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 
 #endif

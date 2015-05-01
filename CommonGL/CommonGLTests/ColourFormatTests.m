@@ -213,4 +213,153 @@
     XCTAssertEqual(Component.u8, 3, @"Should retrieve the correct component value");
 }
 
+-(void) testGetComponentRGB
+{
+    CCPixel Pixel = {
+        .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [1] = { .type = CCColourFormatChannelGreen  | (6 << CCColourFormatChannelBitSize), .u8 = 63 },
+            [2] = { .type = CCColourFormatChannelBlue   | (5 << CCColourFormatChannelBitSize), .u8 = 31 },
+            [3] = { .type = 0 }
+        }
+    };
+    
+    CCColour Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeUnsignedInteger, 1);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 1, @"Should change the type to the new type");
+    XCTAssertEqual(Component.u8, 0, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeUnsignedInteger, 1);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 1, @"Should change the type to the new type");
+    XCTAssertEqual(Component.u8, 1, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelBlue, CCColourFormatTypeUnsignedInteger, 6);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 6, @"Should change the type to the new type");
+    XCTAssertEqual(Component.u8, 63, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeFloat, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, 63.0f, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, 1.0f, @"Should convert value to the new representation");
+    
+    Pixel = (CCPixel){
+        .type = (CCColourFormat)CCColourFormatRGBA8Sint,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize), .i8 = 0 },
+            [1] = { .type = CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize), .i8 = -1 },
+            [2] = { .type = CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize), .i8 = 1 },
+            [3] = { .type = CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize), .i8 = INT8_MIN }
+        }
+    };
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeSignedInteger, 8);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 8, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, 0, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeSignedInteger, 8);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 8, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, -1, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelBlue, CCColourFormatTypeSignedInteger, 8);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 8, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, 1, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeSignedInteger, 8);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 8, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, INT8_MIN, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeSignedInteger, 16);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 16, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i16, 0, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeSignedInteger, 16);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 16, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i16, -129, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelBlue, CCColourFormatTypeSignedInteger, 16);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 16, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i16, 385, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeSignedInteger, 16);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 16, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i16, INT16_MIN, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeSignedInteger, 7);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 7, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, 0, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeSignedInteger, 7);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 7, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, -1, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelBlue, CCColourFormatTypeSignedInteger, 7);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 7, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, 0, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeSignedInteger, 7);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 7, @"Should change the type to the new type");
+    XCTAssertEqual(Component.i8, -64, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeFloat, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, 0.0f, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelGreen, CCColourFormatTypeFloat, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, -1.0f, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelBlue, CCColourFormatTypeFloat, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, 1.0f, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeFloat, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, (float)INT8_MIN, @"Should convert value to the new representation");
+    
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, -1.0f, @"Should convert value to the new representation");
+    
+    Pixel.channel[3].i8 = INT8_MAX;
+    Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelAlpha, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
+    XCTAssertEqual(Component.f32, 1.0f, @"Should convert value to the new representation");
+    
+    Pixel = (CCPixel){
+        .type = (CCColourFormat)CCColourFormatRGBA32Float,
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize), .f32 = 0.5f },
+            [1] = { .type = CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize), .f32 = 1.0f },
+            [2] = { .type = CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize), .f32 = 10.0f },
+            [3] = { .type = CCColourFormatChannelAlpha  | (32 << CCColourFormatChannelBitSize), .f32 = 1.0f }
+        }
+    };
+}
+
 @end
