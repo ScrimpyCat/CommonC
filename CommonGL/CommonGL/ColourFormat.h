@@ -940,12 +940,12 @@ typedef struct {
         uint32_t u32;
         uint64_t u64;
     };
-} CCColour;
+} CCColourComponent;
 
 typedef struct {
     CCColourFormat type;
-    CCColour channel[4];
-} CCPixel;
+    CCColourComponent channel[4];
+} CCColour;
 
 #pragma mark -
 
@@ -959,9 +959,9 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
  * @param Data The buffer to store the colour.
  * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
  */
-size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data);
+size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data);
 
-CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index);
-CCColour CCColourFormatRGBGetComponent(CCPixel Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index);
+CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 
 #endif

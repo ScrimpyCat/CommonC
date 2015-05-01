@@ -24,13 +24,13 @@
  */
 
 #import "Default_Private.h"
-#import "CCPixelData.h"
+#import "PixelData.h"
 #import <CommonObjc/Assertion.h>
 
 @implementation CCPixelData
 @synthesize format, planes;
 
--(CCPixel) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z
+-(CCColour) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z
 {
     @throw [NSException exceptionWithName: NSInternalInconsistencyException reason: @"Must override in subclass" userInfo: nil];
 }
@@ -50,7 +50,7 @@
         {
             for (size_t LoopX = 0; LoopX < width; LoopX++)
             {
-                CCPixel Pixel = [self colourAtX: LoopX Y: LoopY Z: LoopZ];
+                CCColour Pixel = [self colourAtX: LoopX Y: LoopY Z: LoopZ];
                 CCAssertLog((Pixel.type & CCColourFormatOptionChannel4), @"Only supports colour formats with 4 channel configuration");
                 
                 //convert

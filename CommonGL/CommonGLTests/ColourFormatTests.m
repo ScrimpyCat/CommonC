@@ -109,7 +109,7 @@
 -(void) testPackIntoBuffer
 {
     uint8_t Data[64] = {0};
-    CCPixel Pixel = {
+    CCColour Pixel = {
         .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 0 },
@@ -123,7 +123,7 @@
     XCTAssertEqual(*(uint16_t*)Data, 2080, @"Should contain the correct value");
     
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = (CCColourFormat)CCColourFormatR32Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed | (32 << CCColourFormatChannelBitSize), .u32 = 0xdeadbeef },
@@ -137,7 +137,7 @@
     XCTAssertEqual(*(uint32_t*)Data, 0xdeadbeef, @"Should contain the correct value");
     
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = (CCColourFormat)CCColourFormatRGBA8Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize), .u8 = 1 },
@@ -154,7 +154,7 @@
     XCTAssertEqual(((uint8_t*)Data)[3], 4, @"Should contain the correct value");
     
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = (CCColourFormat)CCColourFormatRGBA32Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize), .u32 = 0x10000002 },
@@ -171,7 +171,7 @@
     XCTAssertEqual(((uint32_t*)Data)[3], 0x70000008, @"Should contain the correct value");
     
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
         | ((CCColourFormatChannelRed  | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
         | ((CCColourFormatChannelBlue | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
@@ -190,7 +190,7 @@
 
 -(void) testGetComponent
 {
-    CCPixel Pixel = {
+    CCColour Pixel = {
         .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 1 },
@@ -200,7 +200,7 @@
         }
     };
     
-    CCColour Component = CCColourFormatGetComponent(Pixel, CCColourFormatChannelRed);
+    CCColourComponent Component = CCColourFormatGetComponent(Pixel, CCColourFormatChannelRed);
     XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
     XCTAssertEqual(Component.u8, 1, @"Should retrieve the correct component value");
     
@@ -215,7 +215,7 @@
 
 -(void) testGetComponentRGB
 {
-    CCPixel Pixel = {
+    CCColour Pixel = {
         .type = (CCColourFormat)CCColourFormatR5G6B5Uint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (5 << CCColourFormatChannelBitSize), .u8 = 1 },
@@ -225,7 +225,7 @@
         }
     };
     
-    CCColour Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeUnsignedInteger, 1);
+    CCColourComponent Component = CCColourFormatRGBGetComponent(Pixel, CCColourFormatChannelRed, CCColourFormatTypeUnsignedInteger, 1);
     XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
     XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 1, @"Should change the type to the new type");
     XCTAssertEqual(Component.u8, 0, @"Should convert value to the new representation");
@@ -250,7 +250,7 @@
     XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
     XCTAssertEqual(Component.f32, 1.0f, @"Should convert value to the new representation");
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = (CCColourFormat)CCColourFormatRGBA8Sint,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize), .i8 = 0 },
@@ -351,7 +351,7 @@
     XCTAssertEqual((Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize, 32, @"Should change the type to the new type");
     XCTAssertEqual(Component.f32, 1.0f, @"Should convert value to the new representation");
     
-    Pixel = (CCPixel){
+    Pixel = (CCColour){
         .type = (CCColourFormat)CCColourFormatRGBA32Float,
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize), .f32 = 0.5f },

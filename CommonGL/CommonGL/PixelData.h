@@ -39,7 +39,7 @@
 @property (readonly) CCColourFormat format;
 @property (readonly) unsigned int planes;
 
--(CCPixel) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z;
+-(CCColour) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z;
 -(void) getPackedData: (void*)data WithWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth;
 -(void) getPackedData: (void*)data AsFormat: (CCColourFormat)type WithWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth;
 

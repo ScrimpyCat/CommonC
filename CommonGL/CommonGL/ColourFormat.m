@@ -31,7 +31,7 @@
 #import <CommonC/Extensions.h>
 
 
-static CC_FORCE_INLINE unsigned int CCColourComponentGetBitSize(CCColour Component) CC_CONSTANT_FUNCTION;
+static CC_FORCE_INLINE unsigned int CCColourComponentGetBitSize(CCColourComponent Component) CC_CONSTANT_FUNCTION;
 
 
 //Retrieves channels for the specified plane, and restructures the channel offsets so they're ordered in the plane
@@ -218,7 +218,7 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
     return FALSE;
 }
 
-size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data)
+size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data)
 {
     CCAssertLog((Colour.type & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, @"Only supports colour formats with 4 channel configuration");
     _Static_assert((CCColourFormatChannelBitSizeMask >> CCColourFormatChannelBitSize) <= (sizeof(uint64_t) * 8), "Exceeds limit of packed data");
@@ -258,9 +258,9 @@ size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data)
     return (ChunkIndex * sizeof(Chunk)) + Count;
 }
 
-CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index)
+CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index)
 {
-    CCColour Component = { .type = 0, .u64 = 0 };
+    CCColourComponent Component = { .type = 0, .u64 = 0 };
     for (int Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
     {
         if ((Colour.channel[Loop].type & CCColourFormatChannelIndexMask) == Index)
@@ -273,7 +273,7 @@ CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index)
     return Component;
 }
 
-static CC_FORCE_INLINE CC_CONSTANT_FUNCTION unsigned int CCColourComponentGetBitSize(CCColour Component)
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION unsigned int CCColourComponentGetBitSize(CCColourComponent Component)
 {
     return (Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
 }
@@ -292,7 +292,7 @@ static uint64_t CCColourFormatComponentPrecisionConversionLinearSigned(uint64_t 
     return Value == 0 ? 0 : CCColourFormatComponentPrecisionConversionLinear((Value + (OldSet / 2) + 1) & OldSet, OldBitSize, NewBitSize) - (NewSet / 2) - 1;
 }
 
-CCColour CCColourFormatRGBPrecisionConversion(CCColour Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
 {
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
     
@@ -361,14 +361,14 @@ CCColour CCColourFormatRGBPrecisionConversion(CCColour Component, CCColourFormat
         }
     }
     
-    return (CCColour){ .type = 0, .u64 = 0 };
+    return (CCColourComponent){ .type = 0, .u64 = 0 };
 }
 
 #pragma mark - Component Getters
 
-CCColour CCColourFormatRGBGetComponent(CCPixel Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
 {
-    CCColour Component = CCColourFormatGetComponent(Colour, Index);
+    CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
     if (Component.type)
     {
         Component = CCColourFormatRGBPrecisionConversion(Component, Colour.type, Type, Precision);
