@@ -28,6 +28,10 @@
 #import "Version.h"
 #import <CommonC/Types.h>
 #import <CommonObjC/Assertion.h>
+#import <CommonC/Extensions.h>
+
+
+static CC_FORCE_INLINE unsigned int CCColourComponentGetBitSize(CCColour Component) CC_CONSTANT_FUNCTION;
 
 
 //Retrieves channels for the specified plane, and restructures the channel offsets so they're ordered in the plane
@@ -224,7 +228,7 @@ size_t CCColourFormatPackIntoBuffer(CCPixel Colour, void *Data)
     
     for (int Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
     {
-        const int Bits = ((Colour.channel[Loop].type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize);
+        const unsigned int Bits = CCColourComponentGetBitSize(Colour.channel[Loop]);
         
         if ((ChunkSize + Bits) > (sizeof(Chunk) * 8))
         {
@@ -267,4 +271,9 @@ CCColour CCColourFormatGetComponent(CCPixel Colour, CCColourFormat Index)
     }
     
     return Component;
+}
+
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION unsigned int CCColourComponentGetBitSize(CCColour Component)
+{
+    return (Component.type & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
 }
