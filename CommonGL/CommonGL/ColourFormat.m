@@ -359,6 +359,35 @@ CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Compone
             
             return Component;
         }
+        
+        else if ((NewType & CCColourFormatTypeMask) == CCColourFormatTypeUnsignedInteger)
+        {
+            const uint64_t NewValueMax = CCBitSet(NewPrecision);
+            if ((OldType & CCColourFormatNormalized))
+            {
+                Component.f32 *= NewValueMax;
+            }
+            
+            Component.u64 = Component.f32 < 0.0f ? 0 : (uint64_t)Component.f32;
+            if (Component.u64 > NewValueMax) Component.u64 = NewValueMax;
+            
+            Component.type = (NewPrecision << CCColourFormatChannelBitSize) | (Component.type & CCColourFormatChannelIndexMask);
+            return Component;
+        }
+        
+        else if ((NewType & CCColourFormatTypeMask) == CCColourFormatTypeSignedInteger)
+        {
+            const uint64_t NewValueMax = CCBitSet(NewPrecision);
+            if ((OldType & CCColourFormatNormalized))
+            {
+                Component.f32 *= (NewValueMax / 2) + (Component.f32 < 0 ? 1 : 0);
+            }
+            
+            Component.u64 = (uint64_t)Component.f32 & NewValueMax;
+            Component.type = (NewPrecision << CCColourFormatChannelBitSize) | (Component.type & CCColourFormatChannelIndexMask);
+            
+            return Component;
+        }
     }
     
     return (CCColourComponent){ .type = 0, .u64 = 0 };
