@@ -292,12 +292,9 @@ static uint64_t CCColourFormatComponentPrecisionConversionLinearSigned(uint64_t 
     return Value == 0 ? 0 : CCColourFormatComponentPrecisionConversionLinear((Value + (OldSet / 2) + 1) & OldSet, OldBitSize, NewBitSize) - (NewSet / 2) - 1;
 }
 
-CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+static CCColourComponent CCColourFormatLinearPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
 {
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
-    
-    CCAssertLog((OldType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
-    CCAssertLog((NewType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
     
     if ((OldType & CCColourFormatTypeMask) == CCColourFormatTypeUnsignedInteger)
     {
@@ -397,6 +394,32 @@ CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Compone
     return (CCColourComponent){ .type = 0, .u64 = 0 };
 }
 
+CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+{
+    CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelRGB, "Must be a colour space within the RGB model");
+    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelRGB, "Must be a colour space within the RGB model");
+    
+    if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
+    
+    CCAssertLog((OldType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
+    CCAssertLog((NewType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
+    
+    return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
+}
+
+CCColourComponent CCColourFormatYUVPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+{
+    CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelYUV, "Must be a colour space within the YUV model");
+    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelYUV, "Must be a colour space within the YUV model");
+    
+    if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
+    
+    CCAssertLog((OldType & CCColourFormatSpaceMask) == CCColourFormatSpaceYUV_YpCbCr, "Only supports YpCbCr currently");
+    CCAssertLog((NewType & CCColourFormatSpaceMask) == CCColourFormatSpaceYUV_YpCbCr, "Only supports YpCbCr currently");
+    
+    return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
+}
+
 #pragma mark - Component Getters
 
 CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
@@ -405,6 +428,17 @@ CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat 
     if (Component.type)
     {
         Component = CCColourFormatRGBPrecisionConversion(Component, Colour.type, Type, Precision);
+    }
+    
+    return Component;
+}
+
+CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+{
+    CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
+    if (Component.type)
+    {
+        Component = CCColourFormatYUVPrecisionConversion(Component, Colour.type, Type, Precision);
     }
     
     return Component;
