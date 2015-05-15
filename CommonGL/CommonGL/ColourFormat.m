@@ -296,6 +296,9 @@ CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Compone
 {
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
     
+    CCAssertLog((OldType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
+    CCAssertLog((NewType & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, "Only supports linear RGB currently");
+    
     if ((OldType & CCColourFormatTypeMask) == CCColourFormatTypeUnsignedInteger)
     {
         if (((NewType & CCColourFormatTypeMask) == CCColourFormatTypeSignedInteger) || ((NewType & CCColourFormatTypeMask) == CCColourFormatTypeUnsignedInteger))
@@ -372,6 +375,7 @@ CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Compone
             if (Component.u64 > NewValueMax) Component.u64 = NewValueMax;
             
             Component.type = (NewPrecision << CCColourFormatChannelBitSize) | (Component.type & CCColourFormatChannelIndexMask);
+            
             return Component;
         }
         
