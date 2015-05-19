@@ -420,6 +420,16 @@ CCColourComponent CCColourFormatYUVPrecisionConversion(CCColourComponent Compone
     return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
 }
 
+CCColourComponent CCColourFormatHSPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+{
+    CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelHS, "Must be a colour space within the YUV model");
+    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelHS, "Must be a colour space within the YUV model");
+    
+    if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
+    
+    return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
+}
+
 #pragma mark - Component Getters
 
 CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
@@ -428,6 +438,12 @@ CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat 
     if (Component.type)
     {
         Component = CCColourFormatRGBPrecisionConversion(Component, Colour.type, Type, Precision);
+    }
+    
+    else if (Index == CCColourFormatChannelAlpha)
+    {
+        //default to opaque alpha
+        Component = CCColourFormatRGBPrecisionConversion((CCColourComponent){ .type = CCColourFormatChannelAlpha  | (32 << CCColourFormatChannelBitSize), .f32 = 1.0f }, CCColourFormatTypeFloat | CCColourFormatNormalized, Type, Precision);
     }
     
     return Component;
@@ -439,6 +455,29 @@ CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat 
     if (Component.type)
     {
         Component = CCColourFormatYUVPrecisionConversion(Component, Colour.type, Type, Precision);
+    }
+    
+    else if (Index == CCColourFormatChannelAlpha)
+    {
+        //default to opaque alpha
+        Component = CCColourFormatRGBPrecisionConversion((CCColourComponent){ .type = CCColourFormatChannelAlpha  | (32 << CCColourFormatChannelBitSize), .f32 = 1.0f }, CCColourFormatTypeFloat | CCColourFormatNormalized, Type, Precision);
+    }
+    
+    return Component;
+}
+
+CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+{
+    CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
+    if (Component.type)
+    {
+        Component = CCColourFormatHSPrecisionConversion(Component, Colour.type, Type, Precision);
+    }
+    
+    else if (Index == CCColourFormatChannelAlpha)
+    {
+        //default to opaque alpha
+        Component = CCColourFormatRGBPrecisionConversion((CCColourComponent){ .type = CCColourFormatChannelAlpha  | (32 << CCColourFormatChannelBitSize), .f32 = 1.0f }, CCColourFormatTypeFloat | CCColourFormatNormalized, Type, Precision);
     }
     
     return Component;

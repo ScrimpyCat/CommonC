@@ -964,5 +964,6 @@ size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data);
 CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index);
 CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 
 #endif
