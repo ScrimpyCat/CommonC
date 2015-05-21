@@ -81,7 +81,7 @@ typedef NS_OPTIONS(uint64_t, CCColourFormat) {
     CCColourFormatModelMonochrome = (5 << 2),
     
     //Colour Space
-    CCColourFormatSpaceMask = (7 << 5),
+    CCColourFormatSpaceMask = CCColourFormatModelMask | (7 << 5),
     //RGB Colour Spaces
     CCColourFormatSpaceRGB_RGB =    CCColourFormatModelRGB | (0 << 5),
     CCColourFormatSpaceRGB_sRGB =   CCColourFormatModelRGB | (1 << 5),
@@ -961,9 +961,10 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
  */
 size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data);
 
+size_t CCColourFormatGetComponentChannelIndex(CCColour Colour, CCColourFormat Index);
 CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index);
-CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
-CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
-CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+CCColourComponent CCColourFormatGetComponentWithPrecision(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+
+CCColour CCColourFormatConversion(CCColour Colour, CCColourFormat NewFormat);
 
 #endif

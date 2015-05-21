@@ -32,6 +32,9 @@
 
 
 static CC_FORCE_INLINE unsigned int CCColourComponentGetBitSize(CCColourComponent Component) CC_CONSTANT_FUNCTION;
+static CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+static CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
+static CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 
 
 //Retrieves channels for the specified plane, and restructures the channel offsets so they're ordered in the plane
@@ -39,7 +42,7 @@ void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int Pl
 {
     CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, @"Only works on formats that use the channel 4 structure");
     
-    const CCColourFormat Offsets[4] = {
+    static const CCColourFormat Offsets[4] = {
         CCColourFormatChannelOffset0,
         CCColourFormatChannelOffset1,
         CCColourFormatChannelOffset2,
@@ -258,19 +261,37 @@ size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data)
     return (ChunkIndex * sizeof(Chunk)) + Count;
 }
 
-CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index)
+size_t CCColourFormatGetComponentChannelIndex(CCColour Colour, CCColourFormat Index)
 {
-    CCColourComponent Component = { .type = 0, .u64 = 0 };
-    for (int Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
+    for (size_t Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
     {
         if ((Colour.channel[Loop].type & CCColourFormatChannelIndexMask) == Index)
         {
-            Component = Colour.channel[Loop];
-            break;
+            return Loop;
         }
     }
     
-    return Component;
+    return SIZE_MAX;
+}
+
+CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index)
+{
+    const size_t ChannelIndex = CCColourFormatGetComponentChannelIndex(Colour, Index);
+    
+    return ChannelIndex == SIZE_MAX ? (CCColourComponent){ .type = 0, .u64 = 0 } : Colour.channel[ChannelIndex];
+}
+
+CCColourComponent CCColourFormatGetComponentWithPrecision(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+{
+    static CCColourComponent (* const Getters[CCColourFormatModelMask >> 2])(CCColour, CCColourFormat, CCColourFormat, int) = {
+        [CCColourFormatModelRGB >> 2] = CCColourFormatRGBGetComponent,
+        [CCColourFormatModelYUV >> 2] = CCColourFormatYUVGetComponent,
+        [CCColourFormatModelHS >> 2] = CCColourFormatHSGetComponent
+    };
+    
+    CCColourComponent (* const Getter)(CCColour, CCColourFormat, CCColourFormat, int) = Getters[(Colour.type & CCColourFormatModelMask) >> 2];
+    
+    return Getter? Getter(Colour, Index, Type, Precision) : (CCColourComponent){ .type = 0, .u64 = 0 };
 }
 
 static CC_FORCE_INLINE CC_CONSTANT_FUNCTION unsigned int CCColourComponentGetBitSize(CCColourComponent Component)
@@ -394,10 +415,9 @@ static CCColourComponent CCColourFormatLinearPrecisionConversion(CCColourCompone
     return (CCColourComponent){ .type = 0, .u64 = 0 };
 }
 
-CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+static CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
 {
     CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelRGB, "Must be a colour space within the RGB model");
-    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelRGB, "Must be a colour space within the RGB model");
     
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
     
@@ -407,23 +427,20 @@ CCColourComponent CCColourFormatRGBPrecisionConversion(CCColourComponent Compone
     return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
 }
 
-CCColourComponent CCColourFormatYUVPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+static CCColourComponent CCColourFormatYUVPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
 {
     CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelYUV, "Must be a colour space within the YUV model");
-    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelYUV, "Must be a colour space within the YUV model");
     
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
     
     CCAssertLog((OldType & CCColourFormatSpaceMask) == CCColourFormatSpaceYUV_YpCbCr, "Only supports YpCbCr currently");
-    CCAssertLog((NewType & CCColourFormatSpaceMask) == CCColourFormatSpaceYUV_YpCbCr, "Only supports YpCbCr currently");
     
     return CCColourFormatLinearPrecisionConversion(Component, OldType, NewType, NewPrecision);
 }
 
-CCColourComponent CCColourFormatHSPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
+static CCColourComponent CCColourFormatHSPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision)
 {
-    CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelHS, "Must be a colour space within the YUV model");
-    CCAssertLog((NewType & CCColourFormatModelMask) == CCColourFormatModelHS, "Must be a colour space within the YUV model");
+    CCAssertLog((OldType & CCColourFormatModelMask) == CCColourFormatModelHS, "Must be a colour space within the HS model");
     
     if ((OldType == NewType) && (Component.type == NewPrecision)) return Component;
     
@@ -432,7 +449,7 @@ CCColourComponent CCColourFormatHSPrecisionConversion(CCColourComponent Componen
 
 #pragma mark - Component Getters
 
-CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+static CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
 {
     CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
     if (Component.type)
@@ -449,7 +466,7 @@ CCColourComponent CCColourFormatRGBGetComponent(CCColour Colour, CCColourFormat 
     return Component;
 }
 
-CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+static CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
 {
     CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
     if (Component.type)
@@ -466,7 +483,7 @@ CCColourComponent CCColourFormatYUVGetComponent(CCColour Colour, CCColourFormat 
     return Component;
 }
 
-CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
+static CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision)
 {
     CCColourComponent Component = CCColourFormatGetComponent(Colour, Index);
     if (Component.type)
@@ -481,4 +498,110 @@ CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourFormat I
     }
     
     return Component;
+}
+
+#pragma mark - Colour Conversions
+
+static CCColour CCColourFormatRGBConvertToHS(CCColour Colour, CCColourFormat ColourSpace)
+{
+    CCAssertLog((Colour.type & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, @"Must belong to the RGB space");
+    
+    CCColourComponent r = CCColourFormatRGBGetComponent(Colour, CCColourFormatChannelRed, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent g = CCColourFormatRGBGetComponent(Colour, CCColourFormatChannelGreen, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent b = CCColourFormatRGBGetComponent(Colour, CCColourFormatChannelBlue, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent a = CCColourFormatRGBGetComponent(Colour, CCColourFormatChannelAlpha, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    
+    const float M = fmaxf(fmaxf(r.f32, g.f32), b.f32);
+    const float m = fminf(fminf(r.f32, g.f32), b.f32);
+    const float C = M - m;
+    
+    float H;
+    if (C == 0.0f) H = 0.0f; //undefined
+    else if (M == r.f32) H = fmodf((g.f32 - b.f32) / C, 6.0f);
+    else if (M == g.f32) H = ((b.f32 - r.f32) / C) + 2.0f;
+    else if (M == b.f32) H = ((r.f32 - g.f32) / C) + 4.0f;
+    
+    H /= 6.0f;
+    
+    float S = 0.0f, V = 0.0f;
+    switch (ColourSpace & CCColourFormatSpaceMask)
+    {
+        case CCColourFormatSpaceHS_HSL:
+            V = 0.5f * (M + m);
+            S = ((V == 0.0f) || (V == 1.0f)) ? 0.0f : C / (1.0f - (2.0f * V - 1.0f));
+            break;
+            
+        case CCColourFormatSpaceHS_HSV:
+            V = M;
+            S = V == 0.0f ? 0.0f : C / V; //though wiki says: V / C
+            break;
+            
+        case CCColourFormatSpaceHS_HSI:
+            V = (r.f32 + g.f32 + b.f32) / 3.0f;
+            S = V == 0.0f ? 0.0f : 1.0f - (m / V);
+            break;
+            
+        case CCColourFormatSpaceHS_HSluma:
+            //TODO: add luma
+            break;
+            
+        default:
+            return (CCColour){ .type = 0 };
+    }
+    
+    
+    const CCColourFormat AlphaComponent = CCColourFormatGetComponentChannelIndex(Colour, CCColourFormatChannelAlpha) == SIZE_MAX ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
+    
+    return (CCColour){
+        .type = (ColourSpace & CCColourFormatSpaceMask) | CCColourFormatTypeFloat | CCColourFormatNormalized
+                | ((CCColourFormatChannelHue        | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+                | ((CCColourFormatChannelSaturation | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
+                | ((CCColourFormatChannelIndex2     | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
+                | (AlphaComponent << CCColourFormatChannelOffset3),
+        .channel = {
+            [0] = { .type = CCColourFormatChannelHue        | (32 << CCColourFormatChannelBitSize), .f32 = H < 0.0f ? H + 1.0f : H },
+            [1] = { .type = CCColourFormatChannelSaturation | (32 << CCColourFormatChannelBitSize), .f32 = S },
+            [2] = { .type = CCColourFormatChannelValue      | (32 << CCColourFormatChannelBitSize), .f32 = V },
+            [3] = { .type = CCColourFormatChannelAlpha      | (32 << CCColourFormatChannelBitSize), .f32 = a.f32 }
+        }
+    };
+}
+
+CCColour CCColourFormatConversion(CCColour Colour, CCColourFormat NewFormat)
+{
+    if (Colour.type == NewFormat) return Colour;
+    
+    static CCColour (* const Converters[CCColourFormatModelMask >> 2][CCColourFormatModelMask >> 2])(CCColour, CCColourFormat) = {
+        [CCColourFormatModelRGB >> 2] = {
+            [CCColourFormatModelHS >> 2] = CCColourFormatRGBConvertToHS
+        }
+    };
+    
+    CCColour (* const Converter)(CCColour, CCColourFormat) = Converters[(Colour.type & CCColourFormatModelMask) >> 2][(NewFormat & CCColourFormatModelMask) >>  2];
+    if (Converter) Colour = Converter(Colour, NewFormat);
+    else if ((Colour.type & CCColourFormatModelMask) != (NewFormat & CCColourFormatModelMask)) return (CCColour){ .type = 0 };
+    
+    
+    static const CCColourFormat Offsets[4] = {
+        CCColourFormatChannelOffset0,
+        CCColourFormatChannelOffset1,
+        CCColourFormatChannelOffset2,
+        CCColourFormatChannelOffset3
+    };
+    
+    CCColour OldColour = Colour;
+    for (int Loop = 0, Index = 0; Loop < 4; Loop++)
+    {
+        const CCColourFormat ChannelFormat = (NewFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        const CCColourFormat ChannelType = ChannelFormat & CCColourFormatChannelIndexMask;
+        const int Precision = (ChannelFormat & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
+        if (Precision)
+        {
+            Colour.channel[Index++] = CCColourFormatGetComponentWithPrecision(OldColour, ChannelType, NewFormat, Precision);
+        }
+    }
+    
+    Colour.type = NewFormat;
+    
+    return Colour;
 }
