@@ -475,6 +475,10 @@
     XCTAssertEqual(Component.f32, 1.0f, @"Should retrieve the correct component value");
     
     Component = CCColourGetComponent(PixelHSV, CCColourFormatChannelAlpha);
+    XCTAssertNotEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should not retrieve the correct component");
+    XCTAssertNotEqual(Component.f32, 1.0f, @"Should not retrieve the correct component value");
+    
+    Component = CCColourGetComponentWithPrecision(PixelHSV, CCColourFormatChannelAlpha, CCColourFormatTypeFloat, 32);
     XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
     XCTAssertEqual(Component.f32, 1.0f, @"Should retrieve the correct component value");
     
@@ -585,6 +589,10 @@
     Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelBlue);
     XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
     XCTAssertEqual(Component.f32, Pixel.channel[2].f32, @"Should retrieve the correct component value");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelAlpha);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, 1.0f, @"Should retrieve the default component value");
     
     
     

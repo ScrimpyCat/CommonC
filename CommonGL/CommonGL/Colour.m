@@ -75,11 +75,14 @@ size_t CCColourPackIntoBuffer(CCColour Colour, void *Data)
 
 size_t CCColourGetComponentChannelIndex(CCColour Colour, CCColourFormat Index)
 {
-    for (size_t Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
+    if (CCColourFormatHasChannel(Colour.type, Index))
     {
-        if ((Colour.channel[Loop].type & CCColourFormatChannelIndexMask) == Index)
+        for (size_t Loop = 0; Loop < 4 && Colour.channel[Loop].type; Loop++)
         {
-            return Loop;
+            if ((Colour.channel[Loop].type & CCColourFormatChannelIndexMask) == Index)
+            {
+                return Loop;
+            }
         }
     }
     
@@ -246,7 +249,7 @@ static CCColour CCColourHSConvertToRGB(CCColour Colour, CCColourFormat ColourSpa
     const float H = h.f32 * 6.0f;
     const float X = H == 0.0f ? 0.0f : C * (1.0f - fabsf(fmodf(H, 2.0f) - 1.0f));
     
-    const CCColourFormat AlphaComponent = CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelAlpha) == SIZE_MAX ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
+    const CCColourFormat AlphaComponent = !CCColourFormatHasChannel(ColourSpace, CCColourFormatChannelAlpha) ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
     
     switch ((int)floorf(H))
     {
@@ -309,7 +312,7 @@ static CCColour CCColourRGBConvertToHS(CCColour Colour, CCColourFormat ColourSpa
     }
     
     
-    const CCColourFormat AlphaComponent = CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelAlpha) == SIZE_MAX ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
+    const CCColourFormat AlphaComponent = !CCColourFormatHasChannel(ColourSpace, CCColourFormatChannelAlpha) ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
     
     return (CCColour){
         .type = (ColourSpace & CCColourFormatSpaceMask) | CCColourFormatTypeFloat | CCColourFormatNormalized

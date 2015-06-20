@@ -927,5 +927,6 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
 
 void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4]);
 _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int PlanarIndex, GLenum *InputType, GLenum *InputFormat, GLenum *InternalFormat);
+_Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index);
 
 #endif

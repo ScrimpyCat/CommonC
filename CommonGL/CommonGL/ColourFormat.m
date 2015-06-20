@@ -214,3 +214,23 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
     
     return FALSE;
 }
+
+_Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index)
+{
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
+    
+    static const CCColourFormat Offsets[4] = {
+        CCColourFormatChannelOffset0,
+        CCColourFormatChannelOffset1,
+        CCColourFormatChannelOffset2,
+        CCColourFormatChannelOffset3
+    };
+    
+    for (int Loop = 0; Loop < 4; Loop++)
+    {
+        CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        if ((Channel & CCColourFormatChannelBitSizeMask) && ((Channel & CCColourFormatChannelIndexMask) == Index)) return TRUE;
+    }
+    
+    return FALSE;
+}
