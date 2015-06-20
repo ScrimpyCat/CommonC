@@ -502,6 +502,72 @@ static CCColourComponent CCColourFormatHSGetComponent(CCColour Colour, CCColourF
 
 #pragma mark - Colour Conversions
 
+static CCColour CCColourFormatHSConvertToRGB(CCColour Colour, CCColourFormat ColourSpace)
+{
+#define CC_COLOUR_CREATE_RGB_32F(r, g, b) (CCColour){ \
+    .type = (CCColourFormatSpaceRGB_RGB | CCColourFormatTypeFloat \
+        | ((CCColourFormatChannelRed    | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0) \
+        | ((CCColourFormatChannelGreen  | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1) \
+        | ((CCColourFormatChannelBlue   | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2) \
+        | (AlphaComponent << CCColourFormatChannelOffset3)) | CCColourFormatNormalized, \
+    .channel = { \
+        [0] = { .type = CCColourFormatChannelRed   | (32 << CCColourFormatChannelBitSize), .f32 = r }, \
+        [1] = { .type = CCColourFormatChannelGreen | (32 << CCColourFormatChannelBitSize), .f32 = g }, \
+        [2] = { .type = CCColourFormatChannelBlue  | (32 << CCColourFormatChannelBitSize), .f32 = b }, \
+        [3] = { .type = CCColourFormatChannelAlpha | (32 << CCColourFormatChannelBitSize), .f32 = a.f32 } \
+    } \
+}
+
+    CCAssertLog((Colour.type & CCColourFormatSpaceMask) == CCColourFormatSpaceHS_HSB, @"Must belong to the HSB space");
+    
+    CCColourComponent h = CCColourFormatHSGetComponent(Colour, CCColourFormatChannelHue, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent s = CCColourFormatHSGetComponent(Colour, CCColourFormatChannelSaturation, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent v = CCColourFormatHSGetComponent(Colour, CCColourFormatChannelValue, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    CCColourComponent a = CCColourFormatHSGetComponent(Colour, CCColourFormatChannelAlpha, CCColourFormatTypeFloat | CCColourFormatNormalized, 32);
+    
+    float C = 0.0f, m = 0.0f;
+    switch (Colour.type & CCColourFormatSpaceMask)
+    {
+        case CCColourFormatSpaceHS_HSL:
+            C = (1.0f - fabsf((2.0f * v.f32) - 1.0f)) * s.f32;
+            m = v.f32 - (0.5f * C);
+            break;
+            
+        case CCColourFormatSpaceHS_HSV:
+            C = v.f32 * s.f32;
+            m = v.f32 - C;
+            break;
+            
+        case CCColourFormatSpaceHS_HSI:
+            //TODO: add HSI
+            break;
+            
+        case CCColourFormatSpaceHS_HSluma:
+            //TODO: add luma
+            break;
+            
+        default:
+            return (CCColour){ .type = 0 };
+    }
+    
+    const float H = h.f32 * 6.0f;
+    const float X = H == 0.0f ? 0.0f : C * (1.0f - fabsf(fmodf(H, 2.0f) - 1.0f));
+    
+    const CCColourFormat AlphaComponent = CCColourFormatGetComponentChannelIndex(Colour, CCColourFormatChannelAlpha) == SIZE_MAX ? 0 : (CCColourFormatChannelAlpha     | (32 << CCColourFormatChannelBitSize));
+    
+    switch ((int)floorf(H))
+    {
+        case 0: return CC_COLOUR_CREATE_RGB_32F(C + m, X + m, 0.0f + m);
+        case 1: return CC_COLOUR_CREATE_RGB_32F(X + m, C + m, 0.0f + m);
+        case 2: return CC_COLOUR_CREATE_RGB_32F(0.0f + m, C + m, X + m);
+        case 3: return CC_COLOUR_CREATE_RGB_32F(0.0f + m, X + m, C + m);
+        case 4: return CC_COLOUR_CREATE_RGB_32F(X + m, 0.0f + m, C + m);
+        case 5: return CC_COLOUR_CREATE_RGB_32F(C + m, 0.0f + m, X + m);
+    }
+    
+    return (CCColour){ .type = 0 };
+}
+
 static CCColour CCColourFormatRGBConvertToHS(CCColour Colour, CCColourFormat ColourSpace)
 {
     CCAssertLog((Colour.type & CCColourFormatSpaceMask) == CCColourFormatSpaceRGB_RGB, @"Must belong to the RGB space");
@@ -528,7 +594,7 @@ static CCColour CCColourFormatRGBConvertToHS(CCColour Colour, CCColourFormat Col
     {
         case CCColourFormatSpaceHS_HSL:
             V = 0.5f * (M + m);
-            S = ((V == 0.0f) || (V == 1.0f)) ? 0.0f : C / (1.0f - (2.0f * V - 1.0f));
+            S = ((V == 0.0f) || (V == 1.0f)) ? 0.0f : C / (1.0f - fabsf(2.0f * V - 1.0f));
             break;
             
         case CCColourFormatSpaceHS_HSV:
@@ -574,6 +640,9 @@ CCColour CCColourFormatConversion(CCColour Colour, CCColourFormat NewFormat)
     static CCColour (* const Converters[CCColourFormatModelMask >> 2][CCColourFormatModelMask >> 2])(CCColour, CCColourFormat) = {
         [CCColourFormatModelRGB >> 2] = {
             [CCColourFormatModelHS >> 2] = CCColourFormatRGBConvertToHS
+        },
+        [CCColourFormatModelHS >> 2] = {
+            [CCColourFormatModelRGB >> 2] = CCColourFormatHSConvertToRGB
         }
     };
     
