@@ -55,7 +55,7 @@
                 
                 //convert
                 
-                data += CCColourFormatPackIntoBuffer(Pixel, data);
+                data += CCColourPackIntoBuffer(Pixel, data);
             }
         }
     }

@@ -31,7 +31,7 @@
 
 #import <CommonC/Common.h>
 #import <CommonGL/Defined.h>
-#import <CommonGL/ColourFormat.h>
+#import <CommonGL/Colour.h>
 
 
 @interface CCPixelData : NSObject
