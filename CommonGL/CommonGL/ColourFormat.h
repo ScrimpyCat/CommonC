@@ -924,47 +924,8 @@ typedef NS_OPTIONS(uint64_t, CCColourFormatRGB) {
 
 #pragma mark -
 
-typedef struct {
-    CCColourFormat type;
-    union {
-        float f32;
-        double f64;
-        
-        int8_t i8;
-        int16_t i16;
-        int32_t i32;
-        int64_t i64;
-        
-        uint8_t u8;
-        uint16_t u16;
-        uint32_t u32;
-        uint64_t u64;
-    };
-} CCColourComponent;
-
-typedef struct {
-    CCColourFormat type;
-    CCColourComponent channel[4];
-} CCColour;
-
-#pragma mark -
-
 
 void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4]);
 _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int PlanarIndex, GLenum *InputType, GLenum *InputFormat, GLenum *InternalFormat);
-
-/*!
- * @brief Packs the pixel colour into the buffer.
- * @param Colour The pixel colour to be packed onto the buffer.
- * @param Data The buffer to store the colour.
- * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
- */
-size_t CCColourFormatPackIntoBuffer(CCColour Colour, void *Data);
-
-size_t CCColourFormatGetComponentChannelIndex(CCColour Colour, CCColourFormat Index);
-CCColourComponent CCColourFormatGetComponent(CCColour Colour, CCColourFormat Index);
-CCColourComponent CCColourFormatGetComponentWithPrecision(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
-
-CCColour CCColourFormatConversion(CCColour Colour, CCColourFormat NewFormat);
 
 #endif

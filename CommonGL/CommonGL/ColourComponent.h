@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, Stefan Johnson
+ *  Copyright (c) 2015 Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,29 +23,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef CommonGL_ColourComponent_h
+#define CommonGL_ColourComponent_h
 
-#import <CommonObjc/Common.h>
+#include <CommonGL/ColourFormat.h>
+#include <CommonC/Extensions.h>
 
-#import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
+typedef struct {
+    CCColourFormat type;
+    union {
+        float f32;
+        double f64;
+        
+        int8_t i8;
+        int16_t i16;
+        int32_t i32;
+        int64_t i64;
+        
+        uint8_t u8;
+        uint16_t u16;
+        uint32_t u32;
+        uint64_t u64;
+    };
+} CCColourComponent;
 
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
-#import <CommonGL/MissingFunctions.h>
 
-#import <CommonGL/Debug.h>
+unsigned int CCColourComponentGetBitSize(CCColourComponent Component) CC_CONSTANT_FUNCTION;
+CCColourComponent CCColourComponentLinearPrecisionConversion(CCColourComponent Component, CCColourFormat OldType, CCColourFormat NewType, int NewPrecision) CC_CONSTANT_FUNCTION;
 
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
-
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
-
-#import <CommonGL/ColourFormat.h>
-#import <CommonGL/ColourComponent.h>
-#import <CommonGL/Colour.h>
+#endif

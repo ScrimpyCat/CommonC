@@ -21,6 +21,10 @@
 		F362EC131A20EB3300715E48 /* CommonGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A97F1519A8F79400F21E00 /* CommonGL.framework */; };
 		F362EC141A20EB3800715E48 /* CommonObjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A97F3719A8F7C700F21E00 /* CommonObjc.framework */; };
 		F362EC161A20EB3B00715E48 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362EC151A20EB3B00715E48 /* CommonC.framework */; };
+		F37589891B35B1DE00055947 /* Colour.m in Sources */ = {isa = PBXBuildFile; fileRef = F37589871B35B1DE00055947 /* Colour.m */; };
+		F375898A1B35B1DE00055947 /* Colour.h in Headers */ = {isa = PBXBuildFile; fileRef = F37589881B35B1DE00055947 /* Colour.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F375898D1B35B2AE00055947 /* ColourComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = F375898B1B35B2AE00055947 /* ColourComponent.m */; };
+		F375898E1B35B2AE00055947 /* ColourComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = F375898C1B35B2AE00055947 /* ColourComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37E92611A28D91800F3A5B1 /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = F37E92601A28D87700F3A5B1 /* Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37E92651A28DBBD00F3A5B1 /* MissingFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = F37E92621A28DB1A00F3A5B1 /* MissingFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3974A8219ADBE3C0018B133 /* RenderLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = F3974A8119ADBE3C0018B133 /* RenderLoop.m */; };
@@ -77,6 +81,10 @@
 		F354D22219B5EA52009BF808 /* SelectedState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedState.h; sourceTree = "<group>"; };
 		F362EC0F1A20DE2100715E48 /* StateLegacyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateLegacyTests.m; sourceTree = "<group>"; };
 		F362EC151A20EB3B00715E48 /* CommonC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonC.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Common-egrtbycbiolrbjaozekkuuykoruu/Build/Products/Release/CommonC.framework"; sourceTree = "<group>"; };
+		F37589871B35B1DE00055947 /* Colour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colour.m; sourceTree = "<group>"; };
+		F37589881B35B1DE00055947 /* Colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colour.h; sourceTree = "<group>"; };
+		F375898B1B35B2AE00055947 /* ColourComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColourComponent.m; sourceTree = "<group>"; };
+		F375898C1B35B2AE00055947 /* ColourComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColourComponent.h; sourceTree = "<group>"; };
 		F37E92601A28D87700F3A5B1 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		F37E92621A28DB1A00F3A5B1 /* MissingFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MissingFunctions.h; sourceTree = "<group>"; };
 		F3974A8119ADBE3C0018B133 /* RenderLoop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderLoop.m; sourceTree = "<group>"; };
@@ -280,6 +288,10 @@
 			children = (
 				F3E6DD331A40334100563DAB /* ColourFormat.h */,
 				F3E6DD321A40334100563DAB /* ColourFormat.m */,
+				F375898C1B35B2AE00055947 /* ColourComponent.h */,
+				F375898B1B35B2AE00055947 /* ColourComponent.m */,
+				F37589881B35B1DE00055947 /* Colour.h */,
+				F37589871B35B1DE00055947 /* Colour.m */,
 				F3E6DD2C1A3FEF2900563DAB /* Pixel Data */,
 			);
 			name = Colour;
@@ -361,6 +373,8 @@
 				F3E6DD2F1A3FEF6400563DAB /* PixelData.h in Headers */,
 				F37E92651A28DBBD00F3A5B1 /* MissingFunctions.h in Headers */,
 				F30A79BB1A244F6B00FE6471 /* TextureSetup.h in Headers */,
+				F375898E1B35B2AE00055947 /* ColourComponent.h in Headers */,
+				F375898A1B35B1DE00055947 /* Colour.h in Headers */,
 				F3A97F4019A8FD9E00F21E00 /* Defined.h in Headers */,
 				F354D21719B07072009BF808 /* State.h in Headers */,
 			);
@@ -462,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F37589891B35B1DE00055947 /* Colour.m in Sources */,
 				F3A97F4419A9216600F21E00 /* Debug.m in Sources */,
 				F3F0277719AB10DD00DF3110 /* Context.m in Sources */,
 				F354D21919B0708D009BF808 /* State.m in Sources */,
@@ -470,6 +485,7 @@
 				F3974A8219ADBE3C0018B133 /* RenderLoop.m in Sources */,
 				F3E6DD301A3FEF6400563DAB /* PixelData.m in Sources */,
 				F354D21319B032BA009BF808 /* RenderTimestamp.m in Sources */,
+				F375898D1B35B2AE00055947 /* ColourComponent.m in Sources */,
 				F3E6DD341A40334100563DAB /* ColourFormat.m in Sources */,
 				F3FCF28719AE5B620061F6CA /* Display.m in Sources */,
 			);

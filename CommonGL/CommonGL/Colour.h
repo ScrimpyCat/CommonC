@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, Stefan Johnson
+ *  Copyright (c) 2015 Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,29 +23,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef CommonGL_Colour_h
+#define CommonGL_Colour_h
 
-#import <CommonObjc/Common.h>
+#include <CommonGL/ColourFormat.h>
+#include <CommonGL/ColourComponent.h>
 
-#import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
+typedef struct {
+    CCColourFormat type;
+    CCColourComponent channel[4];
+} CCColour;
 
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
-#import <CommonGL/MissingFunctions.h>
+#pragma mark -
 
-#import <CommonGL/Debug.h>
+/*!
+ * @brief Packs the pixel colour into the buffer.
+ * @param Colour The pixel colour to be packed into the buffer.
+ * @param Data The buffer to store the colour.
+ * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
+ */
+size_t CCColourPackIntoBuffer(CCColour Colour, void *Data);
 
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
+size_t CCColourGetComponentChannelIndex(CCColour Colour, CCColourFormat Index);
+CCColourComponent CCColourGetComponent(CCColour Colour, CCColourFormat Index);
+CCColourComponent CCColourGetComponentWithPrecision(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);
 
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
+CCColour CCColourConversion(CCColour Colour, CCColourFormat NewFormat);
 
-#import <CommonGL/ColourFormat.h>
-#import <CommonGL/ColourComponent.h>
-#import <CommonGL/Colour.h>
+
+#endif
