@@ -38,12 +38,23 @@ typedef struct {
 
 /*!
  * @brief Packs the pixel colour into the buffer.
+ * @discussion Combines all bit planes.
  * @param Colour The pixel colour to be packed into the buffer.
  * @param Data The buffer to store the colour.
  * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
  */
 size_t CCColourPackIntoBuffer(CCColour Colour, void *Data);
 
+/*!
+ * @brief Packs the pixel colour of a certain plane into the buffer.
+ * @param Colour The pixel colour to be packed into the buffer.
+ * @param PlanarIndex The plane to be used.
+ * @param Data The buffer to store the colour.
+ * @return The amount of bytes written to the buffer (bits rounded up to the next byte).
+ */
+size_t CCColourPackIntoBufferInPlanar(CCColour Colour, unsigned int PlanarIndex, void *Data);
+
+size_t CCColourGetChannelsInPlanar(CCColour Colour, unsigned int PlanarIndex, CCColourComponent Channels[4]);
 size_t CCColourGetComponentChannelIndex(CCColour Colour, CCColourFormat Index);
 CCColourComponent CCColourGetComponent(CCColour Colour, CCColourFormat Index);
 CCColourComponent CCColourGetComponentWithPrecision(CCColour Colour, CCColourFormat Index, CCColourFormat Type, int Precision);

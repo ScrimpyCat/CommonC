@@ -27,14 +27,14 @@
 #import "ColourFormat.h"
 #import "Version.h"
 #import <CommonC/Types.h>
-#import <CommonObjC/Assertion.h>
+#import <CommonC/Assertion.h>
 #import <CommonC/Extensions.h>
 
 
 //Retrieves channels for the specified plane, and restructures the channel offsets so they're ordered in the plane
-void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4])
+size_t CCColourFormatChannelsInPlanar(CCColourFormat ColourFormat, unsigned int PlanarIndex, CCColourFormat Channels[4])
 {
-    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, @"Only works on formats that use the channel 4 structure");
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
     
     static const CCColourFormat Offsets[4] = {
         CCColourFormatChannelOffset0,
@@ -45,7 +45,8 @@ void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int Pl
     
     memset(Channels, 0, sizeof(CCColourFormat) * 4);
     
-    for (int Loop = 0, Index = 0; Loop < 4; Loop++)
+    size_t Index = 0;
+    for (int Loop = 0; Loop < 4; Loop++)
     {
         CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
         if (((Channel & CCColourFormatChannelPlanarIndexMask) == PlanarIndex) && (Channel & CCColourFormatChannelBitSizeMask))
@@ -53,6 +54,8 @@ void CCColourFormatChannel4InPlanar(CCColourFormat ColourFormat, unsigned int Pl
             Channels[Index++] = Channel;
         }
     }
+    
+    return Index;
 }
 
 _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int PlanarIndex, GLenum *InputType, GLenum *InputFormat, GLenum *InternalFormat)
@@ -68,7 +71,7 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
 #pragma unused(Normalized)
         CCColourFormat Channels[4];
         
-        CCColourFormatChannel4InPlanar(ColourFormat, PlanarIndex, Channels);
+        CCColourFormatChannelsInPlanar(ColourFormat, PlanarIndex, Channels);
         
         int Channel1Size, Channel2Size, Channel3Size, Channel4Size;
         if ((Channel1Size = (Channels[0] & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize))
@@ -233,4 +236,31 @@ _Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index
     }
     
     return FALSE;
+}
+
+unsigned int CCColourFormatPlaneCount(CCColourFormat ColourFormat)
+{
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
+    
+    static const CCColourFormat Offsets[4] = {
+        CCColourFormatChannelOffset0,
+        CCColourFormatChannelOffset1,
+        CCColourFormatChannelOffset2,
+        CCColourFormatChannelOffset3
+    };
+    
+    unsigned int Count = 0;
+    _Bool Planes[4] = { FALSE, FALSE, FALSE, FALSE };
+    
+    for (int Loop = 0; Loop < 4; Loop++)
+    {
+        CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        if ((Channel & CCColourFormatChannelBitSizeMask) && (!Planes[(Channel & CCColourFormatChannelPlanarIndexMask) >> 2]))
+        {
+            Planes[(Channel & CCColourFormatChannelPlanarIndexMask) >> 2] = TRUE;
+            Count++;
+        }
+    }
+    
+    return Count;
 }

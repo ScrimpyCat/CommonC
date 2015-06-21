@@ -45,10 +45,10 @@
     [super tearDown];
 }
 
--(void) testChannel4InPlanar
+-(void) testChannelsInPlanar
 {
     CCColourFormat Channels[4];
-    CCColourFormatChannel4InPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatChannelsInPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                    | ((CCColourFormatChannelRed  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                    | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
                                    CCColourFormatChannelPlanarIndex0, Channels);
@@ -60,7 +60,7 @@
     
     
     
-    CCColourFormatChannel4InPlanar(0, CCColourFormatChannelPlanarIndex0, Channels);
+    CCColourFormatChannelsInPlanar(0, CCColourFormatChannelPlanarIndex0, Channels);
     
     XCTAssertEqual(Channels[0], 0, @"Should not contain any element");
     XCTAssertEqual(Channels[1], 0, @"Should not contain any element");
@@ -69,7 +69,7 @@
     
     
     
-    CCColourFormatChannel4InPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatChannelsInPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                    | ((CCColourFormatChannelRed  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1)
                                    | ((CCColourFormatChannelBlue | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0),
                                    CCColourFormatChannelPlanarIndex0, Channels);
@@ -81,7 +81,7 @@
     
     
     
-    CCColourFormatChannel4InPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatChannelsInPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                    | ((CCColourFormatChannelRed   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                    | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex1) << CCColourFormatChannelOffset1)
                                    | ((CCColourFormatChannelBlue  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2),
@@ -94,7 +94,7 @@
     
     
     
-    CCColourFormatChannel4InPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
+    CCColourFormatChannelsInPlanar(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger | CCColourFormatNormalized
                                    | ((CCColourFormatChannelRed   | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
                                    | ((CCColourFormatChannelGreen | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex1) << CCColourFormatChannelOffset1)
                                    | ((CCColourFormatChannelBlue  | (8 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2),
@@ -186,6 +186,35 @@
     XCTAssertEqual(CCColourPackIntoBuffer(Pixel, Data), 13, @"Should only write out 13 bytes");
     XCTAssertEqual((((uint64_t*)Data)[0] & 0x3ffffffffffff), 0x3000000000001, @"Should contain the correct value");
     XCTAssertEqual(((((uint64_t*)Data)[0] & 0xfffc000000000000) >> 50) + ((((uint64_t*)Data)[1] & 0xfffffffff) << 14), 0x2000000000003, @"Should contain the correct value");
+    
+    
+    Pixel = (CCColour){
+        .type = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+            | ((CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex0) << CCColourFormatChannelOffset0)
+            | ((CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex1) << CCColourFormatChannelOffset1)
+            | ((CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex0) << CCColourFormatChannelOffset2)
+            | ((CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex0) << CCColourFormatChannelOffset3),
+        .channel = {
+            [0] = { .type = CCColourFormatChannelRed    | (8 << CCColourFormatChannelBitSize), .u8 = 1 },
+            [1] = { .type = CCColourFormatChannelGreen  | (8 << CCColourFormatChannelBitSize), .u8 = 2 },
+            [2] = { .type = CCColourFormatChannelBlue   | (8 << CCColourFormatChannelBitSize), .u8 = 3 },
+            [3] = { .type = CCColourFormatChannelAlpha  | (8 << CCColourFormatChannelBitSize), .u8 = 4 }
+        }
+    };
+    
+    XCTAssertEqual(CCColourPackIntoBuffer(Pixel, Data), 4, @"Should only write out 4 bytes");
+    XCTAssertEqual(((uint8_t*)Data)[0], 1, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[1], 2, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[2], 3, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[3], 4, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Pixel, CCColourFormatChannelPlanarIndex0, Data), 3, @"Should only write out 3 bytes");
+    XCTAssertEqual(((uint8_t*)Data)[0], 1, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[1], 3, @"Should contain the correct value");
+    XCTAssertEqual(((uint8_t*)Data)[2], 4, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Pixel, CCColourFormatChannelPlanarIndex1, Data), 1, @"Should only write out 1 byte");
+    XCTAssertEqual(((uint8_t*)Data)[0], 2, @"Should contain the correct value");
 }
 
 -(void) testGetComponent
