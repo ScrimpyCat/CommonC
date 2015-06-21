@@ -638,6 +638,80 @@
     Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelBlue);
     XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
     XCTAssertEqual(Component.f32, Pixel.channel[2].f32, @"Should retrieve the correct component value");
+    
+    
+    
+    
+    PixelHSV = CCColourConversion(Pixel, CCColourFormatSpaceHS_HSB | CCColourFormatTypeFloat | CCColourFormatNormalized
+                                  | ((CCColourFormatChannelHue        | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
+                                  | ((CCColourFormatChannelSaturation | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+                                  | ((CCColourFormatChannelValue      | (32 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1));
+    PixelRGB = CCColourConversion(PixelHSV, (CCColourFormat)CCColourFormatRGBA32Float | CCColourFormatNormalized);
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelRed);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[0].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[0].f32, Pixel.channel[0].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelGreen);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[1].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[1].f32, Pixel.channel[1].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelBlue);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[2].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[2].f32, Pixel.channel[2].f32, @"Should be correctly positioned");
+    
+    
+    
+    
+    PixelRGB = CCColourConversion(Pixel, (CCColourFormat)CCColourFormatRGBA32Float | CCColourFormatNormalized);
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelRed);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[0].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[0].f32, Pixel.channel[0].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelGreen);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[1].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[1].f32, Pixel.channel[1].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelBlue);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[2].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[2].f32, Pixel.channel[2].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelAlpha);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[3].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[3].f32, Pixel.channel[3].f32, @"Should be correctly positioned");
+    
+    
+    
+    
+    PixelRGB = CCColourConversion(Pixel, (CCColourFormat)CCColourFormatBGRA32Float | CCColourFormatNormalized);
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelRed);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelRed, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[0].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[2].f32, Pixel.channel[0].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelGreen);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelGreen, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[1].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[1].f32, Pixel.channel[1].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelBlue);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelBlue, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[2].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[0].f32, Pixel.channel[2].f32, @"Should be correctly positioned");
+    
+    Component = CCColourGetComponent(PixelRGB, CCColourFormatChannelAlpha);
+    XCTAssertEqual(Component.type & CCColourFormatChannelIndexMask, CCColourFormatChannelAlpha, @"Should retrieve the correct component");
+    XCTAssertEqual(Component.f32, Pixel.channel[3].f32, @"Should retrieve the correct component value");
+    XCTAssertEqual(PixelRGB.channel[3].f32, Pixel.channel[3].f32, @"Should be correctly positioned");
 }
 
 @end
