@@ -54,6 +54,7 @@ size_t CCColourPackIntoBuffer(CCColour Colour, void *Data);
  */
 size_t CCColourPackIntoBufferInPlanar(CCColour Colour, unsigned int PlanarIndex, void *Data);
 
+CCColour CCColourUnpackFromBuffer(CCColourFormat ColourFormat, const void *Data[4]);
 size_t CCColourGetChannelsInPlanar(CCColour Colour, unsigned int PlanarIndex, CCColourComponent Channels[4]);
 size_t CCColourGetComponentChannelIndex(CCColour Colour, CCColourFormat Index);
 CCColourComponent CCColourGetComponent(CCColour Colour, CCColourFormat Index);

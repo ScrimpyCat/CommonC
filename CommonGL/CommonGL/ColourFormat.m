@@ -36,19 +36,12 @@ size_t CCColourFormatChannelsInPlanar(CCColourFormat ColourFormat, unsigned int 
 {
     CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
     
-    static const CCColourFormat Offsets[4] = {
-        CCColourFormatChannelOffset0,
-        CCColourFormatChannelOffset1,
-        CCColourFormatChannelOffset2,
-        CCColourFormatChannelOffset3
-    };
-    
     memset(Channels, 0, sizeof(CCColourFormat) * 4);
     
     size_t Index = 0;
     for (int Loop = 0; Loop < 4; Loop++)
     {
-        CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        CCColourFormat Channel = (ColourFormat >> CCColourFormatLiteralIndexToChannelOffset(Loop)) & CCColourFormatChannelMask;
         if (((Channel & CCColourFormatChannelPlanarIndexMask) == PlanarIndex) && (Channel & CCColourFormatChannelBitSizeMask))
         {
             Channels[Index++] = Channel;
@@ -222,16 +215,9 @@ _Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index
 {
     CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
     
-    static const CCColourFormat Offsets[4] = {
-        CCColourFormatChannelOffset0,
-        CCColourFormatChannelOffset1,
-        CCColourFormatChannelOffset2,
-        CCColourFormatChannelOffset3
-    };
-    
     for (int Loop = 0; Loop < 4; Loop++)
     {
-        CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        CCColourFormat Channel = (ColourFormat >> CCColourFormatLiteralIndexToChannelOffset(Loop)) & CCColourFormatChannelMask;
         if ((Channel & CCColourFormatChannelBitSizeMask) && ((Channel & CCColourFormatChannelIndexMask) == Index)) return TRUE;
     }
     
@@ -242,19 +228,12 @@ unsigned int CCColourFormatPlaneCount(CCColourFormat ColourFormat)
 {
     CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
     
-    static const CCColourFormat Offsets[4] = {
-        CCColourFormatChannelOffset0,
-        CCColourFormatChannelOffset1,
-        CCColourFormatChannelOffset2,
-        CCColourFormatChannelOffset3
-    };
-    
     unsigned int Count = 0;
     _Bool Planes[4] = { FALSE, FALSE, FALSE, FALSE };
     
     for (int Loop = 0; Loop < 4; Loop++)
     {
-        CCColourFormat Channel = (ColourFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        CCColourFormat Channel = (ColourFormat >> CCColourFormatLiteralIndexToChannelOffset(Loop)) & CCColourFormatChannelMask;
         if ((Channel & CCColourFormatChannelBitSizeMask) && (!Planes[(Channel & CCColourFormatChannelPlanarIndexMask) >> 2]))
         {
             Planes[(Channel & CCColourFormatChannelPlanarIndexMask) >> 2] = TRUE;
@@ -263,4 +242,17 @@ unsigned int CCColourFormatPlaneCount(CCColourFormat ColourFormat)
     }
     
     return Count;
+}
+
+CCColourFormat CCColourFormatChannelOffsetForChannelIndex(CCColourFormat ColourFormat, CCColourFormat Index)
+{
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only works on formats that use the channel 4 structure");
+    
+    for (int Loop = 0; Loop < 4; Loop++)
+    {
+        CCColourFormat Channel = (ColourFormat >> CCColourFormatLiteralIndexToChannelOffset(Loop)) & CCColourFormatChannelMask;
+        if ((Channel & CCColourFormatChannelIndexMask) == Index) return CCColourFormatLiteralIndexToChannelOffset(Loop);
+    }
+    
+    return 0;
 }

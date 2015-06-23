@@ -33,6 +33,7 @@
 #endif
 
 #import <CommonGL/Defined.h>
+#import <CommonC/Extensions.h>
 
 
 /*
@@ -929,5 +930,75 @@ size_t CCColourFormatChannelsInPlanar(CCColourFormat ColourFormat, unsigned int 
 _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int PlanarIndex, GLenum *InputType, GLenum *InputFormat, GLenum *InternalFormat);
 _Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index);
 unsigned int CCColourFormatPlaneCount(CCColourFormat ColourFormat);
+CCColourFormat CCColourFormatChannelOffsetForChannelIndex(CCColourFormat ColourFormat, CCColourFormat Index);
+
+static CC_FORCE_INLINE size_t CCColourFormatChannelOffsetToLiteralIndex(CCColourFormat Index);
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelOffset(size_t Index);
+static CC_FORCE_INLINE size_t CCColourFormatChannelPlanarToLiteralIndex(CCColourFormat Index);
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelPlanar(size_t Index);
+static CC_FORCE_INLINE size_t CCColourFormatChannelIndexToLiteralIndex(CCColourFormat Index);
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelIndex(size_t Index);
+
+#pragma mark -
+
+static CC_FORCE_INLINE size_t CCColourFormatChannelOffsetToLiteralIndex(CCColourFormat Index)
+{
+    _Static_assert(CCColourFormatChannelOffset0 == 24 &&
+                   CCColourFormatChannelOffset1 == 34 &&
+                   CCColourFormatChannelOffset2 == 44 &&
+                   CCColourFormatChannelOffset3 == 54, "Expects values to equal these exactly");
+    
+    return (Index - 24) / 10;
+}
+
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelOffset(size_t Index)
+{
+    _Static_assert(CCColourFormatChannelOffset0 == 24 &&
+                   CCColourFormatChannelOffset1 == 34 &&
+                   CCColourFormatChannelOffset2 == 44 &&
+                   CCColourFormatChannelOffset3 == 54, "Expects values to equal these exactly");
+    
+    return (Index * 10) + 24;
+}
+
+static CC_FORCE_INLINE size_t CCColourFormatChannelPlanarToLiteralIndex(CCColourFormat Index)
+{
+    _Static_assert(CCColourFormatChannelPlanarIndex0 == (0 << 2) &&
+                   CCColourFormatChannelPlanarIndex1 == (1 << 2) &&
+                   CCColourFormatChannelPlanarIndex2 == (2 << 2) &&
+                   CCColourFormatChannelPlanarIndex3 == (3 << 2), "Expects values to equal these exactly");
+    
+    return Index >> 2;
+}
+
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelPlanar(size_t Index)
+{
+    _Static_assert(CCColourFormatChannelPlanarIndex0 == (0 << 2) &&
+                   CCColourFormatChannelPlanarIndex1 == (1 << 2) &&
+                   CCColourFormatChannelPlanarIndex2 == (2 << 2) &&
+                   CCColourFormatChannelPlanarIndex3 == (3 << 2), "Expects values to equal these exactly");
+    
+    return Index << 2;
+}
+
+static CC_FORCE_INLINE size_t CCColourFormatChannelIndexToLiteralIndex(CCColourFormat Index)
+{
+    _Static_assert(CCColourFormatChannelIndex0 == (0 << 0) &&
+                   CCColourFormatChannelIndex1 == (1 << 0) &&
+                   CCColourFormatChannelIndex2 == (2 << 0) &&
+                   CCColourFormatChannelIndex3 == (3 << 0), "Expects values to equal these exactly");
+    
+    return Index;
+}
+
+static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelIndex(size_t Index)
+{
+    _Static_assert(CCColourFormatChannelIndex0 == (0 << 0) &&
+                   CCColourFormatChannelIndex1 == (1 << 0) &&
+                   CCColourFormatChannelIndex2 == (2 << 0) &&
+                   CCColourFormatChannelIndex3 == (3 << 0), "Expects values to equal these exactly");
+    
+    return Index;
+}
 
 #endif

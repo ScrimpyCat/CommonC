@@ -89,6 +89,60 @@ size_t CCColourPackIntoBufferInPlanar(CCColour Colour, unsigned int PlanarIndex,
     return CCPackComponentsIntoBuffer(Channels, Count, Data);
 }
 
+CCColour CCColourUnpackFromBuffer(CCColourFormat ColourFormat, const void *Data[4])
+{
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only supports colour formats with 4 channel configuration");
+    _Static_assert((CCColourFormatChannelBitSizeMask >> CCColourFormatChannelBitSize) <= (sizeof(uint64_t) * 8), "Exceeds limit of packed data");
+    
+    CCColour Colour = { .type = ColourFormat };
+    for (int Loop = 0; Loop < 4; Loop++)
+    {
+        CCColourFormat Formats[4];
+        size_t Count = CCColourFormatChannelsInPlanar(ColourFormat, CCColourFormatLiteralIndexToChannelPlanar(Loop), Formats);
+        
+        const void *Buffer = Data[Loop];
+        unsigned int BitCount = 0;
+        for (size_t Loop2 = 0; Loop2 < Count; Loop2++)
+        {
+            const unsigned int Bits = (Formats[Loop2] & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
+            if (Bits)
+            {
+                uint64_t Chunk = 0;
+                const int Count = Bits / 8;
+                for (int Loop3 = 0; Loop3 < Count; Loop3++)
+                {
+                    ((uint8_t*)&Chunk)[Loop3] = ((uint8_t*)Buffer)[Loop3];
+                }
+                
+                Buffer += Count;
+                
+                const int ChunkSize = Count? (Count * 8) - BitCount : 0;
+                const int Remaining = Bits - ChunkSize;
+                
+                Chunk >>= BitCount;
+                if (Count) BitCount = 0;
+                
+                Chunk |= ((*(uint8_t*)Buffer >> BitCount) & CCBitSet(Remaining)) << (Bits - Remaining);
+                
+                Colour.channel[CCColourFormatChannelOffsetToLiteralIndex(CCColourFormatChannelOffsetForChannelIndex(ColourFormat, Formats[Loop2] & CCColourFormatChannelIndexMask))] = (CCColourComponent){
+                    .type = Formats[Loop2],
+                    .u64 = Chunk
+                };
+                
+                BitCount += Remaining;
+                
+                if (BitCount >= 8)
+                {
+                    Buffer++;
+                    BitCount -= 8;
+                }
+            }
+        }
+    }
+    
+    return Colour;
+}
+
 size_t CCColourGetChannelsInPlanar(CCColour Colour, unsigned int PlanarIndex, CCColourComponent Channels[4])
 {
     CCColourFormat Formats[4];
@@ -383,17 +437,10 @@ CCColour CCColourConversion(CCColour Colour, CCColourFormat NewFormat)
     else if ((Colour.type & CCColourFormatModelMask) != (NewFormat & CCColourFormatModelMask)) return (CCColour){ .type = 0 };
     
     
-    static const CCColourFormat Offsets[4] = {
-        CCColourFormatChannelOffset0,
-        CCColourFormatChannelOffset1,
-        CCColourFormatChannelOffset2,
-        CCColourFormatChannelOffset3
-    };
-    
     CCColour OldColour = Colour;
     for (int Loop = 0, Index = 0; Loop < 4; Loop++)
     {
-        const CCColourFormat ChannelFormat = (NewFormat >> Offsets[Loop]) & CCColourFormatChannelMask;
+        const CCColourFormat ChannelFormat = (NewFormat >> CCColourFormatLiteralIndexToChannelOffset(Loop)) & CCColourFormatChannelMask;
         const CCColourFormat ChannelType = ChannelFormat & CCColourFormatChannelIndexMask;
         const int Precision = (ChannelFormat & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
         if (Precision)

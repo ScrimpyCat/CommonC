@@ -173,8 +173,8 @@
     
     Pixel = (CCColour){
         .type = CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
-        | ((CCColourFormatChannelRed  | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
-        | ((CCColourFormatChannelBlue | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
+            | ((CCColourFormatChannelRed  | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+            | ((CCColourFormatChannelBlue | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1),
         .channel = {
             [0] = { .type = CCColourFormatChannelRed    | (50 << CCColourFormatChannelBitSize), .u64 = 0x3000000000001 },
             [1] = { .type = CCColourFormatChannelBlue   | (50 << CCColourFormatChannelBitSize), .u64 = 0x2000000000003 },
@@ -215,6 +215,121 @@
     
     XCTAssertEqual(CCColourPackIntoBufferInPlanar(Pixel, CCColourFormatChannelPlanarIndex1, Data), 1, @"Should only write out 1 byte");
     XCTAssertEqual(((uint8_t*)Data)[0], 2, @"Should contain the correct value");
+}
+
+-(void) testUnpackFromBuffer
+{
+    uint8_t Buffer1[128], Buffer2[128];
+    CCColour Colour = CCColourUnpackFromBuffer((CCColourFormat)CCColourFormatR5G6B5Uint, (const void*[4]){
+        &(uint16_t){ 2080 }, NULL, NULL, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 2, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint16_t*)Buffer1, 2080, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u8, 0, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelGreen).u8, 1, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u8, 1, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelGreen), 1, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 2, @"Should be at the correct position");
+    
+    
+    
+    Colour = CCColourUnpackFromBuffer((CCColourFormat)CCColourFormatRGBA8Uint, (const void*[4]){
+        &(uint32_t){ 0x04030201 }, NULL, NULL, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 4, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint32_t*)Buffer1, 0x04030201, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u8, 1, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelGreen).u8, 2, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u8, 3, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelAlpha).u8, 4, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelGreen), 1, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 2, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelAlpha), 3, @"Should be at the correct position");
+    
+    
+    
+    Colour = CCColourUnpackFromBuffer(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+                             | ((CCColourFormatChannelRed  | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+                             | ((CCColourFormatChannelBlue | (50 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1), (const void*[4]){
+        (uint64_t[]){ 0xf000000000001, 0x800000000 }, NULL, NULL, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 13, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint64_t*)Buffer1, 0xf000000000001, @"Packed the correct values");
+    XCTAssertEqual(((uint64_t*)Buffer1)[1] & 0xffffffffff, 0x800000000, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u64, 0x3000000000001, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u64, 0x2000000000003, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 1, @"Should be at the correct position");
+    
+    
+    
+    Colour = CCColourUnpackFromBuffer(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+                             | ((CCColourFormatChannelRed  | (12 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+                             | ((CCColourFormatChannelBlue | (12 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1), (const void*[4]){
+        &(uint32_t){ 0x123456 }, NULL, NULL, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 3, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint32_t*)Buffer1 & 0xffffff, 0x123456, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u16, 0x456, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u16, 0x123, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 1, @"Should be at the correct position");
+    
+    
+    
+    Colour = CCColourUnpackFromBuffer(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+                             | ((CCColourFormatChannelRed   | (2 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset0)
+                             | ((CCColourFormatChannelGreen | (2 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset2)
+                             | ((CCColourFormatChannelBlue  | (2 << CCColourFormatChannelBitSize)) << CCColourFormatChannelOffset1), (const void*[4]){
+        &(uint8_t){ 0x39 }, NULL, NULL, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 1, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint8_t*)Buffer1, 0x39, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u8, 1, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelGreen).u8, 3, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u8, 2, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelGreen), 2, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 1, @"Should be at the correct position");
+    
+    
+    
+    Colour = CCColourUnpackFromBuffer(CCColourFormatSpaceRGB_RGB | CCColourFormatTypeUnsignedInteger
+                             | ((CCColourFormatChannelRed   | (2 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex0) << CCColourFormatChannelOffset0)
+                             | ((CCColourFormatChannelGreen | (2 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex0) << CCColourFormatChannelOffset2)
+                             | ((CCColourFormatChannelBlue  | (2 << CCColourFormatChannelBitSize) | CCColourFormatChannelPlanarIndex2) << CCColourFormatChannelOffset1), (const void*[4]){
+        &(uint8_t){ 0xd }, NULL, &(uint8_t){ 0x2 }, NULL
+    });
+    
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex0, Buffer1), 1, @"Packed the correct amount of bytes");
+    XCTAssertEqual(CCColourPackIntoBufferInPlanar(Colour, CCColourFormatChannelPlanarIndex2, Buffer2), 1, @"Packed the correct amount of bytes");
+    XCTAssertEqual(*(uint8_t*)Buffer1, 0xd, @"Packed the correct values");
+    XCTAssertEqual(*(uint8_t*)Buffer2, 0x2, @"Packed the correct values");
+    
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelRed).u8, 1, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelGreen).u8, 3, @"Should contain the correct value");
+    XCTAssertEqual(CCColourGetComponent(Colour, CCColourFormatChannelBlue).u8, 2, @"Should contain the correct value");
+    
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelRed), 0, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelGreen), 2, @"Should be at the correct position");
+    XCTAssertEqual(CCColourGetComponentChannelIndex(Colour, CCColourFormatChannelBlue), 1, @"Should be at the correct position");
 }
 
 -(void) testGetComponent
