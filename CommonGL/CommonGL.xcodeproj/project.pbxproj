@@ -38,6 +38,9 @@
 		F3A97F4419A9216600F21E00 /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A97F4319A9216600F21E00 /* Debug.m */; };
 		F3A97F4619A9236F00F21E00 /* Default_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A97F4519A9236F00F21E00 /* Default_Private.h */; };
 		F3A97F4819A9240300F21E00 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A97F4719A9240300F21E00 /* CommonC.framework */; };
+		F3B4EED61B36DA1500B97F65 /* PixelDataStaticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */; };
+		F3B4EED91B36DAC100B97F65 /* PixelDataStatic.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3B4EEDA1B36DAC100B97F65 /* PixelDataStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */; };
 		F3D944B11A2489E200EF1251 /* ContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D944B01A2489E200EF1251 /* ContextTests.m */; };
 		F3D96AC41A260E8B005F518F /* StateChange.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D96AC31A260CE7005F518F /* StateChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E6DD2F1A3FEF6400563DAB /* PixelData.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E6DD2D1A3FEF6400563DAB /* PixelData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -102,6 +105,9 @@
 		F3A97F4319A9216600F21E00 /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
 		F3A97F4519A9236F00F21E00 /* Default_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Default_Private.h; sourceTree = "<group>"; };
 		F3A97F4719A9240300F21E00 /* CommonC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonC.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Common-egrtbycbiolrbjaozekkuuykoruu/Build/Products/Debug/CommonC.framework"; sourceTree = "<group>"; };
+		F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataStaticTests.m; sourceTree = "<group>"; };
+		F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelDataStatic.h; sourceTree = "<group>"; };
+		F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataStatic.m; sourceTree = "<group>"; };
 		F3D944B01A2489E200EF1251 /* ContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextTests.m; sourceTree = "<group>"; };
 		F3D96AC31A260CE7005F518F /* StateChange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateChange.h; sourceTree = "<group>"; };
 		F3E6DD2D1A3FEF6400563DAB /* PixelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelData.h; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				F319BAC01A4E2B8C00ED58ED /* ColourFormatTests.m */,
+				F3B4EED41B36DA0000B97F65 /* Pixel Data */,
 			);
 			name = Colour;
 			sourceTree = "<group>";
@@ -274,11 +281,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F3B4EED41B36DA0000B97F65 /* Pixel Data */ = {
+			isa = PBXGroup;
+			children = (
+				F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */,
+			);
+			name = "Pixel Data";
+			sourceTree = "<group>";
+		};
 		F3E6DD2C1A3FEF2900563DAB /* Pixel Data */ = {
 			isa = PBXGroup;
 			children = (
 				F3E6DD2D1A3FEF6400563DAB /* PixelData.h */,
 				F3E6DD2E1A3FEF6400563DAB /* PixelData.m */,
+				F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */,
+				F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */,
 			);
 			name = "Pixel Data";
 			sourceTree = "<group>";
@@ -374,6 +391,7 @@
 				F37E92651A28DBBD00F3A5B1 /* MissingFunctions.h in Headers */,
 				F30A79BB1A244F6B00FE6471 /* TextureSetup.h in Headers */,
 				F375898E1B35B2AE00055947 /* ColourComponent.h in Headers */,
+				F3B4EED91B36DAC100B97F65 /* PixelDataStatic.h in Headers */,
 				F375898A1B35B1DE00055947 /* Colour.h in Headers */,
 				F3A97F4019A8FD9E00F21E00 /* Defined.h in Headers */,
 				F354D21719B07072009BF808 /* State.h in Headers */,
@@ -476,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3B4EEDA1B36DAC100B97F65 /* PixelDataStatic.m in Sources */,
 				F37589891B35B1DE00055947 /* Colour.m in Sources */,
 				F3A97F4419A9216600F21E00 /* Debug.m in Sources */,
 				F3F0277719AB10DD00DF3110 /* Context.m in Sources */,
@@ -496,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3D944B11A2489E200EF1251 /* ContextTests.m in Sources */,
+				F3B4EED61B36DA1500B97F65 /* PixelDataStaticTests.m in Sources */,
 				F3F7D7131A223E3C008E5B1B /* StateModernTests.m in Sources */,
 				F3F7D71C1A228DC9008E5B1B /* PortabilityTests.m in Sources */,
 				F3F7D7191A228352008E5B1B /* DebugTests.m in Sources */,

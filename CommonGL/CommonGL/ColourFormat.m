@@ -256,3 +256,18 @@ CCColourFormat CCColourFormatChannelOffsetForChannelIndex(CCColourFormat ColourF
     
     return 0;
 }
+
+size_t CCColourFormatSampleSizeForPlanar(CCColourFormat ColourFormat, CCColourFormat PlanarIndex)
+{
+    CCAssertLog((ColourFormat & CCColourFormatOptionMask) == CCColourFormatOptionChannel4, "Only supports colour formats with 4 channel configuration");
+    
+    CCColourFormat Channels[4];
+    size_t BitCount = 0;
+    
+    for (size_t Loop = 0, Count = CCColourFormatChannelsInPlanar(ColourFormat, PlanarIndex, Channels); Loop < Count; Loop++)
+    {
+        BitCount += (Channels[Loop] & CCColourFormatChannelBitSizeMask) >> CCColourFormatChannelBitSize;
+    }
+    
+    return (BitCount + 7) / 8;
+}

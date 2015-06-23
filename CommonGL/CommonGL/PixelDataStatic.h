@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, Stefan Johnson
+ *  Copyright (c) 2015 Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,32 +23,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <CommonObjc/Common.h>
-
-#import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
-
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
-#import <CommonGL/MissingFunctions.h>
-
-#import <CommonGL/Debug.h>
-
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
-
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
-
-#import <CommonGL/ColourFormat.h>
-#import <CommonGL/ColourComponent.h>
-#import <CommonGL/Colour.h>
+#if __has_feature(modules)
+@import Foundation;
+#else
+#import <Foundation/Foundation.h>
+#endif
 
 #import <CommonGL/PixelData.h>
-#import <CommonGL/PixelDataStatic.h>
+#import <CommonObjc/GenericContainer.h>
+
+@interface CCPixelDataStatic : CCPixelData <CCPixelDataSize>
+
+-(instancetype) initWithData: (CCGenericContainer*)data AsFormat: (CCColourFormat)colourFormat OfWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth;
+-(instancetype) initWithMultiPlanarData: (CCGenericContainer*[4])data AsFormat: (CCColourFormat)colourFormat OfWidth: (size_t)width Height: (size_t)height Depth: (size_t)depth;
+
+@end

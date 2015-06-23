@@ -931,6 +931,7 @@ _Bool CCColourFormatGLRepresentation(CCColourFormat ColourFormat, unsigned int P
 _Bool CCColourFormatHasChannel(CCColourFormat ColourFormat, CCColourFormat Index);
 unsigned int CCColourFormatPlaneCount(CCColourFormat ColourFormat);
 CCColourFormat CCColourFormatChannelOffsetForChannelIndex(CCColourFormat ColourFormat, CCColourFormat Index);
+size_t CCColourFormatSampleSizeForPlanar(CCColourFormat ColourFormat, CCColourFormat PlanarIndex);
 
 static CC_FORCE_INLINE size_t CCColourFormatChannelOffsetToLiteralIndex(CCColourFormat Index);
 static CC_FORCE_INLINE CCColourFormat CCColourFormatLiteralIndexToChannelOffset(size_t Index);
