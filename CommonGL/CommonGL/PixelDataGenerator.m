@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, Stefan Johnson
+ *  Copyright (c) 2015 Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,33 +23,42 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "Default_Private.h"
+#import "PixelDataGenerator.h"
 
-#import <CommonObjc/Common.h>
+@interface CCPixelDataGenerator ()
 
-#import <CommonGL/Defined.h>
-#import <CommonGL/Version.h>
+@property (copy) CCPixelDataGeneratorFunction generator;
+@property CCColourFormat format;
 
-#import <CommonGL/Portability.h>
-#import <CommonGL/Extensions.h>
-#import <CommonGL/Context.h>
-#import <CommonGL/Calling.h>
-#import <CommonGL/Types.h>
-#import <CommonGL/MissingFunctions.h>
+@end
 
-#import <CommonGL/Debug.h>
+@implementation CCPixelDataGenerator
+@synthesize format;
 
-#import <CommonGL/Display.h>
-#import <CommonGL/RenderLoop.h>
-#import <CommonGL/RenderTimestamp.h>
+-(instancetype) initWithDataGenerator: (CCPixelDataGeneratorFunction)func AsFormat: (CCColourFormat)colourFormat
+{
+    if ((self = [super init]))
+    {
+        self.generator = func;
+        self.format = colourFormat;
+    }
+    
+    return self;
+}
 
-#import <CommonGL/SelectedState.h>
-#import <CommonGL/State.h>
-#import <CommonGL/StateChange.h>
+-(CCColour) colourAtX: (size_t)x Y: (size_t)y Z: (size_t)z
+{
+    const CCPixelDataGeneratorFunction Generator = self.generator;
+    
+    return CCColourConversion(Generator ? Generator(x, y, z) : (CCColour){ .type = 0 }, self.format);
+}
 
-#import <CommonGL/ColourFormat.h>
-#import <CommonGL/ColourComponent.h>
-#import <CommonGL/Colour.h>
+-(void) dealloc
+{
+    self.generator = nil;
+    
+    [super dealloc];
+}
 
-#import <CommonGL/PixelData.h>
-#import <CommonGL/PixelDataStatic.h>
-#import <CommonGL/PixelDataGenerator.h>
+@end

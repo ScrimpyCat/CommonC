@@ -41,6 +41,9 @@
 		F3B4EED61B36DA1500B97F65 /* PixelDataStaticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */; };
 		F3B4EED91B36DAC100B97F65 /* PixelDataStatic.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3B4EEDA1B36DAC100B97F65 /* PixelDataStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */; };
+		F3CE59CB1B3AEBBA0071EC55 /* PixelDataGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3CE59C91B3AEBBA0071EC55 /* PixelDataGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3CE59CC1B3AEBBA0071EC55 /* PixelDataGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE59CA1B3AEBBA0071EC55 /* PixelDataGenerator.m */; };
+		F3CE59CE1B3AEEA70071EC55 /* PixelDataGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE59CD1B3AEEA70071EC55 /* PixelDataGeneratorTests.m */; };
 		F3D944B11A2489E200EF1251 /* ContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D944B01A2489E200EF1251 /* ContextTests.m */; };
 		F3D96AC41A260E8B005F518F /* StateChange.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D96AC31A260CE7005F518F /* StateChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E6DD2F1A3FEF6400563DAB /* PixelData.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E6DD2D1A3FEF6400563DAB /* PixelData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -108,6 +111,9 @@
 		F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataStaticTests.m; sourceTree = "<group>"; };
 		F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelDataStatic.h; sourceTree = "<group>"; };
 		F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataStatic.m; sourceTree = "<group>"; };
+		F3CE59C91B3AEBBA0071EC55 /* PixelDataGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelDataGenerator.h; sourceTree = "<group>"; };
+		F3CE59CA1B3AEBBA0071EC55 /* PixelDataGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataGenerator.m; sourceTree = "<group>"; };
+		F3CE59CD1B3AEEA70071EC55 /* PixelDataGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PixelDataGeneratorTests.m; sourceTree = "<group>"; };
 		F3D944B01A2489E200EF1251 /* ContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextTests.m; sourceTree = "<group>"; };
 		F3D96AC31A260CE7005F518F /* StateChange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateChange.h; sourceTree = "<group>"; };
 		F3E6DD2D1A3FEF6400563DAB /* PixelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelData.h; sourceTree = "<group>"; };
@@ -285,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				F3B4EED51B36DA1500B97F65 /* PixelDataStaticTests.m */,
+				F3CE59CD1B3AEEA70071EC55 /* PixelDataGeneratorTests.m */,
 			);
 			name = "Pixel Data";
 			sourceTree = "<group>";
@@ -296,6 +303,8 @@
 				F3E6DD2E1A3FEF6400563DAB /* PixelData.m */,
 				F3B4EED71B36DAC100B97F65 /* PixelDataStatic.h */,
 				F3B4EED81B36DAC100B97F65 /* PixelDataStatic.m */,
+				F3CE59C91B3AEBBA0071EC55 /* PixelDataGenerator.h */,
+				F3CE59CA1B3AEBBA0071EC55 /* PixelDataGenerator.m */,
 			);
 			name = "Pixel Data";
 			sourceTree = "<group>";
@@ -393,6 +402,7 @@
 				F375898E1B35B2AE00055947 /* ColourComponent.h in Headers */,
 				F3B4EED91B36DAC100B97F65 /* PixelDataStatic.h in Headers */,
 				F375898A1B35B1DE00055947 /* Colour.h in Headers */,
+				F3CE59CB1B3AEBBA0071EC55 /* PixelDataGenerator.h in Headers */,
 				F3A97F4019A8FD9E00F21E00 /* Defined.h in Headers */,
 				F354D21719B07072009BF808 /* State.h in Headers */,
 			);
@@ -498,6 +508,7 @@
 				F37589891B35B1DE00055947 /* Colour.m in Sources */,
 				F3A97F4419A9216600F21E00 /* Debug.m in Sources */,
 				F3F0277719AB10DD00DF3110 /* Context.m in Sources */,
+				F3CE59CC1B3AEBBA0071EC55 /* PixelDataGenerator.m in Sources */,
 				F354D21919B0708D009BF808 /* State.m in Sources */,
 				F30A79BC1A244F6B00FE6471 /* TextureSetup.m in Sources */,
 				F3EA01EC19AA337700758D52 /* Portability.m in Sources */,
@@ -518,6 +529,7 @@
 				F3B4EED61B36DA1500B97F65 /* PixelDataStaticTests.m in Sources */,
 				F3F7D7131A223E3C008E5B1B /* StateModernTests.m in Sources */,
 				F3F7D71C1A228DC9008E5B1B /* PortabilityTests.m in Sources */,
+				F3CE59CE1B3AEEA70071EC55 /* PixelDataGeneratorTests.m in Sources */,
 				F3F7D7191A228352008E5B1B /* DebugTests.m in Sources */,
 				F3F7D7161A227CC0008E5B1B /* RenderLoopTests.m in Sources */,
 				F334F9AC1A247A61005909B0 /* CallingTests.m in Sources */,
