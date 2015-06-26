@@ -95,6 +95,7 @@ void CCOrderedCollectionRemoveElementAtIndex(CCOrderedCollection Collection, siz
 void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
+    CCAssertLog(CCCollectionGetCount(Collection) > 1, "Collection must have at least one element");
     
     if (Collection->interface->optional.ordered->optional.removeLast)
     {

@@ -164,11 +164,10 @@ void CCCollectionDestroy(CCCollection Collection)
         CCEnumerator Enumerator;
         CCCollectionGetEnumerator(Collection, &Enumerator);
         
-        void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator);
-        do
+        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
         {
             Collection->destructor(Collection, Element);
-        } while ((Element = CCCollectionEnumeratorNext(&Enumerator)));
+        }
     }
     
     Collection->interface->destroy(Collection->internal);
