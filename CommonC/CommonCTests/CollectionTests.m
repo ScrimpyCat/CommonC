@@ -435,15 +435,21 @@ static CCCollectionInterface TestCollectionFixed = {
     CCCollectionDestroy(Collection);
 }
 
-static _Bool TestElementDestroyed = FALSE;
+static _Bool TestElementDestroyed = FALSE, TestElementDestroyedPassingInNull = FALSE;
 static void TestElementDestructor(CCCollection Collection, int *Element)
 {
+    if (!Element) TestElementDestroyedPassingInNull = TRUE;
+    
     TestElementDestroyed = *Element == 2;
 }
 
 -(void) testDestructor
 {
     CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), (CCCollectionElementDestructor)TestElementDestructor, self.interface);
+    CCCollectionDestroy(Collection);
+    
+    
+    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), (CCCollectionElementDestructor)TestElementDestructor, self.interface);
     
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -458,6 +464,8 @@ static void TestElementDestructor(CCCollection Collection, int *Element)
     CCCollectionDestroy(Collection);
     
     XCTAssertFalse(TestElementDestroyed, @"Should have destroyed the remaining elements");
+    
+    XCTAssertFalse(TestElementDestroyedPassingInNull, @"Should not be passing in null to the destructor callback");
 }
 
 static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
@@ -468,6 +476,11 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
 -(void) testFinding
 {
     CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    
+    CCCollectionEntry a = CCCollectionFindElement(Collection, &(int){ 4 }, NULL);
+    
+    XCTAssertEqual(CCCollectionGetElement(Collection, a), NULL, @"Should return null for an invalid entry");
+    
     
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionInsertElement(Collection, &(int){ 2 });
@@ -501,6 +514,12 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
 {
     CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface), Elements = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
+    CCCollection Entries = CCCollectionFindCollection(Collection, Elements, NULL);
+    
+    XCTAssertEqual(CCCollectionGetCount(Entries), 0, @"Should contain 0 elements");
+    
+    CCCollectionDestroy(Entries);
+    
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionInsertElement(Collection, &(int){ 2 });
     CCCollectionInsertElement(Collection, &(int){ 3 });
@@ -509,7 +528,7 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     CCCollectionInsertElement(Elements, &(int){ 3 });
     CCCollectionInsertElement(Elements, &(int){ 4 });
     
-    CCCollection Entries = CCCollectionFindCollection(Collection, Elements, NULL);
+    Entries = CCCollectionFindCollection(Collection, Elements, NULL);
     
     XCTAssertEqual(CCCollectionGetCount(Entries), 2, @"Should contain 2 elements");
     
@@ -535,11 +554,15 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
 {
     CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
     
+    CCEnumerator Enumerator;
+    CCCollectionGetEnumerator(Collection, &Enumerator);
+    
+    XCTAssertEqual(CCCollectionEnumeratorGetCurrent(&Enumerator), NULL, @"Should not be positioned anywhere");
+    
     CCCollectionInsertElement(Collection, &(int){ 1 });
     CCCollectionInsertElement(Collection, &(int){ 2 });
     CCCollectionInsertElement(Collection, &(int){ 3 });
     
-    CCEnumerator Enumerator;
     CCCollectionGetEnumerator(Collection, &Enumerator);
     
     XCTAssertEqual(CCCollectionEnumeratorGetCurrent(&Enumerator), CCCollectionEnumeratorGetHead(&Enumerator), @"Initially obtaining the enumerator should be positioned to the head");

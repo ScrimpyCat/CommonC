@@ -95,10 +95,10 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorGetCurrent(CCEnumerator *Enum
             return ((CCCollection)Enumerator->ref)->interface->enumerator(((CCCollection)Enumerator->ref)->internal, &Enumerator->state, CCCollectionEnumeratorActionCurrent);
             
         case CCEnumeratorFormatFixedBatch:
-            return Enumerator->state.fixedBatch.ptr[Enumerator->state.fixedBatch.index];
+            return Enumerator->state.fixedBatch.count ? Enumerator->state.fixedBatch.ptr[Enumerator->state.fixedBatch.index] : NULL;
             
         case CCEnumeratorFormatBatch:
-            return Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride);
+            return Enumerator->state.batch.count ? Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride) : NULL;
     }
 }
 

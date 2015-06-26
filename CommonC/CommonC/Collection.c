@@ -354,26 +354,26 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
         void *E = CCCollectionEnumeratorGetCurrent(&Enumerator);
         if (Comparator)
         {
-            do
+            for ( ; E; E = CCCollectionEnumeratorNext(&Enumerator))
             {
                 if (Comparator(E, Element) == CCComparisonResultEqual)
                 {
                     Found = CCCollectionEnumeratorGetEntry(&Enumerator);
                     break;
                 }
-            } while ((E = CCCollectionEnumeratorNext(&Enumerator)));
+            }
         }
         
         else
         {
-            do
+            for ( ; E; E = CCCollectionEnumeratorNext(&Enumerator))
             {
                 if (!memcmp(E, Element, Collection->size))
                 {
                     Found = CCCollectionEnumeratorGetEntry(&Enumerator);
                     break;
                 }
-            } while ((E = CCCollectionEnumeratorNext(&Enumerator)));
+            }
         }
     }
     

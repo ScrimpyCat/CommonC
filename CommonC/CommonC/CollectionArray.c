@@ -234,16 +234,16 @@ static void *CCCollectionArrayEnumerator(CCCollectionArrayInternal *Internal, CC
             Enumerator->batch.count = CCArrayGetCount(Internal->array);
             Enumerator->batch.index = 0;
             Enumerator->batch.stride = CCArrayGetElementSize(Internal->array);
-            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal->array, 0);
-            return CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index);
+            Enumerator->batch.ptr = Enumerator->batch.count ? CCArrayGetElementAtIndex(Internal->array, 0) : NULL;
+            return Enumerator->batch.count ? CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index) : NULL;
             
         case CCCollectionEnumeratorActionTail:
             Enumerator->type = CCEnumeratorFormatBatch;
             Enumerator->batch.count = CCArrayGetCount(Internal->array);
             Enumerator->batch.index = CCArrayGetCount(Internal->array) - 1;
             Enumerator->batch.stride = CCArrayGetElementSize(Internal->array);
-            Enumerator->batch.ptr = CCArrayGetElementAtIndex(Internal->array, 0);
-            return CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index);
+            Enumerator->batch.ptr = Enumerator->batch.count ? CCArrayGetElementAtIndex(Internal->array, 0) : NULL;
+            return Enumerator->batch.count ? CCArrayGetElementAtIndex(Internal->array, Enumerator->batch.index) : NULL;
             
         default:
             break;
