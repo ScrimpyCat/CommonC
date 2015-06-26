@@ -255,18 +255,22 @@ void CCCollectionRemoveCollection(CCCollection Collection, CCCollection Entries)
     CCAssertLog(Collection, "Collection must not be null");
     CCAssertLog(Entries, "Collection must not be null");
     
-    if (Collection->destructor)
+    if (Collection->interface->optional.removeCollection)
     {
-        CCEnumerator Enumerator;
-        CCCollectionGetEnumerator(Entries, &Enumerator);
-        
-        for (CCCollectionEntry *Entry = CCCollectionEnumeratorGetCurrent(&Enumerator); Entry; Entry = CCCollectionEnumeratorNext(&Enumerator))
+        if (Collection->destructor)
         {
-            Collection->destructor(Collection, CCCollectionGetElement(Collection, *Entry));
+            CCEnumerator Enumerator;
+            CCCollectionGetEnumerator(Entries, &Enumerator);
+            
+            for (CCCollectionEntry *Entry = CCCollectionEnumeratorGetCurrent(&Enumerator); Entry; Entry = CCCollectionEnumeratorNext(&Enumerator))
+            {
+                Collection->destructor(Collection, CCCollectionGetElement(Collection, *Entry));
+            }
         }
+        
+        Collection->interface->optional.removeCollection(Collection->internal, Entries, Collection->allocator);
     }
     
-    if (Collection->interface->optional.removeCollection) Collection->interface->optional.removeCollection(Collection->internal, Entries, Collection->allocator);
     else
     {
         CCEnumerator Enumerator;
