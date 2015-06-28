@@ -171,6 +171,7 @@ void CCCollectionDestroy(CCCollection Collection)
     }
     
     Collection->interface->destroy(Collection->internal);
+    CCFree(Collection);
 }
 
 CCCollectionEntry CCCollectionInsertElement(CCCollection Collection, const void *Element)
