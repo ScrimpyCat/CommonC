@@ -25,6 +25,7 @@
 
 #include "Array.h"
 #include "MemoryAllocation.h"
+#include <string.h>
 
 
 CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize)

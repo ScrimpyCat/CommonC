@@ -308,7 +308,7 @@ size_t CCGetFormatSpecifierInfo(const char *Format, CCFormatSpecifierInfo *Info)
 
 #pragma mark - Logging Options
 #ifndef CC_LOG_OPTION
-#define CC_LOG_OPTION CCLogOptionOutputAll | CCLogOptionAsync
+#define CC_LOG_OPTION (CCLogOptionOutputAll | CCLogOptionAsync)
 #endif
 
 #ifndef CC_LOG_EMERGENCY_OPTION

@@ -33,6 +33,7 @@
 #include "LinkedList.h"
 #include "CollectionArray.h"
 #include "CollectionList.h"
+#include <string.h>
 
 
 typedef struct {

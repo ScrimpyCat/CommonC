@@ -26,7 +26,7 @@
 #include "LinkedList.h"
 #include "MemoryAllocation.h"
 #include "Assertion.h"
-#include <stdint.h>
+#include <string.h>
 
 
 CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data)

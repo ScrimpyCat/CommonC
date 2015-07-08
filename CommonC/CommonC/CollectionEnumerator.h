@@ -100,6 +100,8 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorGetCurrent(CCEnumerator *Enum
         case CCEnumeratorFormatBatch:
             return Enumerator->state.batch.count ? Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride) : NULL;
     }
+    
+    return NULL;
 }
 
 static CC_FORCE_INLINE void *CCCollectionEnumeratorGetHead(CCEnumerator *Enumerator)
