@@ -594,19 +594,6 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
     XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
     
-    
-    Total = 0;
-    Count = 0;
-    CC_COLLECTION_FOREACH(int, Element, Collection)
-    {
-        Total += Element;
-        Count++;
-    }
-    
-    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
-    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
-    
-    
     CCCollectionDestroy(Collection);
 }
 

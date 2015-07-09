@@ -32,28 +32,6 @@
 
 
 /*!
- * @define CC_COLLECTION_CURRENT_ENUMERATOR
- * @abstract Convenient macro to reference the enumerator of the current CC_COLLECTION_FOREACH block.
- */
-#define CC_COLLECTION_CURRENT_ENUMERATOR CC_PRIV_enumerator___
-
-/*!
- * @define CC_COLLECTION_FOREACH
- * @abstract Convenient macro to iterate through each element in a collection.
- * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
- *             single line statement.
- *
- * @param type The type of the element.
- * @param element The name for the element variable.
- * @param collection The collection to iterate through.
- */
-#define CC_COLLECTION_FOREACH(type, element, collection) \
-CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR; \
-CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR); \
-\
-for (type *CC_PRIV_##element##__ = CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 }; CC_PRIV_##element##__; CC_PRIV_##element##__ = CCCollectionEnumeratorNext(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 })
-
-/*!
  * @brief Get a reference to the current entry in the enumerator.
  * @param Enumerator The enumerator to get the reference to.
  * @return The entry reference to the current element.
