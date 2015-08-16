@@ -594,6 +594,89 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
     XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
     
+    
+    Total = 0;
+    Count = 0;
+    CC_COLLECTION_FOREACH(int, Element, Collection)
+    {
+        Total += Element;
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+#define ENUMERATOR_VARIABLE CC_COLLECTION_CURRENT_ENUMERATOR
+#undef CC_COLLECTION_CURRENT_ENUMERATOR
+#define CC_COLLECTION_CURRENT_ENUMERATOR ENUMERATOR_VARIABLE##2
+    Total = 0;
+    Count = 0;
+    CC_COLLECTION_FOREACH(int, Element, Collection)
+    {
+        CC_COLLECTION_FOREACH(int, Element, Collection)
+        {
+            Total += Element;
+            Count++;
+        }
+        
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, 3 * 4, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6 * 3, @"Should enumerate over each element once");
+    
+    
+#undef CC_COLLECTION_CURRENT_ENUMERATOR
+#define CC_COLLECTION_CURRENT_ENUMERATOR ENUMERATOR_VARIABLE##3
+    Total = 0;
+    Count = 0;
+    int Total2 = 0;
+    CC_COLLECTION_FOREACH(int, Element, Collection)
+    {
+#undef CC_COLLECTION_CURRENT_ENUMERATOR
+#define CC_COLLECTION_CURRENT_ENUMERATOR ENUMERATOR_VARIABLE##4
+        CC_COLLECTION_FOREACH(int, Element, Collection)
+        {
+            Total += Element;
+            Count++;
+        }
+        
+#undef CC_COLLECTION_CURRENT_ENUMERATOR
+#define CC_COLLECTION_CURRENT_ENUMERATOR ENUMERATOR_VARIABLE##3
+        
+        Count++;
+        Total2 += *(int*)CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR);
+    }
+    
+    XCTAssertEqual(Count, 3 * 4, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6 * 3, @"Should enumerate over each element once");
+    XCTAssertEqual(Total2, 6, @"Should access correct enumerator");
+    
+    
+#undef CC_COLLECTION_CURRENT_ENUMERATOR
+#define CC_COLLECTION_CURRENT_ENUMERATOR ENUMERATOR_VARIABLE##5
+    Total = 0;
+    Count = 0;
+    Total2 = 0;
+    CC_COLLECTION_FOREACH(int, Element, Collection)
+    {
+        {
+            CC_COLLECTION_FOREACH(int, Element, Collection)
+            {
+                Total += Element;
+                Count++;
+            }
+        }
+        
+        Count++;
+        Total2 += *(int*)CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR);
+    }
+    
+    XCTAssertEqual(Count, 3 * 4, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6 * 3, @"Should enumerate over each element once");
+    XCTAssertEqual(Total2, 6, @"Should access correct enumerator");
+    
+    
     CCCollectionDestroy(Collection);
 }
 
