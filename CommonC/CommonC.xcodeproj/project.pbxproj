@@ -677,7 +677,7 @@
 		F362025E17AC3FFD00153E85 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Stefan Johnson";
 			};
 			buildConfigurationList = F362026117AC3FFD00153E85 /* Build configuration list for PBXProject "CommonC" */;
@@ -849,6 +849,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -905,6 +906,7 @@
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -923,6 +925,7 @@
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -942,6 +945,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
 				INFOPLIST_FILE = "CommonCTests/CommonCTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -959,6 +963,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
 				INFOPLIST_FILE = "CommonCTests/CommonCTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
