@@ -107,10 +107,45 @@ static void CallbackDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Aligned Allocator Implementation
+typedef struct {
+    void *head;
+    size_t alignment;
+} CCAlignedMemoryHeader;
+
+static void *AlignedAllocator(size_t *Alignment, size_t Size)
+{
+    void *Head = malloc(Size + *Alignment + sizeof(CCAlignedMemoryHeader));
+    void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(int) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(int);
+    ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = *Alignment };
+    
+    return Ptr;
+}
+
+static void *AlignedReallocator(void *Data, void *Ptr, size_t Size)
+{
+    CCAlignedMemoryHeader *Header = Ptr - sizeof(CCAlignedMemoryHeader);
+    size_t Alignment = Header->alignment;
+    int Allocator = *(int*)Ptr;
+    
+    void *Head = realloc(Header->head, Size + Alignment + sizeof(CCAlignedMemoryHeader));
+    Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(int) + Alignment - 1) & ~(Alignment - 1)) - sizeof(int);
+    ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Alignment };
+    *(int*)Ptr = Allocator;
+    
+    return Ptr;
+}
+
+static void AlignedDeallocator(void *Ptr)
+{
+    free(((CCAlignedMemoryHeader*)Ptr)[-1].head);
+}
+
+
 #pragma mark -
 
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
-_Static_assert(CC_ALLOCATORS_MAX >= 3, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 4, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -125,7 +160,8 @@ static struct {
     .allocators = {
         { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator },
         { .allocator = (CCAllocatorFunction)CustomAllocator, .reallocator = (CCReallocatorFunction)CustomReallocator, .deallocator = (CCDeallocatorFunction)CustomDeallocator },
-        { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator }
+        { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator },
+        { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator }
     }
 };
 

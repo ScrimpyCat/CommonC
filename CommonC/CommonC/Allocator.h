@@ -38,6 +38,7 @@ typedef struct CCAllocatorType {
 #define CC_STD_ALLOCATOR (CCAllocatorType){ .allocator = 0 } //Uses stdlib
 #define CC_CUSTOM_ALLOCATOR(alloc, realloc, dealloc) (CCAllocatorType){ .allocator = 1, .data = (void*[3]){ alloc, realloc, dealloc } }
 #define CC_CALLBACK_ALLOCATOR(callback) (CCAllocatorType){ .allocator = 2, .data = callback } //Uses stdlib
+#define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 3, .data = &(size_t){ alignment } } //Uses stdlib
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
