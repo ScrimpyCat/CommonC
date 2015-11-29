@@ -68,4 +68,9 @@
 #include <CommonC/CollectionArray.h>
 #include <CommonC/CollectionList.h>
 
+#include <CommonC/PathComponent.h>
+#include <CommonC/Path.h>
+#include <CommonC/FileSystem.h>
+#include <CommonC/FileHandle.h>
+
 #endif
