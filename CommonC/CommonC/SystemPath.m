@@ -240,10 +240,16 @@ FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
             
             if (FSPathIsFile(Path))
             {
-                Success = [[NSFileManager defaultManager] createDirectoryAtURL: SystemPath.URLByDeletingLastPathComponent
-                                                   withIntermediateDirectories: IntermediateDirectories
-                                                                    attributes: nil
-                                                                         error: NULL];
+                BOOL IsDir;
+                Success = [[NSFileManager defaultManager] fileExistsAtPath: SystemPath.URLByDeletingLastPathComponent.path isDirectory: &IsDir];
+                
+                if ((!Success) || (!IsDir))
+                {
+                    Success = [[NSFileManager defaultManager] createDirectoryAtURL: SystemPath.URLByDeletingLastPathComponent
+                                                       withIntermediateDirectories: IntermediateDirectories
+                                                                        attributes: nil
+                                                                             error: NULL];
+                }
                 
                 if (Success)
                 {
