@@ -418,7 +418,7 @@ FSOperation FSHandleReadFromOffset(FSHandle Handle, size_t Offset, size_t *Count
     return Result;
 }
 
-FSOperation FSHandleWrite(FSHandle Handle, size_t Count, void *Data, FSBehaviour Behaviour)
+FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBehaviour Behaviour)
 {
     CCAssertLog(Data, "Data must not be NULL");
     
@@ -427,7 +427,7 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, void *Data, FSBehaviour
     const size_t Offset = FSHandleGetOffset(Handle);
     
     @autoreleasepool {
-        NSData *WriteData = [NSData dataWithBytesNoCopy: Data length: Count freeWhenDone: NO];
+        NSData *WriteData = [NSData dataWithBytesNoCopy: (void*)Data length: Count freeWhenDone: NO];
         if ((Behaviour & FSWritingBehaviourDestructiveMask) == FSWritingBehaviourOverwrite)
         {
             [(NSFileHandle*)Handle->handle writeData: WriteData];
@@ -479,7 +479,7 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, void *Data, FSBehaviour
     return FSOperationSuccess;
 }
 
-FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count, void *Data, FSBehaviour Behaviour)
+FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count, const void *Data, FSBehaviour Behaviour)
 {
     CCAssertLog(Data, "Data must not be NULL");
     

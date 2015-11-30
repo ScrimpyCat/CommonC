@@ -125,7 +125,7 @@ FSOperation FSHandleReadFromOffset(FSHandle Handle, size_t Offset, size_t *Count
  * @return FSOperationSuccess if it successfully write to the file handle. Otherwise the
  *         type of failure.
  */
-FSOperation FSHandleWrite(FSHandle Handle, size_t Count, void *Data, FSBehaviour Behaviour);
+FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBehaviour Behaviour);
 
 /*!
  * @brief Write the data at an offset in the file.
@@ -137,7 +137,7 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, void *Data, FSBehaviour
  * @return FSOperationSuccess if it successfully write to the file handle. Otherwise the
  *         type of failure.
  */
-FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count, void *Data, FSBehaviour Behaviour);
+FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count, const void *Data, FSBehaviour Behaviour);
 
 /*!
  * @brief Remove data from the file.
