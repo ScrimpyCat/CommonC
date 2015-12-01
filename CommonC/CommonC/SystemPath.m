@@ -363,6 +363,8 @@ FSOperation FSHandleClose(FSHandle Handle)
         [(NSFileHandle*)Handle->handle release];
     }
     
+    CC_SAFE_Free(Handle);
+    
     return FSOperationSuccess;
 }
 
