@@ -72,6 +72,11 @@ void CCDataDestroy(CCData Data)
     CC_SAFE_Free(Data);
 }
 
+CCDataHint CCDataGetHints(CCData Data)
+{
+    return Data->interface->hints(Data->internal);
+}
+
 size_t CCDataGetPreferredMapSize(CCData Data)
 {
     CCAssertLog(Data, "Data must not be null");
@@ -136,6 +141,7 @@ void CCDataModifiedRange(CCData Data, ptrdiff_t Offset, size_t Size)
 {
     CCAssertLog(Data, "Data must not be null");
     CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    CCAssertLog(CCDataGetHints(Data) & CCDataHintWrite, "Must have write access");
     
     if (Data->interface->optional.modifiedBuffer) Data->interface->optional.modifiedBuffer(Data->internal, Offset, Size);
     Data->mutated = TRUE;
@@ -145,6 +151,8 @@ CCBufferMap CCDataMapBuffer(CCData Data, ptrdiff_t Offset, size_t Size, CCDataHi
 {
     CCAssertLog(Data, "Data must not be null");
     CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    CCAssertLog(!(Access & CCDataHintRead) || (CCDataGetHints(Data) & CCDataHintRead), "Must have read access");
+    CCAssertLog(!(Access & CCDataHintWrite) || (CCDataGetHints(Data) & CCDataHintWrite), "Must have write access");
     
     return Data->interface->map(Data->internal, Offset, Size, Access);
 }
@@ -161,6 +169,7 @@ size_t CCDataReadBuffer(CCData Data, ptrdiff_t Offset, size_t Size, void *Buffer
 {
     CCAssertLog(Data, "Data must not be null");
     CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    CCAssertLog(CCDataGetHints(Data) & CCDataHintRead, "Must have read access");
     
     size_t Read = 0;
     if (Data->interface->optional.read) Read = Data->interface->optional.read(Data->internal, Offset, Size, Buffer);
@@ -191,6 +200,7 @@ size_t CCDataWriteBuffer(CCData Data, ptrdiff_t Offset, size_t Size, const void 
 {
     CCAssertLog(Data, "Data must not be null");
     CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    CCAssertLog(CCDataGetHints(Data) & CCDataHintWrite, "Must have write access");
     
     size_t Written = 0;
     if (Data->interface->optional.write) Written = Data->interface->optional.write(Data->internal, Offset, Size, Buffer);
@@ -224,6 +234,8 @@ size_t CCDataCopyBuffer(CCData SrcData, ptrdiff_t SrcOffset, size_t Size, CCData
     CCAssertLog(SrcData && DstData, "Source and destination data must not be null");
     CCAssertLog((SrcOffset + Size) <= CCDataGetSize(SrcData), "Must not exceed source bounds");
     CCAssertLog((DstOffset + Size) <= CCDataGetSize(DstData), "Must not exceed destination bounds");
+    CCAssertLog(CCDataGetHints(SrcData) & CCDataHintRead, "Must have read access");
+    CCAssertLog(CCDataGetHints(DstData) & CCDataHintWrite, "Must have write access");
     
     size_t Copied = 0;
     if ((SrcData->interface == DstData->interface) && (SrcData->interface->optional.copy)) Copied = SrcData->interface->optional.copy(SrcData->internal, SrcOffset, Size, DstData->internal, DstOffset);
@@ -260,6 +272,7 @@ size_t CCDataFillBuffer(CCData Data, ptrdiff_t Offset, size_t Size, uint8_t Fill
 {
     CCAssertLog(Data, "Data must not be null");
     CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    CCAssertLog(CCDataGetHints(Data) & CCDataHintWrite, "Must have write access");
     
     size_t Filled = 0;
     if (Data->interface->optional.fill) Filled = Data->interface->optional.fill(Data->internal, Offset, Size, Fill);

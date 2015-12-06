@@ -66,6 +66,9 @@
 		F359D0291C1456D60028B86B /* Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D0271C1456D60028B86B /* Hash.c */; settings = {ASSET_TAGS = (); }; };
 		F359D02A1C1456D60028B86B /* Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0281C1456D60028B86B /* Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F359D02C1C146C2E0028B86B /* DataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F359D02B1C146C2E0028B86B /* DataTests.m */; settings = {ASSET_TAGS = (); }; };
+		F359D0301C147DB50028B86B /* DataBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D02E1C147DB40028B86B /* DataBuffer.c */; settings = {ASSET_TAGS = (); }; };
+		F359D0311C147DB50028B86B /* DataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D02F1C147DB50028B86B /* DataBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D0331C148F700028B86B /* DataBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F359D0321C148F700028B86B /* DataBufferTests.m */; settings = {ASSET_TAGS = (); }; };
 		F362026B17AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
@@ -196,6 +199,9 @@
 		F359D0281C1456D60028B86B /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
 		F359D02B1C146C2E0028B86B /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTests.m; sourceTree = "<group>"; };
 		F359D02D1C146C5D0028B86B /* DataTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTests.h; sourceTree = "<group>"; };
+		F359D02E1C147DB40028B86B /* DataBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DataBuffer.c; sourceTree = "<group>"; };
+		F359D02F1C147DB50028B86B /* DataBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBuffer.h; sourceTree = "<group>"; };
+		F359D0321C148F700028B86B /* DataBufferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBufferTests.m; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -451,6 +457,8 @@
 		F359D0261C143CD00028B86B /* Data Implementations */ = {
 			isa = PBXGroup;
 			children = (
+				F359D02F1C147DB50028B86B /* DataBuffer.h */,
+				F359D02E1C147DB40028B86B /* DataBuffer.c */,
 			);
 			name = "Data Implementations";
 			sourceTree = "<group>";
@@ -585,6 +593,7 @@
 			children = (
 				F359D02D1C146C5D0028B86B /* DataTests.h */,
 				F359D02B1C146C2E0028B86B /* DataTests.m */,
+				F359D0321C148F700028B86B /* DataBufferTests.m */,
 				F3AE99341A6D508200212838 /* LinkedListTests.m */,
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
 				F3143A9C1A8A683F004EB810 /* CollectionTests.h */,
@@ -718,6 +727,7 @@
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
 				F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */,
 				F359D0251C132B800028B86B /* Buffer.h in Headers */,
+				F359D0311C147DB50028B86B /* DataBuffer.h in Headers */,
 				F359D02A1C1456D60028B86B /* Hash.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
@@ -839,6 +849,7 @@
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F353DD4F17AC8C9000D1674C /* Logging.c in Sources */,
 				F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */,
+				F359D0301C147DB50028B86B /* DataBuffer.c in Sources */,
 				F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
@@ -906,6 +917,7 @@
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,
 				F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */,
 				F353DD9417B6930600D1674C /* BitTricksTests.m in Sources */,
+				F359D0331C148F700028B86B /* DataBufferTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

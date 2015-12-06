@@ -47,6 +47,13 @@ typedef void *(*CCDataConstructorCallback)(CCAllocatorType Allocator, CCDataHint
 typedef void (*CCDataDestructorCallback)(void *Internal);
 
 /*!
+ * @brief A callback to retrieve the hints for the internal data.
+ * @param Internal The pointer to the internal of the data.
+ * @return The hints for the internal data.
+ */
+typedef CCDataHint (*CCDataGetHintCallback)(void *Internal);
+
+/*!
  * @brief A callback to retrieve the size of the internal data.
  * @param Internal The pointer to the internal of the data.
  * @return The size of the internal data.
@@ -176,6 +183,7 @@ typedef size_t (*CCDataFillBufferCallback)(void *Internal, ptrdiff_t Offset, siz
 typedef struct {
     CCDataConstructorCallback create;
     CCDataDestructorCallback destroy;
+    CCDataGetHintCallback hints;
     CCDataGetSizeCallback size;
     CCDataMapBufferCallback map;
     CCDataUnmapBufferCallback unmap;

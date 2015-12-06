@@ -76,5 +76,6 @@
 #include <CommonC/Buffer.h>
 #include <CommonC/Data.h>
 #include <CommonC/Hash.h>
+#include <CommonC/DataBuffer.h>
 
 #endif

@@ -70,10 +70,17 @@ static void TestUnmapBufferCallback(void *Internal, CCBufferMap Map)
     CCFree(Map.ptr);
 }
 
+static CCDataHint TestGetHint(void *Internal)
+{
+    return CCDataHintReadWrite;
+}
+
+
 
 static CCDataInterface TestDataInternal = {
     .create = (CCDataConstructorCallback)TestConstructorCallback,
     .destroy = TestDestructorCallback,
+    .hints = TestGetHint,
     .size = TestGetSizeCallback,
     .map = TestMapBufferCallback,
     .unmap = TestUnmapBufferCallback
@@ -88,6 +95,7 @@ static size_t TestGetPreferredMapSizeCallback(void *Internal)
 static CCDataInterface TestDataInternalSmallBlock = {
     .create = (CCDataConstructorCallback)TestConstructorCallback,
     .destroy = TestDestructorCallback,
+    .hints = TestGetHint,
     .size = TestGetSizeCallback,
     .map = TestMapBufferCallback,
     .unmap = TestUnmapBufferCallback,

@@ -79,6 +79,13 @@ CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *Data, CCDa
 void CCDataDestroy(CCData Data);
 
 /*!
+ * @brief Get the hints for the data container.
+ * @param Data The data container to retrieve the hints for.
+ * @return The hints.
+ */
+CCDataHint CCDataGetHints(CCData Data);
+
+/*!
  * @brief Get the preferred mapping size of the data container.
  * @param Data The data container to retrieve the size for.
  * @return The preferred map size of the data.

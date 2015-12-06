@@ -36,9 +36,7 @@ typedef enum {
     CCDataHintResize = (1 << 0),
     CCDataHintRead = (1 << 1),
     CCDataHintWrite = (1 << 2),
-    CCDataHintReadWrite = CCDataHintRead | CCDataHintWrite,
-    CCDataBufferHintFree = (1 << 8),
-    CCDataBufferHintCopy = (1 << 9) | CCDataBufferHintFree
+    CCDataHintReadWrite = CCDataHintRead | CCDataHintWrite
 } CCDataHint;
 
 /*!

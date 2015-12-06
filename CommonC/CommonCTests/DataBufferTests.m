@@ -23,15 +23,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "DataTests.h"
+#import "DataBuffer.h"
 
-#import <Cocoa/Cocoa.h>
-#import <XCTest/XCTest.h>
-#import "DataInterface.h"
+@interface DataBufferTests : DataTests
 
-@interface DataTests : XCTestCase
+@end
 
-@property const CCDataInterface *interface;
+@implementation DataBufferTests
 
--(CCData) createDataOfSize: (size_t)size WithHint: (CCDataHint)hint;
+-(const CCDataInterface*) interface
+{
+    return CCDataBuffer;
+}
+
+-(CCData) createDataOfSize: (size_t)size WithHint: (CCDataHint)hint
+{
+    return CCDataBufferCreate(CC_STD_ALLOCATOR, hint | CCDataBufferHintFree, size, NULL, NULL, NULL);
+}
 
 @end
