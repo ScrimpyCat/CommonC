@@ -58,6 +58,11 @@
 		F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F71C0A90D700FC10F1 /* SystemPath.m */; settings = {ASSET_TAGS = (); }; };
 		F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F91C0AA6C400FC10F1 /* FileHandle.c */; settings = {ASSET_TAGS = (); }; };
 		F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = F358D5FA1C0AA6C400FC10F1 /* FileHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D01E1C12B13E0028B86B /* Data.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D01A1C12B13E0028B86B /* Data.c */; settings = {ASSET_TAGS = (); }; };
+		F359D01F1C12B13E0028B86B /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01B1C12B13E0028B86B /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D0201C12B13E0028B86B /* DataInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01C1C12B13E0028B86B /* DataInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D0211C12B13E0028B86B /* DataTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01D1C12B13E0028B86B /* DataTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D0251C132B800028B86B /* Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0231C132B800028B86B /* Buffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F362026B17AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
@@ -179,6 +184,11 @@
 		F358D5F71C0A90D700FC10F1 /* SystemPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemPath.m; sourceTree = "<group>"; };
 		F358D5F91C0AA6C400FC10F1 /* FileHandle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileHandle.c; sourceTree = "<group>"; };
 		F358D5FA1C0AA6C400FC10F1 /* FileHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHandle.h; sourceTree = "<group>"; };
+		F359D01A1C12B13E0028B86B /* Data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Data.c; sourceTree = "<group>"; };
+		F359D01B1C12B13E0028B86B /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		F359D01C1C12B13E0028B86B /* DataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataInterface.h; sourceTree = "<group>"; };
+		F359D01D1C12B13E0028B86B /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
+		F359D0231C132B800028B86B /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -397,6 +407,39 @@
 			name = Maths;
 			sourceTree = "<group>";
 		};
+		F359D0181C12B11D0028B86B /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				F3AE99301A6D0FFF00212838 /* LinkedList.h */,
+				F3AE99311A6D0FFF00212838 /* LinkedList.c */,
+				F3AE99761A7419D200212838 /* Array.h */,
+				F3AE99751A7419D200212838 /* Array.c */,
+				F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */,
+				F37AFA9E1A78D1A80037ECB2 /* Comparator.h */,
+				F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */,
+				F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */,
+				F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */,
+				F3AE99BB1A7511D500212838 /* Collection.h */,
+				F3AE99BA1A7511D500212838 /* Collection.c */,
+				F3143AA21A8A8D1D004EB810 /* OrderedCollection.h */,
+				F3143AA31A8A8FE8004EB810 /* OrderedCollection.c */,
+				F3D85E5D1A84C07000C4A362 /* Collections */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
+		F359D0191C12B12C0028B86B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F359D0231C132B800028B86B /* Buffer.h */,
+				F359D01B1C12B13E0028B86B /* Data.h */,
+				F359D01A1C12B13E0028B86B /* Data.c */,
+				F359D01C1C12B13E0028B86B /* DataInterface.h */,
+				F359D01D1C12B13E0028B86B /* DataTypes.h */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		F362025D17AC3FFD00153E85 = {
 			isa = PBXGroup;
 			children = (
@@ -514,20 +557,8 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				F3AE99301A6D0FFF00212838 /* LinkedList.h */,
-				F3AE99311A6D0FFF00212838 /* LinkedList.c */,
-				F3AE99761A7419D200212838 /* Array.h */,
-				F3AE99751A7419D200212838 /* Array.c */,
-				F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */,
-				F37AFA9E1A78D1A80037ECB2 /* Comparator.h */,
-				F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */,
-				F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */,
-				F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */,
-				F3AE99BB1A7511D500212838 /* Collection.h */,
-				F3AE99BA1A7511D500212838 /* Collection.c */,
-				F3143AA21A8A8D1D004EB810 /* OrderedCollection.h */,
-				F3143AA31A8A8FE8004EB810 /* OrderedCollection.c */,
-				F3D85E5D1A84C07000C4A362 /* Collections */,
+				F359D0191C12B12C0028B86B /* Data */,
+				F359D0181C12B11D0028B86B /* Collection */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -661,9 +692,13 @@
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
 				F322F05D1C09550100BAA44E /* PathComponent.h in Headers */,
+				F359D01F1C12B13E0028B86B /* Data.h in Headers */,
 				F3143AA61A8A9022004EB810 /* CollectionArray.h in Headers */,
+				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
+				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
 				F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */,
+				F359D0251C132B800028B86B /* Buffer.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
@@ -788,6 +823,7 @@
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
+				F359D01E1C12B13E0028B86B /* Data.c in Sources */,
 				F322F05C1C09550100BAA44E /* PathComponent.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
 				F3143A9F1A8A7D03004EB810 /* CollectionList.c in Sources */,

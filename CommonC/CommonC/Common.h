@@ -73,4 +73,7 @@
 #include <CommonC/FileSystem.h>
 #include <CommonC/FileHandle.h>
 
+#include <CommonC/Buffer.h>
+#include <CommonC/Data.h>
+
 #endif

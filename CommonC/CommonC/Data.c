@@ -1,0 +1,222 @@
+/*
+ *  Copyright (c) 2015, Stefan Johnson
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without modification,
+ *  are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice, this list
+ *     of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright notice, this
+ *     list of conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "Data.h"
+#include "MemoryAllocation.h"
+#include "Logging.h"
+#include "Assertion.h"
+
+CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, CCDataBufferHash Hash, CCDataBufferDestructor Destructor, const CCDataInterface *Interface)
+{
+    CCAssertLog(Interface, "Interface must not be null");
+    
+    CCData Data = CCMalloc(Allocator, sizeof(CCDataInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    if (Data)
+    {
+        *Data = (CCDataInfo){
+            .interface = Interface,
+            .allocator = Allocator,
+            .destructor = Destructor,
+            .hasher = Hash,
+            .hash = 0,
+            .internal = Interface->create(Allocator, Hint, InitData),
+            .mutated = TRUE
+        };
+        
+        if (!Data->internal)
+        {
+            CC_LOG_ERROR("Failed to create collection: Implementation failure (%p)", Interface);
+            CCFree(Data);
+            Data = NULL;
+        }
+    }
+    
+    else
+    {
+        CC_LOG_ERROR("Failed to create collection: Failed to allocate memory of size (%zu)", sizeof(CCDataInfo));
+    }
+    
+    return Data;
+}
+
+
+void CCDataDestroy(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (Data->destructor) Data->destructor(Data);
+    Data->interface->destroy(Data->internal);
+    CC_SAFE_Free(Data);
+}
+
+size_t CCDataGetPreferredMapSize(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    return Data->interface->optional.preferredMapSize ? Data->interface->optional.preferredMapSize(Data->internal) : SIZE_MAX;
+}
+
+size_t CCDataGetSize(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    return Data->interface->size(Data->internal);
+}
+
+_Bool CCDataSetSize(CCData Data, size_t Size)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    return Data->interface->optional.resize ? Data->interface->optional.resize(Data->internal, Size) : FALSE;
+}
+
+uint32_t CCDataGetHash(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (Data->mutated)
+    {
+        //if custom hash
+        /*else*/ if (Data->interface->optional.hash) Data->hash = Data->interface->optional.hash(Data->internal);
+        //else murmur hash
+    }
+    
+    return Data->hash;
+}
+
+void CCDataSync(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (Data->interface->optional.sync) Data->interface->optional.sync(Data->internal);
+    Data->mutated = TRUE;
+}
+
+void CCDataInvalidate(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (Data->interface->optional.invalidate) Data->interface->optional.invalidate(Data->internal);
+    Data->mutated = TRUE;
+}
+
+void *CCDataGetBuffer(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    return Data->interface->optional.buffer ? Data->interface->optional.buffer(Data->internal) : NULL;
+}
+
+void CCDataModifiedRange(CCData Data, ptrdiff_t Offset, size_t Size)
+{
+    CCAssertLog(Data, "Data must not be null");
+    CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    
+    if (Data->interface->optional.modifiedBuffer) Data->interface->optional.modifiedBuffer(Data->internal, Offset, Size);
+    Data->mutated = TRUE;
+}
+
+CCBufferMap CCDataMapBuffer(CCData Data, ptrdiff_t Offset, size_t Size, CCDataHint Access)
+{
+    CCAssertLog(Data, "Data must not be null");
+    CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    
+    return Data->interface->map(Data->internal, Offset, Size, Access);
+}
+
+void CCDataUnmapBuffer(CCData Data, CCBufferMap MappedBuffer)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    Data->interface->unmap(Data->internal, MappedBuffer);
+    Data->mutated = TRUE;
+}
+
+size_t CCDataReadBuffer(CCData Data, ptrdiff_t Offset, size_t Size, void *Buffer)
+{
+    CCAssertLog(Data, "Data must not be null");
+    CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    
+    size_t Read = 0;
+    if (Data->interface->optional.read) Read = Data->interface->optional.read(Data->internal, Offset, Size, Buffer);
+    else
+    {
+        //otherwise uses maps
+    }
+    
+    return Read;
+}
+
+size_t CCDataWriteBuffer(CCData Data, ptrdiff_t Offset, size_t Size, const void *Buffer)
+{
+    CCAssertLog(Data, "Data must not be null");
+    CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    
+    size_t Written = 0;
+    if (Data->interface->optional.write) Written = Data->interface->optional.write(Data->internal, Offset, Size, Buffer);
+    else
+    {
+        //otherwise uses maps
+    }
+    
+    Data->mutated = TRUE;
+    
+    return Written;
+}
+
+size_t CCDataCopyBuffer(CCData SrcData, ptrdiff_t SrcOffset, size_t Size, CCData DstData, ptrdiff_t DstOffset)
+{
+    CCAssertLog(SrcData && DstData, "Source and destination data must not be null");
+    CCAssertLog((SrcOffset + Size) <= CCDataGetSize(SrcData), "Must not exceed source bounds");
+    CCAssertLog((DstOffset + Size) <= CCDataGetSize(DstData), "Must not exceed destination bounds");
+    
+    size_t Copied = 0;
+    if ((SrcData->interface == DstData->interface) && (SrcData->interface->optional.copy)) Copied = SrcData->interface->optional.copy(SrcData->internal, SrcOffset, Size, DstData->internal, DstOffset);
+    else
+    {
+        //otherwise uses maps
+    }
+    
+    DstData->mutated = TRUE;
+    
+    return Copied;
+}
+
+size_t CCDataFillBuffer(CCData Data, ptrdiff_t Offset, size_t Size, uint8_t Fill)
+{
+    CCAssertLog(Data, "Data must not be null");
+    CCAssertLog((Offset + Size) <= CCDataGetSize(Data), "Must not exceed bounds");
+    
+    size_t Filled = 0;
+    if (Data->interface->optional.fill) Filled = Data->interface->optional.fill(Data->internal, Offset, Size, Fill);
+    else
+    {
+        //otherwise uses maps
+    }
+    
+    Data->mutated = TRUE;
+    
+    return Filled;
+}
