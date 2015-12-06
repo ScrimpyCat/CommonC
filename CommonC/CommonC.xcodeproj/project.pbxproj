@@ -63,6 +63,8 @@
 		F359D0201C12B13E0028B86B /* DataInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01C1C12B13E0028B86B /* DataInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F359D0211C12B13E0028B86B /* DataTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01D1C12B13E0028B86B /* DataTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F359D0251C132B800028B86B /* Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0231C132B800028B86B /* Buffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F359D0291C1456D60028B86B /* Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D0271C1456D60028B86B /* Hash.c */; settings = {ASSET_TAGS = (); }; };
+		F359D02A1C1456D60028B86B /* Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0281C1456D60028B86B /* Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F362026B17AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
@@ -189,6 +191,8 @@
 		F359D01C1C12B13E0028B86B /* DataInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataInterface.h; sourceTree = "<group>"; };
 		F359D01D1C12B13E0028B86B /* DataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTypes.h; sourceTree = "<group>"; };
 		F359D0231C132B800028B86B /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
+		F359D0271C1456D60028B86B /* Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash.c; sourceTree = "<group>"; };
+		F359D0281C1456D60028B86B /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -436,8 +440,16 @@
 				F359D01A1C12B13E0028B86B /* Data.c */,
 				F359D01C1C12B13E0028B86B /* DataInterface.h */,
 				F359D01D1C12B13E0028B86B /* DataTypes.h */,
+				F359D0261C143CD00028B86B /* Data Implementations */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		F359D0261C143CD00028B86B /* Data Implementations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Data Implementations";
 			sourceTree = "<group>";
 		};
 		F362025D17AC3FFD00153E85 = {
@@ -557,6 +569,8 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F359D0281C1456D60028B86B /* Hash.h */,
+				F359D0271C1456D60028B86B /* Hash.c */,
 				F359D0191C12B12C0028B86B /* Data */,
 				F359D0181C12B11D0028B86B /* Collection */,
 			);
@@ -699,6 +713,7 @@
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
 				F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */,
 				F359D0251C132B800028B86B /* Buffer.h in Headers */,
+				F359D02A1C1456D60028B86B /* Hash.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
@@ -823,6 +838,7 @@
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
+				F359D0291C1456D60028B86B /* Hash.c in Sources */,
 				F359D01E1C12B13E0028B86B /* Data.c in Sources */,
 				F322F05C1C09550100BAA44E /* PathComponent.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,

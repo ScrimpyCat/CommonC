@@ -27,6 +27,7 @@
 #include "MemoryAllocation.h"
 #include "Logging.h"
 #include "Assertion.h"
+#include "Hash.h"
 
 CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, CCDataBufferHash Hash, CCDataBufferDestructor Destructor, const CCDataInterface *Interface)
 {
@@ -98,9 +99,11 @@ uint32_t CCDataGetHash(CCData Data)
     
     if (Data->mutated)
     {
-        //if custom hash
-        /*else*/ if (Data->interface->optional.hash) Data->hash = Data->interface->optional.hash(Data->internal);
-        //else murmur hash
+        if (Data->hasher) Data->hash = Data->hasher(Data);
+        else if (Data->interface->optional.hash) Data->hash = Data->interface->optional.hash(Data->internal);
+        else Data->hash = CCHashMurmur32(Data);
+        
+        Data->mutated = FALSE;
     }
     
     return Data->hash;
@@ -163,7 +166,22 @@ size_t CCDataReadBuffer(CCData Data, ptrdiff_t Offset, size_t Size, void *Buffer
     if (Data->interface->optional.read) Read = Data->interface->optional.read(Data->internal, Offset, Size, Buffer);
     else
     {
-        //otherwise uses maps
+        const size_t PreferredMapSize = CCDataGetPreferredMapSize(Data);
+        for (size_t Loop = 0, Count = Size / PreferredMapSize; Loop < Count; Loop++)
+        {
+            CCBufferMap Map = CCDataMapBuffer(Data, Offset + (Loop * PreferredMapSize), PreferredMapSize, CCDataHintRead);
+            memcpy(Buffer + (Loop * PreferredMapSize), Map.ptr, Map.size);
+            CCDataUnmapBuffer(Data, Map);
+            
+            Read += Map.size;
+            if (Map.size != PreferredMapSize) return Read;
+        }
+        
+        CCBufferMap Map = CCDataMapBuffer(Data, Offset + Read, Size - Read, CCDataHintRead);
+        memcpy(Buffer + Read, Map.ptr, Map.size);
+        CCDataUnmapBuffer(Data, Map);
+        
+        Read += Map.size;
     }
     
     return Read;
@@ -178,7 +196,22 @@ size_t CCDataWriteBuffer(CCData Data, ptrdiff_t Offset, size_t Size, const void 
     if (Data->interface->optional.write) Written = Data->interface->optional.write(Data->internal, Offset, Size, Buffer);
     else
     {
-        //otherwise uses maps
+        const size_t PreferredMapSize = CCDataGetPreferredMapSize(Data);
+        for (size_t Loop = 0, Count = Size / PreferredMapSize; Loop < Count; Loop++)
+        {
+            CCBufferMap Map = CCDataMapBuffer(Data, Offset + (Loop * PreferredMapSize), PreferredMapSize, CCDataHintWrite);
+            memcpy(Map.ptr, Buffer + (Loop * PreferredMapSize), Map.size);
+            CCDataUnmapBuffer(Data, Map);
+            
+            Written += Map.size;
+            if (Map.size != PreferredMapSize) return Written;
+        }
+        
+        CCBufferMap Map = CCDataMapBuffer(Data, Offset + Written, Size - Written, CCDataHintWrite);
+        memcpy(Map.ptr, Buffer + Written, Map.size);
+        CCDataUnmapBuffer(Data, Map);
+        
+        Written += Map.size;
     }
     
     Data->mutated = TRUE;
@@ -196,7 +229,26 @@ size_t CCDataCopyBuffer(CCData SrcData, ptrdiff_t SrcOffset, size_t Size, CCData
     if ((SrcData->interface == DstData->interface) && (SrcData->interface->optional.copy)) Copied = SrcData->interface->optional.copy(SrcData->internal, SrcOffset, Size, DstData->internal, DstOffset);
     else
     {
-        //otherwise uses maps
+        const size_t PreferredMapSize = CCDataGetPreferredMapSize(SrcData);
+        for (size_t Loop = 0, Count = Size / PreferredMapSize; Loop < Count; Loop++)
+        {
+            CCBufferMap SrcMap = CCDataMapBuffer(SrcData, SrcOffset + (Loop * PreferredMapSize), PreferredMapSize, CCDataHintRead);
+            CCBufferMap DstMap = CCDataMapBuffer(DstData, DstOffset + (Loop * PreferredMapSize), SrcMap.size, CCDataHintWrite);
+            memcpy(DstMap.ptr, SrcMap.ptr, DstMap.size);
+            CCDataUnmapBuffer(DstData, DstMap);
+            CCDataUnmapBuffer(SrcData, SrcMap);
+            
+            Copied += DstMap.size;
+            if (DstMap.size != PreferredMapSize) return Copied;
+        }
+        
+        CCBufferMap SrcMap = CCDataMapBuffer(SrcData, SrcOffset + Copied, Size - Copied, CCDataHintRead);
+        CCBufferMap DstMap = CCDataMapBuffer(DstData, DstOffset + Copied, SrcMap.size, CCDataHintWrite);
+        memcpy(DstMap.ptr, SrcMap.ptr, DstMap.size);
+        CCDataUnmapBuffer(DstData, DstMap);
+        CCDataUnmapBuffer(SrcData, SrcMap);
+        
+        Copied += DstMap.size;
     }
     
     DstData->mutated = TRUE;
@@ -213,7 +265,22 @@ size_t CCDataFillBuffer(CCData Data, ptrdiff_t Offset, size_t Size, uint8_t Fill
     if (Data->interface->optional.fill) Filled = Data->interface->optional.fill(Data->internal, Offset, Size, Fill);
     else
     {
-        //otherwise uses maps
+        const size_t PreferredMapSize = CCDataGetPreferredMapSize(Data);
+        for (size_t Loop = 0, Count = Size / PreferredMapSize; Loop < Count; Loop++)
+        {
+            CCBufferMap Map = CCDataMapBuffer(Data, Offset + (Loop * PreferredMapSize), PreferredMapSize, CCDataHintWrite);
+            memset(Map.ptr, Fill, Map.size);
+            CCDataUnmapBuffer(Data, Map);
+            
+            Filled += Map.size;
+            if (Map.size != PreferredMapSize) return Filled;
+        }
+        
+        CCBufferMap Map = CCDataMapBuffer(Data, Offset + Filled, Size - Filled, CCDataHintWrite);
+        memset(Map.ptr, Fill, Map.size);
+        CCDataUnmapBuffer(Data, Map);
+        
+        Filled += Map.size;
     }
     
     Data->mutated = TRUE;

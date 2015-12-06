@@ -43,7 +43,7 @@ typedef void (*CCDataBufferDestructor)(CCData Data);
  * @brief A callback to handle custom hashing of a data buffer.
  * @param Data The data container.
  */
-typedef void (*CCDataBufferHash)(CCData Data);
+typedef uint32_t (*CCDataBufferHash)(CCData Data);
 
 
 typedef struct CCDataInfo {
