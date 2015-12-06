@@ -86,7 +86,9 @@ uint32_t CCHashMurmur32(CCData Data)
     uint32_t Hash = Seed;
     
     size_t Read = 0;
-    const size_t PreferredMapSize = (CCDataGetPreferredMapSize(Data) / sizeof(uint32_t)) * sizeof(uint32_t), Size = CCDataGetSize(Data);
+    size_t PreferredMapSize = (CCDataGetPreferredMapSize(Data) / sizeof(uint32_t)) * sizeof(uint32_t), Size = CCDataGetSize(Data);
+    if (!PreferredMapSize) PreferredMapSize = 4;
+    
     for (size_t Loop = 0, Count = ((Size / sizeof(uint32_t)) * sizeof(uint32_t)) / PreferredMapSize; Loop < Count; Loop++)
     {
         CCBufferMap Map = CCDataMapBuffer(Data, Loop * PreferredMapSize, PreferredMapSize, CCDataHintRead);
@@ -124,8 +126,6 @@ uint32_t CCHashMurmur32(CCData Data)
                     Hash ^= k;
                     break;
             }
-            
-            goto Finalizer;
         }
         
         CCDataUnmapBuffer(Data, Map);
@@ -172,6 +172,7 @@ uint32_t CCHashMurmur32(CCData Data)
     }
     
     CCDataUnmapBuffer(Data, Map);
+    Read += Map.size;
     
 Finalizer:
     Hash ^= Read;
