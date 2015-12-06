@@ -30,14 +30,16 @@
  * @typedef CCDataHint
  * @brief Hints for the indended usage of the data container.
  */
-typedef enum {
+enum {
     ///Mask for hints for a data container.
     CCDataHintMask = 0xff,
     CCDataHintResize = (1 << 0),
     CCDataHintRead = (1 << 1),
     CCDataHintWrite = (1 << 2),
     CCDataHintReadWrite = CCDataHintRead | CCDataHintWrite
-} CCDataHint;
+};
+
+typedef int CCDataHint;
 
 /*!
  * @brief The data.

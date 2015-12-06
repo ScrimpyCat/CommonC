@@ -32,12 +32,14 @@
  * @typedef CCDataBufferHint
  * @brief Hints specific to CCDataBuffer.
  */
-typedef enum {
+enum {
     ///Mask for hints for a data container.
     CCDataBufferHintMask = 0xff00,
     CCDataBufferHintFree = (1 << 8),
     CCDataBufferHintCopy = (1 << 9) | CCDataBufferHintFree
-} CCDataBufferHint;
+};
+
+typedef CCDataHint CCDataBufferHint;
 
 typedef struct {
     const void *buffer;
