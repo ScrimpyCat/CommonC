@@ -114,6 +114,12 @@ typedef void (*CCDataSyncCallback)(void *Internal);
 typedef void (*CCDataInvalidateCallback)(void *Internal);
 
 /*!
+ * @brief An optional callback to purge the internal data cache.
+ * @param Internal The pointer to the internal of the data.
+ */
+typedef void (*CCDataPurgeCallback)(void *Internal);
+
+/*!
  * @brief An optional callback to retrieve the pointer to the internal buffer.
  * @param Internal The pointer to the internal of the data.
  * @return The internal buffer.
@@ -193,6 +199,7 @@ typedef struct {
         CCDataGetHashCallback hash;
         CCDataSyncCallback sync;
         CCDataInvalidateCallback invalidate;
+        CCDataPurgeCallback purge;
         CCDataGetBufferCallback buffer;
         CCDataModifiedRangeCallback modifiedBuffer;
         CCDataReadBufferCallback read;

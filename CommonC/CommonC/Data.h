@@ -130,6 +130,12 @@ void CCDataSync(CCData Data);
 void CCDataInvalidate(CCData Data);
 
 /*!
+ * @brief Purge the cached memory.
+ * @param Data The data container to be purged.
+ */
+void CCDataPurge(CCData Data);
+
+/*!
  * @brief Get the internal buffer for the data if available.
  * @description All writes to the buffer need to be marked using @b CCDataModifiedRange.
  * @warning If the data container was created as readonly, then writing to the buffer is undefined.

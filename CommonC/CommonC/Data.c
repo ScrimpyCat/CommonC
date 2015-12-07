@@ -130,6 +130,13 @@ void CCDataInvalidate(CCData Data)
     Data->mutated = TRUE;
 }
 
+void CCDataPurge(CCData Data)
+{
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (Data->interface->optional.purge) Data->interface->optional.purge(Data->internal);
+}
+
 void *CCDataGetBuffer(CCData Data)
 {
     CCAssertLog(Data, "Data must not be null");
