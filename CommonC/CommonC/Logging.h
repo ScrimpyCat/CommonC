@@ -214,9 +214,11 @@ void CCLogAddFilterBlock(CCLogFilterType Type, CCLogFilterBlock Filter);
 
 #define CCLogAddFilter(type, filter) CC_GENERIC_EVALUATE(filter, \
 CCLogFilter: CCLogAddFilter, \
+CCLogInputFilter: CCLogAddFilter, \
 CCLogSpecifierFilter: CCLogAddFilter, \
 CCLogMessageFilter: CCLogAddFilter, \
 CC_SUPPORT_BLOCKS(CCLogFilterBlock: CCLogAddFilterBlock,) \
+CC_SUPPORT_BLOCKS(CCLogInputFilterBlock: CCLogAddFilterBlock,) \
 CC_SUPPORT_BLOCKS(CCLogSpecifierFilterBlock: CCLogAddFilterBlock,) \
 CC_SUPPORT_BLOCKS(CCLogMessageFilterBlock: CCLogAddFilterBlock,) \
 void *: CCLogAddFilter)(type, (void*)filter)
