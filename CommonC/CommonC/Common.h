@@ -78,4 +78,7 @@
 #include <CommonC/Hash.h>
 #include <CommonC/DataBuffer.h>
 
+#include <CommonC/CCString.h>
+#include <CommonC/CCStringEnumerator.h>
+
 #endif
