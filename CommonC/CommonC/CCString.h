@@ -49,12 +49,35 @@
 #error Unknown endianness
 #endif
 
-
+/*!
+ * @define CC_STRING
+ * @abstract Special macro to create a temporary constant (allocation free) UTF-8 string.
+ * @discussion If used globally the string will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param string The string literal to create the string from.
+ */
 #define CC_STRING(string) CC_STRING_ENCODING(CCStringEncodingUTF8, string)
+
+/*!
+ * @define CC_STRING_ENCODING
+ * @abstract Special macro to create a temporary constant (allocation free) string.
+ * @discussion If used globally the string will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param encoding The encoding of the string.
+ * @param string The string literal to create the string from.
+ */
 #define CC_STRING_ENCODING(encoding, string) (CCString)((char[]){ CC_STRING_HEADER_##encoding string })
 
+/*!
+ * @brief The string.
+ */
 typedef uintptr_t CCString;
 
+/*!
+ * @brief The UTF-32 character.
+ */
 typedef uint32_t CCChar;
 
 typedef enum {
@@ -63,8 +86,11 @@ typedef enum {
 } CCStringEncoding;
 
 typedef enum {
+    ///A 127 character set, first byte in the set should generally be 0.
     CCStringMapSet127 = 1,
+    ///A 63 character set, first byte in the set should generally be 0.
     CCStringMapSet63,
+    ///A 31 character set, first byte in the set should generally be 0.
     CCStringMapSet31
 } CCStringMapSet;
 
@@ -89,20 +115,113 @@ typedef enum {
 
 typedef CCChar CCStringMap;
 
+/*!
+ * @brief Set the character map to be used for the specified map set.
+ * @param Encoding The encoding of the map.
+ * @param Map The map.
+ * @param Set The map set it is to be used for.
+ */
 void CCStringRegisterMap(CCStringEncoding Encoding, const CCStringMap *Map, CCStringMapSet Set);
+
+/*!
+ * @brief Get the character map for the specified map set.
+ * @param Set The map set to get the map of.
+ * @param Encoding The encoding of the map.
+ * @return The map.
+ */
 const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding);
+
+/*!
+ * @brief Create a string.
+ * @param Allocator The allocator to be used for the allocations.
+ * @param Hint The hints for the intended usage and format of the string.
+ * @param String The null terminated string to be make a CCString representation from.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
 CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String);
+
+/*!
+ * @brief Copy a string.
+ * @param String The string to be copied.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
 CCString CCStringCopy(CCString String);
+
+/*!
+ * @brief Destroy the string.
+ * @param String The string to be destroyed.
+ */
 void CCStringDestroy(CCString String);
+
+/*!
+ * @brief Get the internal character buffer of a string.
+ * @param String The string to get the buffer of.
+ * @return The character buffer, or NULL if it cannot retrieve one (instead will have to use
+ *         @b CCStringCopyCharacters).
+ */
 const char *CCStringGetBuffer(CCString String);
+
+/*!
+ * @brief Copy the characters from a string into the specified character buffer.
+ * @param String The string to get the characters of.
+ * @param Offset The index of the character to start copying from.
+ * @param Size The amount of characters to be copied.
+ * @return The next character in the buffer.
+ */
 char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *Buffer);
+
+/*!
+ * @brief Get the encoding of a string.
+ * @param String The string to get the encoding of.
+ * @return The encoding.
+ */
 CCStringEncoding CCStringGetEncoding(CCString String);
+
+/*!
+ * @brief Get the storage size of a string.
+ * @param String The string to get the storage size of.
+ * @return The size, excludes the null byte.
+ */
 size_t CCStringGetSize(CCString String);
+
+/*!
+ * @brief Get the character length for a string.
+ * @param String The string to get the length of.
+ * @return The length, excludes null byte.
+ */
 size_t CCStringGetLength(CCString String);
+
+/*!
+ * @brief Get the hash for a string.
+ * @param String The string to get the hash of.
+ * @return The hash.
+ */
 uint32_t CCStringGetHash(CCString String);
+
+/*!
+ * @brief Get the character in the string.
+ * @param String The string to get the character from.
+ * @param Index The index of the character;
+ * @return The character.
+ */
 CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index);
+
+/*!
+ * @brief Compare if two strings are equal.
+ * @param String1 The string to compare.
+ * @param String2 The string to compare.
+ * @return TRUE if the strings are the same, otherwise FALSE.
+ */
 _Bool CCStringEqual(CCString String1, CCString String2);
+
+/*!
+ * @brief Get the enumerator for a string.
+ * @param String The string to get the enumerator for.
+ * @param Enumerator The enumerator to be initialized.
+ */
 void CCStringGetEnumerator(CCString String, CCEnumerator *Enumerator);
+
+///For private use, use CCStringEnumerator* functions instead. Found in @b CCStringEnumerator.h
 CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStringEnumeratorAction Action);
 
 #endif

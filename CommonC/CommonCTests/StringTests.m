@@ -231,6 +231,13 @@
     XCTAssertEqual(CCStringEnumeratorNext(&Enumerator), 0, @"Should get the correct character");
     XCTAssertEqual(CCStringEnumeratorGetIndex(&Enumerator), SIZE_MAX, @"Should get the correct index");
     
+    size_t Index = 0;
+    CC_STRING_FOREACH(c, String)
+    {
+        XCTAssertEqual(c, [self charAtIndex: Index], @"Should get the correct character");
+        Index++;
+    }
+    
     CCStringDestroy(String);
 }
 

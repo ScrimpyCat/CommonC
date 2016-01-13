@@ -30,6 +30,83 @@
 #include <CommonC/CCString.h>
 #include <CommonC/Extensions.h>
 
+
+/*!
+ * @define CC_STRING_CURRENT_ENUMERATOR
+ * @abstract Convenient macro to reference the enumerator of the current CC_STRING_FOREACH block.
+ */
+#define CC_STRING_CURRENT_ENUMERATOR CC_PRIV_string_enumerator___
+
+/*!
+ * @define CC_STRING_FOREACH
+ * @abstract Convenient macro to iterate through each character in a string.
+ * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
+ *             single line statement.
+ *
+ * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
+ *          CC_STRING_CURRENT_ENUMERATOR, or enclosed it in a braces.
+ *
+ * @param character The name for the character variable. Will be declared as type @b CCChar.
+ * @param string The string to iterate through.
+ */
+#define CC_STRING_FOREACH(character, string) \
+CCEnumerator CC_STRING_CURRENT_ENUMERATOR; \
+CCStringGetEnumerator(string, &CC_STRING_CURRENT_ENUMERATOR); \
+\
+for (CCChar character = CCStringEnumeratorGetCurrent(&CC_STRING_CURRENT_ENUMERATOR); character; character = CCStringEnumeratorNext(&CC_STRING_CURRENT_ENUMERATOR))
+
+
+/*!
+ * @brief Get the current index in the enumerator.
+ * @param Enumerator The enumerator to get the reference to.
+ * @return The index to the current character. Will return SIZE_MAX on invalid position.
+ */
+static CC_FORCE_INLINE size_t CCStringEnumeratorGetIndex(CCEnumerator *Enumerator);
+
+/*!
+ * @brief Get the current character in the enumerator.
+ * @param Enumerator The enumerator to get the character from.
+ * @return The current character.
+ */
+static CC_FORCE_INLINE CCChar CCStringEnumeratorGetCurrent(CCEnumerator *Enumerator);
+
+/*!
+ * @brief Set the enumerator to the head.
+ * @param Enumerator The enumerator to point to the head.
+ * @return The current character.
+ */
+static CC_FORCE_INLINE CCChar CCStringEnumeratorGetHead(CCEnumerator *Enumerator);
+
+/*!
+ * @brief Set the enumerator to the tail.
+ * @param Enumerator The enumerator to point to the tail.
+ * @return The current character.
+ */
+static CC_FORCE_INLINE CCChar CCStringEnumeratorGetTail(CCEnumerator *Enumerator);
+
+/*!
+ * @brief Set the enumerator to the next position.
+ * @description Once the enumerator has reached the end, further usage is undefined. To
+ *              correctly use it again its position must be set again.
+ *
+ * @param Enumerator The enumerator to point to the next character.
+ * @return The current character or 0 if it has reached the end.
+ */
+static CC_FORCE_INLINE CCChar CCStringEnumeratorNext(CCEnumerator *Enumerator);
+
+/*!
+ * @brief Set the enumerator to the previous position.
+ * @description Once the enumerator has reached the end, further usage is undefined. To
+ *              correctly use it again its position must be set again.
+ *
+ * @param Enumerator The enumerator to point to the previous character.
+ * @return The current character or 0 if it has reached the end.
+ */
+static CC_FORCE_INLINE CCChar CCStringEnumeratorPrevious(CCEnumerator *Enumerator);
+
+
+#pragma mark -
+
 static CC_FORCE_INLINE size_t CCStringEnumeratorGetIndex(CCEnumerator *Enumerator)
 {
     switch (Enumerator->state.type)
