@@ -159,5 +159,48 @@
 #endif
 
 
+#if __X86_64__ || __x86_64
+#define CC_HARDWARE_ARCH_X86_64 1
+#define CC_HARDWARE_PTR_64 1
+#elif __i386__ || __i386 || i386
+#define CC_HARDWARE_ARCH_X86 1
+#define CC_HARDWARE_PTR_32 1
+#elif __arm__ || _ARM || __arm
+#define CC_HARDWARE_ARCH_ARM 1
+#define CC_HARDWARE_PTR_32 1
+#elif __aarch64__
+#define CC_HARDWARE_ARCH_ARM_64 1
+#define CC_HARDWARE_PTR_64 1
+#endif
+
+
+#if !defined(CC_HARDWARE_PTR_64) || !defined(CC_HARDWARE_PTR_32)
+#if _LP64
+#define CC_HARDWARE_PTR_64 1
+#elif _ILP32
+#define CC_HARDWARE_PTR_32 1
+#else
+
+#include <stdint.h>
+
+#if UINTPTR_MAX == UINT64_MAX
+#define CC_HARDWARE_PTR_64 1
+#elif UINTPTR_MAX == UINT32_MAX
+#define CC_HARDWARE_PTR_32 1
+#endif
+
+#endif
+#endif
+
+
+#if !defined(CC_HARDWARE_ENDIAN_LITTLE) || !defined(CC_HARDWARE_ENDIAN_BIG)
+#if __BIG_ENDIAN__ || __ARMEB__ || __THUMBEB__ || __AARCH64EB__
+#define CC_HARDWARE_ENDIAN_BIG 1
+#elif __LITTLE_ENDIAN__ || __ARMEL__ || __THUMBEL__ || __AARCH64EL__
+#define CC_HARDWARE_ENDIAN_LITTLE 1
+#endif
+#endif
+
+
 #endif
 
