@@ -32,6 +32,7 @@
 -(CCString) createString;
 -(size_t) size;
 -(CCChar) charAtIndex: (size_t)index;
+-(CCStringEncoding) encoding;
 
 @end
 
@@ -57,7 +58,7 @@
 
 -(CCString) createString
 {
-    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "helLo");
+    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], "helLo");
 }
 
 -(size_t) size
@@ -68,6 +69,25 @@
 -(CCChar) charAtIndex: (size_t)index
 {
     return (CCChar[]){ 'h', 'e', 'l', 'L', 'o' }[index];
+}
+
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingASCII;
+}
+
+-(void) testCopy
+{
+    CCString String = [self createString];
+    char Buf[[self size] + 1];
+    
+    *(char*)CCStringCopyCharacters(String, 0, 5, Buf) = 0;
+//    *(char*)CCStringCopyCharacters(String, 0, 5, Buf) = 0;
+    CCString s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
+    XCTAssertTrue(CCStringEqual(String, s2), @"Should copy the full string");
+    CCStringDestroy(s2);
+    
+    CCStringDestroy(String);
 }
 
 -(void) testSize
@@ -209,7 +229,7 @@
 
 -(CCString) createString
 {
-    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "h😀lLo");
+    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], "h😀lLo");
 }
 
 -(size_t) size
@@ -220,6 +240,11 @@
 -(CCChar) charAtIndex: (size_t)index
 {
     return (CCChar[]){ 'h', L'😀', 'l', 'L', 'o' }[index];
+}
+
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingUTF8;
 }
 
 @end
@@ -246,6 +271,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
     return (CCChar[]){ 'h', L'😀', 'l', 'L', L'😁' }[index];
 }
 
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingUTF8;
+}
+
 @end
 
 
@@ -259,7 +289,7 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 
 -(CCString) createString
 {
-    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "helLo");
+    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], "helLo");
 }
 
 -(size_t) size
@@ -275,6 +305,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 -(CCString) taggedString
 {
     return 0x1be66ccba1;
+}
+
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingASCII;
 }
 
 -(void) testTag
@@ -297,7 +332,7 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 
 -(CCString) createString
 {
-    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "helLo");
+    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], "helLo");
 }
 
 -(size_t) size
@@ -313,6 +348,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 -(CCString) taggedString
 {
     return 0x1be66ccba1;
+}
+
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingUTF8;
 }
 
 @end
@@ -340,7 +380,7 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 
 -(CCString) createString
 {
-    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "h😀lL😁");
+    return CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], "h😀lL😁");
 }
 
 -(size_t) size
@@ -356,6 +396,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 -(CCString) taggedString
 {
     return 0x8a408f;
+}
+
+-(CCStringEncoding) encoding
+{
+    return CCStringEncodingUTF8;
 }
 
 @end

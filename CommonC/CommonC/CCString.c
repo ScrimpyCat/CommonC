@@ -59,6 +59,7 @@ enum {
 static size_t CCStringGetLengthUTF8(const char *String);
 static CCChar CCStringGetCharacterUTF8(const char *String, size_t *Size);
 static size_t CCStringGetPreviousCodepointUTF8(const char *String, size_t Index);
+static size_t CCStringCopyCharacterUTF8(char *String, CCChar c);
 
 static CC_FORCE_INLINE _Bool CCStringIsTagged(CCString String)
 {
@@ -273,6 +274,15 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
     return (CCString)Str;
 }
 
+CCString CCStringCopy(CCString String)
+{
+    CCAssertLog(String, "String must not be null");
+    
+    if (CCStringIsTagged(String)) return String;
+    
+    return CCStringCreate(CC_STD_ALLOCATOR, ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String));
+}
+
 void CCStringDestroy(CCString String)
 {
     CCAssertLog(String, "String must not be null");
@@ -289,6 +299,66 @@ void CCStringDestroy(CCString String)
             CCFree((CCStringInfo*)String);
         }
     }
+}
+
+const char *CCStringGetBuffer(CCString String)
+{
+    CCAssertLog(String, "String must not be null");
+    
+    return CCStringIsTagged(String) ? NULL : CCStringGetCharacters((CCStringInfo*)String);
+}
+
+char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *Buffer)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Buffer, "Buffer must not be null");
+    CCAssertLog(Offset + Size <= CCStringGetLength(String), "Offset and size must not be out of bounds");
+    
+    if (CCStringIsTagged(String))
+    {
+        CCEnumerator Enumerator;
+        CCStringGetEnumerator(String, &Enumerator);
+        
+        for (size_t Loop = 0; Loop < Offset; Loop++) CCStringEnumeratorNext(&Enumerator);
+        
+        size_t Index = 0;
+        for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator))
+        {
+            Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
+        }
+        
+        Size = Index;
+    }
+    
+    else
+    {
+        if ((((CCStringInfo*)String)->hint & CCStringHintEncodingMask) == CCStringEncodingASCII)
+        {
+            strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Size);
+        }
+        
+        else if ((((CCStringInfo*)String)->hint & CCStringHintEncodingMask) == CCStringEncodingUTF8)
+        {
+            CCEnumerator Enumerator;
+            CCStringGetEnumerator(String, &Enumerator);
+            
+            for (size_t Loop = 0; Loop < Offset; Loop++) CCStringEnumeratorNext(&Enumerator);
+            
+            if (CCStringGetSize(String) - Offset == Size) strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Size);
+            else
+            {
+                size_t Index = 0;
+                for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator))
+                {
+                    Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
+                }
+                
+                Size = Index;
+            }
+        }
+    }
+    
+    return Buffer + Size;
 }
 
 CCStringEncoding CCStringGetEncoding(CCString String)
@@ -718,4 +788,28 @@ static size_t CCStringGetPreviousCodepointUTF8(const char *String, size_t Index)
     while ((Index) && ((String[Index] & 0xC0) == 0x80)) Index--;
     
     return Index;
+}
+
+static const char CCStringFirstByteMarkUTF8[7] = { 0x00, 0x00, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
+
+static size_t CCStringCopyCharacterUTF8(char *String, CCChar c)
+{
+    size_t Size = CCCharSize(c);
+    
+    switch (Size)
+    {
+        case 4:
+            String[3] = (c | 0x80) & 0xbf;
+            c >>= 6;
+        case 3:
+            String[2] = (c | 0x80) & 0xbf;
+            c >>= 6;
+        case 2:
+            String[1] = (c | 0x80) & 0xbf;
+            c >>= 6;
+        case 1:
+            String[0] = (c | CCStringFirstByteMarkUTF8[Size]);
+    }
+    
+    return Size;
 }
