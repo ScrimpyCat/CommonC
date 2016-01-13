@@ -33,6 +33,7 @@
 -(size_t) size;
 -(CCChar) charAtIndex: (size_t)index;
 -(CCStringEncoding) encoding;
+-(uint32_t) getHash;
 
 @end
 
@@ -76,13 +77,27 @@
     return CCStringEncodingASCII;
 }
 
+-(uint32_t) getHash
+{
+    return 0x78bd1aec;
+}
+
+-(void) testHash
+{
+    CCString String = [self createString];
+    
+    XCTAssertEqual(CCStringGetHash(String), [self getHash], @"Should get the correct index");
+    
+    CCStringDestroy(String);
+}
+
 -(void) testCopy
 {
     CCString String = [self createString];
     char Buf[[self size] + 1];
     
     *(char*)CCStringCopyCharacters(String, 0, 5, Buf) = 0;
-//    *(char*)CCStringCopyCharacters(String, 0, 5, Buf) = 0;
+    
     CCString s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
     XCTAssertTrue(CCStringEqual(String, s2), @"Should copy the full string");
     CCStringDestroy(s2);
@@ -247,9 +262,15 @@
     return CCStringEncodingUTF8;
 }
 
+-(uint32_t) getHash
+{
+    return 0xf27eeece;
+}
+
 @end
 
 
+static uint32_t StringConstantTestsHash = 0xbf59bfa4;
 @interface StringConstantTests : StringTests
 @end
 
@@ -274,6 +295,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 -(CCStringEncoding) encoding
 {
     return CCStringEncodingUTF8;
+}
+
+-(uint32_t) getHash
+{
+    return StringConstantTestsHash;
 }
 
 @end
@@ -401,6 +427,11 @@ static CCString StringConstantTestsString = CC_STRING("h😀lL😁");
 -(CCStringEncoding) encoding
 {
     return CCStringEncodingUTF8;
+}
+
+-(uint32_t) getHash
+{
+    return StringConstantTestsHash;
 }
 
 @end
