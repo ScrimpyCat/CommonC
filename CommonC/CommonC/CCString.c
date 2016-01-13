@@ -40,7 +40,7 @@ typedef struct {
     char characters[];
 } CCStringInfo;
 
-_Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER) - 1), "Need to update CC_STRING padding");
+_Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER) + sizeof(CCStringHint) - 1), "Need to update CC_STRING padding");
 _Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER_CCStringEncodingASCII) - 1), "Need to update CC_STRING padding");
 _Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER_CCStringEncodingUTF8) - 1), "Need to update CC_STRING padding");
 _Static_assert(offsetof(CCStringInfo, hint) == 0, "Need to update CC_STRING padding");
@@ -383,6 +383,17 @@ uint32_t CCStringGetHash(CCString String)
     return 0;
 }
 
+static inline CCChar CCStringTaggedCharacterAtIndex(CCString String, size_t Index)
+{
+    const CCStringMapSet Set = String & CCStringTaggedMask;
+    const size_t MapSize = CCStringTaggedMapSize(Set);
+    const size_t Bits = CCStringTaggedBitSize(Set);
+    const CCStringMap *Map = CCStringTaggedMap(Set);
+    size_t Max = CCStringTaggedCharacterMax(Set);
+    
+    return Index < Max ? Map[(String >> (Bits * Index) >> 2) & MapSize] : 0;
+}
+
 CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index)
 {
     CCAssertLog(String, "String must not be null");
@@ -390,7 +401,7 @@ CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index)
     
     if (CCStringIsTagged(String))
     {
-        return 0;
+        return CCStringTaggedCharacterAtIndex(String, Index);
     }
     
     else
@@ -403,7 +414,11 @@ CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index)
         
         else if ((((CCStringInfo*)String)->hint & CCStringHintEncodingMask) == CCStringEncodingUTF8)
         {
+            CCEnumerator Enumerator;
+            CCStringGetEnumerator(String, &Enumerator);
             
+            c = CCStringEnumeratorGetCurrent(&Enumerator);
+            while (Index--) c = CCStringEnumeratorNext(&Enumerator);
         }
         
         return c;
@@ -454,17 +469,6 @@ void CCStringGetEnumerator(CCString String, CCEnumerator *Enumerator)
     
     Enumerator->ref = (CCStringInfo*)String;
     CCStringEnumerator(String, &Enumerator->state, CCStringEnumeratorActionHead);
-}
-
-static inline CCChar CCStringTaggedCharacterAtIndex(CCString String, size_t Index)
-{
-    const CCStringMapSet Set = String & CCStringTaggedMask;
-    const size_t MapSize = CCStringTaggedMapSize(Set);
-    const size_t Bits = CCStringTaggedBitSize(Set);
-    const CCStringMap *Map = CCStringTaggedMap(Set);
-    size_t Max = CCStringTaggedCharacterMax(Set);
-    
-    return Index < Max ? Map[(String >> (Bits * Index) >> 2) & MapSize] : 0;
 }
 
 CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStringEnumeratorAction Action)

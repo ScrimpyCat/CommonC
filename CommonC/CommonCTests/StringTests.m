@@ -88,6 +88,19 @@
     CCStringDestroy(String);
 }
 
+-(void) testIndex
+{
+    CCString String = [self createString];
+    
+    XCTAssertEqual(CCStringGetCharacterAtIndex(String, 0), [self charAtIndex: 0], @"Should get the correct character");
+    XCTAssertEqual(CCStringGetCharacterAtIndex(String, 1), [self charAtIndex: 1], @"Should get the correct character");
+    XCTAssertEqual(CCStringGetCharacterAtIndex(String, 2), [self charAtIndex: 2], @"Should get the correct character");
+    XCTAssertEqual(CCStringGetCharacterAtIndex(String, 3), [self charAtIndex: 3], @"Should get the correct character");
+    XCTAssertEqual(CCStringGetCharacterAtIndex(String, 4), [self charAtIndex: 4], @"Should get the correct character");
+    
+    CCStringDestroy(String);
+}
+
 -(void) testEnumerating
 {
     CCString String = [self createString];
