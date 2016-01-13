@@ -458,7 +458,29 @@ uint32_t CCStringGetHash(CCString String)
 {
     CCAssertLog(String, "String must not be null");
     
-    return 0;
+    uint32_t Hash = 0;
+    
+    CCEnumerator Enumerator;
+    CCStringGetEnumerator(String, &Enumerator);
+    
+    for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator))
+    {
+        char Buffer[4];
+        size_t Size = CCStringCopyCharacterUTF8(Buffer, c);
+        
+        for (size_t Loop = 0; Loop < Size; Loop++)
+        {
+            Hash += Buffer[Loop];
+            Hash += (Hash << 10);
+            Hash ^= (Hash >> 6);
+        }
+    }
+    
+    Hash += (Hash << 3);
+    Hash ^= (Hash >> 11);
+    Hash += (Hash << 15);
+    
+    return Hash;
 }
 
 static inline CCChar CCStringTaggedCharacterAtIndex(CCString String, size_t Index)
