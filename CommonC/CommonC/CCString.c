@@ -308,11 +308,11 @@ const char *CCStringGetBuffer(CCString String)
     return CCStringIsTagged(String) ? NULL : CCStringGetCharacters((CCStringInfo*)String);
 }
 
-char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *Buffer)
+char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Length, char *Buffer)
 {
     CCAssertLog(String, "String must not be null");
     CCAssertLog(Buffer, "Buffer must not be null");
-    CCAssertLog(Offset + Size <= CCStringGetLength(String), "Offset and size must not be out of bounds");
+    CCAssertLog(Offset + Length <= CCStringGetLength(String), "Offset and size must not be out of bounds");
     
     if (CCStringIsTagged(String))
     {
@@ -327,14 +327,14 @@ char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *
             Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
         }
         
-        Size = Index;
+        Length = Index;
     }
     
     else
     {
         if ((((CCStringInfo*)String)->hint & CCStringHintEncodingMask) == CCStringEncodingASCII)
         {
-            strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Size);
+            strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Length);
         }
         
         else if ((((CCStringInfo*)String)->hint & CCStringHintEncodingMask) == CCStringEncodingUTF8)
@@ -344,7 +344,7 @@ char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *
             
             for (size_t Loop = 0; Loop < Offset; Loop++) CCStringEnumeratorNext(&Enumerator);
             
-            if (CCStringGetSize(String) - Offset == Size) strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Size);
+            if (CCStringGetSize(String) - Offset == Length) strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Length);
             else
             {
                 size_t Index = 0;
@@ -353,12 +353,12 @@ char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *
                     Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
                 }
                 
-                Size = Index;
+                Length = Index;
             }
         }
     }
     
-    return Buffer + Size;
+    return Buffer + Length;
 }
 
 CCStringEncoding CCStringGetEncoding(CCString String)

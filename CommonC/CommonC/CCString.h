@@ -76,7 +76,7 @@
 typedef uintptr_t CCString;
 
 /*!
- * @brief The UTF-32 character.
+ * @brief The UTF-32 character (big-endian).
  */
 typedef uint32_t CCChar;
 
@@ -165,10 +165,10 @@ const char *CCStringGetBuffer(CCString String);
  * @brief Copy the characters from a string into the specified character buffer.
  * @param String The string to get the characters of.
  * @param Offset The index of the character to start copying from.
- * @param Size The amount of characters to be copied.
+ * @param Length The amount of characters to be copied.
  * @return The next character in the buffer.
  */
-char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Size, char *Buffer);
+char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Length, char *Buffer);
 
 /*!
  * @brief Get the encoding of a string.

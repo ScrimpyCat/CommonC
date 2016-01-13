@@ -31,6 +31,7 @@
 #include "CustomFormatSpecifiers.h"
 #include "BitTricks.h"
 #include "MemoryAllocation.h"
+#include "CCString.h"
 
 size_t CCBinaryFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
 {
@@ -380,6 +381,71 @@ size_t CCDeletionFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierD
             Data->msg->remove(Data->msg, Characters);
             return (Format - Data->specifier) + 3;
         }
+    }
+    
+    return 0;
+}
+
+size_t CCStringFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
+{
+    if (!strncmp(Data->specifier, "%S", 2))
+    {
+        CCString String = va_arg(*Data->args, CCString);
+        
+        if (String)
+        {
+            const size_t Size = CCStringGetSize(String);
+            const char *Buf = CCStringGetBuffer(String);
+            if (Buf)
+            {
+                Data->msg->write(Data->msg, Buf, Size);
+            }
+            
+            else
+            {
+                char *Copy;
+                CC_TEMP_Malloc(Copy, Size,
+                               Data->msg->write(Data->msg, "(write failure)", 15);
+                               return 2;
+                               );
+                
+                CCStringCopyCharacters(String, 0, CCStringGetLength(String), Copy);
+                Data->msg->write(Data->msg, Copy, Size);
+                
+                CC_TEMP_Free(Copy);
+            }
+        }
+        
+        else
+        {
+            Data->msg->write(Data->msg, "(null)", 6);
+        }
+        
+        return 2;
+    }
+    
+    return 0;
+}
+
+size_t CCCharFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData *Data)
+{
+    if (!strncmp(Data->specifier, "%C", 2))
+    {
+        CCChar Character = va_arg(*Data->args, CCChar);
+        
+        size_t Len = snprintf(NULL, 0, "%lc", (wint_t)Character);
+        char *Buffer;
+        CC_TEMP_Malloc(Buffer, Len + 1,
+                       Data->msg->write(Data->msg, "(write failure)", 15);
+                       return 2;
+                       );
+        
+        Len = snprintf(Buffer, Len + 1, "%lc", (wint_t)Character);
+        Data->msg->write(Data->msg, Buffer, Len);
+        
+        CC_TEMP_Free(Buffer);
+        
+        return 2;
     }
     
     return 0;
