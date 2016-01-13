@@ -121,6 +121,14 @@ void CCStringRegisterMap(CCStringEncoding Encoding, const CCStringMap *Map, CCSt
     }
 }
 
+const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding)
+{
+    Set--;
+    if (Encoding) *Encoding = Maps[Set].encoding;
+    
+    return Maps[Set].map;
+}
+
 static _Bool CCStringCharacterInMap(CCChar Character, const CCStringMap *Map, size_t MapSize, size_t *Index)
 {
     //TODO: Could easily be vectorized or pre-compute the ranges and so just check those
@@ -437,6 +445,16 @@ _Bool CCStringEqual(CCString String1, CCString String2)
     {
         if ((CCStringIsTagged(String1)) || (CCStringIsTagged(String2)))
         {
+            CCEnumerator Enumerator1, Enumerator2;
+            CCStringGetEnumerator(String1, &Enumerator1);
+            CCStringGetEnumerator(String2, &Enumerator2);
+            
+            if (CCStringEnumeratorGetCurrent(&Enumerator1) == CCStringEnumeratorGetCurrent(&Enumerator2))
+            {
+                for (CCChar c = 0; ((c = CCStringEnumeratorNext(&Enumerator1)) == CCStringEnumeratorNext(&Enumerator2)) && (c); );
+                
+                Equal = CCStringEnumeratorGetIndex(&Enumerator1) == SIZE_MAX;
+            }
         }
         
         else Equal = !strcmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2));

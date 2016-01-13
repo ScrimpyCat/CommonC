@@ -90,6 +90,7 @@ typedef enum {
 typedef CCChar CCStringMap;
 
 void CCStringRegisterMap(CCStringEncoding Encoding, const CCStringMap *Map, CCStringMapSet Set);
+const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding);
 CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String);
 void CCStringDestroy(CCString String);
 CCStringEncoding CCStringGetEncoding(CCString String);

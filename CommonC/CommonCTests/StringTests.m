@@ -101,6 +101,57 @@
     CCStringDestroy(String);
 }
 
+-(void) testEquality
+{
+    CCString s1 = [self createString];
+    
+    CCString s2 = [self createString];
+    XCTAssertTrue(CCStringEqual(s1, s2), @"Should be equal");
+    CCStringDestroy(s2);
+    
+    s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "blah!");
+    XCTAssertFalse(CCStringEqual(s1, s2), @"Should not be equal");
+    CCStringDestroy(s2);
+    
+    
+    CCStringEncoding Encoding[3];
+    const CCStringMap *Maps[3] = {
+        CCStringGetMap(CCStringMapSet127, Encoding),
+        CCStringGetMap(CCStringMapSet63, &Encoding[1]),
+        CCStringGetMap(CCStringMapSet31, &Encoding[2])
+    };
+    
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[31]){}, CCStringMapSet31);
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[63]){}, CCStringMapSet63);
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[127]){}, CCStringMapSet127);
+    
+    s2 = [self createString];
+    
+    CCStringRegisterMap(Encoding[2], Maps[2], CCStringMapSet31);
+    CCStringRegisterMap(Encoding[1], Maps[1], CCStringMapSet63);
+    CCStringRegisterMap(Encoding[0], Maps[0], CCStringMapSet127);
+    
+    XCTAssertTrue(CCStringEqual(s1, s2), @"Should be equal");
+    CCStringDestroy(s2);
+    
+    
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[31]){}, CCStringMapSet31);
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[63]){}, CCStringMapSet63);
+    CCStringRegisterMap(CCStringEncodingUTF8, (CCStringMap[127]){}, CCStringMapSet127);
+    
+    s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "blah!");
+    
+    CCStringRegisterMap(Encoding[2], Maps[2], CCStringMapSet31);
+    CCStringRegisterMap(Encoding[1], Maps[1], CCStringMapSet63);
+    CCStringRegisterMap(Encoding[0], Maps[0], CCStringMapSet127);
+    
+    XCTAssertFalse(CCStringEqual(s1, s2), @"Should not be equal");
+    CCStringDestroy(s2);
+    
+    
+    CCStringDestroy(s1);
+}
+
 -(void) testEnumerating
 {
     CCString String = [self createString];
