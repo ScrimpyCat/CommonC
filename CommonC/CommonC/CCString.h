@@ -158,10 +158,20 @@ const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding
  * @brief Create a string.
  * @param Allocator The allocator to be used for the allocations.
  * @param Hint The hints for the intended usage and format of the string.
- * @param String The null terminated string to be make a CCString representation from.
+ * @param String The null terminated string to make a CCString representation from.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
 CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String);
+
+/*!
+ * @brief Create a string.
+ * @param Allocator The allocator to be used for the allocations.
+ * @param Hint The hints for the intended usage and format of the string.
+ * @param String The string to make a CCString representation from.
+ * @param Size The size of the string to be used.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size);
 
 /*!
  * @brief Copy a string.

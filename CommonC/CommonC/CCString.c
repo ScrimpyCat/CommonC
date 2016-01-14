@@ -242,11 +242,12 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
 {
     CCAssertLog(String, "String must not be null");
     
-#if CC_DEBUG
-    //log map of current character usage
-#endif
-    
-    const size_t Size = strlen(String);
+    return CCStringCreateWithSize(Allocator, Hint, String, strlen(String));
+}
+
+CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size)
+{
+    CCAssertLog(String, "String must not be null");
     
     CCString TaggedStr = CCStringCreateTagged(String, Size, Hint & CCStringHintEncodingMask);
     if (TaggedStr) return TaggedStr;
