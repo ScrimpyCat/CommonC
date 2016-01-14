@@ -215,6 +215,22 @@ CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index);
 _Bool CCStringEqual(CCString String1, CCString String2);
 
 /*!
+ * @brief Check if the string contains the prefix.
+ * @param String The string to check the prefix of.
+ * @param Prefix The prefix.
+ * @return TRUE if the string has the prefix, otherwise FALSE.
+ */
+_Bool CCStringHasPrefix(CCString String, CCString Prefix);
+
+/*!
+ * @brief Check if the string contains the suffix.
+ * @param String The string to check the suffix of.
+ * @param Prefix The suffix.
+ * @return TRUE if the string has the suffix, otherwise FALSE.
+ */
+_Bool CCStringHasSuffix(CCString String, CCString Prefix);
+
+/*!
  * @brief Get the enumerator for a string.
  * @param String The string to get the enumerator for.
  * @param Enumerator The enumerator to be initialized.

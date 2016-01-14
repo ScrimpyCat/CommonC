@@ -321,8 +321,8 @@ char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Length, char
         
         for (size_t Loop = 0; Loop < Offset; Loop++) CCStringEnumeratorNext(&Enumerator);
         
-        size_t Index = 0;
-        for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator))
+        size_t Index = 0, Loop = 0;
+        for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (Loop < Length) && (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator), Loop++)
         {
             Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
         }
@@ -347,8 +347,8 @@ char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Length, char
             if (CCStringGetSize(String) - Offset == Length) strncpy(Buffer, CCStringGetCharacters((CCStringInfo*)String) + Offset, Length);
             else
             {
-                size_t Index = 0;
-                for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator))
+                size_t Index = 0, Loop = 0;
+                for (CCChar c = CCStringEnumeratorGetCurrent(&Enumerator); (Loop < Length) && (c) && (CCStringEnumeratorGetIndex(&Enumerator) != SIZE_MAX); c = CCStringEnumeratorNext(&Enumerator), Loop++)
                 {
                     Index += CCStringCopyCharacterUTF8(Buffer + Index, c);
                 }
@@ -550,6 +550,46 @@ _Bool CCStringEqual(CCString String1, CCString String2)
         }
         
         else Equal = !strcmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2));
+    }
+    
+    return Equal;
+}
+
+_Bool CCStringHasPrefix(CCString String, CCString Prefix)
+{
+    _Bool Equal = CCStringEqual(String, Prefix);
+    if (!Equal)
+    {
+        CCEnumerator Enumerator1, Enumerator2;
+        CCStringGetEnumerator(String, &Enumerator1);
+        CCStringGetEnumerator(Prefix, &Enumerator2);
+        
+        if (CCStringEnumeratorGetCurrent(&Enumerator1) == CCStringEnumeratorGetCurrent(&Enumerator2))
+        {
+            for (CCChar c = 0; ((c = CCStringEnumeratorNext(&Enumerator1)) == CCStringEnumeratorNext(&Enumerator2)) && (c); );
+            
+            Equal = CCStringEnumeratorGetIndex(&Enumerator2) == SIZE_MAX;
+        }
+    }
+    
+    return Equal;
+}
+
+_Bool CCStringHasSuffix(CCString String, CCString Prefix)
+{
+    _Bool Equal = CCStringEqual(String, Prefix);
+    if (!Equal)
+    {
+        CCEnumerator Enumerator1, Enumerator2;
+        CCStringGetEnumerator(String, &Enumerator1);
+        CCStringGetEnumerator(Prefix, &Enumerator2);
+        
+        if (CCStringEnumeratorGetTail(&Enumerator1) == CCStringEnumeratorGetTail(&Enumerator2))
+        {
+            for (CCChar c = 0; ((c = CCStringEnumeratorPrevious(&Enumerator1)) == CCStringEnumeratorPrevious(&Enumerator2)) && (c); );
+            
+            Equal = CCStringEnumeratorGetIndex(&Enumerator2) == SIZE_MAX;
+        }
     }
     
     return Equal;

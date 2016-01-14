@@ -26,7 +26,8 @@
 #import <XCTest/XCTest.h>
 #import "CCString.h"
 #import "CCStringEnumerator.h"
-
+#import "Logging.h"
+#import "CustomFormatSpecifiers.h"
 @interface StringTests : XCTestCase
 
 -(CCString) createString;
@@ -132,6 +133,50 @@
     XCTAssertEqual(CCStringGetCharacterAtIndex(String, 2), [self charAtIndex: 2], @"Should get the correct character");
     XCTAssertEqual(CCStringGetCharacterAtIndex(String, 3), [self charAtIndex: 3], @"Should get the correct character");
     XCTAssertEqual(CCStringGetCharacterAtIndex(String, 4), [self charAtIndex: 4], @"Should get the correct character");
+    
+    CCStringDestroy(String);
+}
+
+-(void) testPrefix
+{
+    CCString String = [self createString];
+    
+    XCTAssertTrue(CCStringHasPrefix(String, String), @"Should have the prefix");
+    XCTAssertTrue(CCStringHasPrefix(String, CC_STRING("h")), @"Should have the prefix");
+    XCTAssertFalse(CCStringHasPrefix(String, CC_STRING("H")), @"Should not have the prefix");
+    XCTAssertFalse(CCStringHasPrefix(String, CC_STRING("hi")), @"Should not have the prefix");
+    
+    
+    char Buf[[self size] + 1];
+    
+    *(char*)CCStringCopyCharacters(String, 0, 2, Buf) = 0;
+    
+    CCString s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
+    XCTAssertFalse(CCStringEqual(String, s2), @"Should not be equal");
+    XCTAssertTrue(CCStringHasPrefix(String, s2), @"Should have the prefix");
+    CCStringDestroy(s2);
+    
+    
+    CCStringDestroy(String);
+}
+
+-(void) testSuffix
+{
+    CCString String = [self createString];
+    
+    XCTAssertTrue(CCStringHasSuffix(String, String), @"Should have the suffix");
+    XCTAssertFalse(CCStringHasSuffix(String, CC_STRING("hi")), @"Should not have the suffix");
+    
+    
+    char Buf[[self size] + 1];
+    
+    *(char*)CCStringCopyCharacters(String, 3, 2, Buf) = 0;
+    
+    CCString s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
+    XCTAssertFalse(CCStringEqual(String, s2), @"Should not be equal");
+    XCTAssertTrue(CCStringHasSuffix(String, s2), @"Should have the suffix");
+    CCStringDestroy(s2);
+    
     
     CCStringDestroy(String);
 }
