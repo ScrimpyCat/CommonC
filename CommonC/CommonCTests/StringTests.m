@@ -26,8 +26,7 @@
 #import <XCTest/XCTest.h>
 #import "CCString.h"
 #import "CCStringEnumerator.h"
-#import "Logging.h"
-#import "CustomFormatSpecifiers.h"
+
 @interface StringTests : XCTestCase
 
 -(CCString) createString;
@@ -83,11 +82,85 @@
     return 0x78bd1aec;
 }
 
+-(void) testCreateWithSize
+{
+    CCString String = CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingASCII, "abcdef", 4);
+    CCString Match = CC_STRING("abcd");
+    CCString Copy = CCStringCopy(String);
+    
+    XCTAssertTrue(CCStringEqual(String, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(String), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(String), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(String), CCStringGetLength(Match), @"Should have the same length");
+    
+    XCTAssertTrue(CCStringEqual(Copy, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CCStringDestroy(Copy);
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithSize(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "abcdef", 4);
+    Copy = CCStringCopy(String);
+    
+    XCTAssertTrue(CCStringEqual(String, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(String), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(String), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(String), CCStringGetLength(Match), @"Should have the same length");
+    
+    XCTAssertTrue(CCStringEqual(Copy, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CCStringDestroy(Copy);
+    CCStringDestroy(String);
+    
+    
+    
+    
+    String = CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingASCII, "abcdefghijklmnopqrstuvwxyz", 20);
+    Match = CC_STRING("abcdefghijklmnopqrst");
+    Copy = CCStringCopy(String);
+    
+    XCTAssertTrue(CCStringEqual(String, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(String), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(String), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(String), CCStringGetLength(Match), @"Should have the same length");
+    
+    XCTAssertTrue(CCStringEqual(Copy, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CCStringDestroy(Copy);
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithSize(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "abcdefghijklmnopqrstuvwxyz", 20);
+    Copy = CCStringCopy(String);
+    
+    XCTAssertTrue(CCStringEqual(String, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(String), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(String), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(String), CCStringGetLength(Match), @"Should have the same length");
+    
+    XCTAssertTrue(CCStringEqual(Copy, Match), @"Should be equal");
+    XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
+    XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
+    XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CCStringDestroy(Copy);
+    CCStringDestroy(String);
+}
+
 -(void) testHash
 {
     CCString String = [self createString];
     
-    XCTAssertEqual(CCStringGetHash(String), [self getHash], @"Should get the correct index");
+    XCTAssertEqual(CCStringGetHash(String), [self getHash], @"Should get the correct hash");
     
     CCStringDestroy(String);
 }
@@ -118,7 +191,7 @@
 {
     CCString String = [self createString];
     
-    XCTAssertEqual(CCStringGetSize(String), [self size], @"Should get the correct index");
+    XCTAssertEqual(CCStringGetSize(String), [self size], @"Should get the correct size");
     
     CCStringDestroy(String);
 }
@@ -127,7 +200,7 @@
 {
     CCString String = [self createString];
     
-    XCTAssertEqual(CCStringGetLength(String), 5, @"Should get the correct index");
+    XCTAssertEqual(CCStringGetLength(String), 5, @"Should get the correct length");
     
     CCStringDestroy(String);
 }

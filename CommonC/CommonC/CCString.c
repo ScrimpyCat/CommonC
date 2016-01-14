@@ -248,7 +248,6 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
 CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size)
 {
     CCAssertLog(String, "String must not be null");
-    CCAssertLog((strlen(String) == Size) || (Hint & CCStringHintCopy), "Must copy if string is not of full length");
     
     CCString TaggedStr = CCStringCreateTagged(String, Size, Hint & CCStringHintEncodingMask);
     if (TaggedStr) return TaggedStr;
@@ -287,7 +286,7 @@ CCString CCStringCopy(CCString String)
     
     if (CCStringIsTagged(String)) return String;
     
-    return CCStringCreate(CC_STD_ALLOCATOR, ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String));
+    return CCStringCreateWithSize(CC_STD_ALLOCATOR, ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
 }
 
 void CCStringDestroy(CCString String)
@@ -536,9 +535,10 @@ _Bool CCStringEqual(CCString String1, CCString String2)
 {
     CCAssertLog(String1 && String2, "Strings must not be null");
     
+    size_t Size;
     _Bool Equal = String1 == String2;
     if ((!Equal) &&
-        (CCStringGetSize(String1) == CCStringGetSize(String2)) &&
+        ((Size = CCStringGetSize(String1)) == CCStringGetSize(String2)) &&
         (CCStringGetLength(String1) == CCStringGetLength(String2)) &&
         (CCStringGetHash(String1) == CCStringGetHash(String2)))
     {
@@ -556,7 +556,7 @@ _Bool CCStringEqual(CCString String1, CCString String2)
             }
         }
         
-        else Equal = !strcmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2));
+        else Equal = !strncmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2), Size);
     }
     
     return Equal;
