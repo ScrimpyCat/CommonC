@@ -269,7 +269,12 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
         Str->length = Size;
     }
     
-    if (Hint & CCStringHintCopy) memcpy(Str->characters, String, Size + 1);
+    if (Hint & CCStringHintCopy)
+    {
+        strncpy(Str->characters, String, Size);
+        Str->characters[Size] = 0;
+    }
+    
     else Str->string = (char*)String;
     
     return (CCString)Str;
