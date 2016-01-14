@@ -248,6 +248,7 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
 CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size)
 {
     CCAssertLog(String, "String must not be null");
+    CCAssertLog((strlen(String) == Size) || (Hint & CCStringHintCopy), "Must copy if string is not of full length");
     
     CCString TaggedStr = CCStringCreateTagged(String, Size, Hint & CCStringHintEncodingMask);
     if (TaggedStr) return TaggedStr;
