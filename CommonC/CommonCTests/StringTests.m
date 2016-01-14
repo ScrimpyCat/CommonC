@@ -103,6 +103,14 @@
     XCTAssertTrue(CCStringEqual(String, s2), @"Should copy the full string");
     CCStringDestroy(s2);
     
+    
+    CC_STRING_TEMP_BUFFER(buffer, String)
+    {
+        CCString s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], buffer);
+        XCTAssertTrue(CCStringEqual(String, s2), @"Should copy the full string");
+        CCStringDestroy(s2);
+    }
+    
     CCStringDestroy(String);
 }
 

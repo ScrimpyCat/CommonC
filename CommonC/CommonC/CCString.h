@@ -30,6 +30,7 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Platform.h>
+#include <CommonC/MemoryAllocation.h>
 
 #if CC_HARDWARE_PTR_64
 #define CC_STRING_HEADER "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -48,6 +49,28 @@
 #else
 #error Unknown endianness
 #endif
+
+/*!
+ * @define CC_STRING_TEMP_BUFFER
+ * @abstract Convenience macro to get a temporary buffer (const char*).
+ * @discussion Attempts to retrieve the internal buffer if that fails, will default to copying the string into
+ *             temporary storage (as will be a tagged string, so should fit on the stack easily). The scope of
+ *             temporary buffer is the next logical scope, where it should either be followed by parantheses or
+ *             a single line statement.
+ *
+ * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change the buffer
+ *          name, or enclose it in a braces.
+ *
+ * @param buffer The name for the buffer variable, declared as @b const char*.
+ * @param string The string literal to create the string from.
+ * @param ... The code to be executed on failure.
+ */
+#define CC_STRING_TEMP_BUFFER(buffer, string, ...) \
+const char *buffer##__CC_PRIV__PRIVCONST_STRING = CCStringGetBuffer(string); \
+char *buffer##__CC_PRIV__TEMP_STRING = NULL; \
+CC_TEMP_Malloc(buffer##__CC_PRIV__TEMP_STRING, (CCStringGetSize(string) + 1) * (_Bool)buffer##__CC_PRIV__PRIVCONST_STRING, __VA_ARGS__); \
+if ((!buffer##__CC_PRIV__PRIVCONST_STRING) && (buffer##__CC_PRIV__TEMP_STRING)) *CCStringCopyCharacters(string, 0, CCStringGetLength(string), buffer##__CC_PRIV__TEMP_STRING) = 0; \
+for (const char *buffer = buffer##__CC_PRIV__PRIVCONST_STRING ? buffer##__CC_PRIV__PRIVCONST_STRING : buffer##__CC_PRIV__TEMP_STRING; buffer; buffer = NULL, CC_TEMP_Free(buffer##__CC_PRIV__TEMP_STRING))
 
 /*!
  * @define CC_STRING
