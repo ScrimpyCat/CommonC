@@ -91,7 +91,7 @@ for (const char *buffer = buffer##__CC_PRIV__PRIVCONST_STRING ? buffer##__CC_PRI
  * @param encoding The encoding of the string.
  * @param string The string literal to create the string from.
  */
-#define CC_STRING_ENCODING(encoding, string) (CCString)((char[]){ CC_STRING_HEADER_##encoding string })
+#define CC_STRING_ENCODING(encoding, string) (CCString)((struct { _Alignas(4) char s[sizeof(CC_STRING_HEADER_##encoding string)]; }){ CC_STRING_HEADER_##encoding string }.s) //Alignment solution: http://stackoverflow.com/questions/34796571/c-aligning-string-literals-for-a-specific-use-case
 
 /*!
  * @brief The string.

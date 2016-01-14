@@ -82,6 +82,16 @@
     return 0x78bd1aec;
 }
 
+-(void) testConstantString
+{
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+    XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
+}
+
 -(void) testCreateWithSize
 {
     CCString String = CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingASCII, "abcdef", 4);

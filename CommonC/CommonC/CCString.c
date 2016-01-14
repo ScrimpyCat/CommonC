@@ -245,7 +245,7 @@ static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint
     if (TaggedStr) return TaggedStr;
     
     
-    CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(2)/*Allocator*/, sizeof(CCStringInfo) + (Hint & CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
+    CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + (Hint & CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
     
     *Str = (CCStringInfo){
         .hint = Hint | CCStringMarkSize,
