@@ -50,6 +50,7 @@ enum {
     CCStringMarkHash = 0x40000000,
     CCStringMarkSize = 0x20000000,
     CCStringMarkLength = 0x10000000,
+    CCStringMarkUnsafeBuffer = 0x8000000
 };
 
 enum {
@@ -238,17 +239,8 @@ static CCString CCStringCreateTagged(const char *String, size_t Length, CCString
     return 0;
 }
 
-CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String)
+static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size, _Bool SameLength)
 {
-    CCAssertLog(String, "String must not be null");
-    
-    return CCStringCreateWithSize(Allocator, Hint, String, strlen(String));
-}
-
-CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size)
-{
-    CCAssertLog(String, "String must not be null");
-    
     CCString TaggedStr = CCStringCreateTagged(String, Size, Hint & CCStringHintEncodingMask);
     if (TaggedStr) return TaggedStr;
     
@@ -275,9 +267,27 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
         Str->characters[Size] = 0;
     }
     
-    else Str->string = (char*)String;
+    else
+    {
+        Str->string = (char*)String;
+        if (!SameLength) Str->hint |= CCStringMarkUnsafeBuffer;
+    }
     
     return (CCString)Str;
+}
+
+CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String)
+{
+    CCAssertLog(String, "String must not be null");
+    
+    return CCStringCreateFromString(Allocator, Hint, String, strlen(String), TRUE);
+}
+
+CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size)
+{
+    CCAssertLog(String, "String must not be null");
+    
+    return CCStringCreateFromString(Allocator, Hint, String, Size, Size == strlen(String));
 }
 
 CCString CCStringCopy(CCString String)
@@ -286,7 +296,7 @@ CCString CCStringCopy(CCString String)
     
     if (CCStringIsTagged(String)) return String;
     
-    return CCStringCreateWithSize(CC_STD_ALLOCATOR, ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
+    return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
 }
 
 void CCStringDestroy(CCString String)
@@ -311,7 +321,7 @@ const char *CCStringGetBuffer(CCString String)
 {
     CCAssertLog(String, "String must not be null");
     
-    return CCStringIsTagged(String) ? NULL : CCStringGetCharacters((CCStringInfo*)String);
+    return CCStringIsTagged(String) || (((CCStringInfo*)String)->hint & CCStringMarkUnsafeBuffer) ? NULL : CCStringGetCharacters((CCStringInfo*)String);
 }
 
 char *CCStringCopyCharacters(CCString String, size_t Offset, size_t Length, char *Buffer)

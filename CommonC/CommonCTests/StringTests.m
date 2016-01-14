@@ -98,6 +98,10 @@
     XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
     XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
     
+    CC_STRING_TEMP_BUFFER(Buffer1, String) XCTAssertEqual(strlen(Buffer1), 4, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer2, Match) XCTAssertEqual(strlen(Buffer2), 4, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer3, Copy) XCTAssertEqual(strlen(Buffer3), 4, @"Should have the same length");
+    
     CCStringDestroy(Copy);
     CCStringDestroy(String);
     
@@ -114,6 +118,10 @@
     XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
     XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
     XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CC_STRING_TEMP_BUFFER(Buffer4, String) XCTAssertEqual(strlen(Buffer4), 4, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer5, Match) XCTAssertEqual(strlen(Buffer5), 4, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer6, Copy) XCTAssertEqual(strlen(Buffer6), 4, @"Should have the same length");
     
     CCStringDestroy(Copy);
     CCStringDestroy(String);
@@ -135,6 +143,10 @@
     XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
     XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
     
+    CC_STRING_TEMP_BUFFER(Buffer7, String) XCTAssertEqual(strlen(Buffer7), 20, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer8, Match) XCTAssertEqual(strlen(Buffer8), 20, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer9, Copy) XCTAssertEqual(strlen(Buffer9), 20, @"Should have the same length");
+    
     CCStringDestroy(Copy);
     CCStringDestroy(String);
     
@@ -151,6 +163,10 @@
     XCTAssertEqual(CCStringGetHash(Copy), CCStringGetHash(Match), @"Should have the same hash");
     XCTAssertEqual(CCStringGetSize(Copy), CCStringGetSize(Match), @"Should have the same size");
     XCTAssertEqual(CCStringGetLength(Copy), CCStringGetLength(Match), @"Should have the same length");
+    
+    CC_STRING_TEMP_BUFFER(Buffer10, String) XCTAssertEqual(strlen(Buffer10), 20, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer11, Match) XCTAssertEqual(strlen(Buffer11), 20, @"Should have the same length");
+    CC_STRING_TEMP_BUFFER(Buffer12, Copy) XCTAssertEqual(strlen(Buffer12), 20, @"Should have the same length");
     
     CCStringDestroy(Copy);
     CCStringDestroy(String);
