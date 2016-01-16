@@ -82,6 +82,36 @@
     return 0x78bd1aec;
 }
 
+-(void) testCopySubstring
+{
+    CCString String = [self createString];
+    char Buf[[self size] + 1];
+    
+    *CCStringCopyCharacters(String, 1, 4, Buf) = 0;
+    
+    CCString Result = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
+    CCString Sub = CCStringCopySubstring(String, 1, 4);
+    
+    XCTAssertTrue(CCStringEqual(Sub, Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Sub);
+    CCStringDestroy(Result);
+    
+    
+    
+    *CCStringCopyCharacters(String, 0, 2, Buf) = 0;
+    
+    Result = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)[self encoding], Buf);
+    Sub = CCStringCopySubstring(String, 0, 2);
+    
+    XCTAssertTrue(CCStringEqual(Sub, Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Sub);
+    CCStringDestroy(Result);
+    
+    CCStringDestroy(String);
+}
+
 -(void) testConstantString
 {
     XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");

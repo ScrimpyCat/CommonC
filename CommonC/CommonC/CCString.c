@@ -241,11 +241,17 @@ static CCString CCStringCreateTagged(const char *String, size_t Length, CCString
 
 static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size, _Bool SameLength)
 {
+    CCAssertLog(!(Hint & (CCStringMarkHash | CCStringMarkSize | CCStringMarkLength | CCStringMarkUnsafeBuffer)), "Must not use private hints");
+    
     CCString TaggedStr = CCStringCreateTagged(String, Size, Hint & CCStringHintEncodingMask);
-    if (TaggedStr) return TaggedStr;
+    if (TaggedStr)
+    {
+        if ((Hint & CCStringHintCopy) == CCStringHintFree) CCFree((char*)String);
+        return TaggedStr;
+    }
     
     
-    CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + (Hint & CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
+    CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + ((Hint & CCStringHintCopy) == CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
     
     *Str = (CCStringInfo){
         .hint = Hint | CCStringMarkSize,
@@ -261,7 +267,7 @@ static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint
         Str->length = Size;
     }
     
-    if (Hint & CCStringHintCopy)
+    if ((Hint & CCStringHintCopy) == CCStringHintCopy)
     {
         strncpy(Str->characters, String, Size);
         Str->characters[Size] = 0;
@@ -296,7 +302,40 @@ CCString CCStringCopy(CCString String)
     
     if (CCStringIsTagged(String)) return String;
     
-    return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | ((CCStringInfo*)String)->hint, CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
+    return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringGetEncoding(String), CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
+}
+
+CCString CCStringCopySubstring(CCString String, size_t Offset, size_t Length)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Offset + Length <= CCStringGetLength(String), "Offset and size must not be out of bounds");
+    
+    if (CCStringIsTagged(String))
+    {
+        const CCStringMapSet Set = String & CCStringTaggedMask;
+        const size_t Bits = CCStringTaggedBitSize(Set);
+        
+        return ((((String >> 2) & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Length * Bits))) << (Offset * Bits))) >> (Offset * Bits)) << 2) | Set;
+    }
+    
+    const char *Buffer = CCStringGetBuffer(String);
+    if ((Buffer) && (CCStringGetEncoding(String) == CCStringEncodingASCII))
+    {
+        return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringGetEncoding(String), Buffer + Offset, Length);
+    }
+    
+    else
+    {
+        char *Copy;
+        CC_SAFE_Malloc(Copy, CCStringGetSize(String) + 1,
+                       CC_LOG_ERROR("Failed to copy substring due to allocation failure. Allocation size (%zu)", CCStringGetSize(String) + 1);
+                       return 0;
+                       );
+        
+        *CCStringCopyCharacters(String, Offset, Length, Copy) = 0;
+        
+        return CCStringCreate(CC_STD_ALLOCATOR, CCStringHintFree | CCStringGetEncoding(String), Copy);
+    }
 }
 
 void CCStringDestroy(CCString String)

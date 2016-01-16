@@ -181,6 +181,15 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
 CCString CCStringCopy(CCString String);
 
 /*!
+ * @brief Copy a substring.
+ * @param String The string to be copied from.
+ * @param Offset The offset to start the substring from.
+ * @param Length The length of the substring.
+ * @return The substring, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCopySubstring(CCString String, size_t Offset, size_t Length);
+
+/*!
  * @brief Destroy the string.
  * @param String The string to be destroyed.
  */
