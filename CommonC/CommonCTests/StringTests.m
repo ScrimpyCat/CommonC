@@ -82,6 +82,15 @@
     return 0x78bd1aec;
 }
 
+-(void) testBigCreate
+{
+    CCString String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "aaaaaaaaaaaaa");
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("aaaaaaaaaaaaa")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+}
+
 -(void) testCopySubstring
 {
     CCString String = [self createString];

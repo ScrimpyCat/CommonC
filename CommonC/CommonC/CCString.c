@@ -194,7 +194,7 @@ static CCString CCStringCreateTaggedFromMapSet(CCStringMapSet Set, const char *S
             CCChar c = CCStringGetCharacterUTF8(String + Loop, &Size);
             
             size_t Index;
-            if ((Count <= (sizeof(CCString) * 8) / Bits) && (CCStringCharacterInMap(c, Lookup, MapSize, &Index)))
+            if ((Count < (sizeof(CCString) * 8) / Bits) && (CCStringCharacterInMap(c, Lookup, MapSize, &Index)))
             {
                 Map |= (Index << (Bits * Count++)) << 2;
                 Loop += Size;
