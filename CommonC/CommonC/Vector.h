@@ -28,5 +28,6 @@
 
 #include <CommonC/Vector2D.h>
 #include <CommonC/Vector3D.h>
+#include <CommonC/Vector4D.h>
 
 #endif

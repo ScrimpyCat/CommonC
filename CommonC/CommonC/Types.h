@@ -88,16 +88,16 @@ typedef union {
 } CCVector3Di, CCColourRGBi;
 
 typedef union {
-    struct {
+    _Alignas(16) struct {
         float x, y, z, w;
     } CC_PACKED;
-    struct {
+    _Alignas(16) struct {
         float r, g, b, a;
     } CC_PACKED;
-    struct {
+    _Alignas(16) struct {
         float s, t, p, q;
     } CC_PACKED;
-    float v[4];
+    _Alignas(16) float v[4];
 } CCVector4D, CCColourRGBA;
 
 typedef union {
@@ -116,6 +116,39 @@ typedef union {
 typedef struct {
     CCVector2D position, size;
 } CCRect;
+
+typedef union {
+    struct {
+        CCVector2D x;
+        CCVector2D y;
+    } CC_PACKED;
+    struct {
+        CCVector2D c[2];
+    } CC_PACKED;
+} CCMatrix2;
+
+typedef union {
+    struct {
+        CCVector3D x;
+        CCVector3D y;
+        CCVector3D z;
+    } CC_PACKED;
+    struct {
+        CCVector3D c[3];
+    } CC_PACKED;
+} CCMatrix3;
+
+typedef union {
+    struct {
+        CCVector4D x;
+        CCVector4D y;
+        CCVector4D z;
+        CCVector4D w;
+    } CC_PACKED;
+    struct {
+        CCVector4D c[4];
+    } CC_PACKED;
+} CCMatrix4;
 
 
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE

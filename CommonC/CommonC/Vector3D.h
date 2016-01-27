@@ -355,11 +355,11 @@ static CC_FORCE_INLINE CCVector CCVectorize3Angle(const CCVector a, const CCVect
 static CC_FORCE_INLINE CCVector CCVectorize3Cross(const CCVector a, const CCVector b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
-    CCVector aYZX = _mm_shuffle_ps(a, a, _MM_SHUFFLE(0, 0, 2, 1));
-    CCVector bYZX = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 0, 2, 1));
+    CCVector aYZX = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1));
+    CCVector bYZX = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1));
     
     CCVector r = _mm_sub_ps(_mm_mul_ps(a, bYZX), _mm_mul_ps(aYZX, b));
-    return _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 0, 2, 1));
+    return _mm_shuffle_ps(r, r, _MM_SHUFFLE(3, 0, 2, 1));
 #else
     return (CCVector){
         (a.y * b.z) - (a.z * b.y),
