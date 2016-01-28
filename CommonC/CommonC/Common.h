@@ -57,6 +57,7 @@
 #include <CommonC/BitTricks.h>
 #include <CommonC/Random.h>
 #include <CommonC/Vector.h>
+#include <CommonC/Matrix.h>
 
 #include <CommonC/Comparator.h>
 #include <CommonC/Enumerator.h>
