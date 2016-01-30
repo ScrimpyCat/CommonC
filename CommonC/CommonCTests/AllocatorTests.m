@@ -27,7 +27,7 @@
 #import "Allocator.h"
 #import "MemoryAllocation.h"
 
-static _Bool CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO;
+static _Bool CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO, CalledDtor = NO;
 static uint8_t Memory[128];
 static void *AllocatorFunction(void *Data, size_t Size)
 {
@@ -47,6 +47,11 @@ static void DeallocatorFunction(void *Ptr)
     
     HeaderIntact = *Data == 0xdeadcafe;
     CorrectPtr = Data == (void*)Memory;
+}
+
+static void DestructorFunction(void *Ptr)
+{
+    CalledDtor = YES;
 }
 
 static const uint32_t TestAllocator = 3;
@@ -69,11 +74,17 @@ static const uint32_t TestAllocator = 3;
 
 -(void) testAllocation
 {
-    void *Ptr = CCAllocate((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }, 1);
+    void *Ptr = CCMemoryAllocate((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }, 1);
     XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
     if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
     
-    CCDeallocate(Ptr);
+    XCTAssertEqual(CCMemoryRetain(Ptr), Ptr);
+    
+    CCMemoryDeallocate(Ptr);
+    XCTAssertFalse(CalledD, @"CCDeallocate should not call the custom deallocator.");
+    XCTAssertFalse(CalledDtor, @"Should not call custom destructor");
+    
+    CCMemoryDeallocate(Ptr);
     XCTAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
     if (CalledD)
     {
@@ -81,11 +92,15 @@ static const uint32_t TestAllocator = 3;
         XCTAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
     }
     
+    XCTAssertFalse(CalledDtor, @"Should not call custom destructor");
+    
     
     CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO;
     Ptr = CCMalloc(((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }), 1, NULL, NULL);
     XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
     if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");
+    
+    CCMemorySetDestructor(Ptr, DestructorFunction);
     
     CCFree(Ptr);
     XCTAssertTrue(CalledD, @"CCDeallocate should call the custom deallocator.");
@@ -94,6 +109,8 @@ static const uint32_t TestAllocator = 3;
         XCTAssertTrue(HeaderIntact, @"No function besides this and the allocator should access this section of memory.");
         XCTAssertTrue(CorrectPtr, @"Original pointer should remain the same.");
     }
+    
+    XCTAssertTrue(CalledDtor, @"Should call custom destructor");
 }
 
 @end

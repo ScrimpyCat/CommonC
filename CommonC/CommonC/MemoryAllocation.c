@@ -31,7 +31,7 @@
 
 void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback)
 {
-    void *Memory = CCAllocate(Type, Size);
+    void *Memory = CCMemoryAllocate(Type, Size);
     if (!Memory)
     {
         if (ErrorCallback) Memory = ErrorCallback((CCFunctionData*)&(CCFunctionDataMalloc){
@@ -50,7 +50,7 @@ void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const Filename, c
 
 void *CCRealloc(CCAllocatorType Type, void *Ptr, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback)
 {
-    void *Memory = CCReallocate(Type, Ptr, Size);
+    void *Memory = CCMemoryReallocate(Type, Ptr, Size);
     if (!Memory)
     {
         if (ErrorCallback) Memory = ErrorCallback((CCFunctionData*)&(CCFunctionDataRealloc){
@@ -70,13 +70,18 @@ void *CCRealloc(CCAllocatorType Type, void *Ptr, size_t Size, const char * const
 
 void CCFree(void *Ptr)
 {
-    if (Ptr) CCDeallocate(Ptr);
+    if (Ptr) CCMemoryDeallocate(Ptr);
+}
+
+void *CCRetain(void *Ptr)
+{
+    return Ptr ? CCMemoryRetain(Ptr) : NULL;
 }
 
 #if __BLOCKS__
 void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback)
 {
-    void *Memory = CCAllocate(Type, Size);
+    void *Memory = CCMemoryAllocate(Type, Size);
     if (!Memory)
     {
         if (ErrorCallback) Memory = ErrorCallback((CCFunctionData*)&(CCFunctionDataMalloc){
@@ -95,7 +100,7 @@ void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filena
 
 void *CCReallocBlock(CCAllocatorType Type, void *Ptr, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback)
 {
-    void *Memory = CCReallocate(Type, Ptr, Size);
+    void *Memory = CCMemoryReallocate(Type, Ptr, Size);
     if (!Memory)
     {
         if (ErrorCallback) Memory = ErrorCallback((CCFunctionData*)&(CCFunctionDataRealloc){

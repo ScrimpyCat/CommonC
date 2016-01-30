@@ -44,11 +44,15 @@ typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
 typedef void (*CCDeallocatorFunction)(void *Ptr);
 
+typedef void (*CCMemoryDestructorCallback)(void *Ptr);
+
 
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator);
-void *CCAllocate(CCAllocatorType Type, size_t Size);
-void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size);
-void CCDeallocate(void *Ptr);
+void *CCMemoryAllocate(CCAllocatorType Type, size_t Size);
+void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size);
+void *CCMemoryRetain(void *Ptr);
+void CCMemoryDeallocate(void *Ptr);
+CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCallback Destructor);
 
 
 #ifndef CC_DEFAULT_ALLOCATOR

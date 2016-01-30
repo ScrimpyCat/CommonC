@@ -36,17 +36,17 @@
 
 static void *_CCAllocateCFAllocator(CFIndex Size, CFOptionFlags Hint, void *Info)
 {
-    return CCAllocate(CC_DEFAULT_ALLOCATOR, Size);
+    return CCMemoryAllocate(CC_DEFAULT_ALLOCATOR, Size);
 }
 
 static void *_CCReallocateCFAllocator(void *Ptr, CFIndex Size, CFOptionFlags Hint, void *Info)
 {
-    return CCReallocate(CC_DEFAULT_ALLOCATOR, Ptr, Size);
+    return CCMemoryReallocate(CC_DEFAULT_ALLOCATOR, Ptr, Size);
 }
 
 static void _CCDeallocateCFAllocator(void *Ptr, void *Info)
 {
-    return CCDeallocate(Ptr);
+    return CCMemoryDeallocate(Ptr);
 }
 
 static CC_CONSTRUCTOR CFAllocatorRef CCAllocatorCFAllocator(void)
@@ -72,17 +72,17 @@ static CC_CONSTRUCTOR CFAllocatorRef CCAllocatorCFAllocator(void)
 
 static void *CCAllocateCFAllocator(CFIndex Size, CFOptionFlags Hint, CCAllocatorType *Info)
 {
-    return CCAllocate(*Info, Size);
+    return CCMemoryAllocate(*Info, Size);
 }
 
 static void *CCReallocateCFAllocator(void *Ptr, CFIndex Size, CFOptionFlags Hint, CCAllocatorType *Info)
 {
-    return CCReallocate(*Info, Ptr, Size);
+    return CCMemoryReallocate(*Info, Ptr, Size);
 }
 
 static void CCDeallocateCFAllocator(void *Ptr, CCAllocatorType *Info)
 {
-    return CCDeallocate(Ptr);
+    return CCMemoryDeallocate(Ptr);
 }
 
 CFAllocatorRef CCCreateCFAllocator(CCAllocatorType Type)

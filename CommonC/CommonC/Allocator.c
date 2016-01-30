@@ -26,7 +26,37 @@
 #include "Allocator.h"
 #include "Assertion_Private.h"
 #include "CallbackAllocator.h"
+#include <stdint.h>
 
+#if defined(__has_include)
+
+#if !__has_include(<stdatomic.h>)
+#define CC_ALLOCATOR_USING_STDATOMIC 1
+#include <stdatomic.h>
+#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#define CC_ALLOCATOR_USING_OSATOMIC 1
+#include <libkern/OSAtomic.h>
+#else
+#warning No atomic support
+#endif
+
+#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#define CC_ALLOCATOR_USING_OSATOMIC 1
+#include <libkern/OSAtomic.h>
+#else
+#define CC_ALLOCATOR_USING_STDATOMIC 1
+#include <stdatomic.h>
+#endif
+
+typedef struct {
+    int allocator;
+#if CC_ALLOCATOR_USING_STDATOMIC
+    _Atomic(int32_t) refCount;
+#else
+    int32_t refCount;
+#endif
+    CCMemoryDestructorCallback destructor;
+} CCAllocatorHeader;
 
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
@@ -116,7 +146,7 @@ typedef struct {
 static void *AlignedAllocator(size_t *Alignment, size_t Size)
 {
     void *Head = malloc(Size + *Alignment + sizeof(CCAlignedMemoryHeader));
-    void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(int) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(int);
+    void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(CCAllocatorHeader);
     ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = *Alignment };
     
     return Ptr;
@@ -129,7 +159,7 @@ static void *AlignedReallocator(void *Data, void *Ptr, size_t Size)
     int Allocator = *(int*)Ptr;
     
     void *Head = realloc(Header->head, Size + Alignment + sizeof(CCAlignedMemoryHeader));
-    Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(int) + Alignment - 1) & ~(Alignment - 1)) - sizeof(int);
+    Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + Alignment - 1) & ~(Alignment - 1)) - sizeof(CCAllocatorHeader);
     ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Alignment };
     *(int*)Ptr = Allocator;
     
@@ -178,7 +208,7 @@ void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunct
     //release lock
 }
 
-void *CCAllocate(CCAllocatorType Type, size_t Size)
+void *CCMemoryAllocate(CCAllocatorType Type, size_t Size)
 {
     const int Index = Type.allocator;
     if (Index < 0) return NULL;
@@ -186,14 +216,18 @@ void *CCAllocate(CCAllocatorType Type, size_t Size)
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Index (%d) exceeds the number of allocators available (%d).", Index, CC_ALLOCATORS_MAX);
     const CCAllocatorFunction Allocator = Allocators.allocators[Index].allocator;
     
-    int *Ptr = NULL;
+    CCAllocatorHeader *Ptr = NULL;
     if (Allocator)
     {
-        const size_t NewSize = Size + sizeof(int);
+        const size_t NewSize = Size + sizeof(CCAllocatorHeader);
         if (NewSize > Size)
         {
             Ptr = Allocator(Type.data, NewSize);
-            (*Ptr++) = Index;
+            (*Ptr++) = (CCAllocatorHeader){
+                .allocator = Index,
+                .refCount = 1,
+                .destructor = NULL
+            };
         }
         
         else CC_LOG_DEBUG("Internal error: Integer overflow. Try reducing allocation size (%zu). #Attention #Error", Size);
@@ -202,20 +236,20 @@ void *CCAllocate(CCAllocatorType Type, size_t Size)
     return Ptr;
 }
 
-void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
+void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
 {
-    if (!Ptr) return CCAllocate(Type, Size);
+    if (!Ptr) return CCMemoryAllocate(Type, Size);
     
-    const int Index = ((int*)Ptr)[-1];
+    const int Index = ((CCAllocatorHeader*)Ptr)[-1].allocator;
     if (Index < 0) return NULL;
     
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
     const CCReallocatorFunction Reallocator = Allocators.allocators[Index].reallocator;
     
-    const size_t NewSize = Size + sizeof(int);
+    const size_t NewSize = Size + sizeof(CCAllocatorHeader);
     if (NewSize > Size)
     {
-        Ptr = Reallocator? ((int*)Reallocator(Type.data, (int*)Ptr - 1, NewSize) + 1) : NULL;
+        Ptr = Reallocator? ((CCAllocatorHeader*)Reallocator(Type.data, (CCAllocatorHeader*)Ptr - 1, NewSize) + 1) : NULL;
     }
     
     else
@@ -227,13 +261,67 @@ void *CCReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     return Ptr;
 }
 
-void CCDeallocate(void *Ptr)
+void *CCMemoryRetain(void *Ptr)
 {
-    const int Index = ((int*)Ptr)[-1];
-    if (Index < 0) return;
+    CCAssertLog(Ptr, "Ptr must not be null");
     
-    CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
-    const CCDeallocatorFunction Deallocator = Allocators.allocators[Index].deallocator;
+    CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
-    if (Deallocator) Deallocator((int*)Ptr - 1);
+#if CC_ALLOCATOR_USING_STDATOMIC
+    atomic_fetch_add_explicit(&Header->refCount, 1, memory_order_relaxed);
+#elif CC_ALLOCATOR_USING_OSATOMIC
+    OSAtomicIncrement32(&Header->refCount);
+#else
+    Header->refCount++;
+#endif
+    
+    return Ptr;
+}
+
+void CCMemoryDeallocate(void *Ptr)
+{
+    CCAssertLog(Ptr, "Ptr must not be null");
+    
+    CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
+    
+#if CC_ALLOCATOR_USING_STDATOMIC
+    const int32_t Count = atomic_fetch_sub_explicit(&Header->refCount, 1, memory_order_release) - 1;
+#elif CC_ALLOCATOR_USING_OSATOMIC
+    const int32_t Count = OSAtomicDecrement32(&Header->refCount);
+#else
+    const int32_t Count = --Header->refCount;
+#endif
+    
+    CCAssertLog(Header->allocator < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
+    CCAssertLog(Count >= 0, "Allocation has been over released.");
+    
+    if (Count == 0)
+    {
+#if CC_ALLOCATOR_USING_STDATOMIC
+        atomic_thread_fence(memory_order_acquire);
+#elif CC_ALLOCATOR_USING_OSATOMIC
+        OSMemoryBarrier();
+#endif
+        
+        if (Header->destructor) Header->destructor(Ptr);
+        
+        const int Index = Header->allocator;
+        if (Index < 0) return;
+        
+        const CCDeallocatorFunction Deallocator = Allocators.allocators[Index].deallocator;
+        
+        if (Deallocator) Deallocator(Header);
+    }
+}
+
+CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCallback Destructor)
+{
+    CCAssertLog(Ptr, "Ptr must not be null");
+    
+    CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
+    
+    CCMemoryDestructorCallback PrevDestructor = Header->destructor;
+    Header->destructor = Destructor;
+    
+    return PrevDestructor;
 }

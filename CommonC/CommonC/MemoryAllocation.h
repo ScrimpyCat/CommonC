@@ -58,6 +58,7 @@ typedef struct {
 void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
 void *CCRealloc(CCAllocatorType Type, void *Ptr, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
 void CCFree(void *Ptr);
+void *CCRetain(void *Ptr);
 
 #if __BLOCKS__
 void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;
