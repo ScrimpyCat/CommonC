@@ -239,6 +239,14 @@ static CCString CCStringCreateTagged(const char *String, size_t Length, CCString
     return 0;
 }
 
+static void CCStringDestructor(CCStringInfo *String)
+{
+    if ((String->string) && (String->hint & CCStringHintFree))
+    {
+        CC_SAFE_Free(((CCStringInfo*)String)->string);
+    }
+}
+
 static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size, _Bool SameLength)
 {
     CCAssertLog(!(Hint & (CCStringMarkHash | CCStringMarkSize | CCStringMarkLength | CCStringMarkUnsafeBuffer)), "Must not use private hints");
@@ -252,6 +260,7 @@ static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint
     
     
     CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + ((Hint & CCStringHintCopy) == CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
+    CCMemorySetDestructor(Str, (CCMemoryDestructorCallback)CCStringDestructor);
     
     *Str = (CCStringInfo){
         .hint = Hint | CCStringMarkSize,
@@ -302,6 +311,8 @@ CCString CCStringCopy(CCString String)
     
     if (CCStringIsTagged(String)) return String;
     
+    if (((CCStringInfo*)String)->hint & CCStringHintFree) return (CCString)CCRetain((CCStringInfo*)String);
+    
     return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringGetEncoding(String), CCStringGetCharacters((CCStringInfo*)String), CCStringGetSize(String));
 }
 
@@ -344,11 +355,6 @@ void CCStringDestroy(CCString String)
     
     if (!CCStringIsTagged(String))
     {
-        if ((((CCStringInfo*)String)->string) && ((CCStringInfo*)String)->hint & CCStringHintFree)
-        {
-            CC_SAFE_Free(((CCStringInfo*)String)->string);
-        }
-        
         if (!(((CCStringInfo*)String)->hint & CCStringMarkConstant))
         {
             CCFree((CCStringInfo*)String);
