@@ -96,11 +96,13 @@ typedef enum {
 
 /*!
  * @brief The collection.
+ * @description Allows @b CCRetain.
  */
 typedef struct CCCollectionInfo *CCCollection;
 
 /*!
  * @brief The ordered collection
+ * @description Allows @b CCRetain.
  */
 typedef CCCollection CCOrderedCollection;
 

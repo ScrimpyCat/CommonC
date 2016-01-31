@@ -43,6 +43,7 @@ typedef int CCDataHint;
 
 /*!
  * @brief The data.
+ * @description Allows @b CCRetain.
  */
 typedef struct CCDataInfo *CCData;
 

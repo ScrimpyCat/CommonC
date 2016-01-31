@@ -95,6 +95,7 @@ for (const char *buffer = buffer##__CC_PRIV__PRIVCONST_STRING ? buffer##__CC_PRI
 
 /*!
  * @brief The string.
+ * @warning Unsafe to call CCRetain, instead use CCStringCopy
  */
 typedef uintptr_t CCString;
 

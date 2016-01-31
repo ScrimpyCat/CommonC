@@ -29,6 +29,12 @@
 #include "Assertion.h"
 #include "Hash.h"
 
+static void CCDataDestructor(CCData Data)
+{
+    if (Data->destructor) Data->destructor(Data);
+    Data->interface->destroy(Data->internal);
+}
+
 CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, CCDataBufferHash Hash, CCDataBufferDestructor Destructor, const CCDataInterface *Interface)
 {
     CCAssertLog(Interface, "Interface must not be null");
@@ -52,6 +58,8 @@ CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, 
             CCFree(Data);
             Data = NULL;
         }
+        
+        else CCMemorySetDestructor(Data, (CCMemoryDestructorCallback)CCDataDestructor);
     }
     
     else
@@ -62,13 +70,10 @@ CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, 
     return Data;
 }
 
-
 void CCDataDestroy(CCData Data)
 {
     CCAssertLog(Data, "Data must not be null");
     
-    if (Data->destructor) Data->destructor(Data);
-    Data->interface->destroy(Data->internal);
     CC_SAFE_Free(Data);
 }
 

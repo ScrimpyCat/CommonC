@@ -124,6 +124,22 @@ CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint
     return CCCollectionCreateWithImplementation(Allocator, Hint, ElementSize, Destructor, BestInterface);
 }
 
+static void CCCollectionDestructor(CCCollection Collection)
+{
+    if (Collection->destructor)
+    {
+        CCEnumerator Enumerator;
+        CCCollectionGetEnumerator(Collection, &Enumerator);
+        
+        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
+        {
+            Collection->destructor(Collection, Element);
+        }
+    }
+    
+    Collection->interface->destroy(Collection->internal);
+}
+
 CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface)
 {
     CCAssertLog(Interface, "Interface must not be null");
@@ -146,6 +162,8 @@ CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCC
             CCFree(Collection);
             Collection = NULL;
         }
+        
+        else CCMemorySetDestructor(Collection, (CCMemoryDestructorCallback)CCCollectionDestructor);
     }
     
     else
@@ -160,18 +178,6 @@ void CCCollectionDestroy(CCCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    if (Collection->destructor)
-    {
-        CCEnumerator Enumerator;
-        CCCollectionGetEnumerator(Collection, &Enumerator);
-        
-        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
-        {
-            Collection->destructor(Collection, Element);
-        }
-    }
-    
-    Collection->interface->destroy(Collection->internal);
     CCFree(Collection);
 }
 
