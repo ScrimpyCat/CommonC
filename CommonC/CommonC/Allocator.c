@@ -198,7 +198,7 @@ static struct {
 
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator)
 {
-    CCAssertLog((Index > 2) && (Index < CC_ALLOCATORS_MAX), "Index (%d) cannot be negative, or replace any standard allocators, or exceed the maximum number of allocators (%d).", Index, CC_ALLOCATORS_MAX);
+    CCAssertLog((Index > 3) && (Index < CC_ALLOCATORS_MAX), "Index (%d) cannot be negative, or replace any standard allocators, or exceed the maximum number of allocators (%d).", Index, CC_ALLOCATORS_MAX);
     
     //Allocators.lock <- lock
     if ((Allocators.allocators[Index].allocator) || (Allocators.allocators[Index].reallocator) || (Allocators.allocators[Index].deallocator)) CC_LOG_WARNING("Replacing allocator (%p:%p:%p) at index (%d) with (%p:%p:%p).", Allocators.allocators[Index].allocator, Allocators.allocators[Index].reallocator, Allocators.allocators[Index].deallocator, Index, Allocator, Reallocator, Deallocator);

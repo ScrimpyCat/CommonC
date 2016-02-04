@@ -164,7 +164,7 @@ static void ASLSetup(void)
     }
     
     size_t Size = CFStringGetLength(Path) + 1;
-    char *PathStr;
+    char *PathStr = NULL;
     CC_TEMP_Malloc(PathStr, sizeof(char) * Size,
                    CC_LOG_ERROR("Failed to create path. Won't be able to record logs locally to app.");
                    CFRelease(Path);
@@ -750,7 +750,7 @@ void CCLogAddFile(const char *File)
     
 #if CC_ASL_LOGGER
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
-    if (asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
+    if (&asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
     else
 #endif 
         asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);

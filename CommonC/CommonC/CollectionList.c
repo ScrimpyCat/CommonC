@@ -54,7 +54,7 @@ static CCCollectionEntry CCOrderedCollectionListEntryLast(CCCollectionListIntern
 static void CCOrderedCollectionListRemoveLast(CCCollectionListInternal *Internal, CCAllocatorType Allocator);
 
 
-const CCOrderedCollectionInterface CCOrderedCollectionListInterface = {
+static const CCOrderedCollectionInterface CCOrderedCollectionListInterface = {
     .insert = (CCOrderedCollectionInsertCallback)CCOrderedCollectionListInsert,
     .entry = (CCOrderedCollectionEntryCallback)CCOrderedCollectionListEntry,
     .index = (CCOrderedCollectionIndexCallback)CCOrderedCollectionListIndex,
@@ -64,7 +64,7 @@ const CCOrderedCollectionInterface CCOrderedCollectionListInterface = {
     }
 };
 
-const CCCollectionInterface CCCollectionListInterface = {
+static const CCCollectionInterface CCCollectionListInterface = {
     .hintWeight = CCCollectionListHintWeight,
     .create = CCCollectionListConstructor,
     .destroy = (CCCollectionDestructorCallback)CCCollectionListDestructor,

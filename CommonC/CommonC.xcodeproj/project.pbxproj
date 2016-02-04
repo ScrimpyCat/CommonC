@@ -7,6 +7,88 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F30437941C62DEAA00388C74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026F17AC3FFD00153E85 /* Foundation.framework */; };
+		F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F304379D1C62DFA200388C74 /* CommonC-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437A51C62DFA200388C74 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F304379B1C62DFA200388C74 /* CommonC.framework */; };
+		F30437AA1C62DFA200388C74 /* CommonC_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30437A91C62DFA200388C74 /* CommonC_iOSTests.m */; };
+		F30437B21C62E02C00388C74 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = F362027717AC3FFD00153E85 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437B41C62E06500388C74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F30437B31C62E06500388C74 /* Foundation.framework */; };
+		F30437B51C62E06F00388C74 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
+		F30437B61C62E07200388C74 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202EF17AC442700153E85 /* Platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437B71C62E07900388C74 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD6217AE61DE00D1674C /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437B81C62E07F00388C74 /* Hacks.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD6417AE95BB00D1674C /* Hacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437B91C62E08400388C74 /* Generics.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD5A17AE208600D1674C /* Generics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437BA1C62E08A00388C74 /* Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0281C1456D60028B86B /* Hash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437BB1C62E09000388C74 /* Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D0271C1456D60028B86B /* Hash.c */; };
+		F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7D21C461936006C3D96 /* CCStringEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437BD1C62E09900388C74 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7CF1C44D515006C3D96 /* CCString.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437BE1C62E09F00388C74 /* CCString.c in Sources */ = {isa = PBXBuildFile; fileRef = F369C7CE1C44D515006C3D96 /* CCString.c */; };
+		F30437BF1C62E0A600388C74 /* Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D0231C132B800028B86B /* Buffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C01C62E0AA00388C74 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01B1C12B13E0028B86B /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C11C62E0AF00388C74 /* Data.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D01A1C12B13E0028B86B /* Data.c */; };
+		F30437C21C62E0B200388C74 /* DataInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01C1C12B13E0028B86B /* DataInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C31C62E0B700388C74 /* DataTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D01D1C12B13E0028B86B /* DataTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C41C62E0BD00388C74 /* DataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D02F1C147DB50028B86B /* DataBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C51C62E0C100388C74 /* DataBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D02E1C147DB40028B86B /* DataBuffer.c */; };
+		F30437C61C62E0C800388C74 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99301A6D0FFF00212838 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C71C62E0CD00388C74 /* LinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99311A6D0FFF00212838 /* LinkedList.c */; };
+		F30437C81C62E0D000388C74 /* Array.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99761A7419D200212838 /* Array.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437C91C62E0D400388C74 /* Array.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99751A7419D200212838 /* Array.c */; };
+		F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437CE1C62E0EC00388C74 /* CollectionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437CF1C62E0F100388C74 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D01C62E0F500388C74 /* Collection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99BA1A7511D500212838 /* Collection.c */; };
+		F30437D11C62E0F900388C74 /* OrderedCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3143AA21A8A8D1D004EB810 /* OrderedCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D21C62E0FE00388C74 /* OrderedCollection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3143AA31A8A8FE8004EB810 /* OrderedCollection.c */; };
+		F30437D31C62E10400388C74 /* CollectionArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D41C62E11000388C74 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
+		F30437D51C62E11300388C74 /* CollectionList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3143A9D1A8A7CF6004EB810 /* CollectionList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D61C62E11800388C74 /* CollectionList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9E1A8A7D03004EB810 /* CollectionList.c */; };
+		F30437D71C62E12100388C74 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D81C62E12700388C74 /* BitTricks.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8C17B5A14300D1674C /* BitTricks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437D91C62E13000388C74 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DA1C62E13800388C74 /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92D1C4DD790005AE64E /* Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92F1C4DD7F5005AE64E /* Matrix4.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DC1C62E14700388C74 /* Vector.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B518014BE500B17CFD /* Vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DD1C62E14D00388C74 /* Vector2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B718014BF200B17CFD /* Vector2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DE1C62E15300388C74 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BC6A1E1877030B00934291 /* Vector3D.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437DF1C62E15900388C74 /* Vector4D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3067B781C59149E00766814 /* Vector4D.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E01C62E16400388C74 /* SystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F3064008184BAA7B00122BE9 /* SystemInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E11C62E17600388C74 /* SystemInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F306400A184BAA8700122BE9 /* SystemInfo.c */; };
+		F30437E21C62E18000388C74 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7817B14F8E00D1674C /* File.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E31C62E18600388C74 /* File.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7A17B14F9700D1674C /* File.c */; };
+		F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7017B02C3500D1674C /* ProcessInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7217B02C3E00D1674C /* ProcessInfo.c */; };
+		F30437E61C62E1A900388C74 /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BD17C21C02E15F00B3849E /* FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BD17C11C02E15F00B3849E /* FileSystem.c */; };
+		F30437E81C62E1B300388C74 /* PathComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05B1C09550100BAA44E /* PathComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437E91C62E1B800388C74 /* PathComponent.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05A1C09550100BAA44E /* PathComponent.c */; };
+		F30437EA1C62E1BC00388C74 /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437EB1C62E1C100388C74 /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
+		F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F71C0A90D700FC10F1 /* SystemPath.m */; };
+		F30437ED1C62E1C800388C74 /* FileHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = F358D5FA1C0AA6C400FC10F1 /* FileHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437EE1C62E1CD00388C74 /* FileHandle.c in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F91C0AA6C400FC10F1 /* FileHandle.c */; };
+		F30437EF1C62E1D600388C74 /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD6D17B0239C00D1674C /* Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8517B57AB100D1674C /* Assertion_Private.h */; };
+		F30437F11C62E1E300388C74 /* Assertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8017B53FDD00D1674C /* Assertion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7617B0ED0000D1674C /* Logging_Private.h */; };
+		F30437F31C62E1EF00388C74 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4C17AC8C8800D1674C /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437F41C62E1F400388C74 /* Logging.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4E17AC8C9000D1674C /* Logging.c */; };
+		F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = F30640101850FB2E00122BE9 /* CustomFormatSpecifiers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437F61C62E20200388C74 /* CustomFormatSpecifiers.c in Sources */ = {isa = PBXBuildFile; fileRef = F306400E1850FB1D00122BE9 /* CustomFormatSpecifiers.c */; };
+		F30437F71C62E20500388C74 /* CustomInputFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437F81C62E20B00388C74 /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
+		F30437F91C62E21100388C74 /* Allocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD5517ADF3BC00D1674C /* Allocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437FA1C62E21800388C74 /* Allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD5717ADF3C600D1674C /* Allocator.c */; };
+		F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99371A6D613600212838 /* CallbackAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437FC1C62E22300388C74 /* CFAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9E219428E1400C3626C /* CFAllocator.c */; };
+		F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202F117AC510700153E85 /* MemoryAllocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30437FE1C62E22C00388C74 /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
+		F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30438001C62E24900388C74 /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
 		F30529B618014BE500B17CFD /* Vector.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B518014BE500B17CFD /* Vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30529B818014BF200B17CFD /* Vector2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B718014BF200B17CFD /* Vector2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F3064008184BAA7B00122BE9 /* SystemInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,16 +121,12 @@
 		F322F0601C09551100BAA44E /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
-		F353DD4517AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4817AC788100D1674C /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
-		F353DD4B17AC88BA00D1674C /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
 		F353DD4D17AC8C8800D1674C /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4C17AC8C8800D1674C /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4F17AC8C9000D1674C /* Logging.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4E17AC8C9000D1674C /* Logging.c */; };
-		F353DD5017AC8C9000D1674C /* Logging.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4E17AC8C9000D1674C /* Logging.c */; };
 		F353DD5617ADF3BC00D1674C /* Allocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD5517ADF3BC00D1674C /* Allocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD5817ADF3C600D1674C /* Allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD5717ADF3C600D1674C /* Allocator.c */; };
-		F353DD5917ADF3C600D1674C /* Allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD5717ADF3C600D1674C /* Allocator.c */; };
 		F353DD5B17AE208600D1674C /* Generics.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD5A17AE208600D1674C /* Generics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD5E17AE2C6400D1674C /* AllocatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F353DD5D17AE2C6400D1674C /* AllocatorTests.m */; };
 		F353DD6117AE521800D1674C /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F353DD6017AE521800D1674C /* LoggingTests.m */; };
@@ -57,11 +135,9 @@
 		F353DD6E17B0239C00D1674C /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD6D17B0239C00D1674C /* Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7017B02C3500D1674C /* ProcessInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD7317B02C3E00D1674C /* ProcessInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7217B02C3E00D1674C /* ProcessInfo.c */; };
-		F353DD7417B02C3E00D1674C /* ProcessInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7217B02C3E00D1674C /* ProcessInfo.c */; };
 		F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7617B0ED0000D1674C /* Logging_Private.h */; };
 		F353DD7917B14F8E00D1674C /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD7817B14F8E00D1674C /* File.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD7B17B14F9800D1674C /* File.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7A17B14F9700D1674C /* File.c */; };
-		F353DD7C17B14F9800D1674C /* File.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD7A17B14F9700D1674C /* File.c */; };
 		F353DD8117B53FDD00D1674C /* Assertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8017B53FDD00D1674C /* Assertion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8517B57AB100D1674C /* Assertion_Private.h */; };
 		F353DD8A17B5870C00D1674C /* FileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F353DD8917B5870C00D1674C /* FileTests.m */; };
@@ -81,7 +157,6 @@
 		F359D0301C147DB50028B86B /* DataBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D02E1C147DB40028B86B /* DataBuffer.c */; };
 		F359D0311C147DB50028B86B /* DataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D02F1C147DB50028B86B /* DataBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F359D0331C148F700028B86B /* DataBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F359D0321C148F700028B86B /* DataBufferTests.m */; };
-		F362026B17AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F362028217AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
@@ -147,6 +222,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F30437A61C62DFA200388C74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F362025E17AC3FFD00153E85 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F304379A1C62DFA200388C74;
+			remoteInfo = "CommonC-iOS";
+		};
 		F362028317AC3FFD00153E85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F362025E17AC3FFD00153E85 /* Project object */;
@@ -157,6 +239,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F304379B1C62DFA200388C74 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F304379D1C62DFA200388C74 /* CommonC-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CommonC-iOS.h"; sourceTree = "<group>"; };
+		F304379F1C62DFA200388C74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F30437A41C62DFA200388C74 /* CommonC-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CommonC-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F30437A91C62DFA200388C74 /* CommonC_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonC_iOSTests.m; sourceTree = "<group>"; };
+		F30437AB1C62DFA200388C74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F30437B31C62E06500388C74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F30529B518014BE500B17CFD /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		F30529B718014BF200B17CFD /* Vector2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2D.h; sourceTree = "<group>"; };
 		F3064008184BAA7B00122BE9 /* SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfo.h; sourceTree = "<group>"; };
@@ -306,11 +395,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F30437971C62DFA200388C74 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30437B41C62E06500388C74 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F30437A11C62DFA200388C74 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30437A51C62DFA200388C74 /* CommonC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F362026317AC3FFD00153E85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F362026B17AC3FFD00153E85 /* Cocoa.framework in Frameworks */,
+				F30437941C62DEAA00388C74 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +432,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F304379C1C62DFA200388C74 /* CommonC-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				F304379D1C62DFA200388C74 /* CommonC-iOS.h */,
+				F304379F1C62DFA200388C74 /* Info.plist */,
+			);
+			path = "CommonC-iOS";
+			sourceTree = "<group>";
+		};
+		F30437A81C62DFA200388C74 /* CommonC-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				F30437A91C62DFA200388C74 /* CommonC_iOSTests.m */,
+				F30437AB1C62DFA200388C74 /* Info.plist */,
+			);
+			path = "CommonC-iOSTests";
+			sourceTree = "<group>";
+		};
 		F30529B418014B9C00B17CFD /* Vectors */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,6 +634,8 @@
 			children = (
 				F362027017AC3FFD00153E85 /* CommonC */,
 				F362028617AC3FFD00153E85 /* CommonCTests */,
+				F304379C1C62DFA200388C74 /* CommonC-iOS */,
+				F30437A81C62DFA200388C74 /* CommonC-iOSTests */,
 				F362026917AC3FFD00153E85 /* Frameworks */,
 				F362026817AC3FFD00153E85 /* Products */,
 			);
@@ -521,6 +646,8 @@
 			children = (
 				F362026717AC3FFD00153E85 /* CommonC.framework */,
 				F362027F17AC3FFD00153E85 /* CommonCTests.xctest */,
+				F304379B1C62DFA200388C74 /* CommonC.framework */,
+				F30437A41C62DFA200388C74 /* CommonC-iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -528,6 +655,7 @@
 		F362026917AC3FFD00153E85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F30437B31C62E06500388C74 /* Foundation.framework */,
 				F3A91A4F186BC4B100EF0B95 /* XCTest.framework */,
 				F362026A17AC3FFD00153E85 /* Cocoa.framework */,
 				F3F9B60D17BA4B4100D50297 /* Foundation.framework */,
@@ -746,6 +874,65 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F30437981C62DFA200388C74 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30437B61C62E07200388C74 /* Platform.h in Headers */,
+				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
+				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
+				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
+				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
+				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
+				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
+				F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */,
+				F30437D11C62E0F900388C74 /* OrderedCollection.h in Headers */,
+				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
+				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
+				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
+				F30437E81C62E1B300388C74 /* PathComponent.h in Headers */,
+				F30437F31C62E1EF00388C74 /* Logging.h in Headers */,
+				F30437E01C62E16400388C74 /* SystemInfo.h in Headers */,
+				F30437F71C62E20500388C74 /* CustomInputFilters.h in Headers */,
+				F30437B91C62E08400388C74 /* Generics.h in Headers */,
+				F30437DD1C62E14D00388C74 /* Vector2D.h in Headers */,
+				F30437C21C62E0B200388C74 /* DataInterface.h in Headers */,
+				F30437CE1C62E0EC00388C74 /* CollectionTypes.h in Headers */,
+				F30437D81C62E12700388C74 /* BitTricks.h in Headers */,
+				F30437ED1C62E1C800388C74 /* FileHandle.h in Headers */,
+				F30437DC1C62E14700388C74 /* Vector.h in Headers */,
+				F30437D91C62E13000388C74 /* Random.h in Headers */,
+				F30437EF1C62E1D600388C74 /* Types.h in Headers */,
+				F30437E21C62E18000388C74 /* File.h in Headers */,
+				F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */,
+				F30437BF1C62E0A600388C74 /* Buffer.h in Headers */,
+				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
+				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
+				F30437D51C62E11300388C74 /* CollectionList.h in Headers */,
+				F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */,
+				F30437B71C62E07900388C74 /* Extensions.h in Headers */,
+				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
+				F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */,
+				F30437EA1C62E1BC00388C74 /* Path.h in Headers */,
+				F30437DE1C62E15300388C74 /* Vector3D.h in Headers */,
+				F30437D71C62E12100388C74 /* Maths.h in Headers */,
+				F30437C41C62E0BD00388C74 /* DataBuffer.h in Headers */,
+				F30437B21C62E02C00388C74 /* Common.h in Headers */,
+				F30437BA1C62E08A00388C74 /* Hash.h in Headers */,
+				F30437E61C62E1A900388C74 /* FileSystem.h in Headers */,
+				F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */,
+				F30437DF1C62E15900388C74 /* Vector4D.h in Headers */,
+				F30437C81C62E0D000388C74 /* Array.h in Headers */,
+				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
+				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
+				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
+				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
+				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
+				F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */,
+				F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F362026417AC3FFD00153E85 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -807,6 +994,42 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F304379A1C62DFA200388C74 /* CommonC-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F30437AC1C62DFA200388C74 /* Build configuration list for PBXNativeTarget "CommonC-iOS" */;
+			buildPhases = (
+				F30437961C62DFA200388C74 /* Sources */,
+				F30437971C62DFA200388C74 /* Frameworks */,
+				F30437981C62DFA200388C74 /* Headers */,
+				F30437991C62DFA200388C74 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CommonC-iOS";
+			productName = "CommonC-iOS";
+			productReference = F304379B1C62DFA200388C74 /* CommonC.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F30437A31C62DFA200388C74 /* CommonC-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F30437AF1C62DFA200388C74 /* Build configuration list for PBXNativeTarget "CommonC-iOSTests" */;
+			buildPhases = (
+				F30437A01C62DFA200388C74 /* Sources */,
+				F30437A11C62DFA200388C74 /* Frameworks */,
+				F30437A21C62DFA200388C74 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F30437A71C62DFA200388C74 /* PBXTargetDependency */,
+			);
+			name = "CommonC-iOSTests";
+			productName = "CommonC-iOSTests";
+			productReference = F30437A41C62DFA200388C74 /* CommonC-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F362026617AC3FFD00153E85 /* CommonC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F362029117AC3FFD00153E85 /* Build configuration list for PBXNativeTarget "CommonC" */;
@@ -852,6 +1075,14 @@
 			attributes = {
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Stefan Johnson";
+				TargetAttributes = {
+					F304379A1C62DFA200388C74 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					F30437A31C62DFA200388C74 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
 			};
 			buildConfigurationList = F362026117AC3FFD00153E85 /* Build configuration list for PBXProject "CommonC" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -867,11 +1098,27 @@
 			targets = (
 				F362026617AC3FFD00153E85 /* CommonC */,
 				F362027E17AC3FFD00153E85 /* CommonCTests */,
+				F304379A1C62DFA200388C74 /* CommonC-iOS */,
+				F30437A31C62DFA200388C74 /* CommonC-iOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F30437991C62DFA200388C74 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F30437A21C62DFA200388C74 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F362026517AC3FFD00153E85 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -907,6 +1154,47 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F30437961C62DFA200388C74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30437E91C62E1B800388C74 /* PathComponent.c in Sources */,
+				F30437FA1C62E21800388C74 /* Allocator.c in Sources */,
+				F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */,
+				F30437E31C62E18600388C74 /* File.c in Sources */,
+				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
+				F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */,
+				F30437F41C62E1F400388C74 /* Logging.c in Sources */,
+				F30437C91C62E0D400388C74 /* Array.c in Sources */,
+				F30437D01C62E0F500388C74 /* Collection.c in Sources */,
+				F30437E11C62E17600388C74 /* SystemInfo.c in Sources */,
+				F30437D21C62E0FE00388C74 /* OrderedCollection.c in Sources */,
+				F30437B51C62E06F00388C74 /* CommonC.c in Sources */,
+				F30437F61C62E20200388C74 /* CustomFormatSpecifiers.c in Sources */,
+				F30437C11C62E0AF00388C74 /* Data.c in Sources */,
+				F30437FE1C62E22C00388C74 /* MemoryAllocation.c in Sources */,
+				F30437D41C62E11000388C74 /* CollectionArray.c in Sources */,
+				F30437C51C62E0C100388C74 /* DataBuffer.c in Sources */,
+				F30437FC1C62E22300388C74 /* CFAllocator.c in Sources */,
+				F30437BE1C62E09F00388C74 /* CCString.c in Sources */,
+				F30438001C62E24900388C74 /* DebugTypes.c in Sources */,
+				F30437C71C62E0CD00388C74 /* LinkedList.c in Sources */,
+				F30437D61C62E11800388C74 /* CollectionList.c in Sources */,
+				F30437EE1C62E1CD00388C74 /* FileHandle.c in Sources */,
+				F30437BB1C62E09000388C74 /* Hash.c in Sources */,
+				F30437EB1C62E1C100388C74 /* Path.c in Sources */,
+				F30437F81C62E20B00388C74 /* CustomInputFilters.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F30437A01C62DFA200388C74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30437AA1C62DFA200388C74 /* CommonC_iOSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F362026217AC3FFD00153E85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -958,16 +1246,12 @@
 				F3BC6A361877A82700934291 /* Vectorized3DSSE2Tests.m in Sources */,
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
-				F353DD4517AC767800D1674C /* MemoryAllocation.c in Sources */,
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
 				F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */,
-				F353DD4B17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */,
-				F353DD5017AC8C9000D1674C /* Logging.c in Sources */,
 				F3067B831C591B3600766814 /* Vectorized4DSSE3Tests.m in Sources */,
 				F3BC6A3018776CAE00934291 /* Vectorized2DSSE4_2Tests.m in Sources */,
 				F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */,
-				F353DD5917ADF3C600D1674C /* Allocator.c in Sources */,
 				F3E3E095187A5A5E00A38E72 /* Vector2DSSETests.m in Sources */,
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
@@ -984,10 +1268,8 @@
 				F3E3E09F187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m in Sources */,
 				F3067B891C591B6700766814 /* Vectorized4DSSE4_2Tests.m in Sources */,
 				F353DD6117AE521800D1674C /* LoggingTests.m in Sources */,
-				F353DD7417B02C3E00D1674C /* ProcessInfo.c in Sources */,
 				F3BC6A381877A83400934291 /* Vectorized3DSSE3Tests.m in Sources */,
 				F3AE99351A6D508200212838 /* LinkedListTests.m in Sources */,
-				F353DD7C17B14F9800D1674C /* File.c in Sources */,
 				F353DD8A17B5870C00D1674C /* FileTests.m in Sources */,
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
@@ -1004,6 +1286,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F30437A71C62DFA200388C74 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F304379A1C62DFA200388C74 /* CommonC-iOS */;
+			targetProxy = F30437A61C62DFA200388C74 /* PBXContainerItemProxy */;
+		};
 		F362028417AC3FFD00153E85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F362026617AC3FFD00153E85 /* CommonC */;
@@ -1031,6 +1318,138 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F30437AD1C62DFA200388C74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "CommonC-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOS";
+				PRODUCT_NAME = CommonC;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F30437AE1C62DFA200388C74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "CommonC-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOS";
+				PRODUCT_NAME = CommonC;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F30437B01C62DFA200388C74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "CommonC-iOSTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F30437B11C62DFA200388C74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "CommonC-iOSTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		F362028F17AC3FFD00153E85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1165,6 +1584,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F30437AC1C62DFA200388C74 /* Build configuration list for PBXNativeTarget "CommonC-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30437AD1C62DFA200388C74 /* Debug */,
+				F30437AE1C62DFA200388C74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F30437AF1C62DFA200388C74 /* Build configuration list for PBXNativeTarget "CommonC-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30437B01C62DFA200388C74 /* Debug */,
+				F30437B11C62DFA200388C74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F362026117AC3FFD00153E85 /* Build configuration list for PBXProject "CommonC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
