@@ -30,7 +30,7 @@
 
 #if defined(__has_include)
 
-#if !__has_include(<stdatomic.h>)
+#if __has_include(<stdatomic.h>)
 #define CC_ALLOCATOR_USING_STDATOMIC 1
 #include <stdatomic.h>
 #elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
@@ -267,6 +267,9 @@ void *CCMemoryRetain(void *Ptr)
     
     CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
+    const int Index = Header->allocator;
+    if (Index < 0) return Ptr;
+    
 #if CC_ALLOCATOR_USING_STDATOMIC
     atomic_fetch_add_explicit(&Header->refCount, 1, memory_order_relaxed);
 #elif CC_ALLOCATOR_USING_OSATOMIC
@@ -284,6 +287,9 @@ void CCMemoryDeallocate(void *Ptr)
     
     CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
+    const int Index = Header->allocator;
+    if (Index < 0) return;
+    
 #if CC_ALLOCATOR_USING_STDATOMIC
     const int32_t Count = atomic_fetch_sub_explicit(&Header->refCount, 1, memory_order_release) - 1;
 #elif CC_ALLOCATOR_USING_OSATOMIC
@@ -292,7 +298,7 @@ void CCMemoryDeallocate(void *Ptr)
     const int32_t Count = --Header->refCount;
 #endif
     
-    CCAssertLog(Header->allocator < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
+    CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
     CCAssertLog(Count >= 0, "Allocation has been over released.");
     
     if (Count == 0)
@@ -304,9 +310,6 @@ void CCMemoryDeallocate(void *Ptr)
 #endif
         
         if (Header->destructor) Header->destructor(Ptr);
-        
-        const int Index = Header->allocator;
-        if (Index < 0) return;
         
         const CCDeallocatorFunction Deallocator = Allocators.allocators[Index].deallocator;
         

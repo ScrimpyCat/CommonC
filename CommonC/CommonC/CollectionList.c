@@ -64,7 +64,7 @@ static const CCOrderedCollectionInterface CCOrderedCollectionListInterface = {
     }
 };
 
-static const CCCollectionInterface CCCollectionListInterface = {
+const CCCollectionInterface CCCollectionListInterface = {
     .hintWeight = CCCollectionListHintWeight,
     .create = CCCollectionListConstructor,
     .destroy = (CCCollectionDestructorCallback)CCCollectionListDestructor,

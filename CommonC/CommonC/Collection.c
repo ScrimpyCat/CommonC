@@ -61,7 +61,7 @@ int CCCollectionHintWeightCreate(CCCollectionHint Hint, CCCollectionHint FastHin
     return ((int)CCBitCountSet(FastHints) * 10 * Size) + ((int)CCBitCountSet(ModerateHints) * -1 * Size) + ((int)CCBitCountSet(SlowHints) * -100 * Size);
 }
 
-static const CCCollectionInterface CCCollectionArrayInterface, CCCollectionListInterface;
+const CCCollectionInterface CCCollectionArrayInterface, CCCollectionListInterface;
 static CCCollectionInternalInterfaceNode InternalInterfaces[] = {
     { .allocator = -1, .data = { .node = { .prev = NULL, .next = (void*)(InternalInterfaces + 1) + offsetof(CCCollectionInternalInterfaceNode, data) }, .interface = &CCCollectionArrayInterface } },
     { .allocator = -1, .data = { .node = { .prev = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data), .next = NULL }, .interface = &CCCollectionListInterface } }
