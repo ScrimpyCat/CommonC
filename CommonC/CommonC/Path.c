@@ -333,6 +333,12 @@ void FSPathRemoveComponentIndex(FSPath Path, size_t Index)
     FSPathMutated(Path);
 }
 
+void FSPathRemoveComponentLast(FSPath Path)
+{
+    CCOrderedCollectionRemoveLastElement(Path->components);
+    FSPathMutated(Path);
+}
+
 static void FSPathClearPathStringCache(FSPath Path)
 {
     CC_SAFE_Free(Path->completeRep);

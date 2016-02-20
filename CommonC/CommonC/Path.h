@@ -160,6 +160,12 @@ void FSPathPrependComponent(FSPath Path, FSPathComponent Component);
 void FSPathRemoveComponentIndex(FSPath Path, size_t Index);
 
 /*!
+ * @brief Remove the last component from the path.
+ * @param Path The path.
+ */
+void FSPathRemoveComponentLast(FSPath Path);
+
+/*!
  * @brief Get the string representation for the full path.
  * @param Path The path.
  * @return The string representation of the full path.
