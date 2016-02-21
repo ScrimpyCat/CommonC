@@ -28,7 +28,6 @@
 #include "Logging.h"
 #include "Assertion.h"
 #include <string.h>
-#include <wchar.h>
 #include "CCStringEnumerator.h"
 
 typedef struct {
@@ -935,17 +934,9 @@ CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStri
 
 static size_t CCStringGetLengthUTF8(const char *String)
 {
-    mbstate_t State = {0};
     size_t Length = 0;
     
-    while (*String)
-    {
-        const size_t Len = mbrlen(String, MB_CUR_MAX, &State);
-        CCAssertLog((Len != (size_t)-1) || (Len != (size_t)-2), "String must be valid UTF-8");
-        
-        String += Len;
-        Length++;
-    }
+    for (size_t Size = 0; CCStringGetCharacterUTF8(String, &Size); Length++, String += Size);
     
     return Length;
 }

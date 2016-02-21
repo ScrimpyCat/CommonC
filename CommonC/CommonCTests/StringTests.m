@@ -38,23 +38,15 @@
 @end
 
 @implementation StringTests
-{
-    char prevLocale[256];
-}
 
 -(void) setUp
 {
     [super setUp];
-    
-    sprintf(prevLocale, "%.255s", setlocale(LC_ALL, NULL));
-    setlocale(LC_ALL, "en_US.UTF-8");
 }
 
 -(void) tearDown
 {
     [super tearDown];
-    
-    setlocale(LC_ALL, prevLocale);
 }
 
 -(CCString) createString
