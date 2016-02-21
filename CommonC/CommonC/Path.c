@@ -495,13 +495,13 @@ _Bool FSPathIsDirectory(FSPath Path)
 
 _Bool FSPathIsFile(FSPath Path)
 {
-    FSPathComponentType Type = FSPathComponentGetType(*(FSPathComponent*)CCCollectionGetElement(Path->components, CCOrderedCollectionGetLastEntry(Path->components)));
+    FSPathComponentType Type = CCCollectionGetCount(Path->components) ? FSPathComponentGetType(*(FSPathComponent*)CCCollectionGetElement(Path->components, CCOrderedCollectionGetLastEntry(Path->components))) : FSPathComponentTypeInvalid;
     return (Type == FSPathComponentTypeExtension) || (Type == FSPathComponentTypeFile);
 }
 
 _Bool FSPathIsRelativePath(FSPath Path)
 {
-    return FSPathComponentGetType(*(FSPathComponent*)CCCollectionGetElement(Path->components, CCOrderedCollectionGetLastEntry(Path->components))) == FSPathComponentTypeRelativeRoot;
+    return CCCollectionGetCount(Path->components) ? FSPathComponentGetType(*(FSPathComponent*)CCOrderedCollectionGetElementAtIndex(Path->components, 0)) == FSPathComponentTypeRelativeRoot : FALSE;
 }
 
 _Bool FSPathMatch(FSPath Left, FSPath Right, FSMatch MatchOptions)
