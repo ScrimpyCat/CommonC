@@ -230,6 +230,67 @@ size_t FSManagerGetPreferredIOBlockSize(FSPath Path)
     }
 }
 
+static void FSPathElementDestructor(CCCollection Collection, FSPath *Element)
+{
+    FSPathDestroy(*Element);
+}
+
+static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *List, CCCollection NamingMatches, FSMatch MatchOptions)
+{
+    @autoreleasepool {
+        const NSDirectoryEnumerationOptions Options = (MatchOptions & FSMatchSkipHidden) ? NSDirectoryEnumerationSkipsHiddenFiles : 0;
+        
+        NSArray *Paths = [[NSFileManager defaultManager] contentsOfDirectoryAtURL: SystemPath
+                                                       includingPropertiesForKeys: @[NSURLIsDirectoryKey]
+                                                                          options: Options
+                                                                            error: NULL];
+        
+        for (NSURL *Item in Paths)
+        {
+            _Bool Match = TRUE;
+            FSPath Path = NULL;
+            
+            CC_COLLECTION_FOREACH(FSPath, PathMatch, NamingMatches)
+            {
+                Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
+                
+                Match = FSPathMatch(Path, PathMatch, MatchOptions);
+                
+                if (Match) break;
+            }
+            
+            if ((MatchOptions & FSMatchNameBlacklist) ? !Match : Match)
+            {
+                if (!Path) Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
+                
+                if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), (CCCollectionElementDestructor)FSPathElementDestructor);
+                CCOrderedCollectionAppendElement(*List, &Path);
+            }
+            
+            else if (Path) FSPathDestroy(Path);
+            
+            if ((MatchOptions & FSMatchSearchRecursively))
+            {
+                NSNumber *IsDir;
+                [Item getResourceValue: &IsDir forKey: NSURLIsDirectoryKey error: NULL];
+                
+                if (IsDir) FSManagerAddContentsInPath(Item, List, NamingMatches, MatchOptions);
+            }
+        }
+    }
+}
+
+CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions)
+{
+    CCOrderedCollection List = NULL;
+    
+    @autoreleasepool {
+        FSManagerAddContentsInPath(FSPathSystemInternalRepresentation(Path), &List, NamingMatches, MatchOptions);
+    }
+    
+    return List;
+}
+
 FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
 {
     if (!FSManagerExists(Path))

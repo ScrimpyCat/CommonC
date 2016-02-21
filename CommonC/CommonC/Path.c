@@ -503,3 +503,44 @@ _Bool FSPathIsRelativePath(FSPath Path)
 {
     return FSPathComponentGetType(*(FSPathComponent*)CCCollectionGetElement(Path->components, CCOrderedCollectionGetLastEntry(Path->components))) == FSPathComponentTypeRelativeRoot;
 }
+
+_Bool FSPathMatch(FSPath Left, FSPath Right, FSMatch MatchOptions)
+{
+    CCEnumerator LeftEnumerator, RightEnumerator;
+    CCCollectionGetEnumerator(Left->components, &LeftEnumerator);
+    CCCollectionGetEnumerator(Right->components, &RightEnumerator);
+    
+    const char Wildcard = (MatchOptions & FSMatchNameOptionWildcardIsLiteral) ? 0 : (((unsigned int)(MatchOptions & FSMatchNameOptionWildcardMask) >> FSMatchNameOptionWildcard) ? ((unsigned int)(MatchOptions & FSMatchNameOptionWildcardMask) >> FSMatchNameOptionWildcard) : '*');
+    for (FSPathComponent *LeftComponent = CCCollectionEnumeratorGetTail(&LeftEnumerator), *RightComponent = CCCollectionEnumeratorGetTail(&RightEnumerator); (LeftComponent) && (RightComponent); LeftComponent = CCCollectionEnumeratorPrevious(&LeftEnumerator), RightComponent = CCCollectionEnumeratorPrevious(&RightEnumerator))
+    {
+        if (FSPathComponentGetType(*LeftComponent) == FSPathComponentGetType(*RightComponent))
+        {
+            const char *LeftString = FSPathComponentGetString(*LeftComponent), *RightString = FSPathComponentGetString(*RightComponent);
+            
+            if ((Wildcard) && (((LeftString) && (*LeftString == Wildcard)) || ((RightString) && (*RightString == Wildcard)))) continue;
+            
+            if (LeftString != RightString)
+            {
+                if ((LeftString) && (RightString))
+                {
+                    if (MatchOptions & FSMatchNameOptionCaseSensitive)
+                    {
+                        if (strcmp(LeftString, RightString)) return FALSE;
+                    }
+                    
+                    else
+                    {
+                        while ((*LeftString) && (tolower(*LeftString++) == tolower(*RightString++)));
+                        if (*LeftString != *RightString) return FALSE;
+                    }
+                }
+            }
+        }
+        
+        else if ((MatchOptions & FSMatchNameOptionRequireRelativeRoot) ||
+                 ((FSPathComponentGetType(*LeftComponent) != FSPathComponentTypeRelativeRoot) &&
+                  (FSPathComponentGetType(*RightComponent) != FSPathComponentTypeRelativeRoot))) return FALSE;
+    }
+    
+    return TRUE;
+}

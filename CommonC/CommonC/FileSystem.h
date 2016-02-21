@@ -71,6 +71,24 @@ size_t FSManagerGetSize(FSPath Path);
 size_t FSManagerGetPreferredIOBlockSize(FSPath Path);
 
 /*!
+ * @brief Get a list of all content paths in the specified path.
+ * @description Contents are filtered based on matching inputs. The named matching rules are as
+ *              follows:
+ *
+ *              Path component names are matched literally, with wildcard matches denoted by '*'.
+ *
+ *              The matching behaviour can be overridden by using the FSMatchNameOption* flags.
+ *              Where default matching behaviour is a case incensitive whitelist.
+ *
+ * @param Path The path.
+ * @param NamingMatches An array of FSPath's to apply named matching rules on the list, or NULL
+ *        for no named matches.
+ * @param MatchOptions The options specifying the matching behaviour.
+ * @return The list of FSPath's or NULL is there were no paths. Note: Must be destroyed.
+ */
+CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions);
+
+/*!
  * @brief Create a path and optionally any required intermediate directories.
  * @param Path The path.
  * @param IntermediateDirectories Whether any missing intermediate directories should be created.

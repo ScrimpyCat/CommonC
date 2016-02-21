@@ -35,6 +35,36 @@ typedef struct {
     const char *filenameRep, *pathRep;
 } FSPathInfo, *FSPath;
 
+typedef enum {
+    /// Default matching behaviour
+    FSMatchDefault = 0,
+    /// Skip file matches.
+    FSMatchSkipFile = (1 << 0),
+    /// Skip directory matches.
+    FSMatchSkipDirectory = (1 << 1),
+    /// Skip hidden file/directory matches.
+    FSMatchSkipHidden = (1 << 2),
+    /// Search recursively into sub-folders.
+    FSMatchSearchRecursively = (1 << 3),
+    
+    /// Matching names act as a whitelist. Only contents whose name matches are used.
+    FSMatchNameWhitelist = (0 << 4),
+    /// Matching names act as a blacklist. Only contents whose name do not match are used.
+    FSMatchNameBlacklist = (1 << 4),
+    /// Matching names are case-insensitive.
+    FSMatchNameOptionCaseInsensitive = (0 << 5),
+    /// Matching names are case-sensitive.
+    FSMatchNameOptionCaseSensitive = (1 << 5),
+    /// Matching names use wildcards as a literal character match instead.
+    FSMatchNameOptionWildcardIsLiteral = (1 << 6),
+    /// Matching names with a relative root must match.
+    FSMatchNameOptionRequireRelativeRoot = (1 << 7),
+    
+    /// Define a custom wildcard ('*' << FSMatchNameOptionWildcard), default is '*'.
+    FSMatchNameOptionWildcard = 25,
+    FSMatchNameOptionWildcardMask = (127 << FSMatchNameOptionWildcard)
+} FSMatch;
+
 
 /*!
  * @brief Convert an FSPath style path to FSPathComponents.
@@ -213,5 +243,15 @@ _Bool FSPathIsFile(FSPath Path);
  * @return TRUE if it represents a relative path, FALSE if it does not.
  */
 _Bool FSPathIsRelativePath(FSPath Path);
+
+/*!
+ * @brief Check if the two paths match.
+ * @description Using matching options to change matching behaviour.
+ * @param Left A path.
+ * @param Right A path.
+ * @param MatchOptions Matching options to configure the matching behaviour. All options
+ *        beginning with FSMatchNameOption are valid. The others have no effect.
+ */
+_Bool FSPathMatch(FSPath Left, FSPath Right, FSMatch MatchOptions);
 
 #endif
