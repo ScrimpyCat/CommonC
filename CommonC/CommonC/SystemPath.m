@@ -250,13 +250,16 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
             _Bool Match = TRUE;
             FSPath Path = NULL;
             
-            CC_COLLECTION_FOREACH(FSPath, PathMatch, NamingMatches)
+            if (NamingMatches)
             {
-                Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
-                
-                Match = FSPathMatch(Path, PathMatch, MatchOptions);
-                
-                if (Match) break;
+                CC_COLLECTION_FOREACH(FSPath, PathMatch, NamingMatches)
+                {
+                    Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
+                    
+                    Match = FSPathMatch(Path, PathMatch, MatchOptions);
+                    
+                    if (Match) break;
+                }
             }
             
             if ((MatchOptions & FSMatchNameBlacklist) ? !Match : Match)
