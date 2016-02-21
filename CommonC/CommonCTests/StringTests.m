@@ -148,6 +148,8 @@
     XCTAssertTrue(CCStringEqual(String, CC_STRING("012345abc")), @"Should create the correct string");
     
     CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Insert);
 }
 
 -(void) testFindSubstring

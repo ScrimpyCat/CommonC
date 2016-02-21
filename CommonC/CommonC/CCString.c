@@ -309,13 +309,36 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
     CCAssertLog(String, "String must not be null");
     CCAssertLog(Insert, "Insert must not be null");
     
+    const size_t StringLength = CCStringGetLength(String), InsertLength = CCStringGetLength(Insert);
+    
+    if ((CCStringIsTagged(String)) && (CCStringIsTagged(Insert)) && ((String & CCStringTaggedMask) == (Insert & CCStringTaggedMask)))
+    {
+        const CCStringMapSet Set = String & CCStringTaggedMask;
+        if ((StringLength + InsertLength) < CCStringTaggedCharacterMax(Set))
+        {
+            const size_t Bits = CCStringTaggedBitSize(Set);
+            
+            String >>= 2;
+            
+            CCString NewString = Set;
+            
+            size_t Length = Index;
+            if (Length) NewString |= (String & (UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Length * Bits)))) << 2;
+            
+            NewString |= ((Insert >> 2) << (Length * Bits)) << 2;
+            
+            Length = StringLength - Index;
+            if (Index < StringLength) NewString |= ((String & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Length * Bits))) << (Index * Bits))) << (InsertLength * Bits)) << 2;
+            
+            return NewString;
+        }
+    }
+    
     char *NewString;
     CC_SAFE_Malloc(NewString, CCStringGetSize(String) + CCStringGetSize(Insert) + 1,
                    CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", CCStringGetSize(String) + 1);
                    return 0;
                    );
-    
-    const size_t StringLength = CCStringGetLength(String), InsertLength = CCStringGetLength(Insert);
     
     char *Buffer = CCStringCopyCharacters(String, 0, Index, NewString);
     Buffer = CCStringCopyCharacters(Insert, 0, InsertLength, Buffer);
