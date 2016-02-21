@@ -305,6 +305,42 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
     return CCStringCreateFromString(Allocator, Hint, String, Size, Size == strlen(String));
 }
 
+CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Insert, "Insert must not be null");
+    
+    char *NewString;
+    CC_SAFE_Malloc(NewString, CCStringGetSize(String) + CCStringGetSize(Insert) + 1,
+                   CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", CCStringGetSize(String) + 1);
+                   return 0;
+                   );
+    
+    const size_t StringLength = CCStringGetLength(String), InsertLength = CCStringGetLength(Insert);
+    
+    char *Buffer = CCStringCopyCharacters(String, 0, Index, NewString);
+    Buffer = CCStringCopyCharacters(Insert, 0, InsertLength, Buffer);
+    
+    if (Index < StringLength) Buffer = CCStringCopyCharacters(String, Index, StringLength - Index, Buffer);
+    
+    *Buffer = 0;
+    
+    return CCStringCreate(CC_STD_ALLOCATOR, CCStringHintFree | CCStringGetEncoding(String), NewString);
+}
+
+CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString Occurrence, CCString Replacement)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrence, "Occurrence must not be null");
+    
+    size_t Index = CCStringFindSubstring(String, 0, Occurrence);
+    if (Index == SIZE_MAX) return CCStringCopy(String);
+    
+    
+    
+    return 0;
+}
+
 CCString CCStringCopy(CCString String)
 {
     CCAssertLog(String, "String must not be null");
@@ -519,6 +555,8 @@ uint32_t CCStringGetHash(CCString String)
 {
     CCAssertLog(String, "String must not be null");
     
+    if ((!CCStringIsTagged(String)) && (((CCStringInfo*)String)->hint & CCStringMarkHash)) return ((CCStringInfo*)String)->hash;
+    
     uint32_t Hash = 0;
     
     CCEnumerator Enumerator;
@@ -540,6 +578,12 @@ uint32_t CCStringGetHash(CCString String)
     Hash += (Hash << 3);
     Hash ^= (Hash >> 11);
     Hash += (Hash << 15);
+    
+    if (!CCStringIsTagged(String))
+    {
+        ((CCStringInfo*)String)->hash = Hash;
+        ((CCStringInfo*)String)->hint |= CCStringMarkHash;
+    }
     
     return Hash;
 }
@@ -584,6 +628,43 @@ CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index)
         
         return c;
     }
+}
+
+size_t CCStringFindSubstring(CCString String, size_t Index, CCString Substring)
+{
+    CCAssertLog(String && Substring, "Strings must not be null");
+    CCAssertLog(Index < CCStringGetLength(String), "Index must not exceed string length");
+    
+    const size_t StringLength = CCStringGetLength(String), SubstringLength = CCStringGetLength(Substring);
+    if ((StringLength - Index) >= SubstringLength)
+    {
+        if ((CCStringIsTagged(String)) && (CCStringIsTagged(Substring)) && ((String & CCStringTaggedMask) == (Substring & CCStringTaggedMask)))
+        {
+            const CCStringMapSet Set = String & CCStringTaggedMask;
+            const size_t Bits = CCStringTaggedBitSize(Set);
+            
+            String >>= 2;
+            Substring = (Substring >> 2) << (Bits * Index);
+            
+            for (size_t Loop = 0; (Index < StringLength) && (Loop < SubstringLength); Loop++, Index++, Substring <<= Bits)
+            {
+                if ((String & Substring) == Substring) return Index;
+            }
+        }
+        
+        else
+        {
+            for ( ; ((StringLength - Index) >= SubstringLength) && (Index < StringLength); Index++)
+            {
+                for (size_t Loop = Index, Loop2 = 0; (Loop2 < SubstringLength) && (CCStringGetCharacterAtIndex(String, Loop) == CCStringGetCharacterAtIndex(Substring, Loop2)); Loop++, Loop2++)
+                {
+                    if ((Loop2 + 1) == SubstringLength) return Index;
+                }
+            }
+        }
+    }
+    
+    return SIZE_MAX;
 }
 
 _Bool CCStringEqual(CCString String1, CCString String2)
@@ -637,14 +718,14 @@ _Bool CCStringHasPrefix(CCString String, CCString Prefix)
     return Equal;
 }
 
-_Bool CCStringHasSuffix(CCString String, CCString Prefix)
+_Bool CCStringHasSuffix(CCString String, CCString Suffix)
 {
-    _Bool Equal = CCStringEqual(String, Prefix);
+    _Bool Equal = CCStringEqual(String, Suffix);
     if (!Equal)
     {
         CCEnumerator Enumerator1, Enumerator2;
         CCStringGetEnumerator(String, &Enumerator1);
-        CCStringGetEnumerator(Prefix, &Enumerator2);
+        CCStringGetEnumerator(Suffix, &Enumerator2);
         
         if (CCStringEnumeratorGetTail(&Enumerator1) == CCStringEnumeratorGetTail(&Enumerator2))
         {

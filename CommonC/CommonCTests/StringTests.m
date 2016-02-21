@@ -91,6 +91,100 @@
     CCStringDestroy(String);
 }
 
+-(void) testInsertion
+{
+    CCString String = CCStringCreateByInsertingString(CC_STRING("012345"), 0, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("abc012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING("012345"), 1, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("0abc12345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING("012345"), 6, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345abc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING("😀😀😀😀😀😀"), 0, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("abc😀😀😀😀😀😀")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING("😀😀😀😀😀😀"), 1, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("😀abc😀😀😀😀😀")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING("😀😀😀😀😀😀"), 6, CC_STRING("abc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("😀😀😀😀😀😀abc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    CCString Insert = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "abc");
+    String = CCStringCreateByInsertingString(Str, 0, Insert);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("abc012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(Str, 1, Insert);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("0abc12345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(Str, 6, Insert);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345abc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+}
+
+-(void) testFindSubstring
+{
+    CCString String = [self createString];
+    CCString Sub = CCStringCopySubstring(String, 1, 4);
+    
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == SIZE_MAX, @"Should not find substring");
+    
+    CCStringDestroy(Sub);
+    
+    
+    XCTAssertTrue(CCStringFindSubstring(String, 0, CC_STRING("aaaaaaaaaaaaaa")) == SIZE_MAX, @"Should not find substring");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CC_STRING("abbbbc");
+    Sub = CC_STRING("bb");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+}
+
 -(void) testCopySubstring
 {
     CCString String = [self createString];

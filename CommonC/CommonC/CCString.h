@@ -175,6 +175,24 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
 CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size);
 
 /*!
+ * @brief Create a string.
+ * @param String The string to insert into.
+ * @param Index The index to insert the string.
+ * @param Insert The string to insert.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert);
+
+/*!
+ * @brief Create a string.
+ * @param String The string to be replaced.
+ * @param Occurrence The string to find.
+ * @param Replacement The string to be replaced with, or NULL if no characters are to be inserted.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString Occurrence, CCString Replacement);
+
+/*!
  * @brief Copy a string.
  * @param String The string to be copied.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
@@ -244,10 +262,19 @@ uint32_t CCStringGetHash(CCString String);
 /*!
  * @brief Get the character in the string.
  * @param String The string to get the character from.
- * @param Index The index of the character;
+ * @param Index The index of the character.
  * @return The character.
  */
 CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index);
+
+/*!
+ * @brief Find the substring in the string.
+ * @param String The string to find the substring in.
+ * @param Index The index to start searching from.
+ * @param Substring The substring to find.
+ * @return The index of the found string, or SIZE_MAX on failure to find the substring.
+ */
+size_t CCStringFindSubstring(CCString String, size_t Index, CCString Substring);
 
 /*!
  * @brief Compare if two strings are equal.
@@ -268,10 +295,10 @@ _Bool CCStringHasPrefix(CCString String, CCString Prefix);
 /*!
  * @brief Check if the string contains the suffix.
  * @param String The string to check the suffix of.
- * @param Prefix The suffix.
+ * @param Suffix The suffix.
  * @return TRUE if the string has the suffix, otherwise FALSE.
  */
-_Bool CCStringHasSuffix(CCString String, CCString Prefix);
+_Bool CCStringHasSuffix(CCString String, CCString Suffix);
 
 /*!
  * @brief Get the enumerator for a string.
