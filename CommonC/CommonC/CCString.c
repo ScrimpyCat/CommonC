@@ -348,7 +348,7 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
     
     *Buffer = 0;
     
-    return CCStringCreate(CC_STD_ALLOCATOR, CCStringHintFree | CCStringGetEncoding(String), NewString);
+    return CCStringCreate(CC_STD_ALLOCATOR, CCStringHintFree | (CCStringGetEncoding(String) == CCStringEncodingUTF8 ? CCStringEncodingUTF8 : CCStringGetEncoding(Insert)), NewString);
 }
 
 CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length)
@@ -395,10 +395,36 @@ CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString 
     
     size_t Index = CCStringFindSubstring(String, 0, Occurrence);
     if (Index == SIZE_MAX) return CCStringCopy(String);
+    //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
+    const size_t OccurrenceLength = CCStringGetLength(Occurrence);
+    size_t ReplacementLength = 0;
     
+    CCString NewString = CCStringCreateWithoutRange(String, Index, OccurrenceLength);
     
+    if (Replacement)
+    {
+        CCString Temp = CCStringCreateByInsertingString(NewString, Index, Replacement);
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        ReplacementLength = CCStringGetLength(Replacement);
+    }
     
-    return 0;
+    for (size_t StringLength = CCStringGetLength(NewString); ((Index + ReplacementLength) < StringLength) && ((Index = CCStringFindSubstring(NewString, Index + ReplacementLength, Occurrence)) != SIZE_MAX); StringLength = (StringLength - OccurrenceLength) + ReplacementLength)
+    {
+        CCString Temp = CCStringCreateWithoutRange(NewString, Index, OccurrenceLength);
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        if (Replacement)
+        {
+            Temp = CCStringCreateByInsertingString(NewString, Index, Replacement);
+            CCStringDestroy(NewString);
+            NewString = Temp;
+        }
+    }
+    
+    return NewString;
 }
 
 CCString CCStringCopy(CCString String)
@@ -702,11 +728,12 @@ size_t CCStringFindSubstring(CCString String, size_t Index, CCString Substring)
         {
             const CCStringMapSet Set = String & CCStringTaggedMask;
             const size_t Bits = CCStringTaggedBitSize(Set);
+            const size_t SubstringMax = CCStringTaggedCharacterMax(Set) - SubstringLength;
             
             String >>= 2;
             Substring = (Substring >> 2) << (Bits * Index);
             
-            for (size_t Loop = 0; (Index < StringLength) && (Loop < SubstringLength); Loop++, Index++, Substring <<= Bits)
+            for (size_t Loop = 0; (Index < StringLength) && (Loop < SubstringMax); Loop++, Index++, Substring <<= Bits)
             {
                 if ((String & Substring) == Substring) return Index;
             }

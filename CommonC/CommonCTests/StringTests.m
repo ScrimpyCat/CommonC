@@ -83,6 +83,109 @@
     CCStringDestroy(String);
 }
 
+-(void) testReplacement
+{
+    CCString String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"), 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01bc234bcbc5bc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("aa"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01a234bc5a")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("012345"), CC_STRING("a"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01😀234😀😀5😀"), CC_STRING("😀"), 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01😀234😀😀5😀"), CC_STRING("😀"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01bc234bcbc5bc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01😀234😀😀5😀"), CC_STRING("😀😀"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01😀234bc5😀")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("012345"), CC_STRING("😀"), CC_STRING("bc"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"), CC_STRING("😀😀"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01😀😀234😀😀😀😀5😀😀")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "01a234aa5a");
+    CCString Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    CCString Occurrence = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "a");
+    CCString Occurrence2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "aa");
+    CCString Replacement = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "bc");
+    String = CCStringCreateByReplacingOccurrencesOfString(Str, Occurrence, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(Str, Occurrence, Replacement);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01bc234bcbc5bc")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(Str, Occurrence2, Replacement);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("01a234bc5a")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfString(Str2, Occurrence, Replacement);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+    CCStringDestroy(Occurrence);
+    CCStringDestroy(Occurrence2);
+    CCStringDestroy(Replacement);
+}
+
 -(void) testRemoval
 {
     CCString String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 3);
@@ -240,6 +343,34 @@
     CCStringDestroy(String);
     CCStringDestroy(Str);
     CCStringDestroy(Insert);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING_ENCODING(CCStringEncodingASCII, "12345678901234567890"), 0, CC_STRING_ENCODING(CCStringEncodingASCII, "123"));
+    
+    XCTAssertEqual(CCStringGetEncoding(String), CCStringEncodingASCII, @"Should use highest encoding");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING_ENCODING(CCStringEncodingASCII, "12345678901234567890"), 0, CC_STRING_ENCODING(CCStringEncodingUTF8, "123"));
+    
+    XCTAssertEqual(CCStringGetEncoding(String), CCStringEncodingUTF8, @"Should use highest encoding");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING_ENCODING(CCStringEncodingUTF8, "12345678901234567890"), 0, CC_STRING_ENCODING(CCStringEncodingASCII, "123"));
+    
+    XCTAssertEqual(CCStringGetEncoding(String), CCStringEncodingUTF8, @"Should use highest encoding");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByInsertingString(CC_STRING_ENCODING(CCStringEncodingUTF8, "12345678901234567890"), 0, CC_STRING_ENCODING(CCStringEncodingUTF8, "123"));
+    
+    XCTAssertEqual(CCStringGetEncoding(String), CCStringEncodingUTF8, @"Should use highest encoding");
+    
+    CCStringDestroy(String);
 }
 
 -(void) testFindSubstring
@@ -266,6 +397,26 @@
     XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
     XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
     XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    
+    
+    String = CC_STRING("a😀😀😀😀c");
+    Sub = CC_STRING("😀😀");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    
+    
+    String = CC_STRING("a😀😀😀😀c");
+    Sub = CC_STRING("😀");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == 4, @"Should find substring");
     XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
 }
 
