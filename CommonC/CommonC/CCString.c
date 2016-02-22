@@ -98,9 +98,9 @@ static CCStringMap Map63[63] = { //ASCII set 0, [-+/*() !=<>.], [a-z], [A-G], I,
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'N', 'O', 'P', 'R', 'S', 'T'
 };
 
-static CCStringMap Map31[31] = { //ASCII set 0, -, !, `, &, [a-z]
+static CCStringMap Map31[31] = { //ASCII set 0, -, !, @, &, [a-z]
     0,
-    '-', '!', '`', '&',
+    '-', '!', '@', '&',
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 };
 
@@ -779,26 +779,30 @@ _Bool CCStringEqual(CCString String1, CCString String2)
     
     size_t Size;
     _Bool Equal = String1 == String2;
-    if ((!Equal) &&
-        ((Size = CCStringGetSize(String1)) == CCStringGetSize(String2)) &&
-        (CCStringGetLength(String1) == CCStringGetLength(String2)) &&
-        (CCStringGetHash(String1) == CCStringGetHash(String2)))
+    if (!Equal)
     {
-        if ((CCStringIsTagged(String1)) || (CCStringIsTagged(String2)))
-        {
-            CCEnumerator Enumerator1, Enumerator2;
-            CCStringGetEnumerator(String1, &Enumerator1);
-            CCStringGetEnumerator(String2, &Enumerator2);
-            
-            if (CCStringEnumeratorGetCurrent(&Enumerator1) == CCStringEnumeratorGetCurrent(&Enumerator2))
-            {
-                for (CCChar c = 0; ((c = CCStringEnumeratorNext(&Enumerator1)) == CCStringEnumeratorNext(&Enumerator2)) && (c); );
-                
-                Equal = CCStringEnumeratorGetIndex(&Enumerator1) == SIZE_MAX;
-            }
-        }
+        if ((CCStringIsTagged(String1)) && (CCStringIsTagged(String2)) && ((String1 & CCStringTaggedMask) == (String2 & CCStringTaggedMask))) return FALSE;
         
-        else Equal = !strncmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2), Size);
+        if (((Size = CCStringGetSize(String1)) == CCStringGetSize(String2)) &&
+            (CCStringGetLength(String1) == CCStringGetLength(String2)) &&
+            (CCStringGetHash(String1) == CCStringGetHash(String2)))
+        {
+            if ((CCStringIsTagged(String1)) || (CCStringIsTagged(String2)))
+            {
+                CCEnumerator Enumerator1, Enumerator2;
+                CCStringGetEnumerator(String1, &Enumerator1);
+                CCStringGetEnumerator(String2, &Enumerator2);
+                
+                if (CCStringEnumeratorGetCurrent(&Enumerator1) == CCStringEnumeratorGetCurrent(&Enumerator2))
+                {
+                    for (CCChar c = 0; ((c = CCStringEnumeratorNext(&Enumerator1)) == CCStringEnumeratorNext(&Enumerator2)) && (c); );
+                    
+                    Equal = CCStringEnumeratorGetIndex(&Enumerator1) == SIZE_MAX;
+                }
+            }
+            
+            else Equal = !strncmp(CCStringGetCharacters((CCStringInfo*)String1), CCStringGetCharacters((CCStringInfo*)String2), Size);
+        }
     }
     
     return Equal;
@@ -809,6 +813,17 @@ _Bool CCStringHasPrefix(CCString String, CCString Prefix)
     _Bool Equal = CCStringEqual(String, Prefix);
     if (!Equal)
     {
+#if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
+        if ((CCStringIsTagged(String)) && (CCStringIsTagged(Prefix)) && ((String & CCStringTaggedMask) == (Prefix & CCStringTaggedMask)))
+        {
+            size_t PrefixLength = CCStringGetLength(Prefix);
+            const size_t Bits = CCStringTaggedBitSize(String & CCStringTaggedMask);
+            const CCString Mask = (UINTPTR_MAX >> ((sizeof(CCString) * 8) - (PrefixLength * Bits))) << 2;
+            
+            return (String & Mask) == (Prefix & Mask);
+        }
+#endif
+        
         CCEnumerator Enumerator1, Enumerator2;
         CCStringGetEnumerator(String, &Enumerator1);
         CCStringGetEnumerator(Prefix, &Enumerator2);
@@ -829,6 +844,17 @@ _Bool CCStringHasSuffix(CCString String, CCString Suffix)
     _Bool Equal = CCStringEqual(String, Suffix);
     if (!Equal)
     {
+#if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
+        if ((CCStringIsTagged(String)) && (CCStringIsTagged(Suffix)) && ((String & CCStringTaggedMask) == (Suffix & CCStringTaggedMask)))
+        {
+            size_t SuffixLength = CCStringGetLength(Suffix), StringLength = CCStringGetLength(String);
+            const size_t Bits = CCStringTaggedBitSize(String & CCStringTaggedMask);
+            const CCString Mask = (UINTPTR_MAX >> ((sizeof(CCString) * 8) - (SuffixLength * Bits))) << 2;
+            
+            return ((String >> ((StringLength - SuffixLength) * Bits)) & Mask) == (Suffix & Mask);
+        }
+#endif
+        
         CCEnumerator Enumerator1, Enumerator2;
         CCStringGetEnumerator(String, &Enumerator1);
         CCStringGetEnumerator(Suffix, &Enumerator2);
