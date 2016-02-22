@@ -157,7 +157,7 @@ static inline size_t CCStringTaggedBitSize(CCStringMapSet Set)
 
 static inline size_t CCStringTaggedMapSize(CCStringMapSet Set)
 {
-    return (size_t[3]){ 127, 63, 31 }[Set - 1];
+    return 127 >> (Set - 1); //127, 63, 31
 }
 
 static CCString CCStringCreateTaggedFromMapSet(CCStringMapSet Set, const char *String, size_t Length, CCStringEncoding Encoding)
