@@ -148,6 +148,29 @@
     
     CCStringDestroy(String);
     CCStringDestroy(Str);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    String = CCStringCreateWithoutRange(Str, 0, 2);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("2345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(Str, 1, 2);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("0345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(Str, 4, 2);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("0123")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
 }
 
 -(void) testInsertion

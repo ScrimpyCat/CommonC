@@ -359,6 +359,20 @@ CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Lengt
     const size_t StringLength = CCStringGetLength(String);
     if ((!Length) || (Offset + Length == StringLength)) return CCStringCopySubstring(String, 0, Offset);
     
+    if (CCStringIsTagged(String))
+    {
+        const CCStringMapSet Set = String & CCStringTaggedMask;
+        const size_t Bits = CCStringTaggedBitSize(Set);
+        
+        String >>= 2;
+        
+        CCString NewString = Set;
+        if (Offset) NewString |= (String & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Offset * Bits))))) << 2;
+        NewString |= (((String & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - ((StringLength - (Length + Offset)) * Bits))) << ((Length + Offset) * Bits))) >> (Length * Bits)) << 2);
+        
+        return NewString;
+    }
+    
     char *NewString;
     CC_SAFE_Malloc(NewString, (CCStringGetSize(String) - Length) + 1,
                    CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", (CCStringGetSize(String) - Length) + 1);
