@@ -175,13 +175,22 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
 CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size);
 
 /*!
- * @brief Create a string.
+ * @brief Create a string by inserting a string into a string.
  * @param String The string to insert into.
  * @param Index The index to insert the string.
  * @param Insert The string to insert.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
 CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert);
+
+/*!
+ * @brief Create a string by removing the characters in range.
+ * @param String The string to remove from.
+ * @param Offset The offset to start the substring from.
+ * @param Length The length of the substring.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length);
 
 /*!
  * @brief Create a string.

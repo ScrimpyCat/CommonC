@@ -83,6 +83,73 @@
     CCStringDestroy(String);
 }
 
+-(void) testRemoval
+{
+    CCString String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("012345"), 1, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("045")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("012345"), 3, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("😀1😀3😀5"), 0, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("3😀5")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("😀1😀3😀5"), 1, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("😀😀5")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("😀1😀3😀5"), 3, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("😀1😀")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    String = CCStringCreateWithoutRange(Str, 0, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(Str, 1, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("045")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(Str, 3, 3);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+}
+
 -(void) testInsertion
 {
     CCString String = CCStringCreateByInsertingString(CC_STRING("012345"), 0, CC_STRING("abc"));

@@ -308,6 +308,7 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
 {
     CCAssertLog(String, "String must not be null");
     CCAssertLog(Insert, "Insert must not be null");
+    CCAssertLog(Index <= CCStringGetLength(String), "Index must not be out of bounds + 1");
     
     const size_t StringLength = CCStringGetLength(String), InsertLength = CCStringGetLength(Insert);
     
@@ -336,7 +337,7 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
     
     char *NewString;
     CC_SAFE_Malloc(NewString, CCStringGetSize(String) + CCStringGetSize(Insert) + 1,
-                   CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", CCStringGetSize(String) + 1);
+                   CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", CCStringGetSize(String) + CCStringGetSize(Insert) + 1);
                    return 0;
                    );
     
@@ -344,6 +345,29 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
     Buffer = CCStringCopyCharacters(Insert, 0, InsertLength, Buffer);
     
     if (Index < StringLength) Buffer = CCStringCopyCharacters(String, Index, StringLength - Index, Buffer);
+    
+    *Buffer = 0;
+    
+    return CCStringCreate(CC_STD_ALLOCATOR, CCStringHintFree | CCStringGetEncoding(String), NewString);
+}
+
+CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Offset + Length <= CCStringGetLength(String), "Offset and size must not be out of bounds");
+    
+    const size_t StringLength = CCStringGetLength(String);
+    if ((!Length) || (Offset + Length == StringLength)) return CCStringCopySubstring(String, 0, Offset);
+    
+    char *NewString;
+    CC_SAFE_Malloc(NewString, (CCStringGetSize(String) - Length) + 1,
+                   CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", (CCStringGetSize(String) - Length) + 1);
+                   return 0;
+                   );
+    
+    char *Buffer = CCStringCopyCharacters(String, 0, Offset, NewString);
+    
+    Buffer = CCStringCopyCharacters(String, Offset + Length, StringLength - (Offset + Length), Buffer);
     
     *Buffer = 0;
     
