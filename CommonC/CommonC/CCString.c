@@ -29,6 +29,14 @@
 #include "Assertion.h"
 #include <string.h>
 #include "CCStringEnumerator.h"
+#include "BitTricks.h"
+
+/* 
+ CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 makes the guarantee that a nul char will be represented by 0 in the tagged strings.
+ This allows for more efficient checks, if it's not possible to guarantee this, it should be disabled (comment out or
+ set to 0).
+ */
+#define CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 1
 
 typedef struct {
     CCStringHint hint;
@@ -107,6 +115,10 @@ static struct {
 
 void CCStringRegisterMap(CCStringEncoding Encoding, const CCStringMap *Map, CCStringMapSet Set)
 {
+#if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
+    CCAssertLog(!Map || Map[0] == 0, "CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 is enabled so maps must use 0 as the first character");
+#endif
+    
     Set--;
     
     if (Map)
@@ -605,13 +617,20 @@ size_t CCStringGetLength(CCString String)
         String >>= 2;
         
         size_t Length = 0;
-        const size_t MapSize = CCStringTaggedMapSize(Set);
         const size_t Bits = CCStringTaggedBitSize(Set);
+#if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
+        const uint64_t BitCount = CCBitCountSet(CCBitMaskForValue(String));
+        
+        Length = BitCount / Bits;
+        if (String >> (Length * Bits)) Length++;
+#else
+        const size_t MapSize = CCStringTaggedMapSize(Set);
         const CCStringMap *Map = CCStringTaggedMap(Set);
         for (size_t Loop = 0, Count = CCStringTaggedCharacterMax(Set); (Loop < Count) && (CCCharSize(Map[(String >> (Bits * Loop)) & MapSize])); Loop++)
         {
             Length++;
         }
+#endif
         
         return Length;
     }
