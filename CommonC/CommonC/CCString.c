@@ -205,7 +205,7 @@ static CCString CCStringCreateTaggedFromMapSet(CCStringMapSet Set, const char *S
             CCChar c = CCStringGetCharacterUTF8(String + Loop, &Size);
             
             size_t Index;
-            if ((Count < (sizeof(CCString) * 8) / Bits) && (CCStringCharacterInMap(c, Lookup, MapSize, &Index)))
+            if ((Count < ((sizeof(CCString) * 8) - 2) / Bits) && (CCStringCharacterInMap(c, Lookup, MapSize, &Index)))
             {
                 Map |= (Index << (Bits * Count++)) << 2;
                 Loop += Size;
@@ -614,16 +614,138 @@ size_t CCStringGetLength(CCString String)
     if (CCStringIsTagged(String))
     {
         CCStringMapSet Set = String & CCStringTaggedMask;
-        String >>= 2;
         
         size_t Length = 0;
-        const size_t Bits = CCStringTaggedBitSize(Set);
 #if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
-        const uint64_t BitCount = CCBitCountSet(CCBitMaskForValue(String));
-        
-        Length = BitCount / Bits;
-        if (String >> (Length * Bits)) Length++;
+        switch (Set)
+        {
+            case CCStringMapSet127: //7
+#if CC_HARDWARE_PTR_64
+                if (String & 0x3ffffffc0000000) //5 - 8
+                {
+                    if (String & 0x3fff00000000000) //7 - 8
+                    {
+                        Length = (String & 0x3f8000000000000) ? 8 : 7;
+                    }
+                    
+                    else //0xfffc0000000 //5 - 6
+                    {
+                        Length = (String & 0xfe000000000) ? 6 : 5;
+                    }
+                } else
+#endif
+#if CC_HARDWARE_PTR_64 || CC_HARDWARE_PTR_32
+                if (String & 0x3ffffffc) //1 - 4
+                {
+                    if (String & 0x3fff0000) //3 - 4
+                    {
+                        Length = (String & 0x3f800000) ? 4 : 3;
+                    }
+                    
+                    else //0xfffc //1 - 2
+                    {
+                        Length = (String & 0xfe00) ? 2 : 1;
+                    }
+                }
 #else
+#error Unknown pointer size
+#endif
+                break;
+                
+            case CCStringMapSet63: //6
+#if CC_HARDWARE_PTR_64
+                if (String & 0x3fffffff00000000) //6 - 10
+                {
+                    if (String & 0x3ffc000000000000) //9 - 10
+                    {
+                        Length = (String & 0x3f00000000000000) ? 10 : 9;
+                    }
+                    
+                    else if (String & 0x3ffc000000000) //7 - 8
+                    {
+                        Length = (String & 0x3f00000000000) ? 8 : 7;
+                    }
+                    
+                    else Length = 6; //0x3f00000000 //6
+                } else
+#endif
+#if CC_HARDWARE_PTR_64 || CC_HARDWARE_PTR_32
+                if (String & 0xfffffffc) //1 - 5
+                {
+                    if (String & 0xfff00000) //4 - 5
+                    {
+                        Length = (String & 0xfc000000) ? 5 : 4;
+                    }
+                    
+                    else if (String & 0xfff00) //2 - 3
+                    {
+                        Length = (String & 0xfc000) ? 3 : 2;
+                    }
+                    
+                    else Length = 1; //0xfc //1
+                }
+#else
+#error Unknown pointer size
+#endif
+                break;
+                
+            case CCStringMapSet31: //5
+#if CC_HARDWARE_PTR_64
+                if (String & 0x3fffffff00000000) //6 - 12
+                {
+                    if (String & 0x3FFF800000000000) //10 - 12
+                    {
+                        if (String & 0x3FF0000000000000) //11 - 12
+                        {
+                            Length = (String & 0x3E00000000000000) ? 12 : 11;
+                        }
+                        
+                        else Length = 10; //0xF800000000000
+                    }
+                    
+                    else if (String & 0x7FFF00000000) //7 - 9
+                    {
+                        if (String & 0x7FE000000000) //8 - 9
+                        {
+                            Length = (String & 0x7C0000000000) ? 9 : 8;
+                        }
+                        
+                        else Length = 7; //0x1F00000000
+                    }
+                } else
+#endif
+#if CC_HARDWARE_PTR_64 || CC_HARDWARE_PTR_32
+                if (String & 0xfffffffc) //1 - 6
+                {
+                    if (String & 0xfffe0000) //4 - 6
+                    {
+                        if (String & 0xffc00000) //5 - 6
+                        {
+                            Length = (String & 0xf8000000) ? 6 : 5;
+                        }
+                        
+                        else Length = 4; //0x3e0000
+                    }
+                    
+                    else if (String & 0x1fffc) //1 - 3
+                    {
+                        if (String & 0x1ff80) //2 - 3
+                        {
+                            Length = (String & 0x1f000) ? 3 : 2;
+                        }
+                        
+                        else Length = 1; //0x7c
+                    }
+                }
+#else
+#error Unknown pointer size
+#endif
+                break;
+        }
+#else
+        String >>= 2;
+        
+        const size_t Bits = CCStringTaggedBitSize(Set);
         const size_t MapSize = CCStringTaggedMapSize(Set);
         const CCStringMap *Map = CCStringTaggedMap(Set);
         for (size_t Loop = 0, Count = CCStringTaggedCharacterMax(Set); (Loop < Count) && (CCCharSize(Map[(String >> (Bits * Loop)) & MapSize])); Loop++)

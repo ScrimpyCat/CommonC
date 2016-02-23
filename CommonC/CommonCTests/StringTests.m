@@ -83,6 +83,94 @@
     CCStringDestroy(String);
 }
 
+-(void) testTaggedLength
+{
+    CCStringEncoding Encoding[3];
+    const CCStringMap *Maps[3] = {
+        CCStringGetMap(CCStringMapSet127, Encoding),
+        CCStringGetMap(CCStringMapSet63, &Encoding[1]),
+        CCStringGetMap(CCStringMapSet31, &Encoding[2])
+    };
+    
+    CCStringMap NulMap[127] = {0};
+    CCStringMap HiLoMap[127] = { //Highest and Lowest bits set
+        0, 'a', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '3', 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2', 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1'
+    };
+    
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet31);
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet63);
+    CCStringRegisterMap(CCStringEncodingUTF8, HiLoMap, CCStringMapSet127);
+    
+    for (int Loop = 0; Loop < 12; Loop++)
+    {
+        CCString String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"aaaaaaaaaaaa"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+        
+        
+        String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"111111111111"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+    }
+    
+    
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet31);
+    CCStringRegisterMap(CCStringEncodingUTF8, HiLoMap, CCStringMapSet63);
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet127);
+    
+    for (int Loop = 0; Loop < 12; Loop++)
+    {
+        CCString String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"aaaaaaaaaaaa"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+        
+        
+        String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"222222222222"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+    }
+    
+    
+    CCStringRegisterMap(CCStringEncodingUTF8, HiLoMap, CCStringMapSet31);
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet63);
+    CCStringRegisterMap(CCStringEncodingUTF8, NulMap, CCStringMapSet127);
+    
+    for (int Loop = 0; Loop < 12; Loop++)
+    {
+        CCString String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"aaaaaaaaaaaa"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+        
+        
+        String = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, &"333333333333"[Loop]);
+        
+        XCTAssertEqual(CCStringGetLength(String), 12 - Loop, @"Should get the correct length");
+        
+        CCStringDestroy(String);
+    }
+    
+    CCStringRegisterMap(Encoding[2], Maps[2], CCStringMapSet31);
+    CCStringRegisterMap(Encoding[1], Maps[1], CCStringMapSet63);
+    CCStringRegisterMap(Encoding[0], Maps[0], CCStringMapSet127);
+}
+
 -(void) testReplacement
 {
     CCString String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"), 0);
