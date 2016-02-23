@@ -530,7 +530,7 @@ _Bool FSPathMatch(FSPath Left, FSPath Right, FSMatch MatchOptions)
                     
                     else
                     {
-                        while ((*LeftString) && (tolower(*LeftString++) == tolower(*RightString++)));
+                        for ( ; (*LeftString) && (*RightString) && (tolower(*LeftString) == tolower(*RightString)); LeftString++, RightString++);
                         if (*LeftString != *RightString) return FALSE;
                     }
                 }
