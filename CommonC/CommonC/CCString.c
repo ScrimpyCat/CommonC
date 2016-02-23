@@ -617,6 +617,33 @@ size_t CCStringGetLength(CCString String)
         
         size_t Length = 0;
 #if CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
+        /*
+         TODO: Future optimization could be to cache the length into the tagged string.
+         
+         64bit CCStringMapSet127: 6 bits unused
+         32bit CCStringMapSet127: 2 bits unused
+         
+         64bit CCStringMapSet63: 2 bits unused
+         32bit CCStringMapSet63: 0 bits unused
+         
+         64bit CCStringMapSet31: 2 bits unused
+         32bit CCStringMapSet31: 0 bits unused
+         
+         64bit: 4 bits (max: 15) is all that would be needed to store length for all variants.
+         32bit: 3 bits (max: 7) is all that would be needed to store length for all variants.
+         
+         Only one with enough space to spare is 64bit CCStringMapSet127. One approach could be to just store
+         the length in the high bits anyway. Then if it reaches second highest allowed character it would
+         disable it.
+         
+         So check would instead be check if length bits are set. If they are set check if preceeding character is
+         set, if it's set then that means the length bits are actually a character and max length is used. If they
+         are not set then that means the length bits are a length value. If the length bits are 0 (not set), then 
+         the length has to be max - 1 (second longest).
+         
+         So highest char bits can be used to store length or character. Depending on current length. Would have to
+         make sure to clear those bits on string manipulations (CopySubstring, Create*).
+         */
         switch (Set)
         {
             case CCStringMapSet127: //7
