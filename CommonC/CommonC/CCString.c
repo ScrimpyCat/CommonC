@@ -720,21 +720,21 @@ size_t CCStringGetLength(CCString String)
 #if CC_HARDWARE_PTR_64
                 if (String & 0x3fffffff00000000) //6 - 12
                 {
-                    if (String & 0x3FFF800000000000) //10 - 12
+                    if (String & 0x3fff800000000000) //10 - 12
                     {
-                        if (String & 0x3FF0000000000000) //11 - 12
+                        if (String & 0x3ff0000000000000) //11 - 12
                         {
-                            Length = (String & 0x3E00000000000000) ? 12 : 11;
+                            Length = (String & 0x3e00000000000000) ? 12 : 11;
                         }
                         
                         else Length = 10; //0xF800000000000
                     }
                     
-                    else if (String & 0x7FFF00000000) //7 - 9
+                    else if (String & 0x7fff00000000) //7 - 9
                     {
-                        if (String & 0x7FE000000000) //8 - 9
+                        if (String & 0x7fe000000000) //8 - 9
                         {
-                            Length = (String & 0x7C0000000000) ? 9 : 8;
+                            Length = (String & 0x7c0000000000) ? 9 : 8;
                         }
                         
                         else Length = 7; //0x1F00000000
