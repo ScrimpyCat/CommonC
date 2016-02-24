@@ -900,10 +900,11 @@ size_t CCStringFindSubstring(CCString String, size_t Index, CCString Substring)
             
             String >>= 2;
             Substring = (Substring >> 2) << (Bits * Index);
+            CCString Mask = (UINTPTR_MAX >> ((sizeof(CCString) * 8) - (SubstringLength * Bits))) << (Bits * Index);
             
-            for (size_t Loop = 0; (Index < StringLength) && (Loop < SubstringMax); Loop++, Index++, Substring <<= Bits)
+            for (size_t Loop = 0; (Index < StringLength) && (Loop < SubstringMax); Loop++, Index++, String >>= Bits)
             {
-                if ((String & Substring) == Substring) return Index;
+                if ((String & Mask) == Substring) return Index;
             }
         }
         

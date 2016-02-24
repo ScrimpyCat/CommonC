@@ -272,6 +272,17 @@
     CCStringDestroy(Occurrence);
     CCStringDestroy(Occurrence2);
     CCStringDestroy(Replacement);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "1 2 3 4 5");
+    Occurrence = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, " ");
+    String = CCStringCreateByReplacingOccurrencesOfString(Str, Occurrence, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("12345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Occurrence);
 }
 
 -(void) testRemoval
@@ -506,6 +517,42 @@
     XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
     XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == 4, @"Should find substring");
     XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    
+    
+    String = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "abbbbc");
+    Sub = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "bb");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    CCStringDestroy(String);
+    CCStringDestroy(Sub);
+    
+    
+    String = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "a😀😀😀😀c");
+    Sub = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "😀😀");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    CCStringDestroy(String);
+    CCStringDestroy(Sub);
+    
+    
+    String = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "a😀😀😀😀c");
+    Sub = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "😀");
+    XCTAssertTrue(CCStringFindSubstring(String, 0, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 1, Sub) == 1, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 2, Sub) == 2, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 3, Sub) == 3, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 4, Sub) == 4, @"Should find substring");
+    XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
+    CCStringDestroy(String);
+    CCStringDestroy(Sub);
 }
 
 -(void) testCopySubstring
