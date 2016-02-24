@@ -206,17 +206,6 @@ void CCCollectionRemoveAllElements(CCCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
     
-    if (Collection->destructor)
-    {
-        CCEnumerator Enumerator;
-        CCCollectionGetEnumerator(Collection, &Enumerator);
-        
-        for (void *Element = CCCollectionEnumeratorGetCurrent(&Enumerator); Element; Element = CCCollectionEnumeratorNext(&Enumerator))
-        {
-            Collection->destructor(Collection, Element);
-        }
-    }
-    
     if (Collection->interface->optional.removeAll) Collection->interface->optional.removeAll(Collection->internal, Collection->allocator);
     else
     {
