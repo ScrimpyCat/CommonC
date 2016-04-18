@@ -439,6 +439,66 @@ CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString 
     return NewString;
 }
 
+static size_t CCStringFindClosestSubstring(CCString String, size_t Index, CCString *Substrings, size_t Count, size_t *Found)
+{
+    size_t SmallestIndex = SIZE_MAX;
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        size_t TempIndex = CCStringFindSubstring(String, Index, Substrings[Loop]);
+        if (TempIndex < SmallestIndex)
+        {
+            SmallestIndex = TempIndex;
+            *Found = Loop;
+        }
+    }
+    
+    return SmallestIndex;
+}
+
+CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, CCString *Replacements, size_t Count)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrences, "Occurrence must not be null");
+    CCAssertLog(Replacements, "Replacements must not be null");
+    
+    size_t Found;
+    size_t Index = CCStringFindClosestSubstring(String, 0, Occurrences, Count, &Found);
+    if (Index == SIZE_MAX) return CCStringCopy(String);
+    //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
+    size_t ReplacementLength = 0;
+    
+    CCString NewString = CCStringCreateWithoutRange(String, Index, CCStringGetLength(Occurrences[Found]));
+    
+    if (Replacements[Found])
+    {
+        CCString Temp = CCStringCreateByInsertingString(NewString, Index, Replacements[Found]);
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        ReplacementLength = CCStringGetLength(Replacements[Found]);
+    }
+    
+    for (size_t StringLength = CCStringGetLength(NewString); ((Index + ReplacementLength) < StringLength) && ((Index = CCStringFindClosestSubstring(NewString, Index + ReplacementLength, Occurrences, Count, &Found)) != SIZE_MAX); StringLength = CCStringGetLength(NewString))
+    {
+        CCString Temp = CCStringCreateWithoutRange(NewString, Index, CCStringGetLength(Occurrences[Found]));
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        if (Replacements[Found])
+        {
+            Temp = CCStringCreateByInsertingString(NewString, Index, Replacements[Found]);
+            CCStringDestroy(NewString);
+            NewString = Temp;
+            
+            ReplacementLength = CCStringGetLength(Replacements[Found]);
+        }
+        
+        else ReplacementLength = 0;
+    }
+    
+    return NewString;
+}
+
 CCString CCStringCopy(CCString String)
 {
     CCAssertLog(String, "String must not be null");

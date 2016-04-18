@@ -193,13 +193,29 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
 CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length);
 
 /*!
- * @brief Create a string.
+ * @brief Create a string by replacing occurrences of a string with another string.
  * @param String The string to be replaced.
  * @param Occurrence The string to find.
  * @param Replacement The string to be replaced with, or NULL if no characters are to be inserted.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
 CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString Occurrence, CCString Replacement);
+
+/*!
+ * @brief Create a string by replacing occurrences of a strings with other strings.
+ * @description Similar to @b CCStringCreateByReplacingOccurrencesOfString with the exception that the
+ *              comparisons are grouped. So out of the list of potential occurrences, the closest one is
+ *              used, and then skips over the replacement and looks for the next occurrence.
+ *
+ * @param String The string to be replaced.
+ * @param Occurrences The list of strings to find.
+ * @param Replacements The list of strings to be replaced with, index of the string should match with the
+ *        index of the occurrence. In-place of a string, NULL can be used if no characters are to be
+ *        inserted for given occurrence.
+ *
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, CCString *Replacements, size_t Count);
 
 /*!
  * @brief Copy a string.

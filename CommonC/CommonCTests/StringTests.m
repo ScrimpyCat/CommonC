@@ -283,6 +283,26 @@
     CCStringDestroy(String);
     CCStringDestroy(Str);
     CCStringDestroy(Occurrence);
+    
+    
+    Str = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("aababaaab"), CC_STRING("aa"), CC_STRING("a"));
+    String = CCStringCreateByReplacingOccurrencesOfString(Str, CC_STRING("ab"), CC_STRING("1"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("11a1")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    
+    
+    String = CCStringCreateByReplacingOccurrencesOfGroupedStrings(CC_STRING("aababaaab"), (CCString[]){
+        CC_STRING("aa"), CC_STRING("ab")
+    }, (CCString[]){
+        CC_STRING("a"), CC_STRING("1")
+    }, 2);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("ab1a1")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
 }
 
 -(void) testRemoval
