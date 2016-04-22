@@ -55,14 +55,14 @@ typedef struct {
 
 
 
-void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
-void *CCRealloc(CCAllocatorType Type, void *Ptr, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
-void CCFree(void *Ptr);
-void *CCRetain(void *Ptr);
+CC_NEW void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
+CC_NEW void *CCRealloc(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
+void CCFree(void *CC_DESTROY(Ptr));
+CC_NEW void *CCRetain(void *Ptr);
 
 #if __BLOCKS__
-void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;
-void *CCReallocBlock(CCAllocatorType Type, void *Ptr, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;
+CC_NEW void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;
+CC_NEW void *CCReallocBlock(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;
 #endif
 
 #define CCMalloc(type, size, data, callback) CC_GENERIC_EVALUATE(callback, \
