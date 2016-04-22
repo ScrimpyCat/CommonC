@@ -71,7 +71,7 @@ typedef enum {
  * @return FSOperationSuccess if it successfully opens a file handle to the file. Otherwise
  *         the type of failure.
  */
-FSOperation FSHandleOpen(FSPath Path, FSHandleType Type, FSHandle *Handle);
+FSOperation FSHandleOpen(FSPath CC_COPY(Path), FSHandleType Type, FSHandle * CC_NEW Handle);
 
 /*!
  * @brief Close a file handle.
@@ -79,7 +79,7 @@ FSOperation FSHandleOpen(FSPath Path, FSHandleType Type, FSHandle *Handle);
  * @return FSOperationSuccess if it successfully closes the file handle. Otherwise the type 
  *         of failure.
  */
-FSOperation FSHandleClose(FSHandle Handle);
+FSOperation FSHandleClose(FSHandle CC_DESTROY(Handle));
 
 /*!
  * @brief Block until all operations on the file have finished.

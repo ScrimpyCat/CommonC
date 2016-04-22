@@ -162,7 +162,7 @@ const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding
  * @param String The null terminated string to make a CCString representation from.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String);
+CC_NEW CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char *String);
 
 /*!
  * @brief Create a string.
@@ -172,7 +172,7 @@ CCString CCStringCreate(CCAllocatorType Allocator, CCStringHint Hint, const char
  * @param Size The size of the string to be used.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size);
+CC_NEW CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size);
 
 /*!
  * @brief Create a string by inserting a string into a string.
@@ -181,7 +181,7 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
  * @param Insert The string to insert.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert);
+CC_NEW CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert);
 
 /*!
  * @brief Create a string by removing the characters in range.
@@ -190,7 +190,7 @@ CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString
  * @param Length The length of the substring.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length);
+CC_NEW CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Length);
 
 /*!
  * @brief Create a string by replacing occurrences of a string with another string.
@@ -199,7 +199,7 @@ CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Lengt
  * @param Replacement The string to be replaced with, or NULL if no characters are to be inserted.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString Occurrence, CCString Replacement);
+CC_NEW CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString Occurrence, CCString Replacement);
 
 /*!
  * @brief Create a string by replacing occurrences of a strings with other strings.
@@ -215,14 +215,14 @@ CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CCString 
  *
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, CCString *Replacements, size_t Count);
+CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, CCString *Replacements, size_t Count);
 
 /*!
  * @brief Copy a string.
  * @param String The string to be copied.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCopy(CCString String);
+CC_NEW CCString CCStringCopy(CCString String);
 
 /*!
  * @brief Copy a substring.
@@ -231,13 +231,13 @@ CCString CCStringCopy(CCString String);
  * @param Length The length of the substring.
  * @return The substring, or NULL on failure. Must be destroyed to free the memory.
  */
-CCString CCStringCopySubstring(CCString String, size_t Offset, size_t Length);
+CC_NEW CCString CCStringCopySubstring(CCString String, size_t Offset, size_t Length);
 
 /*!
  * @brief Destroy the string.
  * @param String The string to be destroyed.
  */
-void CCStringDestroy(CCString String);
+void CCStringDestroy(CCString CC_DESTROY(String));
 
 /*!
  * @brief Get the internal character buffer of a string.

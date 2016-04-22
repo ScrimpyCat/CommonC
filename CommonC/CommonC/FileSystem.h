@@ -86,7 +86,7 @@ size_t FSManagerGetPreferredIOBlockSize(FSPath Path);
  * @param MatchOptions The options specifying the matching behaviour.
  * @return The list of FSPath's or NULL is there were no paths. Note: Must be destroyed.
  */
-CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions);
+CC_NEW CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions);
 
 /*!
  * @brief Create a path and optionally any required intermediate directories.

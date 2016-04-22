@@ -54,13 +54,13 @@ typedef struct {
  * @param ChunkSize The number of elements to fit with each allocation. Must be at least 1.
  * @return An empty array, or NULL on failure. Must be destroyed to free the memory.
  */
-CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize);
+CC_NEW CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize);
 
 /*!
  * @brief Destroy an array.
  * @param Array The array to be destroyed.
  */
-void CCArrayDestroy(CCArray Array);
+void CCArrayDestroy(CCArray CC_DESTROY(Array));
 
 
 #pragma mark - Insertions/Deletions

@@ -60,13 +60,13 @@ typedef struct {
  * @return A pointer to the created node containing the data (if not NULL), or NULL on failure.
  *         Must be destroyed to free the memory.
  */
-CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data);
+CC_NEW CCLinkedListNode *CCLinkedListCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data);
 
 /*!
  * @brief Remove and destroy a node from the list.
  * @param Node The node to be destroyed.
  */
-void CCLinkedListDestroyNode(CCLinkedListNode *Node);
+void CCLinkedListDestroyNode(CCLinkedListNode *CC_DESTROY(Node));
 
 /*!
  * @brief Remove and destroy a list.
@@ -76,7 +76,7 @@ void CCLinkedListDestroyNode(CCLinkedListNode *Node);
  *
  * @param List The relative list to be destroyed.
  */
-void CCLinkedListDestroy(CCLinkedList List);
+void CCLinkedListDestroy(CCLinkedList CC_DESTROY(List));
 
 
 #pragma mark - Relative Insertions

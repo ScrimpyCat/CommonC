@@ -70,13 +70,13 @@ typedef struct CCDataInfo {
  * @param Interface The interface to the internal implementation to be used.
  * @return An empty data container, or NULL on failure. Must be destroyed to free the memory.
  */
-CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *Data, CCDataBufferHash Hash, CCDataBufferDestructor Destructor, const CCDataInterface *Interface);
+CC_NEW CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *Data, CCDataBufferHash Hash, CCDataBufferDestructor Destructor, const CCDataInterface *Interface);
 
 /*!
  * @brief Destroy a data container.
  * @param Data The data container to be destroyed.
  */
-void CCDataDestroy(CCData Data);
+void CCDataDestroy(CCData CC_DESTROY(Data));
 
 /*!
  * @brief Get the hints for the data container.

@@ -69,7 +69,7 @@ typedef struct CCCollectionInfo {
  * @param Destructor An optional element destructor.
  * @return An empty collection, or NULL on failure. Must be destroyed to free the memory.
  */
-CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor);
+CC_NEW CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor);
 
 /*!
  * @brief Create a collection with the specified implementation.
@@ -80,13 +80,13 @@ CCCollection CCCollectionCreate(CCAllocatorType Allocator, CCCollectionHint Hint
  * @param Interface The interface to the internal implementation to be used.
  * @return An empty collection, or NULL on failure. Must be destroyed to free the memory.
  */
-CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface);
+CC_NEW CCCollection CCCollectionCreateWithImplementation(CCAllocatorType Allocator, CCCollectionHint Hint, size_t ElementSize, CCCollectionElementDestructor Destructor, const CCCollectionInterface *Interface);
 
 /*!
  * @brief Destroy a collection.
  * @param Collection The collection to be destroyed.
  */
-void CCCollectionDestroy(CCCollection Collection);
+void CCCollectionDestroy(CCCollection CC_DESTROY(Collection));
 
 
 #pragma mark - Insertion/Deletion

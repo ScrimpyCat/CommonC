@@ -90,7 +90,7 @@ typedef enum {
  * @param CompletePath Whether the path should be completed or not if it is not a complete path.
  * @return An ordered collection of FSPathComponents, or NULL on failure. Must be destroyed to free the memory.
  */
-CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool CompletePath);
+CC_NEW CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool CompletePath);
 
 /*!
  * @brief Convert the system path to FSPathComponents.
@@ -98,7 +98,7 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
  * @param CompletePath Whether the path should be completed or not if it is not a complete path.
  * @return An ordered collection of FSPathComponents, or NULL on failure. Must be destroyed to free the memory.
  */
-CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
+CC_NEW CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
 
 /*!
  * @brief Create a FSPath from an FSPath style path.
@@ -106,7 +106,7 @@ CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool 
  * @param Path The path.
  * @return A path representation of the path, or NULL on failure. Must be destroyed to free the memory.
  */
-FSPath FSPathCreate(const char *Path);
+CC_NEW FSPath FSPathCreate(const char *Path);
 
 /*!
  * @brief Create a FSPath from a system path.
@@ -114,20 +114,20 @@ FSPath FSPathCreate(const char *Path);
  * @param Path The path.
  * @return A path representation of the system path, or NULL on failure. Must be destroyed to free the memory.
  */
-FSPath FSPathCreateFromSystemPath(const char *Path);
+CC_NEW FSPath FSPathCreateFromSystemPath(const char *Path);
 
 /*!
  * @brief Copy a path.
  * @param Path The path to be copied.
  * @return A path representation of the path, or NULL on failure. Must be destroyed to free the memory.
  */
-FSPath FSPathCopy(FSPath Path);
+CC_NEW FSPath FSPathCopy(FSPath Path);
 
 /*!
  * @brief Destroy a path.
  * @param Path The path to be destroyed.
  */
-void FSPathDestroy(FSPath Path);
+void FSPathDestroy(FSPath CC_DESTROY(Path));
 
 /*!
  * @brief Get the current path.

@@ -67,6 +67,6 @@ extern const CCDataInterface * const CCDataBuffer;
  * @param Destructor An optional destructor to perform any custom cleanup on destroy.
  * @return A data buffer, or NULL on failure. Must be destroyed to free the memory.
  */
-CCData CCDataBufferCreate(CCAllocatorType Allocator, CCDataBufferHint Hint, size_t Size, const void *Buffer, CCDataBufferHash Hash, CCDataBufferDestructor Destructor);
+CC_NEW CCData CCDataBufferCreate(CCAllocatorType Allocator, CCDataBufferHint Hint, size_t Size, const void *Buffer, CCDataBufferHash Hash, CCDataBufferDestructor Destructor);
 
 #endif

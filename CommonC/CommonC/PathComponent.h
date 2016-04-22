@@ -27,6 +27,7 @@
 #define CommonC_PathComponent_h
 
 #include <stdint.h>
+#include <CommonC/Ownership.h>
 
 typedef enum {
     FSPathComponentTypeInvalid,
@@ -51,20 +52,20 @@ typedef uintptr_t FSPathComponent;
  *
  * @return The component, or FSPathComponentTypeInvalid on failure. Must be destroyed to free the memory.
  */
-FSPathComponent FSPathComponentCreate(FSPathComponentType Type, const char *String);
+CC_NEW FSPathComponent FSPathComponentCreate(FSPathComponentType Type, const char *String);
 
 /*!
  * @brief Destroy a path component.
  * @param Component The component to be destroyed.
  */
-void FSPathComponentDestroy(FSPathComponent Component);
+void FSPathComponentDestroy(FSPathComponent CC_DESTROY(Component));
 
 /*!
  * @brief Copy a path component.
  * @param Component the component to be copied.
  * @return The component, or FSPathComponentTypeInvalid on failure. Must be destroyed to free the memory.
  */
-FSPathComponent FSPathComponentCopy(FSPathComponent Component);
+CC_NEW FSPathComponent FSPathComponentCopy(FSPathComponent Component);
 
 /*!
  * @brief Get the name of a path component.
