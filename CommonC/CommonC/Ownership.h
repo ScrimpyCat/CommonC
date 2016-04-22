@@ -71,10 +71,10 @@
  e.g.
  CC_NEW void *malloc(size_t size); //Caller is responsible for the returned data.
  void *value(void); //Caller is not responsible for the returned data.
- CC_NEW void *copy(void *CC_COPY(ptr)); //Caller is responsible for both 'ptr', and the returned data.
- CC_NEW void *retain(void *CC_RETAIN(ptr)); //Caller is responsible for both 'ptr', and the returned data.
+ void copy(void *CC_COPY(ptr)); //Caller and callee are responsible for 'ptr'.
+ void retain(void *CC_RETAIN(ptr)); //Caller and callee are responsible for 'ptr'.
  void destroy(void *CC_DESTROY(ptr)); //Caller is no longer responsible for 'ptr'.
- void hold(void *CC_OWN(ptr)); //Caller is no longer responsible for 'ptr'.
+ void hold(void *CC_OWN(ptr)); //Caller is no longer responsible for 'ptr'. Callee is responsible for 'ptr'.
  */
 
 #define CC_COPY(x) c_##x ///Copies the value

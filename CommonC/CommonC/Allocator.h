@@ -51,7 +51,7 @@ typedef void (*CCMemoryDestructorCallback)(void *Ptr);
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator);
 CC_NEW void *CCMemoryAllocate(CCAllocatorType Type, size_t Size);
 CC_NEW void *CCMemoryReallocate(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size);
-CC_NEW void *CCMemoryRetain(void *CC_RETAIN(Ptr));
+CC_NEW void *CCMemoryRetain(void *Ptr);
 void CCMemoryDeallocate(void *CC_DESTROY(Ptr));
 CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCallback Destructor);
 
