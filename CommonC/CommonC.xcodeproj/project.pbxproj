@@ -166,6 +166,8 @@
 		F36202E917AC432500153E85 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = F362027717AC3FFD00153E85 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36202F017AC442700153E85 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202EF17AC442700153E85 /* Platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202F117AC510700153E85 /* MemoryAllocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */ = {isa = PBXBuildFile; fileRef = F367837E1CCAEB2B00BF8985 /* Ownership.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */ = {isa = PBXBuildFile; fileRef = F367837E1CCAEB2B00BF8985 /* Ownership.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F369C7D01C44D515006C3D96 /* CCString.c in Sources */ = {isa = PBXBuildFile; fileRef = F369C7CE1C44D515006C3D96 /* CCString.c */; };
 		F369C7D11C44D515006C3D96 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7CF1C44D515006C3D96 /* CCString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F369C7D31C462AEF006C3D96 /* StringTests.m */; };
@@ -336,6 +338,7 @@
 		F362028D17AC3FFD00153E85 /* MemoryAllocationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryAllocationTests.m; sourceTree = "<group>"; };
 		F36202EF17AC442700153E85 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		F36202F117AC510700153E85 /* MemoryAllocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryAllocation.h; sourceTree = "<group>"; };
+		F367837E1CCAEB2B00BF8985 /* Ownership.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ownership.h; sourceTree = "<group>"; };
 		F369C7CE1C44D515006C3D96 /* CCString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CCString.c; sourceTree = "<group>"; };
 		F369C7CF1C44D515006C3D96 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		F369C7D21C461936006C3D96 /* CCStringEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStringEnumerator.h; sourceTree = "<group>"; };
@@ -683,6 +686,7 @@
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
+				F367837E1CCAEB2B00BF8985 /* Ownership.h */,
 				F3AE992B1A6D0F8700212838 /* Utilities */,
 				F353DD8B17B59EC000D1674C /* Maths */,
 				F353DD6F17B02C1700D1674C /* System */,
@@ -879,6 +883,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F30437B61C62E07200388C74 /* Platform.h in Headers */,
+				F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */,
 				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
@@ -949,6 +954,7 @@
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
+				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
 				F3D657D017D5DA8F00B54101 /* Random.h in Headers */,
 				F3D657D417D5FD5200B54101 /* Maths.h in Headers */,
@@ -1591,6 +1597,7 @@
 				F30437AE1C62DFA200388C74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F30437AF1C62DFA200388C74 /* Build configuration list for PBXNativeTarget "CommonC-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1599,6 +1606,7 @@
 				F30437B11C62DFA200388C74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F362026117AC3FFD00153E85 /* Build configuration list for PBXProject "CommonC" */ = {
 			isa = XCConfigurationList;

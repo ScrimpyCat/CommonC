@@ -37,6 +37,7 @@
 #include <CommonC/Platform.h>
 #include <CommonC/Extensions.h>
 #include <CommonC/Generics.h>
+#include <CommonC/Ownership.h>
 
 #include <CommonC/Types.h>
 #include <CommonC/DebugTypes.h>

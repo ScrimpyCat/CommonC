@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 #include <CommonC/Platform.h>
+#include <CommonC/Ownership.h>
 
 typedef struct CCAllocatorType {
     int allocator; //the allocator to be used
@@ -48,10 +49,10 @@ typedef void (*CCMemoryDestructorCallback)(void *Ptr);
 
 
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator);
-void *CCMemoryAllocate(CCAllocatorType Type, size_t Size);
-void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size);
-void *CCMemoryRetain(void *Ptr);
-void CCMemoryDeallocate(void *Ptr);
+CC_NEW void *CCMemoryAllocate(CCAllocatorType Type, size_t Size);
+CC_NEW void *CCMemoryReallocate(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size);
+CC_NEW void *CCMemoryRetain(void *CC_RETAIN(Ptr));
+void CCMemoryDeallocate(void *CC_DESTROY(Ptr));
 CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCallback Destructor);
 
 
