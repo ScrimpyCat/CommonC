@@ -28,6 +28,11 @@
 #include <string.h>
 
 
+static void CCArrayDestructor(CCArray Ptr)
+{
+    CCFree(Ptr->data);
+}
+
 CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize)
 {
     CCAssertLog(ChunkSize >= 1, "ChunkSize must be at least 1");
@@ -41,6 +46,8 @@ CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t Chun
             .count = 0,
             .data = CCMalloc(Allocator, ChunkSize * ElementSize, NULL, CC_DEFAULT_ERROR_CALLBACK)
         };
+        
+        CCMemorySetDestructor(Array, (CCMemoryDestructorCallback)CCArrayDestructor);
     }
     
     
@@ -50,7 +57,6 @@ CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size_t Chun
 void CCArrayDestroy(CCArray Array)
 {
     CCAssertLog(Array, "Array must not be null");
-    CCFree(Array->data);
     CCFree(Array);
 }
 

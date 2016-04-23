@@ -39,11 +39,17 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
 
-typedef struct {
+typedef struct CCArrayInfo {
     size_t size, chunkSize;
     size_t count;
     void *data;
-} CCArrayInfo, *CCArray;
+} CCArrayInfo;
+
+/*!
+ * @brief The array.
+ * @description Allows @b CCRetain.
+ */
+typedef struct CCArrayInfo *CCArray;
 
 
 #pragma mark - Creation/Destruction
