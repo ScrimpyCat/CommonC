@@ -573,6 +573,11 @@
     XCTAssertTrue(CCStringFindSubstring(String, 5, Sub) == SIZE_MAX, @"Should not find substring");
     CCStringDestroy(String);
     CCStringDestroy(Sub);
+    
+    
+    XCTAssertTrue(CCStringFindSubstring(CC_STRING("a"), 0, CC_STRING("")) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(CC_STRING(""), 0, CC_STRING("a")) == SIZE_MAX, @"Should not find substring");
+    XCTAssertTrue(CCStringFindSubstring(CC_STRING(""), 0, CC_STRING("")) == SIZE_MAX, @"Should not find substring");
 }
 
 -(void) testCopySubstring

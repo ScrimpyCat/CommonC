@@ -947,10 +947,10 @@ CCChar CCStringGetCharacterAtIndex(CCString String, size_t Index)
 size_t CCStringFindSubstring(CCString String, size_t Index, CCString Substring)
 {
     CCAssertLog(String && Substring, "Strings must not be null");
-    CCAssertLog(Index < CCStringGetLength(String), "Index must not exceed string length");
+    CCAssertLog(Index <= CCStringGetLength(String), "Index must not exceed string length");
     
     const size_t StringLength = CCStringGetLength(String), SubstringLength = CCStringGetLength(Substring);
-    if ((StringLength - Index) >= SubstringLength)
+    if ((StringLength) && ((StringLength - Index) >= SubstringLength))
     {
         if ((CCStringIsTagged(String)) && (CCStringIsTagged(Substring)) && ((String & CCStringTaggedMask) == (Substring & CCStringTaggedMask)))
         {
