@@ -57,6 +57,25 @@ CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR); \
 for (type *CC_PRIV_##element##__ = CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 }; CC_PRIV_##element##__; CC_PRIV_##element##__ = CCCollectionEnumeratorNext(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 })
 
 /*!
+ * @define CC_COLLECTION_FOREACH_PTR
+ * @abstract Convenient macro to iterate through each pointer element in a collection.
+ * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
+ *             single line statement.
+ *
+ * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
+ *          CC_COLLECTION_CURRENT_ENUMERATOR, or enclosed it in a braces.
+ *
+ * @param type The type of the element. Note: The element will be a pointer to this type.
+ * @param element The name for the element variable.
+ * @param collection The collection to iterate through.
+ */
+#define CC_COLLECTION_FOREACH_PTR(type, element, collection) \
+CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR; \
+CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR); \
+\
+for (type *element = CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR); element; element = CCCollectionEnumeratorNext(&CC_COLLECTION_CURRENT_ENUMERATOR))
+
+/*!
  * @brief Get a reference to the current entry in the enumerator.
  * @param Enumerator The enumerator to get the reference to.
  * @return The entry reference to the current element.
