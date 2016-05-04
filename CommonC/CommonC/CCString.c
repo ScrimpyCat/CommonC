@@ -368,8 +368,10 @@ CCString CCStringCreateWithoutRange(CCString String, size_t Offset, size_t Lengt
     CCAssertLog(String, "String must not be null");
     CCAssertLog(Offset + Length <= CCStringGetLength(String), "Offset and size must not be out of bounds");
     
+    if (!Length) return CCStringCopy(String);
+    
     const size_t StringLength = CCStringGetLength(String);
-    if ((!Length) || (Offset + Length == StringLength)) return CCStringCopySubstring(String, 0, Offset);
+    if (Offset + Length == StringLength) return CCStringCopySubstring(String, 0, Offset);
     
     if (CCStringIsTagged(String))
     {

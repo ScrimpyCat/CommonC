@@ -314,6 +314,20 @@
     CCStringDestroy(String);
     
     
+    String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithoutRange(CC_STRING("012345"), 5, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
     String = CCStringCreateWithoutRange(CC_STRING("012345"), 1, 3);
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("045")), @"Should create the correct string");
