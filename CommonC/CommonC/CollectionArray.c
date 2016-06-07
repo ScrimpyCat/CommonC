@@ -179,8 +179,24 @@ static void *CCCollectionArrayConstructor(CCAllocatorType Allocator, CCCollectio
     CCCollectionArrayInternal *Internal = CCMalloc(Allocator, sizeof(CCCollectionArrayInternal), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Internal)
     {
+        size_t ChunkSize = 5;
+        switch (Hint & CCCollectionHintSizeMask)
+        {
+            case CCCollectionHintSizeSmall:
+                ChunkSize = 5;
+                break;
+                
+            case CCCollectionHintSizeMedium:
+                ChunkSize = 20;
+                break;
+                
+            case CCCollectionHintSizeLarge:
+                ChunkSize = 50;
+                break;
+        }
+        
         *Internal = (CCCollectionArrayInternal){
-            .array = CCArrayCreate(Allocator, ElementSize, 5),
+            .array = CCArrayCreate(Allocator, ElementSize, ChunkSize),
             .entries = NULL
         };
         
