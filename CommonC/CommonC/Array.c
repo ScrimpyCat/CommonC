@@ -76,9 +76,9 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element)
         Array->data = Temp;
     }
     
-    if (Element) memcpy(Array->data + (Array->count++ * Array->size), Element, Array->size);
+    if (Element) memcpy(Array->data + (Array->count * Array->size), Element, Array->size);
     
-    return Array->count - 1;
+    return Array->count++;
 }
 
 void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Element)
