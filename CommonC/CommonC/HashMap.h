@@ -48,7 +48,7 @@ typedef struct CCHashMapInfo {
     CCHashMapKeyHasher getHash;
     CCComparator compareKeys;
     size_t keySize, valueSize;
-    size_t count, bucketCount;
+    size_t bucketCount;
     void *internal;
 } CCHashMapInfo;
 
@@ -169,7 +169,7 @@ uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key);
  * @param Map The hashmap to get the count of.
  * @return The number of key/values.
  */
-static inline size_t CCHashMapGetCount(CCHashMap Map);
+size_t CCHashMapGetCount(CCHashMap Map);
 
 /*!
  * @brief Get the number of buckets in the hashmap.
@@ -194,13 +194,6 @@ static inline size_t CCHashMapGetValueSize(CCHashMap Map);
 
 
 #pragma mark -
-static inline size_t CCHashMapGetCount(CCHashMap Map)
-{
-    CCAssertLog(Map, "Map must not be null");
-    
-    return Map->count;
-}
-
 static inline size_t CCHashMapGetBucketCount(CCHashMap Map)
 {
     CCAssertLog(Map, "Map must not be null");

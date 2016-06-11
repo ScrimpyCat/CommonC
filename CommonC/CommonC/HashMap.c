@@ -46,7 +46,6 @@ CCHashMap CCHashMapCreate(CCAllocatorType Allocator, size_t KeySize, size_t Valu
             .compareKeys = KeyComparator,
             .keySize = KeySize,
             .valueSize = ValueSize,
-            .count = 0,
             .bucketCount = BucketCount,
             .internal = Interface->create(Allocator, KeySize, ValueSize, BucketCount)
         };
@@ -170,4 +169,11 @@ void CCHashMapRemoveValue(CCHashMap Map, void *Key)
     
     if (Map->interface->optional.removeValue) Map->interface->optional.removeValue(Map, Key);
     else CCHashMapRemoveEntry(Map, CCHashMapFindKey(Map, Key));
+}
+
+size_t CCHashMapGetCount(CCHashMap Map)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return Map->interface->count(Map);
 }

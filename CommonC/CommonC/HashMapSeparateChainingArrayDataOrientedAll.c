@@ -32,6 +32,7 @@
 
 
 typedef struct {
+    size_t count;
     CCArray hashes;
     CCArray keys;
     CCArray values;
@@ -39,6 +40,7 @@ typedef struct {
 
 static void *CCHashMapSeparateChainingArrayDataOrientedAllConstructor(CCAllocatorType Allocator, size_t KeySize, size_t ValueSize, size_t BucketCount);
 static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal);
+static size_t CCHashMapSeparateChainingArrayDataOrientedAllGetCount(CCHashMap Map);
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllFindKey(CCHashMap Map, void *Key);
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetEntry(CCHashMap Map, CCHashMapEntry Entry);
@@ -52,6 +54,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue(CCHashMap M
 const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface = {
     .create = CCHashMapSeparateChainingArrayDataOrientedAllConstructor,
     .destroy = (CCHashMapDestructorCallback)CCHashMapSeparateChainingArrayDataOrientedAllDestructor,
+    .count = CCHashMapSeparateChainingArrayDataOrientedAllGetCount,
     .findKey = CCHashMapSeparateChainingArrayDataOrientedAllFindKey,
     .entryForKey = CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey,
     .getEntry = CCHashMapSeparateChainingArrayDataOrientedAllGetEntry,
@@ -98,6 +101,11 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSep
     if (Internal->hashes) CCHashMapSeparateChainingArrayDataOrientedAllBucketDestroy(Internal->hashes);
     if (Internal->keys) CCHashMapSeparateChainingArrayDataOrientedAllBucketDestroy(Internal->keys);
     if (Internal->values) CCHashMapSeparateChainingArrayDataOrientedAllBucketDestroy(Internal->values);
+}
+
+static size_t CCHashMapSeparateChainingArrayDataOrientedAllGetCount(CCHashMap Map)
+{
+    return ((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->count;
 }
 
 static _Bool CCHashMapSeparateChainingArrayDataOrientedAllGetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
@@ -214,6 +222,7 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllFindKey(CCHas
 static size_t CCHashMapSeparateChainingArrayDataOrientedAllAddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *Key, void *Value)
 {
     CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    Internal->count++;
     
     //hash
     if (Map->getHash)

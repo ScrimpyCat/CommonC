@@ -63,6 +63,13 @@ typedef void *(*CCHashMapConstructorCallback)(CCAllocatorType Allocator, size_t 
 typedef void (*CCHashMapDestructorCallback)(void *Internal);
 
 /*!
+ * @brief A callback to get the number of entries currently in the map.
+ * @param Map The hashmap to get the count of.
+ * @return The number of entries.
+ */
+typedef size_t (*CCHashMapGetCountCallback)(CCHashMap Map);
+
+/*!
  * @brief A callback to find a given key.
  * @param Map The hashmap to find the key of.
  * @param Key The pointer to the key to be found.
@@ -143,6 +150,7 @@ typedef void (*CCHashMapRemoveValueCallback)(CCHashMap Map, void *Key);
 typedef struct {
     CCHashMapConstructorCallback create;
     CCHashMapDestructorCallback destroy;
+    CCHashMapGetCountCallback count;
     CCHashMapFindKeyCallback findKey;
     CCHashMapEntryForKeyCallback entryForKey;
     CCHashMapGetEntryCallback getEntry;

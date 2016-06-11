@@ -51,6 +51,26 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     return CCHashMapSeparateChainingArrayDataOrientedAll;
 }
 
+-(void) testCount
+{
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    
+    XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
+    
+    CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 100 });
+    CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 200 });
+    
+    XCTAssertEqual(CCHashMapGetCount(Map), 2, @"Should not have 2 entries");
+    
+    CCHashMapEntryForKey(Map, &(uintmax_t){ 2 }, NULL);
+    CCHashMapEntryForKey(Map, &(uintmax_t){ 3 }, NULL);
+    CCHashMapEntryForKey(Map, &(uintmax_t){ 4 }, NULL);
+    
+    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should not have 4 entries");
+    
+    CCHashMapDestroy(Map);
+}
+
 -(void) testStoring
 {
     CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
