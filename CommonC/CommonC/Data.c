@@ -54,7 +54,7 @@ CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, 
         
         if (!Data->internal)
         {
-            CC_LOG_ERROR("Failed to create collection: Implementation failure (%p)", Interface);
+            CC_LOG_ERROR("Failed to create data container: Implementation failure (%p)", Interface);
             CCFree(Data);
             Data = NULL;
         }
@@ -64,7 +64,7 @@ CCData CCDataCreate(CCAllocatorType Allocator, CCDataHint Hint, void *InitData, 
     
     else
     {
-        CC_LOG_ERROR("Failed to create collection: Failed to allocate memory of size (%zu)", sizeof(CCDataInfo));
+        CC_LOG_ERROR("Failed to create data container: Failed to allocate memory of size (%zu)", sizeof(CCDataInfo));
     }
     
     return Data;
