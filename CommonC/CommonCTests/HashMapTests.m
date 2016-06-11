@@ -99,6 +99,56 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    
+    CCHashMapEntry Entries[] = {
+        CCHashMapFindKey(Map, &(uintmax_t){ 0 }),
+        CCHashMapEntryForKey(Map, &(uintmax_t){ 1 }, NULL),
+        CCHashMapEntryForKey(Map, &(uintmax_t){ 2 }, NULL),
+        CCHashMapEntryForKey(Map, &(uintmax_t){ 3 }, NULL),
+        CCHashMapEntryForKey(Map, &(uintmax_t){ 4 }, NULL),
+        CCHashMapEntryForKey(Map, &(uintmax_t){ 5 }, NULL),
+        CCHashMapFindKey(Map, &(uintmax_t){ 6 })
+    };
+    
+    CCHashMapSetEntry(Map, Entries[0], &(int){ 0 });
+    CCHashMapSetEntry(Map, Entries[1], &(int){ 100 });
+    CCHashMapSetEntry(Map, Entries[2], &(int){ 200 });
+    CCHashMapSetEntry(Map, Entries[3], &(int){ 300 });
+    CCHashMapSetEntry(Map, Entries[4], &(int){ 400 });
+    CCHashMapSetEntry(Map, Entries[5], &(int){ 500 });
+    CCHashMapSetEntry(Map, Entries[6], &(int){ 600 });
+    
+    XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 0 }), NULL, @"Should not contain a value for the key");
+    XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 1 }), NULL, @"Should contain a value for the key");
+    XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 2 }), NULL, @"Should contain a value for the key");
+    XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 3 }), NULL, @"Should contain a value for the key");
+    XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should contain a value for the key");
+    XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 5 }), NULL, @"Should contain a value for the key");
+    XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 6 }), NULL, @"Should not contain a value for the key");
+    
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 100, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 200, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 3 }), 300, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 4 }), 400, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 500, @"Should contain the correct value for the key");
+    
+    CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 101 });
+    CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 202 });
+    CCHashMapSetValue(Map, &(uintmax_t){ 3 }, &(int){ 303 });
+    CCHashMapSetValue(Map, &(uintmax_t){ 4 }, &(int){ 404 });
+    CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 505 });
+    
+    XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[1]), 101, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[2]), 202, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[3]), 303, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[4]), 404, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[5]), 505, @"Should contain the correct value for the key");
+    
+    CCHashMapDestroy(Map);
+    
+    
+    
     Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), sizeof(int), 3, NULL, NULL, [self interface]);
     
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 0 }), NULL, @"Should not contain a value for the key");

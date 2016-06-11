@@ -39,8 +39,8 @@
  * - Enumerating of keys. (faster than other @b CCHashMapSeparateChainingArray* variants)
  * - Enumerating of values. (faster than other @b CCHashMapSeparateChainingArray* variants)
  */
-#ifndef CommonC_CCHashMapSeparateChainingArrayDataOrientedAll_h
-#define CommonC_CCHashMapSeparateChainingArrayDataOrientedAll_h
+#ifndef CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
+#define CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
 
 #include <CommonC/HashMapInterface.h>
 

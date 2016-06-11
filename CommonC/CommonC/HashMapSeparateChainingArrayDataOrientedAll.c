@@ -23,7 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CCHashMapSeparateChainingArrayDataOrientedAll.h"
+#include "HashMapSeparateChainingArrayDataOrientedAll.h"
 #include "HashMap.h"
 #include "MemoryAllocation.h"
 #include "Array.h"
@@ -172,11 +172,11 @@ static _Bool CCHashMapSeparateChainingArrayDataOrientedAllGetKey(CCHashMap Map, 
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllIndexToEntry(CCHashMap Map, size_t BucketIndex, size_t ItemIndex)
 {
     const uintmax_t BucketMask = CCBitMaskForValue(Map->bucketCount + 1);
-    const uintmax_t ItemMask = ~BucketMask;
+    const uintmax_t ItemMask = ~BucketMask, ItemShift = CCBitCountSet(BucketMask);
     
-    if ((ItemIndex & ItemMask) == ItemIndex)
+    if ((ItemIndex & (ItemMask >> ItemShift)) == ItemIndex)
     {
-        return (ItemIndex << CCBitCountSet(BucketMask)) | (BucketIndex + 1);
+        return (ItemIndex << ItemShift) | (BucketIndex + 1);
     }
     
     CC_LOG_WARNING("HashMap bucket size (%zu, %zu) exceeds representable threshold for an entry reference", Map->bucketCount, CCArrayGetCount(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex)));
@@ -192,7 +192,7 @@ static _Bool CCHashMapSeparateChainingArrayDataOrientedAllEntryToIndex(CCHashMap
         const uintmax_t ItemMask = ~BucketMask;
         
         *BucketIndex = (Entry & BucketMask) - 1;
-        *ItemIndex = (Entry >> CCBitCountSet(BucketMask)) & ItemMask;
+        *ItemIndex = (Entry & ItemMask) >> CCBitCountSet(BucketMask);
         
         return TRUE;
     }
