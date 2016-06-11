@@ -76,7 +76,7 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element)
         Array->data = Temp;
     }
     
-    memcpy(Array->data + (Array->count++ * Array->size), Element, Array->size);
+    if (Element) memcpy(Array->data + (Array->count++ * Array->size), Element, Array->size);
     
     return Array->count - 1;
 }
@@ -86,7 +86,7 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
     CCAssertLog(Array, "Array must not be null");
     CCAssertLog(Array->count > Index, "Index must not be out of bounds");
     
-    memcpy(Array->data + (Index * Array->size), Element, Array->size);
+    if (Element) memcpy(Array->data + (Index * Array->size), Element, Array->size);
 }
 
 size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element)
@@ -107,7 +107,7 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
     }
     
     memmove(Array->data + ((Index + 1) * Array->size), Array->data + (Index * Array->size), (++Array->count - (Index + 1)) * Array->size);
-    memcpy(Array->data + (Index * Array->size), Element, Array->size);
+    if (Element) memcpy(Array->data + (Index * Array->size), Element, Array->size);
     
     return Index;
 }
