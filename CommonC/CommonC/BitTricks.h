@@ -36,20 +36,88 @@
 #include <stdint.h>
 
 
+/*!
+ * @brief Finds lowest unset bit.
+ * @example (00010110 -> 00000001, 00001000 -> 00000001)
+ * @return The lowest unset bit.
+ */
 static CC_FORCE_INLINE uint64_t CCBitLowestUnset(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Finds lowest set bit.
+ * @example (00010110 -> 00000010, 00001000 -> 00001000)
+ * @return The lowest set bit.
+ */
 static CC_FORCE_INLINE uint64_t CCBitLowestSet(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Finds highest set bit.
+ * @example (00010110 -> 00010000, 00001000 -> 00001000)
+ * @return The highest set bit.
+ */
 static CC_FORCE_INLINE uint64_t CCBitHighestSet(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Finds the minimum power of 2 value that can hold @b x.
+ * @example (00010110 -> 00100000, 00001000 -> 00001000)
+ * @return The next power of 2.
+ */
 static CC_FORCE_INLINE uint64_t CCBitNextPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Creates a mask for the entire values range.
+ * @example (00010110 -> 00011111, 00001000 -> 00001111)
+ * @return Mask for value.
+ */
 static CC_FORCE_INLINE uint64_t CCBitMaskForValue(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Masks the lower bits of a power of 2 value.
+ * @example (00010110 -> NA, 00001000 -> 00000111)
+ * @return Mask for lower bits of power of 2.
+ */
 static CC_FORCE_INLINE uint64_t CCBitMaskForLowerPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit.
+ * @example (00010110 -> 11100000, 00001000 -> 11110000)
+ * @return Mask for highest unset bits.
+ */
 static CC_FORCE_INLINE uint64_t CCBitMaskForUnsetValue(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Sums the number of set bits.
+ * @example (00010110 -> 00000011, 00001000 -> 00000001)
+ * @return Sum of set bits.
+ */
 static CC_FORCE_INLINE uint64_t CCBitCountSet(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Set n least significant bits
+ * @return Set n bits.
+ */
 static CC_FORCE_INLINE uint64_t CCBitSet(uint64_t n) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Checks if the value is a power of 2
+ * @return Whether or not the value is a power of 2.
+ */
 static CC_FORCE_INLINE _Bool CCBitIsPowerOf2(uint64_t x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Checks if the float value is a power of 2
+ * @return Whether or not the value is a power of 2.
+ */
 static CC_FORCE_INLINE _Bool CCBitFloat32IsPowerOf2(float x) CC_CONSTANT_FUNCTION;
+
+/*!
+ * @brief Checks if the double value is a power of 2
+ * @return Whether or not the value is a power of 2.
+ */
 static CC_FORCE_INLINE _Bool CCBitFloat64IsPowerOf2(double x) CC_CONSTANT_FUNCTION;
 
 
+#pragma mark - Implementations
 
 //Finds lowest unset bit (00010110 -> 00000001, 00001000 -> 00000001)
 static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitLowestUnset(uint64_t x) //7 -> 8, 8 -> 1
