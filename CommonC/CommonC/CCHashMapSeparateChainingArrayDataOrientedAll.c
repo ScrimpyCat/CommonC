@@ -40,7 +40,7 @@ typedef struct {
 static void *CCHashMapSeparateChainingArrayDataOrientedAllConstructor(CCAllocatorType Allocator, size_t KeySize, size_t ValueSize, size_t BucketCount);
 static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal);
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllFindKey(CCHashMap Map, void *Key);
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key);
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetEntry(CCHashMap Map, CCHashMapEntry Entry);
 static void CCHashMapSeparateChainingArrayDataOrientedAllSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value);
 static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry(CCHashMap Map, CCHashMapEntry Entry);
@@ -267,17 +267,19 @@ static size_t CCHashMapSeparateChainingArrayDataOrientedAllAddValue(CCHashMap Ma
     return CCArrayAppendElement(ValueBucket, Value);
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key)
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key, _Bool *Created)
 {
     uintmax_t Hash;
     size_t BucketIndex, ItemIndex;
     if (CCHashMapSeparateChainingArrayDataOrientedAllGetKey(Map, Key, &Hash, &BucketIndex, &ItemIndex))
     {
+        if (Created) *Created = FALSE;
         return CCHashMapSeparateChainingArrayDataOrientedAllIndexToEntry(Map, BucketIndex, ItemIndex);
     }
     
     else
     {
+        if (Created) *Created = TRUE;
         return CCHashMapSeparateChainingArrayDataOrientedAllIndexToEntry(Map, BucketIndex, CCHashMapSeparateChainingArrayDataOrientedAllAddValue(Map, BucketIndex, Hash, Key, NULL));
     }
 }
