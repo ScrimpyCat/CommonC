@@ -36,7 +36,6 @@ typedef struct {
     CCArray hashes;
     CCArray keys;
     CCArray values;
-    CCArray available;
 } CCHashMapSeparateChainingArrayDataOrientedAllInternal;
 
 static void *CCHashMapSeparateChainingArrayDataOrientedAllConstructor(CCAllocatorType Allocator, size_t KeySize, size_t ValueSize, size_t BucketCount);
@@ -102,58 +101,45 @@ static _Bool EntryToIndex(CCHashMap Map, CCHashMapEntry Entry, size_t *BucketInd
     return FALSE;
 }
 
+static inline _Bool HashIsEmpty(uintmax_t Hash)
+{
+    return Hash & ~(UINTMAX_MAX >> 1);
+}
+
 static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *Key, void *Value)
 {
     CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
     Internal->count++;
     
-    if (Internal->available)
+    //hash
+    if (!Internal->hashes)
     {
-        const uintmax_t BucketMask = CCBitMaskForValue(Map->bucketCount + 1);
-        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
+        Internal->hashes = CCArrayCreate(Map->allocator, sizeof(CCArray), Map->bucketCount);
+        for (size_t Loop = 0; Loop < Map->bucketCount; Loop++) CCArrayAppendElement(Internal->hashes, &(CCArray){ NULL });
+    }
+    
+    CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, BucketIndex);
+    if (!HashBucket)
+    {
+        HashBucket = CCArrayCreate(Map->allocator, sizeof(uintmax_t), 1);
+        CCArrayReplaceElementAtIndex(Internal->hashes, BucketIndex, &HashBucket);
+    }
+    
+    else
+    {
+        for (size_t Loop = 0, Count = CCArrayGetCount(HashBucket); Loop < Count; Loop++)
         {
-            CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-            if ((AvailableEntry) && (BucketIndex == ((AvailableEntry & BucketMask) - 1))) //Replace the remove entry
+            if (HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop)))
             {
-                if (Loop >= Count - (Count / 4)) CCArrayRemoveElementAtIndex(Internal->available, Loop);
-                else CCArrayReplaceElementAtIndex(Internal->available, Loop, &(CCHashMapEntry){ 0 });
-                
-                const uintmax_t ItemIndex = (AvailableEntry & ~BucketMask) >> CCBitCountSet(BucketMask);
-                if (Map->getHash)
-                {
-                    CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, BucketIndex);
-                    CCArrayReplaceElementAtIndex(HashBucket, ItemIndex, &Hash);
-                }
-                
-                CCArray KeyBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->keys, BucketIndex);
-                CCArrayReplaceElementAtIndex(KeyBucket, ItemIndex, Key);
-                
-                CCArray ValueBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->values, BucketIndex);
-                CCArrayReplaceElementAtIndex(ValueBucket, ItemIndex, Value);
-                
-                return ItemIndex;
+                CCArrayReplaceElementAtIndex(HashBucket, Loop, &Hash);
+                CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->keys, BucketIndex), Loop, Key);
+                CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->values, BucketIndex), Loop, Value);
+                return Loop;
             }
         }
     }
     
-    //hash
-    if (Map->getHash)
-    {
-        if (!Internal->hashes)
-        {
-            Internal->hashes = CCArrayCreate(Map->allocator, sizeof(CCArray), Map->bucketCount);
-            for (size_t Loop = 0; Loop < Map->bucketCount; Loop++) CCArrayAppendElement(Internal->hashes, &(CCArray){ NULL });
-        }
-        
-        CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, BucketIndex);
-        if (!HashBucket)
-        {
-            HashBucket = CCArrayCreate(Map->allocator, sizeof(uintmax_t), 1);
-            CCArrayReplaceElementAtIndex(Internal->hashes, BucketIndex, &HashBucket);
-        }
-        
-        CCArrayAppendElement(HashBucket, &Hash);
-    }
+    CCArrayAppendElement(HashBucket, &Hash);
     
     //key
     if (!Internal->keys)
@@ -197,19 +183,11 @@ static void RemoveValue(CCHashMap Map, CCHashMapEntry Entry)
         {
             CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
             
-            if (!Internal->available) Internal->available = CCArrayCreate(Map->allocator, sizeof(CCHashMapEntry), 4);
+            uintmax_t *Hash = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, BucketIndex), ItemIndex);
             
-            size_t Reuse = SIZE_MAX;
-            for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-            {
-                CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-                if (Entry == AvailableEntry) return;
-                else if (!AvailableEntry) Reuse = Loop;
-            }
+            CCAssertLog(!HashIsEmpty(*Hash), "Hash has been removed");
             
-            if (Reuse != SIZE_MAX) CCArrayReplaceElementAtIndex(Internal->available, Reuse, &Entry);
-            else CCArrayAppendElement(Internal->available, &Entry);
-            
+            *Hash |= ~(UINTMAX_MAX >> 1);
             Internal->count--;
         }
     }
@@ -217,7 +195,7 @@ static void RemoveValue(CCHashMap Map, CCHashMapEntry Entry)
 
 static _Bool GetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
 {
-    const uintmax_t Hash = CCHashMapGetKeyHash(Map, Key);
+    const uintmax_t Hash = CCHashMapGetKeyHash(Map, Key) & (UINTMAX_MAX >> 1);
     const size_t Index = Hash % Map->bucketCount;
     
     if (HashValue) *HashValue = Hash;
@@ -255,32 +233,6 @@ static _Bool GetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *Buck
         }
     }
     
-    else if (Internal->keys)
-    {
-        CCArray KeyBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->keys, Index);
-        if (KeyBucket)
-        {
-            for (size_t Loop = 0, Count = CCArrayGetCount(KeyBucket); Loop < Count; Loop++)
-            {
-                const void *EntryKey = CCArrayGetElementAtIndex(KeyBucket, Loop);
-                if (Map->compareKeys)
-                {
-                    if (Map->compareKeys(Key, EntryKey) == CCComparisonResultEqual)
-                    {
-                        *ItemIndex = Loop;
-                        return TRUE;
-                    }
-                }
-                
-                else if (!memcmp(Key, EntryKey, Map->keySize))
-                {
-                    *ItemIndex = Loop;
-                    return TRUE;
-                }
-            }
-        }
-    }
-    
     return FALSE;
 }
 
@@ -293,8 +245,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedAllConstructor(CCAllocato
             .count = 0,
             .hashes = NULL,
             .keys = NULL,
-            .values = NULL,
-            .available = NULL
+            .values = NULL
         };
     }
     
@@ -329,18 +280,7 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllFindKey(CCHas
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex))
     {
-        CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-        const CCHashMapEntry Entry = IndexToEntry(Map, BucketIndex, ItemIndex);
-        if (Internal->available)
-        {
-            for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-            {
-                CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-                if (Entry == AvailableEntry) return 0; //Removed entry
-            }
-        }
-        
-        return Entry;
+        return IndexToEntry(Map, BucketIndex, ItemIndex);
     }
     
     return 0;
@@ -353,27 +293,7 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(C
     if (GetKey(Map, Key, &Hash, &BucketIndex, &ItemIndex))
     {
         if (Created) *Created = FALSE;
-        
-        CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-        const CCHashMapEntry Entry = IndexToEntry(Map, BucketIndex, ItemIndex);
-        if (Internal->available)
-        {
-            for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-            {
-                CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-                if (Entry == AvailableEntry) //Reuse the remove entry
-                {
-                    if (Loop >= Count - (Count / 4)) CCArrayRemoveElementAtIndex(Internal->available, Loop);
-                    else CCArrayReplaceElementAtIndex(Internal->available, Loop, &(CCHashMapEntry){ 0 });
-                    
-                    Internal->count++;
-                    if (Created) *Created = TRUE;
-                    break;
-                }
-            }
-        }
-        
-        return Entry;
+        return IndexToEntry(Map, BucketIndex, ItemIndex);
     }
     
     else
@@ -385,55 +305,29 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(C
 
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetEntry(CCHashMap Map, CCHashMapEntry Entry)
 {
-#if !CC_NO_ASSERT
-    CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-    if (Internal->available)
-    {
-        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-        {
-            CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-            if ((AvailableEntry) && (Entry == AvailableEntry))
-            {
-                CCAssertLog(0, "Entry was removed");
-            }
-        }
-    }
-#endif
-    
     void *Value = NULL;
     size_t BucketIndex, ItemIndex;
-    if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex)) Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex), ItemIndex);
+    if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex))
+    {
+#if !CC_NO_ASSERT
+        CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
+#endif
+        
+        Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex), ItemIndex);
+    }
     
     return Value;
 }
 
 static void CCHashMapSeparateChainingArrayDataOrientedAllSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value)
 {
-    CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-    if (Internal->available)
-    {
-        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-        {
-            CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-            if ((AvailableEntry) && (Entry == AvailableEntry)) //Reuse the remove entry
-            {
-                if (Loop >= Count - (Count / 4)) CCArrayRemoveElementAtIndex(Internal->available, Loop);
-                else CCArrayReplaceElementAtIndex(Internal->available, Loop, &(CCHashMapEntry){ 0 });
-                
-                const uintmax_t BucketMask = CCBitMaskForValue(Map->bucketCount + 1);
-                const uintmax_t ItemIndex = (AvailableEntry & ~BucketMask) >> CCBitCountSet(BucketMask);
-                
-                CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->values, (AvailableEntry & BucketMask)), ItemIndex, Value);
-                
-                Internal->count++;
-                return;
-            }
-        }
-    }
-    
     size_t BucketIndex, ItemIndex;
     if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex))
     {
+#if !CC_NO_ASSERT
+        CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
+#endif
+        
         CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex), ItemIndex, Value);
     }
 }
@@ -447,21 +341,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedAllGetValue(CCHashMap Map
 {
     void *Value = NULL;
     size_t BucketIndex, ItemIndex;
-    if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex))
-    {
-        CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-        if (Internal->available)
-        {
-            const CCHashMapEntry Entry = IndexToEntry(Map, BucketIndex, ItemIndex);
-            for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-            {
-                CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-                if (Entry == AvailableEntry) return NULL; //Removed entry
-            }
-        }
-        
-        Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->values, BucketIndex), ItemIndex);
-    }
+    if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex), ItemIndex);
     
     return Value;
 }
@@ -472,30 +352,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllSetValue(CCHashMap Map,
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, &Hash, &BucketIndex, &ItemIndex))
     {
-        CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
-        if (Internal->available)
-        {
-            const CCHashMapEntry Entry = IndexToEntry(Map, BucketIndex, ItemIndex);
-            for (size_t Loop = 0, Count = CCArrayGetCount(Internal->available); Loop < Count; Loop++)
-            {
-                CCHashMapEntry AvailableEntry = *(CCHashMapEntry*)CCArrayGetElementAtIndex(Internal->available, Loop);
-                if (Entry == AvailableEntry) //Reuse the remove entry
-                {
-                    if (Loop >= Count - (Count / 4)) CCArrayRemoveElementAtIndex(Internal->available, Loop);
-                    else CCArrayReplaceElementAtIndex(Internal->available, Loop, &(CCHashMapEntry){ 0 });
-                    
-                    const uintmax_t BucketMask = CCBitMaskForValue(Map->bucketCount + 1);
-                    const uintmax_t ItemIndex = (AvailableEntry & ~BucketMask) >> CCBitCountSet(BucketMask);
-                    
-                    CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->values, (AvailableEntry & BucketMask)), ItemIndex, Value);
-                    
-                    Internal->count++;
-                    break;
-                }
-            }
-        }
-        
-        CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->values, BucketIndex), ItemIndex, Value);
+        CCArrayReplaceElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->values, BucketIndex), ItemIndex, Value);
     }
     
     else

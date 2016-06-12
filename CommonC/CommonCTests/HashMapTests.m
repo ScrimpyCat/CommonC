@@ -80,10 +80,6 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should not have 3 entries");
     
-    CCHashMapRemoveEntry(Map, Entry);
-    
-    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should not have 3 entries");
-    
     CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 200 });
     
     XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should not have 4 entries");
@@ -104,46 +100,43 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 100 });
     CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 200 });
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 2, @"Should not have 2 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 2, @"Should have 2 entries");
     
     CCHashMapEntryForKey(Map, &(uintmax_t){ 2 }, NULL);
     CCHashMapEntryForKey(Map, &(uintmax_t){ 3 }, NULL);
     CCHashMapEntryForKey(Map, &(uintmax_t){ 4 }, NULL);
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should not have 4 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should have 4 entries");
     
     CCHashMapRemoveEntry(Map, CCHashMapEntryForKey(Map, &(uintmax_t){ 3 }, NULL));
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should not have 3 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should have 3 entries");
     
     Entry = CCHashMapEntryForKey(Map, &(uintmax_t){ 3 }, NULL);
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should not have 4 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should have 4 entries");
     
     CCHashMapRemoveEntry(Map, Entry);
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should not have 3 entries");
-    
-    CCHashMapRemoveEntry(Map, Entry);
-    
-    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should not have 3 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should have 3 entries");
     
     CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 200 });
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should not have 4 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should have 4 entries");
     
     CCHashMapRemoveValue(Map, &(uintmax_t){ 5 });
     CCHashMapRemoveValue(Map, &(uintmax_t){ 2 });
     
-    XCTAssertEqual(CCHashMapGetCount(Map), 2, @"Should not have 2 entries");
+    XCTAssertEqual(CCHashMapGetCount(Map), 2, @"Should have 2 entries");
     
     CCHashMapDestroy(Map);
 }
 
--(void) testStoring
+-(void) assertStoreWithBucketCount: (size_t)bucketCount
 {
-    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 0 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 1 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 2 }), NULL, @"Should not contain a value for the key");
@@ -152,12 +145,16 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 5 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 6 }), NULL, @"Should not contain a value for the key");
     
+    CCHashMapRemoveValue(Map, &(uintmax_t){ 3 });
+    CCHashMapRemoveValue(Map, &(uintmax_t){ 10 });
+    
     CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 100 });
     CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 200 });
     CCHashMapSetValue(Map, &(uintmax_t){ 3 }, &(int){ 300 });
     CCHashMapSetValue(Map, &(uintmax_t){ 4 }, &(int){ 400 });
     CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 500 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 0 }), NULL, @"Should not contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 1 }), NULL, @"Should contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 2 }), NULL, @"Should contain a value for the key");
@@ -178,6 +175,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uintmax_t){ 4 }, &(int){ 404 });
     CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 505 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 3 }), 303, @"Should contain the correct value for the key");
@@ -187,6 +185,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapRemoveValue(Map, &(uintmax_t){ 3 });
     CCHashMapRemoveValue(Map, &(uintmax_t){ 4 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should have 3 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 3 }), NULL, @"Should have removed the value for the key");
@@ -196,6 +195,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uintmax_t){ 3 }, &(int){ 333 });
     CCHashMapSetValue(Map, &(uintmax_t){ 0 }, &(int){ 000 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 3 }), 333, @"Should contain the correct value for the key");
@@ -207,7 +207,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
     
     CCHashMapEntry Entries[] = {
         CCHashMapFindKey(Map, &(uintmax_t){ 0 }),
@@ -219,6 +219,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
         CCHashMapFindKey(Map, &(uintmax_t){ 6 })
     };
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
+    
     CCHashMapSetEntry(Map, Entries[0], &(int){ 0 });
     CCHashMapSetEntry(Map, Entries[1], &(int){ 100 });
     CCHashMapSetEntry(Map, Entries[2], &(int){ 200 });
@@ -227,6 +229,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetEntry(Map, Entries[5], &(int){ 500 });
     CCHashMapSetEntry(Map, Entries[6], &(int){ 600 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 0 }), NULL, @"Should not contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 1 }), NULL, @"Should contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 2 }), NULL, @"Should contain a value for the key");
@@ -247,6 +250,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uintmax_t){ 4 }, &(int){ 404 });
     CCHashMapSetValue(Map, &(uintmax_t){ 5 }, &(int){ 505 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[1]), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[2]), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetEntry(Map, Entries[3]), 303, @"Should contain the correct value for the key");
@@ -256,28 +260,31 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapRemoveEntry(Map, Entries[3]);
     CCHashMapRemoveEntry(Map, Entries[4]);
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 3, @"Should have 3 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 3 }), NULL, @"Should have removed the value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should have removed the value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 505, @"Should contain the correct value for the key");
     
-    CCHashMapSetEntry(Map, Entries[3], &(int){ 333 });
+    CCHashMapSetEntry(Map, Entries[5], &(int){ 555 });
     CCHashMapSetValue(Map, &(uintmax_t){ 0 }, &(int){ 000 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 4, @"Should have 4 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 202, @"Should contain the correct value for the key");
-    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 3 }), 333, @"Should contain the correct value for the key");
+    XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 3 }), NULL, @"Should contain the correct value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should have removed the value for the key");
-    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 505, @"Should contain the correct value for the key");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 555, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 0 }), 000, @"Should contain the correct value for the key");
     
     CCHashMapDestroy(Map);
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 0 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 1 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 2 }), NULL, @"Should not contain a value for the key");
@@ -292,6 +299,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uint8_t){ 4 }, &(int){ 400 });
     CCHashMapSetValue(Map, &(uint8_t){ 5 }, &(int){ 500 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 0 }), NULL, @"Should not contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uint8_t){ 1 }), NULL, @"Should contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uint8_t){ 2 }), NULL, @"Should contain a value for the key");
@@ -312,6 +320,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(uint8_t){ 4 }, &(int){ 404 });
     CCHashMapSetValue(Map, &(uint8_t){ 5 }, &(int){ 505 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uint8_t){ 1 }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uint8_t){ 2 }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uint8_t){ 3 }), 303, @"Should contain the correct value for the key");
@@ -322,8 +331,9 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), 3, (CCHashMapKeyHasher)StringHasher, (CCComparator)StringComparator, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), bucketCount, (CCHashMapKeyHasher)StringHasher, (CCComparator)StringComparator, [self interface]);
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("0") }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("1") }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("2") }), NULL, @"Should not contain a value for the key");
@@ -338,6 +348,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(CCString){ CC_STRING("4") }, &(int){ 400 });
     CCHashMapSetValue(Map, &(CCString){ CC_STRING("5") }, &(int){ 500 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("0") }), NULL, @"Should not contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("1") }), NULL, @"Should contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("2") }), NULL, @"Should contain a value for the key");
@@ -358,6 +369,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCHashMapSetValue(Map, &(CCString){ CC_STRING("4") }, &(int){ 404 });
     CCHashMapSetValue(Map, &(CCString){ CC_STRING("5") }, &(int){ 505 });
     
+    XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("1") }), 101, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("2") }), 202, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("3") }), 303, @"Should contain the correct value for the key");
@@ -365,6 +377,15 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("5") }), 505, @"Should contain the correct value for the key");
     
     CCHashMapDestroy(Map);
+}
+
+-(void) testStoring
+{
+    [self assertStoreWithBucketCount: 1];
+    [self assertStoreWithBucketCount: 2];
+    [self assertStoreWithBucketCount: 3];
+    [self assertStoreWithBucketCount: 5];
+    [self assertStoreWithBucketCount: 50];
 }
 
 @end
