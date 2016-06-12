@@ -30,7 +30,8 @@
 #include <stddef.h>
 
 typedef enum {
-    CCEnumeratorFormatInternal,
+    CCEnumeratorFormatMask = 3,
+    CCEnumeratorFormatInternal = 0,
     CCEnumeratorFormatFixedBatch,
     CCEnumeratorFormatBatch
 } CCEnumeratorFormat;
@@ -50,7 +51,7 @@ typedef struct {
             size_t count, stride, index;
         } batch;
     };
-    CCEnumeratorFormat type;
+    CCEnumeratorFormat type; //Bits not covered by CCEnumeratorFormatMask may be used to store extra information.
 } CCEnumeratorState;
 
 typedef struct {

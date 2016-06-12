@@ -109,7 +109,7 @@ static CC_FORCE_INLINE CCChar CCStringEnumeratorPrevious(CCEnumerator *Enumerato
 
 static CC_FORCE_INLINE size_t CCStringEnumeratorGetIndex(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatInternal:
             return Enumerator->state.internal.extra[0];
@@ -126,7 +126,7 @@ static CC_FORCE_INLINE size_t CCStringEnumeratorGetIndex(CCEnumerator *Enumerato
 
 static CC_FORCE_INLINE CCChar CCStringEnumeratorGetCurrent(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatInternal:
             return (CCChar)Enumerator->state.internal.extra[1];
@@ -153,7 +153,7 @@ static CC_FORCE_INLINE CCChar CCStringEnumeratorGetTail(CCEnumerator *Enumerator
 
 static CC_FORCE_INLINE CCChar CCStringEnumeratorNext(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatBatch:
             if (Enumerator->state.batch.count == 0) return 0;
@@ -169,7 +169,7 @@ static CC_FORCE_INLINE CCChar CCStringEnumeratorNext(CCEnumerator *Enumerator)
 
 static CC_FORCE_INLINE CCChar CCStringEnumeratorPrevious(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatBatch:
             if (Enumerator->state.batch.count == 0) return 0;

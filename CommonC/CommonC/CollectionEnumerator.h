@@ -133,7 +133,7 @@ static CC_FORCE_INLINE CCCollectionEntry CCCollectionEnumeratorGetEntry(CCEnumer
 
 static CC_FORCE_INLINE void *CCCollectionEnumeratorGetCurrent(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatInternal:
             return ((CCCollection)Enumerator->ref)->interface->enumerator(((CCCollection)Enumerator->ref)->internal, &Enumerator->state, CCCollectionEnumeratorActionCurrent);
@@ -160,7 +160,7 @@ static inline void *CCCollectionEnumeratorGetTail(CCEnumerator *Enumerator)
 
 static CC_FORCE_INLINE void *CCCollectionEnumeratorNext(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatFixedBatch:
             if (Enumerator->state.fixedBatch.count == 0) return NULL;
@@ -181,7 +181,7 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorNext(CCEnumerator *Enumerator
 
 static CC_FORCE_INLINE void *CCCollectionEnumeratorPrevious(CCEnumerator *Enumerator)
 {
-    switch (Enumerator->state.type)
+    switch (Enumerator->state.type & CCEnumeratorFormatMask)
     {
         case CCEnumeratorFormatFixedBatch:
             if (Enumerator->state.fixedBatch.count == 0) return NULL;
