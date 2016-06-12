@@ -90,6 +90,14 @@ typedef CCHashMapEntry (*CCHashMapFindKeyCallback)(CCHashMap Map, void *Key);
 typedef CCHashMapEntry (*CCHashMapEntryForKeyCallback)(CCHashMap Map, void *Key, _Bool *Created);
 
 /*!
+ * @brief A callback to get a key for a given entry reference.
+ * @param Map The hashmap to create a key for.
+ * @param Entry The entry reference in the hashmap for the key.
+ * @return The pointer to the key.
+ */
+typedef void *(*CCHashMapGetKeyCallback)(CCHashMap Map, CCHashMapEntry Entry);
+
+/*!
  * @brief A callback to get the value of a given entry reference.
  * @param Map The hashmap to get the value of.
  * @param Entry The entry reference in the hashmap for the value.
@@ -174,6 +182,7 @@ typedef struct {
     CCHashMapGetCountCallback count;
     CCHashMapFindKeyCallback findKey;
     CCHashMapEntryForKeyCallback entryForKey;
+    CCHashMapGetKeyCallback getKey;
     CCHashMapGetEntryCallback getEntry;
     CCHashMapSetEntryCallback setEntry;
     CCHashMapRemoveEntryCallback removeEntry;

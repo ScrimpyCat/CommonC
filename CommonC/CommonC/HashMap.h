@@ -140,7 +140,7 @@ CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
 CCHashMapEntry CCHashMapFindKey(CCHashMap Map, void *Key);
 
 /*!
- * @brief A callback to get the value of a given entry reference.
+ * @brief Get the value of a given entry reference.
  * @param Map The hashmap to get the value of.
  * @param Entry The entry reference in the hashmap for the value.
  * @return The pointer to the value.
@@ -155,6 +155,14 @@ void *CCHashMapGetEntry(CCHashMap Map, CCHashMapEntry Entry);
  * @return The pointer to the value.
  */
 void *CCHashMapGetValue(CCHashMap Map, void *Key);
+
+/*!
+ * @brief Get the key of a given entry reference.
+ * @param Map The hashmap to get the value of.
+ * @param Entry The entry reference in the hashmap for the key.
+ * @return The pointer to the key.
+ */
+void *CCHashMapGetKey(CCHashMap Map, CCHashMapEntry Entry);
 
 /*!
  * @brief Get the keys in a hashmap.

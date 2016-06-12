@@ -119,6 +119,13 @@ CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, void *Key, _Bool *Created)
     return Map->interface->entryForKey(Map, Key, Created);
 }
 
+void *CCHashMapGetKey(CCHashMap Map, CCHashMapEntry Entry)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return Map->interface->getKey(Map, Entry);
+}
+
 void *CCHashMapGetEntry(CCHashMap Map, CCHashMapEntry Entry)
 {
     CCAssertLog(Map, "Map must not be null");
@@ -153,7 +160,6 @@ void *CCHashMapGetValue(CCHashMap Map, void *Key)
     if (Map->interface->optional.getValue) return Map->interface->optional.getValue(Map, Key);
     else return CCHashMapGetEntry(Map, CCHashMapFindKey(Map, Key));
 }
-
 
 void CCHashMapSetValue(CCHashMap Map, void *Key, void *Value)
 {

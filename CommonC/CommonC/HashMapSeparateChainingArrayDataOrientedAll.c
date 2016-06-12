@@ -43,6 +43,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSep
 static size_t CCHashMapSeparateChainingArrayDataOrientedAllGetCount(CCHashMap Map);
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllFindKey(CCHashMap Map, void *Key);
 static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
+static void *CCHashMapSeparateChainingArrayDataOrientedAllGetKey(CCHashMap Map, CCHashMapEntry Entry);
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetEntry(CCHashMap Map, CCHashMapEntry Entry);
 static void CCHashMapSeparateChainingArrayDataOrientedAllSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value);
 static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry(CCHashMap Map, CCHashMapEntry Entry);
@@ -59,6 +60,7 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface 
     .count = CCHashMapSeparateChainingArrayDataOrientedAllGetCount,
     .findKey = CCHashMapSeparateChainingArrayDataOrientedAllFindKey,
     .entryForKey = CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey,
+    .getKey = CCHashMapSeparateChainingArrayDataOrientedAllGetKey,
     .getEntry = CCHashMapSeparateChainingArrayDataOrientedAllGetEntry,
     .setEntry = CCHashMapSeparateChainingArrayDataOrientedAllSetEntry,
     .removeEntry = CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry,
@@ -305,6 +307,22 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEntryForKey(C
         if (Created) *Created = TRUE;
         return IndexToEntry(Map, BucketIndex, AddValue(Map, BucketIndex, Hash, Key, NULL));
     }
+}
+
+static void *CCHashMapSeparateChainingArrayDataOrientedAllGetKey(CCHashMap Map, CCHashMapEntry Entry)
+{
+    void *Key = NULL;
+    size_t BucketIndex, ItemIndex;
+    if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex))
+    {
+#if !CC_NO_ASSERT
+        CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
+#endif
+        
+        Key = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedAllInternal*)Map->internal)->keys, BucketIndex), ItemIndex);
+    }
+    
+    return Key;
 }
 
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetEntry(CCHashMap Map, CCHashMapEntry Entry)

@@ -255,6 +255,13 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     };
     
     XCTAssertEqual(CCHashMapGetCount(Map), 5, @"Should have 5 entries");
+    XCTAssertEqual(CCHashMapGetKey(Map, Entries[0]), NULL, @"Should contain no key");
+    XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[1]), 1, @"Should contain the correct the key");
+    XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[2]), 2, @"Should contain the correct the key");
+    XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[3]), 3, @"Should contain the correct the key");
+    XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[4]), 4, @"Should contain the correct the key");
+    XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[5]), 5, @"Should contain the correct the key");
+    XCTAssertEqual(CCHashMapGetKey(Map, Entries[6]), NULL, @"Should contain no key");
     
     [self assertKeys: CCHashMapGetKeys(Map) OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
     //values are undefined at this point
