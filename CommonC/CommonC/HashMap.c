@@ -177,3 +177,17 @@ size_t CCHashMapGetCount(CCHashMap Map)
     
     return Map->interface->count(Map);
 }
+
+CCOrderedCollection CCHashMapGetKeys(CCHashMap Map)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return Map->interface->keys(Map);
+}
+
+CCOrderedCollection CCHashMapGetValues(CCHashMap Map)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return Map->interface->values(Map);
+}

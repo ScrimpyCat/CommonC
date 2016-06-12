@@ -27,6 +27,7 @@
 #define CommonC_HashMapInterface_h
 
 #include <CommonC/Allocator.h>
+#include <CommonC/OrderedCollection.h>
 
 /*!
  * @brief The hashmap.
@@ -112,6 +113,26 @@ typedef void (*CCHashMapSetEntryCallback)(CCHashMap Map, CCHashMapEntry Entry, v
  */
 typedef void (*CCHashMapRemoveEntryCallback)(CCHashMap Map, CCHashMapEntry Entry);
 
+/*!
+ * @brief A callback to retrieve the keys in the hashmap.
+ * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetValues
+ *              if no mutation occurs in-between the two calls.
+ *
+ * @param Map The hashmap to get the keys of.
+ * @return The ordered collection of keys. Ownership of this collection is passed to the caller.
+ */
+typedef CCOrderedCollection (*CCHashMapGetKeysCallback)(CCHashMap Map);
+
+/*!
+ * @brief A callback to retrieve the values in a hashmap.
+ * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetKeys
+ *              if no mutation occurs in-between the two calls.
+ *
+ * @param Map The hashmap to get the values of.
+ * @return The ordered collection of values. Ownership of this collection is passed to the caller.
+ */
+typedef CCOrderedCollection (*CCHashMapGetValuesCallback)(CCHashMap Map);
+
 
 #pragma mark - Optional Callbacks
 
@@ -156,6 +177,8 @@ typedef struct {
     CCHashMapGetEntryCallback getEntry;
     CCHashMapSetEntryCallback setEntry;
     CCHashMapRemoveEntryCallback removeEntry;
+    CCHashMapGetKeysCallback keys;
+    CCHashMapGetValuesCallback values;
     struct {
         CCHashMapGetValueCallback getValue;
         CCHashMapSetValueCallback setValue;

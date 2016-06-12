@@ -49,6 +49,8 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry(CCHashMap M
 static void *CCHashMapSeparateChainingArrayDataOrientedAllGetValue(CCHashMap Map, void *Key);
 static void CCHashMapSeparateChainingArrayDataOrientedAllSetValue(CCHashMap Map, void *Key, void *Value);
 static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue(CCHashMap Map, void *Key);
+static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetKeys(CCHashMap Map);
+static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetValues(CCHashMap Map);
 
 
 const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface = {
@@ -60,6 +62,8 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface 
     .getEntry = CCHashMapSeparateChainingArrayDataOrientedAllGetEntry,
     .setEntry = CCHashMapSeparateChainingArrayDataOrientedAllSetEntry,
     .removeEntry = CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry,
+    .keys = CCHashMapSeparateChainingArrayDataOrientedAllGetKeys,
+    .values = CCHashMapSeparateChainingArrayDataOrientedAllGetValues,
     .optional = {
         .getValue = CCHashMapSeparateChainingArrayDataOrientedAllGetValue,
         .setValue = CCHashMapSeparateChainingArrayDataOrientedAllSetValue,
@@ -365,4 +369,58 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue(CCHashMap M
 {
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) RemoveValue(Map, IndexToEntry(Map, BucketIndex, ItemIndex));
+}
+
+static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetKeys(CCHashMap Map)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    CCOrderedCollection Keys = CCCollectionCreate(Map->allocator, CCCollectionHintOrdered | CCCollectionHintConstantLength | CCCollectionHintHeavyEnumerating, Map->keySize, NULL);
+    
+    if (Internal->hashes)
+    {
+        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->hashes); Loop < Count; Loop++)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop);
+            if (HashBucket)
+            {
+                CCArray KeyBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->keys, Loop);
+                for (size_t Loop2 = 0, Count2 = CCArrayGetCount(HashBucket); Loop2 < Count2; Loop2++)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
+                    {
+                        CCOrderedCollectionAppendElement(Keys, CCArrayGetElementAtIndex(KeyBucket, Loop2));
+                    }
+                }
+            }
+        }
+    }
+    
+    return Keys;
+}
+
+static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetValues(CCHashMap Map)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    CCOrderedCollection Values = CCCollectionCreate(Map->allocator, CCCollectionHintOrdered | CCCollectionHintConstantLength | CCCollectionHintHeavyEnumerating, Map->valueSize, NULL);
+    
+    if (Internal->hashes)
+    {
+        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->hashes); Loop < Count; Loop++)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop);
+            if (HashBucket)
+            {
+                CCArray ValueBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->values, Loop);
+                for (size_t Loop2 = 0, Count2 = CCArrayGetCount(HashBucket); Loop2 < Count2; Loop2++)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
+                    {
+                        CCOrderedCollectionAppendElement(Values, CCArrayGetElementAtIndex(ValueBucket, Loop2));
+                    }
+                }
+            }
+        }
+    }
+    
+    return Values;
 }

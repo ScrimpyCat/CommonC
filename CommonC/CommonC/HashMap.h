@@ -157,6 +157,28 @@ void *CCHashMapGetEntry(CCHashMap Map, CCHashMapEntry Entry);
 void *CCHashMapGetValue(CCHashMap Map, void *Key);
 
 /*!
+ * @brief Get the keys in a hashmap.
+ * @description Will produce the same order (corresponding pairs) when calling @b CCHashMapGetValues
+ *              if no mutation occurs in-between the two calls. After mutation occurs there is no
+ *              guarantee that the order will stay the same.
+ *
+ * @param Map The hashmap to get the keys of.
+ * @return The ordered collection of keys. The collection must be destroyed.
+ */
+CC_NEW CCOrderedCollection CCHashMapGetKeys(CCHashMap Map);
+
+/*!
+ * @brief Get the values in a hashmap.
+ * @description Will produce the same order (corresponding pairs) when calling @b CCHashMapGetKeys
+ *              if no mutation occurs in-between the two calls. After mutation occurs there is no
+ *              guarantee that the order will stay the same.
+ *
+ * @param Map The hashmap to get the values of.
+ * @return The ordered collection of values. The collection must be destroyed.
+ */
+CC_NEW CCOrderedCollection CCHashMapGetValues(CCHashMap Map);
+
+/*!
  * @brief Get the hash for a given key.
  * @param Map The hashmap to get the hash of the key for.
  * @param Key The pointer to the key to get the hash of.
