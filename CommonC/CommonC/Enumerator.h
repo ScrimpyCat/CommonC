@@ -49,9 +49,11 @@ typedef struct {
         struct {
             void *ptr;
             size_t count, stride, index;
+            uintptr_t extra[2];
         } batch;
     };
     CCEnumeratorFormat type; //Bits not covered by CCEnumeratorFormatMask may be used to store extra information.
+    uint32_t extra;
 } CCEnumeratorState;
 
 typedef struct {
