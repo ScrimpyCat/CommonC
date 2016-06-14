@@ -82,7 +82,7 @@ CCHashMapGetValueEnumerator(map, &CC_HASH_MAP_CURRENT_VALUE_ENUMERATOR); \
 for (type *CC_PRIV_##value##__ = CCHashMapEnumeratorGetCurrent(&CC_HASH_MAP_CURRENT_VALUE_ENUMERATOR), value = CC_PRIV_##value##__ ? *CC_PRIV_##value##__ : (type){ 0 }; CC_PRIV_##value##__; CC_PRIV_##value##__ = CCHashMapEnumeratorNext(&CC_HASH_MAP_CURRENT_VALUE_ENUMERATOR), value = CC_PRIV_##value##__ ? *CC_PRIV_##value##__ : (type){ 0 })
 
 /*!
- * @define CC_COLLECTION_FOREACH_KEY_PTR
+ * @define CC_HASH_MAP_FOREACH_KEY_PTR
  * @abstract Convenient macro to iterate through each pointer key in a collection.
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
@@ -94,14 +94,14 @@ for (type *CC_PRIV_##value##__ = CCHashMapEnumeratorGetCurrent(&CC_HASH_MAP_CURR
  * @param key The name for the key variable.
  * @param map The map to iterate through.
  */
-#define CC_COLLECTION_FOREACH_KEY_PTR(type, key, map) \
+#define CC_HASH_MAP_FOREACH_KEY_PTR(type, key, map) \
 CCEnumerator CC_HASH_MAP_CURRENT_KEY_ENUMERATOR; \
 CCHashMapGetKeyEnumerator(map, &CC_HASH_MAP_CURRENT_KEY_ENUMERATOR); \
 \
 for (type *key = CCHashMapEnumeratorGetCurrent(&CC_HASH_MAP_CURRENT_KEY_ENUMERATOR); key; key = CCHashMapEnumeratorNext(&CC_HASH_MAP_CURRENT_KEY_ENUMERATOR))
 
 /*!
- * @define CC_COLLECTION_FOREACH_VALUE_PTR
+ * @define CC_HASH_MAP_FOREACH_VALUE_PTR
  * @abstract Convenient macro to iterate through each pointer value in a collection.
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
@@ -113,7 +113,7 @@ for (type *key = CCHashMapEnumeratorGetCurrent(&CC_HASH_MAP_CURRENT_KEY_ENUMERAT
  * @param value The name for the value variable.
  * @param map The map to iterate through.
  */
-#define CC_COLLECTION_FOREACH_VALUE_PTR(type, value, map) \
+#define CC_HASH_MAP_FOREACH_VALUE_PTR(type, value, map) \
 CCEnumerator CC_HASH_MAP_CURRENT_VALUE_ENUMERATOR; \
 CCHashMapGetValueEnumerator(map, &CC_HASH_MAP_CURRENT_VALUE_ENUMERATOR); \
 \
