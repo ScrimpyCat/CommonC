@@ -31,7 +31,7 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>
-#include <CommonC/Array.h>
+#include <CommonC/Assertion.h>
 
 
 /*!
