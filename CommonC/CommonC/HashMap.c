@@ -185,6 +185,13 @@ size_t CCHashMapGetCount(CCHashMap Map)
     return Map->interface->count(Map);
 }
 
+float CCHashMapGetLoadFactor(CCHashMap Map)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return (float)Map->interface->count(Map) / (float)Map->bucketCount;
+}
+
 CCOrderedCollection CCHashMapGetKeys(CCHashMap Map)
 {
     CCAssertLog(Map, "Map must not be null");

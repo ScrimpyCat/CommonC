@@ -216,6 +216,14 @@ uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key);
 size_t CCHashMapGetCount(CCHashMap Map);
 
 /*!
+ * @brief Get the current load factor of the hashmap.
+ * @description The ratio between the amount of entries to buckets.
+ * @param Map The hashmap to get the load factor of.
+ * @return The load factor ratio.
+ */
+float CCHashMapGetLoadFactor(CCHashMap Map);
+
+/*!
  * @brief Get the number of buckets in the hashmap.
  * @param Map The hashmap to get the number of buckets of.
  * @return The number of buckets.
