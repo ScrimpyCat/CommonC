@@ -180,6 +180,8 @@
 		F369C7D11C44D515006C3D96 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7CF1C44D515006C3D96 /* CCString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F369C7D31C462AEF006C3D96 /* StringTests.m */; };
 		F369C7D51C462BB9006C3D96 /* CCStringEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7D21C461936006C3D96 /* CCStringEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -933,6 +935,7 @@
 				F30437D11C62E0F900388C74 /* OrderedCollection.h in Headers */,
 				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
+				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
 				F30437E81C62E1B300388C74 /* PathComponent.h in Headers */,
 				F30437F31C62E1EF00388C74 /* Logging.h in Headers */,
@@ -997,6 +1000,7 @@
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
+				F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */,
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
 				F3D657D017D5DA8F00B54101 /* Random.h in Headers */,
 				F3D657D417D5FD5200B54101 /* Maths.h in Headers */,

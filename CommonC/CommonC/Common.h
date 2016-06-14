@@ -84,6 +84,7 @@
 #include <CommonC/CCStringEnumerator.h>
 
 #include <CommonC/HashMap.h>
+#include <CommonC/HashMapEnumerator.h>
 #include <CommonC/HashMapSeparateChainingArrayDataOrientedAll.h>
 
 #endif
