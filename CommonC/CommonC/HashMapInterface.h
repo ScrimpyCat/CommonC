@@ -28,6 +28,7 @@
 
 #include <CommonC/Allocator.h>
 #include <CommonC/OrderedCollection.h>
+#include <CommonC/Enumerator.h>
 
 /*!
  * @brief The hashmap.
@@ -40,9 +41,32 @@ typedef struct CCHashMapInfo *CCHashMap;
  */
 typedef uintptr_t CCHashMapEntry;
 
-//TODO: enumeration
-//TODO: getkeys -> CCCollection
-//TODO: getvalues -> CCCollection
+/*!
+ * @brief The type of action the enumerator callback will need to perform.
+ */
+typedef enum {
+    ///Set the enumerator to the head end of the hashmap and return the key/value there.
+    CCHashMapEnumeratorActionHead,
+    ///Set the enumerator to the tail end of the hashmap and return the key/value there.
+    CCHashMapEnumeratorActionTail,
+    ///Set the enumerator to the next position in the hashmap, and return the key/value there.
+    CCHashMapEnumeratorActionNext,
+    ///Set the enumerator to the previous position in the hashmap, and return the key/value there.
+    CCHashMapEnumeratorActionPrevious,
+    ///Return the key/value at the current position.
+    CCHashMapEnumeratorActionCurrent
+} CCHashMapEnumeratorAction;
+
+/*!
+ * @brief The type of enumerator.
+ */
+typedef enum {
+    CCHashMapEnumeratorTypeMask = 1,
+    ///A key enumerator.
+    CCHashMapEnumeratorTypeKey = (0 << 0),
+    ///A value enumerator.
+    CCHashMapEnumeratorTypeValue = (1 << 0)
+} CCHashMapEnumeratorType;
 
 
 #pragma mark - Required Callbacks
@@ -122,24 +146,23 @@ typedef void (*CCHashMapSetEntryCallback)(CCHashMap Map, CCHashMapEntry Entry, v
 typedef void (*CCHashMapRemoveEntryCallback)(CCHashMap Map, CCHashMapEntry Entry);
 
 /*!
- * @brief A callback to retrieve the keys in the hashmap.
- * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetValues
- *              if no mutation occurs in-between the two calls.
- *
- * @param Map The hashmap to get the keys of.
- * @return The ordered collection of keys. Ownership of this collection is passed to the caller.
+ * @brief A callback to set the enumerator for the hashmap on a given action and type.
+ * @param Map The hashmap to enumerate.
+ * @param Enumerator The pointer to the enumerator to be used.
+ * @param Action The action to be performed.
+ * @param Type The type of enumerator.
+ * @return The current element at the new position the enumerator has been set to.
  */
-typedef CCOrderedCollection (*CCHashMapGetKeysCallback)(CCHashMap Map);
+typedef void *(*CCHashMapEnumeratorCallback)(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
 
 /*!
- * @brief A callback to retrieve the values in a hashmap.
- * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetKeys
- *              if no mutation occurs in-between the two calls.
- *
- * @param Map The hashmap to get the values of.
- * @return The ordered collection of values. Ownership of this collection is passed to the caller.
+ * @brief A callback to get the entry reference for the current enumerator position.
+ * @param Map The hashmap being enumerated.
+ * @param Enumerator The pointer enumerator to be used.
+ * @param Type The type of enumerator.
+ * @return An entry reference to the current enumerator position.
  */
-typedef CCOrderedCollection (*CCHashMapGetValuesCallback)(CCHashMap Map);
+typedef CCHashMapEntry (*CCHashMapEnumeratorEntryCallback)(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type);
 
 
 #pragma mark - Optional Callbacks
@@ -168,6 +191,26 @@ typedef void (*CCHashMapSetValueCallback)(CCHashMap Map, void *Key, void *Value)
  */
 typedef void (*CCHashMapRemoveValueCallback)(CCHashMap Map, void *Key);
 
+/*!
+ * @brief An optional callback to retrieve the keys in the hashmap.
+ * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetValues
+ *              if no mutation occurs in-between the two calls.
+ *
+ * @param Map The hashmap to get the keys of.
+ * @return The ordered collection of keys. Ownership of this collection is passed to the caller.
+ */
+typedef CCOrderedCollection (*CCHashMapGetKeysCallback)(CCHashMap Map);
+
+/*!
+ * @brief An optional callback to retrieve the values in a hashmap.
+ * @description Must produce the same order (corresponding pairs) when calling @b CCHashMapGetKeys
+ *              if no mutation occurs in-between the two calls.
+ *
+ * @param Map The hashmap to get the values of.
+ * @return The ordered collection of values. Ownership of this collection is passed to the caller.
+ */
+typedef CCOrderedCollection (*CCHashMapGetValuesCallback)(CCHashMap Map);
+
 
 #pragma mark -
 
@@ -186,12 +229,14 @@ typedef struct {
     CCHashMapGetEntryCallback getEntry;
     CCHashMapSetEntryCallback setEntry;
     CCHashMapRemoveEntryCallback removeEntry;
-    CCHashMapGetKeysCallback keys;
-    CCHashMapGetValuesCallback values;
+    CCHashMapEnumeratorCallback enumerator;
+    CCHashMapEnumeratorEntryCallback enumeratorReference;
     struct {
         CCHashMapGetValueCallback getValue;
         CCHashMapSetValueCallback setValue;
         CCHashMapRemoveValueCallback removeValue;
+        CCHashMapGetKeysCallback keys;
+        CCHashMapGetValuesCallback values;
     } optional;
 } CCHashMapInterface;
 

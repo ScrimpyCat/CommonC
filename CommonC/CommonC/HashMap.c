@@ -25,6 +25,7 @@
 
 #include "HashMap.h"
 #include "MemoryAllocation.h"
+#include "HashMapEnumerator.h"
 
 
 static void CCHashMapDestructor(CCHashMap Ptr)
@@ -188,12 +189,60 @@ CCOrderedCollection CCHashMapGetKeys(CCHashMap Map)
 {
     CCAssertLog(Map, "Map must not be null");
     
-    return Map->interface->keys(Map);
+    CCOrderedCollection Keys;
+    if (Map->interface->optional.keys) Keys = Map->interface->optional.keys(Map);
+    else
+    {
+        Keys = CCCollectionCreate(Map->allocator, CCCollectionHintOrdered | CCCollectionHintConstantLength | CCCollectionHintHeavyEnumerating, Map->keySize, NULL);
+        
+        CCEnumerator Enumerator;
+        CCHashMapGetKeyEnumerator(Map, &Enumerator);
+        
+        for (void *Key = CCHashMapEnumeratorGetCurrent(&Enumerator); Key; Key = CCHashMapEnumeratorNext(&Enumerator))
+        {
+            CCOrderedCollectionAppendElement(Keys, Key);
+        }
+    }
+    
+    return Keys;
 }
 
 CCOrderedCollection CCHashMapGetValues(CCHashMap Map)
 {
     CCAssertLog(Map, "Map must not be null");
     
-    return Map->interface->values(Map);
+    CCOrderedCollection Values;
+    if (Map->interface->optional.values) Values = Map->interface->optional.values(Map);
+    else
+    {
+        Values = CCCollectionCreate(Map->allocator, CCCollectionHintOrdered | CCCollectionHintConstantLength | CCCollectionHintHeavyEnumerating, Map->valueSize, NULL);
+        
+        CCEnumerator Enumerator;
+        CCHashMapGetValueEnumerator(Map, &Enumerator);
+        
+        for (void *Value = CCHashMapEnumeratorGetCurrent(&Enumerator); Value; Value = CCHashMapEnumeratorNext(&Enumerator))
+        {
+            CCOrderedCollectionAppendElement(Values, Value);
+        }
+    }
+    
+    return Values;
+}
+
+void CCHashMapGetKeyEnumerator(CCHashMap Map, CCEnumerator *Enumerator)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    Map->interface->enumerator(Map, &Enumerator->state, CCHashMapEnumeratorActionHead, CCHashMapEnumeratorTypeKey);
+    Enumerator->ref = Map;
+    Enumerator->option = CCHashMapEnumeratorTypeKey;
+}
+
+void CCHashMapGetValueEnumerator(CCHashMap Map, CCEnumerator *Enumerator)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    Map->interface->enumerator(Map, &Enumerator->state, CCHashMapEnumeratorActionHead, CCHashMapEnumeratorTypeValue);
+    Enumerator->ref = Map;
+    Enumerator->option = CCHashMapEnumeratorTypeValue;
 }

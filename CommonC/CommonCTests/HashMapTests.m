@@ -27,7 +27,8 @@
 #import "HashMap.h"
 #import "HashMapSeparateChainingArrayDataOrientedAll.h"
 #import "CCString.h"
-#include "CollectionEnumerator.h"
+#import "CollectionEnumerator.h"
+#import "HashMapEnumerator.h"
 
 @interface HashMapTests : XCTestCase
 
@@ -144,6 +145,37 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     CCCollectionDestroy(keys);
 }
 
+-(void) assertKeysInMap: (CCHashMap)map OfCount: (size_t)count ShouldEqual: (uintmax_t)result
+{
+    [self assertKeys: CCHashMapGetKeys(map) OfCount: count ShouldEqual: result];
+    
+    size_t Count = 0;
+    uintmax_t Sum = 0;
+    CC_HASH_MAP_FOREACH_KEY(uintmax_t, k, map)
+    {
+        Sum += k;
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, count, @"Should have the correct values");
+    XCTAssertEqual(Sum, result, @"Should have the correct values");
+    
+    Count = 0;
+    Sum = 0;
+    
+    CCEnumerator Enumerator;
+    CCHashMapGetKeyEnumerator(map, &Enumerator);
+    
+    for (uintmax_t *k = CCHashMapEnumeratorGetTail(&Enumerator); k; k = CCHashMapEnumeratorPrevious(&Enumerator))
+    {
+        Sum += *k;
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, count, @"Should have the correct values");
+    XCTAssertEqual(Sum, result, @"Should have the correct values");
+}
+
 -(void) assertValues: (CCOrderedCollection)values OfCount: (size_t)count ShouldEqual: (int)result
 {
     XCTAssertEqual(CCCollectionGetCount(values), count, @"Should have the correct values");
@@ -153,6 +185,37 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     XCTAssertEqual(Sum, result, @"Should have the correct values");
     CCCollectionDestroy(values);
+}
+
+-(void) assertValuesInMap: (CCHashMap)map OfCount: (size_t)count ShouldEqual: (int)result
+{
+    [self assertValues: CCHashMapGetValues(map) OfCount: count ShouldEqual: result];
+    
+    size_t Count = 0;
+    int Sum = 0;
+    CC_HASH_MAP_FOREACH_VALUE(int, k, map)
+    {
+        Sum += k;
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, count, @"Should have the correct values");
+    XCTAssertEqual(Sum, result, @"Should have the correct values");
+    
+    Count = 0;
+    Sum = 0;
+    
+    CCEnumerator Enumerator;
+    CCHashMapGetValueEnumerator(map, &Enumerator);
+    
+    for (int *k = CCHashMapEnumeratorGetTail(&Enumerator); k; k = CCHashMapEnumeratorPrevious(&Enumerator))
+    {
+        Sum += *k;
+        Count++;
+    }
+    
+    XCTAssertEqual(Count, count, @"Should have the correct values");
+    XCTAssertEqual(Sum, result, @"Should have the correct values");
 }
 
 -(void) assertStoreWithBucketCount: (size_t)bucketCount
@@ -168,8 +231,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 5 }), NULL, @"Should not contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 6 }), NULL, @"Should not contain a value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 0 ShouldEqual: 0];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 0 ShouldEqual: 0];
+    [self assertKeysInMap: Map OfCount: 0 ShouldEqual: 0];
+    [self assertValuesInMap: Map OfCount: 0 ShouldEqual: 0];
     
     CCHashMapRemoveValue(Map, &(uintmax_t){ 3 });
     CCHashMapRemoveValue(Map, &(uintmax_t){ 10 });
@@ -195,8 +258,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 4 }), 400, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 500, @"Should contain the correct value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 5 ShouldEqual: 100 + 200 + 300 + 400 + 500];
+    [self assertKeysInMap: Map OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
+    [self assertValuesInMap: Map OfCount: 5 ShouldEqual: 100 + 200 + 300 + 400 + 500];
     
     CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 101 });
     CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 202 });
@@ -211,8 +274,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 4 }), 404, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 505, @"Should contain the correct value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 5 ShouldEqual: 101 + 202 + 303 + 404 + 505];
+    [self assertKeysInMap: Map OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
+    [self assertValuesInMap: Map OfCount: 5 ShouldEqual: 101 + 202 + 303 + 404 + 505];
     
     CCHashMapRemoveValue(Map, &(uintmax_t){ 3 });
     CCHashMapRemoveValue(Map, &(uintmax_t){ 4 });
@@ -224,8 +287,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should have removed the value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 505, @"Should contain the correct value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 3 ShouldEqual: 1 + 2 + 5];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 3 ShouldEqual: 101 + 202 + 505];
+    [self assertKeysInMap: Map OfCount: 3 ShouldEqual: 1 + 2 + 5];
+    [self assertValuesInMap: Map OfCount: 3 ShouldEqual: 101 + 202 + 505];
     
     CCHashMapSetValue(Map, &(uintmax_t){ 3 }, &(int){ 333 });
     CCHashMapSetValue(Map, &(uintmax_t){ 0 }, &(int){ 000 });
@@ -263,7 +326,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[5]), 5, @"Should contain the correct the key");
     XCTAssertEqual(CCHashMapGetKey(Map, Entries[6]), NULL, @"Should contain no key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
+    [self assertKeysInMap: Map OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
     //values are undefined at this point
     
     CCHashMapSetEntry(Map, Entries[0], &(int){ 0 });
@@ -289,8 +352,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 4 }), 400, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 500, @"Should contain the correct value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 5 ShouldEqual: 100 + 200 + 300 + 400 + 500];
+    [self assertKeysInMap: Map OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
+    [self assertValuesInMap: Map OfCount: 5 ShouldEqual: 100 + 200 + 300 + 400 + 500];
     
     CCHashMapSetValue(Map, &(uintmax_t){ 1 }, &(int){ 101 });
     CCHashMapSetValue(Map, &(uintmax_t){ 2 }, &(int){ 202 });
@@ -315,8 +378,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should have removed the value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 505, @"Should contain the correct value for the key");
     
-    [self assertKeys: CCHashMapGetKeys(Map) OfCount: 3 ShouldEqual: 1 + 2 + 5];
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 3 ShouldEqual: 101 + 202 + 505];
+    [self assertKeysInMap: Map OfCount: 3 ShouldEqual: 1 + 2 + 5];
+    [self assertValuesInMap: Map OfCount: 3 ShouldEqual: 101 + 202 + 505];
     
     CCHashMapSetEntry(Map, Entries[5], &(int){ 555 });
     CCHashMapSetValue(Map, &(uintmax_t){ 0 }, &(int){ 000 });
@@ -329,7 +392,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 5 }), 555, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 0 }), 000, @"Should contain the correct value for the key");
     
-    [self assertValues: CCHashMapGetValues(Map) OfCount: 4 ShouldEqual: 101 + 202 + 555 + 000];
+    [self assertValuesInMap: Map OfCount: 4 ShouldEqual: 101 + 202 + 555 + 000];
     
     CCHashMapDestroy(Map);
     

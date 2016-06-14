@@ -399,6 +399,7 @@
 		F3D657D317D5FD5200B54101 /* Maths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Maths.h; sourceTree = "<group>"; };
 		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
 		F3D85E601A84C0BD00C4A362 /* CollectionArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionArray.c; sourceTree = "<group>"; };
+		F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapEnumerator.h; sourceTree = "<group>"; };
 		F3E3E094187A5A5E00A38E72 /* Vector2DSSETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSETests.m; sourceTree = "<group>"; };
 		F3E3E096187A5AE300A38E72 /* Vector2DSSE2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE2Tests.m; sourceTree = "<group>"; };
 		F3E3E098187A5AED00A38E72 /* Vector2DSSE3Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE3Tests.m; sourceTree = "<group>"; };
@@ -494,6 +495,7 @@
 				F32FB02D1D07B364007E8E9B /* HashMap.h */,
 				F32FB02C1D07B364007E8E9B /* HashMap.c */,
 				F34219151D0C13E400FDBC8A /* HashMapInterface.h */,
+				F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */,
 				F34219191D0C2B2200FDBC8A /* Hash Map Implementations */,
 			);
 			name = Map;

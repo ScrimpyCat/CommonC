@@ -53,11 +53,11 @@ typedef struct {
         } batch;
     };
     CCEnumeratorFormat type; //Bits not covered by CCEnumeratorFormatMask may be used to store extra information.
-    uint32_t extra;
 } CCEnumeratorState;
 
 typedef struct {
     void *ref;
+    uint32_t option;
     CCEnumeratorState state;
 } CCEnumerator;
 

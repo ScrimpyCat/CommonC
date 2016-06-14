@@ -52,6 +52,8 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllSetValue(CCHashMap Map,
 static void CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue(CCHashMap Map, void *Key);
 static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetKeys(CCHashMap Map);
 static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetValues(CCHashMap Map);
+static void *CCHashMapSeparateChainingArrayDataOrientedAllEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type);
 
 
 const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface = {
@@ -64,12 +66,14 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface 
     .getEntry = CCHashMapSeparateChainingArrayDataOrientedAllGetEntry,
     .setEntry = CCHashMapSeparateChainingArrayDataOrientedAllSetEntry,
     .removeEntry = CCHashMapSeparateChainingArrayDataOrientedAllRemoveEntry,
-    .keys = CCHashMapSeparateChainingArrayDataOrientedAllGetKeys,
-    .values = CCHashMapSeparateChainingArrayDataOrientedAllGetValues,
+    .enumerator = CCHashMapSeparateChainingArrayDataOrientedAllEnumerator,
+    .enumeratorReference = CCHashMapSeparateChainingArrayDataOrientedAllEnumeratorEntry,
     .optional = {
         .getValue = CCHashMapSeparateChainingArrayDataOrientedAllGetValue,
         .setValue = CCHashMapSeparateChainingArrayDataOrientedAllSetValue,
-        .removeValue = CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue
+        .removeValue = CCHashMapSeparateChainingArrayDataOrientedAllRemoveValue,
+        .keys = CCHashMapSeparateChainingArrayDataOrientedAllGetKeys,
+        .values = CCHashMapSeparateChainingArrayDataOrientedAllGetValues
     }
 };
 
@@ -441,4 +445,158 @@ static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedAllGetValue
     }
     
     return Values;
+}
+
+static CCHashMapEntry GetHeadEntry(CCHashMap Map)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    
+    if (Internal->hashes)
+    {
+        for (size_t Loop = 0, Count = CCArrayGetCount(Internal->hashes); Loop < Count; Loop++)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop);
+            if (HashBucket)
+            {
+                for (size_t Loop2 = 0, Count2 = CCArrayGetCount(HashBucket); Loop2 < Count2; Loop2++)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
+                    {
+                        return IndexToEntry(Map, Loop, Loop2);
+                    }
+                }
+            }
+        }
+    }
+    
+    return 0;
+}
+
+static CCHashMapEntry GetTailEntry(CCHashMap Map)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    
+    if (Internal->hashes)
+    {
+        for (size_t Loop = CCArrayGetCount(Internal->hashes); Loop > 0; Loop--)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop - 1);
+            if (HashBucket)
+            {
+                for (size_t Loop2 = CCArrayGetCount(HashBucket); Loop2 > 0; Loop2--)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2 - 1)))
+                    {
+                        return IndexToEntry(Map, Loop - 1, Loop2 - 1);
+                    }
+                }
+            }
+        }
+    }
+    
+    return 0;
+}
+
+static CCHashMapEntry GetNextEntry(CCHashMap Map, CCHashMapEntry Entry)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    
+    if (Internal->hashes)
+    {
+        size_t BucketIndex, ItemIndex;
+        EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex);
+        
+        ItemIndex++;
+        
+        for (size_t Loop = BucketIndex, Count = CCArrayGetCount(Internal->hashes); Loop < Count; Loop++)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop);
+            if (HashBucket)
+            {
+                for (size_t Loop2 = ItemIndex, Count2 = CCArrayGetCount(HashBucket); Loop2 < Count2; Loop2++)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
+                    {
+                        return IndexToEntry(Map, Loop, Loop2);
+                    }
+                }
+                
+                ItemIndex = 0;
+            }
+        }
+    }
+    
+    return 0;
+}
+
+static CCHashMapEntry GetPrevEntry(CCHashMap Map, CCHashMapEntry Entry)
+{
+    const CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal = Map->internal;
+    
+    if (Internal->hashes)
+    {
+        size_t BucketIndex, ItemIndex;
+        EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex);
+        
+        ItemIndex++;
+        
+        for (size_t Loop = BucketIndex + 1; Loop > 0; Loop--)
+        {
+            CCArray HashBucket = *(CCArray*)CCArrayGetElementAtIndex(Internal->hashes, Loop - 1);
+            if (HashBucket)
+            {
+                for (size_t Loop2 = ItemIndex ? ItemIndex - 1 : CCArrayGetCount(HashBucket); Loop2 > 0; Loop2--)
+                {
+                    if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2 - 1)))
+                    {
+                        return IndexToEntry(Map, Loop - 1, Loop2 - 1);
+                    }
+                }
+                
+                ItemIndex = 0;
+            }
+        }
+    }
+    
+    return 0;
+}
+
+static void *CCHashMapSeparateChainingArrayDataOrientedAllEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type)
+{
+    void *(*GetElement)(CCHashMap, CCHashMapEntry) = Type == CCHashMapEnumeratorTypeKey ? CCHashMapSeparateChainingArrayDataOrientedAllGetKey : CCHashMapSeparateChainingArrayDataOrientedAllGetEntry;
+    
+    switch (Action)
+    {
+        case CCCollectionEnumeratorActionHead:
+            Enumerator->type = CCEnumeratorFormatInternal;
+            Enumerator->internal.extra[0] = GetHeadEntry(Map);
+            Enumerator->internal.ptr = GetElement(Map, Enumerator->internal.extra[0]);
+            break;
+            
+        case CCCollectionEnumeratorActionTail:
+            Enumerator->type = CCEnumeratorFormatInternal;
+            Enumerator->internal.extra[0] = GetTailEntry(Map);
+            Enumerator->internal.ptr = GetElement(Map, Enumerator->internal.extra[0]);
+            break;
+            
+        case CCCollectionEnumeratorActionNext:
+            Enumerator->internal.extra[0] = GetNextEntry(Map, Enumerator->internal.extra[0]);
+            Enumerator->internal.ptr = GetElement(Map, Enumerator->internal.extra[0]);
+            break;
+            
+        case CCCollectionEnumeratorActionPrevious:
+            Enumerator->internal.extra[0] = GetPrevEntry(Map, Enumerator->internal.extra[0]);
+            Enumerator->internal.ptr = GetElement(Map, Enumerator->internal.extra[0]);
+            break;
+            
+        case CCCollectionEnumeratorActionCurrent:
+            break;
+    }
+    
+    return Enumerator->internal.ptr;
+}
+
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedAllEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type)
+{
+    return Enumerator->internal.extra[0];
 }

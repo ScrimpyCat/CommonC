@@ -187,6 +187,20 @@ CC_NEW CCOrderedCollection CCHashMapGetKeys(CCHashMap Map);
 CC_NEW CCOrderedCollection CCHashMapGetValues(CCHashMap Map);
 
 /*!
+ * @brief Get a key enumerator for the hashmap.
+ * @param Map The hashmap to obtain a key enumerator for.
+ * @param Enumerator A pointer to the enumerator to use.
+ */
+void CCHashMapGetKeyEnumerator(CCHashMap Map, CCEnumerator *Enumerator);
+
+/*!
+ * @brief Get a value enumerator for the hashmap.
+ * @param Map The hashmap to obtain a value enumerator for.
+ * @param Enumerator A pointer to the enumerator to use.
+ */
+void CCHashMapGetValueEnumerator(CCHashMap Map, CCEnumerator *Enumerator);
+
+/*!
  * @brief Get the hash for a given key.
  * @param Map The hashmap to get the hash of the key for.
  * @param Key The pointer to the key to get the hash of.
