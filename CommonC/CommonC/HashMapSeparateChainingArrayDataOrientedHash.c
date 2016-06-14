@@ -115,6 +115,26 @@ static inline _Bool HashIsEmpty(uintmax_t Hash)
     return Hash & ~(UINTMAX_MAX >> 1);
 }
 
+static inline void *GetItemKey(CCHashMap Map, void *Item)
+{
+    return Item;
+}
+
+static inline void SetItemKey(CCHashMap Map, void *Item, void *Key)
+{
+    memcpy(Item, Key, Map->keySize);
+}
+
+static inline void *GetItemValue(CCHashMap Map, void *Item)
+{
+    return Item + Map->keySize;
+}
+
+static inline void SetItemValue(CCHashMap Map, void *Item, void *Value)
+{
+    memcpy(Item + Map->keySize, Value, Map->valueSize);
+}
+
 static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *Key, void *Value)
 {
     CCHashMapSeparateChainingArrayDataOrientedHashInternal *Internal = Map->internal;
@@ -142,8 +162,8 @@ static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *
             {
                 CCArrayReplaceElementAtIndex(HashBucket, Loop, &Hash);
                 void *Item = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->buckets, BucketIndex), Loop);
-                memcpy(Item, Key, Map->keySize);
-                if (Value) memcpy(Item + Map->keySize, Value, Map->valueSize);
+                SetItemKey(Map, Item, Key);
+                if (Value) SetItemValue(Map, Item, Value);
                 
                 return Loop;
             }
@@ -168,8 +188,8 @@ static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *
     
     const size_t Index = CCArrayAppendElement(Bucket, NULL);
     void *Item = CCArrayGetElementAtIndex(Bucket, Index);
-    memcpy(Item, Key, Map->keySize);
-    if (Value) memcpy(Item + Map->keySize, Value, Map->valueSize);
+    SetItemKey(Map, Item, Key);
+    if (Value) SetItemValue(Map, Item, Value);
     
     return Index;
 }
@@ -213,7 +233,7 @@ static _Bool GetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *Buck
                 const uintmax_t EntryHash = *(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop);
                 if (Hash == EntryHash)
                 {
-                    const void *EntryKey = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->buckets, Index), Loop);
+                    const void *EntryKey = GetItemKey(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(Internal->buckets, Index), Loop));
                     if (Map->compareKeys)
                     {
                         if (Map->compareKeys(Key, EntryKey) == CCComparisonResultEqual)
@@ -311,7 +331,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashGetKey(CCHashMap Map,
         CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
 #endif
         
-        Key = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex);
+        Key = GetItemKey(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex));
     }
     
     return Key;
@@ -327,7 +347,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashGetEntry(CCHashMap Ma
         CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
 #endif
         
-        Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex) + Map->keySize;
+        Value = GetItemValue(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex));
     }
     
     return Value;
@@ -342,8 +362,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedHashSetEntry(CCHashMap Map
         CCAssertLog(!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->hashes, BucketIndex), ItemIndex)), "Entry has been removed");
 #endif
         
-        void *Item = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex);
-        memcpy(Item + Map->keySize, Value, Map->valueSize);
+        SetItemValue(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex), Value);
     }
 }
 
@@ -356,7 +375,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Ma
 {
     void *Value = NULL;
     size_t BucketIndex, ItemIndex;
-    if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) Value = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex) + Map->keySize;
+    if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) Value = GetItemValue(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex));
     
     return Value;
 }
@@ -367,8 +386,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, &Hash, &BucketIndex, &ItemIndex))
     {
-        void *Item = CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex);
-        memcpy(Item + Map->keySize, Value, Map->valueSize);
+        SetItemValue(Map, CCArrayGetElementAtIndex(*(CCArray*)CCArrayGetElementAtIndex(((CCHashMapSeparateChainingArrayDataOrientedHashInternal*)Map->internal)->buckets, BucketIndex), ItemIndex), Value);
     }
     
     else
@@ -400,7 +418,7 @@ static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedHashGetKeys
                 {
                     if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
                     {
-                        CCOrderedCollectionAppendElement(Keys, CCArrayGetElementAtIndex(KeyBucket, Loop2));
+                        CCOrderedCollectionAppendElement(Keys, GetItemKey(Map, CCArrayGetElementAtIndex(KeyBucket, Loop2)));
                     }
                 }
             }
@@ -427,7 +445,7 @@ static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedHashGetValu
                 {
                     if (!HashIsEmpty(*(uintmax_t*)CCArrayGetElementAtIndex(HashBucket, Loop2)))
                     {
-                        CCOrderedCollectionAppendElement(Values, CCArrayGetElementAtIndex(ValueBucket, Loop2) + Map->keySize);
+                        CCOrderedCollectionAppendElement(Values, GetItemValue(Map, CCArrayGetElementAtIndex(ValueBucket, Loop2)));
                     }
                 }
             }
