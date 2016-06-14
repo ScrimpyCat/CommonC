@@ -29,8 +29,8 @@
  * hashmap implementation. How this differs from @b CCHashMapSeparateChainingArrayDataOrientedHash and
  * @b CCHashMapSeparateChainingArray is that hashes, keys, and values are all stored in separate arrays.
  * This allows for improved enumeration of keys or values, but a reduction in lookup and insertion compared
- * to the other separately chained array variants. Is better when there's a portioned hash distribution
- * or a poor load factor, otherwise @b CCHashMapSeparateChainingArray is likely the better variation.
+ * to the other separately chained array variants. Is better when there's a poor hash distribution or
+ * a poor load factor, otherwise @b CCHashMapSeparateChainingArray is likely the better variation.
  *
  * Fast Operations:
  * - Lookup. (slower than other @b CCHashMapSeparateChainingArray* variants)

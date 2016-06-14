@@ -27,7 +27,7 @@
  * @header CCHashMapSeparateChainingArrayDataOrientedHash
  * CCHashMapSeparateChainingArrayDataOrientedHash is an interface for an array backed separately chained
  * hashmap implementation. How this differs from @b CCHashMapSeparateChainingArray and is that hashes, 
- * are stored in a separate array to keys and values. Is better when there's a portioned hash distribution
+ * are stored in a separate array to keys and values. Is better when there's a poor hash distribution
  * or a poor load factor, otherwise @b CCHashMapSeparateChainingArray is likely the better variation.
  *
  * Fast Operations:
