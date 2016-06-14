@@ -89,4 +89,6 @@
 #include <CommonC/HashMapSeparateChainingArrayDataOrientedHash.h>
 #include <CommonC/HashMapSeparateChainingArrayDataOrientedAll.h>
 
+#include <CommonC/TypeDestructors.h>
+
 #endif
