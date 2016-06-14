@@ -190,6 +190,11 @@
 		F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */; };
 		F36F83001D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */; };
 		F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */; };
+		F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F83031D0FE3BD00193B08 /* HashMapSeparateChainingArray.c */; };
+		F36F83061D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F83031D0FE3BD00193B08 /* HashMapSeparateChainingArray.c */; };
+		F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83041D0FE3BD00193B08 /* HashMapSeparateChainingArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F83081D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83041D0FE3BD00193B08 /* HashMapSeparateChainingArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F830A1D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F83091D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m */; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -373,6 +378,9 @@
 		F36F82FE1D0FCB9200193B08 /* HashMapTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapTests.h; sourceTree = "<group>"; };
 		F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayDataOrientedAllTests.m; sourceTree = "<group>"; };
 		F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayDataOrientedHash.m; sourceTree = "<group>"; };
+		F36F83031D0FE3BD00193B08 /* HashMapSeparateChainingArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMapSeparateChainingArray.c; sourceTree = "<group>"; };
+		F36F83041D0FE3BD00193B08 /* HashMapSeparateChainingArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArray.h; sourceTree = "<group>"; };
+		F36F83091D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayTests.m; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -523,6 +531,8 @@
 				F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */,
 				F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */,
 				F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */,
+				F36F83041D0FE3BD00193B08 /* HashMapSeparateChainingArray.h */,
+				F36F83031D0FE3BD00193B08 /* HashMapSeparateChainingArray.c */,
 			);
 			name = "Hash Map Implementations";
 			sourceTree = "<group>";
@@ -837,6 +847,7 @@
 				F34219131D09B21500FDBC8A /* HashMapTests.m */,
 				F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */,
 				F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */,
+				F36F83091D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m */,
 				F359D02D1C146C5D0028B86B /* DataTests.h */,
 				F359D02B1C146C2E0028B86B /* DataTests.m */,
 				F359D0321C148F700028B86B /* DataBufferTests.m */,
@@ -988,6 +999,7 @@
 				F30437B21C62E02C00388C74 /* Common.h in Headers */,
 				F30437BA1C62E08A00388C74 /* Hash.h in Headers */,
 				F30437E61C62E1A900388C74 /* FileSystem.h in Headers */,
+				F36F83081D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */,
 				F30437DF1C62E15900388C74 /* Vector4D.h in Headers */,
 				F34219181D0C266500FDBC8A /* HashMap.h in Headers */,
@@ -1043,6 +1055,7 @@
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
+				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
 				F322F05D1C09550100BAA44E /* PathComponent.h in Headers */,
 				F359D01F1C12B13E0028B86B /* Data.h in Headers */,
@@ -1237,6 +1250,7 @@
 				F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F30437FA1C62E21800388C74 /* Allocator.c in Sources */,
 				F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */,
+				F36F83061D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F30437E31C62E18600388C74 /* File.c in Sources */,
 				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
 				F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */,
@@ -1281,6 +1295,7 @@
 				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
+				F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */,
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F353DD4F17AC8C9000D1674C /* Logging.c in Sources */,
@@ -1361,6 +1376,7 @@
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,
 				F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */,
 				F353DD9417B6930600D1674C /* BitTricksTests.m in Sources */,
+				F36F830A1D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m in Sources */,
 				F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */,
 				F36F83001D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m in Sources */,
 				F359D0331C148F700028B86B /* DataBufferTests.m in Sources */,
