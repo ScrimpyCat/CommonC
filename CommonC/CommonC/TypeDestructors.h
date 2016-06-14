@@ -30,7 +30,10 @@
 
 extern const CCCollectionElementDestructor CCStringDestructorForCollection;
 extern const CCCollectionElementDestructor CCDataDestructorForCollection;
+extern const CCCollectionElementDestructor CCArrayDestructorForCollection;
+extern const CCCollectionElementDestructor CCLinkedListDestructorForCollection;
 extern const CCCollectionElementDestructor CCCollectionDestructorForCollection;
+extern const CCCollectionElementDestructor CCHashMapDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathDestructorForCollection;
 
 #endif

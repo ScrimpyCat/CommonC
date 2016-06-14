@@ -27,15 +27,24 @@
 #include "CCString.h"
 #include "Data.h"
 #include "Path.h"
+#include "Array.h"
+#include "LinkedList.h"
+#include "HashMAp.h"
 
 static void CCStringCollectionElementDestructor(CCCollection Collection, CCString *Element);
 static void CCDataCollectionElementDestructor(CCCollection Collection, CCData *Element);
+static void CCArrayCollectionElementDestructor(CCCollection Collection, CCArray *Element);
+static void CCLinkedListCollectionElementDestructor(CCCollection Collection, CCLinkedList *Element);
 static void CCCollectionCollectionElementDestructor(CCCollection Collection, CCCollection *Element);
+static void CCHashMapCollectionElementDestructor(CCCollection Collection, CCHashMap *Element);
 static void CCPathCollectionElementDestructor(CCCollection Collection, FSPath *Element);
 
 const CCCollectionElementDestructor CCStringDestructorForCollection = (CCCollectionElementDestructor)CCStringCollectionElementDestructor;
 const CCCollectionElementDestructor CCDataDestructorForCollection = (CCCollectionElementDestructor)CCDataCollectionElementDestructor;
+const CCCollectionElementDestructor CCArrayDestructorForCollection = (CCCollectionElementDestructor)CCArrayCollectionElementDestructor;
+const CCCollectionElementDestructor CCLinkedListDestructorForCollection = (CCCollectionElementDestructor)CCLinkedListCollectionElementDestructor;
 const CCCollectionElementDestructor CCCollectionDestructorForCollection = (CCCollectionElementDestructor)CCCollectionCollectionElementDestructor;
+const CCCollectionElementDestructor CCHashMapDestructorForCollection = (CCCollectionElementDestructor)CCHashMapCollectionElementDestructor;
 const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)CCPathCollectionElementDestructor;
 
 
@@ -49,9 +58,24 @@ static void CCDataCollectionElementDestructor(CCCollection Collection, CCData *E
     CCDataDestroy(*Element);
 }
 
+static void CCArrayCollectionElementDestructor(CCCollection Collection, CCArray *Element)
+{
+    CCArrayDestroy(*Element);
+}
+
+static void CCLinkedListCollectionElementDestructor(CCCollection Collection, CCLinkedList *Element)
+{
+    CCLinkedListDestroy(*Element);
+}
+
 static void CCCollectionCollectionElementDestructor(CCCollection Collection, CCCollection *Element)
 {
     CCCollectionDestroy(*Element);
+}
+
+static void CCHashMapCollectionElementDestructor(CCCollection Collection, CCHashMap *Element)
+{
+    CCHashMapDestroy(*Element);
 }
 
 static void CCPathCollectionElementDestructor(CCCollection Collection, FSPath *Element)
