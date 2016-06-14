@@ -24,12 +24,10 @@
  */
 
 /*!
- * @header CCHashMapSeparateChainingArrayDataOrientedAll
- * CCHashMapSeparateChainingArrayDataOrientedAll is an interface for an array backed separately chained
- * hashmap implementation. How this differs from @b CCHashMapSeparateChainingArrayDataOrientedHash and
- * @b CCHashMapSeparateChainingArray is that hashes, keys, and values are all stored in separate arrays.
- * This allows for improved enumeration of keys or values, but a reduction in lookup and insertion compared
- * to the other separately chained array variants. Is better when there's a portioned hash distribution
+ * @header CCHashMapSeparateChainingArrayDataOrientedHash
+ * CCHashMapSeparateChainingArrayDataOrientedHash is an interface for an array backed separately chained
+ * hashmap implementation. How this differs from @b CCHashMapSeparateChainingArray and is that hashes, 
+ * are stored in a separate array to keys and values. Is better when there's a portioned hash distribution
  * or a poor load factor, otherwise @b CCHashMapSeparateChainingArray is likely the better variation.
  *
  * Fast Operations:
@@ -37,14 +35,14 @@
  * - Insertion. (slower than other @b CCHashMapSeparateChainingArray* variants)
  *
  * Moderate Operations:
- * - Enumerating of keys. (faster than other @b CCHashMapSeparateChainingArray* variants)
- * - Enumerating of values. (faster than other @b CCHashMapSeparateChainingArray* variants)
+ * - Enumerating of keys. (faster than other @b CCHashMapSeparateChainingArray variant)
+ * - Enumerating of values. (faster than other @b CCHashMapSeparateChainingArray variant)
  */
-#ifndef CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
-#define CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
+#ifndef CommonC_HashMapSeparateChainingArrayDataOrientedHash_h
+#define CommonC_HashMapSeparateChainingArrayDataOrientedHash_h
 
 #include <CommonC/HashMapInterface.h>
 
-extern const CCHashMapInterface * const CCHashMapSeparateChainingArrayDataOrientedAll;
+extern const CCHashMapInterface * const CCHashMapSeparateChainingArrayDataOrientedHash;
 
 #endif

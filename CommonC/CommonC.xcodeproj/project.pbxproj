@@ -182,6 +182,14 @@
 		F369C7D51C462BB9006C3D96 /* CCStringEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7D21C461936006C3D96 /* CCStringEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */; };
+		F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F82FA1D0FB56A00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F82FB1D0FB57600193B08 /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
+		F36F82FC1D0FB57A00193B08 /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */ = {isa = PBXBuildFile; fileRef = F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */; };
+		F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */; };
+		F36F83001D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */; };
+		F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -360,6 +368,11 @@
 		F369C7CF1C44D515006C3D96 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		F369C7D21C461936006C3D96 /* CCStringEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStringEnumerator.h; sourceTree = "<group>"; };
 		F369C7D31C462AEF006C3D96 /* StringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTests.m; sourceTree = "<group>"; };
+		F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMapSeparateChainingArrayDataOrientedHash.c; sourceTree = "<group>"; };
+		F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArrayDataOrientedHash.h; sourceTree = "<group>"; };
+		F36F82FE1D0FCB9200193B08 /* HashMapTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapTests.h; sourceTree = "<group>"; };
+		F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayDataOrientedAllTests.m; sourceTree = "<group>"; };
+		F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayDataOrientedHash.m; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -508,6 +521,8 @@
 			children = (
 				F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */,
 				F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */,
+				F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */,
+				F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */,
 			);
 			name = "Hash Map Implementations";
 			sourceTree = "<group>";
@@ -818,7 +833,10 @@
 			isa = PBXGroup;
 			children = (
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
+				F36F82FE1D0FCB9200193B08 /* HashMapTests.h */,
 				F34219131D09B21500FDBC8A /* HashMapTests.m */,
+				F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */,
+				F36F83011D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m */,
 				F359D02D1C146C5D0028B86B /* DataTests.h */,
 				F359D02B1C146C2E0028B86B /* DataTests.m */,
 				F359D0321C148F700028B86B /* DataBufferTests.m */,
@@ -938,6 +956,7 @@
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
 				F30437E81C62E1B300388C74 /* PathComponent.h in Headers */,
+				F36F82FA1D0FB56A00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F30437F31C62E1EF00388C74 /* Logging.h in Headers */,
 				F30437E01C62E16400388C74 /* SystemInfo.h in Headers */,
 				F30437F71C62E20500388C74 /* CustomInputFilters.h in Headers */,
@@ -1022,6 +1041,7 @@
 				F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */,
 				F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */,
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
+				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
 				F322F05D1C09550100BAA44E /* PathComponent.h in Headers */,
@@ -1214,11 +1234,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F30437E91C62E1B800388C74 /* PathComponent.c in Sources */,
+				F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F30437FA1C62E21800388C74 /* Allocator.c in Sources */,
 				F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */,
 				F30437E31C62E18600388C74 /* File.c in Sources */,
 				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
 				F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */,
+				F36F82FC1D0FB57A00193B08 /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */,
 				F30437F41C62E1F400388C74 /* Logging.c in Sources */,
 				F30437C91C62E0D400388C74 /* Array.c in Sources */,
 				F30437D01C62E0F500388C74 /* Collection.c in Sources */,
@@ -1228,6 +1250,7 @@
 				F30437F61C62E20200388C74 /* CustomFormatSpecifiers.c in Sources */,
 				F30437C11C62E0AF00388C74 /* Data.c in Sources */,
 				F30437FE1C62E22C00388C74 /* MemoryAllocation.c in Sources */,
+				F36F82FB1D0FB57600193B08 /* HashMap.c in Sources */,
 				F30437D41C62E11000388C74 /* CollectionArray.c in Sources */,
 				F30437C51C62E0C100388C74 /* DataBuffer.c in Sources */,
 				F30437FC1C62E22300388C74 /* CFAllocator.c in Sources */,
@@ -1255,6 +1278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
+				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
 				F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */,
@@ -1329,6 +1353,7 @@
 				F3BC6A381877A83400934291 /* Vectorized3DSSE3Tests.m in Sources */,
 				F3AE99351A6D508200212838 /* LinkedListTests.m in Sources */,
 				F353DD8A17B5870C00D1674C /* FileTests.m in Sources */,
+				F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */,
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
@@ -1337,6 +1362,7 @@
 				F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */,
 				F353DD9417B6930600D1674C /* BitTricksTests.m in Sources */,
 				F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */,
+				F36F83001D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m in Sources */,
 				F359D0331C148F700028B86B /* DataBufferTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

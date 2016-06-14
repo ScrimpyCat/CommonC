@@ -23,18 +23,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
+#import "HashMapTests.h"
 #import "HashMap.h"
-#import "HashMapSeparateChainingArrayDataOrientedAll.h"
 #import "CCString.h"
 #import "CollectionEnumerator.h"
 #import "HashMapEnumerator.h"
 
-@interface HashMapTests : XCTestCase
-
--(const CCHashMapInterface*) interface;
-
-@end
 
 static uintmax_t StringHasher(CCString *Key)
 {
@@ -43,19 +37,16 @@ static uintmax_t StringHasher(CCString *Key)
 
 static CCComparisonResult StringComparator(CCString *left, CCString *right)
 {
-    return CCStringEqual(*left, *right) ? CCComparisonResultEqual : CCComparisonResultInvalid ;
+    return CCStringEqual(*left, *right) ? CCComparisonResultEqual : CCComparisonResultInvalid;
 }
 
 @implementation HashMapTests
 
--(const CCHashMapInterface*) interface
-{
-    return CCHashMapSeparateChainingArrayDataOrientedAll;
-}
-
 -(void) testCount
 {
-    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, [self interface]);
+    if (!self.interface) return;
+    
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 3, NULL, NULL, self.interface);
     
     XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     
@@ -95,7 +86,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 1, NULL, NULL, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), 1, NULL, NULL, self.interface);
     
     XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     
@@ -220,7 +211,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
 
 -(void) assertStoreWithBucketCount: (size_t)bucketCount
 {
-    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, self.interface);
     
     XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 0 }), NULL, @"Should not contain a value for the key");
@@ -305,7 +296,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uintmax_t), sizeof(int), bucketCount, NULL, NULL, self.interface);
     
     CCHashMapEntry Entries[] = {
         CCHashMapFindKey(Map, &(uintmax_t){ 0 }),
@@ -398,7 +389,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), sizeof(int), bucketCount, NULL, NULL, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), sizeof(int), bucketCount, NULL, NULL, self.interface);
     
     XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uint8_t){ 0 }), NULL, @"Should not contain a value for the key");
@@ -447,7 +438,7 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     
     
     
-    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), bucketCount, (CCHashMapKeyHasher)StringHasher, (CCComparator)StringComparator, [self interface]);
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), bucketCount, (CCHashMapKeyHasher)StringHasher, (CCComparator)StringComparator, self.interface);
     
     XCTAssertEqual(CCHashMapGetCount(Map), 0, @"Should not have any entries");
     XCTAssertEqual(CCHashMapGetValue(Map, &(CCString){ CC_STRING("0") }), NULL, @"Should not contain a value for the key");
@@ -497,6 +488,8 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
 
 -(void) testStoring
 {
+    if (!self.interface) return;
+    
     [self assertStoreWithBucketCount: 1];
     [self assertStoreWithBucketCount: 2];
     [self assertStoreWithBucketCount: 3];

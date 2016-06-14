@@ -23,28 +23,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*!
- * @header CCHashMapSeparateChainingArrayDataOrientedAll
- * CCHashMapSeparateChainingArrayDataOrientedAll is an interface for an array backed separately chained
- * hashmap implementation. How this differs from @b CCHashMapSeparateChainingArrayDataOrientedHash and
- * @b CCHashMapSeparateChainingArray is that hashes, keys, and values are all stored in separate arrays.
- * This allows for improved enumeration of keys or values, but a reduction in lookup and insertion compared
- * to the other separately chained array variants. Is better when there's a portioned hash distribution
- * or a poor load factor, otherwise @b CCHashMapSeparateChainingArray is likely the better variation.
- *
- * Fast Operations:
- * - Lookup. (slower than other @b CCHashMapSeparateChainingArray* variants)
- * - Insertion. (slower than other @b CCHashMapSeparateChainingArray* variants)
- *
- * Moderate Operations:
- * - Enumerating of keys. (faster than other @b CCHashMapSeparateChainingArray* variants)
- * - Enumerating of values. (faster than other @b CCHashMapSeparateChainingArray* variants)
- */
-#ifndef CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
-#define CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
+#import <Cocoa/Cocoa.h>
+#import <XCTest/XCTest.h>
+#import "HashMapSeparateChainingArrayDataOrientedAll.h"
+#import "HashMapTests.h"
 
-#include <CommonC/HashMapInterface.h>
+@interface HashMapSeparateChainingArrayDataOrientedAllTests : HashMapTests
 
-extern const CCHashMapInterface * const CCHashMapSeparateChainingArrayDataOrientedAll;
+@end
 
-#endif
+@implementation HashMapSeparateChainingArrayDataOrientedAllTests
+
+-(void) setUp
+{
+    [super setUp];
+    self.interface = CCHashMapSeparateChainingArrayDataOrientedAll;
+}
+
+@end
