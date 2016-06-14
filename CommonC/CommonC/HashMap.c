@@ -75,6 +75,34 @@ void CCHashMapDestroy(CCHashMap Map)
     CCFree(Map);
 }
 
+void CCHashMapRehash(CCHashMap Map, size_t BucketCount)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    if (Map->interface->optional.rehash) Map->interface->optional.rehash(Map, BucketCount);
+    else
+    {
+        CCHashMapInfo NewMap = *Map;
+        NewMap.internal = Map->interface->create(Map->allocator, Map->keySize, Map->valueSize, BucketCount);
+        NewMap.bucketCount = BucketCount;
+        
+        CCEnumerator Enumerator;
+        CCHashMapGetKeyEnumerator(Map, &Enumerator);
+        
+        for (void *Key = CCHashMapEnumeratorGetCurrent(&Enumerator); Key; Key = CCHashMapEnumeratorNext(&Enumerator))
+        {
+            void *Value = CCHashMapGetEntry(Map, CCHashMapEnumeratorGetEntry(&Enumerator));
+            
+            CCHashMapSetValue(&NewMap, Key, Value);
+        }
+        
+        Map->interface->destroy(Map->internal);
+        Map->internal = NewMap.internal;
+    }
+    
+    Map->bucketCount = BucketCount;
+}
+
 uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key)
 {
     uintmax_t Hash = 0;

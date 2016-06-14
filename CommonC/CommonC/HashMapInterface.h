@@ -168,6 +168,13 @@ typedef CCHashMapEntry (*CCHashMapEnumeratorEntryCallback)(CCHashMap Map, CCEnum
 #pragma mark - Optional Callbacks
 
 /*!
+ * @brief An optional callback to rehash the hashmap.
+ * @param Map The hashmap to rehash.
+ * @param BucketCount The number of buckets to be allocated.
+ */
+typedef void (*CCHashMapRehashCallback)(CCHashMap Map, size_t BucketCount);
+
+/*!
  * @brief An optional callback to get the value of a given key.
  * @param Map The hashmap to get the value of.
  * @param Key The pointer to the key to be used to get the value for.
@@ -232,6 +239,7 @@ typedef struct {
     CCHashMapEnumeratorCallback enumerator;
     CCHashMapEnumeratorEntryCallback enumeratorReference;
     struct {
+        CCHashMapRehashCallback rehash;
         CCHashMapGetValueCallback getValue;
         CCHashMapSetValueCallback setValue;
         CCHashMapRemoveValueCallback removeValue;

@@ -67,6 +67,7 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayInterface = {
     .enumerator = CCHashMapSeparateChainingArrayEnumerator,
     .enumeratorReference = CCHashMapSeparateChainingArrayEnumeratorEntry,
     .optional = {
+        .rehash = NULL,
         .getValue = CCHashMapSeparateChainingArrayGetValue,
         .setValue = CCHashMapSeparateChainingArraySetValue,
         .removeValue = CCHashMapSeparateChainingArrayRemoveValue,

@@ -80,6 +80,13 @@ CC_NEW CCHashMap CCHashMapCreate(CCAllocatorType Allocator, size_t KeySize, size
  */
 void CCHashMapDestroy(CCHashMap CC_DESTROY(Map));
 
+/*!
+ * @brief Rehash the hashmap.
+ * @param Map The hashmap to be rehashed.
+ * @param BucketCount The number of buckets to be allocated.
+ */
+void CCHashMapRehash(CCHashMap Map, size_t BucketCount);
+
 
 #pragma mark - Insertions/Deletions
 /*!
