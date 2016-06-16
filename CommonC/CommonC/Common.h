@@ -91,6 +91,7 @@
 
 #include <CommonC/Dictionary.h>
 #include <CommonC/DictionaryEnumerator.h>
+#include <CommonC/DictionaryHashMap.h>
 
 #include <CommonC/TypeDestructors.h>
 

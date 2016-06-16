@@ -57,20 +57,22 @@ static void CCDictionaryDestructor(CCDictionary Dictionary)
     Dictionary->interface->destroy(Dictionary->internal);
 }
 
-CCDictionary CCDictionaryCreateWithImplementation(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryCallbacks Callbacks, const CCDictionaryInterface *Interface)
+CCDictionary CCDictionaryCreateWithImplementation(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, const CCDictionaryCallbacks *Callbacks, const CCDictionaryInterface *Interface)
 {
     CCAssertLog(Interface, "Interface must not be null");
     
     CCDictionary Dictionary = CCMalloc(Allocator, sizeof(CCDictionaryInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Dictionary)
     {
+        CCDictionaryCallbacks DefaultCallbacks = Callbacks? *Callbacks : (CCDictionaryCallbacks){};
+        
         *Dictionary = (CCDictionaryInfo){
             .interface = Interface,
             .allocator = Allocator,
-            .callbacks = Callbacks,
+            .callbacks = DefaultCallbacks,
             .keySize = KeySize,
             .valueSize = ValueSize,
-            .internal = Interface->create(Allocator, Hint, KeySize, ValueSize, Callbacks.getHash, Callbacks.compareKeys)
+            .internal = Interface->create(Allocator, Hint, KeySize, ValueSize, DefaultCallbacks.getHash, DefaultCallbacks.compareKeys)
         };
         
         if (!Dictionary->internal)
@@ -245,7 +247,7 @@ void CCDictionaryGetValueEnumerator(CCDictionary Dictionary, CCEnumerator *Enume
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    Dictionary->interface->enumerator(Dictionary, &Enumerator->state, CCDictionaryEnumeratorActionHead, CCDictionaryEnumeratorTypeValue);
+    Dictionary->interface->enumerator(Dictionary->internal, &Enumerator->state, CCDictionaryEnumeratorActionHead, CCDictionaryEnumeratorTypeValue);
     Enumerator->ref = Dictionary;
     Enumerator->option = CCDictionaryEnumeratorTypeValue;
 }

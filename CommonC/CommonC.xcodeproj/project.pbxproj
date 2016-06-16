@@ -105,6 +105,12 @@
 		F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B861C591B5A00766814 /* Vectorized4DSSE4_1Tests.m */; };
 		F3067B891C591B6700766814 /* Vectorized4DSSE4_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B881C591B6700766814 /* Vectorized4DSSE4_2Tests.m */; };
 		F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B8A1C591B7600766814 /* Vectorized4DAVXTests.m */; };
+		F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30C84691D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30C846D1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */; };
+		F30C846E1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */; };
+		F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */; };
 		F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */; };
 		F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */; };
@@ -180,6 +186,8 @@
 		F369C7D11C44D515006C3D96 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7CF1C44D515006C3D96 /* CCString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F369C7D31C462AEF006C3D96 /* StringTests.m */; };
 		F369C7D51C462BB9006C3D96 /* CCStringEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7D21C461936006C3D96 /* CCStringEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36D62FF1D13433700D3827A /* DictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36D62FE1D13433700D3827A /* DictionaryTests.m */; };
+		F36D63021D13456100D3827A /* DictionaryHashMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36D63011D13456100D3827A /* DictionaryHashMapTests.m */; };
 		F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */; };
@@ -199,6 +207,12 @@
 		F36F83201D10A91B00193B08 /* TypeDestructors.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F831D1D10A91B00193B08 /* TypeDestructors.c */; };
 		F36F83211D10A91B00193B08 /* TypeDestructors.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F831E1D10A91B00193B08 /* TypeDestructors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83221D10A91B00193B08 /* TypeDestructors.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F831E1D10A91B00193B08 /* TypeDestructors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F832D1D10C1E300193B08 /* Dictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F832B1D10C1E300193B08 /* Dictionary.c */; };
+		F36F832E1D10C1E300193B08 /* Dictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = F36F832B1D10C1E300193B08 /* Dictionary.c */; };
+		F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F83301D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -292,6 +306,9 @@
 		F3067B861C591B5A00766814 /* Vectorized4DSSE4_1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DSSE4_1Tests.m; sourceTree = "<group>"; };
 		F3067B881C591B6700766814 /* Vectorized4DSSE4_2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DSSE4_2Tests.m; sourceTree = "<group>"; };
 		F3067B8A1C591B7600766814 /* Vectorized4DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DAVXTests.m; sourceTree = "<group>"; };
+		F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryEnumerator.h; sourceTree = "<group>"; };
+		F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DictionaryHashMap.c; sourceTree = "<group>"; };
+		F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryHashMap.h; sourceTree = "<group>"; };
 		F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DTests.m; sourceTree = "<group>"; };
 		F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DTests.m; sourceTree = "<group>"; };
 		F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionArrayTests.m; sourceTree = "<group>"; };
@@ -377,6 +394,9 @@
 		F369C7CF1C44D515006C3D96 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		F369C7D21C461936006C3D96 /* CCStringEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStringEnumerator.h; sourceTree = "<group>"; };
 		F369C7D31C462AEF006C3D96 /* StringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTests.m; sourceTree = "<group>"; };
+		F36D62FE1D13433700D3827A /* DictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryTests.m; sourceTree = "<group>"; };
+		F36D63001D13434900D3827A /* DictionaryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryTests.h; sourceTree = "<group>"; };
+		F36D63011D13456100D3827A /* DictionaryHashMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryHashMapTests.m; sourceTree = "<group>"; };
 		F36F82F61D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMapSeparateChainingArrayDataOrientedHash.c; sourceTree = "<group>"; };
 		F36F82F71D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArrayDataOrientedHash.h; sourceTree = "<group>"; };
 		F36F82FE1D0FCB9200193B08 /* HashMapTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapTests.h; sourceTree = "<group>"; };
@@ -387,6 +407,9 @@
 		F36F83091D0FEE3E00193B08 /* HashMapSeparateChainingArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashMapSeparateChainingArrayTests.m; sourceTree = "<group>"; };
 		F36F831D1D10A91B00193B08 /* TypeDestructors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TypeDestructors.c; sourceTree = "<group>"; };
 		F36F831E1D10A91B00193B08 /* TypeDestructors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeDestructors.h; sourceTree = "<group>"; };
+		F36F832B1D10C1E300193B08 /* Dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Dictionary.c; sourceTree = "<group>"; };
+		F36F832C1D10C1E300193B08 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
+		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -509,6 +532,15 @@
 			name = Vectors;
 			sourceTree = "<group>";
 		};
+		F30C846A1D13308700EFF5F2 /* Dictionary Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */,
+				F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */,
+			);
+			name = "Dictionary Implementations";
+			sourceTree = "<group>";
+		};
 		F318D92C1C4DD77A005AE64E /* Matrices */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +558,11 @@
 				F34219151D0C13E400FDBC8A /* HashMapInterface.h */,
 				F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */,
 				F34219191D0C2B2200FDBC8A /* Hash Map Implementations */,
+				F36F83311D12030100193B08 /* DictionaryInterface.h */,
+				F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */,
+				F36F832C1D10C1E300193B08 /* Dictionary.h */,
+				F36F832B1D10C1E300193B08 /* Dictionary.c */,
+				F30C846A1D13308700EFF5F2 /* Dictionary Implementations */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -851,6 +888,9 @@
 			isa = PBXGroup;
 			children = (
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
+				F36D63001D13434900D3827A /* DictionaryTests.h */,
+				F36D62FE1D13433700D3827A /* DictionaryTests.m */,
+				F36D63011D13456100D3827A /* DictionaryHashMapTests.m */,
 				F36F82FE1D0FCB9200193B08 /* HashMapTests.h */,
 				F34219131D09B21500FDBC8A /* HashMapTests.m */,
 				F36F82FF1D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m */,
@@ -966,6 +1006,7 @@
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
 				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
+				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
 				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
 				F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */,
@@ -989,14 +1030,17 @@
 				F30437D91C62E13000388C74 /* Random.h in Headers */,
 				F30437EF1C62E1D600388C74 /* Types.h in Headers */,
 				F30437E21C62E18000388C74 /* File.h in Headers */,
+				F30C84691D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */,
 				F30437BF1C62E0A600388C74 /* Buffer.h in Headers */,
+				F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
 				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
 				F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F30437D51C62E11300388C74 /* CollectionList.h in Headers */,
 				F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */,
 				F30437B71C62E07900388C74 /* Extensions.h in Headers */,
+				F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
 				F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */,
 				F36F83221D10A91B00193B08 /* TypeDestructors.h in Headers */,
@@ -1044,6 +1088,7 @@
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
 				F3D657D017D5DA8F00B54101 /* Random.h in Headers */,
 				F3D657D417D5FD5200B54101 /* Maths.h in Headers */,
+				F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F30529B618014BE500B17CFD /* Vector.h in Headers */,
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
 				F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */,
@@ -1064,6 +1109,8 @@
 				F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */,
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
+				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
+				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
@@ -1071,6 +1118,7 @@
 				F359D01F1C12B13E0028B86B /* Data.h in Headers */,
 				F34219161D0C265A00FDBC8A /* HashMapInterface.h in Headers */,
 				F3143AA61A8A9022004EB810 /* CollectionArray.h in Headers */,
+				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
@@ -1275,6 +1323,7 @@
 				F30437F61C62E20200388C74 /* CustomFormatSpecifiers.c in Sources */,
 				F30437C11C62E0AF00388C74 /* Data.c in Sources */,
 				F30437FE1C62E22C00388C74 /* MemoryAllocation.c in Sources */,
+				F36F832E1D10C1E300193B08 /* Dictionary.c in Sources */,
 				F36F82FB1D0FB57600193B08 /* HashMap.c in Sources */,
 				F30437D41C62E11000388C74 /* CollectionArray.c in Sources */,
 				F30437C51C62E0C100388C74 /* DataBuffer.c in Sources */,
@@ -1284,6 +1333,7 @@
 				F30437C71C62E0CD00388C74 /* LinkedList.c in Sources */,
 				F30437D61C62E11800388C74 /* CollectionList.c in Sources */,
 				F30437EE1C62E1CD00388C74 /* FileHandle.c in Sources */,
+				F30C846E1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */,
 				F30437BB1C62E09000388C74 /* Hash.c in Sources */,
 				F30437EB1C62E1C100388C74 /* Path.c in Sources */,
 				F30437F81C62E20B00388C74 /* CustomInputFilters.c in Sources */,
@@ -1321,6 +1371,7 @@
 				F359D01E1C12B13E0028B86B /* Data.c in Sources */,
 				F342191C1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */,
 				F322F05C1C09550100BAA44E /* PathComponent.c in Sources */,
+				F36F832D1D10C1E300193B08 /* Dictionary.c in Sources */,
 				F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
 				F369C7D01C44D515006C3D96 /* CCString.c in Sources */,
@@ -1330,6 +1381,7 @@
 				F353DD7317B02C3E00D1674C /* ProcessInfo.c in Sources */,
 				F3BD17C31C02E15F00B3849E /* FileSystem.c in Sources */,
 				F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */,
+				F30C846D1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */,
 				F353DD7B17B14F9800D1674C /* File.c in Sources */,
 				F306400B184BAA8700122BE9 /* SystemInfo.c in Sources */,
 				F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */,
@@ -1365,6 +1417,7 @@
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
 				F3BC6A2D18776CAE00934291 /* Vectorized2DSSE2Tests.m in Sources */,
+				F36D62FF1D13433700D3827A /* DictionaryTests.m in Sources */,
 				F3143AA11A8A8B19004EB810 /* CollectionListTests.m in Sources */,
 				F3BC6A241877637800934291 /* Vector3DTests.m in Sources */,
 				F3BC6A3E1877A85700934291 /* Vectorized3DSSE4_2Tests.m in Sources */,
@@ -1383,6 +1436,7 @@
 				F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */,
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
+				F36D63021D13456100D3827A /* DictionaryHashMapTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,

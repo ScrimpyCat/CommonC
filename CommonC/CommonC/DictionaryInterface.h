@@ -121,7 +121,7 @@ typedef uintmax_t (*CCDictionaryKeyHasher)(void *Key);
  *
  * @return The created internal structure.
  */
-typedef void *(*CCDictionaryConstructorCallback)(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator keyComparator);
+typedef void *(*CCDictionaryConstructorCallback)(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 
 /*!
  * @brief A callback to destroy the internal implementation for the dictionary.
@@ -157,7 +157,7 @@ typedef _Bool (*CCDictionaryEntryIsInitializedCallback)(void *Internal, CCDictio
  *
  * @return The entry reference.
  */
-typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator keyComparator);
+typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 
 /*!
  * @brief A callback to create an entry for a given key.
@@ -173,7 +173,7 @@ typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, void *K
  * @param Allocator The allocator to be used for any internal allocation needed.
  * @return The entry reference.
  */
-typedef CCDictionaryEntry (*CCDictionaryEntryForKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator keyComparator, CCAllocatorType Allocator);
+typedef CCDictionaryEntry (*CCDictionaryEntryForKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
 
 /*!
  * @brief A callback to get a key for a given entry reference.

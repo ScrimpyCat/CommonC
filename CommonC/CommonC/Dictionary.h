@@ -73,10 +73,10 @@ typedef struct CCDictionaryInfo {
  *
  * @param KeySize The key size.
  * @param ValueSize The value size.
- * @param Callbacks Optional callbacks for the dictionary.
+ * @param Callbacks Optional callbacks for the dictionary. May be NULL.
  * @return An empty dictionary, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCDictionary CCDictionaryCreate(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryCallbacks Callbacks);
+CC_NEW CCDictionary CCDictionaryCreate(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, const CCDictionaryCallbacks *Callbacks);
 
 /*!
  * @brief Create a dictionary with the specified implementation.
@@ -84,11 +84,11 @@ CC_NEW CCDictionary CCDictionaryCreate(CCAllocatorType Allocator, CCDictionaryHi
  * @param Hint The hints for the intended usage of this dictionary.
  * @param KeySize The key size.
  * @param ValueSize The value size.
- * @param Callbacks Optional callbacks for the dictionary.
+ * @param Callbacks Optional callbacks for the dictionary. May be NULL.
  * @param Interface The interface to the internal implementation to be used.
  * @return An empty dictionary, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCDictionary CCDictionaryCreateWithImplementation(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryCallbacks Callbacks, const CCDictionaryInterface *Interface);
+CC_NEW CCDictionary CCDictionaryCreateWithImplementation(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, const CCDictionaryCallbacks *Callbacks, const CCDictionaryInterface *Interface);
 
 /*!
  * @brief Destroy an dictionary.
