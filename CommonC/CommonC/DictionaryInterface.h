@@ -108,6 +108,15 @@ typedef uintmax_t (*CCDictionaryKeyHasher)(void *Key);
 
 #pragma mark - Required Callbacks
 /*!
+ * @brief A callback that will return a weight for how ideal this implementation is for the intended
+ * usage.
+ *
+ * @param Hint The hints describing the intended usage of the dictionary.
+ * @return A higher value is weighted in-favour of a lower value.
+ */
+typedef int (*CCDictionaryHintWeightCallback)(CCDictionaryHint Hint);
+
+/*!
  * @brief A callback to create the internal implementation for the dictionary.
  * @param Allocator The allocator to be used for the creation.
  * @param Hint The hints describing the intended usage of the collection.
@@ -263,6 +272,7 @@ typedef CCOrderedCollection (*CCDictionaryGetValuesCallback)(void *Internal, CCA
  *              through reusing the required interfaces.
  */
 typedef struct {
+    CCDictionaryHintWeightCallback hintWeight;
     CCDictionaryConstructorCallback create;
     CCDictionaryDestructorCallback destroy;
     CCDictionaryGetCountCallback count;
@@ -280,5 +290,42 @@ typedef struct {
         CCDictionaryGetValuesCallback values;
     } optional;
 } CCDictionaryInterface;
+
+
+#pragma mark - Interface Handling
+
+/*!
+ * @brief The maximum weight value produced by CCDictionaryHintWeightCreate.
+ * @description This is the maximum weight any of the framework's interfaces may reach. To push
+ * your own interfaces above the internal ones, you use can use this max weight to add onto. Where
+ * CCDictionaryHintWeightMax + 1 is guaranteed to be chosen above any of the internal interfaces
+ * that are provided.
+ */
+extern const int CCDictionaryHintWeightMax;
+
+/*!
+ * @brief Calculate a weight for the given hint combination.
+ * @description The max value returned by this is CCDictionaryHintWeightMax.
+ * @param Hint The hints describing the intended usage of the dictionary.
+ * @param FastHints Hints with a worst case that is considered fast for the given operation.
+ * @param ModerateHints Hints with a worst case that is considered decent for the given operation.
+ * @param SlowHints Hints with worst case that is considered slow for the given operation.
+ * @return The weight value.
+ */
+int CCDictionaryHintWeightCreate(CCDictionaryHint Hint, CCDictionaryHint FastHints, CCDictionaryHint ModerateHints, CCDictionaryHint SlowHints);
+
+/*!
+ * @brief Register a dictionary interface with the system.
+ * @description The interface is chosen based on how appropriate it is with the current hints.
+ * @param Interface The interface to register.
+ */
+void CCDictionaryRegisterInterface(const CCDictionaryInterface *Interface);
+
+/*!
+ * @brief Deregister a dictionary interface from the system.
+ * @description The interface can no longer be chosen.
+ * @param Interface The interface to register.
+ */
+void CCDictionaryDeregisterInterface(const CCDictionaryInterface *Interface);
 
 #endif

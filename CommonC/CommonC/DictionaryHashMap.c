@@ -27,6 +27,7 @@
 #include "HashMap.h"
 #include "HashMapSeparateChainingArray.h"
 
+static int CCDictionaryHashMapHintWeight(CCDictionaryHint Hint);
 static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 static CCDictionaryEntry CCDictionaryHashMapFindKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
@@ -39,6 +40,7 @@ static CCOrderedCollection CCDictionaryHashMapGetValues(CCHashMap Internal, CCAl
 
 
 CCDictionaryInterface CCDictionaryHashMapInterface = {
+    .hintWeight = CCDictionaryHashMapHintWeight,
     .create = CCDictionaryHashMapConstructor,
     .destroy = (CCDictionaryDestructorCallback)CCHashMapDestroy,
     .count = (CCDictionaryGetCountCallback)CCHashMapGetCount,
@@ -68,6 +70,18 @@ static const size_t BucketSizes[40] = {
     25165843, 50331653, 100663319, 201326611, 402653189, 805306457, 1610612741, 3241355263,
     5244622819, 8485977589, 13730600407, 22216578047, 35947178479, 58163756537, 94110934997, 152274691561
 };
+
+static int CCDictionaryHashMapHintWeight(CCDictionaryHint Hint)
+{
+    return CCDictionaryHintWeightCreate(Hint,
+                                        CCDictionaryHintHeavyFinding
+                                        | CCDictionaryHintHeavyInserting
+                                        | CCDictionaryHintConstantLength
+                                        | CCDictionaryHintConstantElements
+                                        | CCDictionaryHintHeavyDeleting,
+                                        CCDictionaryHintHeavyEnumerating,
+                                        0);
+}
 
 static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
 {

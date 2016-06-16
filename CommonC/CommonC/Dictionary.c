@@ -27,11 +27,95 @@
 #include "DictionaryEnumerator.h"
 #include "Assertion.h"
 #include "MemoryAllocation.h"
+#include "LinkedList.h"
+#include "BitTricks.h"
 
-//CCDictionary CCDictionaryCreate(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryCallbacks Callbacks)
-//{
-//    
-//}
+
+typedef struct {
+    CCLinkedListNode node;
+    const CCDictionaryInterface *interface;
+} CCDictionaryInterfaceNode;
+
+typedef struct {
+    int allocator;
+    CCDictionaryInterfaceNode data;
+} CCDictionaryInternalInterfaceNode;
+
+
+const int CCDictionaryHintWeightMax = 30000; //CCDictionaryHintWeightCreate((UINT_MAX & ~CCDictionaryHintSizeMask) | CCDictionaryHintSizeLarge, UINT_MAX, 0, 0)
+
+int CCDictionaryHintWeightCreate(CCDictionaryHint Hint, CCDictionaryHint FastHints, CCDictionaryHint ModerateHints, CCDictionaryHint SlowHints)
+{
+    const int Size = (int[]){ 10, 1, 100, 0 }[(Hint & CCDictionaryHintSizeMask) >> 30];
+    Hint &= ~CCDictionaryHintSizeMask;
+    
+    FastHints &= Hint;
+    ModerateHints &= Hint;
+    SlowHints &= Hint;
+    
+    return ((int)CCBitCountSet(FastHints) * 10 * Size) + ((int)CCBitCountSet(ModerateHints) * -1 * Size) + ((int)CCBitCountSet(SlowHints) * -100 * Size);
+}
+
+const CCDictionaryInterface CCDictionaryHashMapInterface;
+static CCDictionaryInternalInterfaceNode InternalInterfaces[] = {
+    { .allocator = -1, .data = { .node = { .prev = NULL, .next = NULL }, .interface = &CCDictionaryHashMapInterface } }
+};
+static CCDictionaryInterfaceNode *Interfaces = (void*)InternalInterfaces + offsetof(CCDictionaryInternalInterfaceNode, data);
+void CCDictionaryRegisterInterface(const CCDictionaryInterface *Interface)
+{
+    CCAssertLog(Interface, "Interface must not be null");
+    
+    CCLinkedListNode *Node = CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(CCDictionaryInterface*), &Interface);
+    if (Node)
+    {
+        if (Interfaces)
+        {
+            Interfaces = (CCDictionaryInterfaceNode*)CCLinkedListInsert((CCLinkedList)Interfaces, Node);
+        }
+        
+        else Interfaces = (CCDictionaryInterfaceNode*)Node;
+    }
+    
+    else
+    {
+        CC_LOG_ERROR("Failed to add interface (%p): Failed to allocate memory of size (%zu)", Interface, sizeof(CCDictionaryInterfaceNode));
+    }
+}
+
+void CCDictionaryDeregisterInterface(const CCDictionaryInterface *Interface)
+{
+    for (CCLinkedListNode *Node = (CCLinkedListNode*)Interfaces; Node; Node = CCLinkedListEnumerateNext(Node))
+    {
+        if (((CCDictionaryInterfaceNode*)Node)->interface == Interface)
+        {
+            if (CCLinkedListIsHead(Node))
+            {
+                Interfaces = (CCDictionaryInterfaceNode*)CCLinkedListEnumerateNext(Node);
+            }
+            
+            CCLinkedListDestroyNode(Node);
+            break;
+        }
+    }
+}
+
+CCDictionary CCDictionaryCreate(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, const CCDictionaryCallbacks *Callbacks)
+{
+    int Weight = INT_MIN;
+    const CCDictionaryInterface *BestInterface = NULL;
+    
+    for (CCLinkedListNode *Node = (CCLinkedListNode*)Interfaces; Node; Node = CCLinkedListEnumerateNext(Node))
+    {
+        const int NewWeight = ((CCDictionaryInterfaceNode*)Node)->interface->hintWeight(Hint);
+        if (NewWeight > Weight)
+        {
+            Weight = NewWeight;
+            BestInterface = ((CCDictionaryInterfaceNode*)Node)->interface;
+        }
+    }
+    
+    return CCDictionaryCreateWithImplementation(Allocator, Hint, KeySize, ValueSize, Callbacks, BestInterface);
+}
 
 static void CCDictionaryDestructor(CCDictionary Dictionary)
 {
