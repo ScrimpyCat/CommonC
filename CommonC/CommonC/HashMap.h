@@ -138,6 +138,14 @@ CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
 
 #pragma mark - Query Info
 /*!
+ * @brief Check whether a given entry has been initialized.
+ * @param Map The hashmap containing the entry.
+ * @param Entry The entry reference.
+ * @return TRUE if the entry has been initialized, FALSE if is uninitialized.
+ */
+_Bool CCHashMapEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry);
+
+/*!
  * @brief Find a given key.
  * @description If no key is found, the entry reference will be NULL.
  * @param Map The hashmap to find the key of.

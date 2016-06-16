@@ -134,6 +134,13 @@ uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key)
     return Hash;
 }
 
+_Bool CCHashMapEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    return Map->interface->initialized(Map, Entry);
+}
+
 CCHashMapEntry CCHashMapFindKey(CCHashMap Map, void *Key)
 {
     CCAssertLog(Map, "Map must not be null");

@@ -344,6 +344,14 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertEqual(*(uintmax_t*)CCHashMapGetKey(Map, Entries[5]), 5, @"Should contain the correct the key");
     XCTAssertEqual(CCHashMapGetKey(Map, Entries[6]), NULL, @"Should contain no key");
     
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[0]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[1]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[2]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[3]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[4]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[5]), @"Should be uninitialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[6]), @"Should be uninitialized");
+    
     [self assertKeysInMap: Map OfCount: 5 ShouldEqual: 1 + 2 + 3 + 4 + 5];
     //values are undefined at this point
     
@@ -363,6 +371,14 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 4 }), NULL, @"Should contain a value for the key");
     XCTAssertNotEqual(CCHashMapGetValue(Map, &(uintmax_t){ 5 }), NULL, @"Should contain a value for the key");
     XCTAssertEqual(CCHashMapGetValue(Map, &(uintmax_t){ 6 }), NULL, @"Should not contain a value for the key");
+    
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[0]), @"Should be uninitialized");
+    XCTAssertTrue(CCHashMapEntryIsInitialized(Map, Entries[1]), @"Should be initialized");
+    XCTAssertTrue(CCHashMapEntryIsInitialized(Map, Entries[2]), @"Should be initialized");
+    XCTAssertTrue(CCHashMapEntryIsInitialized(Map, Entries[3]), @"Should be initialized");
+    XCTAssertTrue(CCHashMapEntryIsInitialized(Map, Entries[4]), @"Should be initialized");
+    XCTAssertTrue(CCHashMapEntryIsInitialized(Map, Entries[5]), @"Should be initialized");
+    XCTAssertFalse(CCHashMapEntryIsInitialized(Map, Entries[6]), @"Should be uninitialized");
     
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 1 }), 100, @"Should contain the correct value for the key");
     XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(uintmax_t){ 2 }), 200, @"Should contain the correct value for the key");

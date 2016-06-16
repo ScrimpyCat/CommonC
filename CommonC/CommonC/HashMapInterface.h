@@ -73,7 +73,6 @@ typedef enum {
 /*!
  * @brief A callback to create the internal implementation for the hashmap.
  * @param Allocator The allocator to be used for the creation.
- * @param Hint The hints describing the intended usage of the collection.
  * @param KeySize The size of the keys.
  * @param ValueSize The size of the values.
  * @param BucketCount The number of buckets to be allocated.
@@ -93,6 +92,14 @@ typedef void (*CCHashMapDestructorCallback)(void *Internal);
  * @return The number of entries.
  */
 typedef size_t (*CCHashMapGetCountCallback)(CCHashMap Map);
+
+/*!
+ * @brief A callback to check if an entry has been initialized.
+ * @param Map The hashmap to check the entry of.
+ * @param Entry The entry to check.
+ * @return Whether the entry is initialized or not.
+ */
+typedef _Bool (*CCHashMapEntryIsInitializedCallback)(CCHashMap Map, CCHashMapEntry Entry);
 
 /*!
  * @brief A callback to find a given key.
@@ -230,6 +237,7 @@ typedef struct {
     CCHashMapConstructorCallback create;
     CCHashMapDestructorCallback destroy;
     CCHashMapGetCountCallback count;
+    CCHashMapEntryIsInitializedCallback initialized;
     CCHashMapFindKeyCallback findKey;
     CCHashMapEntryForKeyCallback entryForKey;
     CCHashMapGetKeyCallback getKey;
