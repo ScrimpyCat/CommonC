@@ -89,6 +89,9 @@
 #include <CommonC/HashMapSeparateChainingArrayDataOrientedHash.h>
 #include <CommonC/HashMapSeparateChainingArrayDataOrientedAll.h>
 
+#include <CommonC/Dictionary.h>
+#include <CommonC/DictionaryEnumerator.h>
+
 #include <CommonC/TypeDestructors.h>
 
 #endif
