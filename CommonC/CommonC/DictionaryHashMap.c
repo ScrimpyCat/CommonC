@@ -97,7 +97,7 @@ static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDiction
     CCDictionaryHashMapInterface.enumeratorReference = (CCDictionaryEnumeratorEntryCallback)CCHashMapSeparateChainingArray->enumeratorReference;
     
     size_t BucketCount = 0;
-    switch (Hint & CCDictionaryHintSizeMask)
+    switch ((Hint & CCDictionaryHintSizeMask))
     {
         case CCDictionaryHintSizeSmall:
             BucketCount = BucketSizes[0];

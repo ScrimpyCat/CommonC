@@ -55,7 +55,7 @@ typedef enum {
     ///Collection will have a moderate amount of elements.
     CCCollectionHintSizeMedium = (0 << 30),
     ///Collection will have lots of elements.
-    CCCollectionHintSizeLarge = (2 << 30)
+    CCCollectionHintSizeLarge = (unsigned int)(2 << 30)
 } CCCollectionHint;
 
 /*!

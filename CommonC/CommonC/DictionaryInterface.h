@@ -68,7 +68,7 @@ typedef enum {
     ///Dictionary will have a moderate amount of elements.
     CCDictionaryHintSizeMedium = (0 << 30),
     ///Dictionary will have lots of elements.
-    CCDictionaryHintSizeLarge = (2 << 30)
+    CCDictionaryHintSizeLarge = (unsigned int)(2 << 30)
 } CCDictionaryHint;
 
 /*!
