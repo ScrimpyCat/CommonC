@@ -27,6 +27,9 @@
 #define CommonC_TypeDestructors_h
 
 #include <CommonC/Collection.h>
+#include <CommonC/Dictionary.h>
+
+#pragma mark - Collection Callbacks
 
 extern const CCCollectionElementDestructor CCStringDestructorForCollection;
 extern const CCCollectionElementDestructor CCDataDestructorForCollection;
@@ -34,6 +37,20 @@ extern const CCCollectionElementDestructor CCArrayDestructorForCollection;
 extern const CCCollectionElementDestructor CCLinkedListDestructorForCollection;
 extern const CCCollectionElementDestructor CCCollectionDestructorForCollection;
 extern const CCCollectionElementDestructor CCHashMapDestructorForCollection;
+extern const CCCollectionElementDestructor CCDictionaryDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathDestructorForCollection;
+
+#pragma mark - Dictionary Callbacks
+
+extern const CCDictionaryElementDestructor CCStringDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCDataDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCArrayDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCLinkedListDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCCollectionDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCHashMapDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary;
+extern const CCDictionaryElementDestructor FSPathDestructorForDictionary;
+
+extern const CCDictionaryKeyHasher CCStringHasherForDictionary;
 
 #endif

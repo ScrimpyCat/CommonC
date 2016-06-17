@@ -93,6 +93,6 @@
 #include <CommonC/DictionaryEnumerator.h>
 #include <CommonC/DictionaryHashMap.h>
 
-#include <CommonC/TypeDestructors.h>
+#include <CommonC/TypeCallbacks.h>
 
 #endif

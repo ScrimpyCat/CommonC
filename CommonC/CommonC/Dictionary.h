@@ -34,23 +34,16 @@
 
 
 /*!
- * @brief A callback to handle custom destruction of a key when it is removed from the dictionary.
+ * @brief A callback to handle custom destruction of a key/value when it is removed from the dictionary.
  * @param Dictionary The collection the element is from.
  * @param Element The element being removed.
  */
-typedef void (*CCDictionaryKeyDestructor)(CCDictionary Dictionary, void *Element);
-
-/*!
- * @brief A callback to handle custom destruction of a value when it is removed from the dictionary.
- * @param Dictionary The collection the element is from.
- * @param Element The element being removed.
- */
-typedef void (*CCDictionaryValueDestructor)(CCDictionary Dictionary, void *Element);
+typedef void (*CCDictionaryElementDestructor)(CCDictionary Dictionary, void *Element);
 
 
 typedef struct {
-    CCDictionaryKeyDestructor keyDestructor;
-    CCDictionaryValueDestructor valueDestructor;
+    CCDictionaryElementDestructor keyDestructor;
+    CCDictionaryElementDestructor valueDestructor;
     CCDictionaryKeyHasher getHash;
     CCComparator compareKeys;
 } CCDictionaryCallbacks;
