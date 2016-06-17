@@ -40,6 +40,8 @@ extern const CCCollectionElementDestructor CCHashMapDestructorForCollection;
 extern const CCCollectionElementDestructor CCDictionaryDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathDestructorForCollection;
 
+extern const CCComparator CCStringComparatorForCollection;
+
 #pragma mark - Dictionary Callbacks
 
 extern const CCDictionaryElementDestructor CCStringDestructorForDictionary;
@@ -52,5 +54,7 @@ extern const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary;
 extern const CCDictionaryElementDestructor FSPathDestructorForDictionary;
 
 extern const CCDictionaryKeyHasher CCStringHasherForDictionary;
+
+extern const CCComparator CCStringComparatorForDictionary;
 
 #endif

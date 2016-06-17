@@ -46,6 +46,10 @@ static void CCPathContainerElementDestructor(void *Container, FSPath *Element);
 
 static uintmax_t CCStringHasher(CCString *Key);
 
+#pragma mark Comparators
+
+static CCComparisonResult CCStringComparator(CCString *Left, CCString *Right);
+
 #pragma mark - Collection Callbacks
 #pragma mark Destructors
 
@@ -57,6 +61,10 @@ const CCCollectionElementDestructor CCCollectionDestructorForCollection = (CCCol
 const CCCollectionElementDestructor CCHashMapDestructorForCollection = (CCCollectionElementDestructor)CCHashMapContainerElementDestructor;
 const CCCollectionElementDestructor CCDictionaryDestructorForCollection = (CCCollectionElementDestructor)CCDictionaryContainerElementDestructor;
 const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)CCPathContainerElementDestructor;
+
+#pragma mark Comparators
+
+const CCComparator CCStringComparatorForCollection = (CCComparator)CCStringComparator;
 
 #pragma mark - Dictionary Callbacks
 #pragma mark Destructors
@@ -73,6 +81,10 @@ const CCDictionaryElementDestructor FSPathDestructorForDictionary = (CCDictionar
 #pragma mark Hashers
 
 const CCDictionaryKeyHasher CCStringHasherForDictionary = (CCDictionaryKeyHasher)CCStringHasher;
+
+#pragma mark Comparators
+
+const CCComparator CCStringComparatorForDictionary = (CCComparator)CCStringComparator;
 
 #pragma mark -
 
@@ -119,4 +131,9 @@ static void CCPathContainerElementDestructor(void *Container, FSPath *Element)
 static uintmax_t CCStringHasher(CCString *Key)
 {
     return CCStringGetHash(*Key);
+}
+
+static CCComparisonResult CCStringComparator(CCString *Left, CCString *Right)
+{
+    return CCStringEqual(*Left, *Right) ? CCComparisonResultEqual : CCComparisonResultInvalid;
 }
