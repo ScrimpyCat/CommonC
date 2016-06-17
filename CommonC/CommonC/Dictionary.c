@@ -211,19 +211,27 @@ void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    CCDictionaryEntry Entry = CCDictionaryEntryForKey(Dictionary, Key);
-    
-    CCAssertLog(Entry, "Implementation must return a valid entry");
-    
-    CCDictionarySetEntry(Dictionary, Entry, Value);
+    if (Dictionary->interface->optional.setValue) Dictionary->interface->optional.setValue(Dictionary->internal, Key, Value, Dictionary->keySize, Dictionary->valueSize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
+    else
+    {
+        CCDictionaryEntry Entry = CCDictionaryEntryForKey(Dictionary, Key);
+        
+        CCAssertLog(Entry, "Implementation must return a valid entry");
+        
+        CCDictionarySetEntry(Dictionary, Entry, Value);
+    }
 }
 
 void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    CCDictionaryEntry Entry = CCDictionaryFindKey(Dictionary, Key);
-    CCDictionaryRemoveEntry(Dictionary, Entry);
+    if (Dictionary->interface->optional.removeValue) Dictionary->interface->optional.removeValue(Dictionary->internal, Key, Dictionary->keySize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
+    else
+    {
+        CCDictionaryEntry Entry = CCDictionaryFindKey(Dictionary, Key);
+        CCDictionaryRemoveEntry(Dictionary, Entry);
+    }
 }
 
 CCDictionaryEntry CCDictionaryEntryForKey(CCDictionary Dictionary, void *Key)
@@ -262,7 +270,8 @@ void *CCDictionaryGetValue(CCDictionary Dictionary, void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    return CCDictionaryGetEntry(Dictionary, CCDictionaryFindKey(Dictionary, Key));
+    if (Dictionary->interface->optional.getValue) return Dictionary->interface->optional.getValue(Dictionary->internal, Key, Dictionary->keySize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys);
+    else return CCDictionaryGetEntry(Dictionary, CCDictionaryFindKey(Dictionary, Key));
 }
 
 void *CCDictionaryGetKey(CCDictionary Dictionary, CCDictionaryEntry Entry)

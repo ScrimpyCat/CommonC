@@ -242,6 +242,54 @@ typedef CCDictionaryEntry (*CCDictionaryEnumeratorEntryCallback)(void *Internal,
 #pragma mark - Optional Callbacks
 
 /*!
+ * @brief An optional callback to get the value of a given key.
+ * @param Internal The pointer to the internal of the dictionary.
+ * @param Key The pointer to the key to be used to get the value for.
+ * @param KeySize The size of the key.
+ * @param Hasher The hashing function to be used to generate a hash for a given key. If
+ *        NULL, the implementation will use some default hashing behaviour.
+ *
+ * @param KeyComparator The key comparison function to be used to determine if two keys
+ *        match. If NULL, the implementation will use some default comparison behaviour.
+ *
+ * @return The pointer to the value.
+ */
+typedef void *(*CCDictionaryGetValueCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
+
+/*!
+ * @brief An optional callback to set the value at a given key.
+ * @param Internal The pointer to the internal of the dictionary.
+ * @param Key The pointer to the key to be used to set the value of.
+ * @param Value The pointer to the value to be copied to the map.
+ * @param KeySize The size of the key.
+ * @param ValueSize The size of the value.
+ * @param Hasher The hashing function to be used to generate a hash for a given key. If
+ *        NULL, the implementation will use some default hashing behaviour.
+ *
+ * @param KeyComparator The key comparison function to be used to determine if two keys
+ *        match. If NULL, the implementation will use some default comparison behaviour.
+ *
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCDictionarySetValueCallback)(void *Internal, void *Key, void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+
+/*!
+ * @brief An optional callback to remove the value at a given key.
+ * @description The entry point for this value will no longer be valid.
+ * @param Internal The pointer to the internal of the dictionary.
+ * @param Key The pointer to the key to be used to remove the value of.
+ * @param KeySize The size of the key.
+ * @param Hasher The hashing function to be used to generate a hash for a given key. If
+ *        NULL, the implementation will use some default hashing behaviour.
+ *
+ * @param KeyComparator The key comparison function to be used to determine if two keys
+ *        match. If NULL, the implementation will use some default comparison behaviour.
+ *
+ * @param Allocator The allocator to be used for any internal allocation needed.
+ */
+typedef void (*CCDictionaryRemoveValueCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+
+/*!
  * @brief An optional callback to retrieve the keys in the dictionary.
  * @description Must produce the same order (corresponding pairs) when calling @b CCDictionaryGetValues
  *              if no mutation occurs in-between the two calls.
@@ -286,6 +334,9 @@ typedef struct {
     CCDictionaryEnumeratorCallback enumerator;
     CCDictionaryEnumeratorEntryCallback enumeratorReference;
     struct {
+        CCDictionaryGetValueCallback getValue;
+        CCDictionarySetValueCallback setValue;
+        CCDictionaryRemoveValueCallback removeValue;
         CCDictionaryGetKeysCallback keys;
         CCDictionaryGetValuesCallback values;
     } optional;
