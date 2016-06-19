@@ -38,6 +38,36 @@
  */
 #define CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 1
 
+/*
+ CC_STRING_TAGGED_HASH_CACHE allows for the hashes of tagged strings to be cached.
+ */
+#define CC_STRING_TAGGED_HASH_CACHE 1
+
+#if CC_STRING_TAGGED_HASH_CACHE
+#include "Dictionary.h"
+
+#if defined(__has_include)
+
+#if __has_include(<stdatomic.h>)
+#define CC_STRING_USING_STDATOMIC 1
+#include <stdatomic.h>
+#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#define CC_STRING_USING_OSATOMIC 1
+#include <libkern/OSAtomic.h>
+#else
+#undef CC_STRING_TAGGED_HASH_CACHE
+#define CC_STRING_TAGGED_HASH_CACHE 0
+#endif
+
+#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
+#define CC_STRING_USING_OSATOMIC 1
+#include <libkern/OSAtomic.h>
+#else
+#define CC_STRING_USING_STDATOMIC 1
+#include <stdatomic.h>
+#endif
+#endif
+
 typedef struct {
     CCStringHint hint;
     uint32_t hash;
@@ -867,11 +897,67 @@ size_t CCStringGetLength(CCString String)
     }
 }
 
+#if CC_STRING_TAGGED_HASH_CACHE
+static CCDictionary TaggedHashCache = NULL;
+
+#if CC_STRING_USING_STDATOMIC
+static _Atomic(int32_t) HashCacheLock = 0;
+#else
+static int32_t HashCacheLock = 0;
+#endif
+#endif
+
 uint32_t CCStringGetHash(CCString String)
 {
     CCAssertLog(String, "String must not be null");
     
+#if CC_STRING_TAGGED_HASH_CACHE
+    _Bool StoreCompute = FALSE;
+#endif
     if ((!CCStringIsTagged(String)) && (((CCStringInfo*)String)->hint & CCStringMarkHash)) return ((CCStringInfo*)String)->hash;
+#if CC_STRING_TAGGED_HASH_CACHE
+    else if (CCStringIsTagged(String))
+    {
+        if (TaggedHashCache)
+        {
+            int32_t Expected = HashCacheLock;
+            if (Expected >= 0)
+            {
+#if CC_STRING_USING_STDATOMIC
+                Expected = atomic_fetch_add_explicit(&HashCacheLock, 1, memory_order_acquire);
+#elif CC_STRING_USING_OSATOMIC
+                Expected = OSAtomicIncrement32Barrier(&HashCacheLock);
+#endif
+                if (Expected >= 0)
+                {
+                    uint32_t *Hash = CCDictionaryGetValue(TaggedHashCache, &String);
+                    
+#if CC_STRING_USING_STDATOMIC
+                    atomic_fetch_sub_explicit(&HashCacheLock, 1, memory_order_release);
+#elif CC_STRING_USING_OSATOMIC
+                    OSAtomicDecrement32(&HashCacheLock);
+#endif
+                    
+                    if (Hash) return *Hash;
+                    
+                    StoreCompute = TRUE;
+                }
+                
+                else
+                {
+#if CC_STRING_USING_STDATOMIC
+                    atomic_fetch_sub_explicit(&HashCacheLock, 1, memory_order_release);
+#elif CC_STRING_USING_OSATOMIC
+                    OSAtomicDecrement32(&HashCacheLock);
+#endif
+                    StoreCompute = FALSE;
+                }
+            }
+        }
+        
+        else StoreCompute = TRUE;
+    }
+#endif
     
     uint32_t Hash = 0;
     
@@ -900,6 +986,28 @@ uint32_t CCStringGetHash(CCString String)
         ((CCStringInfo*)String)->hash = Hash;
         ((CCStringInfo*)String)->hint |= CCStringMarkHash;
     }
+    
+#if CC_STRING_TAGGED_HASH_CACHE
+    else if (StoreCompute)
+    {
+#if CC_STRING_USING_STDATOMIC
+        if (atomic_compare_exchange_weak_explicit(&HashCacheLock, &(int32_t){ 0 }, INT32_MIN, memory_order_acq_rel, memory_order_relaxed))
+#elif CC_STRING_USING_OSATOMIC
+        if (OSAtomicCompareAndSwap32Barrier(0, INT32_MIN, &HashCacheLock))
+#endif
+        {
+            if (!TaggedHashCache) TaggedHashCache = CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(uint32_t), NULL);
+            
+            CCDictionarySetValue(TaggedHashCache, &String, &Hash);
+            
+#if CC_STRING_USING_STDATOMIC
+            while (!atomic_compare_exchange_weak_explicit(&HashCacheLock, &(int32_t){ INT32_MIN }, 0, memory_order_acq_rel, memory_order_relaxed));
+#elif CC_STRING_USING_OSATOMIC
+            while (!OSAtomicCompareAndSwap32Barrier(INT32_MIN, 0, &HashCacheLock));
+#endif
+        }
+    }
+#endif
     
     return Hash;
 }
