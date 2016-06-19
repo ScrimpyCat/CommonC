@@ -1003,7 +1003,8 @@ uint32_t CCStringGetHash(CCString String)
 #if CC_STRING_USING_STDATOMIC
             while (!atomic_compare_exchange_weak_explicit(&HashCacheLock, &(int32_t){ INT32_MIN }, 0, memory_order_acq_rel, memory_order_relaxed));
 #elif CC_STRING_USING_OSATOMIC
-            while (!OSAtomicCompareAndSwap32Barrier(INT32_MIN, 0, &HashCacheLock));
+            OSMemoryBarrier();
+            while (!OSAtomicCompareAndSwap32(INT32_MIN, 0, &HashCacheLock));
 #endif
         }
     }
