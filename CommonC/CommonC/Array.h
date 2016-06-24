@@ -117,10 +117,17 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
  *              a worst case of O(n).
  *
  * @warning Index must not be out of bounds
- * @param Array The array to replace an element of.
+ * @param Array The array to remove an element from.
  * @param Index The position in the array for the element to be removed from.
  */
 void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index);
+
+/*!
+ * @brief Removes all elements from the array.
+ * @description Sets the arrays count to 0.
+ * @param Array The array to remove all elements from.
+ */
+void CCArrayRemoveAllElements(CCArray Array);
 
 
 #pragma mark - Query Info

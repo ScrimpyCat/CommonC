@@ -119,3 +119,10 @@ void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index)
     
     memmove(Array->data + (Index * Array->size), Array->data + ((Index + 1) * Array->size), (Array->count-- - (Index + 1)) * Array->size);
 }
+
+void CCArrayRemoveAllElements(CCArray Array)
+{
+    CCAssertLog(Array, "Array must not be null");
+    
+    Array->count = 0;
+}
