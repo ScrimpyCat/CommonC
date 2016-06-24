@@ -130,8 +130,8 @@
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
-		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; };
-		F342052E1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; };
+		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F342052E1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34205301D1CF0BE00BE2E13 /* CollectionFastArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */; };
 		F34219141D09B21500FDBC8A /* HashMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F34219131D09B21500FDBC8A /* HashMapTests.m */; };
 		F34219161D0C265A00FDBC8A /* HashMapInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F34219151D0C13E400FDBC8A /* HashMapInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };

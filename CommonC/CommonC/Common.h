@@ -69,6 +69,7 @@
 #include <CommonC/CollectionEnumerator.h>
 #include <CommonC/CollectionArray.h>
 #include <CommonC/CollectionList.h>
+#include <CommonC/CollectionFastArray.h>
 
 #include <CommonC/PathComponent.h>
 #include <CommonC/Path.h>
