@@ -124,4 +124,36 @@
 #define CC_NON_TEMPORAL_STORE(value, addr) *(addr) = value
 #endif
 
+
+/*!
+ * @define CC_SPIN_WAIT
+ * @brief Attempts to optimize a spin-wait loop (or similarly tightly contested high CPU waste situations).
+ * @description PAUSE instruction on X86 architectures supporting SSE2 handles this particular case. ARM
+ *              provides the YIELD instruction however the better approach would be to structure a spinlock
+ *              using the wait-for-event behaviour (WFE and SEV).
+ */
+#if CC_HARDWARE_ARCH_X86 || CC_HARDWARE_ARCH_X86_64
+
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+#include <emmintrin.h>
+
+#define CC_SPIN_WAIT() _mm_pause()
+#endif
+
+#elif CC_HARDWARE_ARCH_ARM || CC_HARDWARE_ARCH_ARM_64
+
+#ifndef __ARM_ACLE
+#warning Yield will be a no-op as ACLE intrinsics support not enabled.
+#else
+#include <arm_acle.h>
+
+#define CC_SPIN_WAIT() __yield()
+#endif
+
+#endif
+
+#ifndef CC_SPIN_WAIT
+#define CC_SPIN_WAIT()
+#endif
+
 #endif
