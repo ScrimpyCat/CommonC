@@ -107,4 +107,21 @@
 #define CC_NOESCAPE
 #endif
 
+
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+
+#if __has_builtin(__builtin_nontemporal_load)
+#define CC_NON_TEMPORAL_LOAD(addr) __builtin_nontemporal_load(addr)
+#else
+#define CC_NON_TEMPORAL_LOAD(addr) *(addr)
+#endif
+
+#if __has_builtin(__builtin_nontemporal_store)
+#define CC_NON_TEMPORAL_STORE(value, addr) __builtin_nontemporal_store(value, addr)
+#else
+#define CC_NON_TEMPORAL_STORE(value, addr) *(addr) = value
+#endif
+
 #endif
