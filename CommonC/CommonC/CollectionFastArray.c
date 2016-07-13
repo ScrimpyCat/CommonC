@@ -26,6 +26,8 @@
 #include "CollectionFastArray.h"
 #include "Array.h"
 #include "MemoryAllocation.h"
+#include "Collection.h"
+#include "CollectionEnumerator.h"
 
 
 static int CCCollectionFastArrayHintWeight(CCCollectionHint Hint);
@@ -36,6 +38,7 @@ static void *CCCollectionFastArrayElement(CCArray Internal, CCCollectionEntry En
 static void *CCCollectionFastArrayEnumerator(CCArray Internal, CCEnumeratorState *Enumerator, CCCollectionEnumeratorAction Action);
 static CCCollectionEntry CCCollectionFastArrayEnumeratorEntry(CCArray Internal, CCEnumeratorState *Enumerator);
 static void CCCollectionFastArrayRemoveAll(CCArray Internal, CCAllocatorType Allocator);
+static void CCCollectionFastArrayRemoveCollection(CCArray Internal, CCCollection Entries, CCAllocatorType Allocator);
 
 static CCCollectionEntry ConvertIndexToEntry(CCArray Internal, size_t Index);
 static size_t ConvertEntryToIndex(CCArray Internal, CCCollectionEntry Entry);
@@ -70,7 +73,8 @@ const CCCollectionInterface CCCollectionFastArrayInterface = {
     .enumeratorReference = (CCCollectionEnumeratorEntryCallback)CCCollectionFastArrayEnumeratorEntry,
     .optional = {
         .ordered = &CCOrderedCollectionFastArrayInterface,
-        .removeAll = (CCCollectionRemoveAllCallback)CCCollectionFastArrayRemoveAll
+        .removeAll = (CCCollectionRemoveAllCallback)CCCollectionFastArrayRemoveAll,
+        .removeCollection = (CCCollectionRemoveCollectionCallback)CCCollectionFastArrayRemoveCollection
     }
 };
 
@@ -175,6 +179,18 @@ static CCCollectionEntry CCCollectionFastArrayEnumeratorEntry(CCArray Internal, 
 static void CCCollectionFastArrayRemoveAll(CCArray Internal, CCAllocatorType Allocator)
 {
     CCArrayRemoveAllElements(Internal);
+}
+
+static void CCCollectionFastArrayRemoveCollection(CCArray Internal, CCCollection Entries, CCAllocatorType Allocator)
+{
+    //TODO: Sort entries
+    CCEnumerator Enumerator;
+    CCCollectionGetEnumerator(Entries, &Enumerator);
+    
+    for (CCCollectionEntry *Entry = CCCollectionEnumeratorGetTail(&Enumerator); Entry; Entry = CCCollectionEnumeratorPrevious(&Enumerator))
+    {
+        CCArrayRemoveElementAtIndex(Internal, (size_t)*Entry - 1);
+    }
 }
 
 static CCCollectionEntry CCOrderedCollectionFastArrayInsert(CCArray Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize)
