@@ -303,6 +303,21 @@
     XCTAssertTrue(CCStringEqual(String, CC_STRING("ab1a1")), @"Should create the correct string");
     
     CCStringDestroy(String);
+    
+    
+    CCOrderedCollection Occurrences = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), NULL);
+    CCOrderedCollection Replacements = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), NULL);
+    
+    CCOrderedCollectionAppendElement(Occurrences, &(CCString){ CC_STRING("aa") });
+    CCOrderedCollectionAppendElement(Occurrences, &(CCString){ CC_STRING("ab") });
+    
+    CCOrderedCollectionAppendElement(Replacements, &(CCString){ CC_STRING("a") });
+    CCOrderedCollectionAppendElement(Replacements, &(CCString){ CC_STRING("1") });
+    String = CCStringCreateByReplacingOccurrencesOfGroupedEntries(CC_STRING("aababaaab"), Occurrences, Replacements);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("ab1a1")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
 }
 
 -(void) testRemoval

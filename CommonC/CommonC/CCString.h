@@ -31,6 +31,7 @@
 #include <CommonC/Enumerator.h>
 #include <CommonC/Platform.h>
 #include <CommonC/MemoryAllocation.h>
+#include <CommonC/OrderedCollection.h>
 
 #if CC_HARDWARE_PTR_64
 #define CC_STRING_HEADER "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -213,9 +214,27 @@ CC_NEW CCString CCStringCreateByReplacingOccurrencesOfString(CCString String, CC
  *        index of the occurrence. In-place of a string, NULL can be used if no characters are to be
  *        inserted for given occurrence.
  *
+ * @param Count The amount of items in the list.
+ *
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
 CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, CCString *Replacements, size_t Count);
+
+/*!
+ * @brief Create a string by replacing occurrences of a strings with other strings.
+ * @description Similar to @b CCStringCreateByReplacingOccurrencesOfString with the exception that the
+ *              comparisons are grouped. So out of the list of potential occurrences, the closest one is
+ *              used, and then skips over the replacement and looks for the next occurrence.
+ *
+ * @param String The string to be replaced.
+ * @param Occurrences The list of strings to find.
+ * @param Replacements The list of strings to be replaced with, index of the string should match with the
+ *        index of the occurrence. In-place of a string, NULL can be used if no characters are to be
+ *        inserted for given occurrence.
+ *
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences, CCOrderedCollection Replacements);
 
 /*!
  * @brief Copy a string.

@@ -30,6 +30,7 @@
 #include <string.h>
 #include "CCStringEnumerator.h"
 #include "BitTricks.h"
+#include "CollectionEnumerator.h"
 
 /* 
  CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 makes the guarantee that a nul char will be represented by 0 in the tagged strings.
@@ -523,6 +524,69 @@ CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString String, C
             NewString = Temp;
             
             ReplacementLength = CCStringGetLength(Replacements[Found]);
+        }
+        
+        else ReplacementLength = 0;
+    }
+    
+    return NewString;
+}
+
+static size_t CCStringFindClosestSubstringFromCollection(CCString String, size_t Index, CCOrderedCollection Substrings, CCCollectionEntry *Found)
+{
+    size_t SmallestIndex = SIZE_MAX;
+    CC_COLLECTION_FOREACH(CCString, Substring, Substrings)
+    {
+        size_t TempIndex = CCStringFindSubstring(String, Index, Substring);
+        if (TempIndex < SmallestIndex)
+        {
+            SmallestIndex = TempIndex;
+            *Found = CCCollectionEnumeratorGetEntry(&CC_COLLECTION_CURRENT_ENUMERATOR);
+        }
+    }
+    
+    return SmallestIndex;
+}
+
+CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences, CCOrderedCollection Replacements)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrences, "Occurrence must not be null");
+    CCAssertLog(Replacements, "Replacements must not be null");
+    CCAssertLog(CCCollectionGetCount(Occurrences) == CCCollectionGetCount(Replacements), "Occurrences and replacements must be the same size");
+    
+    CCCollectionEntry Found;
+    size_t Index = CCStringFindClosestSubstringFromCollection(String, 0, Occurrences, &Found);
+    if (Index == SIZE_MAX) return CCStringCopy(String);
+    //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
+    size_t ReplacementLength = 0;
+    
+    CCString NewString = CCStringCreateWithoutRange(String, Index, CCStringGetLength( *(CCString*)CCCollectionGetElement(Occurrences, Found)));
+    
+    CCString Replacement = *(CCString*)CCOrderedCollectionGetElementAtIndex(Replacements, CCOrderedCollectionGetIndex(Occurrences, Found));
+    if (Replacement)
+    {
+        CCString Temp = CCStringCreateByInsertingString(NewString, Index, Replacement);
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        ReplacementLength = CCStringGetLength(Replacement);
+    }
+    
+    for (size_t StringLength = CCStringGetLength(NewString); ((Index + ReplacementLength) < StringLength) && ((Index = CCStringFindClosestSubstringFromCollection(NewString, Index + ReplacementLength, Occurrences, &Found)) != SIZE_MAX); StringLength = CCStringGetLength(NewString))
+    {
+        CCString Temp = CCStringCreateWithoutRange(NewString, Index, CCStringGetLength(*(CCString*)CCCollectionGetElement(Occurrences, Found)));
+        CCStringDestroy(NewString);
+        NewString = Temp;
+        
+        Replacement = *(CCString*)CCOrderedCollectionGetElementAtIndex(Replacements, CCOrderedCollectionGetIndex(Occurrences, Found));
+        if (Replacement)
+        {
+            Temp = CCStringCreateByInsertingString(NewString, Index, Replacement);
+            CCStringDestroy(NewString);
+            NewString = Temp;
+            
+            ReplacementLength = CCStringGetLength(Replacement);
         }
         
         else ReplacementLength = 0;
