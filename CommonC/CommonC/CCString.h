@@ -237,6 +237,17 @@ CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString St
 CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences, CCOrderedCollection Replacements);
 
 /*!
+ * @brief Create a string by concatenating the list of strings, with an optional separator.
+ * @param Strings The list of strings to be concatenated.
+ * @param Count The amount of strings in the list.
+ * @param Separator The string to be included inbetween each concatenated string, or NULL when no
+ *        separator should be included.
+ *
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, CCString Separator);
+
+/*!
  * @brief Copy a string.
  * @param String The string to be copied.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.

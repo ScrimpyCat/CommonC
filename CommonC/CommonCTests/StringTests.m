@@ -171,6 +171,68 @@
     CCStringRegisterMap(Encoding[0], Maps[0], CCStringMapSet127);
 }
 
+-(void) testJoining
+{
+    CCString String = CCStringCreateByJoiningStrings((CCString[]){
+        CC_STRING("1"),
+        CC_STRING("2"),
+        CC_STRING("3")
+    }, 3, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("123")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        CC_STRING("1"),
+        CC_STRING("2"),
+        CC_STRING("3")
+    }, 3, CC_STRING(","));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("1,2,3")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        CC_STRING("123"),
+        CC_STRING("456"),
+        CC_STRING("789")
+    }, 3, CC_STRING("---"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("123---456---789")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        CC_STRING("123"),
+        CC_STRING("456"),
+        CC_STRING("789")
+    }, 3, CC_STRING("😀"));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("123😀456😀789")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "123");
+    CCString Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "456");
+    CCString Separator = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, " ");
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        Str,
+        Str2
+    }, 2, Separator);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("123 456")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Separator);
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+}
+
 -(void) testReplacement
 {
     CCString String = CCStringCreateByReplacingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"), 0);

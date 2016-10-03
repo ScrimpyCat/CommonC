@@ -595,6 +595,43 @@ CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, C
     return NewString;
 }
 
+CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, CCString Separator)
+{
+    CCAssertLog(Strings, "Strings must not be null");
+    
+    //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
+    CCString NewString = 0;
+    if (Count > 0)
+    {
+        NewString = CCStringCopy(Strings[0]);
+        if (!Separator)
+        {
+            for (size_t Loop = 1; Loop < Count; Loop++)
+            {
+                CCString Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), Strings[Loop]);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+            }
+        }
+        
+        else
+        {
+            for (size_t Loop = 1; Loop < Count; Loop++)
+            {
+                CCString Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), Separator);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+                
+                Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), Strings[Loop]);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+            }
+        }
+    }
+    
+    return NewString;
+}
+
 CCString CCStringCopy(CCString String)
 {
     CCAssertLog(String, "String must not be null");
