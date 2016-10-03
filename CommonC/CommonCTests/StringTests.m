@@ -231,6 +231,27 @@
     CCStringDestroy(Separator);
     CCStringDestroy(Str);
     CCStringDestroy(Str2);
+    
+    
+    CCOrderedCollection Strings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), NULL);
+    
+    CCOrderedCollectionAppendElement(Strings, &(CCString){ CC_STRING("1") });
+    CCOrderedCollectionAppendElement(Strings, &(CCString){ CC_STRING("2") });
+    CCOrderedCollectionAppendElement(Strings, &(CCString){ CC_STRING("3") });
+    
+    String = CCStringCreateByJoiningEntries(Strings, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("123")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateByJoiningEntries(Strings, CC_STRING(","));
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("1,2,3")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCCollectionDestroy(Strings);
 }
 
 -(void) testReplacement
@@ -380,6 +401,8 @@
     XCTAssertTrue(CCStringEqual(String, CC_STRING("ab1a1")), @"Should create the correct string");
     
     CCStringDestroy(String);
+    CCCollectionDestroy(Replacements);
+    CCCollectionDestroy(Occurrences);
 }
 
 -(void) testRemoval

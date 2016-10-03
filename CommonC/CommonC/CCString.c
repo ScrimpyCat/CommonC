@@ -632,6 +632,48 @@ CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, CCStrin
     return NewString;
 }
 
+CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Separator)
+{
+    CCAssertLog(Strings, "Strings must not be null");
+    
+    //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
+    CCString NewString = 0;
+    
+    CCEnumerator Enumerator;
+    CCCollectionGetEnumerator(Strings, &Enumerator);
+    
+    CCString *String = CCCollectionEnumeratorGetCurrent(&Enumerator);
+    if (String)
+    {
+        NewString = CCStringCopy(*String);
+        if (!Separator)
+        {
+            while ((String = CCCollectionEnumeratorNext(&Enumerator)))
+            {
+                CCString Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), *String);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+            }
+        }
+        
+        else
+        {
+            while ((String = CCCollectionEnumeratorNext(&Enumerator)))
+            {
+                CCString Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), Separator);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+                
+                Temp = CCStringCreateByInsertingString(NewString, CCStringGetLength(NewString), *String);
+                CCStringDestroy(NewString);
+                NewString = Temp;
+            }
+        }
+    }
+    
+    return NewString;
+}
+
 CCString CCStringCopy(CCString String)
 {
     CCAssertLog(String, "String must not be null");
