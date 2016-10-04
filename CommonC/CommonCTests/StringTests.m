@@ -26,6 +26,7 @@
 #import <XCTest/XCTest.h>
 #import "CCString.h"
 #import "CCStringEnumerator.h"
+#import "TypeCallbacks.h"
 
 @interface StringTests : XCTestCase
 
@@ -233,6 +234,48 @@
     CCStringDestroy(Str2);
     
     
+    Str = CC_STRING("example!!!!!!");
+    Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "!");
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        Str,
+        Str2
+    }, 2, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("example!!!!!!!")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "example!!!!!!");
+    Str2 = CC_STRING("!");
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        Str,
+        Str2
+    }, 2, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("example!!!!!!!")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "example!!!!!!");
+    Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "!");
+    String = CCStringCreateByJoiningStrings((CCString[]){
+        Str,
+        Str2
+    }, 2, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("example!!!!!!!")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+    
+    
     CCOrderedCollection Strings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), NULL);
     
     CCOrderedCollectionAppendElement(Strings, &(CCString){ CC_STRING("1") });
@@ -249,6 +292,19 @@
     String = CCStringCreateByJoiningEntries(Strings, CC_STRING(","));
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("1,2,3")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCOrderedCollectionAppendElement(Strings, &(CCString){ CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "example!!!!!!") });
+    CCOrderedCollectionAppendElement(Strings, &(CCString){ CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "!") });
+    
+    String = CCStringCreateByJoiningEntries(Strings, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("example!!!!!!!")), @"Should create the correct string");
     
     CCStringDestroy(String);
     CCCollectionDestroy(Strings);
