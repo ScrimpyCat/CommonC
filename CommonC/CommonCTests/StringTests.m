@@ -470,6 +470,13 @@
     CCStringDestroy(String);
     
     
+    String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 6);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
     String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 0);
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("012345")), @"Should create the correct string");
@@ -1035,6 +1042,9 @@
     
     
     CCStringDestroy(s1);
+    
+    
+    XCTAssertTrue(CCStringEqual(CC_STRING(""), CC_STRING("")), @"Should be equal");
 }
 
 -(void) testEnumerating

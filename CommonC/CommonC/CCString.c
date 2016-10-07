@@ -1378,7 +1378,7 @@ CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStri
                 
             case CCStringEnumeratorActionNext:
             {
-                if (Enumerator->internal.extra[0] >= (CCStringGetLength(String) - 1))
+                if ((Enumerator->internal.extra[0] + 1) >= CCStringGetLength(String))
                 {
                     Enumerator->internal.extra[0] = SIZE_MAX;
                     Enumerator->internal.extra[1] = 0;
@@ -1472,7 +1472,7 @@ CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStri
                     
                 case CCStringEnumeratorActionNext:
                 {
-                    if (Enumerator->internal.extra[0] >= (CCStringGetLength(String) - 1))
+                    if ((Enumerator->internal.extra[0] + 1) >= CCStringGetLength(String))
                     {
                         Enumerator->internal.extra[0] = SIZE_MAX;
                         Enumerator->internal.extra[1] = 0;
