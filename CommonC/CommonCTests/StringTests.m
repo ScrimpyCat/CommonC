@@ -534,6 +534,14 @@
     CCStringDestroy(String);
     
     
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    String = CCStringCreateWithoutRange(Str, 0, 6);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
     String = CCStringCreateWithoutRange(Str, 1, 3);
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("045")), @"Should create the correct string");
@@ -785,6 +793,39 @@
     CCStringDestroy(Result);
     
     CCStringDestroy(String);
+    
+    
+    
+    Result = CCStringCopySubstring(CC_STRING("123"), 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(CC_STRING(""), Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Result);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "123");
+    Result = CCStringCopySubstring(Str, 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(CC_STRING(""), Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Result);
+    CCStringDestroy(Str);
+    
+    
+    Result = CCStringCopySubstring(CC_STRING("1234567890abcdefghijklmnopqrstuvwxyz"), 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(CC_STRING(""), Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Result);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "1234567890abcdefghijklmnopqrstuvwxyz");
+    Result = CCStringCopySubstring(Str, 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(CC_STRING(""), Result), @"Should create the correct substring");
+    
+    CCStringDestroy(Result);
+    CCStringDestroy(Str);
 }
 
 -(void) testConstantString

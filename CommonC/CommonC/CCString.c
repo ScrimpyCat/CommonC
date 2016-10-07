@@ -695,7 +695,7 @@ CCString CCStringCopySubstring(CCString String, size_t Offset, size_t Length)
         const CCStringMapSet Set = String & CCStringTaggedMask;
         const size_t Bits = CCStringTaggedBitSize(Set);
         
-        return ((((String >> 2) & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Length * Bits))) << (Offset * Bits))) >> (Offset * Bits)) << 2) | Set;
+        return (Length ? ((((String >> 2) & ((UINTPTR_MAX >> ((sizeof(CCString) * 8) - (Length * Bits))) << (Offset * Bits))) >> (Offset * Bits)) << 2) : 0) | Set;
     }
     
     const char *Buffer = CCStringGetBuffer(String);
