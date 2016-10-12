@@ -293,6 +293,8 @@ static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSep
     if (Internal->hashes) BucketDestroy(Internal->hashes);
     if (Internal->keys) BucketDestroy(Internal->keys);
     if (Internal->values) BucketDestroy(Internal->values);
+    
+    CC_SAFE_Free(Internal);
 }
 
 static size_t CCHashMapSeparateChainingArrayDataOrientedAllGetCount(CCHashMap Map)

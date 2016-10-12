@@ -294,6 +294,8 @@ static void BucketDestroy(CCArray Buckets)
 static void CCHashMapSeparateChainingArrayDestructor(CCHashMapSeparateChainingArrayInternal *Internal)
 {
     if (Internal->buckets) BucketDestroy(Internal->buckets);
+    
+    CC_SAFE_Free(Internal);
 }
 
 static size_t CCHashMapSeparateChainingArrayGetCount(CCHashMap Map)
