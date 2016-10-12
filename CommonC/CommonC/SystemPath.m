@@ -259,6 +259,9 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
                     Match = FSPathMatch(Path, PathMatch, MatchOptions);
                     
                     if (Match) break;
+                    
+                    FSPathDestroy(Path);
+                    Path = NULL;
                 }
             }
             
