@@ -25,6 +25,7 @@
 
 #include "DataBuffer.h"
 #include "MemoryAllocation.h"
+#include "Assertion.h"
 
 
 typedef struct {
@@ -75,11 +76,14 @@ CCData CCDataBufferCreate(CCAllocatorType Allocator, CCDataBufferHint Hint, size
 
 static void *CCDataBufferConstructor(CCAllocatorType Allocator, CCDataBufferHint Hint, CCDataBufferInit *Data)
 {
+    CCAssertLog(Data, "Init data cannot be null");
+    CCAssertLog(Data->buffer, "Buffer cannot be null");
+    
     CCDataBufferInternal *Internal = CCMalloc(Allocator, sizeof(CCDataBufferInternal), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Internal)
     {
         void *Buffer = (void*)Data->buffer;
-        if (Hint & CCDataBufferHintCopy)
+        if ((Hint & CCDataBufferHintCopy) == CCDataBufferHintCopy)
         {
             Buffer = CCMalloc(Allocator, Data->size, NULL, CC_DEFAULT_ERROR_CALLBACK);
             if (!Buffer)
@@ -88,7 +92,7 @@ static void *CCDataBufferConstructor(CCAllocatorType Allocator, CCDataBufferHint
                 return NULL;
             }
             
-            if (Data->buffer) memcpy(Buffer, Data->buffer, Data->size);
+            memcpy(Buffer, Data->buffer, Data->size);
         }
         
         *Internal = (CCDataBufferInternal){

@@ -60,7 +60,7 @@ extern const CCDataInterface * const CCDataBuffer;
  *        Otherwise will just hold a weak reference to the input @p Buffer.
  *
  * @param Size The size of the @p Buffer.
- * @param Buffer The buffer to be stored in the container. See @p Hint for behaviour.
+ * @param Buffer The buffer to be stored in the container, must not be NULL. See @p Hint for behaviour.
  * @param Hash An optional hashing function to be performed instead of the default for the internal
  *        implementation.
  *

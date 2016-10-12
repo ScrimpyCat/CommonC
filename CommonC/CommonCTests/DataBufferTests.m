@@ -25,6 +25,7 @@
 
 #import "DataTests.h"
 #import "DataBuffer.h"
+#import "MemoryAllocation.h"
 
 @interface DataBufferTests : DataTests
 
@@ -39,7 +40,7 @@
 
 -(CCData) createDataOfSize: (size_t)size WithHint: (CCDataHint)hint
 {
-    return CCDataBufferCreate(CC_STD_ALLOCATOR, hint | CCDataBufferHintFree, size, NULL, NULL, NULL);
+    return CCDataBufferCreate(CC_STD_ALLOCATOR, hint | CCDataBufferHintFree, size, CCMalloc(CC_STD_ALLOCATOR, size, NULL, CC_DEFAULT_ERROR_CALLBACK), NULL, NULL);
 }
 
 @end
