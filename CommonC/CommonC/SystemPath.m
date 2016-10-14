@@ -652,3 +652,19 @@ FSOperation FSHandleSetOffset(FSHandle Handle, size_t Offset)
     
     return FSOperationSuccess;
 }
+
+#if CC_PLATFORM_POSIX_COMPLIANT
+int FSHandleGetFileDescriptor(FSHandle Handle)
+{
+    CCAssertLog(Handle, "Handle must not be null");
+    
+    if (Handle->handle)
+    {
+        @autoreleasepool {
+            return [(NSFileHandle*)Handle->handle fileDescriptor];
+        }
+    }
+    
+    return -1;
+}
+#endif
