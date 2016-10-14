@@ -118,7 +118,7 @@ const char *CCHostCurrentName(void)
 #endif
     if (HostName[0] == 0)
     {
-        if (!gethostname(HostName, sizeof(HostName))) return NULL;
+        if (gethostname(HostName, sizeof(HostName))) return NULL;
     }
     
     return HostName;
