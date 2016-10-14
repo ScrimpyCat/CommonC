@@ -38,6 +38,7 @@
 #include "SystemInfo.h"
 #include "OrderedCollection.h"
 #include "TypeCallbacks.h"
+#include "CollectionEnumerator.h"
 
 #if CC_PLATFORM_APPLE
 #define CC_ASL_LOGGER 1
@@ -716,7 +717,28 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
 #elif CC_SYSLOG_LOGGER
         //TODO
 #else
-        //TODO
+        char Timestamp[16];
+        strftime(Timestamp, sizeof(Timestamp), "%b %d %T", localtime(&(time_t){ time(NULL) }));
+        
+        const char *Hostname = CCHostCurrentName(), *ProcName = CCProcessCurrentStrippedName();
+        const CCPid Pid = CCProcessCurrent();
+        
+        const size_t FormattedLength = snprintf(NULL, 0, "%s %s %s[%" PRIuPTR "]: ", Timestamp, Hostname, ProcName, Pid) + Length + 2;
+        
+        char *FormattedMessage = CCMalloc(CC_DEFAULT_ALLOCATOR, FormattedLength, NULL, CC_DEFAULT_ERROR_CALLBACK);
+        if (FormattedMessage)
+        {
+            snprintf(FormattedMessage, FormattedLength, "%s %s %s[%" PRIuPTR "]: %s\n", Timestamp, Hostname, ProcName, Pid, Message);
+            if (FileList)
+            {
+                CC_COLLECTION_FOREACH(FSHandle, Handle, FileList)
+                {
+                    FSHandleWrite(Handle, FormattedLength - 1, FormattedMessage, FSBehaviourUpdateOffset);
+                }
+            }
+            
+            CC_SAFE_Free(FormattedMessage);
+        }
 #endif
     }
     
@@ -788,9 +810,10 @@ void CCLogAddFile(FSHandle File)
     CCOrderedCollectionAppendElement(FileList, &File);
     
 #if CC_PLATFORM_POSIX_COMPLIANT
-    int Fd = FSHandleGetFileDescriptor(File);
     
 #if CC_ASL_LOGGER
+    int Fd = FSHandleGetFileDescriptor(File);
+    
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
     if (&asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
     else
@@ -798,8 +821,6 @@ void CCLogAddFile(FSHandle File)
         asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
 #elif CC_SYSLOG_LOGGER
     //TODO: use syslog
-#else
-    //TODO: create absolute fallback system and just manually write to files
 #endif
     
 #endif
