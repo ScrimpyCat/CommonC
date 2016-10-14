@@ -28,25 +28,22 @@
 
 
 #include <CommonC/Platform.h>
+#include <stdint.h>
 
 #if CC_PLATFORM_POSIX_COMPLIANT
 
 #include <unistd.h>
 #include <sys/syslimits.h>
 
-typedef pid_t CCPid;
-
 #define CC_PATH_NAME_LENGTH_MAX PATH_MAX
 
 #else
 
-#include <stdint.h>
-
-typedef uintptr_t CCPid;
-
 #define CC_PATH_NAME_LENGTH_MAX 1024
 
 #endif
+
+typedef uintptr_t CCPid;
 
 
 CCPid CCProcessCurrent(void);

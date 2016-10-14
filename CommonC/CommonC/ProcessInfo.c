@@ -42,7 +42,7 @@ const char *CCProcessCurrentPath(void)
     static char ProcName[PROC_PIDPATHINFO_MAXSIZE] = { 0 };
     if (ProcName[0] == 0)
     {
-        if (!proc_pidpath(CCProcessCurrent(), ProcName, sizeof(ProcName))) return NULL;
+        if (!proc_pidpath((pid_t)CCProcessCurrent(), ProcName, sizeof(ProcName))) return NULL;
     }
     
     return ProcName;
@@ -100,7 +100,7 @@ const char *CCProcessCurrentStrippedName(void)
 CCPid CCProcessCurrent(void)
 {
 #if CC_PLATFORM_POSIX_COMPLIANT
-    return getpid();
+    return (uintptr_t)getpid();
 #endif
     return 0;
 }
