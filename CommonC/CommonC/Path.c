@@ -212,7 +212,7 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
 
 FSPath FSPathCreate(const char *Path)
 {
-    CCAssertLog(Path, "Path must not be NULL");
+    CCAssertLog(Path, "Path must not be null");
     
     FSPath NewPath;
     CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
@@ -232,7 +232,7 @@ FSPath FSPathCreate(const char *Path)
 
 FSPath FSPathCreateFromSystemPath(const char *Path)
 {
-    CCAssertLog(Path, "Path must not be NULL");
+    CCAssertLog(Path, "Path must not be null");
     
     FSPath NewPath;
     CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
@@ -252,7 +252,7 @@ FSPath FSPathCreateFromSystemPath(const char *Path)
 
 FSPath FSPathCopy(FSPath Path)
 {
-    CCAssertLog(Path, "Path must not be NULL");
+    CCAssertLog(Path, "Path must not be null");
     
     FSPath NewPath;
     CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
@@ -279,6 +279,7 @@ FSPath FSPathCopy(FSPath Path)
 
 void FSPathDestroy(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
     CCAssertLog(Path != FSPathCurrent(), "Cannot mutate the current path");
     
     CCCollectionDestroy(Path->components);
@@ -295,46 +296,62 @@ static void FSPathMutated(FSPath Path)
 
 size_t FSPathGetComponentCount(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     return CCCollectionGetCount(Path->components);
 }
 
 FSPathComponent FSPathGetComponentAtIndex(FSPath Path, size_t Index)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     return *(FSPathComponent*)CCOrderedCollectionGetElementAtIndex(Path->components, Index);
 }
 
 void FSPathSetComponentAtIndex(FSPath Path, FSPathComponent Component, size_t Index)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionReplaceElementAtIndex(Path->components, &Component, Index);
     FSPathMutated(Path);
 }
 
 void FSPathInsertComponentAtIndex(FSPath Path, FSPathComponent Component, size_t Index)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionInsertElementAtIndex(Path->components, &Component, Index);
     FSPathMutated(Path);
 }
 
 void FSPathAppendComponent(FSPath Path, FSPathComponent Component)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionAppendElement(Path->components, &Component);
     FSPathMutated(Path);
 }
 
 void FSPathPrependComponent(FSPath Path, FSPathComponent Component)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionPrependElement(Path->components, &Component);
     FSPathMutated(Path);
 }
 
 void FSPathRemoveComponentIndex(FSPath Path, size_t Index)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionRemoveElementAtIndex(Path->components, Index);
     FSPathMutated(Path);
 }
 
 void FSPathRemoveComponentLast(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollectionRemoveLastElement(Path->components);
     FSPathMutated(Path);
 }
@@ -453,6 +470,8 @@ static void FSPathCreatePathStringCache(FSPath Path)
 
 const char *FSPathGetFullPathString(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     if (!Path->completeRep) FSPathCreatePathStringCache(Path);
     
     return Path->completeRep;
@@ -460,6 +479,8 @@ const char *FSPathGetFullPathString(FSPath Path)
 
 const char *FSPathGetPathString(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     if (!Path->pathRep) FSPathCreatePathStringCache(Path);
     
     return Path->pathRep;
@@ -467,6 +488,8 @@ const char *FSPathGetPathString(FSPath Path)
 
 const char *FSPathGetFilenameString(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     if (!Path->filenameRep) FSPathCreatePathStringCache(Path);
     
     return Path->filenameRep;
@@ -474,6 +497,8 @@ const char *FSPathGetFilenameString(FSPath Path)
 
 FSPathComponent FSPathGetVolume(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     FSPathComponent Component = *(FSPathComponent*)CCOrderedCollectionGetElementAtIndex(Path->components, 0);
     if (FSPathComponentGetType(Component) == FSPathComponentTypeVolume)
     {
@@ -490,22 +515,31 @@ FSPathComponent FSPathGetVolume(FSPath Path)
 
 _Bool FSPathIsDirectory(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     return !FSPathIsFile(Path);
 }
 
 _Bool FSPathIsFile(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     FSPathComponentType Type = CCCollectionGetCount(Path->components) ? FSPathComponentGetType(*(FSPathComponent*)CCCollectionGetElement(Path->components, CCOrderedCollectionGetLastEntry(Path->components))) : FSPathComponentTypeInvalid;
     return (Type == FSPathComponentTypeExtension) || (Type == FSPathComponentTypeFile);
 }
 
 _Bool FSPathIsRelativePath(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     return CCCollectionGetCount(Path->components) ? FSPathComponentGetType(*(FSPathComponent*)CCOrderedCollectionGetElementAtIndex(Path->components, 0)) == FSPathComponentTypeRelativeRoot : FALSE;
 }
 
 _Bool FSPathMatch(FSPath Left, FSPath Right, FSMatch MatchOptions)
 {
+    CCAssertLog(Left, "Left must not be null");
+    CCAssertLog(Right, "Right must not be null");
+    
     CCEnumerator LeftEnumerator, RightEnumerator;
     CCCollectionGetEnumerator(Left->components, &LeftEnumerator);
     CCCollectionGetEnumerator(Right->components, &RightEnumerator);

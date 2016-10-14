@@ -44,6 +44,8 @@ static void FSPathComponentElementDestructor(CCCollection Collection, FSPathComp
 
 CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), (CCCollectionElementDestructor)FSPathComponentElementDestructor);
     
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
@@ -189,6 +191,8 @@ static NSURL *FSPathSystemInternalRepresentation(FSPath Path)
 
 _Bool FSManagerExists(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     @autoreleasepool {
         BOOL IsDir;
         _Bool Exists = [[NSFileManager defaultManager] fileExistsAtPath: FSPathSystemInternalRepresentation(Path).path isDirectory: &IsDir];
@@ -199,6 +203,8 @@ _Bool FSManagerExists(FSPath Path)
 
 FSAccess FSManagerGetAccessRights(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     @autoreleasepool {
         NSString *SystemPath = FSPathSystemInternalRepresentation(Path).path;
         NSFileManager *Manager = [NSFileManager defaultManager];
@@ -212,6 +218,8 @@ FSAccess FSManagerGetAccessRights(FSPath Path)
 
 size_t FSManagerGetSize(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     @autoreleasepool {
         NSNumber *Size;
         [FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLFileSizeKey error: NULL];
@@ -222,6 +230,8 @@ size_t FSManagerGetSize(FSPath Path)
 
 size_t FSManagerGetPreferredIOBlockSize(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     @autoreleasepool {
         NSNumber *Size;
         [FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLPreferredIOBlockSizeKey error: NULL];
@@ -288,6 +298,9 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
 
 CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions)
 {
+    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(NamingMatches, "NamingMatches must not be null");
+    
     CCOrderedCollection List = NULL;
     
     @autoreleasepool {
@@ -299,6 +312,8 @@ CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingM
 
 FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     if (!FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -343,6 +358,8 @@ FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
 
 FSOperation FSManagerRemove(FSPath Path)
 {
+    CCAssertLog(Path, "Path must not be null");
+    
     if (FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -357,6 +374,9 @@ FSOperation FSManagerRemove(FSPath Path)
 
 FSOperation FSManagerMove(FSPath Path, FSPath Destination)
 {
+    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(Destination, "Destination must not be null");
+    
     if (FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -373,6 +393,9 @@ FSOperation FSManagerMove(FSPath Path, FSPath Destination)
 
 FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
 {
+    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(Destination, "Destination must not be null");
+    
     if (FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -391,6 +414,9 @@ FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
 
 FSOperation FSHandleOpen(FSPath Path, FSHandleType Type, FSHandle *Handle)
 {
+    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -421,6 +447,8 @@ FSOperation FSHandleOpen(FSPath Path, FSHandleType Type, FSHandle *Handle)
 
 FSOperation FSHandleClose(FSHandle Handle)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (!Handle->handle) return FSOperationFailure;
     
     FSPathDestroy(Handle->path);
@@ -437,6 +465,8 @@ FSOperation FSHandleClose(FSHandle Handle)
 
 FSOperation FSHandleSync(FSHandle Handle)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (!Handle->handle) return FSOperationFailure;
     
     @autoreleasepool {
@@ -448,8 +478,9 @@ FSOperation FSHandleSync(FSHandle Handle)
 
 FSOperation FSHandleRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour Behaviour)
 {
-    CCAssertLog(Count, "Count must not be NULL");
-    CCAssertLog(Data, "Data must not be NULL");
+    CCAssertLog(Handle, "Handle must not be null");
+    CCAssertLog(Count, "Count must not be null");
+    CCAssertLog(Data, "Data must not be null");
     
     if (!Handle->handle)
     {
@@ -474,8 +505,9 @@ FSOperation FSHandleRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour
 
 FSOperation FSHandleReadFromOffset(FSHandle Handle, size_t Offset, size_t *Count, void *Data, FSBehaviour Behaviour)
 {
-    CCAssertLog(Count, "Count must not be NULL");
-    CCAssertLog(Data, "Data must not be NULL");
+    CCAssertLog(Handle, "Handle must not be null");
+    CCAssertLog(Count, "Count must not be null");
+    CCAssertLog(Data, "Data must not be null");
     
     if (!Handle->handle)
     {
@@ -495,7 +527,8 @@ FSOperation FSHandleReadFromOffset(FSHandle Handle, size_t Offset, size_t *Count
 
 FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBehaviour Behaviour)
 {
-    CCAssertLog(Data, "Data must not be NULL");
+    CCAssertLog(Handle, "Handle must not be null");
+    CCAssertLog(Data, "Data must not be null");
     
     if (!Handle->handle) return FSOperationFailure;
     
@@ -556,7 +589,8 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBeh
 
 FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count, const void *Data, FSBehaviour Behaviour)
 {
-    CCAssertLog(Data, "Data must not be NULL");
+    CCAssertLog(Handle, "Handle must not be null");
+    CCAssertLog(Data, "Data must not be null");
     
     if (!Handle->handle) return FSOperationFailure;
     
@@ -572,6 +606,8 @@ FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count
 
 FSOperation FSHandleRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (!Handle->handle) return FSOperationFailure;
     
     const size_t Offset = FSHandleGetOffset(Handle);
@@ -618,6 +654,8 @@ FSOperation FSHandleRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
 
 FSOperation FSHandleRemoveFromOffset(FSHandle Handle, size_t Offset, size_t Count, FSBehaviour Behaviour)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (!Handle->handle) return FSOperationFailure;
     
     const size_t OldOffset = FSHandleGetOffset(Handle);
@@ -632,6 +670,8 @@ FSOperation FSHandleRemoveFromOffset(FSHandle Handle, size_t Offset, size_t Coun
 
 size_t FSHandleGetOffset(FSHandle Handle)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (Handle->handle)
     {
         @autoreleasepool {
@@ -644,6 +684,8 @@ size_t FSHandleGetOffset(FSHandle Handle)
 
 FSOperation FSHandleSetOffset(FSHandle Handle, size_t Offset)
 {
+    CCAssertLog(Handle, "Handle must not be null");
+    
     if (!Handle->handle) return FSOperationFailure;
     
     @autoreleasepool {

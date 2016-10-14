@@ -24,9 +24,10 @@
  */
 
 #include "FileSystem.h"
-#import "Platform.h"
-#import "OrderedCollection.h"
-#import "CollectionEnumerator.h"
+#include "Platform.h"
+#include "OrderedCollection.h"
+#include "CollectionEnumerator.h"
+#include "Assertion.h"
 
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
 //SystemPath.m
@@ -40,6 +41,9 @@
 
 FSOperation FSManagerRename(FSPath Path, const char *Name)
 {
+    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(Name, "Name must not be null");
+    
     FSPath NewPath = FSPathCopy(Path);
     
     //TODO: Create some simple setters to make this easier
