@@ -104,3 +104,26 @@ CCPid CCProcessCurrent(void)
 #endif
     return 0;
 }
+
+const char *CCHostCurrentName(void)
+{
+#if CC_PLATFORM_POSIX_COMPLIANT
+    
+#if HOST_NAME_MAX
+    static char HostName[HOST_NAME_MAX + 1] = { 0 };
+#elif _POSIX_HOST_NAME_MAX
+    static char HostName[_POSIX_HOST_NAME_MAX + 1] = { 0 };
+#else
+    static char HostName[256] = { 0 };
+#endif
+    if (HostName[0] == 0)
+    {
+        if (!gethostname(HostName, sizeof(HostName))) return NULL;
+    }
+    
+    return HostName;
+    
+#else
+    return NULL;
+#endif
+}

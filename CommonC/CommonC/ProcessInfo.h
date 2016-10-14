@@ -34,6 +34,7 @@
 
 #include <unistd.h>
 #include <sys/syslimits.h>
+#include <limits.h>
 
 #define CC_PATH_NAME_LENGTH_MAX PATH_MAX
 
@@ -50,6 +51,7 @@ CCPid CCProcessCurrent(void);
 const char *CCProcessCurrentPath(void);
 const char *CCProcessCurrentName(void);
 const char *CCProcessCurrentStrippedName(void);
+const char *CCHostCurrentName(void);
 
 
 #endif
