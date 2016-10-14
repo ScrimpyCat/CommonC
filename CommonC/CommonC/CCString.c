@@ -302,33 +302,38 @@ static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint
     
     
     CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + ((Hint & CCStringHintCopy) == CCStringHintCopy ? Size + 1 : 0), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
-    CCMemorySetDestructor(Str, (CCMemoryDestructorCallback)CCStringDestructor);
-    
-    *Str = (CCStringInfo){
-        .hint = Hint | CCStringMarkSize,
-        .hash = 0,
-        .size = Size,
-        .length = 0,
-        .string = NULL
-    };
-    
-    if ((Hint & CCStringHintEncodingMask) == CCStringEncodingASCII)
+    if (Str)
     {
-        Str->hint |= CCStringMarkLength;
-        Str->length = Size;
+        CCMemorySetDestructor(Str, (CCMemoryDestructorCallback)CCStringDestructor);
+        
+        *Str = (CCStringInfo){
+            .hint = Hint | CCStringMarkSize,
+            .hash = 0,
+            .size = Size,
+            .length = 0,
+            .string = NULL
+        };
+        
+        if ((Hint & CCStringHintEncodingMask) == CCStringEncodingASCII)
+        {
+            Str->hint |= CCStringMarkLength;
+            Str->length = Size;
+        }
+        
+        if ((Hint & CCStringHintCopy) == CCStringHintCopy)
+        {
+            strncpy(Str->characters, String, Size);
+            Str->characters[Size] = 0;
+        }
+        
+        else
+        {
+            Str->string = (char*)String;
+            if (!SameLength) Str->hint |= CCStringMarkUnsafeBuffer;
+        }
     }
     
-    if ((Hint & CCStringHintCopy) == CCStringHintCopy)
-    {
-        strncpy(Str->characters, String, Size);
-        Str->characters[Size] = 0;
-    }
-    
-    else
-    {
-        Str->string = (char*)String;
-        if (!SameLength) Str->hint |= CCStringMarkUnsafeBuffer;
-    }
+    else CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", sizeof(CCStringInfo) + ((Hint & CCStringHintCopy) == CCStringHintCopy ? Size + 1 : 0));
     
     return (CCString)Str;
 }
