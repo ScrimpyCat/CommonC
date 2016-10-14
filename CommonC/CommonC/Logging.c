@@ -36,6 +36,8 @@
 #include "Platform.h"
 #include "ProcessInfo.h"
 #include "SystemInfo.h"
+#include "OrderedCollection.h"
+#include "TypeCallbacks.h"
 
 #if CC_PLATFORM_APPLE
 #define CC_ASL_LOGGER 1
@@ -87,6 +89,11 @@ const char * const CCTagDebug = "DEBUG";
 #define CC_FOLDER_ "CommonFramework/"
 #define CC_EXTENSION_ ".log"
 
+/// Set whether the default framework log file should be a new file (1) or if it should append onto the current (0)
+#define CC_NEW_FRAMEWORK_LOG_FILE 1
+
+static CCOrderedCollection FileList = NULL;
+
 
 #if CC_ASL_LOGGER
 static aslclient Client;
@@ -133,7 +140,23 @@ static void ASLSetup(void)
                 strncat(Path + PathTillNameLength, AppName, CC_PATH_NAME_LENGTH_MAX);
                 strncat(Path + PathTillNameLength, CC_EXTENSION_, sizeof(CC_EXTENSION_) - 1);
                 
-                CCLogAddFile(Path);
+                FSPath LogPath = FSPathCreateFromSystemPath(Path);
+                
+                if (FSManagerCreate(LogPath, FALSE) == FSOperationSuccess)
+                {
+                    FSHandle Handle;
+                    if (FSHandleOpen(LogPath, FSHandleTypeWrite, &Handle) == FSOperationSuccess)
+                    {
+#if CC_NEW_FRAMEWORK_LOG_FILE
+                        FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourUpdateOffset);
+#else
+                        FSHandleSetOffset(Handle, FSManagerGetSize(Handle->path));
+#endif
+                        CCLogAddFile(Handle);
+                    }
+                }
+                
+                FSPathDestroy(LogPath);
             }
         }
         
@@ -173,7 +196,23 @@ static void ASLSetup(void)
     
     if (CFStringGetCString(Path, PathStr, Size, kCFStringEncodingASCII))
     {
-        CCLogAddFile(PathStr);
+        FSPath LogPath = FSPathCreateFromSystemPath(PathStr);
+        
+        if (FSManagerCreate(LogPath, FALSE) == FSOperationSuccess)
+        {
+            FSHandle Handle;
+            if (FSHandleOpen(LogPath, FSHandleTypeWrite, &Handle) == FSOperationSuccess)
+            {
+#if CC_NEW_FRAMEWORK_LOG_FILE
+                FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourUpdateOffset);
+#else
+                FSHandleSetOffset(Handle, FSManagerGetSize(Handle->path));
+#endif
+                CCLogAddFile(Handle);
+            }
+        }
+        
+        FSPathDestroy(LogPath);
     }
     
     CFRelease(Path);
@@ -742,11 +781,14 @@ extern int asl_add_output(aslclient asl, int fd, const char *msg_fmt, const char
 #endif
 
 
-void CCLogAddFile(const char *File)
+void CCLogAddFile(FSHandle File)
 {
+    if (!FileList) FileList = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall | CCCollectionHintHeavyEnumerating | CCCollectionHintConstantLength | CCCollectionHintConstantElements, sizeof(FSHandle), FSHandleDestructorForCollection);
+    
+    CCOrderedCollectionAppendElement(FileList, &File);
+    
 #if CC_PLATFORM_POSIX_COMPLIANT
-    FILE *fp = fopen(File, "a");
-    int Fd = fileno(fp);
+    int Fd = FSHandleGetFileDescriptor(File);
     
 #if CC_ASL_LOGGER
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)

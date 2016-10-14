@@ -101,6 +101,8 @@
 #include <CommonC/Generics.h>
 #include <CommonC/Hacks.h>
 #include <stdarg.h>
+#include <CommonC/FileHandle.h>
+#include <CommonC/Ownership.h>
 
 
 #pragma mark - Constants
@@ -202,7 +204,7 @@ typedef struct {
 
 
 #pragma mark - Functions
-void CCLogAddFile(const char *File);
+void CCLogAddFile(FSHandle CC_OWN(File));
 int CCLogCustom(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...);
 int CCLog(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, ...) CC_FORMAT_PRINTF(7, 8);
 int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, const char * const Filename, const char * const FunctionName, unsigned int Line, const char *FormatString, va_list Args) CC_FORMAT_PRINTF(7, 0);
