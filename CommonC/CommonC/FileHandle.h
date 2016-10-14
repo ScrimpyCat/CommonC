@@ -176,7 +176,7 @@ FSOperation FSHandleSetOffset(FSHandle Handle, size_t Offset);
 #if CC_PLATFORM_POSIX_COMPLIANT
 /*!
  * @brief Get the POSIX file descriptor for the file.
- * @warning This function is only available on POSIX compliant systems. Check CC_PLATFORM_POSIX_COMPLIANT
+ * @warning This function is only available on POSIX compliant systems. Check @b CC_PLATFORM_POSIX_COMPLIANT
  *          for POSIX compliancy.
  *
  * @param Handle The file handle.
