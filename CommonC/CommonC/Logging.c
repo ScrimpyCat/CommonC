@@ -148,7 +148,7 @@ static void ASLSetup(void)
                     if (FSHandleOpen(LogPath, FSHandleTypeWrite, &Handle) == FSOperationSuccess)
                     {
 #if CC_NEW_FRAMEWORK_LOG_FILE
-                        FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourUpdateOffset);
+                        FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourPreserveOffset);
 #else
                         FSHandleSetOffset(Handle, FSManagerGetSize(Handle->path));
 #endif
@@ -204,7 +204,7 @@ static void ASLSetup(void)
             if (FSHandleOpen(LogPath, FSHandleTypeWrite, &Handle) == FSOperationSuccess)
             {
 #if CC_NEW_FRAMEWORK_LOG_FILE
-                FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourUpdateOffset);
+                FSHandleRemove(Handle, FSManagerGetSize(Handle->path), FSBehaviourPreserveOffsetg);
 #else
                 FSHandleSetOffset(Handle, FSManagerGetSize(Handle->path));
 #endif
