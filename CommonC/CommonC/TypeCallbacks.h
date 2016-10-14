@@ -39,6 +39,7 @@ extern const CCCollectionElementDestructor CCCollectionDestructorForCollection;
 extern const CCCollectionElementDestructor CCHashMapDestructorForCollection;
 extern const CCCollectionElementDestructor CCDictionaryDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathDestructorForCollection;
+extern const CCCollectionElementDestructor FSHandleDestructorForCollection;
 
 extern const CCComparator CCStringComparatorForCollection;
 
@@ -52,6 +53,7 @@ extern const CCDictionaryElementDestructor CCCollectionDestructorForDictionary;
 extern const CCDictionaryElementDestructor CCHashMapDestructorForDictionary;
 extern const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary;
 extern const CCDictionaryElementDestructor FSPathDestructorForDictionary;
+extern const CCDictionaryElementDestructor FSHandleDestructorForDictionary;
 
 extern const CCDictionaryKeyHasher CCStringHasherForDictionary;
 

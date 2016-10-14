@@ -30,6 +30,7 @@
 #include "Array.h"
 #include "LinkedList.h"
 #include "HashMAp.h"
+#include "FileHandle.h"
 
 #pragma mark Destructors
 
@@ -41,6 +42,7 @@ static void CCCollectionContainerElementDestructor(void *Container, CCCollection
 static void CCHashMapContainerElementDestructor(void *Container, CCHashMap *Element);
 static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary *Element);
 static void CCPathContainerElementDestructor(void *Container, FSPath *Element);
+static void CCHandleContainerElementDestructor(void *Container, FSHandle *Element);
 
 #pragma mark Hashers
 
@@ -61,6 +63,7 @@ const CCCollectionElementDestructor CCCollectionDestructorForCollection = (CCCol
 const CCCollectionElementDestructor CCHashMapDestructorForCollection = (CCCollectionElementDestructor)CCHashMapContainerElementDestructor;
 const CCCollectionElementDestructor CCDictionaryDestructorForCollection = (CCCollectionElementDestructor)CCDictionaryContainerElementDestructor;
 const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)CCPathContainerElementDestructor;
+const CCCollectionElementDestructor FSHandleDestructorForCollection = (CCCollectionElementDestructor)CCHandleContainerElementDestructor;
 
 #pragma mark Comparators
 
@@ -77,6 +80,7 @@ const CCDictionaryElementDestructor CCCollectionDestructorForDictionary = (CCDic
 const CCDictionaryElementDestructor CCHashMapDestructorForDictionary = (CCDictionaryElementDestructor)CCHashMapContainerElementDestructor;
 const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary = (CCDictionaryElementDestructor)CCDictionaryContainerElementDestructor;
 const CCDictionaryElementDestructor FSPathDestructorForDictionary = (CCDictionaryElementDestructor)CCPathContainerElementDestructor;
+const CCDictionaryElementDestructor FSHandleDestructorForDictionary = (CCDictionaryElementDestructor)CCHandleContainerElementDestructor;
 
 #pragma mark Hashers
 
@@ -126,6 +130,11 @@ static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary
 static void CCPathContainerElementDestructor(void *Container, FSPath *Element)
 {
     FSPathDestroy(*Element);
+}
+
+static void CCHandleContainerElementDestructor(void *Container, FSHandle *Element)
+{
+    FSHandleClose(*Element);
 }
 
 static uintmax_t CCStringHasher(CCString *Key)
