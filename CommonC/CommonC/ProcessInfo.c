@@ -39,7 +39,7 @@ const char *CCProcessCurrentPath(void)
 {
 #if CC_USE_LIBPROC
     
-    static char ProcName[PROC_PIDPATHINFO_MAXSIZE];
+    static char ProcName[PROC_PIDPATHINFO_MAXSIZE] = { 0 };
     if (ProcName[0] == 0)
     {
         if (!proc_pidpath(CCProcessCurrent(), ProcName, sizeof(ProcName))) return NULL;
@@ -68,7 +68,7 @@ const char *CCProcessCurrentName(void)
                 if (ComponentLength == 0) Name = LastComponent;
                 else if (ComponentLength < CC_PATH_NAME_LENGTH_MAX)
                 {
-                    static char CopiedName[CC_PATH_NAME_LENGTH_MAX];
+                    static char CopiedName[CC_PATH_NAME_LENGTH_MAX] = { 0 };
                     strncpy(CopiedName, LastComponent, ComponentLength);
                     Name = CopiedName;
                 }
@@ -82,13 +82,15 @@ const char *CCProcessCurrentName(void)
 
 const char *CCProcessCurrentStrippedName(void)
 {
-    static char Name[CC_PATH_NAME_LENGTH_MAX];
+    static char Name[CC_PATH_NAME_LENGTH_MAX] = { 0 };
     if (Name[0] == 0)
     {
         const char *OriginalName = CCProcessCurrentName();
         if (OriginalName)
         {
-            for (size_t NameLength = 0; *OriginalName; OriginalName++) if (isalnum(*OriginalName)) Name[NameLength++] = *OriginalName;
+            size_t NameLength = 0;
+            for ( ; *OriginalName; OriginalName++) if (isalnum(*OriginalName)) Name[NameLength++] = *OriginalName;
+            Name[NameLength] = 0;
         }
     }
     
