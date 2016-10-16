@@ -36,7 +36,7 @@ typedef struct {
 
 #pragma mark - Creation / Destruction
 /*!
- * @brief Allocate and initialize a new FIFO queue.
+ * @brief Create a FIFO queue.
  * @param Allocator The allocator to be used for the allocation.
  * @return A FIFO queue, or NULL on failure. Must be destroyed to free the memory.
  */
