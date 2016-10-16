@@ -94,6 +94,8 @@
 #include <CommonC/DictionaryEnumerator.h>
 #include <CommonC/DictionaryHashMap.h>
 
+#include <CommonC/Queue.h>
+
 #include <CommonC/TypeCallbacks.h>
 
 #endif

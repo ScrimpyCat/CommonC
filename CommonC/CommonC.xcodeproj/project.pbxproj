@@ -128,6 +128,9 @@
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
+		F334273E1DB40512008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F334273F1DB4057B008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -331,6 +334,8 @@
 		F322F05F1C09551100BAA44E /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
+		F334273B1DB40512008CB998 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
+		F334273C1DB40512008CB998 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
 		F34205291D1C43E900BE2E13 /* CollectionFastArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionFastArray.c; sourceTree = "<group>"; };
 		F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionFastArray.h; sourceTree = "<group>"; };
 		F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionFastArrayTests.m; sourceTree = "<group>"; };
@@ -573,6 +578,15 @@
 				F30C846A1D13308700EFF5F2 /* Dictionary Implementations */,
 			);
 			name = Map;
+			sourceTree = "<group>";
+		};
+		F334273A1DB404FD008CB998 /* Queue */ = {
+			isa = PBXGroup;
+			children = (
+				F334273C1DB40512008CB998 /* Queue.h */,
+				F334273B1DB40512008CB998 /* Queue.c */,
+			);
+			name = Queue;
 			sourceTree = "<group>";
 		};
 		F34219191D0C2B2200FDBC8A /* Hash Map Implementations */ = {
@@ -884,6 +898,7 @@
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
 				F359D0281C1456D60028B86B /* Hash.h */,
 				F359D0271C1456D60028B86B /* Hash.c */,
+				F334273A1DB404FD008CB998 /* Queue */,
 				F32FB02B1D07B337007E8E9B /* Map */,
 				F369C7CD1C44CFAC006C3D96 /* String */,
 				F359D0191C12B12C0028B86B /* Data */,
@@ -1053,6 +1068,7 @@
 				F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */,
 				F30437B71C62E07900388C74 /* Extensions.h in Headers */,
 				F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */,
+				F334273F1DB4057B008CB998 /* Queue.h in Headers */,
 				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
 				F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */,
 				F36F83221D10A91B00193B08 /* TypeCallbacks.h in Headers */,
@@ -1108,6 +1124,7 @@
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
+				F334273E1DB40512008CB998 /* Queue.h in Headers */,
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
@@ -1371,6 +1388,7 @@
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
+				F334273D1DB40512008CB998 /* Queue.c in Sources */,
 				F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */,
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
