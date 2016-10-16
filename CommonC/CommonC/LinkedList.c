@@ -123,7 +123,7 @@ CCLinkedList CCLinkedListInsertBefore(CCLinkedList List, CCLinkedListNode *Node)
     {
         CCLinkedListNode *Tail = CCLinkedListGetTail(Node);
         List->prev = Tail;
-        Tail->next = Node;
+        Tail->next = List;
     }
     
     else
