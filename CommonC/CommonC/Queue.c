@@ -48,7 +48,7 @@ void CCQueueDestroy(CCQueue Queue)
     CC_SAFE_Free(Queue);
 }
 
-void CCQueuePush(CCQueue Queue, CCLinkedListNode *Node)
+void CCQueuePush(CCQueue Queue, CCQueueNode *Node)
 {
     CCAssertLog(Queue, "Queue must not be null");
     
@@ -57,11 +57,11 @@ void CCQueuePush(CCQueue Queue, CCLinkedListNode *Node)
     if (!Queue->tail) Queue->tail = Queue->head;
 }
 
-CCLinkedListNode *CCQueuePop(CCQueue Queue)
+CCQueueNode *CCQueuePop(CCQueue Queue)
 {
     CCAssertLog(Queue, "Queue must not be null");
     
-    CCLinkedListNode *Tail = Queue->tail;
+    CCQueueNode *Tail = Queue->tail;
     if (Tail)
     {
         Queue->tail = CCLinkedListEnumeratePrevious(Queue->tail);
