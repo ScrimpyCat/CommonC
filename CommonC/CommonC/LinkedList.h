@@ -90,7 +90,7 @@ void CCLinkedListDestroy(CCLinkedList CC_DESTROY(List));
  * @param Node The node to be added to the list.
  * @return The new relative head. Either List or Node.
  */
-CCLinkedList CCLinkedListInsert(CCLinkedList List, CCLinkedListNode *Node);
+CCLinkedList CCLinkedListInsert(CCLinkedList List, CCLinkedListNode *CC_OWN(Node));
 
 /*!
  * @brief Inserts the node into the position after the first node in the relative list.
@@ -105,7 +105,7 @@ CCLinkedList CCLinkedListInsert(CCLinkedList List, CCLinkedListNode *Node);
  * @param Node The node to be added to the list.
  * @return The new relative head which is List.
  */
-CCLinkedList CCLinkedListInsertAfter(CCLinkedList List, CCLinkedListNode *Node);
+CCLinkedList CCLinkedListInsertAfter(CCLinkedList List, CCLinkedListNode *CC_OWN(Node));
 
 /*!
  * @brief Inserts the node into the position before the first node in the relative list.
@@ -120,7 +120,7 @@ CCLinkedList CCLinkedListInsertAfter(CCLinkedList List, CCLinkedListNode *Node);
  * @param Node The node to be added to the list.
  * @return The new relative head which is Node.
  */
-CCLinkedList CCLinkedListInsertBefore(CCLinkedList List, CCLinkedListNode *Node);
+CCLinkedList CCLinkedListInsertBefore(CCLinkedList List, CCLinkedListNode *CC_OWN(Node));
 
 
 #pragma mark - Real Insertions
@@ -138,7 +138,7 @@ CCLinkedList CCLinkedListInsertBefore(CCLinkedList List, CCLinkedListNode *Node)
  * @param Node The node to be added to the list.
  * @return The new tail which is Node.
  */
-CCLinkedList CCLinkedListAppend(CCLinkedList List, CCLinkedListNode *Node);
+CCLinkedList CCLinkedListAppend(CCLinkedList List, CCLinkedListNode *CC_OWN(Node));
 
 /*!
  * @brief Adds the node onto the beginning of the real list.
@@ -154,7 +154,7 @@ CCLinkedList CCLinkedListAppend(CCLinkedList List, CCLinkedListNode *Node);
  * @param Node The node to be added to the list.
  * @return The new head which is Node.
  */
-CCLinkedList CCLinkedListPrepend(CCLinkedList List, CCLinkedListNode *Node);
+CCLinkedList CCLinkedListPrepend(CCLinkedList List, CCLinkedListNode *CC_OWN(Node));
 
 
 #pragma mark - Removal
