@@ -131,6 +131,9 @@
 		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
 		F334273E1DB40512008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273F1DB4057B008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33427421DB408FF008CB998 /* ConcurrentQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = F33427401DB408FF008CB998 /* ConcurrentQueue.c */; };
+		F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F33427411DB408FF008CB998 /* ConcurrentQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F33427411DB408FF008CB998 /* ConcurrentQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -336,6 +339,8 @@
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
 		F334273B1DB40512008CB998 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
 		F334273C1DB40512008CB998 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
+		F33427401DB408FF008CB998 /* ConcurrentQueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentQueue.c; sourceTree = "<group>"; };
+		F33427411DB408FF008CB998 /* ConcurrentQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentQueue.h; sourceTree = "<group>"; };
 		F34205291D1C43E900BE2E13 /* CollectionFastArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionFastArray.c; sourceTree = "<group>"; };
 		F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionFastArray.h; sourceTree = "<group>"; };
 		F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionFastArrayTests.m; sourceTree = "<group>"; };
@@ -585,6 +590,8 @@
 			children = (
 				F334273C1DB40512008CB998 /* Queue.h */,
 				F334273B1DB40512008CB998 /* Queue.c */,
+				F33427411DB408FF008CB998 /* ConcurrentQueue.h */,
+				F33427401DB408FF008CB998 /* ConcurrentQueue.c */,
 			);
 			name = Queue;
 			sourceTree = "<group>";
@@ -1036,6 +1043,7 @@
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
 				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
 				F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */,
+				F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */,
 				F30437D11C62E0F900388C74 /* OrderedCollection.h in Headers */,
 				F342052E1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
 				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
@@ -1104,6 +1112,7 @@
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
 				F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
+				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
@@ -1385,6 +1394,7 @@
 			files = (
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
 				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
+				F33427421DB408FF008CB998 /* ConcurrentQueue.c in Sources */,
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
