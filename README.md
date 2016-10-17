@@ -21,6 +21,6 @@ The CommonC framework contains a collection of utilities for C programs. The fea
 * Data - a generic data container.
 * Maps - different map implementations such as generic hashmap and dictionary interfaces.
 * Collections - different collection implementations such as arrays, linked lists, or generic collection and ordered collection interfaces.
-* Strings - optimized immutable strings for UTF-8 and ASCII. Avoids allocations where possible with tagged variats or temporary strings.
+* Strings - optimized immutable strings for UTF-8 and ASCII encodings. Avoids allocations where possible with tagged variants or temporary strings.
 * Enumerators - simple enumerating interfaces for maps, collections, and strings.
 * Queues - single threaded and lock-free (many producer-consumer) concurrent FIFO queues.
