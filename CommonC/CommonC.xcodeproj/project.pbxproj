@@ -134,6 +134,7 @@
 		F33427421DB408FF008CB998 /* ConcurrentQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = F33427401DB408FF008CB998 /* ConcurrentQueue.c */; };
 		F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F33427411DB408FF008CB998 /* ConcurrentQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F33427411DB408FF008CB998 /* ConcurrentQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F334274A1DB62A32008CB998 /* QueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33427491DB62A32008CB998 /* QueueTests.m */; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -341,6 +342,7 @@
 		F334273C1DB40512008CB998 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
 		F33427401DB408FF008CB998 /* ConcurrentQueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentQueue.c; sourceTree = "<group>"; };
 		F33427411DB408FF008CB998 /* ConcurrentQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentQueue.h; sourceTree = "<group>"; };
+		F33427491DB62A32008CB998 /* QueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueTests.m; sourceTree = "<group>"; };
 		F34205291D1C43E900BE2E13 /* CollectionFastArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionFastArray.c; sourceTree = "<group>"; };
 		F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionFastArray.h; sourceTree = "<group>"; };
 		F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionFastArrayTests.m; sourceTree = "<group>"; };
@@ -917,6 +919,7 @@
 		F3AE99361A6D508500212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
 				F36D63001D13434900D3827A /* DictionaryTests.h */,
 				F36D62FE1D13433700D3827A /* DictionaryTests.m */,
@@ -1490,6 +1493,7 @@
 				F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */,
 				F36F83001D0FCCBE00193B08 /* HashMapSeparateChainingArrayDataOrientedAllTests.m in Sources */,
 				F359D0331C148F700028B86B /* DataBufferTests.m in Sources */,
+				F334274A1DB62A32008CB998 /* QueueTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
