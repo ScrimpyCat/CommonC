@@ -43,6 +43,26 @@
     CCQueueDestroy(Queue);
 }
 
+-(void) testNodeReuse
+{
+    CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
+    
+    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    
+    CCQueuePush(Queue, CCQueuePop(Queue));
+    
+    CCLinkedListNode *N = CCQueuePop(Queue);
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N), 2, @"Should return the correct element");
+    CCLinkedListDestroyNode(N);
+    
+    N = CCQueuePop(Queue);
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N), 1, @"Should return the correct element");
+    CCLinkedListDestroyNode(N);
+    
+    CCQueueDestroy(Queue);
+}
+
 -(void) testOrdering
 {
     CCLinkedListNode *N[10] = { NULL };
