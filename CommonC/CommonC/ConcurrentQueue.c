@@ -67,16 +67,9 @@ void CCConcurrentQueueDestroy(CCConcurrentQueue Queue)
 {
     CCAssertLog(Queue, "Queue must not be null");
     
-    CCConcurrentQueuePointer Ptr = atomic_load(&Queue->head);
-    while (Ptr.node)
+    for (CCConcurrentQueueNode *N; (N = CCConcurrentQueuePop(Queue)); )
     {
-        CCConcurrentQueueNode *N = Ptr.node;
-        if (N != &Queue->dummy)
-        {
-            CCConcurrentQueueDestroyNode(N);
-        }
-        
-        Ptr = N->next;
+        CCConcurrentQueueDestroyNode(N);
     }
     
     CC_SAFE_Free(Queue);
