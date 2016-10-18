@@ -47,41 +47,41 @@
 {
     CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
     
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
     
     CCQueuePush(Queue, CCQueuePop(Queue));
     
-    CCLinkedListNode *N = CCQueuePop(Queue);
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N), 2, @"Should return the correct element");
-    CCLinkedListDestroyNode(N);
+    CCQueueNode *N = CCQueuePop(Queue);
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N), 2, @"Should return the correct element");
+    CCQueueDestroyNode(N);
     
     N = CCQueuePop(Queue);
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N), 1, @"Should return the correct element");
-    CCLinkedListDestroyNode(N);
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N), 1, @"Should return the correct element");
+    CCQueueDestroyNode(N);
     
     CCQueueDestroy(Queue);
 }
 
 -(void) testOrdering
 {
-    CCLinkedListNode *N[10] = { NULL };
+    CCQueueNode *N[10] = { NULL };
     CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
 
     N[0] = CCQueuePop(Queue);
 
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
     N[1] = CCQueuePop(Queue);
 
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 4 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 4 }));
 
     N[2] = CCQueuePop(Queue);
 
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 5 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 6 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 7 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 5 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 6 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 7 }));
 
     N[3] = CCQueuePop(Queue);
     N[4] = CCQueuePop(Queue);
@@ -91,19 +91,19 @@
     N[8] = CCQueuePop(Queue);
     N[9] = CCQueuePop(Queue);
 
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 8 }));
-    CCQueuePush(Queue, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 9 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 8 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 9 }));
 
     CCQueueDestroy(Queue);
     
     XCTAssertEqual(N[0], NULL, @"Should return null when nothing left to dequeue");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[1]), 1, @"Should return the first element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[2]), 2, @"Should return the second element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[3]), 3, @"Should return the third element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[4]), 4, @"Should return the fourth element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[5]), 5, @"Should return the fifth element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[6]), 6, @"Should return the sixth element");
-    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(N[7]), 7, @"Should return the seventh element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[1]), 1, @"Should return the first element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[2]), 2, @"Should return the second element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[3]), 3, @"Should return the third element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[4]), 4, @"Should return the fourth element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[5]), 5, @"Should return the fifth element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[6]), 6, @"Should return the sixth element");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(N[7]), 7, @"Should return the seventh element");
     XCTAssertEqual(N[8], NULL, @"Should return null when nothing left to dequeue");
     XCTAssertEqual(N[9], NULL, @"Should return null when nothing left to dequeue");
     
@@ -111,7 +111,7 @@
     {
         if (N[Loop])
         {
-            CCLinkedListDestroyNode(N[Loop]);
+            CCQueueDestroyNode(N[Loop]);
         }
     }
 }
