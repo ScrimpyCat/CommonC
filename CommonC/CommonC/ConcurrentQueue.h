@@ -42,8 +42,8 @@ typedef struct {
 } CCConcurrentQueuePointer;
 
 typedef struct CCConcurrentQueueNode {
-    CCConcurrentQueuePointer next;
-    CCConcurrentQueuePointer prev;
+    _Atomic(CCConcurrentQueuePointer) next;
+    _Atomic(CCConcurrentQueuePointer) prev;
 } CCConcurrentQueueNode;
 
 typedef struct {

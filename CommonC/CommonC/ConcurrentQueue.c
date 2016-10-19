@@ -34,8 +34,8 @@ CCConcurrentQueueNode *CCConcurrentQueueCreateNode(CCAllocatorType Allocator, si
 
     if (Node)
     {
-        Node->next = (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 };
-        Node->prev = (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 };
+        atomic_init(&Node->next, (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 });
+        atomic_init(&Node->prev, (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 });
         if (Data) memcpy(((CCConcurrentQueueNodeData*)Node)->data, Data, Size);
     }
 
@@ -57,7 +57,8 @@ CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator)
     {
         atomic_init(&Queue->head, (CCConcurrentQueuePointer){ .node = &Queue->dummy, .tag = 0 });
         atomic_init(&Queue->tail, (CCConcurrentQueuePointer){ .node = &Queue->dummy, .tag = 0 });
-        Queue->dummy = (CCConcurrentQueueNode){ .next = NULL, .prev = NULL };
+        atomic_init(&Queue->dummy.next, (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 });
+        atomic_init(&Queue->dummy.prev, (CCConcurrentQueuePointer){ .node = NULL, .tag = 0 });
     }
     
     return Queue;
@@ -80,18 +81,33 @@ static inline _Bool CCConcurrentQueuePointerIsEqual(CCConcurrentQueuePointer a, 
     return (a.node == b.node) && (a.tag == b.tag);
 }
 
+static inline CCConcurrentQueueNode *CCConcurrentQueueAcquireNode(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
+{
+    return Node != &Queue->dummy ? CCRetain(Node) : Node;
+}
+
+static inline CCConcurrentQueueNode *CCConcurrentQueueReleaseNode(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
+{
+    if (Node != &Queue->dummy) CCFree(Node);
+    return Node;
+}
+
 void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
 {
     CCAssertLog(Queue, "Queue must not be null");
+    CCAssertLog(Node, "Node must not be null");
+    
+    CCConcurrentQueueAcquireNode(Queue, Node);
     
     for ( ; ; )
     {
         CCConcurrentQueuePointer Tail = atomic_load(&Queue->tail);
         
-        Node->next = (CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 };
+        atomic_store(&Node->next, ((CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 }));
         if (atomic_compare_exchange_weak(&Queue->tail, &Tail, ((CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag + 1 })))
         {
-            Tail.node->prev = (CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag };
+            atomic_store(&Tail.node->prev, ((CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag }));
+            CCConcurrentQueueReleaseNode(Queue, Tail.node);
             break;
         }
     }
@@ -101,12 +117,17 @@ static void CCConcurrentQueueFixList(CCConcurrentQueue Queue, CCConcurrentQueueP
 {
     for (CCConcurrentQueuePointer CurNode = Tail; CCConcurrentQueuePointerIsEqual(Head, atomic_load(&Queue->head)) && !CCConcurrentQueuePointerIsEqual(CurNode, Head); )
     {
-        CCConcurrentQueuePointer CurNodeNext = CurNode.node->next;
+        CCConcurrentQueuePointer CurNodeNext = atomic_load(&CurNode.node->next);
         if (CurNodeNext.tag != CurNode.tag) return;
         
         CCConcurrentQueuePointer Fix = { .node = CurNode.node, .tag = CurNode.tag - 1 };
-        CCConcurrentQueuePointer NextNodePrev = CurNodeNext.node->prev;
-        if (!CCConcurrentQueuePointerIsEqual(NextNodePrev, Fix)) CurNodeNext.node->prev = Fix;
+        CCConcurrentQueuePointer NextNodePrev = atomic_load(&CurNodeNext.node->prev);
+        if (!CCConcurrentQueuePointerIsEqual(NextNodePrev, Fix))
+        {
+            CCConcurrentQueueAcquireNode(Queue, Fix.node);
+            atomic_store(&CurNodeNext.node->prev, Fix);
+            CCConcurrentQueueReleaseNode(Queue, NextNodePrev.node);
+        }
         
         CurNode = (CCConcurrentQueuePointer){ .node = CurNodeNext.node, .tag = CurNode.tag - 1 };
     }
@@ -119,7 +140,7 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
     for ( ; ; )
     {
         CCConcurrentQueuePointer Head = atomic_load(&Queue->head), Tail = atomic_load(&Queue->tail);
-        CCConcurrentQueuePointer FirstNodePrev = Head.node->prev;
+        CCConcurrentQueuePointer FirstNodePrev = atomic_load(&Head.node->prev);
         
         if (CCConcurrentQueuePointerIsEqual(Head, atomic_load(&Queue->head)))
         {
@@ -137,24 +158,37 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
                 else
                 {
                     CCConcurrentQueueNode *Dummy = &Queue->dummy;
-                    Dummy->next = (CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 };
+                    
+                    CCConcurrentQueuePointer OldNext = atomic_exchange(&Dummy->next, ((CCConcurrentQueuePointer){ .node = CCConcurrentQueueAcquireNode(Queue, Tail.node), .tag = Tail.tag + 1 }));
+                    CCConcurrentQueueReleaseNode(Queue, OldNext.node);
+                    
                     if (atomic_compare_exchange_weak(&Queue->tail, &Tail, ((CCConcurrentQueuePointer){ .node = Dummy, .tag = Tail.tag + 1 })))
                     {
-                        Head.node->prev = (CCConcurrentQueuePointer){ .node = Dummy, .tag = Tail.tag };
+                        atomic_store(&Head.node->prev, ((CCConcurrentQueuePointer){ .node = Dummy, .tag = Tail.tag }));
+                        CCConcurrentQueueReleaseNode(Queue, Tail.node);
                     }
                     
                     continue;
                 }
                 
-                if (atomic_compare_exchange_weak(&Queue->head, &Head, ((CCConcurrentQueuePointer){ .node = FirstNodePrev.node, .tag = Head.tag + 1 })))
+                if (atomic_compare_exchange_weak(&Queue->head, &Head, ((CCConcurrentQueuePointer){ .node = CCConcurrentQueueAcquireNode(Queue, FirstNodePrev.node), .tag = Head.tag + 1 })))
                 {
-                    return Head.node;
+                    return CCConcurrentQueueReleaseNode(Queue, Head.node);
                 }
+                
+                else CCConcurrentQueueReleaseNode(Queue, FirstNodePrev.node);
             }
             
             else
             {
-                if (Tail.node == Head.node) return NULL;
+                if (Tail.node == Head.node)
+                {
+                    CCConcurrentQueuePointer Next = atomic_load(&Queue->dummy.next), Prev = atomic_load(&Queue->dummy.prev);
+                    if ((Next.node) && (atomic_compare_exchange_strong(&Queue->dummy.next, &Next, ((CCConcurrentQueuePointer){ .node = NULL, .tag = 0 })))) CCConcurrentQueueReleaseNode(Queue, Next.node);
+                    if (Prev.node) atomic_compare_exchange_strong(&Queue->dummy.prev, &Prev, ((CCConcurrentQueuePointer){ .node = NULL, .tag = 0 }));
+                    
+                    return NULL;
+                }
                 
                 if (FirstNodePrev.tag != Head.tag)
                 {
@@ -162,7 +196,7 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
                     continue;
                 }
                 
-                atomic_compare_exchange_weak(&Queue->head, &Head, ((CCConcurrentQueuePointer){ .node = FirstNodePrev.node, .tag = Head.tag + 1 }));
+                if (!atomic_compare_exchange_weak(&Queue->head, &Head, ((CCConcurrentQueuePointer){ .node = CCConcurrentQueueAcquireNode(Queue, FirstNodePrev.node), .tag = Head.tag + 1 }))) CCConcurrentQueueReleaseNode(Queue, FirstNodePrev.node);
             }
         }
     }
