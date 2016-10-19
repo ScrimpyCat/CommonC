@@ -105,7 +105,7 @@ void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
     {
         CCConcurrentQueuePointer Tail = atomic_load_explicit(&Queue->tail, memory_order_acquire);
         
-        atomic_store_explicit(&Node->next, ((CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 }), memory_order_release);
+        atomic_store_explicit(&Node->next, ((CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 }), memory_order_relaxed);
         if (atomic_compare_exchange_weak_explicit(&Queue->tail, &Tail, ((CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag + 1 }), memory_order_release, memory_order_relaxed))
         {
             atomic_store_explicit(&Tail.node->prev, ((CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag }), memory_order_release);
