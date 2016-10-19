@@ -25,12 +25,107 @@
 
 #import <XCTest/XCTest.h>
 #import "ConcurrentQueue.h"
+#import <stdatomic.h>
+#import <pthread.h>
 
 @interface ConcurrentQueueTests : XCTestCase
 
 @end
 
 @implementation ConcurrentQueueTests
+
+static int DestroyedNode2 = 0;
+static void NodeDestructor2(void *Ptr)
+{
+    DestroyedNode2++;
+}
+
+-(void) testNodeDestruction
+{
+    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    CCConcurrentQueueNode *N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    
+    CCConcurrentQueueDestroy(Queue);
+    
+    XCTAssertEqual(DestroyedNode2, 1, @"No nodes should be over-retained");
+    
+    
+    DestroyedNode2 = 0;
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    
+    CCConcurrentQueueDestroy(Queue);
+    
+    XCTAssertEqual(DestroyedNode2, 1, @"No nodes should be over-retained");
+    
+    
+    DestroyedNode2 = 0;
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    
+    CCConcurrentQueueDestroy(Queue);
+    
+    XCTAssertEqual(DestroyedNode2, 2, @"No nodes should be over-retained");
+    
+    
+    DestroyedNode2 = 0;
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    
+    CCConcurrentQueueDestroy(Queue);
+    
+    XCTAssertEqual(DestroyedNode2, 2, @"No nodes should be over-retained");
+
+    
+    DestroyedNode2 = 0;
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    
+    N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
+    CCMemorySetDestructor(N, NodeDestructor2);
+    
+    CCConcurrentQueuePush(Queue, N);
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    CCConcurrentQueueDestroyNode(CCConcurrentQueuePop(Queue));
+    
+    CCConcurrentQueueDestroy(Queue);
+    
+    XCTAssertEqual(DestroyedNode2, 2, @"No nodes should be over-retained");
+}
 
 -(void) testEmptyDequeues
 {
@@ -114,6 +209,94 @@
             CCConcurrentQueueDestroyNode(N[Loop]);
         }
     }
+}
+
+#define PUSH_THREADS 20
+#define POP_THREADS 15
+
+#define NODE_COUNT 1000
+
+static _Atomic(int) DestroyedNodes = ATOMIC_VAR_INIT(0);
+static void NodeDestructor(void *Ptr)
+{
+    atomic_fetch_add_explicit(&DestroyedNodes, 1, memory_order_relaxed);
+}
+
+static CCConcurrentQueue Q;
+static void *Pusher(void *Arg)
+{
+    for (int Loop = 0; Loop < NODE_COUNT; Loop++)
+    {
+        CCConcurrentQueueNode *Node = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ *(int*)Arg + Loop });
+        CCMemorySetDestructor(Node, NodeDestructor);
+        CCConcurrentQueuePush(Q, Node);
+    }
+    
+    return NULL;
+}
+
+static _Atomic(int) Count = ATOMIC_VAR_INIT(0);
+static void *Popper(void *Arg)
+{
+    uintptr_t Sum = 0;
+    for ( ; atomic_load_explicit(&Count, memory_order_relaxed) < (NODE_COUNT * PUSH_THREADS); )
+    {
+        CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Q);
+        if (Node)
+        {
+            atomic_fetch_add_explicit(&Count, 1, memory_order_relaxed);
+            Sum += *(int*)CCConcurrentQueueGetNodeData(Node);
+            CCConcurrentQueueDestroyNode(Node);
+        }
+    }
+    
+    return (void*)Sum;
+}
+
+-(void) testMultiThreading
+{
+    Q = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    pthread_t Push[PUSH_THREADS], Pop[POP_THREADS];
+    int PushArgs[PUSH_THREADS];
+    
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        PushArgs[Loop] = Loop * 100;
+        pthread_create(Push + Loop, NULL, Pusher, PushArgs + Loop);
+    }
+    
+    for (int Loop = 0; Loop < POP_THREADS; Loop++)
+    {
+        pthread_create(Pop + Loop, NULL, Popper, NULL);
+    }
+    
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        pthread_join(Push[Loop], NULL);
+    }
+    
+    int Sum = 0;
+    for (int Loop = 0; Loop < POP_THREADS; Loop++)
+    {
+        uintptr_t Result = 0;
+        pthread_join(Pop[Loop], (void**)&Result);
+        Sum += (int)Result;
+    }
+    
+    int Actual = 0;
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        for (int Loop2 = 0; Loop2 < NODE_COUNT; Loop2++)
+        {
+            Actual += PushArgs[Loop] + Loop2;
+        }
+    }
+    
+    XCTAssertEqual(Sum, Actual, @"Should calculate the correct result");
+    XCTAssertEqual(atomic_load_explicit(&DestroyedNodes, memory_order_relaxed), (PUSH_THREADS * NODE_COUNT), @"No nodes should be over-retained");
+    
+    CCConcurrentQueueDestroy(Q);
 }
 
 @end
