@@ -214,7 +214,7 @@ static void NodeDestructor2(void *Ptr)
 #define PUSH_THREADS 20
 #define POP_THREADS 15
 
-#define NODE_COUNT 1000
+#define NODE_COUNT 10000
 
 static _Atomic(int) DestroyedNodes = ATOMIC_VAR_INIT(0);
 static void NodeDestructor(void *Ptr)
@@ -293,10 +293,10 @@ static void *Popper(void *Arg)
         }
     }
     
+    CCConcurrentQueueDestroy(Q);
+    
     XCTAssertEqual(Sum, Actual, @"Should calculate the correct result");
     XCTAssertEqual(atomic_load_explicit(&DestroyedNodes, memory_order_relaxed), (PUSH_THREADS * NODE_COUNT), @"No nodes should be over-retained");
-    
-    CCConcurrentQueueDestroy(Q);
 }
 
 @end

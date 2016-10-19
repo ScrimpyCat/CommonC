@@ -27,7 +27,7 @@
 #define CommonC_ConcurrentQueue_h
 
 /*
- Lock-free FIFO queue implementation: http://www.cs.tau.ac.il/%7Eshanir/nir-pubs-web/Papers/FIFO_Queues.pdf or mirror: https://www.offblast.org/stuff/books/FIFO_Queues.pdf
+ Lock-free FIFO queue implementation: https://people.csail.mit.edu/edya/publications/OptimisticFIFOQueue-journal.pdf
  Allows for many producer-consumer access.
  */
 
@@ -54,7 +54,6 @@ typedef struct {
 typedef struct {
     _Atomic(CCConcurrentQueuePointer) head;
     _Atomic(CCConcurrentQueuePointer) tail;
-    CCConcurrentQueueNode dummy;
 } CCConcurrentQueueInfo, *CCConcurrentQueue;
 
 #pragma mark - Creation / Destruction
@@ -76,7 +75,9 @@ void CCConcurrentQueueDestroyNode(CCConcurrentQueueNode *CC_DESTROY(Node));
 
 /*!
  * @brief Create a concurrent FIFO queue.
- * @description This queue allows for many producer-consumer access.
+ * @description This queue allows for many producer-consumer access. It will retain a reference
+ *              to the last remaining node. To free up that node the queue must be destroyed.
+ *
  * @param Allocator The allocator to be used for the allocation.
  * @return A FIFO queue, or NULL on failure. Must be destroyed to free the memory.
  */
@@ -117,7 +118,11 @@ static inline void *CCConcurrentQueueGetNodeData(CCConcurrentQueueNode *Node);
 
 static inline void *CCConcurrentQueueGetNodeData(CCConcurrentQueueNode *Node)
 {
-    return ((CCConcurrentQueueNodeData*)Node)->data;
+    /*
+     Strange bug in either xcode or clang, preventing this from working. It is causing the behaviour:
+     offsetof(CCConcurrentQueueNodeData, data) != ((CCConcurrentQueueNodeData*)NULL)->data
+     */
+    return (void*)Node + offsetof(CCConcurrentQueueNodeData, data); //((CCConcurrentQueueNodeData*)Node)->data;
 }
 
 #endif
