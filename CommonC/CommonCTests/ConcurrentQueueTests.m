@@ -299,4 +299,56 @@ static void *Popper(void *Arg)
     XCTAssertEqual(atomic_load_explicit(&DestroyedNodes, memory_order_relaxed), (PUSH_THREADS * NODE_COUNT), @"No nodes should be over-retained");
 }
 
+#undef PUSH_THREADS
+#define PUSH_THREADS 9
+
+#undef NODE_COUNT
+#define NODE_COUNT 80
+
+static CCConcurrentQueue Q2;
+static void *Pusher2(void *Arg)
+{
+    for (int Loop = 0; Loop < NODE_COUNT; Loop++)
+    {
+        CCConcurrentQueuePush(Q2, CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ *(int*)Arg + Loop }));
+    }
+    
+    return NULL;
+}
+
+-(void) testMultiThreadedOrdering
+{
+    Q2 = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    
+    pthread_t Push[PUSH_THREADS];
+    int PushArgs[PUSH_THREADS];
+    
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        PushArgs[Loop] = Loop * 100;
+        pthread_create(Push + Loop, NULL, Pusher2, PushArgs + Loop);
+    }
+    
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        pthread_join(Push[Loop], NULL);
+        PushArgs[Loop] = -1;
+    }
+    
+    for (int Loop = 0; Loop < PUSH_THREADS; Loop++)
+    {
+        for (int Loop2 = 0; Loop2 < NODE_COUNT; Loop2++)
+        {
+            CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Q2);
+            int Value = *(int*)CCConcurrentQueueGetNodeData(Node);
+            CCConcurrentQueueDestroyNode(Node);
+            
+            XCTAssertLessThan(PushArgs[Value / 100], Value, @"Thread enqueued items should be ordered sequentially");
+            PushArgs[Value / 100] = Value;
+        }
+    }
+    
+    CCConcurrentQueueDestroy(Q2);
+}
+
 @end
