@@ -113,6 +113,8 @@
 		F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */; };
 		F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */; };
+		F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */; };
+		F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */; };
 		F3143A9F1A8A7D03004EB810 /* CollectionList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9E1A8A7D03004EB810 /* CollectionList.c */; };
 		F3143AA11A8A8B19004EB810 /* CollectionListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143AA01A8A8B19004EB810 /* CollectionListTests.m */; };
@@ -126,6 +128,7 @@
 		F322F05D1C09550100BAA44E /* PathComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05B1C09550100BAA44E /* PathComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F322F0601C09551100BAA44E /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
@@ -324,6 +327,8 @@
 		F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryHashMap.h; sourceTree = "<group>"; };
 		F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DTests.m; sourceTree = "<group>"; };
 		F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DTests.m; sourceTree = "<group>"; };
+		F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentGarbageCollector.c; sourceTree = "<group>"; };
+		F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollector.h; sourceTree = "<group>"; };
 		F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionArrayTests.m; sourceTree = "<group>"; };
 		F3143A9C1A8A683F004EB810 /* CollectionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionTests.h; sourceTree = "<group>"; };
 		F3143A9D1A8A7CF6004EB810 /* CollectionList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionList.h; sourceTree = "<group>"; };
@@ -561,6 +566,15 @@
 				F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */,
 			);
 			name = "Dictionary Implementations";
+			sourceTree = "<group>";
+		};
+		F312A03F1DB8374A0003BB24 /* GC */ = {
+			isa = PBXGroup;
+			children = (
+				F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */,
+				F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */,
+			);
+			name = GC;
 			sourceTree = "<group>";
 		};
 		F318D92C1C4DD77A005AE64E /* Matrices */ = {
@@ -907,6 +921,7 @@
 			children = (
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
+				F312A03F1DB8374A0003BB24 /* GC */,
 				F359D0281C1456D60028B86B /* Hash.h */,
 				F359D0271C1456D60028B86B /* Hash.c */,
 				F334273A1DB404FD008CB998 /* Queue */,
@@ -1056,6 +1071,7 @@
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
+				F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */,
 				F30437E81C62E1B300388C74 /* PathComponent.h in Headers */,
 				F36F82FA1D0FB56A00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F30437F31C62E1EF00388C74 /* Logging.h in Headers */,
@@ -1152,6 +1168,7 @@
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
 				F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */,
 				F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */,
+				F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */,
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
@@ -1412,6 +1429,7 @@
 				F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */,
 				F359D0301C147DB50028B86B /* DataBuffer.c in Sources */,
 				F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */,
+				F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
