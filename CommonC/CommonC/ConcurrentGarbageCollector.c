@@ -65,6 +65,11 @@ typedef struct {
     CCConcurrentGarbageCollectorEpoch epoch;
 } CCConcurrentGarbageCollectorThread;
 
+static void CCConcurrentGarbageCollectorDestructor(CCConcurrentGarbageCollector GC)
+{
+    pthread_key_delete(GC->key);
+}
+
 CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocatorType Allocator)
 {
     CCConcurrentGarbageCollector GC = CCMalloc(Allocator, sizeof(CCConcurrentGarbageCollectorInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -82,6 +87,8 @@ CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocatorType 
         atomic_init(&GC->managed[1], (CCConcurrentGarbageCollectorManagedList){ .list = NULL, .refCount = 0 });
         atomic_init(&GC->managed[2], (CCConcurrentGarbageCollectorManagedList){ .list = NULL, .refCount = 0 });
         atomic_init(&GC->epoch, 0);
+        
+        CCMemorySetDestructor(GC, (CCMemoryDestructorCallback)CCConcurrentGarbageCollectorDestructor);
     }
     
     return GC;
@@ -91,7 +98,6 @@ void CCConcurrentGarbageCollectorDestroy(CCConcurrentGarbageCollector GC)
 {
     CCAssertLog(GC, "GC must not be null");
     
-    pthread_key_delete(GC->key);
     CCFree(GC);
 }
 

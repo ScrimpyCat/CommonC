@@ -67,6 +67,7 @@ CC_NEW CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocat
 
 /*!
  * @brief Destroy a garbage collector.
+ * @warning All usage by other threads must have finish before final destruction.
  * @param GC The garbage collector to be destroyed.
  */
 void CCConcurrentGarbageCollectorDestroy(CCConcurrentGarbageCollector CC_DESTROY(GC));
