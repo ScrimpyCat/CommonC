@@ -214,7 +214,7 @@ static void NodeDestructor2(void *Ptr)
 #define PUSH_THREADS 20
 #define POP_THREADS 15
 
-#define NODE_COUNT 10000
+#define NODE_COUNT 1000000
 
 static _Atomic(int) DestroyedNodes = ATOMIC_VAR_INIT(0);
 static void NodeDestructor(void *Ptr)

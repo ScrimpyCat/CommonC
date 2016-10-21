@@ -59,6 +59,12 @@ typedef struct {
     CCConcurrentGarbageCollectorReclaimer reclaimer;
 } CCConcurrentGarbageCollectorEntry;
 
+typedef struct {
+    CCConcurrentGarbageCollectorNode *head;
+    CCConcurrentGarbageCollectorNode *tail;
+    CCConcurrentGarbageCollectorEpoch epoch;
+} CCConcurrentGarbageCollectorThread;
+
 CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocatorType Allocator)
 {
     CCConcurrentGarbageCollector GC = CCMalloc(Allocator, sizeof(CCConcurrentGarbageCollectorInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -85,7 +91,6 @@ void CCConcurrentGarbageCollectorDestroy(CCConcurrentGarbageCollector GC)
 {
     CCAssertLog(GC, "GC must not be null");
     
-    //should we guarantee GC is safe to destroy?
     pthread_key_delete(GC->key);
     CCFree(GC);
 }
@@ -95,12 +100,12 @@ void CCConcurrentGarbageCollectorBegin(CCConcurrentGarbageCollector GC)
     CCConcurrentGarbageCollectorNode *LocalEpoch = pthread_getspecific(GC->key);
     if (CC_UNLIKELY(!LocalEpoch))
     {
-        LocalEpoch = CCConcurrentGarbageCollectorCreateNode(GC->allocator, sizeof(CCConcurrentGarbageCollectorEpoch), NULL);
+        LocalEpoch = CCConcurrentGarbageCollectorCreateNode(GC->allocator, sizeof(CCConcurrentGarbageCollectorThread), NULL);
         pthread_setspecific(GC->key, LocalEpoch);
     }
     
     const CCConcurrentGarbageCollectorEpoch Epoch = atomic_load(&GC->epoch) % 3;
-    *(CCConcurrentGarbageCollectorEpoch*)CCConcurrentGarbageCollectorGetNodeData(LocalEpoch) = Epoch;
+    *(CCConcurrentGarbageCollectorThread*)CCConcurrentGarbageCollectorGetNodeData(LocalEpoch) = (CCConcurrentGarbageCollectorThread){ .head = NULL, .tail = NULL, .epoch = Epoch };
     
     CCConcurrentGarbageCollectorManagedList Managed;
     do {
@@ -118,26 +123,37 @@ static void CCConcurrentGarbageCollectorDrain(CCConcurrentGarbageCollector GC, C
 
 void CCConcurrentGarbageCollectorEnd(CCConcurrentGarbageCollector GC)
 {
-    CCConcurrentGarbageCollectorNode *LocalEpoch = pthread_getspecific(GC->key);
+    const CCConcurrentGarbageCollectorThread *LocalEpoch = CCConcurrentGarbageCollectorGetNodeData(pthread_getspecific(GC->key));
     
-    const CCConcurrentGarbageCollectorEpoch Epoch = *(CCConcurrentGarbageCollectorEpoch*)CCConcurrentGarbageCollectorGetNodeData(LocalEpoch);
+    const CCConcurrentGarbageCollectorEpoch Epoch = LocalEpoch->epoch;
     CCConcurrentGarbageCollectorManagedList Managed;
-    do {
-        Managed = atomic_load(&GC->managed[Epoch]);
-    } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Managed.list, .refCount = Managed.refCount - 1 })));
+    if (LocalEpoch->head)
+    {
+        do {
+            Managed = atomic_load(&GC->managed[Epoch]);
+            LocalEpoch->tail->next = Managed.list;
+        } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : LocalEpoch->head, .refCount = Managed.refCount - 1 })));
     
-    if ((Managed.refCount == 1) && (Managed.list)) CCConcurrentGarbageCollectorDrain(GC, Managed.list);
+        if (Managed.refCount == 1) CCConcurrentGarbageCollectorDrain(GC, LocalEpoch->head);
+    }
+    
+    else
+    {
+        do {
+            Managed = atomic_load(&GC->managed[Epoch]);
+        } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Managed.list, .refCount = Managed.refCount - 1 })));
+        
+        if ((Managed.refCount == 1) && (Managed.list)) CCConcurrentGarbageCollectorDrain(GC, Managed.list);
+    }
 }
 
 void CCConcurrentGarbageCollectorManage(CCConcurrentGarbageCollector GC, void *Item, CCConcurrentGarbageCollectorReclaimer Reclaimer)
 {
     CCConcurrentGarbageCollectorNode *Entry = CCConcurrentGarbageCollectorCreateNode(GC->allocator, sizeof(CCConcurrentGarbageCollectorEntry), &(CCConcurrentGarbageCollectorEntry){ .item = Item, .reclaimer = Reclaimer });
-    CCConcurrentGarbageCollectorNode *LocalEpoch = pthread_getspecific(GC->key); //Possibly have begin return the *LocalEpoch or epoch and have that passed around
-    const CCConcurrentGarbageCollectorEpoch Epoch = *(CCConcurrentGarbageCollectorEpoch*)CCConcurrentGarbageCollectorGetNodeData(LocalEpoch);
+    CCConcurrentGarbageCollectorThread *LocalEpoch = CCConcurrentGarbageCollectorGetNodeData(pthread_getspecific(GC->key)); //Possibly have begin return the *LocalEpoch or epoch and have that passed around
     
-    CCConcurrentGarbageCollectorManagedList Managed;
-    do {
-        Managed = atomic_load(&GC->managed[Epoch]);
-        Entry->next = Managed.list;
-    } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Entry, .refCount = Managed.refCount }))); //could possibly do this in CCConcurrentGarbageCollectorEnd, and instead have a local reference here (in CCConcurrentGarbageCollectorThread).
+    Entry->next = LocalEpoch->head;
+    LocalEpoch->head = Entry;
+    
+    if (!LocalEpoch->tail) LocalEpoch->tail = LocalEpoch->head;
 }
