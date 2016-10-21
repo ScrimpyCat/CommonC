@@ -53,10 +53,8 @@ typedef struct {
 typedef struct {
     CCAllocatorType allocator;
     _Atomic(CCConcurrentGarbageCollectorManagedList) managed[3];
-    _Atomic(CCConcurrentGarbageCollectorNode*) threads;
     _Atomic(CCConcurrentGarbageCollectorEpoch) epoch;
     pthread_key_t key;
-    atomic_flag drainLock;
 } CCConcurrentGarbageCollectorInfo, *CCConcurrentGarbageCollector;
 
 #pragma mark - Creation / Destruction
