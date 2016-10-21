@@ -124,10 +124,9 @@ void CCConcurrentGarbageCollectorEnd(CCConcurrentGarbageCollector GC)
     CCConcurrentGarbageCollectorManagedList Managed;
     do {
         Managed = atomic_load(&GC->managed[Epoch]);
-    } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 })));
+    } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Managed.list, .refCount = Managed.refCount - 1 })));
     
-    Managed = atomic_load(&GC->managed[Epoch]);
-    if ((Managed.refCount == 0) && (Managed.list) && (atomic_compare_exchange_strong(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = NULL, .refCount = 0 })))) CCConcurrentGarbageCollectorDrain(GC, Managed.list); //could be combined with the above
+    if ((Managed.refCount == 1) && (Managed.list)) CCConcurrentGarbageCollectorDrain(GC, Managed.list);
 }
 
 void CCConcurrentGarbageCollectorManage(CCConcurrentGarbageCollector GC, void *Item, CCConcurrentGarbageCollectorReclaimer Reclaimer)
