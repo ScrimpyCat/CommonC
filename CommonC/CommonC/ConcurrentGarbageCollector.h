@@ -52,10 +52,25 @@ CC_NEW CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocat
  */
 void CCConcurrentGarbageCollectorDestroy(CCConcurrentGarbageCollector CC_DESTROY(GC));
 
+/*!
+ * @brief Start collecting.
+ * @description Any managed pointers added or accessed in this section is safe.
+ * @param GC The garbage collector to be used.
+ */
 void CCConcurrentGarbageCollectorBegin(CCConcurrentGarbageCollector GC);
 
+/*!
+ * @brief Stop collecting.
+ * @param GC The garbage collector to be used.
+ */
 void CCConcurrentGarbageCollectorEnd(CCConcurrentGarbageCollector GC);
 
+/*!
+ * @brief Add a pointer to be managed by the garbage collector.
+ * @param GC The garbage collector to be used.
+ * @param Item The item to be managed.
+ * @param Reclaimer The function to be called when the item can be reclaimed (destroyed).
+ */
 void CCConcurrentGarbageCollectorManage(CCConcurrentGarbageCollector GC, void *Item, CCConcurrentGarbageCollectorReclaimer Reclaimer);
 
 #endif
