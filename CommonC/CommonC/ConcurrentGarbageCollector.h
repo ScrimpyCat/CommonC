@@ -28,34 +28,14 @@
 
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <stdatomic.h>
 
 typedef void (*CCConcurrentGarbageCollectorReclaimer)(void*);
 
-typedef struct CCConcurrentGarbageCollectorNode {
-    struct CCConcurrentGarbageCollectorNode *next;
-} CCConcurrentGarbageCollectorNode;
-
-typedef struct {
-    CCConcurrentGarbageCollectorNode node;
-    uint8_t data[];
-} CCConcurrentGarbageCollectorNodeData;
-
-typedef uint64_t CCConcurrentGarbageCollectorEpoch;
-
-typedef struct {
-    CCConcurrentGarbageCollectorNode *list;
-    uint32_t refCount;
-} CCConcurrentGarbageCollectorManagedList;
-
-typedef struct {
-    CCAllocatorType allocator;
-    _Atomic(CCConcurrentGarbageCollectorManagedList) managed[3];
-    _Atomic(CCConcurrentGarbageCollectorEpoch) epoch;
-    pthread_key_t key;
-} CCConcurrentGarbageCollectorInfo, *CCConcurrentGarbageCollector;
+/*!
+ * @brief The garbage collector.
+ * @description Allows @b CCRetain.
+ */
+typedef struct CCConcurrentGarbageCollectorInfo *CCConcurrentGarbageCollector;
 
 #pragma mark - Creation / Destruction
 /*!

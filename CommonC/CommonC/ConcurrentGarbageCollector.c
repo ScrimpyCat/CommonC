@@ -29,6 +29,30 @@
 #include <stdatomic.h>
 #include <pthread.h>
 
+typedef struct CCConcurrentGarbageCollectorNode {
+    struct CCConcurrentGarbageCollectorNode *next;
+} CCConcurrentGarbageCollectorNode;
+
+typedef struct {
+    CCConcurrentGarbageCollectorNode node;
+    uint8_t data[];
+} CCConcurrentGarbageCollectorNodeData;
+
+typedef uint64_t CCConcurrentGarbageCollectorEpoch;
+
+typedef struct {
+    CCConcurrentGarbageCollectorNode *list;
+    uint32_t refCount;
+} CCConcurrentGarbageCollectorManagedList;
+
+typedef struct CCConcurrentGarbageCollectorInfo {
+    CCAllocatorType allocator;
+    _Atomic(CCConcurrentGarbageCollectorManagedList) managed[3];
+    _Atomic(CCConcurrentGarbageCollectorEpoch) epoch;
+    pthread_key_t key;
+} CCConcurrentGarbageCollectorInfo;
+
+
 CCConcurrentGarbageCollectorNode *CCConcurrentGarbageCollectorCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data)
 {
     CCConcurrentGarbageCollectorNode *Node = CCMalloc(Allocator, sizeof(CCConcurrentGarbageCollectorNode) + Size, NULL, CC_DEFAULT_ERROR_CALLBACK);
