@@ -46,18 +46,10 @@ void CCConcurrentQueueDestroyNode(CCConcurrentQueueNode *Node)
 {
     CCAssertLog(Node, "Node must not be null");
     
+    atomic_init(&Node->next, ((CCConcurrentQueuePointer){ .node = NULL, .tag = 0 }));
+    atomic_init(&Node->prev, ((CCConcurrentQueuePointer){ .node = NULL, .tag = 0 }));
+    
     CCFree(Node);
-}
-
-static inline CCConcurrentQueueNode *CCConcurrentQueueAcquireNode(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
-{
-    return CCRetain(Node);
-}
-
-static inline CCConcurrentQueueNode *CCConcurrentQueueReleaseNode(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
-{
-    CCFree(Node);
-    return Node;
 }
 
 CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator)
@@ -69,6 +61,7 @@ CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator)
         CCConcurrentQueueNode *Dummy = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
         atomic_init(&Queue->head, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
         atomic_init(&Queue->tail, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
+        Queue->gc = CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR);
     }
     
     return Queue;
@@ -84,7 +77,9 @@ void CCConcurrentQueueDestroy(CCConcurrentQueue Queue)
     }
     
     CCConcurrentQueuePointer Head = atomic_load(&Queue->head);
-    CCConcurrentQueueReleaseNode(Queue, Head.node);
+    CCConcurrentQueueDestroyNode(Head.node);
+    
+    CCConcurrentGarbageCollectorDestroy(Queue->gc);
     
     CC_SAFE_Free(Queue);
 }
@@ -99,7 +94,9 @@ void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
     CCAssertLog(Queue, "Queue must not be null");
     CCAssertLog(Node, "Node must not be null");
     
-    CCConcurrentQueueAcquireNode(Queue, Node);
+    CCRetain(Node);
+    
+    CCConcurrentGarbageCollectorBegin(Queue->gc);
     
     for ( ; ; )
     {
@@ -112,6 +109,8 @@ void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
             break;
         }
     }
+    
+    CCConcurrentGarbageCollectorEnd(Queue->gc);
 }
 
 static void CCConcurrentQueueFixList(CCConcurrentQueue Queue, CCConcurrentQueuePointer Tail, CCConcurrentQueuePointer Head)
@@ -128,6 +127,8 @@ static void CCConcurrentQueueFixList(CCConcurrentQueue Queue, CCConcurrentQueueP
 CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
 {
     CCAssertLog(Queue, "Queue must not be null");
+    
+    CCConcurrentGarbageCollectorBegin(Queue->gc);
     
     for ( ; ; )
     {
@@ -146,7 +147,9 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
                 
                 else if (atomic_compare_exchange_weak_explicit(&Queue->head, &Head, ((CCConcurrentQueuePointer){ .node = FirstNodePrev.node, .tag = Head.tag + 1 }), memory_order_release, memory_order_relaxed))
                 {
-                    CCConcurrentQueueReleaseNode(Queue, Head.node);
+                    CCConcurrentGarbageCollectorManage(Queue->gc, Head.node, (CCConcurrentGarbageCollectorReclaimer)CCConcurrentQueueDestroyNode);
+                    CCConcurrentGarbageCollectorEnd(Queue->gc);
+                    
                     return FirstNodePrev.node;
                 }
             }
@@ -154,6 +157,8 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
             else break;
         }
     }
+    
+    CCConcurrentGarbageCollectorEnd(Queue->gc);
     
     return NULL;
 }

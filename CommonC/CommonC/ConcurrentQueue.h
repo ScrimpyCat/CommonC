@@ -33,6 +33,7 @@
 
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
+#include <CommonC/ConcurrentGarbageCollector.h>
 #include <stdint.h>
 #include <stddef.h>
 
@@ -54,6 +55,7 @@ typedef struct {
 typedef struct {
     _Atomic(CCConcurrentQueuePointer) head;
     _Atomic(CCConcurrentQueuePointer) tail;
+    CCConcurrentGarbageCollector gc;
 } CCConcurrentQueueInfo, *CCConcurrentQueue;
 
 #pragma mark - Creation / Destruction
