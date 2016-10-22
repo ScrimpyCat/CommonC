@@ -157,9 +157,13 @@ void CCConcurrentGarbageCollectorBegin(CCConcurrentGarbageCollector GC)
 
 static void CCConcurrentGarbageCollectorDrain(CCConcurrentGarbageCollector GC, CCConcurrentGarbageCollectorNode *Node)
 {
-    for ( ; Node; Node = Node->next)
+    while (Node)
     {
         ((CCConcurrentGarbageCollectorEntry*)CCConcurrentGarbageCollectorGetNodeData(Node))->reclaimer(((CCConcurrentGarbageCollectorEntry*)CCConcurrentGarbageCollectorGetNodeData(Node))->item);
+        
+        CCConcurrentGarbageCollectorNode *Temp = Node;
+        Node = Node->next;
+        CCConcurrentGarbageCollectorDestroyNode(Temp);
     }
     
     atomic_fetch_add(&GC->epoch, 1);
