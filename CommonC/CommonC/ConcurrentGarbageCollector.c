@@ -193,7 +193,7 @@ void CCConcurrentGarbageCollectorEnd(CCConcurrentGarbageCollector GC)
         } while (!atomic_compare_exchange_weak(&GC->managed[Epoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 })));
     }
     
-    const CCConcurrentGarbageCollectorEpoch StaleEpoch = (Epoch - 2) % 3;
+    const CCConcurrentGarbageCollectorEpoch StaleEpoch = ((Epoch + 3) - 2) % 3;
     Managed = atomic_load(&GC->managed[StaleEpoch]);
     if ((Managed.refCount == 0) && (atomic_compare_exchange_strong(&GC->managed[StaleEpoch], &Managed, ((CCConcurrentGarbageCollectorManagedList){ .list = NULL, .refCount = 0 })))) CCConcurrentGarbageCollectorDrain(GC, Managed.list);
 }
