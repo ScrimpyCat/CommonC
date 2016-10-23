@@ -97,6 +97,9 @@
 #include <CommonC/Queue.h>
 #include <CommonC/ConcurrentQueue.h>
 
+#include <CommonC/ConcurrentGarbageCollector.h>
+#include <CommonC/EpochGarbageCollector.h>
+
 #include <CommonC/TypeCallbacks.h>
 
 #endif

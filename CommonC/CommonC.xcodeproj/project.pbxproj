@@ -129,6 +129,8 @@
 		F322F0601C09551100BAA44E /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
@@ -235,6 +237,8 @@
 		F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37AFAA61A7913F20037ECB2 /* CollectionTests.m */; };
+		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
+		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3A91A50186BC4B100EF0B95 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A91A4F186BC4B100EF0B95 /* XCTest.framework */; };
 		F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */; };
 		F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99301A6D0FFF00212838 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +280,7 @@
 		F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09C187A5B0200A38E72 /* Vector2DSSE4_1Tests.m */; };
 		F3E3E09F187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09E187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m */; };
 		F3E3E0A1187A5B1400A38E72 /* Vector2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E0A0187A5B1400A38E72 /* Vector2DAVXTests.m */; };
+		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
 		F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9E219428E1400C3626C /* CFAllocator.c */; };
@@ -342,6 +347,7 @@
 		F322F05B1C09550100BAA44E /* PathComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathComponent.h; sourceTree = "<group>"; };
 		F322F05E1C09551100BAA44E /* Path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Path.c; sourceTree = "<group>"; };
 		F322F05F1C09551100BAA44E /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
+		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
 		F334273B1DB40512008CB998 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
@@ -443,6 +449,8 @@
 		F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionInterface.h; sourceTree = "<group>"; };
 		F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionTypes.h; sourceTree = "<group>"; };
 		F37AFAA61A7913F20037ECB2 /* CollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTests.m; sourceTree = "<group>"; };
+		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
+		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3A91A4F186BC4B100EF0B95 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DTests.m; sourceTree = "<group>"; };
 		F3AE99301A6D0FFF00212838 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
@@ -573,6 +581,8 @@
 			children = (
 				F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */,
 				F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */,
+				F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */,
+				F3879FEA1DBC73EC00F2D4A7 /* Implementations */,
 			);
 			name = GC;
 			sourceTree = "<group>";
@@ -906,6 +916,15 @@
 			name = String;
 			sourceTree = "<group>";
 		};
+		F3879FEA1DBC73EC00F2D4A7 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */,
+				F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */,
+			);
+			name = Implementations;
+			sourceTree = "<group>";
+		};
 		F3A91A4A186BBAD400EF0B95 /* Vectors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1058,6 +1077,7 @@
 				F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */,
 				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
+				F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
 				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
 				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
@@ -1119,6 +1139,7 @@
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
 				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
+				F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
 				F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */,
 				F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */,
@@ -1155,7 +1176,9 @@
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
+				F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */,
 				F334273E1DB40512008CB998 /* Queue.h in Headers */,
+				F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
@@ -1442,6 +1465,7 @@
 				F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
 				F369C7D01C44D515006C3D96 /* CCString.c in Sources */,
+				F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */,
 				F3143A9F1A8A7D03004EB810 /* CollectionList.c in Sources */,
 				F306400F1850FB1E00122BE9 /* CustomFormatSpecifiers.c in Sources */,
 				F353DD5817ADF3C600D1674C /* Allocator.c in Sources */,
