@@ -28,8 +28,7 @@
 
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
-
-typedef void (*CCConcurrentGarbageCollectorReclaimer)(void*);
+#include <CommonC/ConcurrentGarbageCollectorInterface.h>
 
 /*!
  * @brief The garbage collector.
@@ -37,13 +36,15 @@ typedef void (*CCConcurrentGarbageCollectorReclaimer)(void*);
  */
 typedef struct CCConcurrentGarbageCollectorInfo *CCConcurrentGarbageCollector;
 
+
 #pragma mark - Creation / Destruction
 /*!
  * @brief Create a concurrent garbage collector.
  * @param Allocator The allocator to be used for the allocation.
+ * @param Interface The implementation to be used.
  * @return A garbage collector, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocatorType Allocator);
+CC_NEW CCConcurrentGarbageCollector CCConcurrentGarbageCollectorCreate(CCAllocatorType Allocator, const CCConcurrentGarbageCollectorInterface *Interface);
 
 /*!
  * @brief Destroy a garbage collector.
