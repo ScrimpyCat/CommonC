@@ -31,10 +31,11 @@
 
 typedef CCLinkedListNode CCQueueNode;
 
-typedef struct {
-    CCQueueNode *head;
-    CCQueueNode *tail;
-} CCQueueInfo, *CCQueue;
+/*!
+ * @brief The queue.
+ * @description Allows @b CCRetain.
+ */
+typedef struct CCQueueInfo *CCQueue;
 
 #pragma mark - Creation / Destruction
 /*!

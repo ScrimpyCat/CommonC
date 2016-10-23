@@ -27,6 +27,16 @@
 #include "MemoryAllocation.h"
 #include "Assertion.h"
 
+typedef struct CCQueueInfo {
+    CCQueueNode *head;
+    CCQueueNode *tail;
+} CCQueueInfo;
+
+static void CCQueueDestructor(CCQueue Queue)
+{
+    if (Queue->head) CCLinkedListDestroy(Queue->head);
+}
+
 CCQueue CCQueueCreate(CCAllocatorType Allocator)
 {
     CCQueue Queue = CCMalloc(Allocator, sizeof(CCQueueInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -35,6 +45,8 @@ CCQueue CCQueueCreate(CCAllocatorType Allocator)
     {
         Queue->head = NULL;
         Queue->tail = NULL;
+        
+        CCMemorySetDestructor(Queue, (CCMemoryDestructorCallback)CCQueueDestructor);
     }
     
     return Queue;
@@ -44,7 +56,6 @@ void CCQueueDestroy(CCQueue Queue)
 {
     CCAssertLog(Queue, "Queue must not be null");
     
-    if (Queue->head) CCLinkedListDestroy(Queue->head);
     CC_SAFE_Free(Queue);
 }
 
