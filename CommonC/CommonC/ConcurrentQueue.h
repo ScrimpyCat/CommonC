@@ -81,9 +81,10 @@ void CCConcurrentQueueDestroyNode(CCConcurrentQueueNode *CC_DESTROY(Node));
  *              to the last remaining node. To free up that node the queue must be destroyed.
  *
  * @param Allocator The allocator to be used for the allocation.
+ * @param GC The garbage collector to be used in this queue.
  * @return A FIFO queue, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator);
+CC_NEW CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurrentGarbageCollector CC_OWN(GC));
 
 /*!
  * @brief Destroy a queue.

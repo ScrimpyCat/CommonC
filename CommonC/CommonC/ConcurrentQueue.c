@@ -57,7 +57,7 @@ static void CCConcurrentQueueClearNode(CCConcurrentQueueNode *Node)
     CCConcurrentQueueDestroyNode(Node);
 }
 
-CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator)
+CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurrentGarbageCollector GC)
 {
     CCConcurrentQueue Queue = CCMalloc(Allocator, sizeof(CCConcurrentQueueInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     
@@ -66,7 +66,7 @@ CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator)
         CCConcurrentQueueNode *Dummy = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
         atomic_init(&Queue->head, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
         atomic_init(&Queue->tail, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
-        Queue->gc = CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR);
+        Queue->gc = GC;
     }
     
     return Queue;

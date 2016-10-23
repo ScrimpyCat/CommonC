@@ -42,7 +42,7 @@ static void NodeDestructor2(void *Ptr)
 
 -(void) testNodeDestruction
 {
-    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     CCConcurrentQueueNode *N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
     CCMemorySetDestructor(N, NodeDestructor2);
@@ -55,7 +55,7 @@ static void NodeDestructor2(void *Ptr)
     
     
     DestroyedNode2 = 0;
-    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
     CCMemorySetDestructor(N, NodeDestructor2);
@@ -69,7 +69,7 @@ static void NodeDestructor2(void *Ptr)
     
     
     DestroyedNode2 = 0;
-    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
     CCMemorySetDestructor(N, NodeDestructor2);
@@ -89,7 +89,7 @@ static void NodeDestructor2(void *Ptr)
     
     
     DestroyedNode2 = 0;
-    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
     CCMemorySetDestructor(N, NodeDestructor2);
@@ -108,7 +108,7 @@ static void NodeDestructor2(void *Ptr)
 
     
     DestroyedNode2 = 0;
-    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     N = CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, 0, NULL);
     CCMemorySetDestructor(N, NodeDestructor2);
@@ -129,7 +129,7 @@ static void NodeDestructor2(void *Ptr)
 
 -(void) testEmptyDequeues
 {
-    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     XCTAssertEqual(CCConcurrentQueuePop(Queue), NULL, @"Should return null when nothing left to dequeue");
     XCTAssertEqual(CCConcurrentQueuePop(Queue), NULL, @"Should return null when nothing left to dequeue");
@@ -140,7 +140,7 @@ static void NodeDestructor2(void *Ptr)
 
 -(void) testNodeReuse
 {
-    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     CCConcurrentQueuePush(Queue, CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
     CCConcurrentQueuePush(Queue, CCConcurrentQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
@@ -161,7 +161,7 @@ static void NodeDestructor2(void *Ptr)
 -(void) testOrdering
 {
     CCConcurrentQueueNode *N[10] = { NULL };
-    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    CCConcurrentQueue Queue = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     N[0] = CCConcurrentQueuePop(Queue);
     
@@ -255,7 +255,7 @@ static void *Popper(void *Arg)
 
 -(void) testMultiThreading
 {
-    Q = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Q = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     pthread_t Push[PUSH_THREADS], Pop[POP_THREADS];
     int PushArgs[PUSH_THREADS];
@@ -318,7 +318,7 @@ static void *Pusher2(void *Arg)
 
 -(void) testMultiThreadedOrdering
 {
-    Q2 = CCConcurrentQueueCreate(CC_STD_ALLOCATOR);
+    Q2 = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR));
     
     pthread_t Push[PUSH_THREADS];
     int PushArgs[PUSH_THREADS];
