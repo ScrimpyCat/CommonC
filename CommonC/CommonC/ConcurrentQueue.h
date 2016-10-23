@@ -52,11 +52,11 @@ typedef struct {
     uint8_t data[];
 } CCConcurrentQueueNodeData;
 
-typedef struct {
-    _Atomic(CCConcurrentQueuePointer) head;
-    _Atomic(CCConcurrentQueuePointer) tail;
-    CCConcurrentGarbageCollector gc;
-} CCConcurrentQueueInfo, *CCConcurrentQueue;
+/*!
+ * @brief The concurrent queue.
+ * @description Allows @b CCRetain.
+ */
+typedef struct CCConcurrentQueueInfo *CCConcurrentQueue;
 
 #pragma mark - Creation / Destruction
 /*!

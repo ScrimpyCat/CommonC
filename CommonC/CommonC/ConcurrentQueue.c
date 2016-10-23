@@ -28,6 +28,12 @@
 #include "Assertion.h"
 #include <stdatomic.h>
 
+typedef struct CCConcurrentQueueInfo {
+    _Atomic(CCConcurrentQueuePointer) head;
+    _Atomic(CCConcurrentQueuePointer) tail;
+    CCConcurrentGarbageCollector gc;
+} CCConcurrentQueueInfo;
+
 CCConcurrentQueueNode *CCConcurrentQueueCreateNode(CCAllocatorType Allocator, size_t Size, const void *Data)
 {
     CCConcurrentQueueNode *Node = CCMalloc(Allocator, sizeof(CCConcurrentQueueNode) + Size, NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -57,6 +63,19 @@ static void CCConcurrentQueueClearNode(CCConcurrentQueueNode *Node)
     CCConcurrentQueueDestroyNode(Node);
 }
 
+static void CCConcurrentQueueDestructor(CCConcurrentQueue Queue)
+{
+    for (CCConcurrentQueueNode *N; (N = CCConcurrentQueuePop(Queue)); )
+    {
+        CCConcurrentQueueDestroyNode(N);
+    }
+    
+    CCConcurrentQueuePointer Head = atomic_load(&Queue->head);
+    CCConcurrentQueueDestroyNode(Head.node);
+    
+    CCConcurrentGarbageCollectorDestroy(Queue->gc);
+}
+
 CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurrentGarbageCollector GC)
 {
     CCConcurrentQueue Queue = CCMalloc(Allocator, sizeof(CCConcurrentQueueInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -67,6 +86,8 @@ CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurren
         atomic_init(&Queue->head, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
         atomic_init(&Queue->tail, (CCConcurrentQueuePointer){ .node = Dummy, .tag = 0 });
         Queue->gc = GC;
+        
+        CCMemorySetDestructor(Queue, (CCMemoryDestructorCallback)CCConcurrentQueueDestructor);
     }
     
     return Queue;
@@ -75,16 +96,6 @@ CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurren
 void CCConcurrentQueueDestroy(CCConcurrentQueue Queue)
 {
     CCAssertLog(Queue, "Queue must not be null");
-    
-    for (CCConcurrentQueueNode *N; (N = CCConcurrentQueuePop(Queue)); )
-    {
-        CCConcurrentQueueDestroyNode(N);
-    }
-    
-    CCConcurrentQueuePointer Head = atomic_load(&Queue->head);
-    CCConcurrentQueueDestroyNode(Head.node);
-    
-    CCConcurrentGarbageCollectorDestroy(Queue->gc);
     
     CC_SAFE_Free(Queue);
 }
