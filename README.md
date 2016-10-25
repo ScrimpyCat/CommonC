@@ -24,3 +24,4 @@ The CommonC framework contains a collection of utilities for C programs. The fea
 * Strings - optimized immutable strings for UTF-8 and ASCII encodings. Avoids allocations where possible with tagged variants or temporary strings.
 * Enumerators - simple enumerating interfaces for maps, collections, and strings.
 * Queues - single threaded and lock-free (many producer-consumer) concurrent FIFO queues.
+* Garbage Collectors - for safe memory reclamation in lock-free algorithms.
