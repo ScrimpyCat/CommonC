@@ -139,12 +139,12 @@ static void *CCLazyGarbageCollectorConstructor(CCAllocatorType Allocator)
 #if CC_GC_USING_PTHREADS
         if (pthread_key_create(&GC->key, CCFree))
 #elif CC_GC_USING_STDTHREADS
-            if (tss_create(&GC->key, CCFree) != thrd_success)
+        if (tss_create(&GC->key, CCFree) != thrd_success)
 #endif
-            {
-                CCFree(GC);
-                return NULL;
-            }
+        {
+            CCFree(GC);
+            return NULL;
+        }
         
         atomic_init(&GC->managed, (CCLazyGarbageCollectorManagedList){ .list = NULL, .refCount = 0 });
     }
