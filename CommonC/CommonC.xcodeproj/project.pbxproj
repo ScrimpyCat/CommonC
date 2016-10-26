@@ -189,6 +189,9 @@
 		F359D0301C147DB50028B86B /* DataBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F359D02E1C147DB40028B86B /* DataBuffer.c */; };
 		F359D0311C147DB50028B86B /* DataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F359D02F1C147DB50028B86B /* DataBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F359D0331C148F700028B86B /* DataBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F359D0321C148F700028B86B /* DataBufferTests.m */; };
+		F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */; };
+		F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F362028217AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
@@ -405,6 +408,8 @@
 		F359D02E1C147DB40028B86B /* DataBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DataBuffer.c; sourceTree = "<group>"; };
 		F359D02F1C147DB50028B86B /* DataBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBuffer.h; sourceTree = "<group>"; };
 		F359D0321C148F700028B86B /* DataBufferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBufferTests.m; sourceTree = "<group>"; };
+		F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LazyGarbageCollector.c; sourceTree = "<group>"; };
+		F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyGarbageCollector.h; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -921,6 +926,8 @@
 			children = (
 				F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */,
 				F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */,
+				F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */,
+				F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */,
 			);
 			name = Implementations;
 			sourceTree = "<group>";
@@ -1120,6 +1127,7 @@
 				F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F334273F1DB4057B008CB998 /* Queue.h in Headers */,
 				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
+				F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */,
 				F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */,
 				F36F83221D10A91B00193B08 /* TypeCallbacks.h in Headers */,
 				F30437EA1C62E1BC00388C74 /* Path.h in Headers */,
@@ -1196,6 +1204,7 @@
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
+				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
@@ -1439,6 +1448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
+				F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */,
 				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F33427421DB408FF008CB998 /* ConcurrentQueue.c in Sources */,
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,

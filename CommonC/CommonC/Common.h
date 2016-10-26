@@ -99,6 +99,7 @@
 
 #include <CommonC/ConcurrentGarbageCollector.h>
 #include <CommonC/EpochGarbageCollector.h>
+#include <CommonC/LazyGarbageCollector.h>
 
 #include <CommonC/TypeCallbacks.h>
 
