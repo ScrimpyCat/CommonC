@@ -240,6 +240,8 @@
 		F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37AFAA61A7913F20037ECB2 /* CollectionTests.m */; };
+		F38018101DC30DE500343E07 /* Task.c in Sources */ = {isa = PBXBuildFile; fileRef = F380180E1DC30DE500343E07 /* Task.c */; };
+		F38018111DC30DE500343E07 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = F380180F1DC30DE500343E07 /* Task.h */; };
 		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
 		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3A91A50186BC4B100EF0B95 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A91A4F186BC4B100EF0B95 /* XCTest.framework */; };
@@ -454,6 +456,8 @@
 		F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionInterface.h; sourceTree = "<group>"; };
 		F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionTypes.h; sourceTree = "<group>"; };
 		F37AFAA61A7913F20037ECB2 /* CollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTests.m; sourceTree = "<group>"; };
+		F380180E1DC30DE500343E07 /* Task.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Task.c; sourceTree = "<group>"; };
+		F380180F1DC30DE500343E07 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
 		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3A91A4F186BC4B100EF0B95 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -921,6 +925,15 @@
 			name = String;
 			sourceTree = "<group>";
 		};
+		F380180C1DC30D2F00343E07 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				F380180F1DC30DE500343E07 /* Task.h */,
+				F380180E1DC30DE500343E07 /* Task.c */,
+			);
+			name = Task;
+			sourceTree = "<group>";
+		};
 		F3879FEA1DBC73EC00F2D4A7 /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,6 +960,7 @@
 			children = (
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
+				F380180C1DC30D2F00343E07 /* Task */,
 				F312A03F1DB8374A0003BB24 /* GC */,
 				F359D0281C1456D60028B86B /* Hash.h */,
 				F359D0271C1456D60028B86B /* Hash.c */,
@@ -1197,6 +1211,7 @@
 				F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */,
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
+				F38018111DC30DE500343E07 /* Task.h in Headers */,
 				F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */,
 				F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */,
 				F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */,
@@ -1457,6 +1472,7 @@
 				F334273D1DB40512008CB998 /* Queue.c in Sources */,
 				F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */,
+				F38018101DC30DE500343E07 /* Task.c in Sources */,
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F353DD4F17AC8C9000D1674C /* Logging.c in Sources */,
 				F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */,
