@@ -27,14 +27,40 @@
 #include "MemoryAllocation.h"
 #include "Assertion.h"
 #include "Logging.h"
+#include "Platform.h"
 #include <stdatomic.h>
 #include <stdint.h>
+
+#if defined(__has_include)
+
+#if __has_include(<threads.h>)
+#define CC_GC_USING_STDTHREADS 1
+#include <threads.h>
+#elif CC_PLATFORM_POSIX_COMPLIANT
+#define CC_GC_USING_PTHREADS 1
+#include <pthread.h>
+#else
+#warning No thread support
+#endif
+
+#elif CC_PLATFORM_POSIX_COMPLIANT
+#define CC_GC_USING_PTHREADS 1
+#include <pthread.h>
+#else
+#define CC_GC_USING_STDTHREADS 1
+#include <threads.h>
+#endif
+
+typedef struct {
+    uint32_t executions;
+    _Bool completed;
+} CCTaskState;
 
 typedef struct CCTaskInfo {
     void *input;
     void *output;
     CCTaskFunction function;
-    _Atomic(_Bool) completed;
+    _Atomic(CCTaskState) state;
 } CCTaskInfo;
 
 
@@ -51,7 +77,7 @@ CCTask CCTaskCreate(CCAllocatorType Allocator, CCTaskFunction Function, size_t O
     if (Task)
     {
         *Task = (CCTaskInfo){ .input = NULL, .output = NULL, .function = Function };
-        atomic_init(&Task->completed, FALSE);
+        atomic_init(&Task->state, (CCTaskState){ .executions = 0, .completed = FALSE });
         
         CCMemorySetDestructor(Task, (CCMemoryDestructorCallback)CCTaskDestructor);
         
@@ -98,10 +124,52 @@ void CCTaskDestroy(CCTask Task)
     CCFree(Task);
 }
 
-//void CCTaskRun(CCTask Task);
-//
-//_Bool CCTaskIsFinished(CCTask Task);
-//
-//void CCTaskWait(CCTask Task);
-//
-//void *CCTaskGetResult(CCTask Task);
+void CCTaskRun(CCTask Task)
+{
+    CCAssertLog(Task, "Task must not be null");
+    
+    CCTaskState State;
+    do {
+        State = atomic_load(&Task->state);
+    } while (!atomic_compare_exchange_weak(&Task->state, &State, ((CCTaskState){ .executions = State.executions + 1, .completed = FALSE })));
+    
+    Task->function(Task->input, Task->output);
+    
+    do {
+        State = atomic_load(&Task->state);
+    } while (!atomic_compare_exchange_weak(&Task->state, &State, ((CCTaskState){ .executions = State.executions - 1, .completed = State.executions == 1 })));
+}
+
+_Bool CCTaskIsFinished(CCTask Task)
+{
+    CCAssertLog(Task, "Task must not be null");
+    
+    CCTaskState State = atomic_load(&Task->state);
+    
+    return State.completed;
+}
+
+void CCTaskWait(CCTask Task)
+{
+    CCAssertLog(Task, "Task must not be null");
+    
+    while (!CCTaskIsFinished(Task))
+    {
+#if CC_GC_USING_STDTHREADS
+        thrd_yield();
+#elif CC_GC_USING_PTHREADS
+        sched_yield();
+#else
+        CC_SPIN_WAIT(); //Not the same as previous, but the best fallback
+#endif
+    }
+}
+
+void *CCTaskGetResult(CCTask Task)
+{
+    CCAssertLog(Task, "Task must not be null");
+    
+    CCTaskWait(Task);
+    
+    return Task->output;
+}
