@@ -285,6 +285,7 @@
 		F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09C187A5B0200A38E72 /* Vector2DSSE4_1Tests.m */; };
 		F3E3E09F187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09E187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m */; };
 		F3E3E0A1187A5B1400A38E72 /* Vector2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E0A0187A5B1400A38E72 /* Vector2DAVXTests.m */; };
+		F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E878F01DC49FE100C34838 /* TaskTests.m */; };
 		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
 		F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -503,6 +504,7 @@
 		F3E3E09C187A5B0200A38E72 /* Vector2DSSE4_1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE4_1Tests.m; sourceTree = "<group>"; };
 		F3E3E09E187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE4_2Tests.m; sourceTree = "<group>"; };
 		F3E3E0A0187A5B1400A38E72 /* Vector2DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DAVXTests.m; sourceTree = "<group>"; };
+		F3E878F01DC49FE100C34838 /* TaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTests.m; sourceTree = "<group>"; };
 		F3F9B60D17BA4B4100D50297 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CustomInputFilters.c; sourceTree = "<group>"; };
 		F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomInputFilters.h; sourceTree = "<group>"; };
@@ -976,6 +978,7 @@
 		F3AE99361A6D508500212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F3E878F01DC49FE100C34838 /* TaskTests.m */,
 				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
@@ -1555,6 +1558,7 @@
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
 				F36D63021D13456100D3827A /* DictionaryHashMapTests.m in Sources */,
+				F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */,
 				F334274C1DB6675F008CB998 /* ConcurrentQueueTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
