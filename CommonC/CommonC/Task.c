@@ -72,6 +72,8 @@ static void CCTaskDestructor(CCTask Task)
 
 CCTask CCTaskCreate(CCAllocatorType Allocator, CCTaskFunction Function, size_t OutputSize, CCMemoryDestructorCallback OutputDestructor, size_t InputSize, const void *Input, CCMemoryDestructorCallback InputDestructor)
 {
+    CCAssertLog(Function, "Function must not be null");
+    
     CCTask Task = CCMalloc(Allocator, sizeof(CCTaskInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     
     if (Task)
