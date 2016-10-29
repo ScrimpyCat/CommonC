@@ -25,6 +25,9 @@
 
 #import <XCTest/XCTest.h>
 #import "Task.h"
+#import "Extensions.h"
+#import <stdatomic.h>
+#import <pthread.h>
 
 @interface TaskTests : XCTestCase
 
@@ -79,6 +82,50 @@ static void TestFunc(const int *In, int *Out)
     XCTAssertTrue(OutputIsZeroed, @"Initial output should be set to zeroes");
     
     CCTaskDestroy(Task);
+}
+
+#define THREAD_COUNT 10
+#define RUN_COUNT 10
+#define COUNT 1000000
+
+_Atomic(int) Begin;
+static CCTask ConcurrentTask;
+
+static void Inc(const void *In, _Atomic(uint64_t) *Out)
+{
+    atomic_fetch_add(&Begin, 1);
+    for (int Loop = 0; Loop < COUNT; Loop++) atomic_fetch_add(Out, 1);
+}
+
+
+static void *Runner(void *Arg)
+{
+    for (int Loop = 0; Loop < RUN_COUNT; Loop++) CCTaskRun(ConcurrentTask);
+    
+    return NULL;
+}
+
+-(void) testConcurrentRun
+{
+    ConcurrentTask = CCTaskCreate(CC_STD_ALLOCATOR, (CCTaskFunction)Inc, sizeof(_Atomic(uint64_t)), NULL, 0, NULL, NULL);
+    
+    pthread_t Runners[THREAD_COUNT];
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(Runners + Loop, NULL, Runner, NULL);
+    }
+    
+    while (atomic_load(&Begin) != (RUN_COUNT * THREAD_COUNT)) CC_SPIN_WAIT();
+    uint64_t Result = atomic_load((_Atomic(uint64_t)*)CCTaskGetResult(ConcurrentTask));
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(Runners[Loop], NULL);
+    }
+    
+    CCTaskDestroy(ConcurrentTask);
+    
+    XCTAssertEqual(Result, RUN_COUNT * THREAD_COUNT * COUNT, @"Should return the correct result");
 }
 
 @end
