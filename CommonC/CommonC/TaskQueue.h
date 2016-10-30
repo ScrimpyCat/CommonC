@@ -85,4 +85,13 @@ void CCTaskQueuePush(CCTaskQueue Queue, CCTask CC_OWN(Task));
  */
 CC_NEW CCTask CCTaskQueuePop(CCTaskQueue Queue);
 
+#pragma mark - Info
+/*!
+ * @brief Check if the queue was empty.
+ * @warning It does not guarantee that the queue is still empty after returning.
+ * @param Queue The task queue to check emptiness of.
+ * @result TRUE if the task queue was empty, otherwise FALSE if it still has tasks.
+ */
+_Bool CCTaskQueueIsEmpty(CCTaskQueue Queue);
+
 #endif

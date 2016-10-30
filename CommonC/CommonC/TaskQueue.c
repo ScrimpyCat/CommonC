@@ -36,6 +36,7 @@ typedef struct CCTaskQueueInfo {
     CCTaskQueueExecute type;
     CCTask lastTask;
     atomic_flag lock;
+    _Atomic(uint64_t) count;
 } CCTaskQueueInfo;
 
 
@@ -51,7 +52,7 @@ CCTaskQueue CCTaskQueueCreate(CCAllocatorType Allocator, CCTaskQueueExecute Exec
     
     if (Queue)
     {
-        *Queue = (CCTaskQueueInfo){ .allocator = Allocator, .tasks = CCConcurrentQueueCreate(Allocator, GC), .type = ExecutionType, .lastTask = NULL, .lock = ATOMIC_FLAG_INIT };
+        *Queue = (CCTaskQueueInfo){ .allocator = Allocator, .tasks = CCConcurrentQueueCreate(Allocator, GC), .type = ExecutionType, .lastTask = NULL, .lock = ATOMIC_FLAG_INIT, .count = ATOMIC_VAR_INIT(UINT64_C(0)) };
         
         CCMemorySetDestructor(Queue, (CCMemoryDestructorCallback)CCTaskQueueDestructor);
     }
@@ -80,6 +81,7 @@ void CCTaskQueuePush(CCTaskQueue Queue, CCTask Task)
     CCMemorySetDestructor(Node, (CCMemoryDestructorCallback)CCTaskQueueNodeDestructor);
     
     CCConcurrentQueuePush(Queue->tasks, Node);
+    atomic_fetch_add_explicit(&Queue->count, 1, memory_order_relaxed);
 }
 
 CCTask CCTaskQueuePop(CCTaskQueue Queue)
@@ -113,5 +115,14 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
         atomic_flag_clear(&Queue->lock);
     }
     
+    if (Task) atomic_fetch_sub_explicit(&Queue->count, 1, memory_order_release);
+    
     return Task;
+}
+
+_Bool CCTaskQueueIsEmpty(CCTaskQueue Queue)
+{
+    CCAssertLog(Queue, "Queue must not be null");
+    
+    return !atomic_load_explicit(&Queue->count, memory_order_relaxed);
 }
