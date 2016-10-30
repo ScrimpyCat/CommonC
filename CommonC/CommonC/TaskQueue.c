@@ -66,12 +66,20 @@ void CCTaskQueueDestroy(CCTaskQueue Queue)
     CCFree(Queue);
 }
 
+static void CCTaskQueueNodeDestructor(CCConcurrentQueueNode *Node)
+{
+    CCTaskDestroy(*(CCTask*)CCConcurrentQueueGetNodeData(Node));
+}
+
 void CCTaskQueuePush(CCTaskQueue Queue, CCTask Task)
 {
     CCAssertLog(Queue, "Queue must not be null");
     CCAssertLog(Task, "Task must not be null");
     
-    CCConcurrentQueuePush(Queue->tasks, CCConcurrentQueueCreateNode(Queue->allocator, sizeof(CCTask), &Task));
+    CCConcurrentQueueNode *Node = CCConcurrentQueueCreateNode(Queue->allocator, sizeof(CCTask), &Task);
+    CCMemorySetDestructor(Node, (CCMemoryDestructorCallback)CCTaskQueueNodeDestructor);
+    
+    CCConcurrentQueuePush(Queue->tasks, Node);
 }
 
 CCTask CCTaskQueuePop(CCTaskQueue Queue)
@@ -96,7 +104,7 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     }
     
     CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Queue->tasks);
-    CCTask Task = *(CCTask*)CCConcurrentQueueGetNodeData(Node);
+    CCTask Task = CCRetain(*(CCTask*)CCConcurrentQueueGetNodeData(Node));
     CCConcurrentQueueDestroyNode(Node);
     
     if (Queue->type == CCTaskQueueExecuteSerially)
