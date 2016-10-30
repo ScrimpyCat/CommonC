@@ -285,6 +285,8 @@
 		F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09C187A5B0200A38E72 /* Vector2DSSE4_1Tests.m */; };
 		F3E3E09F187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E09E187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m */; };
 		F3E3E0A1187A5B1400A38E72 /* Vector2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E0A0187A5B1400A38E72 /* Vector2DAVXTests.m */; };
+		F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = F3E746061DC6079400F1F268 /* TaskQueue.c */; };
+		F3E746091DC6079400F1F268 /* TaskQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E746071DC6079400F1F268 /* TaskQueue.h */; };
 		F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E878F01DC49FE100C34838 /* TaskTests.m */; };
 		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
@@ -504,6 +506,8 @@
 		F3E3E09C187A5B0200A38E72 /* Vector2DSSE4_1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE4_1Tests.m; sourceTree = "<group>"; };
 		F3E3E09E187A5B0A00A38E72 /* Vector2DSSE4_2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE4_2Tests.m; sourceTree = "<group>"; };
 		F3E3E0A0187A5B1400A38E72 /* Vector2DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DAVXTests.m; sourceTree = "<group>"; };
+		F3E746061DC6079400F1F268 /* TaskQueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TaskQueue.c; sourceTree = "<group>"; };
+		F3E746071DC6079400F1F268 /* TaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskQueue.h; sourceTree = "<group>"; };
 		F3E878F01DC49FE100C34838 /* TaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTests.m; sourceTree = "<group>"; };
 		F3F9B60D17BA4B4100D50297 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CustomInputFilters.c; sourceTree = "<group>"; };
@@ -932,6 +936,8 @@
 			children = (
 				F380180F1DC30DE500343E07 /* Task.h */,
 				F380180E1DC30DE500343E07 /* Task.c */,
+				F3E746071DC6079400F1F268 /* TaskQueue.h */,
+				F3E746061DC6079400F1F268 /* TaskQueue.c */,
 			);
 			name = Task;
 			sourceTree = "<group>";
@@ -1192,6 +1198,7 @@
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
 				F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */,
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
+				F3E746091DC6079400F1F268 /* TaskQueue.h in Headers */,
 				F3D657D017D5DA8F00B54101 /* Random.h in Headers */,
 				F3D657D417D5FD5200B54101 /* Maths.h in Headers */,
 				F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */,
@@ -1484,6 +1491,7 @@
 				F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
+				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
 				F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
 				F359D0291C1456D60028B86B /* Hash.c in Sources */,
