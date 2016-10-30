@@ -69,7 +69,8 @@ void CCTaskQueueDestroy(CCTaskQueue Queue)
 
 static void CCTaskQueueNodeDestructor(CCConcurrentQueueNode *Node)
 {
-    CCTaskDestroy(*(CCTask*)CCConcurrentQueueGetNodeData(Node));
+    CCTask Task = *(CCTask*)CCConcurrentQueueGetNodeData(Node);
+    if (Task) CCTaskDestroy(Task);
 }
 
 void CCTaskQueuePush(CCTaskQueue Queue, CCTask Task)
@@ -106,7 +107,8 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     }
     
     CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Queue->tasks);
-    CCTask Task = CCRetain(*(CCTask*)CCConcurrentQueueGetNodeData(Node));
+    CCTask Task = *(CCTask*)CCConcurrentQueueGetNodeData(Node);
+    *(CCTask*)CCConcurrentQueueGetNodeData(Node) = NULL;
     CCConcurrentQueueDestroyNode(Node);
     
     if (Queue->type == CCTaskQueueExecuteSerially)
