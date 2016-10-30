@@ -132,21 +132,21 @@ void CCTaskRun(CCTask Task)
     
     CCTaskState State;
     do {
-        State = atomic_load(&Task->state);
-    } while (!atomic_compare_exchange_weak(&Task->state, &State, ((CCTaskState){ .executions = State.executions + 1, .completed = FALSE })));
+        State = atomic_load_explicit(&Task->state, memory_order_relaxed);
+    } while (!atomic_compare_exchange_weak_explicit(&Task->state, &State, ((CCTaskState){ .executions = State.executions + 1, .completed = FALSE }), memory_order_acquire, memory_order_relaxed));
     
     Task->function(Task->input, Task->output);
     
     do {
-        State = atomic_load(&Task->state);
-    } while (!atomic_compare_exchange_weak(&Task->state, &State, ((CCTaskState){ .executions = State.executions - 1, .completed = State.executions == 1 })));
+        State = atomic_load_explicit(&Task->state, memory_order_relaxed);
+    } while (!atomic_compare_exchange_weak_explicit(&Task->state, &State, ((CCTaskState){ .executions = State.executions - 1, .completed = State.executions == 1 }), memory_order_release, memory_order_relaxed));
 }
 
 _Bool CCTaskIsFinished(CCTask Task)
 {
     CCAssertLog(Task, "Task must not be null");
     
-    CCTaskState State = atomic_load(&Task->state);
+    CCTaskState State = atomic_load_explicit(&Task->state, memory_order_relaxed);
     
     return State.completed;
 }
