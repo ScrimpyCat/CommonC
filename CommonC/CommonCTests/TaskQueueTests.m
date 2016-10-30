@@ -26,6 +26,7 @@
 #import <XCTest/XCTest.h>
 #import "TaskQueue.h"
 #import "EpochGarbageCollector.h"
+#import <stdatomic.h>
 
 @interface TaskQueueTests : XCTestCase
 
@@ -101,9 +102,11 @@ static void TestFunc(const void *In, void *Out)
     CCTaskQueuePush(Queue, Tasks[1]);
     CCTaskQueuePush(Queue, Tasks[2]);
     
+    XCTAssertFalse(CCTaskQueueIsEmpty(Queue), @"Should not be empty");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[0], @"Should retrieve the correct task");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[1], @"Should retrieve the correct task");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[2], @"Should retrieve the correct task");
+    XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
     
     CCTaskQueueDestroy(Queue);
     
@@ -113,19 +116,23 @@ static void TestFunc(const void *In, void *Out)
     CCTaskQueuePush(Queue, Tasks[1]);
     CCTaskQueuePush(Queue, Tasks[2]);
     
+    XCTAssertFalse(CCTaskQueueIsEmpty(Queue), @"Should not be empty");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[0], @"Should retrieve the correct task");
     XCTAssertEqual(CCTaskQueuePop(Queue), NULL, @"Should not retrieve the next task");
     XCTAssertEqual(CCTaskQueuePop(Queue), NULL, @"Should not retrieve the next task");
     
     CCTaskRun(Tasks[0]);
     
+    XCTAssertFalse(CCTaskQueueIsEmpty(Queue), @"Should not be empty");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[1], @"Should retrieve the correct task");
     XCTAssertEqual(CCTaskQueuePop(Queue), NULL, @"Should not retrieve the next task");
     
     CCTaskRun(Tasks[1]);
     
+    XCTAssertFalse(CCTaskQueueIsEmpty(Queue), @"Should not be empty");
     XCTAssertEqual(CCTaskQueuePop(Queue), Tasks[2], @"Should retrieve the correct task");
     XCTAssertEqual(CCTaskQueuePop(Queue), NULL, @"Should be empty");
+    XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
     
     CCTaskQueueDestroy(Queue);
     
