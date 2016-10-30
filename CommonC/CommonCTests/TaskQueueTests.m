@@ -146,8 +146,8 @@ static void TestFunc(const void *In, void *Out)
 #define TASK_COUNT 100
 #define COUNT 1000000
 
-_Atomic(uint64_t) ConcurrentCount = 0;
-uint64_t SerialCount = 0;
+static _Atomic(uint64_t) ConcurrentCount = ATOMIC_VAR_INIT(UINT64_C(0));
+static uint64_t SerialCount = 0;
 
 static void SafeInc(const void *In, void *Out)
 {

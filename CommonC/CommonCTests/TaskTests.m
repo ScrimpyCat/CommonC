@@ -88,7 +88,7 @@ static void TestFunc(const int *In, int *Out)
 #define RUN_COUNT 10
 #define COUNT 1000000
 
-_Atomic(int) Begin;
+static _Atomic(int) Begin = ATOMIC_VAR_INIT(0);
 static CCTask ConcurrentTask;
 
 static void Inc(const void *In, _Atomic(uint64_t) *Out)
