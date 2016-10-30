@@ -27,6 +27,7 @@
 #import "TaskQueue.h"
 #import "EpochGarbageCollector.h"
 #import <stdatomic.h>
+#import <pthread.h>
 
 @interface TaskQueueTests : XCTestCase
 
@@ -139,6 +140,82 @@ static void TestFunc(const void *In, void *Out)
     CCTaskDestroy(Tasks[0]);
     CCTaskDestroy(Tasks[1]);
     CCTaskDestroy(Tasks[2]);
+}
+
+#define THREAD_COUNT 10
+#define TASK_COUNT 100
+#define COUNT 1000000
+
+_Atomic(uint64_t) ConcurrentCount = 0;
+uint64_t SerialCount = 0;
+
+static void SafeInc(const void *In, void *Out)
+{
+    for (int Loop = 0; Loop < COUNT; Loop++) atomic_fetch_add(&ConcurrentCount, 1);
+}
+
+static void UnsafeInc(const void *In, void *Out)
+{
+    for (int Loop = 0; Loop < COUNT; Loop++) SerialCount++;
+}
+
+static void *Runner(CCTaskQueue Queue)
+{
+    while (!CCTaskQueueIsEmpty(Queue))
+    {
+        CCTask Task = CCTaskQueuePop(Queue);
+        if (Task)
+        {
+            CCTaskRun(Task);
+            CCTaskDestroy(Task);
+        }
+    }
+    
+    return NULL;
+}
+
+-(void) testThreading
+{
+    CCTaskQueue Queue = CCTaskQueueCreate(CC_STD_ALLOCATOR, CCTaskQueueExecuteConcurrently, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, CCEpochGarbageCollector));
+    
+    for (int Loop = 0; Loop < TASK_COUNT; Loop++) CCTaskQueuePush(Queue, CCTaskCreate(CC_STD_ALLOCATOR, SafeInc, 0, NULL, 0, NULL, NULL));
+    
+    pthread_t Runners[THREAD_COUNT];
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(Runners + Loop, NULL, (void*(*)(void*))Runner, Queue);
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(Runners[Loop], NULL);
+    }
+    
+    XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
+    XCTAssertEqual(ConcurrentCount, TASK_COUNT * COUNT, @"Should return the correct result");
+    
+    CCTaskQueueDestroy(Queue);
+    
+    
+    
+    Queue = CCTaskQueueCreate(CC_STD_ALLOCATOR, CCTaskQueueExecuteSerially, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, CCEpochGarbageCollector));
+    
+    for (int Loop = 0; Loop < TASK_COUNT; Loop++) CCTaskQueuePush(Queue, CCTaskCreate(CC_STD_ALLOCATOR, UnsafeInc, 0, NULL, 0, NULL, NULL));
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(Runners + Loop, NULL, (void*(*)(void*))Runner, Queue);
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(Runners[Loop], NULL);
+    }
+    
+    XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
+    XCTAssertEqual(SerialCount, TASK_COUNT * COUNT, @"Should return the correct result");
+    
+    CCTaskQueueDestroy(Queue);
 }
 
 @end
