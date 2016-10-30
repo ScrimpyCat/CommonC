@@ -91,13 +91,13 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     
     if (Queue->type == CCTaskQueueExecuteSerially)
     {
-        if (atomic_flag_test_and_set(&Queue->lock)) return NULL;
+        if (atomic_flag_test_and_set_explicit(&Queue->lock, memory_order_acquire)) return NULL;
         
         if (Queue->lastTask)
         {
             if (!CCTaskIsFinished(Queue->lastTask))
             {
-                atomic_flag_clear(&Queue->lock);
+                atomic_flag_clear_explicit(&Queue->lock, memory_order_release);
                 return NULL;
             }
             
@@ -114,7 +114,7 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     if (Queue->type == CCTaskQueueExecuteSerially)
     {
         Queue->lastTask = CCRetain(Task);
-        atomic_flag_clear(&Queue->lock);
+        atomic_flag_clear_explicit(&Queue->lock, memory_order_release);
     }
     
     if (Task) atomic_fetch_sub_explicit(&Queue->count, 1, memory_order_release);
