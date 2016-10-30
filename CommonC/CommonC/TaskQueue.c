@@ -34,14 +34,15 @@ typedef struct CCTaskQueueInfo {
     CCAllocatorType allocator;
     CCConcurrentQueue tasks;
     CCTaskQueueExecute type;
-    CCTask lastTask; //TODO: make atomic and add exclusion reference
+    CCTask lastTask;
+    atomic_flag lock;
 } CCTaskQueueInfo;
 
 
 static void CCTaskQueueDestructor(CCTaskQueue Queue)
 {
     CCConcurrentQueueDestroy(Queue->tasks);
-    if (Queue->lastTask) CCFree(Queue->lastTask);
+    if (Queue->lastTask) CCTaskDestroy(Queue->lastTask);
 }
 
 CCTaskQueue CCTaskQueueCreate(CCAllocatorType Allocator, CCTaskQueueExecute ExecutionType, CCConcurrentGarbageCollector GC)
@@ -50,7 +51,7 @@ CCTaskQueue CCTaskQueueCreate(CCAllocatorType Allocator, CCTaskQueueExecute Exec
     
     if (Queue)
     {
-        *Queue = (CCTaskQueueInfo){ .allocator = Allocator, .tasks = CCConcurrentQueueCreate(Allocator, GC), .type = ExecutionType, .lastTask = NULL };
+        *Queue = (CCTaskQueueInfo){ .allocator = Allocator, .tasks = CCConcurrentQueueCreate(Allocator, GC), .type = ExecutionType, .lastTask = NULL, .lock = ATOMIC_FLAG_INIT };
         
         CCMemorySetDestructor(Queue, (CCMemoryDestructorCallback)CCTaskQueueDestructor);
     }
@@ -79,7 +80,19 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     
     if (Queue->type == CCTaskQueueExecuteSerially)
     {
-        //TODO: check lastTask has completed
+        if (atomic_flag_test_and_set(&Queue->lock)) return NULL;
+        
+        if (Queue->lastTask)
+        {
+            if (!CCTaskIsFinished(Queue->lastTask))
+            {
+                atomic_flag_clear(&Queue->lock);
+                return NULL;
+            }
+            
+            CCTaskDestroy(Queue->lastTask);
+            Queue->lastTask = NULL;
+        }
     }
     
     CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Queue->tasks);
@@ -88,7 +101,8 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     
     if (Queue->type == CCTaskQueueExecuteSerially)
     {
-        //TODO: set lastTask
+        Queue->lastTask = CCRetain(Task);
+        atomic_flag_clear(&Queue->lock);
     }
     
     return Task;

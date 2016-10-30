@@ -76,6 +76,10 @@ void CCTaskQueuePush(CCTaskQueue Queue, CCTask CC_OWN(Task));
  * @description If the queue is to be executed serially, it won't pop the task if the task before
  *              it is still running.
  *
+ * @warning If the queue is to be executed serially pausing a thread currently inside this function
+ *          leads to the possibility of the queue no longer progressing (not until the thread is
+ *          resumed). However the queue will never block.
+ *
  * @param Queue The task queue to retrieve the task from.
  * @result The task or NULL.
  */
