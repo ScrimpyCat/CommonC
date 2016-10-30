@@ -103,4 +103,7 @@
 
 #include <CommonC/TypeCallbacks.h>
 
+#include <CommonC/Task.h>
+#include <CommonC/TaskQueue.h>
+
 #endif
