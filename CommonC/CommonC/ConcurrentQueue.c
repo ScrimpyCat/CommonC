@@ -78,6 +78,8 @@ static void CCConcurrentQueueDestructor(CCConcurrentQueue Queue)
 
 CCConcurrentQueue CCConcurrentQueueCreate(CCAllocatorType Allocator, CCConcurrentGarbageCollector GC)
 {
+    CCAssertLog(GC, "GC must not be null");
+    
     CCConcurrentQueue Queue = CCMalloc(Allocator, sizeof(CCConcurrentQueueInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     
     if (Queue)
