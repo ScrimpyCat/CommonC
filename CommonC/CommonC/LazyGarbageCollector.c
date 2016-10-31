@@ -160,7 +160,7 @@ void CCLazyGarbageCollectorDestructor(CCLazyGarbageCollectorInternal *GC)
     tss_delete(GC->key);
 #endif
     
-    CCLazyGarbageCollectorManagedList Managed = atomic_load(&GC->managed);
+    CCLazyGarbageCollectorManagedList Managed = atomic_load_explicit(&GC->managed, memory_order_relaxed);
     CCLazyGarbageCollectorDrain(GC, Managed.list);
     
     CCFree(GC);
@@ -192,8 +192,8 @@ void CCLazyGarbageCollectorBegin(CCLazyGarbageCollectorInternal *GC, CCAllocator
     
     CCLazyGarbageCollectorManagedList Managed;
     do {
-        Managed = atomic_load(&GC->managed);
-    } while (!atomic_compare_exchange_weak(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount + 1 })));
+        Managed = atomic_load_explicit(&GC->managed, memory_order_relaxed);
+    } while (!atomic_compare_exchange_weak_explicit(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount + 1 }), memory_order_relaxed, memory_order_relaxed));
 }
 
 static void CCLazyGarbageCollectorDrain(CCLazyGarbageCollectorInternal *GC, CCLazyGarbageCollectorNode *Node)
@@ -220,9 +220,9 @@ void CCLazyGarbageCollectorEnd(CCLazyGarbageCollectorInternal *GC, CCAllocatorTy
     if (Local->head)
     {
         do {
-            Managed = atomic_load(&GC->managed);
+            Managed = atomic_load_explicit(&GC->managed, memory_order_relaxed);
             Local->tail->next = Managed.list;
-        } while (!atomic_compare_exchange_weak(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Local->head, .refCount = Managed.refCount - 1 })));
+        } while (!atomic_compare_exchange_weak_explicit(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Local->head, .refCount = Managed.refCount - 1 }), memory_order_release, memory_order_relaxed));
         
         if (Managed.refCount == 1) CCLazyGarbageCollectorDrain(GC, Local->head);
     }
@@ -230,8 +230,8 @@ void CCLazyGarbageCollectorEnd(CCLazyGarbageCollectorInternal *GC, CCAllocatorTy
     else
     {
         do {
-            Managed = atomic_load(&GC->managed);
-        } while (!atomic_compare_exchange_weak(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Managed.list, .refCount = Managed.refCount - 1 })));
+            Managed = atomic_load_explicit(&GC->managed, memory_order_relaxed);
+        } while (!atomic_compare_exchange_weak_explicit(&GC->managed, &Managed, ((CCLazyGarbageCollectorManagedList){ .list = Managed.refCount == 1 ? NULL : Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed));
         
         if ((Managed.refCount == 1) && (Managed.list)) CCLazyGarbageCollectorDrain(GC, Managed.list);
     }    
