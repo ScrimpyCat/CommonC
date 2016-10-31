@@ -70,7 +70,7 @@ static void CCConcurrentQueueDestructor(CCConcurrentQueue Queue)
         CCConcurrentQueueDestroyNode(N);
     }
     
-    CCConcurrentQueuePointer Head = atomic_load(&Queue->head);
+    CCConcurrentQueuePointer Head = atomic_load_explicit(&Queue->head, memory_order_relaxed);
     CCConcurrentQueueDestroyNode(Head.node);
     
     CCConcurrentGarbageCollectorDestroy(Queue->gc);
@@ -118,7 +118,7 @@ void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
     
     for ( ; ; )
     {
-        CCConcurrentQueuePointer Tail = atomic_load_explicit(&Queue->tail, memory_order_acquire);
+        CCConcurrentQueuePointer Tail = atomic_load_explicit(&Queue->tail, memory_order_relaxed);
         
         atomic_store_explicit(&Node->next, ((CCConcurrentQueuePointer){ .node = Tail.node, .tag = Tail.tag + 1 }), memory_order_relaxed);
         if (atomic_compare_exchange_weak_explicit(&Queue->tail, &Tail, ((CCConcurrentQueuePointer){ .node = Node, .tag = Tail.tag + 1 }), memory_order_release, memory_order_relaxed))
@@ -133,9 +133,9 @@ void CCConcurrentQueuePush(CCConcurrentQueue Queue, CCConcurrentQueueNode *Node)
 
 static void CCConcurrentQueueFixList(CCConcurrentQueue Queue, CCConcurrentQueuePointer Tail, CCConcurrentQueuePointer Head)
 {
-    for (CCConcurrentQueuePointer CurNode = Tail; CCConcurrentQueuePointerIsEqual(Head, atomic_load_explicit(&Queue->head, memory_order_acquire)) && !CCConcurrentQueuePointerIsEqual(CurNode, Head); )
+    for (CCConcurrentQueuePointer CurNode = Tail; CCConcurrentQueuePointerIsEqual(Head, atomic_load_explicit(&Queue->head, memory_order_relaxed)) && !CCConcurrentQueuePointerIsEqual(CurNode, Head); )
     {
-        CCConcurrentQueuePointer CurNodeNext = atomic_load_explicit(&CurNode.node->next, memory_order_acquire);
+        CCConcurrentQueuePointer CurNodeNext = atomic_load_explicit(&CurNode.node->next, memory_order_relaxed);
         atomic_store_explicit(&CurNodeNext.node->prev, ((CCConcurrentQueuePointer){ .node = CurNode.node, .tag = CurNode.tag - 1 }), memory_order_release);
         
         CurNode = (CCConcurrentQueuePointer){ .node = CurNodeNext.node, .tag = CurNode.tag - 1 };
@@ -150,8 +150,8 @@ CCConcurrentQueueNode *CCConcurrentQueuePop(CCConcurrentQueue Queue)
     
     for ( ; ; )
     {
-        CCConcurrentQueuePointer Head = atomic_load_explicit(&Queue->head, memory_order_acquire), Tail = atomic_load_explicit(&Queue->tail, memory_order_acquire);
-        CCConcurrentQueuePointer FirstNodePrev = atomic_load_explicit(&Head.node->prev, memory_order_acquire);
+        CCConcurrentQueuePointer Head = atomic_load_explicit(&Queue->head, memory_order_relaxed), Tail = atomic_load_explicit(&Queue->tail, memory_order_relaxed);
+        CCConcurrentQueuePointer FirstNodePrev = atomic_load_explicit(&Head.node->prev, memory_order_relaxed);
         
         if (CCConcurrentQueuePointerIsEqual(Head, atomic_load_explicit(&Queue->head, memory_order_acquire)))
         {
