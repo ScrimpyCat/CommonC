@@ -41,7 +41,7 @@ typedef struct CCTaskQueueInfo {
 } CCTaskQueueInfo;
 
 typedef struct {
-    int allocator;
+    CCAllocatorHeader header;
     CCTaskQueueInfo data;
 } CCTaskQueueInfoInternal;
 
@@ -55,7 +55,7 @@ static void CCTaskQueueDestructor(CCTaskQueue Queue)
 CCTaskQueue CCTaskQueueDefault(void)
 {
     static CCTaskQueueInfoInternal Queue = {
-        .allocator = -1,
+        .header = { .allocator = -1 },
         .data = {
             .allocator = CC_STD_ALLOCATOR,
             .tasks = NULL,

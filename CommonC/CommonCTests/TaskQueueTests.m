@@ -237,4 +237,15 @@ static void *Runner(CCTaskQueue Queue)
     XCTAssertEqual(atomic_load(&ConcurrentCount), TASK_COUNT * COUNT, @"Should return the correct result");
 }
 
+-(void) testDefault
+{
+    CCTaskQueue Queue = CCTaskQueueDefault();
+    
+    XCTAssertEqual(Queue, CCTaskQueueDefault(), @"Should be the same");
+    
+    CCTaskQueueDestroy(Queue);
+    
+    XCTAssertEqual(Queue, CCTaskQueueDefault(), @"Should be the same");
+}
+
 @end

@@ -28,36 +28,6 @@
 #include "CallbackAllocator.h"
 #include <stdint.h>
 
-#if defined(__has_include)
-
-#if __has_include(<stdatomic.h>)
-#define CC_ALLOCATOR_USING_STDATOMIC 1
-#include <stdatomic.h>
-#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
-#define CC_ALLOCATOR_USING_OSATOMIC 1
-#include <libkern/OSAtomic.h>
-#else
-#warning No atomic support
-#endif
-
-#elif CC_PLATFORM_OS_X || CC_PLATFORM_IOS
-#define CC_ALLOCATOR_USING_OSATOMIC 1
-#include <libkern/OSAtomic.h>
-#else
-#define CC_ALLOCATOR_USING_STDATOMIC 1
-#include <stdatomic.h>
-#endif
-
-typedef struct {
-    int allocator;
-#if CC_ALLOCATOR_USING_STDATOMIC
-    _Atomic(int32_t) refCount;
-#else
-    int32_t refCount;
-#endif
-    CCMemoryDestructorCallback destructor;
-} CCAllocatorHeader;
-
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
 {
