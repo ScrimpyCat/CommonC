@@ -192,7 +192,7 @@ static void *Runner(CCTaskQueue Queue)
     }
     
     XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
-    XCTAssertEqual(ConcurrentCount, TASK_COUNT * COUNT, @"Should return the correct result");
+    XCTAssertEqual(atomic_load(&ConcurrentCount), TASK_COUNT * COUNT, @"Should return the correct result");
     
     CCTaskQueueDestroy(Queue);
     
@@ -216,6 +216,25 @@ static void *Runner(CCTaskQueue Queue)
     XCTAssertEqual(SerialCount, TASK_COUNT * COUNT, @"Should return the correct result");
     
     CCTaskQueueDestroy(Queue);
+    
+    
+    atomic_store(&ConcurrentCount, 0);
+    Queue = CCTaskQueueDefault();
+    
+    for (int Loop = 0; Loop < TASK_COUNT; Loop++) CCTaskQueuePush(Queue, CCTaskCreate(CC_STD_ALLOCATOR, SafeInc, 0, NULL, 0, NULL, NULL));
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(Runners + Loop, NULL, (void*(*)(void*))Runner, Queue);
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(Runners[Loop], NULL);
+    }
+    
+    XCTAssertTrue(CCTaskQueueIsEmpty(Queue), @"Should be empty");
+    XCTAssertEqual(atomic_load(&ConcurrentCount), TASK_COUNT * COUNT, @"Should return the correct result");
 }
 
 @end

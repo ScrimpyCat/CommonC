@@ -28,6 +28,7 @@
 #include "Assertion.h"
 #include "Logging.h"
 #include "ConcurrentQueue.h"
+#include "EpochGarbageCollector.h"
 #include <stdatomic.h>
 
 typedef struct CCTaskQueueInfo {
@@ -39,11 +40,43 @@ typedef struct CCTaskQueueInfo {
     _Atomic(uint64_t) count;
 } CCTaskQueueInfo;
 
+typedef struct {
+    int allocator;
+    CCTaskQueueInfo data;
+} CCTaskQueueInfoInternal;
+
 
 static void CCTaskQueueDestructor(CCTaskQueue Queue)
 {
     CCConcurrentQueueDestroy(Queue->tasks);
     if (Queue->lastTask) CCTaskDestroy(Queue->lastTask);
+}
+
+CCTaskQueue CCTaskQueueDefault(void)
+{
+    static CCTaskQueueInfoInternal Queue = {
+        .allocator = -1,
+        .data = {
+            .allocator = CC_STD_ALLOCATOR,
+            .tasks = NULL,
+            .type = CCTaskQueueExecuteConcurrently,
+            .lastTask = NULL,
+            .lock = ATOMIC_FLAG_INIT,
+            .count = ATOMIC_VAR_INIT(UINT64_C(0))
+        }
+    };
+    
+    static atomic_flag Lock = ATOMIC_FLAG_INIT;
+    static _Atomic(_Bool) Init = ATOMIC_VAR_INIT(FALSE);
+    if (!atomic_flag_test_and_set_explicit(&Lock, memory_order_relaxed))
+    {
+        Queue.data.tasks = CCConcurrentQueueCreate(CC_STD_ALLOCATOR, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, CCEpochGarbageCollector));
+        atomic_store_explicit(&Init, TRUE, memory_order_release);
+    }
+    
+    else while(!atomic_load_explicit(&Init, memory_order_relaxed)) CC_SPIN_WAIT();
+    
+    return &Queue.data;
 }
 
 CCTaskQueue CCTaskQueueCreate(CCAllocatorType Allocator, CCTaskQueueExecute ExecutionType, CCConcurrentGarbageCollector GC)

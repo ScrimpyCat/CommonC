@@ -49,6 +49,13 @@ typedef struct CCTaskQueueInfo *CCTaskQueue;
 
 #pragma mark - Creation / Destruction
 /*!
+ * @brief Get the default task queue.
+ * @description This is a concurrent queue with an epoch garbage collector.
+ * @return The default task queue.
+ */
+CCTaskQueue CCTaskQueueDefault(void);
+
+/*!
  * @brief Create a task queue.
  * @param Allocator The allocator to be used for the allocation.
  * @param ExecutionType The execution behaviour for the queue.
