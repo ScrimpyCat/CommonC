@@ -115,18 +115,18 @@ FSOperation FSManagerRemove(FSPath Path);
 FSOperation FSManagerMove(FSPath Path, FSPath Destination);
 
 /*!
- * @brief Create a path and optionally any required intermediate directories.
+ * @brief Copy a path.
  * @param Path The path.
- * @param IntermediateDirectories Whether any missing intermediate directories should be created.
+ * @param Destination The new path it should be copied to.
  * @return FSOperationSuccess if it successfully copies the path to the destination path. Otherwise
  *         the type of failure.
  */
 FSOperation FSManagerCopy(FSPath Path, FSPath Destination);
 
 /*!
- * @brief Create a path and optionally any required intermediate directories.
+ * @brief Rename a path.
  * @param Path The path.
- * @param IntermediateDirectories Whether any missing intermediate directories should be created.
+ * @param Name The new name of the path.
  * @return FSOperationSuccess if it successfully renames the path. Otherwise the type of failure.
  */
 FSOperation FSManagerRename(FSPath Path, const char *Name);
