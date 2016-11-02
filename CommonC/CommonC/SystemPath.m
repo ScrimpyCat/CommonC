@@ -48,7 +48,6 @@ CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool 
     
     CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), (CCCollectionElementDestructor)FSPathComponentElementDestructor);
     
-#if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
     @autoreleasepool {
         NSString *ExpandedPath = [[NSString stringWithUTF8String: Path] stringByExpandingTildeInPath];
         NSURL *URLPath = [NSURL fileURLWithPath: ExpandedPath];
@@ -105,13 +104,6 @@ CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool 
             CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeRelativeRoot, NULL) });
         }
     }
-#elif CC_PLATFORM_UNIX
-#error Add support for unix
-#elif CC_PLATFORM_WINDOWS
-#error Add support for windows
-#else
-#warning Unsupported platform
-#endif
     
     return Components;
 }
