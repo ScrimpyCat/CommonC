@@ -469,7 +469,7 @@ FSOperation FSHandleRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour
     CCAssertLog(Count, "Count must not be null");
     CCAssertLog(Data, "Data must not be null");
     
-    if (!Handle->handle)
+    if ((!Handle->handle) || (Handle->type == FSHandleTypeWrite))
     {
         *Count = 0;
         return FSOperationFailure;
@@ -507,7 +507,7 @@ FSOperation FSHandleReadFromOffset(FSHandle Handle, size_t Offset, size_t *Count
     FSHandleSetOffset(Handle, Offset);
     FSOperation Result = FSHandleRead(Handle, Count, Data, Behaviour);
     
-    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, OldOffset);
+    if ((Result == FSOperationSuccess) && ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset)) return FSHandleSetOffset(Handle, OldOffset);
     
     return Result;
 }
@@ -517,7 +517,7 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBeh
     CCAssertLog(Handle, "Handle must not be null");
     CCAssertLog(Data, "Data must not be null");
     
-    if (!Handle->handle) return FSOperationFailure;
+    if ((!Handle->handle) || (Handle->type == FSHandleTypeRead)) return FSOperationFailure;
     
     const size_t Offset = FSHandleGetOffset(Handle);
     
@@ -530,6 +530,8 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBeh
         
         else if ((Behaviour & FSWritingBehaviourDestructiveMask) == FSWritingBehaviourInsert)
         {
+            if (Handle->type != FSHandleTypeUpdate) return FSOperationFailure;
+            
 #if CC_PLATFORM_OS_X
             size_t ChunkSize = FSManagerGetPreferredIOBlockSize(Handle->path);
 #elif CC_PLATFORM_IOS
@@ -565,7 +567,6 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBeh
             
             [Chunk release];
         }
-        
     }
     
     if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, Offset);
@@ -586,7 +587,7 @@ FSOperation FSHandleWriteFromOffset(FSHandle Handle, size_t Offset, size_t Count
     FSHandleSetOffset(Handle, Offset);
     FSOperation Result = FSHandleWrite(Handle, Count, Data, Behaviour);
     
-    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, OldOffset);
+    if ((Result == FSOperationSuccess) && ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset)) return FSHandleSetOffset(Handle, OldOffset);
     
     return Result;
 }
@@ -595,7 +596,7 @@ FSOperation FSHandleRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
-    if (!Handle->handle) return FSOperationFailure;
+    if ((!Handle->handle) || (Handle->type != FSHandleTypeUpdate)) return FSOperationFailure;
     
     const size_t Offset = FSHandleGetOffset(Handle);
     const size_t Size = FSManagerGetSize(Handle->path) - Offset;
@@ -650,7 +651,7 @@ FSOperation FSHandleRemoveFromOffset(FSHandle Handle, size_t Offset, size_t Coun
     FSHandleSetOffset(Handle, Offset);
     FSOperation Result = FSHandleRemove(Handle, Count, Behaviour);
     
-    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, OldOffset);
+    if ((Result == FSOperationSuccess) && ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset)) return FSHandleSetOffset(Handle, OldOffset);
     
     return Result;
 }
