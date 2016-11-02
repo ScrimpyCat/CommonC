@@ -267,4 +267,37 @@
     FSPathDestroy(File);
 }
 
+-(void) testFileSize
+{
+    FSPath File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "test"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Should be created as well");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    XCTAssertEqual(FSManagerGetSize(File), 0, @"Should be empty");
+    
+    uint8_t Data[128];
+    FSHandle Handle;
+    XCTAssertEqual(FSHandleOpen(File, FSHandleTypeWrite, &Handle), FSOperationSuccess, @"Should open file");
+    XCTAssertEqual(FSHandleWrite(Handle, sizeof(Data), Data, FSBehaviourDefault), FSOperationSuccess, @"Should write data to file");
+    XCTAssertEqual(FSHandleClose(Handle), FSOperationSuccess, @"Should close file");
+    XCTAssertEqual(FSManagerGetSize(File), sizeof(Data), @"Should be the correct size");
+    
+    FSPathDestroy(File);
+}
+
+-(void) testFileAccess
+{
+    FSPath File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "test"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Should be created as well");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    XCTAssertEqual(FSManagerGetAccessRights(File), FSAccessReadable | FSAccessWritable | FSAccessDeletable, @"Should have correct access rights");
+    
+    FSPathDestroy(File);
+}
+
 @end
