@@ -228,11 +228,6 @@ size_t FSManagerGetPreferredIOBlockSize(FSPath Path)
     }
 }
 
-static void FSPathElementDestructor(CCCollection Collection, FSPath *Element)
-{
-    FSPathDestroy(*Element);
-}
-
 static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *List, CCCollection NamingMatches, FSMatch MatchOptions)
 {
     @autoreleasepool {
@@ -267,7 +262,7 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
             {
                 if (!Path) Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
                 
-                if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), (CCCollectionElementDestructor)FSPathElementDestructor);
+                if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), FSPathDestructorForCollection);
                 CCOrderedCollectionAppendElement(*List, &Path);
             }
             
