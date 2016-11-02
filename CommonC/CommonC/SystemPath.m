@@ -599,8 +599,10 @@ FSOperation FSHandleRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
     if ((!Handle->handle) || (Handle->type != FSHandleTypeUpdate)) return FSOperationFailure;
     
     const size_t Offset = FSHandleGetOffset(Handle);
-    const size_t Size = FSManagerGetSize(Handle->path) - Offset;
+    size_t Size = FSManagerGetSize(Handle->path);
     
+    if (Offset > Size) return FSOperationSuccess;
+    Size -= Offset;
     
     @autoreleasepool {
         if (Count >= Size)
