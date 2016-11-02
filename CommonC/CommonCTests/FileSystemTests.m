@@ -27,6 +27,7 @@
 #import "FileSystem.h"
 #import "Path.h"
 #import "FileHandle.h"
+#import "TypeCallbacks.h"
 
 @interface FileSystemTests : XCTestCase
 
@@ -296,6 +297,265 @@
     XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Should be created as well");
     XCTAssertTrue(FSManagerExists(File), @"File should exist");
     XCTAssertEqual(FSManagerGetAccessRights(File), FSAccessReadable | FSAccessWritable | FSAccessDeletable, @"Should have correct access rights");
+    
+    FSPathDestroy(File);
+}
+
+-(void) testFileSearch
+{
+    FSPath File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "test"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, TRUE), FSOperationSuccess, @"Should be created as well");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathInsertComponentAtIndex(File, FSPathComponentCreate(FSPathComponentTypeFile, "blah"), FSPathGetComponentCount(File) - 2);
+    FSPathRemoveComponentIndex(File, FSPathGetComponentCount(File) - 2);
+    
+    XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Should be created as well");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathInsertComponentAtIndex(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "blah"), FSPathGetComponentCount(File) - 2);
+    
+    XCTAssertEqual(FSManagerCreate(File, TRUE), FSOperationSuccess, @"Should be created as well");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathRemoveComponentLast(File);
+    FSPathRemoveComponentLast(File);
+    FSPathRemoveComponentLast(File);
+    
+    /*
+     example/
+     ├── blah/
+     │   └── blah.txt
+     ├── blah.txt
+     └── test.txt
+     */
+    
+    CCCollection Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate(".txt") });
+    CCOrderedCollection Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchDefault);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 2, @"Should find all files with the given extension in example/");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate(".txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all files with the given extension in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all files with the given extension in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 2, @"Should find all blah.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all blah.txt and test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameOptionCaseSensitive);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all blah.txt and test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all blah.txt and test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameOptionCaseSensitive);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(Matches, NULL, @"Should find all Blah.txt and Test.txt files in example/ and its subfolders");
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("Test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameOptionCaseInsensitive);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all blah.txt and test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("test/blah.txt") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/test.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all test/blah.txt and */test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah/blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all test/blah.txt and */test.txt files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah/blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchDefault);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(Matches, NULL, @"Should find all test/blah.txt and */test.txt files in example/");
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all folders in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.*") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 4, @"Should find all folders and files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.*") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchSkipFile);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all folders in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.*") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchSkipDirectory);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.*") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameOptionWildcardIsLiteral);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(Matches, NULL, @"Should find all literal files *.* and folders */ in example/ and its subfolders");
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("*.*") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | ('$' << FSMatchNameOptionWildcard));
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(Matches, NULL, @"Should find all literal files *.* and folders */ in example/ and its subfolders");
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("$/") });
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("$.$") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchSkipDirectory | ('$' << FSMatchNameOptionWildcard));
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all files in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameBlacklist);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 2, @"Should find all files and folders that don't match blah.txt in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameBlacklist | FSMatchSkipDirectory);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all files that don't match blah.txt in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah.txt") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameWhitelist);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 2, @"Should find all files that match blah.txt in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah/") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameWhitelist);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 1, @"Should find all folders that match blah/ in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
+    
+    Paths = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(FSPath), FSPathDestructorForCollection);
+    CCCollectionInsertElement(Paths, &(FSPath){ FSPathCreate("blah/") });
+    Matches = FSManagerGetContentsAtPath(File, Paths, FSMatchSearchRecursively | FSMatchNameBlacklist);
+    CCCollectionDestroy(Paths);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all folders that match blah/ in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
     
     FSPathDestroy(File);
 }
