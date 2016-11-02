@@ -258,21 +258,25 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
                 }
             }
             
+            NSNumber *Dir;
+            [Item getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL];
+            _Bool IsDir = Dir ? Dir.boolValue : FALSE;
+            
             if ((MatchOptions & FSMatchNameBlacklist) ? !Match : Match)
             {
-                if (!Path) Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
-                
-                if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), FSPathDestructorForCollection);
-                CCOrderedCollectionAppendElement(*List, &Path);
+                if (!(IsDir * (MatchOptions & FSMatchSkipDirectory)) && !(!IsDir * (MatchOptions & FSMatchSkipFile)))
+                {
+                    if (!Path) Path = FSPathCreateFromSystemPath([Item.path UTF8String]);
+                    
+                    if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), FSPathDestructorForCollection);
+                    CCOrderedCollectionAppendElement(*List, &Path);
+                }
             }
             
             else if (Path) FSPathDestroy(Path);
             
             if ((MatchOptions & FSMatchSearchRecursively))
             {
-                NSNumber *IsDir;
-                [Item getResourceValue: &IsDir forKey: NSURLIsDirectoryKey error: NULL];
-                
                 if (IsDir) FSManagerAddContentsInPath(Item, List, NamingMatches, MatchOptions);
             }
         }
