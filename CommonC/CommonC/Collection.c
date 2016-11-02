@@ -42,7 +42,7 @@ typedef struct {
 } CCCollectionInterfaceNode;
 
 typedef struct {
-    int allocator;
+    CCAllocatorHeader header;
     CCCollectionInterfaceNode data;
 } CCCollectionInternalInterfaceNode;
 
@@ -63,8 +63,8 @@ int CCCollectionHintWeightCreate(CCCollectionHint Hint, CCCollectionHint FastHin
 
 const CCCollectionInterface CCCollectionArrayInterface, CCCollectionListInterface;
 static CCCollectionInternalInterfaceNode InternalInterfaces[] = {
-    { .allocator = -1, .data = { .node = { .prev = NULL, .next = (void*)(InternalInterfaces + 1) + offsetof(CCCollectionInternalInterfaceNode, data) }, .interface = &CCCollectionArrayInterface } },
-    { .allocator = -1, .data = { .node = { .prev = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data), .next = NULL }, .interface = &CCCollectionListInterface } }
+    { .header = { .allocator = -1 }, .data = { .node = { .prev = NULL, .next = (void*)(InternalInterfaces + 1) + offsetof(CCCollectionInternalInterfaceNode, data) }, .interface = &CCCollectionArrayInterface } },
+    { .header = { .allocator = -1 }, .data = { .node = { .prev = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data), .next = NULL }, .interface = &CCCollectionListInterface } }
 };
 static CCCollectionInterfaceNode *Interfaces = (void*)InternalInterfaces + offsetof(CCCollectionInternalInterfaceNode, data);
 void CCCollectionRegisterInterface(const CCCollectionInterface *Interface)

@@ -37,7 +37,7 @@ typedef struct {
 } CCDictionaryInterfaceNode;
 
 typedef struct {
-    int allocator;
+    CCAllocatorHeader header;
     CCDictionaryInterfaceNode data;
 } CCDictionaryInternalInterfaceNode;
 
@@ -58,7 +58,7 @@ int CCDictionaryHintWeightCreate(CCDictionaryHint Hint, CCDictionaryHint FastHin
 
 const CCDictionaryInterface CCDictionaryHashMapInterface;
 static CCDictionaryInternalInterfaceNode InternalInterfaces[] = {
-    { .allocator = -1, .data = { .node = { .prev = NULL, .next = NULL }, .interface = &CCDictionaryHashMapInterface } }
+    { .header = { .allocator = -1 }, .data = { .node = { .prev = NULL, .next = NULL }, .interface = &CCDictionaryHashMapInterface } }
 };
 static CCDictionaryInterfaceNode *Interfaces = (void*)InternalInterfaces + offsetof(CCDictionaryInternalInterfaceNode, data);
 void CCDictionaryRegisterInterface(const CCDictionaryInterface *Interface)
