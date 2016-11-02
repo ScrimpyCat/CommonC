@@ -34,19 +34,15 @@
 #import "Path.h"
 #import "FileHandle.h"
 #import "FileSystem.h"
+#import "TypeCallbacks.h"
 
 
 #pragma mark Path
-static void FSPathComponentElementDestructor(CCCollection Collection, FSPathComponent *Element)
-{
-    FSPathComponentDestroy(*Element);
-}
-
 CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath)
 {
     CCAssertLog(Path, "Path must not be null");
     
-    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), (CCCollectionElementDestructor)FSPathComponentElementDestructor);
+    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
     
     @autoreleasepool {
         NSString *ExpandedPath = [[NSString stringWithUTF8String: Path] stringByExpandingTildeInPath];

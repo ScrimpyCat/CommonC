@@ -28,6 +28,7 @@
 #include "Logging.h"
 #include "Assertion.h"
 #include "CollectionEnumerator.h"
+#include "TypeCallbacks.h"
 
 
 static void FSPathClearPathStringCache(FSPath Path);
@@ -127,14 +128,9 @@ static FSPathComponent FSPathCreateComponent(FSPathComponentType Type, const cha
     return PathComponent;
 }
 
-static void FSPathComponentElementDestructor(CCCollection Collection, FSPathComponent *Element)
-{
-    FSPathComponentDestroy(*Element);
-}
-
 CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool CompletePath)
 {
-    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), (CCCollectionElementDestructor)FSPathComponentElementDestructor);
+    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
     
     FSPathComponentType Type;
     const char *Start = Path;
@@ -260,7 +256,7 @@ FSPath FSPathCopy(FSPath Path)
                    return NULL;
                    );
     
-    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), (CCCollectionElementDestructor)FSPathComponentElementDestructor);
+    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
     
     CC_COLLECTION_FOREACH(FSPathComponent, Element, Path->components)
     {
