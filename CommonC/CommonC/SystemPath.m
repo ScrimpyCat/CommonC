@@ -37,6 +37,8 @@
 #import "TypeCallbacks.h"
 
 
+#if CC_PLATFORM_OS_X || CC_PLATFORM_IOS //Not really required as this shouldn't be included in the build on other platforms, but it simplifies testing
+
 #pragma mark Path
 CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath)
 {
@@ -699,4 +701,6 @@ int FSHandleGetFileDescriptor(FSHandle Handle)
     
     return -1;
 }
+#endif
+
 #endif
