@@ -265,6 +265,20 @@ static const CCCollectionInterface CollectionList = {
     XCTAssertEqual(CCOrderedCollectionGetIndex(Collection, a3), 1, @"Should return the correct index");
     
     CCCollectionDestroy(Collection);
+    
+    
+    
+    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    
+    CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
+    CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
+    
+    CCOrderedCollectionRemoveLastElement(Collection);
+    CCOrderedCollectionRemoveLastElement(Collection);
+    
+    XCTAssertEqual(CCCollectionGetCount(Collection), 0, @"Should be empty");
+    
+    CCCollectionDestroy(Collection);
 }
 
 -(void) testIndexedReplacing
