@@ -1,12 +1,10 @@
-Common
-======
-
-Common utilities for C and Obj-C. This is mostly for my own internal use, so there may be some odd conventions, missing features in some things, etc.
-
 CommonC
--------
+=======
 
-The CommonC framework contains a collection of utilities for C programs. The feature set so far includes:
+The CommonC framework contains a collection of utilities for C programs. This is a separation from the [Common](https://github.com/ScrimpyCat/Common) project.
+
+
+The feature set so far includes:
 
 * Platform and hardware feature detection.
 * Common compiler extensions.
