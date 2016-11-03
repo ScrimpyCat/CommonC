@@ -253,7 +253,7 @@ CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingM
 
 static _Bool FSManagerCreateDirectory(FSPath Path, _Bool IntermediateDirectories)
 {
-    if (FSManagerExists(Path)) return TRUE;
+    if (((FSPathGetComponentCount(Path) == 1) && (FSPathComponentGetType(FSPathGetComponentAtIndex(Path, 0)) != FSPathComponentTypeDirectory)) || (FSManagerExists(Path))) return TRUE;
     
     _Bool Success = TRUE;
     if (IntermediateDirectories)
@@ -281,7 +281,9 @@ FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
         
         if (FSPathIsFile(Path))
         {
-            Success = FSManagerCreateDirectory(Path, IntermediateDirectories);
+            FSPath Temp = FSPathCopy(Path);
+            Success = FSManagerCreateDirectory(Temp, IntermediateDirectories);
+            FSPathDestroy(Temp);
             
             if (Success)
             {
