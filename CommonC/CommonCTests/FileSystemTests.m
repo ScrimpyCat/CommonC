@@ -291,6 +291,10 @@
 -(void) testFileAccess
 {
     FSPath File = FSPathCopy(testFolder);
+    
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    XCTAssertEqual(FSManagerGetAccessRights(File), FSAccessReadable | FSAccessWritable | FSAccessExecutable | FSAccessDeletable, @"Should have correct access rights");
+    
     FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "test"));
     FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
     
