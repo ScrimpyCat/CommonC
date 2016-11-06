@@ -158,7 +158,7 @@ FSPathComponent FSPathGetComponentAtIndex(FSPath Path, size_t Index);
  * @param Component The component to be added to the path. Ownership of the component is transfered to the path.
  * @param Index The index of the component. Must be within bounds.
  */
-void FSPathSetComponentAtIndex(FSPath Path, FSPathComponent Component, size_t Index);
+void FSPathSetComponentAtIndex(FSPath Path, FSPathComponent CC_OWN(Component), size_t Index);
 
 /*!
  * @brief Insert the component at a given index in the path.
@@ -166,21 +166,21 @@ void FSPathSetComponentAtIndex(FSPath Path, FSPathComponent Component, size_t In
  * @param Component The component to be added to the path. Ownership of the component is transfered to the path.
  * @param Index The index of the component. Must be within bounds.
  */
-void FSPathInsertComponentAtIndex(FSPath Path, FSPathComponent Component, size_t Index);
+void FSPathInsertComponentAtIndex(FSPath Path, FSPathComponent CC_OWN(Component), size_t Index);
 
 /*!
  * @brief Append the component to the end of the path.
  * @param Path The path.
  * @param Component The component to be added to the path. Ownership of the component is transfered to the path.
  */
-void FSPathAppendComponent(FSPath Path, FSPathComponent Component);
+void FSPathAppendComponent(FSPath Path, FSPathComponent CC_OWN(Component));
 
 /*!
  * @brief Prepend the component to the start of the path.
  * @param Path The path.
  * @param Component The component to be added to the path. Ownership of the component is transfered to the path.
  */
-void FSPathPrependComponent(FSPath Path, FSPathComponent Component);
+void FSPathPrependComponent(FSPath Path, FSPathComponent CC_OWN(Component));
 
 /*!
  * @brief Remove the component at a given index in the path.
