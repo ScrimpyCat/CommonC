@@ -51,7 +51,12 @@ CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool 
         NSURL *URLPath = [NSURL fileURLWithPath: ExpandedPath];
         
         NSNumber *Dir;
-        if (![URLPath getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL])
+        if ([URLPath getResourceValue: &Dir forKey: NSURLIsRegularFileKey error: NULL])
+        {
+            Dir = @(!Dir.boolValue);
+        }
+        
+        else if (![URLPath getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL])
         {
             Dir = @([URLPath.absoluteString hasSuffix: @"/"]);
         }
