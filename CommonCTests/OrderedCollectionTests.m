@@ -192,7 +192,7 @@ static const CCCollectionInterface CollectionList = {
 
 -(void) testIndexing
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    CCOrderedCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
@@ -218,7 +218,7 @@ static const CCCollectionInterface CollectionList = {
 
 -(void) testIndexedInserting
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    CCOrderedCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCOrderedCollectionInsertElementAtIndex(Collection, &(int){ 1 }, 0);
     CCCollectionEntry a2 = CCOrderedCollectionInsertElementAtIndex(Collection, &(int){ 2 }, 0);
@@ -244,7 +244,7 @@ static const CCCollectionInterface CollectionList = {
 
 -(void) testIndexedRemoving
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    CCOrderedCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
     CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
@@ -268,7 +268,7 @@ static const CCCollectionInterface CollectionList = {
     
     
     
-    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(int), NULL, self.interface);
     
     CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
     CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
@@ -283,7 +283,7 @@ static const CCCollectionInterface CollectionList = {
 
 -(void) testIndexedReplacing
 {
-    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    CCOrderedCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(int), NULL, self.interface);
     
     CCCollectionEntry a1 = CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
     CCCollectionEntry a2 = CCOrderedCollectionAppendElement(Collection, &(int){ 2 });

@@ -95,7 +95,7 @@ void CCOrderedCollectionRemoveElementAtIndex(CCOrderedCollection Collection, siz
 void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection)
 {
     CCAssertLog(Collection, "Collection must not be null");
-    CCAssertLog(CCCollectionGetCount(Collection) >= 1, "Collection must have at least one element");
+    CCAssertLog(CCCollectionGetCount(Collection), "Collection must have at least one element");
     
     if (Collection->interface->optional.ordered->optional.removeLast)
     {
@@ -104,7 +104,7 @@ void CCOrderedCollectionRemoveLastElement(CCOrderedCollection Collection)
             Collection->destructor(Collection, CCOrderedCollectionGetElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1));
         }
         
-        Collection->interface->optional.ordered->optional.removeLast(Collection, Collection->allocator);
+        Collection->interface->optional.ordered->optional.removeLast(Collection->internal, Collection->allocator);
     }
     else CCOrderedCollectionRemoveElementAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
 }
