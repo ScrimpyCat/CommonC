@@ -140,3 +140,10 @@ void *CCOrderedCollectionGetElementAtIndex(CCOrderedCollection Collection, size_
     if (Collection->interface->optional.ordered->optional.element) return Collection->interface->optional.ordered->optional.element(Collection->internal, Index);
     else return CCCollectionGetElement(Collection, CCOrderedCollectionGetEntryAtIndex(Collection, Index));
 }
+
+void *CCOrderedCollectionGetLastElement(CCOrderedCollection Collection)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    return CCCollectionGetElement(Collection, CCOrderedCollectionGetLastEntry(Collection));
+}

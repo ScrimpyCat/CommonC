@@ -124,5 +124,12 @@ size_t CCOrderedCollectionGetIndex(CCOrderedCollection Collection, CCCollectionE
  */
 void *CCOrderedCollectionGetElementAtIndex(CCOrderedCollection Collection, size_t Index);
 
+/*!
+ * @brief Get the last element in the collection.
+ * @param Collection The collection to get the element from.
+ * @return The element.
+ */
+void *CCOrderedCollectionGetLastElement(CCOrderedCollection Collection);
+
 
 #endif
