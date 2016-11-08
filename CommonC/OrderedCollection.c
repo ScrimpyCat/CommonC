@@ -121,8 +121,11 @@ CCCollectionEntry CCOrderedCollectionGetLastEntry(CCOrderedCollection Collection
 {
     CCAssertLog(Collection, "Collection must not be null");
     
+    const size_t Count = CCCollectionGetCount(Collection);
+    if (!Count) return NULL;
+    
     if (Collection->interface->optional.ordered->optional.lastEntry) return Collection->interface->optional.ordered->optional.lastEntry(Collection->internal);
-    else return CCOrderedCollectionGetEntryAtIndex(Collection, CCCollectionGetCount(Collection) - 1);
+    else return CCOrderedCollectionGetEntryAtIndex(Collection, Count - 1);
 }
 
 size_t CCOrderedCollectionGetIndex(CCOrderedCollection Collection, CCCollectionEntry Entry)

@@ -103,7 +103,7 @@ CCCollectionEntry CCOrderedCollectionGetEntryAtIndex(CCOrderedCollection Collect
 /*!
  * @brief Get the last entry in the collection.
  * @param Collection The collection to get the element from.
- * @return The entry.
+ * @return The entry, or NULL on an empty collection.
  */
 CCCollectionEntry CCOrderedCollectionGetLastEntry(CCOrderedCollection Collection);
 
