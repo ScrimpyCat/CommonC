@@ -107,4 +107,280 @@
     FSPathDestroy(Path);
 }
 
+-(void) testCreation
+{
+    FSPath Path = FSPathCreate("foo/");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 2);
+    
+    FSPathComponent Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 3);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/test/");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 4);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/../");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 4);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/../test/");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 5);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/../test");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 5);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeFile);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/../test.txt");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 6);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeFile);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    Component = FSPathGetComponentAtIndex(Path, 5);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"txt");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("foo/bar.framework/../test.txt.png");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 7);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeFile);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    Component = FSPathGetComponentAtIndex(Path, 5);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"txt");
+    
+    Component = FSPathGetComponentAtIndex(Path, 6);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"png");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("/foo/bar.framework/../test.txt.png");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 7);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeFile);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    Component = FSPathGetComponentAtIndex(Path, 5);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"txt");
+    
+    Component = FSPathGetComponentAtIndex(Path, 6);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"png");
+    
+    FSPathDestroy(Path);
+    
+    
+    Path = FSPathCreate("//Test HD/foo/bar.framework/../test.txt.png");
+    
+    XCTAssertEqual(FSPathGetComponentCount(Path), 8);
+    
+    Component = FSPathGetComponentAtIndex(Path, 0);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeVolume);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"Test HD");
+    
+    Component = FSPathGetComponentAtIndex(Path, 1);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRoot);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 2);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"foo");
+    
+    Component = FSPathGetComponentAtIndex(Path, 3);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeDirectory);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"bar.framework");
+    
+    Component = FSPathGetComponentAtIndex(Path, 4);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeRelativeParentDirectory);
+    XCTAssertEqual(FSPathComponentGetString(Component), NULL);
+    
+    Component = FSPathGetComponentAtIndex(Path, 5);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeFile);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"test");
+    
+    Component = FSPathGetComponentAtIndex(Path, 6);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"txt");
+    
+    Component = FSPathGetComponentAtIndex(Path, 7);
+    XCTAssertEqual(FSPathComponentGetType(Component), FSPathComponentTypeExtension);
+    XCTAssertEqualObjects([NSString stringWithUTF8String: FSPathComponentGetString(Component)], @"png");
+    
+    FSPathDestroy(Path);
+}
+
 @end
