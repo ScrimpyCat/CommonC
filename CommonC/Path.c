@@ -160,6 +160,25 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
             CharacterCount = 0;
         }
         
+        else if ((HasFile) && (c == '/')) //Fixup directories that contain '.'
+        {
+            for (FSPathComponent *Component; (Component = CCOrderedCollectionGetLastElement(Components)) && ((FSPathComponentGetType(*Component) == FSPathComponentTypeExtension) || (FSPathComponentGetType(*Component) == FSPathComponentTypeFile)); CCOrderedCollectionRemoveLastElement(Components))
+            {
+                Start -= strlen(FSPathComponentGetString(*Component)) + 1;
+            }
+            
+            FSPathComponent Component = FSPathCreateComponent(FSPathComponentTypeDirectory, Start + 1, Path - Start);
+            
+            CCOrderedCollectionAppendElement(Components, &Component);
+            
+            HasFile = FALSE;
+            Start = Path + 1;
+            SlashCount = 0;
+            DotCount = 0;
+            CharacterCount = 0;
+            continue;
+        }
+        
         switch (c)
         {
             case '/':
