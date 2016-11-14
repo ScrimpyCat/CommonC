@@ -574,6 +574,20 @@
     
     CCStringDestroy(Str);
     CCStringDestroy(Occurrence);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CC_STRING("aababaaab"), (CCString[]){
+        CC_STRING("aa"), CC_STRING("ab")
+    }, 2);
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 5, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("b")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 2), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 3), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 4), CC_STRING("")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
 }
 
 -(void) testRemoval

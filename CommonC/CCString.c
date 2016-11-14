@@ -708,6 +708,34 @@ CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCString Strin
     return SeparatedStrings;
 }
 
+CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, size_t Count)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrences, "Occurrence must not be null");
+    
+    CCOrderedCollection SeparatedStrings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), CCStringDestructorForCollection);
+    
+    size_t Found;
+    size_t Index = CCStringFindClosestSubstring(String, 0, Occurrences, Count, &Found);
+    if (Index == SIZE_MAX)
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopy(String) });
+        return SeparatedStrings;
+    }
+    
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, 0, Index) });;
+    
+    size_t Offset = (Index += CCStringGetLength(Occurrences[Found]));
+    for ( ; (Index = CCStringFindClosestSubstring(String, Index, Occurrences, Count, &Found)) != SIZE_MAX; Offset = (Index += CCStringGetLength(Occurrences[Found])))
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, Index - Offset) });
+    }
+    
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, CCStringGetLength(String) - Offset) });
+    
+    return SeparatedStrings;
+}
+
 CCString CCStringCopy(CCString String)
 {
     CCAssertLog(String, "String must not be null");
