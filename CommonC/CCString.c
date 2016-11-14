@@ -31,6 +31,7 @@
 #include "CCStringEnumerator.h"
 #include "BitTricks.h"
 #include "CollectionEnumerator.h"
+#include "TypeCallbacks.h"
 
 /* 
  CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 makes the guarantee that a nul char will be represented by 0 in the tagged strings.
@@ -677,6 +678,34 @@ CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Se
     }
     
     return NewString;
+}
+
+CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCString String, CCString Occurrence)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrence, "Occurrence must not be null");
+    
+    CCOrderedCollection SeparatedStrings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), CCStringDestructorForCollection);
+    
+    size_t Index = CCStringFindSubstring(String, 0, Occurrence);
+    if (Index == SIZE_MAX)
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopy(String) });
+        return SeparatedStrings;
+    }
+    
+    const size_t OccurrenceLength = CCStringGetLength(Occurrence);
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, 0, Index) });;
+    
+    size_t Offset = (Index += OccurrenceLength);
+    for ( ; (Index = CCStringFindSubstring(String, Index, Occurrence)) != SIZE_MAX; Offset = (Index += OccurrenceLength))
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, Index - Offset) });
+    }
+    
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, CCStringGetLength(String) - Offset) });
+    
+    return SeparatedStrings;
 }
 
 CCString CCStringCopy(CCString String)

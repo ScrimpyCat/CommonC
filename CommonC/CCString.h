@@ -258,6 +258,14 @@ CC_NEW CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, 
 CC_NEW CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Separator);
 
 /*!
+ * @brief Create a collection of strings separated by the occurrence of a string.
+ * @param String The string to be split up.
+ * @param Occurrence The string to find.
+ * @return The collection of strings, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCString String, CCString Occurrence);
+
+/*!
  * @brief Copy a string.
  * @param String The string to be copied.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
