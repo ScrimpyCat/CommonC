@@ -290,6 +290,60 @@ static void CCStringDestructor(CCStringInfo *String)
     }
 }
 
+static inline size_t CCCharSize(CCChar c)
+{
+    if (c == 0) return 0;
+    else if (c < 0x80) return 1;
+    else if (c < 0x800) return 2;
+    else if (c < 0x10000) return 3;
+    
+    return 4;
+}
+
+CCString CCStringCreateWithCharacter(CCAllocatorType Allocator, CCChar Character)
+{
+    for (int Loop = CCStringMapSet31; Loop > 0; Loop--)
+    {
+        size_t Index;
+        if (CCStringCharacterInMap(Character, CCStringTaggedMap(Loop), CCStringTaggedMapSize(Loop), &Index))
+        {
+            return Loop | (Index << 2);
+        }
+    }
+    
+    size_t Size = CCCharSize(Character);
+    CCStringInfo *Str = CCMalloc(CC_ALIGNED_ALLOCATOR(4)/*Allocator*/, sizeof(CCStringInfo) + (Size + 1), NULL, CC_DEFAULT_ERROR_CALLBACK); //TODO: Allow aligned allocator to use a specified allocator
+    if (Str)
+    {
+        CCMemorySetDestructor(Str, (CCMemoryDestructorCallback)CCStringDestructor);
+        
+        CCStringEncoding Encoding = Size > 1 ? CCStringEncodingUTF8 : CCStringEncodingASCII;
+        *Str = (CCStringInfo){
+            .hint = Encoding | CCStringMarkSize | CCStringMarkLength,
+            .hash = 0,
+            .size = Size,
+            .length = Size > 0,
+            .string = NULL
+        };
+        
+        
+        if (Encoding == CCStringEncodingUTF8)
+        {
+            Str->characters[CCStringCopyCharacterUTF8(Str->characters, Character)] = 0;
+        }
+        
+        else
+        {
+            Str->characters[0] = Character;
+            Str->characters[1] = 0;
+        }
+    }
+    
+    else CC_LOG_ERROR("Failed to create string due to allocation failure. Allocation size (%zu)", sizeof(CCStringInfo) + (Size + 1));
+    
+    return (CCString)Str;
+}
+
 static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint Hint, const char *String, size_t Size, _Bool SameLength)
 {
     CCAssertLog(!(Hint & (CCStringMarkHash | CCStringMarkSize | CCStringMarkLength | CCStringMarkUnsafeBuffer)), "Must not use private hints");
@@ -887,16 +941,6 @@ CCStringEncoding CCStringGetEncoding(CCString String)
     
     if (CCStringIsTagged(String)) return Maps[(String & CCStringTaggedMask) - 1].encoding;
     else return ((CCStringInfo*)String)->hint & CCStringHintEncodingMask;
-}
-
-static inline size_t CCCharSize(CCChar c)
-{
-    if (c == 0) return 0;
-    else if (c < 0x80) return 1;
-    else if (c < 0x800) return 2;
-    else if (c < 0x10000) return 3;
-    
-    return 4;
 }
 
 size_t CCStringGetSize(CCString String)

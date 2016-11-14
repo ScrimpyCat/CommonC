@@ -157,6 +157,14 @@ void CCStringRegisterMap(CCStringEncoding Encoding, const CCStringMap *Map, CCSt
 const CCStringMap *CCStringGetMap(CCStringMapSet Set, CCStringEncoding *Encoding);
 
 /*!
+ * @brief Create a string from a character.
+ * @param Allocator The allocator to be used for the allocations.
+ * @param Character The character to turn into a string.
+ * @return The string, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW CCString CCStringCreateWithCharacter(CCAllocatorType Allocator, CCChar Character);
+
+/*!
  * @brief Create a string.
  * @param Allocator The allocator to be used for the allocations.
  * @param Hint The hints for the intended usage and format of the string.
