@@ -985,6 +985,29 @@
     XCTAssertFalse(CC_STRING("a") & 3, @"Should not be a tagged pointer");
 }
 
+-(void) testCreateWithCharacter
+{
+    CCString String = CCStringCreateWithCharacter(CC_STD_ALLOCATOR, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("")), @"Should be equal");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithCharacter(CC_STD_ALLOCATOR, 'a');
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("a")), @"Should be equal");
+    
+    CCStringDestroy(String);
+    
+    
+    String = CCStringCreateWithCharacter(CC_STD_ALLOCATOR, L'😀');
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("😀")), @"Should be equal");
+    
+    CCStringDestroy(String);
+}
+
 -(void) testCreateWithSize
 {
     CCString String = CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingASCII, "abcdef", 4);
