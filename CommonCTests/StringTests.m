@@ -461,6 +461,121 @@
     CCCollectionDestroy(Occurrences);
 }
 
+-(void) testSeparating
+{
+    CCOrderedCollection Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("a"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 5, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 2), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 3), CC_STRING("5")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 4), CC_STRING("")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("01a234aa5a"), CC_STRING("aa"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 2, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01a234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("5a")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("012345"), CC_STRING("a"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 1, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("012345")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("01😀234😀😀5😀"), CC_STRING("😀"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 5, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 2), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 3), CC_STRING("5")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 4), CC_STRING("")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("01😀234😀😀5😀"), CC_STRING("😀😀"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 2, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01😀234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("5😀")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(CC_STRING("012345"), CC_STRING("😀"));
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 1, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("012345")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "01a234aa5a");
+    CCString Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "012345");
+    CCString Occurrence = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "a");
+    CCString Occurrence2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "aa");
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(Str, Occurrence);
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 5, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 2), CC_STRING("")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 3), CC_STRING("5")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 4), CC_STRING("")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(Str, Occurrence2);
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 2, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("01a234")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("5a")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(Str2, Occurrence);
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 1, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("012345")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    CCStringDestroy(Str);
+    CCStringDestroy(Str2);
+    CCStringDestroy(Occurrence);
+    CCStringDestroy(Occurrence2);
+    
+    
+    Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "1 2 3 4 5");
+    Occurrence = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, " ");
+    Strings = CCStringCreateBySeparatingOccurrencesOfString(Str, Occurrence);
+    
+    XCTAssertEqual(CCCollectionGetCount(Strings), 5, @"Should create the correct number of strings");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 0), CC_STRING("1")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 1), CC_STRING("2")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 2), CC_STRING("3")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 3), CC_STRING("4")), @"Should create the correct string");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCOrderedCollectionGetElementAtIndex(Strings, 4), CC_STRING("5")), @"Should create the correct string");
+    
+    CCCollectionDestroy(Strings);
+    
+    CCStringDestroy(Str);
+    CCStringDestroy(Occurrence);
+}
+
 -(void) testRemoval
 {
     CCString String = CCStringCreateWithoutRange(CC_STRING("012345"), 0, 3);
