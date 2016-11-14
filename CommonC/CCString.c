@@ -567,7 +567,7 @@ CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, C
     //TODO: Optimize for non-tagged use case, only need one allocation as it can then mutate that same allocation
     size_t ReplacementLength = 0;
     
-    CCString NewString = CCStringCreateWithoutRange(String, Index, CCStringGetLength( *(CCString*)CCCollectionGetElement(Occurrences, Found)));
+    CCString NewString = CCStringCreateWithoutRange(String, Index, CCStringGetLength(*(CCString*)CCCollectionGetElement(Occurrences, Found)));
     
     CCString Replacement = *(CCString*)CCOrderedCollectionGetElementAtIndex(Replacements, CCOrderedCollectionGetIndex(Occurrences, Found));
     if (Replacement)
@@ -727,6 +727,34 @@ CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CCStri
     
     size_t Offset = (Index += CCStringGetLength(Occurrences[Found]));
     for ( ; (Index = CCStringFindClosestSubstring(String, Index, Occurrences, Count, &Found)) != SIZE_MAX; Offset = (Index += CCStringGetLength(Occurrences[Found])))
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, Index - Offset) });
+    }
+    
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, CCStringGetLength(String) - Offset) });
+    
+    return SeparatedStrings;
+}
+
+CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences)
+{
+    CCAssertLog(String, "String must not be null");
+    CCAssertLog(Occurrences, "Occurrence must not be null");
+    
+    CCOrderedCollection SeparatedStrings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCCollectionEntry Found;
+    size_t Index = CCStringFindClosestSubstringFromCollection(String, 0, Occurrences, &Found);
+    if (Index == SIZE_MAX)
+    {
+        CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopy(String) });
+        return SeparatedStrings;
+    }
+    
+    CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, 0, Index) });;
+    
+    size_t Offset = (Index += CCStringGetLength(*(CCString*)CCCollectionGetElement(Occurrences, Found)));
+    for ( ; (Index = CCStringFindClosestSubstringFromCollection(String, Index, Occurrences, &Found)) != SIZE_MAX; Offset = (Index += CCStringGetLength(*(CCString*)CCCollectionGetElement(Occurrences, Found))))
     {
         CCOrderedCollectionAppendElement(SeparatedStrings, &(CCString){ CCStringCopySubstring(String, Offset, Index - Offset) });
     }

@@ -279,6 +279,18 @@ CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCStrin
 CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, size_t Count);
 
 /*!
+ * @brief Create a collection of strings separated by the occurrences of strings.
+ * @description Similar to @b CCStringCreateBySeparatingOccurrencesOfString with the exception that the
+ *              comparisons are grouped. So out of the list of potential occurrences, the closest one is
+ *              used, and then skips over the next chunk and looks for the next occurrence.
+ *
+ * @param String The string to be split up.
+ * @param Occurrences The list of strings to find.
+ * @return The collection of strings, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences);
+
+/*!
  * @brief Copy a string.
  * @param String The string to be copied.
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
