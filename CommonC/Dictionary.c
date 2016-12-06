@@ -211,7 +211,7 @@ void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    if (Dictionary->interface->optional.setValue) Dictionary->interface->optional.setValue(Dictionary->internal, Key, Value, Dictionary->keySize, Dictionary->valueSize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
+    if ((Dictionary->interface->optional.setValue) && (!Dictionary->callbacks.valueDestructor)) Dictionary->interface->optional.setValue(Dictionary->internal, Key, Value, Dictionary->keySize, Dictionary->valueSize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
     else
     {
         CCDictionaryEntry Entry = CCDictionaryEntryForKey(Dictionary, Key);
@@ -226,7 +226,7 @@ void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
-    if (Dictionary->interface->optional.removeValue) Dictionary->interface->optional.removeValue(Dictionary->internal, Key, Dictionary->keySize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
+    if ((Dictionary->interface->optional.removeValue) && (!Dictionary->callbacks.keyDestructor) && (!Dictionary->callbacks.valueDestructor)) Dictionary->interface->optional.removeValue(Dictionary->internal, Key, Dictionary->keySize, Dictionary->callbacks.getHash, Dictionary->callbacks.compareKeys, Dictionary->allocator);
     else
     {
         CCDictionaryEntry Entry = CCDictionaryFindKey(Dictionary, Key);

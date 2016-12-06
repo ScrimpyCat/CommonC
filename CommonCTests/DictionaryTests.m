@@ -541,4 +541,82 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     [self assertStoreWithBucketCount: 50];
 }
 
+static int KeyDestroyCount = 0;
+static void TestDictionaryKeyDestructor(CCDictionary Dictionary, void *Element)
+{
+    KeyDestroyCount++;
+}
+
+static int ValueDestroyCount = 0;
+static void TestDictionaryValueDestructor(CCDictionary Dictionary, void *Element)
+{
+    ValueDestroyCount++;
+}
+
+-(void) testDestructing
+{
+    if (!self.interface) return;
+    
+    CCDictionary Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(uintmax_t), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionaryDestroy(Dict);
+    
+    XCTAssertEqual(KeyDestroyCount, 0, @"No keys to be destroyed");
+    XCTAssertEqual(ValueDestroyCount, 0, @"No values to be destroyed");
+    
+    
+    
+    Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(uintmax_t), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionaryRemoveValue(Dict, &(uintmax_t){ 0 });
+    
+    CCDictionaryDestroy(Dict);
+    
+    XCTAssertEqual(KeyDestroyCount, 0, @"No keys to be destroyed");
+    XCTAssertEqual(ValueDestroyCount, 0, @"No values to be destroyed");
+    
+    
+    
+    Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(uintmax_t), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionarySetValue(Dict, &(uintmax_t){ 0 }, &(int){ 0 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 1 }, &(int){ 0 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 0 }, &(int){ 0 });
+    
+    CCDictionaryDestroy(Dict);
+    
+    XCTAssertEqual(KeyDestroyCount, 2, @"No keys to be destroyed");
+    XCTAssertEqual(ValueDestroyCount, 3, @"No values to be destroyed");
+    
+    
+    
+    KeyDestroyCount = 0;
+    ValueDestroyCount = 0;
+    Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(uintmax_t), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionarySetValue(Dict, &(uintmax_t){ 0 }, &(int){ 0 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 1 }, &(int){ 0 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 0 }, &(int){ 0 });
+    
+    CCDictionaryRemoveValue(Dict, &(uintmax_t){ 0 });
+    CCDictionaryRemoveValue(Dict, &(uintmax_t){ 1 });
+    
+    CCDictionaryDestroy(Dict);
+    
+    XCTAssertEqual(KeyDestroyCount, 2, @"No keys to be destroyed");
+    XCTAssertEqual(ValueDestroyCount, 3, @"No values to be destroyed");
+}
+
 @end
