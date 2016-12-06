@@ -140,6 +140,8 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     }
     
     CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Queue->tasks);
+    if (!Node) return NULL;
+    
     CCTask Task = *(CCTask*)CCConcurrentQueueGetNodeData(Node);
     *(CCTask*)CCConcurrentQueueGetNodeData(Node) = NULL;
     CCConcurrentQueueDestroyNode(Node);
