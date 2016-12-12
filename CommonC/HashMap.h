@@ -39,7 +39,7 @@
  * @param Key The key to generate a hash of.
  * @return The hash representing the key.
  */
-typedef uintmax_t (*CCHashMapKeyHasher)(void *Key);
+typedef uintmax_t (*CCHashMapKeyHasher)(const void *Key);
 
 
 typedef struct CCHashMapInfo {
@@ -95,7 +95,7 @@ void CCHashMapRehash(CCHashMap Map, size_t BucketCount);
  * @param Entry The entry reference in the hashmap for the value.
  * @param Value The pointer to the value to be copied to the map.
  */
-void CCHashMapSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value);
+void CCHashMapSetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value);
 
 /*!
  * @brief Remove the value at a given entry reference.
@@ -112,7 +112,7 @@ void CCHashMapRemoveEntry(CCHashMap Map, CCHashMapEntry Entry);
  * @param Key The pointer to the key to be used to set the value of.
  * @param Value The pointer to the value to be copied to the map.
  */
-void CCHashMapSetValue(CCHashMap Map, void *Key, void *Value);
+void CCHashMapSetValue(CCHashMap Map, const void *Key, const void *Value);
 
 /*!
  * @brief Remove the value at a given key.
@@ -120,7 +120,7 @@ void CCHashMapSetValue(CCHashMap Map, void *Key, void *Value);
  * @param Map The hashmap to remove the value from.
  * @param Key The pointer to the key to be used to remove the value of.
  */
-void CCHashMapRemoveValue(CCHashMap Map, void *Key);
+void CCHashMapRemoveValue(CCHashMap Map, const void *Key);
 
 /*!
  * @brief Obtain an entry for a given key.
@@ -133,7 +133,7 @@ void CCHashMapRemoveValue(CCHashMap Map, void *Key);
  *
  * @return The entry reference.
  */
-CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
+CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, const void *Key, _Bool *Created);
 
 
 #pragma mark - Query Info
@@ -152,7 +152,7 @@ _Bool CCHashMapEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry);
  * @param Key The pointer to the key to be found.
  * @return The entry reference.
  */
-CCHashMapEntry CCHashMapFindKey(CCHashMap Map, void *Key);
+CCHashMapEntry CCHashMapFindKey(CCHashMap Map, const void *Key);
 
 /*!
  * @brief Get the value of a given entry reference.
@@ -169,7 +169,7 @@ void *CCHashMapGetEntry(CCHashMap Map, CCHashMapEntry Entry);
  * @param Key The pointer to the key to be used to get the value for.
  * @return The pointer to the value.
  */
-void *CCHashMapGetValue(CCHashMap Map, void *Key);
+void *CCHashMapGetValue(CCHashMap Map, const void *Key);
 
 /*!
  * @brief Get the key of a given entry reference.
@@ -221,7 +221,7 @@ void CCHashMapGetValueEnumerator(CCHashMap Map, CCEnumerator *Enumerator);
  * @param Key The pointer to the key to get the hash of.
  * @return The hash.
  */
-uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key);
+uintmax_t CCHashMapGetKeyHash(CCHashMap Map, const void *Key);
 
 /*!
  * @brief Get the current number of key/values in the hashmap.

@@ -103,7 +103,7 @@ void CCHashMapRehash(CCHashMap Map, size_t BucketCount)
     Map->bucketCount = BucketCount;
 }
 
-uintmax_t CCHashMapGetKeyHash(CCHashMap Map, void *Key)
+uintmax_t CCHashMapGetKeyHash(CCHashMap Map, const void *Key)
 {
     uintmax_t Hash = 0;
     if (Map->getHash)
@@ -141,14 +141,14 @@ _Bool CCHashMapEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry)
     return Map->interface->initialized(Map, Entry);
 }
 
-CCHashMapEntry CCHashMapFindKey(CCHashMap Map, void *Key)
+CCHashMapEntry CCHashMapFindKey(CCHashMap Map, const void *Key)
 {
     CCAssertLog(Map, "Map must not be null");
     
     return Map->interface->findKey(Map, Key);
 }
 
-CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, void *Key, _Bool *Created)
+CCHashMapEntry CCHashMapEntryForKey(CCHashMap Map, const void *Key, _Bool *Created)
 {
     CCAssertLog(Map, "Map must not be null");
     
@@ -171,7 +171,7 @@ void *CCHashMapGetEntry(CCHashMap Map, CCHashMapEntry Entry)
     return Map->interface->getEntry(Map, Entry);
 }
 
-void CCHashMapSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value)
+void CCHashMapSetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value)
 {
     CCAssertLog(Map, "Map must not be null");
     
@@ -189,7 +189,7 @@ void CCHashMapRemoveEntry(CCHashMap Map, CCHashMapEntry Entry)
     Map->interface->removeEntry(Map, Entry);
 }
 
-void *CCHashMapGetValue(CCHashMap Map, void *Key)
+void *CCHashMapGetValue(CCHashMap Map, const void *Key)
 {
     CCAssertLog(Map, "Map must not be null");
     
@@ -197,7 +197,7 @@ void *CCHashMapGetValue(CCHashMap Map, void *Key)
     else return CCHashMapGetEntry(Map, CCHashMapFindKey(Map, Key));
 }
 
-void CCHashMapSetValue(CCHashMap Map, void *Key, void *Value)
+void CCHashMapSetValue(CCHashMap Map, const void *Key, const void *Value)
 {
     CCAssertLog(Map, "Map must not be null");
     
@@ -205,7 +205,7 @@ void CCHashMapSetValue(CCHashMap Map, void *Key, void *Value)
     else CCHashMapSetEntry(Map, CCHashMapFindKey(Map, Key), Value);
 }
 
-void CCHashMapRemoveValue(CCHashMap Map, void *Key)
+void CCHashMapRemoveValue(CCHashMap Map, const void *Key)
 {
     CCAssertLog(Map, "Map must not be null");
     

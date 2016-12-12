@@ -41,15 +41,15 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashConstructor(CCAllocat
 static void CCHashMapSeparateChainingArrayDataOrientedHashDestructor(CCHashMapSeparateChainingArrayDataOrientedHashInternal *Internal);
 static size_t CCHashMapSeparateChainingArrayDataOrientedHashGetCount(CCHashMap Map);
 static _Bool CCHashMapSeparateChainingArrayDataOrientedHashEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry);
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashFindKey(CCHashMap Map, void *Key);
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashFindKey(CCHashMap Map, const void *Key);
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashEntryForKey(CCHashMap Map, const void *Key, _Bool *Created);
 static void *CCHashMapSeparateChainingArrayDataOrientedHashGetKey(CCHashMap Map, CCHashMapEntry Entry);
 static void *CCHashMapSeparateChainingArrayDataOrientedHashGetEntry(CCHashMap Map, CCHashMapEntry Entry);
-static void CCHashMapSeparateChainingArrayDataOrientedHashSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value);
+static void CCHashMapSeparateChainingArrayDataOrientedHashSetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value);
 static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveEntry(CCHashMap Map, CCHashMapEntry Entry);
-static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Map, void *Key);
-static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map, void *Key, void *Value);
-static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveValue(CCHashMap Map, void *Key);
+static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Map, const void *Key);
+static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map, const void *Key, const void *Value);
+static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveValue(CCHashMap Map, const void *Key);
 static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedHashGetKeys(CCHashMap Map);
 static CCOrderedCollection CCHashMapSeparateChainingArrayDataOrientedHashGetValues(CCHashMap Map);
 static void *CCHashMapSeparateChainingArrayDataOrientedHashEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
@@ -132,7 +132,7 @@ static inline void *GetItemKey(CCHashMap Map, void *Item)
     return Item;
 }
 
-static inline void SetItemKey(CCHashMap Map, void *Item, void *Key)
+static inline void SetItemKey(CCHashMap Map, void *Item, const void *Key)
 {
     memcpy(Item, Key, Map->keySize);
 }
@@ -142,12 +142,12 @@ static inline void *GetItemValue(CCHashMap Map, void *Item)
     return Item + Map->keySize;
 }
 
-static inline void SetItemValue(CCHashMap Map, void *Item, void *Value)
+static inline void SetItemValue(CCHashMap Map, void *Item, const void *Value)
 {
     memcpy(Item + Map->keySize, Value, Map->valueSize);
 }
 
-static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *Key, void *Value)
+static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, const void *Key, const void *Value)
 {
     CCHashMapSeparateChainingArrayDataOrientedHashInternal *Internal = Map->internal;
     Internal->count++;
@@ -228,7 +228,7 @@ static void RemoveValue(CCHashMap Map, CCHashMapEntry Entry)
     }
 }
 
-static _Bool GetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
+static _Bool GetKey(CCHashMap Map, const void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
 {
     const uintmax_t Hash = CCHashMapGetKeyHash(Map, Key) & HASH_RESERVED_MASK;
     const size_t Index = Hash % Map->bucketCount;
@@ -328,7 +328,7 @@ static _Bool CCHashMapSeparateChainingArrayDataOrientedHashEntryIsInitialized(CC
     return Init;
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashFindKey(CCHashMap Map, void *Key)
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashFindKey(CCHashMap Map, const void *Key)
 {
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex))
@@ -339,7 +339,7 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashFindKey(CCHa
     return 0;
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashEntryForKey(CCHashMap Map, void *Key, _Bool *Created)
+static CCHashMapEntry CCHashMapSeparateChainingArrayDataOrientedHashEntryForKey(CCHashMap Map, const void *Key, _Bool *Created)
 {
     uintmax_t Hash;
     size_t BucketIndex, ItemIndex;
@@ -388,7 +388,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashGetEntry(CCHashMap Ma
     return Value;
 }
 
-static void CCHashMapSeparateChainingArrayDataOrientedHashSetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value)
+static void CCHashMapSeparateChainingArrayDataOrientedHashSetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value)
 {
     size_t BucketIndex, ItemIndex;
     if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex))
@@ -408,7 +408,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveEntry(CCHashMap 
     RemoveValue(Map, Entry);
 }
 
-static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Map, void *Key)
+static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Map, const void *Key)
 {
     void *Value = NULL;
     size_t BucketIndex, ItemIndex;
@@ -417,7 +417,7 @@ static void *CCHashMapSeparateChainingArrayDataOrientedHashGetValue(CCHashMap Ma
     return Value;
 }
 
-static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map, void *Key, void *Value)
+static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map, const void *Key, const void *Value)
 {
     uintmax_t Hash;
     size_t BucketIndex, ItemIndex;
@@ -438,7 +438,7 @@ static void CCHashMapSeparateChainingArrayDataOrientedHashSetValue(CCHashMap Map
     }
 }
 
-static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveValue(CCHashMap Map, void *Key)
+static void CCHashMapSeparateChainingArrayDataOrientedHashRemoveValue(CCHashMap Map, const void *Key)
 {
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) RemoveValue(Map, IndexToEntry(Map, BucketIndex, ItemIndex));

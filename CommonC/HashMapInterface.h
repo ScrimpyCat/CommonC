@@ -107,7 +107,7 @@ typedef _Bool (*CCHashMapEntryIsInitializedCallback)(CCHashMap Map, CCHashMapEnt
  * @param Key The pointer to the key to be found.
  * @return The entry reference.
  */
-typedef CCHashMapEntry (*CCHashMapFindKeyCallback)(CCHashMap Map, void *Key);
+typedef CCHashMapEntry (*CCHashMapFindKeyCallback)(CCHashMap Map, const void *Key);
 
 /*!
  * @brief A callback to create an entry for a given key.
@@ -118,7 +118,7 @@ typedef CCHashMapEntry (*CCHashMapFindKeyCallback)(CCHashMap Map, void *Key);
  *
  * @return The entry reference.
  */
-typedef CCHashMapEntry (*CCHashMapEntryForKeyCallback)(CCHashMap Map, void *Key, _Bool *Created);
+typedef CCHashMapEntry (*CCHashMapEntryForKeyCallback)(CCHashMap Map, const void *Key, _Bool *Created);
 
 /*!
  * @brief A callback to get a key for a given entry reference.
@@ -142,7 +142,7 @@ typedef void *(*CCHashMapGetEntryCallback)(CCHashMap Map, CCHashMapEntry Entry);
  * @param Entry The entry reference in the hashmap for the value.
  * @param Value The pointer to the value to be copied to the map.
  */
-typedef void (*CCHashMapSetEntryCallback)(CCHashMap Map, CCHashMapEntry Entry, void *Value);
+typedef void (*CCHashMapSetEntryCallback)(CCHashMap Map, CCHashMapEntry Entry, const void *Value);
 
 /*!
  * @brief A callback to remove the value at a given entry reference.
@@ -187,7 +187,7 @@ typedef void (*CCHashMapRehashCallback)(CCHashMap Map, size_t BucketCount);
  * @param Key The pointer to the key to be used to get the value for.
  * @return The pointer to the value.
  */
-typedef void *(*CCHashMapGetValueCallback)(CCHashMap Map, void *Key);
+typedef void *(*CCHashMapGetValueCallback)(CCHashMap Map, const void *Key);
 
 /*!
  * @brief An optional callback to set the value at a given key.
@@ -195,7 +195,7 @@ typedef void *(*CCHashMapGetValueCallback)(CCHashMap Map, void *Key);
  * @param Key The pointer to the key to be used to set the value of.
  * @param Value The pointer to the value to be copied to the map.
  */
-typedef void (*CCHashMapSetValueCallback)(CCHashMap Map, void *Key, void *Value);
+typedef void (*CCHashMapSetValueCallback)(CCHashMap Map, const void *Key, const void *Value);
 
 /*!
  * @brief An optional callback to remove the value at a given key.
@@ -203,7 +203,7 @@ typedef void (*CCHashMapSetValueCallback)(CCHashMap Map, void *Key, void *Value)
  * @param Map The hashmap to remove the value from.
  * @param Key The pointer to the key to be used to remove the value of.
  */
-typedef void (*CCHashMapRemoveValueCallback)(CCHashMap Map, void *Key);
+typedef void (*CCHashMapRemoveValueCallback)(CCHashMap Map, const void *Key);
 
 /*!
  * @brief An optional callback to retrieve the keys in the hashmap.

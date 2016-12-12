@@ -40,15 +40,15 @@ static void *CCHashMapSeparateChainingArrayConstructor(CCAllocatorType Allocator
 static void CCHashMapSeparateChainingArrayDestructor(CCHashMapSeparateChainingArrayInternal *Internal);
 static size_t CCHashMapSeparateChainingArrayGetCount(CCHashMap Map);
 static _Bool CCHashMapSeparateChainingArrayEntryIsInitialized(CCHashMap Map, CCHashMapEntry Entry);
-static CCHashMapEntry CCHashMapSeparateChainingArrayFindKey(CCHashMap Map, void *Key);
-static CCHashMapEntry CCHashMapSeparateChainingArrayEntryForKey(CCHashMap Map, void *Key, _Bool *Created);
+static CCHashMapEntry CCHashMapSeparateChainingArrayFindKey(CCHashMap Map, const void *Key);
+static CCHashMapEntry CCHashMapSeparateChainingArrayEntryForKey(CCHashMap Map, const void *Key, _Bool *Created);
 static void *CCHashMapSeparateChainingArrayGetKey(CCHashMap Map, CCHashMapEntry Entry);
 static void *CCHashMapSeparateChainingArrayGetEntry(CCHashMap Map, CCHashMapEntry Entry);
-static void CCHashMapSeparateChainingArraySetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value);
+static void CCHashMapSeparateChainingArraySetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value);
 static void CCHashMapSeparateChainingArrayRemoveEntry(CCHashMap Map, CCHashMapEntry Entry);
-static void *CCHashMapSeparateChainingArrayGetValue(CCHashMap Map, void *Key);
-static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, void *Key, void *Value);
-static void CCHashMapSeparateChainingArrayRemoveValue(CCHashMap Map, void *Key);
+static void *CCHashMapSeparateChainingArrayGetValue(CCHashMap Map, const void *Key);
+static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, const void *Key, const void *Value);
+static void CCHashMapSeparateChainingArrayRemoveValue(CCHashMap Map, const void *Key);
 static CCOrderedCollection CCHashMapSeparateChainingArrayGetKeys(CCHashMap Map);
 static CCOrderedCollection CCHashMapSeparateChainingArrayGetValues(CCHashMap Map);
 static void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
@@ -141,7 +141,7 @@ static inline void *GetItemKey(CCHashMap Map, void *Item)
     return Item + sizeof(uintmax_t);
 }
 
-static inline void SetItemKey(CCHashMap Map, void *Item, void *Key)
+static inline void SetItemKey(CCHashMap Map, void *Item, const void *Key)
 {
     memcpy(Item + sizeof(uintmax_t), Key, Map->keySize);
 }
@@ -151,12 +151,12 @@ static inline void *GetItemValue(CCHashMap Map, void *Item)
     return Item + sizeof(uintmax_t) + Map->keySize;
 }
 
-static inline void SetItemValue(CCHashMap Map, void *Item, void *Value)
+static inline void SetItemValue(CCHashMap Map, void *Item, const void *Value)
 {
     memcpy(Item + sizeof(uintmax_t) + Map->keySize, Value, Map->valueSize);
 }
 
-static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, void *Key, void *Value)
+static size_t AddValue(CCHashMap Map, size_t BucketIndex, uintmax_t Hash, const void *Key, const void *Value)
 {
     CCHashMapSeparateChainingArrayInternal *Internal = Map->internal;
     Internal->count++;
@@ -222,7 +222,7 @@ static void RemoveValue(CCHashMap Map, CCHashMapEntry Entry)
     }
 }
 
-static _Bool GetKey(CCHashMap Map, void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
+static _Bool GetKey(CCHashMap Map, const void *Key, uintmax_t *HashValue, size_t *BucketIndex, size_t *ItemIndex)
 {
     const uintmax_t Hash = CCHashMapGetKeyHash(Map, Key) & HASH_RESERVED_MASK;
     const size_t Index = Hash % Map->bucketCount;
@@ -321,7 +321,7 @@ static _Bool CCHashMapSeparateChainingArrayEntryIsInitialized(CCHashMap Map, CCH
     return Init;
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayFindKey(CCHashMap Map, void *Key)
+static CCHashMapEntry CCHashMapSeparateChainingArrayFindKey(CCHashMap Map, const void *Key)
 {
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex))
@@ -332,7 +332,7 @@ static CCHashMapEntry CCHashMapSeparateChainingArrayFindKey(CCHashMap Map, void 
     return 0;
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayEntryForKey(CCHashMap Map, void *Key, _Bool *Created)
+static CCHashMapEntry CCHashMapSeparateChainingArrayEntryForKey(CCHashMap Map, const void *Key, _Bool *Created)
 {
     uintmax_t Hash;
     size_t BucketIndex, ItemIndex;
@@ -383,7 +383,7 @@ static void *CCHashMapSeparateChainingArrayGetEntry(CCHashMap Map, CCHashMapEntr
     return Value;
 }
 
-static void CCHashMapSeparateChainingArraySetEntry(CCHashMap Map, CCHashMapEntry Entry, void *Value)
+static void CCHashMapSeparateChainingArraySetEntry(CCHashMap Map, CCHashMapEntry Entry, const void *Value)
 {
     size_t BucketIndex, ItemIndex;
     if (EntryToIndex(Map, Entry, &BucketIndex, &ItemIndex))
@@ -404,7 +404,7 @@ static void CCHashMapSeparateChainingArrayRemoveEntry(CCHashMap Map, CCHashMapEn
     RemoveValue(Map, Entry);
 }
 
-static void *CCHashMapSeparateChainingArrayGetValue(CCHashMap Map, void *Key)
+static void *CCHashMapSeparateChainingArrayGetValue(CCHashMap Map, const void *Key)
 {
     void *Value = NULL;
     size_t BucketIndex, ItemIndex;
@@ -413,7 +413,7 @@ static void *CCHashMapSeparateChainingArrayGetValue(CCHashMap Map, void *Key)
     return Value;
 }
 
-static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, void *Key, void *Value)
+static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, const void *Key, const void *Value)
 {
     uintmax_t Hash;
     size_t BucketIndex, ItemIndex;
@@ -435,7 +435,7 @@ static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, void *Key, voi
     }
 }
 
-static void CCHashMapSeparateChainingArrayRemoveValue(CCHashMap Map, void *Key)
+static void CCHashMapSeparateChainingArrayRemoveValue(CCHashMap Map, const void *Key)
 {
     size_t BucketIndex, ItemIndex;
     if (GetKey(Map, Key, NULL, &BucketIndex, &ItemIndex)) RemoveValue(Map, IndexToEntry(Map, BucketIndex, ItemIndex));
