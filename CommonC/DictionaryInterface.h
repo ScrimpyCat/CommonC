@@ -103,7 +103,7 @@ typedef enum {
  * @param Key The key to generate a hash of.
  * @return The hash representing the key.
  */
-typedef uintmax_t (*CCDictionaryKeyHasher)(void *Key);
+typedef uintmax_t (*CCDictionaryKeyHasher)(const void *Key);
 
 
 #pragma mark - Required Callbacks
@@ -166,7 +166,7 @@ typedef _Bool (*CCDictionaryEntryIsInitializedCallback)(void *Internal, CCDictio
  *
  * @return The entry reference.
  */
-typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
+typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 
 /*!
  * @brief A callback to create an entry for a given key.
@@ -182,7 +182,7 @@ typedef CCDictionaryEntry (*CCDictionaryFindKeyCallback)(void *Internal, void *K
  * @param Allocator The allocator to be used for any internal allocation needed.
  * @return The entry reference.
  */
-typedef CCDictionaryEntry (*CCDictionaryEntryForKeyCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+typedef CCDictionaryEntry (*CCDictionaryEntryForKeyCallback)(void *Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
 
 /*!
  * @brief A callback to get a key for a given entry reference.
@@ -208,7 +208,7 @@ typedef void *(*CCDictionaryGetEntryCallback)(void *Internal, CCDictionaryEntry 
  * @param ValueSize The size of the value.
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
-typedef void (*CCDictionarySetEntryCallback)(void *Internal, CCDictionaryEntry Entry, void *Value, size_t ValueSize, CCAllocatorType Allocator);
+typedef void (*CCDictionarySetEntryCallback)(void *Internal, CCDictionaryEntry Entry, const void *Value, size_t ValueSize, CCAllocatorType Allocator);
 
 /*!
  * @brief A callback to remove the value at a given entry reference.
@@ -254,7 +254,7 @@ typedef CCDictionaryEntry (*CCDictionaryEnumeratorEntryCallback)(void *Internal,
  *
  * @return The pointer to the value.
  */
-typedef void *(*CCDictionaryGetValueCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
+typedef void *(*CCDictionaryGetValueCallback)(void *Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
 
 /*!
  * @brief An optional callback to set the value at a given key.
@@ -271,7 +271,7 @@ typedef void *(*CCDictionaryGetValueCallback)(void *Internal, void *Key, size_t 
  *
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
-typedef void (*CCDictionarySetValueCallback)(void *Internal, void *Key, void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+typedef void (*CCDictionarySetValueCallback)(void *Internal, const void *Key, const void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
 
 /*!
  * @brief An optional callback to remove the value at a given key.
@@ -287,7 +287,7 @@ typedef void (*CCDictionarySetValueCallback)(void *Internal, void *Key, void *Va
  *
  * @param Allocator The allocator to be used for any internal allocation needed.
  */
-typedef void (*CCDictionaryRemoveValueCallback)(void *Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+typedef void (*CCDictionaryRemoveValueCallback)(void *Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
 
 /*!
  * @brief An optional callback to retrieve the keys in the dictionary.

@@ -97,7 +97,7 @@ void CCDictionaryDestroy(CCDictionary CC_DESTROY(Dictionary));
  * @param Entry The entry reference in the dictionary for the value.
  * @param Value The pointer to the value to be copied to the map.
  */
-void CCDictionarySetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry, void *Value);
+void CCDictionarySetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry, const void *Value);
 
 /*!
  * @brief Remove the value at a given entry reference.
@@ -114,7 +114,7 @@ void CCDictionaryRemoveEntry(CCDictionary Dictionary, CCDictionaryEntry Entry);
  * @param Key The pointer to the key to be used to set the value of.
  * @param Value The pointer to the value to be copied to the map.
  */
-void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value);
+void CCDictionarySetValue(CCDictionary Dictionary, const void *Key, const void *Value);
 
 /*!
  * @brief Remove the value at a given key.
@@ -122,7 +122,7 @@ void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value);
  * @param Dictionary The dictionary to remove the value from.
  * @param Key The pointer to the key to be used to remove the value of.
  */
-void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key);
+void CCDictionaryRemoveValue(CCDictionary Dictionary, const void *Key);
 
 /*!
  * @brief Obtain an entry for a given key.
@@ -134,7 +134,7 @@ void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key);
  * @param Key The pointer to the key to be found or created.
  * @return The entry reference.
  */
-CCDictionaryEntry CCDictionaryEntryForKey(CCDictionary Dictionary, void *Key);
+CCDictionaryEntry CCDictionaryEntryForKey(CCDictionary Dictionary, const void *Key);
 
 
 #pragma mark - Query Info
@@ -153,7 +153,7 @@ _Bool CCDictionaryEntryIsInitialized(CCDictionary Dictionary, CCDictionaryEntry 
  * @param Key The pointer to the key to be found.
  * @return The entry reference.
  */
-CCDictionaryEntry CCDictionaryFindKey(CCDictionary Dictionary, void *Key);
+CCDictionaryEntry CCDictionaryFindKey(CCDictionary Dictionary, const void *Key);
 
 /*!
  * @brief Get the value of a given entry reference.
@@ -170,7 +170,7 @@ void *CCDictionaryGetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry);
  * @param Key The pointer to the key to be used to get the value for.
  * @return The pointer to the value.
  */
-void *CCDictionaryGetValue(CCDictionary Dictionary, void *Key);
+void *CCDictionaryGetValue(CCDictionary Dictionary, const void *Key);
 
 /*!
  * @brief Get the key of a given entry reference.

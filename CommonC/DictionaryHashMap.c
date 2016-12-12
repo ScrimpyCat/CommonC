@@ -29,15 +29,15 @@
 
 static int CCDictionaryHashMapHintWeight(CCDictionaryHint Hint);
 static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
-static CCDictionaryEntry CCDictionaryHashMapFindKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
-static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
-static void CCDictionaryHashMapSetEntry(CCHashMap Internal, CCDictionaryEntry Entry, void *Value, size_t ValueSize, CCAllocatorType Allocator);
+static CCDictionaryEntry CCDictionaryHashMapFindKey(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
+static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+static void CCDictionaryHashMapSetEntry(CCHashMap Internal, CCDictionaryEntry Entry, const void *Value, size_t ValueSize, CCAllocatorType Allocator);
 static void CCDictionaryHashMapRemoveEntry(CCHashMap Internal, CCDictionaryEntry Entry, CCAllocatorType Allocator);
 static void *CCDictionaryHashMapEnumerator(CCHashMap Internal, CCEnumeratorState *Enumerator, CCDictionaryEnumeratorAction Action, CCDictionaryEnumeratorType Type);
 static CCDictionaryEntry CCDictionaryHashMapEnumeratorEntry(CCHashMap Internal, CCEnumeratorState *Enumerator, CCDictionaryEnumeratorType Type);
-static void *CCDictionaryHashMapGetValue(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
-static void CCDictionaryHashMapSetValue(CCHashMap Internal, void *Key, void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
-static void CCDictionaryHashMapRemoveValue(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+static void *CCDictionaryHashMapGetValue(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator);
+static void CCDictionaryHashMapSetValue(CCHashMap Internal, const void *Key, const void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
+static void CCDictionaryHashMapRemoveValue(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator);
 static CCOrderedCollection CCDictionaryHashMapGetKeys(CCHashMap Internal, CCAllocatorType Allocator);
 static CCOrderedCollection CCDictionaryHashMapGetValues(CCHashMap Internal, CCAllocatorType Allocator);
 
@@ -126,12 +126,12 @@ static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDiction
     return CCHashMapCreate(Allocator, KeySize, ValueSize, BucketCount, Hasher, KeyComparator, CCHashMapSeparateChainingArray);
 }
 
-static CCDictionaryEntry CCDictionaryHashMapFindKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
+static CCDictionaryEntry CCDictionaryHashMapFindKey(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
 {
     return CCHashMapFindKey(Internal, Key);
 }
 
-static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
+static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
 {
     if (CCHashMapGetLoadFactor(Internal) >= 0.75f)
     {
@@ -151,7 +151,7 @@ static CCDictionaryEntry CCDictionaryHashMapEntryForKey(CCHashMap Internal, void
     return CCHashMapEntryForKey(Internal, Key, NULL);
 }
 
-static void CCDictionaryHashMapSetEntry(CCHashMap Internal, CCDictionaryEntry Entry, void *Value, size_t ValueSize, CCAllocatorType Allocator)
+static void CCDictionaryHashMapSetEntry(CCHashMap Internal, CCDictionaryEntry Entry, const void *Value, size_t ValueSize, CCAllocatorType Allocator)
 {
     CCHashMapSetEntry(Internal, Entry, Value);
 }
@@ -161,12 +161,12 @@ static void CCDictionaryHashMapRemoveEntry(CCHashMap Internal, CCDictionaryEntry
     CCHashMapRemoveEntry(Internal, Entry);
 }
 
-static void *CCDictionaryHashMapGetValue(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
+static void *CCDictionaryHashMapGetValue(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
 {
     return CCHashMapGetValue(Internal, Key);
 }
 
-static void CCDictionaryHashMapSetValue(CCHashMap Internal, void *Key, void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
+static void CCDictionaryHashMapSetValue(CCHashMap Internal, const void *Key, const void *Value, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
 {
     if (CCHashMapGetLoadFactor(Internal) >= 0.75f)
     {
@@ -186,7 +186,7 @@ static void CCDictionaryHashMapSetValue(CCHashMap Internal, void *Key, void *Val
     CCHashMapSetValue(Internal, Key, Value);
 }
 
-static void CCDictionaryHashMapRemoveValue(CCHashMap Internal, void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
+static void CCDictionaryHashMapRemoveValue(CCHashMap Internal, const void *Key, size_t KeySize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator, CCAllocatorType Allocator)
 {
     CCHashMapRemoveValue(Internal, Key);
 }

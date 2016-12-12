@@ -184,7 +184,7 @@ void CCDictionaryDestroy(CCDictionary Dictionary)
     CCFree(Dictionary);
 }
 
-void CCDictionarySetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry, void *Value)
+void CCDictionarySetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry, const void *Value)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
@@ -207,7 +207,7 @@ void CCDictionaryRemoveEntry(CCDictionary Dictionary, CCDictionaryEntry Entry)
     Dictionary->interface->removeEntry(Dictionary->internal, Entry, Dictionary->allocator);
 }
 
-void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value)
+void CCDictionarySetValue(CCDictionary Dictionary, const void *Key, const void *Value)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
@@ -222,7 +222,7 @@ void CCDictionarySetValue(CCDictionary Dictionary, void *Key, void *Value)
     }
 }
 
-void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key)
+void CCDictionaryRemoveValue(CCDictionary Dictionary, const void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
@@ -234,7 +234,7 @@ void CCDictionaryRemoveValue(CCDictionary Dictionary, void *Key)
     }
 }
 
-CCDictionaryEntry CCDictionaryEntryForKey(CCDictionary Dictionary, void *Key)
+CCDictionaryEntry CCDictionaryEntryForKey(CCDictionary Dictionary, const void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
@@ -250,7 +250,7 @@ _Bool CCDictionaryEntryIsInitialized(CCDictionary Dictionary, CCDictionaryEntry 
     return Dictionary->interface->initialized(Dictionary->internal, Entry);
 }
 
-CCDictionaryEntry CCDictionaryFindKey(CCDictionary Dictionary, void *Key)
+CCDictionaryEntry CCDictionaryFindKey(CCDictionary Dictionary, const void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
@@ -266,7 +266,7 @@ void *CCDictionaryGetEntry(CCDictionary Dictionary, CCDictionaryEntry Entry)
     return Dictionary->interface->getEntry(Dictionary->internal, Entry);
 }
 
-void *CCDictionaryGetValue(CCDictionary Dictionary, void *Key)
+void *CCDictionaryGetValue(CCDictionary Dictionary, const void *Key)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");
     
