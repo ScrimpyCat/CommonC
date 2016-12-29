@@ -274,6 +274,14 @@ for (size_t Loop = 0; ; ) \
                 case 'X':
                     switch (Info.length)
                     {
+                        case 'hh':
+                            CC_PRINT_ARRAY(unsigned char);
+                            break;
+                            
+                        case 'h':
+                            CC_PRINT_ARRAY(unsigned short int);
+                            break;
+                            
                         case 'l':
                             CC_PRINT_ARRAY(unsigned long int);
                             break;
