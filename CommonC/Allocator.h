@@ -78,11 +78,59 @@ typedef struct {
 } CCAllocatorHeader;
 
 
+/*!
+ * @brief Add a custom allocator.
+ * @param Index The index to be used to reference the allocator.
+ * @param Allocator The function to handle allocate.
+ * @param Reallocator The function to handle reallocate.
+ * @param Deallocator The function to handle deallocate.
+ */
 void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunction Reallocator, CCDeallocatorFunction Deallocator);
+
+/*!
+ * @brief Allocate some memory.
+ * @param Type The allocator type information to be used.
+ * @param Size The amount of memory to be allocated.
+ * @return The pointer to the new memory allocation. A subsequent call must be made to
+ *         @b CCMemoryDeallocate in order to release the reference/free the memory.
+ */
 CC_NEW void *CCMemoryAllocate(CCAllocatorType Type, size_t Size);
+
+/*!
+ * @brief Reallocate the memory allocation.
+ * @param Type The allocator type information to be used.
+ * @param Ptr The pointer to the memory allocation.
+ * @param Size The amount of memory to be allocated.
+ * @return The pointer to the new memory allocation. A subsequent call must be made to
+ *         @b CCMemoryDeallocate in order to release the reference/free the memory.
+ */
 CC_NEW void *CCMemoryReallocate(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size);
+
+/*!
+ * @brief Retain a reference to the memory allocation.
+ * description The function is threadsafe.
+ * @param Ptr The pointer to the memory allocation.
+ * @return The pointer to the memory allocation (or Ptr). A subsequent call must be made to
+ *         @b CCMemoryDeallocate in order to release the reference/free the memory.
+ */
 CC_NEW void *CCMemoryRetain(void *Ptr);
+
+/*!
+ * @brief Deallocate the memory allocation.
+ * @description Releases a reference to the memory, once all references to the memory have been
+ *              released the memory is deallocated. This function is threadsafe.
+ *
+ * @param Ptr The pointer to the memory allocation.
+ */
 void CCMemoryDeallocate(void *CC_DESTROY(Ptr));
+
+/*!
+ * @brief Set a destructor callback for the memory allocation.
+ * @description The callback will be called on deallocation.
+ * @param Ptr The pointer to the memory allocation.
+ * @param Destructor The destructor callback.
+ * @return The previous destructor callback.
+ */
 CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCallback Destructor);
 
 
@@ -94,7 +142,19 @@ CCMemoryDestructorCallback CCMemorySetDestructor(void *Ptr, CCMemoryDestructorCa
 #if CC_PLATFORM_APPLE
 #include <CoreFoundation/CoreFoundation.h>
 
+/*!
+ * @brief Create a CoreFoundation object allocator that uses one of the provided allocators.
+ * @param Type The allocator type information to be used.
+ * @return The CFAllocator reference.
+ */
 CFAllocatorRef CCCreateCFAllocator(CCAllocatorType Type);
+
+/*!
+ * @brief Create a CoreFoundation object allocator that uses the allocator specified by the
+ *        @b CC_DEFAULT_ALLOCATOR define.
+ *
+ * @return The CFAllocator reference.
+ */
 CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
 #endif
 
