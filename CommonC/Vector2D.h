@@ -150,6 +150,23 @@ static CC_FORCE_INLINE CCVector2D CCVector2Min(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE CCVector2D CCVector2Max(const CCVector2D a, const CCVector2D b);
 static CC_FORCE_INLINE CCVector2D CCVector2Clamp(const CCVector2D a, const CCVector2D min, const CCVector2D max);
 
+static CC_FORCE_INLINE _Bool CCVector2EqualUlps(const CCVector2D a, const CCVector2D b, CCVector2Di MaxUlps);
+static CC_FORCE_INLINE _Bool CCVector2EqualRelative(const CCVector2D a, const CCVector2D b, const CCVector2D RelativeDiff);
+static CC_FORCE_INLINE _Bool CCVector2EqualAbsolute(const CCVector2D a, const CCVector2D b, const CCVector2D Diff);
+static CC_FORCE_INLINE _Bool CCVector2Equal(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE _Bool CCVector2LessThan(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE _Bool CCVector2LessThanEqual(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE _Bool CCVector2GreaterThan(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE _Bool CCVector2GreaterThanEqual(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualUlps(const CCVector2D a, const CCVector2D b, CCVector2Di MaxUlps);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualRelative(const CCVector2D a, const CCVector2D b, const CCVector2D RelativeDiff);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualAbsolute(const CCVector2D a, const CCVector2D b, const CCVector2D Diff);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqual(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareLessThan(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareLessThanEqual(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareGreaterThan(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector2D CCVector2CompareGreaterThanEqual(const CCVector2D a, const CCVector2D b);
+
 
 #pragma mark -
 #pragma mark Vector, Vector operations
@@ -288,6 +305,86 @@ static CC_FORCE_INLINE _Bool CCVector2Parallel(const CCVector2D a, const CCVecto
 static CC_FORCE_INLINE _Bool CCVector2Ortho(const CCVector2D a, const CCVector2D b)
 {
     return fabsf(CCVector2Dot(a, b)) < 1e-6f; //TODO: replace with better zero check
+}
+
+static CC_FORCE_INLINE _Bool CCVector2EqualUlps(const CCVector2D a, const CCVector2D b, CCVector2Di MaxUlps)
+{
+    return CCFloatEqualUlps(a.x, b.x, MaxUlps.x) && CCFloatEqualUlps(a.y, b.y, MaxUlps.y);
+}
+
+static CC_FORCE_INLINE _Bool CCVector2EqualRelative(const CCVector2D a, const CCVector2D b, const CCVector2D RelativeDiff)
+{
+    return CCFloatEqualRelative(a.x, b.x, RelativeDiff.x) && CCFloatEqualRelative(a.y, b.y, RelativeDiff.y);
+}
+
+static CC_FORCE_INLINE _Bool CCVector2EqualAbsolute(const CCVector2D a, const CCVector2D b, const CCVector2D Diff)
+{
+    return CCFloatEqualAbsolute(a.x, b.x, Diff.x) && CCFloatEqualAbsolute(a.y, b.y, Diff.y);
+}
+
+static CC_FORCE_INLINE _Bool CCVector2Equal(const CCVector2D a, const CCVector2D b)
+{
+    return a.x == b.x && a.y == b.y;
+}
+
+static CC_FORCE_INLINE _Bool CCVector2LessThan(const CCVector2D a, const CCVector2D b)
+{
+    return a.x < b.x && a.y < b.y;
+}
+
+static CC_FORCE_INLINE _Bool CCVector2LessThanEqual(const CCVector2D a, const CCVector2D b)
+{
+    return a.x <= b.x && a.y <= b.y;
+}
+
+static CC_FORCE_INLINE _Bool CCVector2GreaterThan(const CCVector2D a, const CCVector2D b)
+{
+    return a.x > b.x && a.y > b.y;
+}
+
+static CC_FORCE_INLINE _Bool CCVector2GreaterThanEqual(const CCVector2D a, const CCVector2D b)
+{
+    return a.x >= b.x && a.y >= b.y;
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualUlps(const CCVector2D a, const CCVector2D b, CCVector2Di MaxUlps)
+{
+    return (CCVector2D){ CCFloatEqualUlps(a.x, b.x, MaxUlps.x), CCFloatEqualUlps(a.y, b.y, MaxUlps.y) };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualRelative(const CCVector2D a, const CCVector2D b, const CCVector2D RelativeDiff)
+{
+    return (CCVector2D){ CCFloatEqualRelative(a.x, b.x, RelativeDiff.x), CCFloatEqualRelative(a.y, b.y, RelativeDiff.y) };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqualAbsolute(const CCVector2D a, const CCVector2D b, const CCVector2D Diff)
+{
+    return (CCVector2D){ CCFloatEqualAbsolute(a.x, b.x, Diff.x), CCFloatEqualAbsolute(a.y, b.y, Diff.y) };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareEqual(const CCVector2D a, const CCVector2D b)
+{
+    return (CCVector2D){ a.x == b.x, a.y == b.y };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareLessThan(const CCVector2D a, const CCVector2D b)
+{
+    return (CCVector2D){ a.x < b.x, a.y < b.y };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareLessThanEqual(const CCVector2D a, const CCVector2D b)
+{
+    return (CCVector2D){ a.x <= b.x, a.y <= b.y };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareGreaterThan(const CCVector2D a, const CCVector2D b)
+{
+    return (CCVector2D){ a.x > b.x, a.y > b.y };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2CompareGreaterThanEqual(const CCVector2D a, const CCVector2D b)
+{
+    return (CCVector2D){ a.x >= b.x, a.y >= b.y };
 }
 
 #pragma mark -
