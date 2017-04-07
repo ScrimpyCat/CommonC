@@ -51,4 +51,31 @@ static CC_FORCE_INLINE int CCClampi(const int val, const int min, const int max)
     return (val > min? (val < max? val : max ) : min);
 }
 
+static CC_FORCE_INLINE uint32_t CCFloatGetUlps(const float a, const float b)
+{
+    return *(uint32_t*)&a > *(uint32_t*)&b ? *(uint32_t*)&a - *(uint32_t*)&b : *(uint32_t*)&b - *(uint32_t*)&a;
+}
+
+static CC_FORCE_INLINE _Bool CCFloatEqualUlps(const float a, const float b, const uint32_t MaxUlps)
+{
+    if (signbit(a) != signbit(b)) return a == b;
+    
+    return CCFloatGetUlps(a, b) <= MaxUlps;
+}
+
+static CC_FORCE_INLINE _Bool CCFloatEqualRelative(float a, float b, const float RelativeDiff)
+{
+    float Diff = fabsf(a - b);
+    
+    a = fabsf(a);
+    b = fabsf(b);
+    
+    return Diff <= ((a > b ? a : b) * FLT_EPSILON);
+}
+
+static CC_FORCE_INLINE _Bool CCFloatEqualAbsolute(const float a, const float b, const float Diff)
+{
+    return fabsf(a - b) <= Diff;
+}
+
 #endif
