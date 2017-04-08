@@ -70,7 +70,7 @@ static CC_FORCE_INLINE _Bool CCFloatEqualRelative(float a, float b, const float 
     a = fabsf(a);
     b = fabsf(b);
     
-    return Diff <= ((a > b ? a : b) * FLT_EPSILON);
+    return Diff <= ((a > b ? a : b) * RelativeDiff);
 }
 
 static CC_FORCE_INLINE _Bool CCFloatEqualAbsolute(const float a, const float b, const float Diff)
