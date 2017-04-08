@@ -30,6 +30,7 @@
 #include <CommonC/Extensions.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Assertion.h>
+#include <CommonC/Maths.h>
 #include <math.h>
 
 
@@ -42,12 +43,18 @@
 #pragma mark - Vectorized Vector2D
 
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a); //Allows it to avoid an interleaved move, however is unsafe to use with vectorized normalize.
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DiWithZero(const CCVector2Di a); //Allows it to avoid an interleaved move, however is unsafe to use with vectorized normalize.
 static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a);
+static CC_FORCE_INLINE CCVector CCVectorizeVector2Di(const CCVector2Di a);
 static CC_FORCE_INLINE float CCVectorizeGetFloat(const CCVector a);
 static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a);
+static CC_FORCE_INLINE CCVector2Di CCVectorizeGetVector2Di(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DPack(const CCVector2D a, const CCVector2D b);
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DiPack(const CCVector2Di a, const CCVector2Di b);
 static CC_FORCE_INLINE void CCVectorizeVector2DUnpack(const CCVector v, CCVector2D *a, CCVector2D *b);
+static CC_FORCE_INLINE void CCVectorizeVector2DiUnpack(const CCVector v, CCVector2Di *a, CCVector2Di *b);
 static CC_FORCE_INLINE CCVector2D CCVectorizeExtractVector2D(const CCVector a, size_t i);
+static CC_FORCE_INLINE CCVector2Di CCVectorizeExtractVector2Di(const CCVector a, size_t i);
 
 static CC_FORCE_INLINE CCVector CCVectorize2Add(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2Sub(const CCVector a, const CCVector b);
@@ -143,6 +150,7 @@ static CC_FORCE_INLINE CCVector2D CCVector2Perp(const CCVector2D a);
 static CC_FORCE_INLINE CCVector2D CCVector2PerpR(const CCVector2D a);
 static CC_FORCE_INLINE CCVector2D CCVector2Normalize(const CCVector2D a);
 static CC_FORCE_INLINE CCVector2D CCVector2Neg(const CCVector2D a);
+static CC_FORCE_INLINE CCVector2D CCVector2Abs(const CCVector2D a);
 static CC_FORCE_INLINE _Bool CCVector2Parallel(const CCVector2D a, const CCVector2D b);
 static CC_FORCE_INLINE _Bool CCVector2Ortho(const CCVector2D a, const CCVector2D b);
 
@@ -467,9 +475,19 @@ static CC_FORCE_INLINE CCVector CCVectorizeVector2DWithZero(const CCVector2D a)
 #endif
 }
 
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DiWithZero(const CCVector2Di a)
+{
+    return CCVectorizeVector2DWithZero(*(CCVector2D*)&a);
+}
+
 static CC_FORCE_INLINE CCVector CCVectorizeVector2D(const CCVector2D a)
 {
     return CCVectorizeVector2DPack(a, a);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorizeVector2Di(const CCVector2Di a)
+{
+    return CCVectorizeVector2D(*(CCVector2D*)&a);
 }
 
 static CC_FORCE_INLINE float CCVectorizeGetFloat(const CCVector a)
@@ -489,6 +507,11 @@ static CC_FORCE_INLINE CCVector2D CCVectorizeGetVector2D(const CCVector a)
     return *(CCVector2D*)&a;
 }
 
+static CC_FORCE_INLINE CCVector2Di CCVectorizeGetVector2Di(const CCVector a)
+{
+    return *(CCVector2Di*)&a;
+}
+
 static CC_FORCE_INLINE CCVector CCVectorizeVector2DPack(const CCVector2D a, const CCVector2D b)
 {
 #if CC_HARDWARE_VECTOR_SUPPORT_SSE
@@ -498,15 +521,32 @@ static CC_FORCE_INLINE CCVector CCVectorizeVector2DPack(const CCVector2D a, cons
 #endif
 }
 
+static CC_FORCE_INLINE CCVector CCVectorizeVector2DiPack(const CCVector2Di a, const CCVector2Di b)
+{
+    return CCVectorizeVector2DPack(*(CCVector2D*)&a, *(CCVector2D*)&b);
+}
+
+
 static CC_FORCE_INLINE void CCVectorizeVector2DUnpack(const CCVector v, CCVector2D *a, CCVector2D *b)
 {
     *a = *(CCVector2D*)&v;
     *b = *((CCVector2D*)&v + 1);
 }
 
+static CC_FORCE_INLINE void CCVectorizeVector2DiUnpack(const CCVector v, CCVector2Di *a, CCVector2Di *b)
+{
+    *a = *(CCVector2Di*)&v;
+    *b = *((CCVector2Di*)&v + 1);
+}
+
 static CC_FORCE_INLINE CCVector2D CCVectorizeExtractVector2D(const CCVector a, size_t i)
 {
     return *((CCVector2D*)&a + i);
+}
+
+static CC_FORCE_INLINE CCVector2Di CCVectorizeExtractVector2Di(const CCVector a, size_t i)
+{
+    return *((CCVector2Di*)&a + i);
 }
 
 #pragma mark -
