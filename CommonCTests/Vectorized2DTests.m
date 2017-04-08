@@ -257,5 +257,163 @@
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedNeg(v), 0), CCVector2DMake(-2.0f, -5.0f));
 }
 
+-(void) testEquality
+{
+    const CCVector2D a = CCVector2DMake(2.0f, 5.0f), b = CCVector2DMake(1.0f, 5.0f), c = CCVector2DMake(0.0f, 7.0f), d = CCVector2DMake(10.0f, 10.0f);
+    CCVector va = CCVectorizeVector2D(a), vb = CCVectorizeVector2D(b), vc = CCVectorizeVector2D(c), vd = CCVectorizeVector2D(d);
+    
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThan(va, va), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThan(va, vb), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThan(va, vc), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThan(va, vd), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThanEqual(va, va), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThanEqual(va, vb), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThanEqual(va, vc), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareLessThanEqual(va, vd), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThan(va, va), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThan(va, vb), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThan(va, vc), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThan(vd, va), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThanEqual(va, va), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThanEqual(va, vb), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThanEqual(va, vc), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareGreaterThanEqual(vd, va), 0), CCVector2DMake(1.0f, 1.0f));
+    
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqual(va, va), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqual(va, vb), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqual(va, vc), 0), CCVector2DMake(0.0f, 0.0f));
+    
+    CCVector2Di Ulps = (CCVector2Di){ 1, 1 };
+    CCVector vUlps = CCVectorizeVector2Di(Ulps);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, va, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, vb, vUlps), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, vc, vUlps), 0), CCVector2DMake(0.0f, 0.0f));
+    
+    Ulps = (CCVector2Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f) };
+    vUlps = CCVectorizeVector2Di(Ulps);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, va, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, vb, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualUlps(va, vc, vUlps), 0), CCVector2DMake(0.0f, 1.0f));
+    
+    CCVector2D RelativeDiff = CCVector2DMake(0.0f, 0.0f);
+    CCVector vRelativeDiff = CCVectorizeVector2D(RelativeDiff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, va, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, vb, vRelativeDiff), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, vc, vRelativeDiff), 0), CCVector2DMake(0.0f, 0.0f));
+    
+    RelativeDiff = CCVector2DMake(1.0f, 0.0f);
+    vRelativeDiff = CCVectorizeVector2D(RelativeDiff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, va, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, vb, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualRelative(va, vc, vRelativeDiff), 0), CCVector2DMake(1.0f, 0.0f));
+    
+    CCVector2D Diff = CCVector2DMake(0.0f, 0.0f);
+    CCVector vDiff = CCVectorizeVector2D(Diff);
+    vDiff = CCVectorizeVector2D(Diff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, va, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, vb, vDiff), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, vc, vDiff), 0), CCVector2DMake(0.0f, 0.0f));
+    
+    Diff = CCVector2DMake(1.0f, 2.0f);
+    vDiff = CCVectorizeVector2D(Diff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, va, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, vb, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2CompareEqualAbsolute(va, vc, vDiff), 0), CCVector2DMake(0.0f, 1.0f));
+    
+    
+    
+    CCVector vaa = CCVectorizeVector2DPack(a, a), vab = CCVectorizeVector2DPack(a, b), vcd = CCVectorizeVector2DPack(c, d);
+    
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vaa), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vaa), 1), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vab), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vab), 1), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vcd), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThan(vaa, vcd), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vaa), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vaa), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vab), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vab), 1), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vcd), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareLessThanEqual(vaa, vcd), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vaa), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vaa), 1), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vab), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vab), 1), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vcd), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vaa, vcd), 1), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vcd, vaa), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThan(vcd, vaa), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vaa), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vaa), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vab), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vab), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vcd), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vaa, vcd), 1), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vcd, vaa), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareGreaterThanEqual(vcd, vaa), 1), CCVector2DMake(1.0f, 1.0f));
+    
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vaa), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vaa), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vab), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vab), 1), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vcd), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqual(vaa, vcd), 1), CCVector2DMake(0.0f, 0.0f));
+    
+    Ulps = (CCVector2Di){ 1, 1 };
+    vUlps = CCVectorizeVector2DiPack(Ulps, Ulps);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vaa, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vaa, vUlps), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vab, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vab, vUlps), 1), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vcd, vUlps), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vcd, vUlps), 1), CCVector2DMake(0.0f, 0.0f));
+    
+    Ulps = (CCVector2Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f) };
+    vUlps = CCVectorizeVector2DiPack(Ulps, Ulps);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vaa, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vaa, vUlps), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vab, vUlps), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vab, vUlps), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vcd, vUlps), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualUlps(vaa, vcd, vUlps), 1), CCVector2DMake(0.0f, 0.0f));
+    
+    RelativeDiff = CCVector2DMake(0.0f, 0.0f);
+    vRelativeDiff = CCVectorizeVector2DPack(RelativeDiff, RelativeDiff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vaa, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vaa, vRelativeDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vab, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vab, vRelativeDiff), 1), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vcd, vRelativeDiff), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vcd, vRelativeDiff), 1), CCVector2DMake(0.0f, 0.0f));
+    
+    RelativeDiff = CCVector2DMake(1.0f, 0.0f);
+    vRelativeDiff = CCVectorizeVector2DPack(RelativeDiff, RelativeDiff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vaa, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vaa, vRelativeDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vab, vRelativeDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vab, vRelativeDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vcd, vRelativeDiff), 0), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualRelative(vaa, vcd, vRelativeDiff), 1), CCVector2DMake(1.0f, 0.0f));
+    
+    Diff = CCVector2DMake(0.0f, 0.0f);
+    vDiff = CCVectorizeVector2D(Diff);
+    vDiff = CCVectorizeVector2DPack(Diff, Diff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vaa, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vaa, vDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vab, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vab, vDiff), 1), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vcd, vDiff), 0), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vcd, vDiff), 1), CCVector2DMake(0.0f, 0.0f));
+    
+    Diff = CCVector2DMake(1.0f, 2.0f);
+    vDiff = CCVectorizeVector2DPack(Diff, Diff);
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vaa, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vaa, vDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vab, vDiff), 0), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vab, vDiff), 1), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vcd, vDiff), 0), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedCompareEqualAbsolute(vaa, vcd, vDiff), 1), CCVector2DMake(0.0f, 0.0f));
+}
 
 @end
