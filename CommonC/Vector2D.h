@@ -83,6 +83,15 @@ static CC_FORCE_INLINE CCVector CCVectorize2Min(const CCVector a, const CCVector
 static CC_FORCE_INLINE CCVector CCVectorize2Max(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2Clamp(const CCVector a, const CCVector min, const CCVector max);
 
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareLessThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareLessThanEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareGreaterThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2CompareGreaterThanEqual(const CCVector a, const CCVector b);
+
 
 static CC_FORCE_INLINE CCVector CCVectorize2ScalarDot(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2ScalarLength(const CCVector a);
@@ -118,6 +127,15 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedAbs(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedMin(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedMax(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedClamp(const CCVector a, const CCVector min, const CCVector max);
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareLessThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareLessThanEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareGreaterThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareGreaterThanEqual(const CCVector a, const CCVector b);
 
 
 static CC_FORCE_INLINE CCVector CCVectorize2ScalarPackedDot(const CCVector a, const CCVector b);
@@ -734,6 +752,75 @@ static CC_FORCE_INLINE CCVector CCVectorize2Clamp(const CCVector a, const CCVect
     return CCVectorize2Min(CCVectorize2Max(a, min), max);
 }
 
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    CCVector2D Sign = CCVectorizeGetVector2D(_mm_xor_ps(a, b));
+    if ((signbit(Sign.x)) && (signbit(Sign.y))) return CCVectorize2CompareEqual(a, b);
+    
+    return _mm_and_ps(_mm_cmpeq_epi32(_mm_max_ps(_mm_sub_epi32(_mm_max_ps(a, b), _mm_min_ps(a, b)), MaxUlps), MaxUlps), _mm_set1_ps(1.0f));
+#else
+    return CCVectorizeVector2DWithZero(CCVector2CompareEqualUlps(CCVectorizeGetVector2D(a), CCVectorizeGetVector2D(b), CCVectorizeGetVector2Di(MaxUlps)));
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff)
+{
+    CCVector Diff = CCVectorize2Abs(CCVectorize2Sub(a, b));
+    
+    return CCVectorize2CompareLessThanEqual(Diff, CCVectorize2Mul(CCVectorize2Max(CCVectorize2Abs(a), CCVectorize2Abs(b)), RelativeDiff));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff)
+{
+    return CCVectorize2CompareLessThanEqual(CCVectorize2Abs(CCVectorize2Sub(a, b)), Diff);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpeq_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x == b.x, a.y == b.y, 0.0f, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareLessThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmplt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x < b.x, a.y < b.y, 0.0f, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareLessThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmple_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x <= b.x, a.y <= b.y, 0.0f, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareGreaterThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpgt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x > b.x, a.y > b.y, 0.0f, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2CompareGreaterThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpge_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x >= b.x, a.y >= b.y, 0.0f, 0.0f };
+#endif
+}
+
 #pragma mark -
 #pragma mark Vectorized Vector, Scalar operations
 
@@ -1017,6 +1104,74 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedMax(const CCVector a, const CC
 static CC_FORCE_INLINE CCVector CCVectorize2PackedClamp(const CCVector a, const CCVector min, const CCVector max)
 {
     return CCVectorize2PackedMin(CCVectorize2PackedMax(a, min), max);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps)
+{
+    CCVector2D A1, A2, B1, B2, Ulps1, Ulps2;
+    
+    CCVectorizeVector2DUnpack(a, &A1, &A2);
+    CCVectorizeVector2DUnpack(b, &B1, &B2);
+    CCVectorizeVector2DUnpack(MaxUlps, &Ulps1, &Ulps2);
+    
+    return CCVectorizeVector2DPack(CCVector2CompareEqualUlps(A1, B1, *(CCVector2Di*)&Ulps1), CCVector2CompareEqualUlps(A2, B2, *(CCVector2Di*)&Ulps2));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff)
+{
+    CCVector Diff = CCVectorize2PackedAbs(CCVectorize2PackedSub(a, b));
+    
+    return CCVectorize2PackedCompareLessThanEqual(Diff, CCVectorize2PackedMul(CCVectorize2PackedMax(CCVectorize2PackedAbs(a), CCVectorize2PackedAbs(b)), RelativeDiff));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff)
+{
+    return CCVectorize2PackedCompareLessThanEqual(CCVectorize2PackedAbs(CCVectorize2PackedSub(a, b)), Diff);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpeq_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x == b.x, a.y == b.y, a.z == b.z, a.w == b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareLessThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmplt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x < b.x, a.y < b.y, a.z < b.z, a.w < b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareLessThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmple_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareGreaterThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpgt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x > b.x, a.y > b.y, a.z > b.z, a.w > b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedCompareGreaterThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpge_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x >= b.x, a.y >= b.y, a.z >= b.z, a.w >= b.w };
+#endif
 }
 
 #pragma mark -
