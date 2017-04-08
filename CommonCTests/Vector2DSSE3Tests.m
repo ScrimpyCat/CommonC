@@ -140,6 +140,115 @@
     TEST_VECTOR2_EQUAL(CCVector2Neg(a), CCVector2DMake(-2.0f, -5.0f));
 }
 
+-(void) testEquality
+{
+    const CCVector2D a = CCVector2DMake(2.0f, 5.0f), b = CCVector2DMake(1.0f, 5.0f), c = CCVector2DMake(0.0f, 7.0f), d = CCVector2DMake(10.0f, 10.0f);
+    
+    XCTAssertFalse(CCVector2LessThan(a, a));
+    XCTAssertFalse(CCVector2LessThan(a, b));
+    XCTAssertFalse(CCVector2LessThan(a, c));
+    XCTAssertTrue(CCVector2LessThan(a, d));
+    XCTAssertTrue(CCVector2LessThanEqual(a, a));
+    XCTAssertFalse(CCVector2LessThanEqual(a, b));
+    XCTAssertFalse(CCVector2LessThanEqual(a, c));
+    XCTAssertTrue(CCVector2LessThanEqual(a, d));
+    XCTAssertFalse(CCVector2GreaterThan(a, a));
+    XCTAssertFalse(CCVector2GreaterThan(a, b));
+    XCTAssertFalse(CCVector2GreaterThan(a, c));
+    XCTAssertTrue(CCVector2GreaterThan(d, a));
+    XCTAssertTrue(CCVector2GreaterThanEqual(a, a));
+    XCTAssertTrue(CCVector2GreaterThanEqual(a, b));
+    XCTAssertFalse(CCVector2GreaterThanEqual(a, c));
+    XCTAssertTrue(CCVector2GreaterThanEqual(d, a));
+    
+    XCTAssertTrue(CCVector2Equal(a, a));
+    XCTAssertFalse(CCVector2Equal(a, b));
+    XCTAssertFalse(CCVector2Equal(a, c));
+    
+    CCVector2Di Ulps = { 1, 1 };
+    XCTAssertTrue(CCVector2EqualUlps(a, a, Ulps));
+    XCTAssertFalse(CCVector2EqualUlps(a, b, Ulps));
+    XCTAssertFalse(CCVector2EqualUlps(a, c, Ulps));
+    
+    Ulps = (CCVector2Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f) };
+    XCTAssertTrue(CCVector2EqualUlps(a, a, Ulps));
+    XCTAssertTrue(CCVector2EqualUlps(a, b, Ulps));
+    XCTAssertFalse(CCVector2EqualUlps(a, c, Ulps));
+    
+    CCVector2D RelativeDiff = CCVector2DMake(0.0f, 0.0f);
+    XCTAssertTrue(CCVector2EqualRelative(a, a, RelativeDiff));
+    XCTAssertFalse(CCVector2EqualRelative(a, b, RelativeDiff));
+    XCTAssertFalse(CCVector2EqualRelative(a, c, RelativeDiff));
+    
+    RelativeDiff = CCVector2DMake(1.0f, 0.0f);
+    XCTAssertTrue(CCVector2EqualRelative(a, a, RelativeDiff));
+    XCTAssertTrue(CCVector2EqualRelative(a, b, RelativeDiff));
+    XCTAssertFalse(CCVector2EqualRelative(a, c, RelativeDiff));
+    
+    CCVector2D Diff = CCVector2DMake(0.0f, 0.0f);
+    XCTAssertTrue(CCVector2EqualAbsolute(a, a, Diff));
+    XCTAssertFalse(CCVector2EqualAbsolute(a, b, Diff));
+    XCTAssertFalse(CCVector2EqualAbsolute(a, c, Diff));
+    
+    Diff = CCVector2DMake(1.0f, 2.0f);
+    XCTAssertTrue(CCVector2EqualAbsolute(a, a, Diff));
+    XCTAssertTrue(CCVector2EqualAbsolute(a, b, Diff));
+    XCTAssertFalse(CCVector2EqualAbsolute(a, c, Diff));
+    
+    
+    
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThan(a, a), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThan(a, b), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThan(a, c), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThan(a, d), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThanEqual(a, a), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThanEqual(a, b), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThanEqual(a, c), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareLessThanEqual(a, d), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThan(a, a), CCVector2DMake(0.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThan(a, b), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThan(a, c), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThan(d, a), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThanEqual(a, a), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThanEqual(a, b), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThanEqual(a, c), CCVector2DMake(1.0f, 0.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareGreaterThanEqual(d, a), CCVector2DMake(1.0f, 1.0f));
+    
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqual(a, a), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqual(a, b), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqual(a, c), CCVector2DMake(0.0f, 0.0f));
+    
+    Ulps = (CCVector2Di){ 1, 1 };
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, a, Ulps), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, b, Ulps), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, c, Ulps), CCVector2DMake(0.0f, 0.0f));
+    
+    Ulps = (CCVector2Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f) };
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, a, Ulps), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, b, Ulps), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualUlps(a, c, Ulps), CCVector2DMake(0.0f, 1.0f));
+    
+    RelativeDiff = CCVector2DMake(0.0f, 0.0f);
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, a, RelativeDiff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, b, RelativeDiff), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, c, RelativeDiff), CCVector2DMake(0.0f, 0.0f));
+    
+    RelativeDiff = CCVector2DMake(1.0f, 0.0f);
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, a, RelativeDiff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, b, RelativeDiff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualRelative(a, c, RelativeDiff), CCVector2DMake(1.0f, 0.0f));
+    
+    Diff = CCVector2DMake(0.0f, 0.0f);
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, a, Diff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, b, Diff), CCVector2DMake(0.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, c, Diff), CCVector2DMake(0.0f, 0.0f));
+    
+    Diff = CCVector2DMake(1.0f, 2.0f);
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, a, Diff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, b, Diff), CCVector2DMake(1.0f, 1.0f));
+    TEST_VECTOR2_EQUAL(CCVector2CompareEqualAbsolute(a, c, Diff), CCVector2DMake(0.0f, 1.0f));
+}
+
 @end
 
 #endif
