@@ -77,6 +77,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2Perp(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2PerpR(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2Normalize(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2Neg(const CCVector a);
+static CC_FORCE_INLINE CCVector CCVectorize2Abs(const CCVector a);
 
 static CC_FORCE_INLINE CCVector CCVectorize2Min(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2Max(const CCVector a, const CCVector b);
@@ -112,6 +113,7 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedPerp(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedPerpR(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedNormalize(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedNeg(const CCVector a);
+static CC_FORCE_INLINE CCVector CCVectorize2PackedAbs(const CCVector a);
 
 static CC_FORCE_INLINE CCVector CCVectorize2PackedMin(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize2PackedMax(const CCVector a, const CCVector b);
@@ -440,6 +442,11 @@ static CC_FORCE_INLINE CCVector2D CCVector2Normalize(const CCVector2D a)
 static CC_FORCE_INLINE CCVector2D CCVector2Neg(const CCVector2D a)
 {
     return (CCVector2D){ -a.x, -a.y };
+}
+
+static CC_FORCE_INLINE CCVector2D CCVector2Abs(const CCVector2D a)
+{
+    return (CCVector2D){ fabsf(a.x), fabsf(a.y) };
 }
 
 static CC_FORCE_INLINE CCVector2D CCVector2Perp(const CCVector2D a)
@@ -835,6 +842,17 @@ static CC_FORCE_INLINE CCVector CCVectorize2Neg(const CCVector a)
 #endif
 }
 
+static CC_FORCE_INLINE CCVector CCVectorize2Abs(const CCVector a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    return _mm_andnot_ps((CCVector)_mm_set1_epi32(1 << 31), a);
+#elif CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_andnot_ps(_mm_set1_ps(-0.0f), a);
+#else
+    return (CCVector){ fabsf(a.x), fabsf(a.y), 0.0f, 0.0f };
+#endif
+}
+
 
 #pragma mark -
 #pragma mark Packed Vectorized Vector, Vector operations
@@ -1106,6 +1124,17 @@ static CC_FORCE_INLINE CCVector CCVectorize2PackedNeg(const CCVector a)
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else
     return (CCVector){ -a.x, -a.y, -a.z, -a.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize2PackedAbs(const CCVector a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    return _mm_andnot_ps((CCVector)_mm_set1_epi32(1 << 31), a);
+#elif CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_andnot_ps(_mm_set1_ps(-0.0f), a);
+#else
+    return (CCVector){ fabsf(a.x), fabsf(a.y), fabsf(a.z), fabsf(a.w) };
 #endif
 }
 
