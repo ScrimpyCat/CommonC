@@ -38,6 +38,10 @@
 #define CCVector2DFill(x) CCVector2DMake(x, x)
 #define CCVector2DZero CCVector2DFill(0.0f)
 
+#define CCVector2DiMake(x, y) (CCVector2Di){ (x), (y) }
+#define CCVector2DiFill(x) CCVector2DiMake(x, x)
+#define CCVector2DiZero CCVector2DiFill(0)
+
 
 
 #pragma mark - Vectorized Vector2D
