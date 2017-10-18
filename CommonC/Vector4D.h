@@ -30,6 +30,7 @@
 #include <CommonC/Extensions.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Assertion.h>
+#include <CommonC/Maths.h>
 #include <math.h>
 
 
@@ -104,6 +105,23 @@ static CC_FORCE_INLINE _Bool CCVector4Ortho(const CCVector4D a, const CCVector4D
 static CC_FORCE_INLINE CCVector4D CCVector4Min(const CCVector4D a, const CCVector4D b);
 static CC_FORCE_INLINE CCVector4D CCVector4Max(const CCVector4D a, const CCVector4D b);
 static CC_FORCE_INLINE CCVector4D CCVector4Clamp(const CCVector4D a, const CCVector4D min, const CCVector4D max);
+
+static CC_FORCE_INLINE _Bool CCVector4EqualUlps(const CCVector4D a, const CCVector4D b, CCVector4Di MaxUlps);
+static CC_FORCE_INLINE _Bool CCVector4EqualRelative(const CCVector4D a, const CCVector4D b, const CCVector4D RelativeDiff);
+static CC_FORCE_INLINE _Bool CCVector4EqualAbsolute(const CCVector4D a, const CCVector4D b, const CCVector4D Diff);
+static CC_FORCE_INLINE _Bool CCVector4Equal(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE _Bool CCVector4LessThan(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE _Bool CCVector4LessThanEqual(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE _Bool CCVector4GreaterThan(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE _Bool CCVector4GreaterThanEqual(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualUlps(const CCVector4D a, const CCVector4D b, CCVector4Di MaxUlps);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualRelative(const CCVector4D a, const CCVector4D b, const CCVector4D RelativeDiff);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualAbsolute(const CCVector4D a, const CCVector4D b, const CCVector4D Diff);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqual(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareLessThan(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareLessThanEqual(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareGreaterThan(const CCVector4D a, const CCVector4D b);
+static CC_FORCE_INLINE CCVector4D CCVector4CompareGreaterThanEqual(const CCVector4D a, const CCVector4D b);
 
 
 #pragma mark -
@@ -199,6 +217,86 @@ static CC_FORCE_INLINE _Bool CCVector4Parallel(const CCVector4D a, const CCVecto
 static CC_FORCE_INLINE _Bool CCVector4Ortho(const CCVector4D a, const CCVector4D b)
 {
     return fabsf(CCVector4Dot(a, b)) < 1e-6f; //TODO: replace with better zero check
+}
+
+static CC_FORCE_INLINE _Bool CCVector4EqualUlps(const CCVector4D a, const CCVector4D b, CCVector4Di MaxUlps)
+{
+    return CCFloatEqualUlps(a.x, b.x, MaxUlps.x) && CCFloatEqualUlps(a.y, b.y, MaxUlps.y) && CCFloatEqualUlps(a.z, b.z, MaxUlps.z) && CCFloatEqualUlps(a.w, b.w, MaxUlps.w);
+}
+
+static CC_FORCE_INLINE _Bool CCVector4EqualRelative(const CCVector4D a, const CCVector4D b, const CCVector4D RelativeDiff)
+{
+    return CCFloatEqualRelative(a.x, b.x, RelativeDiff.x) && CCFloatEqualRelative(a.y, b.y, RelativeDiff.y) && CCFloatEqualRelative(a.z, b.z, RelativeDiff.z) && CCFloatEqualRelative(a.w, b.w, RelativeDiff.w);
+}
+
+static CC_FORCE_INLINE _Bool CCVector4EqualAbsolute(const CCVector4D a, const CCVector4D b, const CCVector4D Diff)
+{
+    return CCFloatEqualAbsolute(a.x, b.x, Diff.x) && CCFloatEqualAbsolute(a.y, b.y, Diff.y) && CCFloatEqualAbsolute(a.z, b.z, Diff.z) && CCFloatEqualAbsolute(a.w, b.w, Diff.w);
+}
+
+static CC_FORCE_INLINE _Bool CCVector4Equal(const CCVector4D a, const CCVector4D b)
+{
+    return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
+}
+
+static CC_FORCE_INLINE _Bool CCVector4LessThan(const CCVector4D a, const CCVector4D b)
+{
+    return a.x < b.x && a.y < b.y && a.z < b.z && a.w < b.w;
+}
+
+static CC_FORCE_INLINE _Bool CCVector4LessThanEqual(const CCVector4D a, const CCVector4D b)
+{
+    return a.x <= b.x && a.y <= b.y && a.z <= b.z && a.w <= b.w;
+}
+
+static CC_FORCE_INLINE _Bool CCVector4GreaterThan(const CCVector4D a, const CCVector4D b)
+{
+    return a.x > b.x && a.y > b.y && a.z > b.z && a.w > b.w;
+}
+
+static CC_FORCE_INLINE _Bool CCVector4GreaterThanEqual(const CCVector4D a, const CCVector4D b)
+{
+    return a.x >= b.x && a.y >= b.y && a.z >= b.z && a.w >= b.w;
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualUlps(const CCVector4D a, const CCVector4D b, CCVector4Di MaxUlps)
+{
+    return (CCVector4D){ CCFloatEqualUlps(a.x, b.x, MaxUlps.x), CCFloatEqualUlps(a.y, b.y, MaxUlps.y), CCFloatEqualUlps(a.z, b.z, MaxUlps.z), CCFloatEqualUlps(a.w, b.w, MaxUlps.w) };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualRelative(const CCVector4D a, const CCVector4D b, const CCVector4D RelativeDiff)
+{
+    return (CCVector4D){ CCFloatEqualRelative(a.x, b.x, RelativeDiff.x), CCFloatEqualRelative(a.y, b.y, RelativeDiff.y), CCFloatEqualRelative(a.z, b.z, RelativeDiff.z), CCFloatEqualRelative(a.w, b.w, RelativeDiff.w) };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqualAbsolute(const CCVector4D a, const CCVector4D b, const CCVector4D Diff)
+{
+    return (CCVector4D){ CCFloatEqualAbsolute(a.x, b.x, Diff.x), CCFloatEqualAbsolute(a.y, b.y, Diff.y), CCFloatEqualAbsolute(a.z, b.z, Diff.z), CCFloatEqualAbsolute(a.w, b.w, Diff.w) };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareEqual(const CCVector4D a, const CCVector4D b)
+{
+    return (CCVector4D){ a.x == b.x, a.y == b.y, a.z == b.z, a.w == b.w };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareLessThan(const CCVector4D a, const CCVector4D b)
+{
+    return (CCVector4D){ a.x < b.x, a.y < b.y, a.z < b.z, a.w < b.w };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareLessThanEqual(const CCVector4D a, const CCVector4D b)
+{
+    return (CCVector4D){ a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareGreaterThan(const CCVector4D a, const CCVector4D b)
+{
+    return (CCVector4D){ a.x > b.x, a.y > b.y, a.z > b.z, a.w > b.w };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4CompareGreaterThanEqual(const CCVector4D a, const CCVector4D b)
+{
+    return (CCVector4D){ a.x >= b.x, a.y >= b.y, a.z >= b.z, a.w >= b.w };
 }
 
 #pragma mark -
