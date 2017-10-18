@@ -30,6 +30,7 @@
 #include <CommonC/Extensions.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Assertion.h>
+#include <CommonC/Maths.h>
 #include <math.h>
 
 
@@ -104,6 +105,23 @@ static CC_FORCE_INLINE _Bool CCVector3Ortho(const CCVector3D a, const CCVector3D
 static CC_FORCE_INLINE CCVector3D CCVector3Min(const CCVector3D a, const CCVector3D b);
 static CC_FORCE_INLINE CCVector3D CCVector3Max(const CCVector3D a, const CCVector3D b);
 static CC_FORCE_INLINE CCVector3D CCVector3Clamp(const CCVector3D a, const CCVector3D min, const CCVector3D max);
+
+static CC_FORCE_INLINE _Bool CCVector3EqualUlps(const CCVector3D a, const CCVector3D b, CCVector3Di MaxUlps);
+static CC_FORCE_INLINE _Bool CCVector3EqualRelative(const CCVector3D a, const CCVector3D b, const CCVector3D RelativeDiff);
+static CC_FORCE_INLINE _Bool CCVector3EqualAbsolute(const CCVector3D a, const CCVector3D b, const CCVector3D Diff);
+static CC_FORCE_INLINE _Bool CCVector3Equal(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE _Bool CCVector3LessThan(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE _Bool CCVector3LessThanEqual(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE _Bool CCVector3GreaterThan(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE _Bool CCVector3GreaterThanEqual(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualUlps(const CCVector3D a, const CCVector3D b, CCVector3Di MaxUlps);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualRelative(const CCVector3D a, const CCVector3D b, const CCVector3D RelativeDiff);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualAbsolute(const CCVector3D a, const CCVector3D b, const CCVector3D Diff);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqual(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareLessThan(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareLessThanEqual(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareGreaterThan(const CCVector3D a, const CCVector3D b);
+static CC_FORCE_INLINE CCVector3D CCVector3CompareGreaterThanEqual(const CCVector3D a, const CCVector3D b);
 
 
 #pragma mark -
@@ -198,6 +216,86 @@ static CC_FORCE_INLINE _Bool CCVector3Parallel(const CCVector3D a, const CCVecto
 static CC_FORCE_INLINE _Bool CCVector3Ortho(const CCVector3D a, const CCVector3D b)
 {
     return fabsf(CCVector3Dot(a, b)) < 1e-6f; //TODO: replace with better zero check
+}
+
+static CC_FORCE_INLINE _Bool CCVector3EqualUlps(const CCVector3D a, const CCVector3D b, CCVector3Di MaxUlps)
+{
+    return CCFloatEqualUlps(a.x, b.x, MaxUlps.x) && CCFloatEqualUlps(a.y, b.y, MaxUlps.y) && CCFloatEqualUlps(a.z, b.z, MaxUlps.z);
+}
+
+static CC_FORCE_INLINE _Bool CCVector3EqualRelative(const CCVector3D a, const CCVector3D b, const CCVector3D RelativeDiff)
+{
+    return CCFloatEqualRelative(a.x, b.x, RelativeDiff.x) && CCFloatEqualRelative(a.y, b.y, RelativeDiff.y) && CCFloatEqualRelative(a.z, b.z, RelativeDiff.z);
+}
+
+static CC_FORCE_INLINE _Bool CCVector3EqualAbsolute(const CCVector3D a, const CCVector3D b, const CCVector3D Diff)
+{
+    return CCFloatEqualAbsolute(a.x, b.x, Diff.x) && CCFloatEqualAbsolute(a.y, b.y, Diff.y) && CCFloatEqualAbsolute(a.z, b.z, Diff.z);
+}
+
+static CC_FORCE_INLINE _Bool CCVector3Equal(const CCVector3D a, const CCVector3D b)
+{
+    return a.x == b.x && a.y == b.y && a.z == b.z;
+}
+
+static CC_FORCE_INLINE _Bool CCVector3LessThan(const CCVector3D a, const CCVector3D b)
+{
+    return a.x < b.x && a.y < b.y && a.z < b.z;
+}
+
+static CC_FORCE_INLINE _Bool CCVector3LessThanEqual(const CCVector3D a, const CCVector3D b)
+{
+    return a.x <= b.x && a.y <= b.y && a.z <= b.z;
+}
+
+static CC_FORCE_INLINE _Bool CCVector3GreaterThan(const CCVector3D a, const CCVector3D b)
+{
+    return a.x > b.x && a.y > b.y && a.z > b.z;
+}
+
+static CC_FORCE_INLINE _Bool CCVector3GreaterThanEqual(const CCVector3D a, const CCVector3D b)
+{
+    return a.x >= b.x && a.y >= b.y && a.z >= b.z;
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualUlps(const CCVector3D a, const CCVector3D b, CCVector3Di MaxUlps)
+{
+    return (CCVector3D){ CCFloatEqualUlps(a.x, b.x, MaxUlps.x), CCFloatEqualUlps(a.y, b.y, MaxUlps.y), CCFloatEqualUlps(a.z, b.z, MaxUlps.z) };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualRelative(const CCVector3D a, const CCVector3D b, const CCVector3D RelativeDiff)
+{
+    return (CCVector3D){ CCFloatEqualRelative(a.x, b.x, RelativeDiff.x), CCFloatEqualRelative(a.y, b.y, RelativeDiff.y), CCFloatEqualRelative(a.z, b.z, RelativeDiff.z) };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqualAbsolute(const CCVector3D a, const CCVector3D b, const CCVector3D Diff)
+{
+    return (CCVector3D){ CCFloatEqualAbsolute(a.x, b.x, Diff.x), CCFloatEqualAbsolute(a.y, b.y, Diff.y), CCFloatEqualAbsolute(a.z, b.z, Diff.z) };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareEqual(const CCVector3D a, const CCVector3D b)
+{
+    return (CCVector3D){ a.x == b.x, a.y == b.y, a.z == b.z };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareLessThan(const CCVector3D a, const CCVector3D b)
+{
+    return (CCVector3D){ a.x < b.x, a.y < b.y, a.z < b.z };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareLessThanEqual(const CCVector3D a, const CCVector3D b)
+{
+    return (CCVector3D){ a.x <= b.x, a.y <= b.y, a.z <= b.z };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareGreaterThan(const CCVector3D a, const CCVector3D b)
+{
+    return (CCVector3D){ a.x > b.x, a.y > b.y, a.z > b.z };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3CompareGreaterThanEqual(const CCVector3D a, const CCVector3D b)
+{
+    return (CCVector3D){ a.x >= b.x, a.y >= b.y, a.z >= b.z };
 }
 
 #pragma mark -
