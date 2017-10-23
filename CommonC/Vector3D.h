@@ -103,6 +103,7 @@ static CC_FORCE_INLINE CCVector3D CCVector3Normal(const CCVector3D a, const CCVe
 static CC_FORCE_INLINE CCVector3D CCVector3NormalR(const CCVector3D a, const CCVector3D b, const CCVector3D c);
 static CC_FORCE_INLINE CCVector3D CCVector3Normalize(const CCVector3D a);
 static CC_FORCE_INLINE CCVector3D CCVector3Neg(const CCVector3D a);
+static CC_FORCE_INLINE CCVector3D CCVector3Abs(const CCVector3D a);
 static CC_FORCE_INLINE _Bool CCVector3Parallel(const CCVector3D a, const CCVector3D b);
 static CC_FORCE_INLINE _Bool CCVector3Ortho(const CCVector3D a, const CCVector3D b);
 
@@ -343,6 +344,11 @@ static CC_FORCE_INLINE CCVector3D CCVector3Normalize(const CCVector3D a)
 static CC_FORCE_INLINE CCVector3D CCVector3Neg(const CCVector3D a)
 {
     return (CCVector3D){ -a.x, -a.y, -a.z };
+}
+
+static CC_FORCE_INLINE CCVector3D CCVector3Abs(const CCVector3D a)
+{
+    return (CCVector3D){ fabsf(a.x), fabsf(a.y), fabsf(a.z) };
 }
 
 #pragma mark -
