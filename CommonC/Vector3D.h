@@ -80,6 +80,15 @@ static CC_FORCE_INLINE CCVector CCVectorize3Min(const CCVector a, const CCVector
 static CC_FORCE_INLINE CCVector CCVectorize3Max(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize3Clamp(const CCVector a, const CCVector min, const CCVector max);
 
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareLessThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareLessThanEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareGreaterThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize3CompareGreaterThanEqual(const CCVector a, const CCVector b);
+
 
 #pragma mark - Vector3D
 
@@ -527,6 +536,75 @@ static CC_FORCE_INLINE CCVector CCVectorize3Max(const CCVector a, const CCVector
 static CC_FORCE_INLINE CCVector CCVectorize3Clamp(const CCVector a, const CCVector min, const CCVector max)
 {
     return CCVectorize3Min(CCVectorize3Max(a, min), max);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    CCVector3D Sign = CCVectorizeGetVector3D(_mm_xor_ps(a, b));
+    if ((signbit(Sign.x)) && (signbit(Sign.y)) && (signbit(Sign.z))) return CCVectorize3CompareEqual(a, b);
+    
+    return _mm_and_ps(_mm_cmpeq_epi32(_mm_max_ps(_mm_sub_epi32(_mm_max_ps(a, b), _mm_min_ps(a, b)), MaxUlps), MaxUlps), _mm_set1_ps(1.0f));
+#else
+    return CCVectorizeVector3D(CCVector3CompareEqualUlps(CCVectorizeGetVector3D(a), CCVectorizeGetVector3D(b), CCVectorizeGetVector3Di(MaxUlps)));
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff)
+{
+    CCVector Diff = CCVectorize3Abs(CCVectorize3Sub(a, b));
+    
+    return CCVectorize3CompareLessThanEqual(Diff, CCVectorize3Mul(CCVectorize3Max(CCVectorize3Abs(a), CCVectorize3Abs(b)), RelativeDiff));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff)
+{
+    return CCVectorize3CompareLessThanEqual(CCVectorize3Abs(CCVectorize3Sub(a, b)), Diff);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpeq_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x == b.x, a.y == b.y, a.z == b.z, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareLessThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmplt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x < b.x, a.y < b.y, a.z < b.z, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareLessThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmple_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x <= b.x, a.y <= b.y, a.z <= b.z, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareGreaterThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpgt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x > b.x, a.y > b.y, a.z > b.z, 0.0f };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize3CompareGreaterThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpge_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x >= b.x, a.y >= b.y, a.z >= b.z, 0.0f };
+#endif
 }
 
 #pragma mark -
