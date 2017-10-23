@@ -47,7 +47,9 @@
 #pragma mark - Vectorized Vector3D
 
 static CC_FORCE_INLINE CCVector CCVectorizeVector3D(const CCVector3D a);
+static CC_FORCE_INLINE CCVector CCVectorizeVector3Di(const CCVector3Di a);
 static CC_FORCE_INLINE CCVector3D CCVectorizeGetVector3D(const CCVector a);
+static CC_FORCE_INLINE CCVector3Di CCVectorizeGetVector3Di(const CCVector a);
 
 static CC_FORCE_INLINE CCVector CCVectorize3Add(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize3Sub(const CCVector a, const CCVector b);
@@ -385,9 +387,19 @@ static CC_FORCE_INLINE CCVector CCVectorizeVector3D(const CCVector3D a)
     return *(CCVector*)&(CCVector4D){ a.x, a.y, a.z, 0.0f };
 }
 
+static CC_FORCE_INLINE CCVector CCVectorizeVector3Di(const CCVector3Di a)
+{
+    return CCVectorizeVector3D(*(CCVector3D*)&a);
+}
+
 static CC_FORCE_INLINE CCVector3D CCVectorizeGetVector3D(const CCVector a)
 {
     return *(CCVector3D*)&a;
+}
+
+static CC_FORCE_INLINE CCVector3Di CCVectorizeGetVector3Di(const CCVector a)
+{
+    return *(CCVector3Di*)&a;
 }
 
 #pragma mark -
