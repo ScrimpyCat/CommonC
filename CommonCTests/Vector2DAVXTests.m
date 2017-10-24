@@ -138,6 +138,7 @@
     TEST_VECTOR2_EQUAL(CCVector2PerpR(a), CCVector2DMake(5.0f, -2.0f));
     XCTAssertEqual(CCVector2Length(CCVector2Normalize(a)), 1.0f);
     TEST_VECTOR2_EQUAL(CCVector2Neg(a), CCVector2DMake(-2.0f, -5.0f));
+    TEST_VECTOR2_EQUAL(CCVector2Abs(CCVector2DMake(2.0f, -3.0f)), CCVector2DMake(2.0f, 3.0f));
 }
 
 -(void) testEquality
