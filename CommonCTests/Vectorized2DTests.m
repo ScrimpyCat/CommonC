@@ -242,11 +242,13 @@
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedPerpR(v), 0), CCVector2DMake(5.0f, -2.0f));
     XCTAssertEqual(CCVectorizeExtractVector2D(CCVectorize2PackedLength(CCVectorize2PackedNormalize(v)), 0).x, 1.0f);
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedNeg(v), 0), CCVector2DMake(-2.0f, -5.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedAbs(CCVectorize2PackedNeg(v)), 0), CCVector2DMake(2.0f, 5.0f));
     
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedPerp(v), 1), CCVector2DMake(-1.5f, 1.0f));
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedPerpR(v), 1), CCVector2DMake(1.5f, -1.0f));
     XCTAssertEqual(CCVectorizeExtractVector2D(CCVectorize2PackedLength(CCVectorize2PackedNormalize(v)), 1).x, 1.0f);
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedNeg(v), 1), CCVector2DMake(-1.0f, -1.5f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedAbs(CCVectorize2PackedNeg(v)), 1), CCVector2DMake(1.0f, 1.5f));
     
     
     v = CCVectorizeVector2D(a);
@@ -255,6 +257,7 @@
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedPerpR(v), 0), CCVector2DMake(5.0f, -2.0f));
     XCTAssertEqual(CCVectorizeExtractVector2D(CCVectorize2PackedLength(CCVectorize2PackedNormalize(v)), 0).x, 1.0f);
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedNeg(v), 0), CCVector2DMake(-2.0f, -5.0f));
+    TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(CCVectorize2PackedAbs(CCVectorize2PackedNeg(v)), 1), CCVector2DMake(2.0f, 5.0f));
 }
 
 -(void) testEquality
