@@ -149,6 +149,7 @@
     
     XCTAssertEqual(CCVectorizeGetVector3D(CCVectorize3Length(CCVectorize3Normalize(v))).x, 1.0f);
     TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3Neg(v)), CCVector3DMake(-2.0f, -5.0f, -5.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3Abs(CCVectorize3Neg(v))), a);
 }
 
 -(void) testGeometryOperations
