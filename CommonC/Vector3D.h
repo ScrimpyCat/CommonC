@@ -686,7 +686,7 @@ static CC_FORCE_INLINE CCVector CCVectorize3Abs(const CCVector a)
 #elif CC_HARDWARE_VECTOR_SUPPORT_SSE
     return _mm_andnot_ps(_mm_set1_ps(-0.0f), a);
 #else
-    return (CCVector){ fabsf(a.x), fabsf(a.y), fabsf(z.y), 0.0f };
+    return (CCVector){ fabsf(a.x), fabsf(a.y), fabsf(a.z), 0.0f };
 #endif
 }
 
