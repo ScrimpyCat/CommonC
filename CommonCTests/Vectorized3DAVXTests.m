@@ -163,6 +163,70 @@
     TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3NormalR(v0, v1, v2)), CCVector3Normalize(CCVector3DMake(-1.0f, -1.0f, -1.0f)));
 }
 
+-(void) testEquality
+{
+    const CCVector3D a = CCVector3DMake(2.0f, 5.0f, 2.0f), b = CCVector3DMake(1.0f, 5.0f, 1.0f), c = CCVector3DMake(0.0f, 7.0f, 0.0f), d = CCVector3DMake(10.0f, 10.0f, 10.0f);
+    CCVector va = CCVectorizeVector3D(a), vb = CCVectorizeVector3D(b), vc = CCVectorizeVector3D(c), vd = CCVectorizeVector3D(d);
+    
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThan(va, va)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThan(va, vb)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThan(va, vc)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThan(va, vd)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThanEqual(va, va)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThanEqual(va, vb)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThanEqual(va, vc)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareLessThanEqual(va, vd)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThan(va, va)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThan(va, vb)), CCVector3DMake(1.0f, 0.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThan(va, vc)), CCVector3DMake(1.0f, 0.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThan(vd, va)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThanEqual(va, va)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThanEqual(va, vb)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThanEqual(va, vc)), CCVector3DMake(1.0f, 0.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareGreaterThanEqual(vd, va)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqual(va, va)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqual(va, vb)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqual(va, vc)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    
+    CCVector3Di Ulps = (CCVector3Di){ 1, 1, 1 };
+    CCVector vUlps = CCVectorizeVector3Di(Ulps);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, va, vUlps)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, vb, vUlps)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, vc, vUlps)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    
+    Ulps = (CCVector3Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f), CCFloatGetUlps(2.0f, 1.0f) };
+    vUlps = CCVectorizeVector3Di(Ulps);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, va, vUlps)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, vb, vUlps)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualUlps(va, vc, vUlps)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    
+    CCVector3D RelativeDiff = CCVector3DMake(0.0f, 0.0f, 0.0f);
+    CCVector vRelativeDiff = CCVectorizeVector3D(RelativeDiff);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, va, vRelativeDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, vb, vRelativeDiff)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, vc, vRelativeDiff)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    
+    RelativeDiff = CCVector3DMake(1.0f, 0.0f, 1.0f);
+    vRelativeDiff = CCVectorizeVector3D(RelativeDiff);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, va, vRelativeDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, vb, vRelativeDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualRelative(va, vc, vRelativeDiff)), CCVector3DMake(1.0f, 0.0f, 1.0f));
+    
+    CCVector3D Diff = CCVector3DMake(0.0f, 0.0f, 0.0f);
+    CCVector vDiff = CCVectorizeVector3D(Diff);
+    vDiff = CCVectorizeVector3D(Diff);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, va, vDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, vb, vDiff)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, vc, vDiff)), CCVector3DMake(0.0f, 0.0f, 0.0f));
+    
+    Diff = CCVector3DMake(1.0f, 2.0f, 1.0f);
+    vDiff = CCVectorizeVector3D(Diff);
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, va, vDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, vb, vDiff)), CCVector3DMake(1.0f, 1.0f, 1.0f));
+    TEST_VECTOR3_EQUAL(CCVectorizeGetVector3D(CCVectorize3CompareEqualAbsolute(va, vc, vDiff)), CCVector3DMake(0.0f, 1.0f, 0.0f));
+}
+
 @end
 
 #endif
