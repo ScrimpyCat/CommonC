@@ -103,6 +103,7 @@ static CC_FORCE_INLINE CCVector4D CCVector4Normal(const CCVector4D a, const CCVe
 static CC_FORCE_INLINE CCVector4D CCVector4NormalR(const CCVector4D a, const CCVector4D b, const CCVector4D c);
 static CC_FORCE_INLINE CCVector4D CCVector4Normalize(const CCVector4D a);
 static CC_FORCE_INLINE CCVector4D CCVector4Neg(const CCVector4D a);
+static CC_FORCE_INLINE CCVector4D CCVector4Abs(const CCVector4D a);
 static CC_FORCE_INLINE _Bool CCVector4Parallel(const CCVector4D a, const CCVector4D b);
 static CC_FORCE_INLINE _Bool CCVector4Ortho(const CCVector4D a, const CCVector4D b);
 
@@ -344,6 +345,11 @@ static CC_FORCE_INLINE CCVector4D CCVector4Normalize(const CCVector4D a)
 static CC_FORCE_INLINE CCVector4D CCVector4Neg(const CCVector4D a)
 {
     return (CCVector4D){ -a.x, -a.y, -a.z, -a.w };
+}
+
+static CC_FORCE_INLINE CCVector4D CCVector4Abs(const CCVector4D a)
+{
+    return (CCVector4D){ fabsf(a.x), fabsf(a.y), fabsf(a.z), fabsf(a.w) };
 }
 
 #pragma mark -
