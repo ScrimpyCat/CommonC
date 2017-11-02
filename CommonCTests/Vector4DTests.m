@@ -124,6 +124,7 @@
     
     XCTAssertEqual(CCVector4Length(CCVector4Normalize(a)), 1.0f);
     TEST_VECTOR4_EQUAL(CCVector4Neg(a), CCVector4DMake(-2.0f, -5.0f, -5.0f, -10.0f));
+    TEST_VECTOR4_EQUAL(CCVector4Abs(CCVector4Neg(a)), a);
 }
 
 -(void) testGeometryOperations
