@@ -46,6 +46,7 @@ typedef struct CCConcurrentBufferInfo *CCConcurrentBuffer;
 #pragma mark - Creation / Destruction
 /*!
  * @brief Create a concurrent buffer.
+ * @description This buffer allows for many producer-consumer access.
  * @param Allocator The allocator to be used for the allocation.
  * @param Destructor The data destructor. May be NULL.
  * @return A buffer, or NULL on failure. Must be destroyed to free the memory.
