@@ -38,7 +38,7 @@ static void CCConcurrentBufferDestructor(CCConcurrentBuffer Buffer)
 {
     if (Buffer->destructor)
     {
-        Buffer->destructor(atomic_load(&Buffer->data));
+        Buffer->destructor(atomic_load_explicit(&Buffer->data, memory_order_relaxed));
     }
 }
 
@@ -71,7 +71,7 @@ void CCConcurrentBufferWriteData(CCConcurrentBuffer Buffer, void *Data)
 {
     CCAssertLog(Buffer, "Buffer must not be null");
     
-    void *Ptr = atomic_exchange(&Buffer->data, Data);
+    void *Ptr = atomic_exchange_explicit(&Buffer->data, Data, memory_order_acq_rel);
     if (Buffer->destructor)
     {
         Buffer->destructor(Ptr);
@@ -82,5 +82,5 @@ void *CCConcurrentBufferReadData(CCConcurrentBuffer Buffer)
 {
     CCAssertLog(Buffer, "Buffer must not be null");
     
-    return atomic_exchange(&Buffer->data, NULL);
+    return atomic_exchange_explicit(&Buffer->data, NULL, memory_order_acq_rel);
 }
