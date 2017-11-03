@@ -72,6 +72,7 @@ static CC_FORCE_INLINE CCVector CCVectorize4Normal(const CCVector a, const CCVec
 static CC_FORCE_INLINE CCVector CCVectorize4NormalR(const CCVector a, const CCVector b, const CCVector c);
 static CC_FORCE_INLINE CCVector CCVectorize4Normalize(const CCVector a);
 static CC_FORCE_INLINE CCVector CCVectorize4Neg(const CCVector a);
+static CC_FORCE_INLINE CCVector CCVectorize4Abs(const CCVector a);
 
 static CC_FORCE_INLINE CCVector CCVectorize4Min(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize4Max(const CCVector a, const CCVector b);
@@ -591,6 +592,17 @@ static CC_FORCE_INLINE CCVector CCVectorize4Neg(const CCVector a)
     return _mm_xor_ps(a, _mm_set1_ps(-0.0f));
 #else
     return (CCVector){ -a.x, -a.y, -a.z, -a.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4Abs(const CCVector a)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    return _mm_andnot_ps((CCVector)_mm_set1_epi32(1 << 31), a);
+#elif CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_andnot_ps(_mm_set1_ps(-0.0f), a);
+#else
+    return (CCVector){ fabsf(a.x), fabsf(a.y), fabsf(a.z), fabsf(a.w) };
 #endif
 }
 
