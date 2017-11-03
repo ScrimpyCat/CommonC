@@ -133,6 +133,8 @@
 		F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */; };
+		F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
 		F334273E1DB40512008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273F1DB4057B008CB998 /* Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = F334273C1DB40512008CB998 /* Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -364,6 +366,8 @@
 		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
+		F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentBuffer.c; sourceTree = "<group>"; };
+		F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentBuffer.h; sourceTree = "<group>"; };
 		F334273B1DB40512008CB998 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
 		F334273C1DB40512008CB998 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
 		F33427401DB408FF008CB998 /* ConcurrentQueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentQueue.c; sourceTree = "<group>"; };
@@ -636,6 +640,15 @@
 				F30C846A1D13308700EFF5F2 /* Dictionary Implementations */,
 			);
 			name = Map;
+			sourceTree = "<group>";
+		};
+		F332AD141FACA55B0047C684 /* Buffer */ = {
+			isa = PBXGroup;
+			children = (
+				F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */,
+				F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */,
+			);
+			name = Buffer;
 			sourceTree = "<group>";
 		};
 		F334273A1DB404FD008CB998 /* Queue */ = {
@@ -976,6 +989,7 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F332AD141FACA55B0047C684 /* Buffer */,
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
 				F380180C1DC30D2F00343E07 /* Task */,
@@ -1269,6 +1283,7 @@
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
+				F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1506,6 +1521,7 @@
 				F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */,
 				F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
+				F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,

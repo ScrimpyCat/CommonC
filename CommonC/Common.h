@@ -106,4 +106,6 @@
 #include <CommonC/Task.h>
 #include <CommonC/TaskQueue.h>
 
+#include <CommonC/ConcurrentBuffer.h>
+
 #endif
