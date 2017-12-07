@@ -72,7 +72,7 @@ void CCConcurrentBufferWriteData(CCConcurrentBuffer Buffer, void *Data)
     CCAssertLog(Buffer, "Buffer must not be null");
     
     void *Ptr = atomic_exchange_explicit(&Buffer->data, Data, memory_order_acq_rel);
-    if (Buffer->destructor)
+    if ((Buffer->destructor) && (Ptr))
     {
         Buffer->destructor(Ptr);
     }
