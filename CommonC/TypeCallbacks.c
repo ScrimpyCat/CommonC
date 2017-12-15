@@ -29,7 +29,7 @@
 #include "Path.h"
 #include "Array.h"
 #include "LinkedList.h"
-#include "HashMAp.h"
+#include "HashMap.h"
 #include "FileHandle.h"
 
 #pragma mark Destructors
