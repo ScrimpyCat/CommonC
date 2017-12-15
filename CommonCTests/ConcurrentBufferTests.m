@@ -24,34 +24,66 @@
  */
 
 #import <XCTest/XCTest.h>
+#import "ConcurrentBuffer.h"
+#import <stdatomic.h>
+#import <pthread.h>
 
-@interface ConcurrentBuffer : XCTestCase
+@interface ConcurrentBufferTests : XCTestCase
 
 @end
 
-@implementation ConcurrentBuffer
+@implementation ConcurrentBufferTests
 
-- (void)setUp {
-    [super setUp];
+-(void) testReadWithoutWrite
+{
+    CCConcurrentBuffer Buffer = CCConcurrentBufferCreate(CC_STD_ALLOCATOR, NULL);
     
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-
-    // In UI tests it is usually best to stop immediately when a failure occurs.
-    self.continueAfterFailure = NO;
-    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    [[[XCUIApplication alloc] init] launch];
-
-    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    XCTAssertEqual(CCConcurrentBufferReadData(Buffer), NULL, @"Should return NULL if no buffer was written to");
+    XCTAssertEqual(CCConcurrentBufferReadData(Buffer), NULL, @"Should return NULL if no buffer was written to");
+    
+    CCConcurrentBufferDestroy(Buffer);
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+-(void) testReadWithWrite
+{
+    CCConcurrentBuffer Buffer = CCConcurrentBufferCreate(CC_STD_ALLOCATOR, NULL);
+    
+    CCConcurrentBufferWriteData(Buffer, (void*)1);
+    XCTAssertEqual(CCConcurrentBufferReadData(Buffer), (void*)1, @"Should read the corret buffer");
+    XCTAssertEqual(CCConcurrentBufferReadData(Buffer), NULL, @"Should read the correct buffer");
+    
+    CCConcurrentBufferWriteData(Buffer, (void*)2);
+    CCConcurrentBufferWriteData(Buffer, (void*)3);
+    XCTAssertEqual(CCConcurrentBufferReadData(Buffer), (void*)3, @"Should read the corret buffer");
+    
+    CCConcurrentBufferDestroy(Buffer);
 }
 
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+static int DestructorCount = 0, DestructorSum = 0;
+void Destructor(void *Data)
+{
+    DestructorCount++;
+    DestructorSum += (uintptr_t)Data;
+}
+
+-(void) testDestructorCallback
+{
+    CCConcurrentBuffer Buffer = CCConcurrentBufferCreate(CC_STD_ALLOCATOR, Destructor);
+    
+    CCConcurrentBufferWriteData(Buffer, (void*)1); //destroyed
+    CCConcurrentBufferWriteData(Buffer, (void*)2); //destroyed
+    CCConcurrentBufferWriteData(Buffer, (void*)4);
+    
+    XCTAssertEqual(DestructorCount, 2, @"Should have called the destructor 2 times");
+    XCTAssertEqual(DestructorSum, 3, @"Should receive the correct buffers");
+    
+    CCConcurrentBufferReadData(Buffer);
+    CCConcurrentBufferWriteData(Buffer, (void*)8);
+    
+    XCTAssertEqual(DestructorCount, 2, @"Should have called the destructor 2 times");
+    XCTAssertEqual(DestructorSum, 3, @"Should receive the correct buffers");
+    
+    CCConcurrentBufferDestroy(Buffer);
 }
 
 @end
