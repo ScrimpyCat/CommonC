@@ -240,7 +240,7 @@ typedef struct {
     CCLinkedListDestroy(Begin);
     
     N = List;
-    a = 0, b = 0;
+    a = 0; b = 0;
     do
     {
         XCTAssertNotEqual(((TestList*)N)->data.a, 3, @"Should have been removed");

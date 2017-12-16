@@ -95,7 +95,7 @@ static const uint32_t TestAllocator = 4;
     XCTAssertFalse(CalledDtor, @"Should not call custom destructor");
     
     
-    CalledA = NO, CalledD = NO, PassedData = NO, HeaderIntact = NO, CorrectPtr = NO;
+    CalledA = NO; CalledD = NO; PassedData = NO; HeaderIntact = NO; CorrectPtr = NO;
     Ptr = CCMalloc(((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }), 1, NULL, NULL);
     XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
     if (CalledA) XCTAssertTrue(PassedData, @"CCAllocate Should pass in the data in CCAllocatorType.");

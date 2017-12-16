@@ -79,7 +79,7 @@
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(r, 1), CCVector2DMake(15.0f, 8.0f));
     
     
-    v0 = CCVectorizeVector2D(a), v1 = CCVectorizeVector2D(b);
+    v0 = CCVectorizeVector2D(a); v1 = CCVectorizeVector2D(b);
     
     r = CCVectorize2PackedAdd(v0, v1);
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(r, 0), CCVector2DMake(22.0f, 20.0f));
@@ -157,7 +157,7 @@
     
     
     b = CCVector2DMake(2.0f, 5.0f);
-    v0 = CCVectorizeVector2D(a), v1 = CCVectorizeVector2D(b);
+    v0 = CCVectorizeVector2D(a); v1 = CCVectorizeVector2D(b);
     
     r = CCVectorize2PackedLerp(v0, v1, 0.5f);
     TEST_VECTOR2_EQUAL(CCVectorizeExtractVector2D(r, 0), CCVector2DMake(11.0f, 10.0f));
@@ -201,7 +201,7 @@
     
     
     
-    v0 = CCVectorizeVector2D(a), v1 = CCVectorizeVector2D(b);
+    v0 = CCVectorizeVector2D(a); v1 = CCVectorizeVector2D(b);
     r = CCVectorize2PackedDot(v0, v1);
     XCTAssertEqual(CCVectorizeExtractVector2D(r, 0).x, 5.0f);
     
