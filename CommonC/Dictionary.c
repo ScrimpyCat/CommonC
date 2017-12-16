@@ -56,7 +56,7 @@ int CCDictionaryHintWeightCreate(CCDictionaryHint Hint, CCDictionaryHint FastHin
     return ((int)CCBitCountSet(FastHints) * 10 * Size) + ((int)CCBitCountSet(ModerateHints) * -1 * Size) + ((int)CCBitCountSet(SlowHints) * -100 * Size);
 }
 
-const CCDictionaryInterface CCDictionaryHashMapInterface;
+extern const CCDictionaryInterface CCDictionaryHashMapInterface;
 static CCDictionaryInternalInterfaceNode InternalInterfaces[] = {
     { .header = { .allocator = -1 }, .data = { .node = { .prev = NULL, .next = NULL }, .interface = &CCDictionaryHashMapInterface } }
 };
