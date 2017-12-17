@@ -86,4 +86,78 @@ void Destructor(void *Data)
     CCConcurrentBufferDestroy(Buffer);
 }
 
+#define READ_THREADS 20
+#define WRITE_THREADS 10
+
+#define COUNT 1000000
+#define NULL_READ_ALLOWANCE 1000
+
+static _Atomic(int) DestroyedBuffers = ATOMIC_VAR_INIT(0);
+static void BufferDestructor(void *Ptr)
+{
+    atomic_fetch_add_explicit(&DestroyedBuffers, 1, memory_order_relaxed);
+}
+
+static CCConcurrentBuffer B;
+static void *Writer(void *Arg)
+{
+    for (int Loop = 0; Loop < COUNT; Loop++)
+    {
+        CCConcurrentBufferWriteData(B, (void*)1);
+    }
+    
+    return NULL;
+}
+
+static _Atomic(int) Count = ATOMIC_VAR_INIT(0);
+static void *Reader(void *Arg)
+{
+    uintptr_t Sum = 0;
+    for (int NullCount = 0; NullCount < NULL_READ_ALLOWANCE; NullCount++)
+    {
+        uintptr_t Value = (uintptr_t)CCConcurrentBufferReadData(B);
+        Sum += Value;
+        if (Value == 0) NullCount++;
+    }
+
+    return (void*)Sum;
+}
+
+-(void) testMultiThreading
+{
+    atomic_store(&DestroyedBuffers, 0);
+    atomic_store(&Count, 0);
+    B = CCConcurrentBufferCreate(CC_STD_ALLOCATOR, BufferDestructor);
+    
+    pthread_t Write[WRITE_THREADS], Read[READ_THREADS];
+    for (int Loop = 0; Loop < WRITE_THREADS; Loop++)
+    {
+        pthread_create(Write + Loop, NULL, Writer, NULL);
+    }
+    
+    for (int Loop = 0; Loop < READ_THREADS; Loop++)
+    {
+        pthread_create(Read + Loop, NULL, Reader, NULL);
+    }
+    
+    for (int Loop = 0; Loop < WRITE_THREADS; Loop++)
+    {
+        pthread_join(Write[Loop], NULL);
+    }
+    
+    int Sum = atomic_load_explicit(&DestroyedBuffers, memory_order_relaxed);
+    for (int Loop = 0; Loop < READ_THREADS; Loop++)
+    {
+        uintptr_t Result = 0;
+        pthread_join(Read[Loop], (void**)&Result);
+        Sum += (int)Result;
+    }
+    
+    Sum += (int)CCConcurrentBufferReadData(B);
+    
+    CCConcurrentBufferDestroy(B);
+    
+    XCTAssertEqual(Sum, (WRITE_THREADS * COUNT), @"No buffers should be over-retained");
+}
+
 @end
