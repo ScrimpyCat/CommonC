@@ -80,6 +80,15 @@ static CC_FORCE_INLINE CCVector CCVectorize4Min(const CCVector a, const CCVector
 static CC_FORCE_INLINE CCVector CCVectorize4Max(const CCVector a, const CCVector b);
 static CC_FORCE_INLINE CCVector CCVectorize4Clamp(const CCVector a, const CCVector min, const CCVector max);
 
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareLessThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareLessThanEqual(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareGreaterThan(const CCVector a, const CCVector b);
+static CC_FORCE_INLINE CCVector CCVectorize4CompareGreaterThanEqual(const CCVector a, const CCVector b);
+
 
 #pragma mark - Vector4D
 
@@ -533,6 +542,75 @@ static CC_FORCE_INLINE CCVector CCVectorize4Max(const CCVector a, const CCVector
 static CC_FORCE_INLINE CCVector CCVectorize4Clamp(const CCVector a, const CCVector min, const CCVector max)
 {
     return CCVectorize4Min(CCVectorize4Max(a, min), max);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualUlps(const CCVector a, const CCVector b, CCVector MaxUlps)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE2
+    CCVector4D Sign = CCVectorizeGetVector4D(_mm_xor_ps(a, b));
+    if ((signbit(Sign.x)) && (signbit(Sign.y)) && (signbit(Sign.z)) && (signbit(Sign.w))) return CCVectorize4CompareEqual(a, b);
+    
+    return _mm_and_ps(_mm_cmpeq_epi32(_mm_max_ps(_mm_sub_epi32(_mm_max_ps(a, b), _mm_min_ps(a, b)), MaxUlps), MaxUlps), _mm_set1_ps(1.0f));
+#else
+    return CCVectorizeVector4D(CCVector4CompareEqualUlps(CCVectorizeGetVector4D(a), CCVectorizeGetVector4D(b), CCVectorizeGetVector4Di(MaxUlps)));
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualRelative(const CCVector a, const CCVector b, const CCVector RelativeDiff)
+{
+    CCVector Diff = CCVectorize4Abs(CCVectorize4Sub(a, b));
+    
+    return CCVectorize4CompareLessThanEqual(Diff, CCVectorize4Mul(CCVectorize4Max(CCVectorize4Abs(a), CCVectorize4Abs(b)), RelativeDiff));
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqualAbsolute(const CCVector a, const CCVector b, const CCVector Diff)
+{
+    return CCVectorize4CompareLessThanEqual(CCVectorize4Abs(CCVectorize4Sub(a, b)), Diff);
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpeq_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x == b.x, a.y == b.y, a.z == b.z, a.w == b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareLessThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmplt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x < b.x, a.y < b.y, a.z < b.z, a.w < b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareLessThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmple_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareGreaterThan(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpgt_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x > b.x, a.y > b.y, a.z > b.z, a.w > b.w };
+#endif
+}
+
+static CC_FORCE_INLINE CCVector CCVectorize4CompareGreaterThanEqual(const CCVector a, const CCVector b)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_SSE
+    return _mm_and_ps(_mm_cmpge_ps(a, b), _mm_set1_ps(1.0f));
+#else
+    return (CCVector){ a.x >= b.x, a.y >= b.y, a.z >= b.z, a.w >= b.w };
+#endif
 }
 
 #pragma mark -
