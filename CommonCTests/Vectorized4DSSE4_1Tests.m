@@ -163,6 +163,70 @@
     TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4NormalR(v0, v1, v2)), CCVector4Normalize(CCVector4DMake(-1.0f, -1.0f, -1.0f, 0.0f)));
 }
 
+-(void) testEquality
+{
+    const CCVector4D a = CCVector4DMake(2.0f, 5.0f, 2.0f, 5.0f), b = CCVector4DMake(1.0f, 5.0f, 1.0f, 5.0f), c = CCVector4DMake(0.0f, 7.0f, 0.0f, 7.0f), d = CCVector4DMake(10.0f, 10.0f, 10.0f, 10.0f);
+    CCVector va = CCVectorizeVector4D(a), vb = CCVectorizeVector4D(b), vc = CCVectorizeVector4D(c), vd = CCVectorizeVector4D(d);
+    
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThan(va, va)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThan(va, vb)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThan(va, vc)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThan(va, vd)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThanEqual(va, va)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThanEqual(va, vb)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThanEqual(va, vc)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareLessThanEqual(va, vd)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThan(va, va)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThan(va, vb)), CCVector4DMake(1.0f, 0.0f, 1.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThan(va, vc)), CCVector4DMake(1.0f, 0.0f, 1.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThan(vd, va)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThanEqual(va, va)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThanEqual(va, vb)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThanEqual(va, vc)), CCVector4DMake(1.0f, 0.0f, 1.0f, 0.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareGreaterThanEqual(vd, va)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqual(va, va)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqual(va, vb)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqual(va, vc)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    
+    CCVector4Di Ulps = (CCVector4Di){ 1, 1, 1, 1 };
+    CCVector vUlps = CCVectorizeVector4Di(Ulps);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, va, vUlps)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, vb, vUlps)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, vc, vUlps)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    
+    Ulps = (CCVector4Di){ CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f), CCFloatGetUlps(2.0f, 1.0f), CCFloatGetUlps(5.0f, 7.0f) };
+    vUlps = CCVectorizeVector4Di(Ulps);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, va, vUlps)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, vb, vUlps)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualUlps(va, vc, vUlps)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    
+    CCVector4D RelativeDiff = CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f);
+    CCVector vRelativeDiff = CCVectorizeVector4D(RelativeDiff);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, va, vRelativeDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, vb, vRelativeDiff)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, vc, vRelativeDiff)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    
+    RelativeDiff = CCVector4DMake(1.0f, 0.0f, 1.0f, 0.0f);
+    vRelativeDiff = CCVectorizeVector4D(RelativeDiff);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, va, vRelativeDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, vb, vRelativeDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualRelative(va, vc, vRelativeDiff)), CCVector4DMake(1.0f, 0.0f, 1.0f, 0.0f));
+    
+    CCVector4D Diff = CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f);
+    CCVector vDiff = CCVectorizeVector4D(Diff);
+    vDiff = CCVectorizeVector4D(Diff);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, va, vDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, vb, vDiff)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, vc, vDiff)), CCVector4DMake(0.0f, 0.0f, 0.0f, 0.0f));
+    
+    Diff = CCVector4DMake(1.0f, 2.0f, 1.0f, 2.0f);
+    vDiff = CCVectorizeVector4D(Diff);
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, va, vDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, vb, vDiff)), CCVector4DMake(1.0f, 1.0f, 1.0f, 1.0f));
+    TEST_VECTOR4_EQUAL(CCVectorizeGetVector4D(CCVectorize4CompareEqualAbsolute(va, vc, vDiff)), CCVector4DMake(0.0f, 1.0f, 0.0f, 1.0f));
+}
+
 @end
 
 #endif
