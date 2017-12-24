@@ -619,4 +619,107 @@ static void TestDictionaryValueDestructor(CCDictionary Dictionary, void *Element
     XCTAssertEqual(ValueDestroyCount, 3, @"No values to be destroyed");
 }
 
+-(void) testEnumeration
+{
+    if (!self.interface) return;
+    
+    CCDictionary Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(uintmax_t), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionarySetValue(Dict, &(uintmax_t){ 3 }, &(int){ 10 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 6 }, &(int){ 20 });
+    CCDictionarySetValue(Dict, &(uintmax_t){ 9 }, &(int){ 30 });
+    
+    uintmax_t KeySum = 0;
+    CC_DICTIONARY_FOREACH_KEY(uintmax_t, Key, Dict)
+    {
+        KeySum += Key;
+    }
+    
+    XCTAssertEqual(KeySum, 18, @"Should iterate over all keys");
+    
+#define ENUMERATOR_KEY_VARIABLE CC_DICTIONARY_CURRENT_KEY_ENUMERATOR
+#undef CC_DICTIONARY_CURRENT_KEY_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_KEY_ENUMERATOR ENUMERATOR_KEY_VARIABLE##1
+    
+    KeySum = 0;
+    CC_DICTIONARY_FOREACH_KEY_PTR(uintmax_t, Key, Dict)
+    {
+        KeySum += *Key;
+    }
+    
+    XCTAssertEqual(KeySum, 18, @"Should iterate over all keys");
+    
+    uintmax_t ValueSum = 0;
+    CC_DICTIONARY_FOREACH_VALUE(int, Value, Dict)
+    {
+        ValueSum += Value;
+    }
+    
+    XCTAssertEqual(ValueSum, 60, @"Should iterate over all values");
+    
+#define ENUMERATOR_VALUE_VARIABLE CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
+#undef CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR ENUMERATOR_VALUE_VARIABLE##1
+    
+    ValueSum = 0;
+    CC_DICTIONARY_FOREACH_VALUE_PTR(int, Value, Dict)
+    {
+        ValueSum += *Value;
+    }
+    
+    XCTAssertEqual(ValueSum, 60, @"Should iterate over all values");
+    
+    
+    CCDictionaryRemoveValue(Dict, &(uintmax_t){ 9 });
+    
+#undef CC_DICTIONARY_CURRENT_KEY_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_KEY_ENUMERATOR ENUMERATOR_KEY_VARIABLE##2
+    
+    KeySum = 0;
+    CC_DICTIONARY_FOREACH_KEY(uintmax_t, Key, Dict)
+    {
+        KeySum += Key;
+    }
+    
+    XCTAssertEqual(KeySum, 9, @"Should iterate over all keys");
+    
+#undef CC_DICTIONARY_CURRENT_KEY_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_KEY_ENUMERATOR ENUMERATOR_KEY_VARIABLE##3
+    
+    KeySum = 0;
+    CC_DICTIONARY_FOREACH_KEY_PTR(uintmax_t, Key, Dict)
+    {
+        KeySum += *Key;
+    }
+    
+    XCTAssertEqual(KeySum, 9, @"Should iterate over all keys");
+    
+#undef CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR ENUMERATOR_VALUE_VARIABLE##2
+    
+    ValueSum = 0;
+    CC_DICTIONARY_FOREACH_VALUE(int, Value, Dict)
+    {
+        ValueSum += Value;
+    }
+    
+    XCTAssertEqual(ValueSum, 30, @"Should iterate over all values");
+    
+#undef CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
+#define CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR ENUMERATOR_VALUE_VARIABLE##3
+    
+    ValueSum = 0;
+    CC_DICTIONARY_FOREACH_VALUE_PTR(int, Value, Dict)
+    {
+        ValueSum += *Value;
+    }
+    
+    XCTAssertEqual(ValueSum, 30, @"Should iterate over all values");
+    
+    CCDictionaryDestroy(Dict);
+}
+
 @end
