@@ -439,14 +439,21 @@ size_t CCCharFormatSpecifier(const CCLogData *LogData, const CCLogSpecifierData 
     {
         CCChar Character = va_arg(*Data->args, CCChar);
         
-        size_t Len = snprintf(NULL, 0, "%lc", (wint_t)Character);
+        const char *Output = "%lc";
+        int Len = snprintf(NULL, 0, Output, (wint_t)Character);
+        if (Len <= 0)
+        {
+            Output = "\\%u";
+            Len = snprintf(NULL, 0, Output, Character);
+        }
+        
         char *Buffer;
         CC_TEMP_Malloc(Buffer, Len + 1,
                        Data->msg->write(Data->msg, "(write failure)", 15);
                        return 2;
                        );
         
-        Len = snprintf(Buffer, Len + 1, "%lc", (wint_t)Character);
+        Len = snprintf(Buffer, Len + 1, Output, (wint_t)Character);
         Data->msg->write(Data->msg, Buffer, Len);
         
         CC_TEMP_Free(Buffer);
