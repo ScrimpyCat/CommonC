@@ -136,7 +136,7 @@ static void CCDataBufferUnmapBuffer(CCDataBufferInternal *Internal, CCBufferMap 
 
 static _Bool CCDataBufferResize(CCDataBufferInternal *Internal, size_t Size)
 {
-    void *Buffer = CCRealloc(CC_NULL_ALLOCATOR, Internal->buffer, Internal->size, NULL, CC_DEFAULT_ERROR_CALLBACK);
+    void *Buffer = CCRealloc(CC_NULL_ALLOCATOR, Internal->buffer, Size, NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Buffer)
     {
         Internal->buffer = Buffer;
