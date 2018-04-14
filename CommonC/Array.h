@@ -74,6 +74,7 @@ void CCArrayDestroy(CCArray CC_DESTROY(Array));
  * @brief Appends the element to the end of the array.
  * @description Increases the array's count by 1.
  * @warning The size of element must be the same size as specified in the array creation.
+ * @param Array The array to append the element to.
  * @param Element The pointer to the element to be copied to the end of the array. If NULL it
  *        will create an uninitialized element.
  *
@@ -101,7 +102,7 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
  * @warning The size of element must be the same size as specified in the array creation. And the
  *          Index must not be out of bounds
  *
- * @param Array The array to replace an element of.
+ * @param Array The array to insert the element into.
  * @param Index The position in the array for the element to be inserted.
  * @param Element The pointer to the element to be copied to the end of the array. If NULL it
  *        will create an uninitialized element.
