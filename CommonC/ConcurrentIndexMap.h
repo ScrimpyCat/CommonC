@@ -48,12 +48,6 @@
 
 
 /*!
- * @define CC_CONCURRENT_INDEX_MAP_ELEMENT_STORAGE_SIZE
- * @brief Provided for convenience to obtain the correct element storage size to pass into the constructor.
- */
-#define CC_CONCURRENT_INDEX_MAP_ELEMENT_STORAGE_SIZE(x) sizeof(_Atomic(typeof(x)))
-
-/*!
  * @brief The concurrent index map.
  * @description Allows @b CCRetain.
  */
@@ -65,14 +59,11 @@ typedef struct CCConcurrentIndexMapInfo *CCConcurrentIndexMap;
  * @description This index map allows for many producer-consumer access.
  * @param Allocator The allocator to be used for the allocation.
  * @param ElementSize The size of the data elements.
- * @param ElementStorageSize The size of the atomic variant of the element's type, alternatively
- *        you may use @b CC_CONCURRENT_INDEX_MAP_ELEMENT_STORAGE_SIZE.
- *
  * @param ChunkSize The number of elements to fit with each allocation. Must be at least 1.
  * @param GC The garbage collector to be used in this queue.
  * @return An index map, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ElementStorageSize, size_t ChunkSize, CCConcurrentGarbageCollector CC_OWN(GC));
+CC_NEW CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize, CCConcurrentGarbageCollector CC_OWN(GC));
 
 /*!
  * @brief Destroy an index map.
@@ -119,9 +110,6 @@ size_t CCConcurrentIndexMapGetCount(CCConcurrentIndexMap IndexMap);
 
 /*!
  * @brief Get the element size of the index map.
- * @description This is the atomic sized element, this is not the size of the element returned. That
- *              size is the raw
- *
  * @param IndexMap The index map to get the element size of.
  * @return The size of elements.
  */

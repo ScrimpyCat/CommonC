@@ -70,31 +70,78 @@ _Static_assert(sizeof(_Atomic(CCConcurrentIndexMapDataPointer)) == 8, "Native ty
 #endif
 #endif
 
+typedef struct {
+    void (*getElement)(const void *, size_t, void *);
+} CCConcurrentIndexMapAtomicOperation;
+
 typedef struct CCConcurrentIndexMapInfo {
     CCAllocatorType allocator;
-    size_t size, storageSize, chunkSize;
+    size_t size, chunkSize;
     _Atomic(size_t) count;
     _Atomic(CCConcurrentIndexMapDataPointer) pointer;
     CCConcurrentGarbageCollector gc;
+    CCConcurrentIndexMapAtomicOperation atomic;
 } CCConcurrentIndexMapInfo;
 
+#define CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(x) \
+typedef struct { uint8_t e[x]; } CCConcurrentIndexMapAtomicType##x; \
+static void CCConcurrentIndexMapAtomicGetElement##x(const void *Data, size_t Index, void *Out) \
+{ \
+    *(CCConcurrentIndexMapAtomicType##x*)Out = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], memory_order_relaxed); \
+}
+
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(1)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(2)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(3)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(4)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(5)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(6)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(7)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(8)
+#if CC_HARDWARE_PTR_64
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(9)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(10)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(11)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(12)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(13)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(14)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(15)
+CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(16)
+#endif
+
+static CCConcurrentIndexMapAtomicOperation CCConcurrentIndexMapAtomicOperations[] = {
+    { .getElement = CCConcurrentIndexMapAtomicGetElement1 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement2 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement3 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement4 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement5 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement6 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement7 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement8 },
+#if CC_HARDWARE_PTR_64
+    { .getElement = CCConcurrentIndexMapAtomicGetElement9 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement10 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement11 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement12 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement13 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement14 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement15 },
+    { .getElement = CCConcurrentIndexMapAtomicGetElement16 }
+#endif
+};
 
 static void CCConcurrentIndexMapDestructor(CCConcurrentIndexMap Ptr)
 {
     CCConcurrentIndexMapDataPointer Pointer = atomic_load(&Ptr->pointer);
     CCFree(Pointer.data);
+    
     CCConcurrentGarbageCollectorDestroy(Ptr->gc);
 }
 
-CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ElementStorageSize, size_t ChunkSize, CCConcurrentGarbageCollector GC)
+CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize, CCConcurrentGarbageCollector GC)
 {
     CCAssertLog(ChunkSize >= 1, "ChunkSize must be at least 1");
-    CCAssertLog(ElementSize <= ElementStorageSize, "ElementSize should not be greater than ElementStorageSize");
-    CCAssertLog(ElementStorageSize == sizeof(_Atomic(uint8_t))
-                || ElementStorageSize == sizeof(_Atomic(uint16_t))
-                || ElementStorageSize == sizeof(_Atomic(uint32_t))
-                || ElementStorageSize == sizeof(_Atomic(uint64_t))
-                , "ElementStorageSize must match one of the listed sizes");
+    CCAssertLog((ElementSize > 0) && (ElementSize <= (sizeof(CCConcurrentIndexMapAtomicOperations) / sizeof(typeof(*CCConcurrentIndexMapAtomicOperations)))), "ElementSize must match one of valid predefined sizes");
     
     
     CCConcurrentIndexMap IndexMap = CCMalloc(Allocator, sizeof(CCConcurrentIndexMapInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -103,11 +150,10 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
         *IndexMap = (CCConcurrentIndexMapInfo){
             .allocator = Allocator,
             .size = ElementSize,
-            .storageSize = ElementStorageSize,
             .chunkSize = ChunkSize,
             .count = ATOMIC_VAR_INIT(0),
             .pointer = ATOMIC_VAR_INIT(((CCConcurrentIndexMapDataPointer){
-                .data = CCMalloc(Allocator, ChunkSize * ElementStorageSize, NULL, CC_DEFAULT_ERROR_CALLBACK),
+                .data = CCMalloc(Allocator, ChunkSize * ElementSize, NULL, CC_DEFAULT_ERROR_CALLBACK),
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
                 .mutate = 0,
                 .modify = 0
@@ -115,7 +161,8 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
                 .mutate = ATOMIC_VAR_INIT(0),
                 .modify = ATOMIC_VAR_INIT(0)
 #endif
-            }))
+            })),
+            .atomic = CCConcurrentIndexMapAtomicOperations[ElementSize - 1]
         };
         
         CCMemorySetDestructor(IndexMap, (CCMemoryDestructorCallback)CCConcurrentIndexMapDestructor);
@@ -148,44 +195,12 @@ size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap)
 void CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element)
 {
     CCAssertLog(IndexMap, "IndexMap must not be null");
+    CCAssertLog(CCConcurrentIndexMapGetCount(IndexMap) > Index, "Index must not be out of bounds");
     
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
-    CCConcurrentIndexMapDataPointer Pointer = atomic_load(&IndexMap->pointer);
     
-    switch (IndexMap->size)
-    {
-        case sizeof(_Atomic(uint8_t)):
-        {
-            uint8_t Value = atomic_load_explicit(&((_Atomic(uint8_t)*)Pointer.data)[Index], memory_order_relaxed);
-            memcpy(Element, &Value, IndexMap->size);
-            break;
-        }
-            
-        case sizeof(_Atomic(uint16_t)):
-        {
-            uint16_t Value = atomic_load_explicit(&((_Atomic(uint16_t)*)Pointer.data)[Index], memory_order_relaxed);
-            memcpy(Element, &Value, IndexMap->size);
-            break;
-        }
-            
-        case sizeof(_Atomic(uint32_t)):
-        {
-            uint32_t Value = atomic_load_explicit(&((_Atomic(uint32_t)*)Pointer.data)[Index], memory_order_relaxed);
-            memcpy(Element, &Value, IndexMap->size);
-            break;
-        }
-            
-        case sizeof(_Atomic(uint64_t)):
-        {
-            uint64_t Value = atomic_load_explicit(&((_Atomic(uint64_t)*)Pointer.data)[Index], memory_order_relaxed);
-            memcpy(Element, &Value, IndexMap->size);
-            break;
-        }
-            
-        default:
-            CCAssertLog(1, "Unsupported element type");
-            break;
-    }
+    CCConcurrentIndexMapDataPointer Pointer = atomic_load(&IndexMap->pointer);
+    IndexMap->atomic.getElement(Pointer.data, Index, Element);
     
     CCConcurrentGarbageCollectorEnd(IndexMap->gc);
 }
