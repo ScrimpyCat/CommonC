@@ -42,6 +42,11 @@
 #endif
 
 typedef struct {
+    _Atomic(size_t) count;
+    uint8_t buffer[];
+} CCConcurrentIndexMapData;
+
+typedef struct {
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
 #if CC_HARDWARE_PTR_64
     uint32_t mutate;
@@ -59,7 +64,7 @@ typedef struct {
     _Atomic(uint16_t) modify;
 #endif
 #endif
-    void *data;
+    CCConcurrentIndexMapData *data;
 } CCConcurrentIndexMapDataPointer;
 
 #if !CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
@@ -146,8 +151,8 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
     CCConcurrentIndexMap IndexMap = CCMalloc(Allocator, sizeof(CCConcurrentIndexMapInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (IndexMap)
     {
-        void *Data = CCMalloc(Allocator, sizeof(_Atomic(size_t)) + (ChunkSize * ElementSize), NULL, CC_DEFAULT_ERROR_CALLBACK);
-        atomic_init((_Atomic(size_t)*)Data, 0);
+        CCConcurrentIndexMapData *Data = CCMalloc(Allocator, sizeof(CCConcurrentIndexMapData) + (ChunkSize * ElementSize), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        atomic_init(&Data->count, 0);
         
         *IndexMap = (CCConcurrentIndexMapInfo){
             .allocator = Allocator,
@@ -186,7 +191,7 @@ size_t CCConcurrentIndexMapGetCount(CCConcurrentIndexMap IndexMap)
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
     
     CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
-    const size_t Count = atomic_load_explicit((_Atomic(size_t)*)Pointer.data, memory_order_relaxed);
+    const size_t Count = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
     
     CCConcurrentGarbageCollectorEnd(IndexMap->gc);
     
@@ -208,7 +213,7 @@ void CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
     
     CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
-    IndexMap->atomic.getElement(Pointer.data, Index, Element);
+    IndexMap->atomic.getElement(Pointer.data->buffer, Index, Element);
     
     CCConcurrentGarbageCollectorEnd(IndexMap->gc);
 }
