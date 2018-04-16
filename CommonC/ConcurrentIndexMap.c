@@ -77,7 +77,6 @@ typedef struct {
 typedef struct CCConcurrentIndexMapInfo {
     CCAllocatorType allocator;
     size_t size, chunkSize;
-    _Atomic(size_t) count;
     _Atomic(CCConcurrentIndexMapDataPointer) pointer;
     CCConcurrentGarbageCollector gc;
     CCConcurrentIndexMapAtomicOperation atomic;
@@ -87,7 +86,7 @@ typedef struct CCConcurrentIndexMapInfo {
 typedef struct { uint8_t e[x]; } CCConcurrentIndexMapAtomicType##x; \
 static void CCConcurrentIndexMapAtomicGetElement##x(const void *Data, size_t Index, void *Out) \
 { \
-    *(CCConcurrentIndexMapAtomicType##x*)Out = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], memory_order_relaxed); \
+    *(CCConcurrentIndexMapAtomicType##x*)Out = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)(Data + sizeof(_Atomic(size_t))))[Index], memory_order_relaxed); \
 }
 
 CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(1)
@@ -147,13 +146,15 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
     CCConcurrentIndexMap IndexMap = CCMalloc(Allocator, sizeof(CCConcurrentIndexMapInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (IndexMap)
     {
+        void *Data = CCMalloc(Allocator, sizeof(_Atomic(size_t)) + (ChunkSize * ElementSize), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        atomic_init((_Atomic(size_t)*)Data, 0);
+        
         *IndexMap = (CCConcurrentIndexMapInfo){
             .allocator = Allocator,
             .size = ElementSize,
             .chunkSize = ChunkSize,
-            .count = ATOMIC_VAR_INIT(0),
             .pointer = ATOMIC_VAR_INIT(((CCConcurrentIndexMapDataPointer){
-                .data = CCMalloc(Allocator, ChunkSize * ElementSize, NULL, CC_DEFAULT_ERROR_CALLBACK),
+                .data = Data,
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
                 .mutate = 0,
                 .modify = 0
@@ -182,7 +183,14 @@ size_t CCConcurrentIndexMapGetCount(CCConcurrentIndexMap IndexMap)
 {
     CCAssertLog(IndexMap, "IndexMap must not be null");
     
-    return atomic_load_explicit(&IndexMap->count, memory_order_relaxed);
+    CCConcurrentGarbageCollectorBegin(IndexMap->gc);
+    
+    CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+    const size_t Count = atomic_load_explicit((_Atomic(size_t)*)Pointer.data, memory_order_relaxed);
+    
+    CCConcurrentGarbageCollectorEnd(IndexMap->gc);
+    
+    return Count;
 }
 
 size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap)
@@ -199,7 +207,7 @@ void CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t
     
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
     
-    CCConcurrentIndexMapDataPointer Pointer = atomic_load(&IndexMap->pointer);
+    CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
     IndexMap->atomic.getElement(Pointer.data, Index, Element);
     
     CCConcurrentGarbageCollectorEnd(IndexMap->gc);
