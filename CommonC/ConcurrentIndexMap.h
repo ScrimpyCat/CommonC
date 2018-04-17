@@ -117,11 +117,11 @@ size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap);
 
 /*!
  * @brief Get the element at index.
- * @warning Index must not be out of bounds.
  * @param IndexMap The index map to get the element of.
  * @param Index The index of the element.
  * @param Element A pointer to where the value should be written to. This should not be NULL.
+ * @return Whether or not an element existed at the given index.
  */
-void CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element);
+_Bool CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element);
 
 #endif
