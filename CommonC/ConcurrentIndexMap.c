@@ -77,7 +77,8 @@ _Static_assert(sizeof(_Atomic(CCConcurrentIndexMapDataPointer)) == 8, "Native ty
 
 typedef struct {
     size_t size;
-    _Bool (*getElement)(const void *, size_t, void *, size_t OutSize);
+    void (*initElement)(void *, size_t);
+    _Bool (*getElement)(const void *, size_t, void *, size_t);
 } CCConcurrentIndexMapAtomicOperation;
 
 typedef struct CCConcurrentIndexMapInfo {
@@ -91,9 +92,13 @@ typedef struct CCConcurrentIndexMapInfo {
 typedef struct { uint8_t e[x - 1]; } CCConcurrentIndexMapAtomicElementType##x; \
 typedef struct { CCConcurrentIndexMapAtomicElementType##x element; uint8_t set; } CCConcurrentIndexMapAtomicType##x; \
 _Static_assert(sizeof(CCConcurrentIndexMapAtomicType##x) == x, "CCConcurrentIndexMapAtomicType"#x " should have a size of "#x); \
+static void CCConcurrentIndexMapAtomicInitElement##x(void *Data, size_t Index) \
+{ \
+    atomic_init(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], ((CCConcurrentIndexMapAtomicType##x){ .set = FALSE })); \
+} \
 static _Bool CCConcurrentIndexMapAtomicGetElement##x(const void *Data, size_t Index, void *Out, size_t OutSize) \
 { \
-    CCConcurrentIndexMapAtomicType##x Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)(Data + sizeof(_Atomic(size_t))))[Index], memory_order_relaxed); \
+    CCConcurrentIndexMapAtomicType##x Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], memory_order_relaxed); \
     if (Value.set) *(CCConcurrentIndexMapAtomicElementType##x*)Out = Value.element; \
     return Value.set; \
 }
@@ -122,43 +127,54 @@ typedef struct {
     _Bool set;
 } CCConcurrentIndexMapAtomicTypePtr;
 
+static void CCConcurrentIndexMapAtomicInitElementPtr(const void *Data, size_t Index)
+{
+    atomic_init(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Index], ((CCConcurrentIndexMapAtomicTypePtr){ .ptr = NULL, .set = FALSE }));
+}
+
 static _Bool CCConcurrentIndexMapAtomicGetElementPtr(const void *Data, size_t Index, void *Out, size_t OutSize)
 {
-    CCConcurrentIndexMapAtomicTypePtr Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)(Data + sizeof(_Atomic(size_t))))[Index], memory_order_relaxed);
+    CCConcurrentIndexMapAtomicTypePtr Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Index], memory_order_relaxed);
     if ((Value.set) && (Value.ptr)) memcpy(Out, Value.ptr, OutSize);
     return (Value.set) && (Value.ptr);
 }
 
+#define CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(x) \
+{ \
+    .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType##x)), \
+    .initElement = CCConcurrentIndexMapAtomicInitElement##x, \
+    .getElement = CCConcurrentIndexMapAtomicGetElement##x \
+}
 
 static CCConcurrentIndexMapAtomicOperation CCConcurrentIndexMapAtomicOperations[] = {
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType1)), .getElement = CCConcurrentIndexMapAtomicGetElement1 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType2)), .getElement = CCConcurrentIndexMapAtomicGetElement2 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType3)), .getElement = CCConcurrentIndexMapAtomicGetElement3 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType4)), .getElement = CCConcurrentIndexMapAtomicGetElement4 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType5)), .getElement = CCConcurrentIndexMapAtomicGetElement5 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType6)), .getElement = CCConcurrentIndexMapAtomicGetElement6 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType7)), .getElement = CCConcurrentIndexMapAtomicGetElement7 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType8)), .getElement = CCConcurrentIndexMapAtomicGetElement8 },
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(1),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(2),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(3),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(4),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(5),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(6),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(7),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(8),
 #if CC_HARDWARE_PTR_64
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType9)), .getElement = CCConcurrentIndexMapAtomicGetElement9 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType10)), .getElement = CCConcurrentIndexMapAtomicGetElement10 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType11)), .getElement = CCConcurrentIndexMapAtomicGetElement11 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType12)), .getElement = CCConcurrentIndexMapAtomicGetElement12 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType13)), .getElement = CCConcurrentIndexMapAtomicGetElement13 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType14)), .getElement = CCConcurrentIndexMapAtomicGetElement14 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType15)), .getElement = CCConcurrentIndexMapAtomicGetElement15 },
-    { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType16)), .getElement = CCConcurrentIndexMapAtomicGetElement16 },
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(9),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(10),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(11),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(12),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(13),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(14),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(15),
+    CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(16)
 #endif
 };
 
-static CCConcurrentIndexMapAtomicOperation CCConcurrentIndexMapAtomicPtrOperation = { .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicTypePtr)), .getElement = CCConcurrentIndexMapAtomicGetElementPtr };
+static CCConcurrentIndexMapAtomicOperation CCConcurrentIndexMapAtomicPtrOperation = CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(Ptr);
 
 static inline _Bool CCConcurrentIndexMapRequiresExternalStorage(size_t ElementSize)
 {
     return ElementSize >= (sizeof(CCConcurrentIndexMapAtomicOperations) / sizeof(typeof(*CCConcurrentIndexMapAtomicOperations)));
 }
 
-static inline CCConcurrentIndexMapAtomicOperation *CCConcurrentIndexMapGetAtomicOperation(size_t ElementSize)
+static inline const CCConcurrentIndexMapAtomicOperation *CCConcurrentIndexMapGetAtomicOperation(size_t ElementSize)
 {
     return CCConcurrentIndexMapRequiresExternalStorage(ElementSize) ? &CCConcurrentIndexMapAtomicPtrOperation : &CCConcurrentIndexMapAtomicOperations[ElementSize];
 }
@@ -180,6 +196,9 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
     {
         CCConcurrentIndexMapData *Data = CCMalloc(Allocator, sizeof(CCConcurrentIndexMapData) + (ChunkSize * CCConcurrentIndexMapGetAtomicOperation(ElementSize)->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         atomic_init(&Data->count, 0);
+        
+        const CCConcurrentIndexMapAtomicOperation *Atomic = CCConcurrentIndexMapGetAtomicOperation(ElementSize);
+        for (size_t Loop = 0; Loop < ChunkSize; Loop++) Atomic->initElement(Data->buffer, 0);
         
         *IndexMap = (CCConcurrentIndexMapInfo){
             .allocator = Allocator,
