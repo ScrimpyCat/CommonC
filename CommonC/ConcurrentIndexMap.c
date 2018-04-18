@@ -198,7 +198,7 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
         atomic_init(&Data->count, 0);
         
         const CCConcurrentIndexMapAtomicOperation *Atomic = CCConcurrentIndexMapGetAtomicOperation(ElementSize);
-        for (size_t Loop = 0; Loop < ChunkSize; Loop++) Atomic->initElement(Data->buffer, 0);
+        for (size_t Loop = 0; Loop < ChunkSize; Loop++) Atomic->initElement(Data->buffer, Loop);
         
         *IndexMap = (CCConcurrentIndexMapInfo){
             .allocator = Allocator,
