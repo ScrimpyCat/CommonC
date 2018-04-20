@@ -86,16 +86,15 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
 
 /*!
  * @brief Replace element at index with new element.
- * @warning The size of element must be the same size as specified in the index map creation. And the
- *          index must not be out of bounds.
- *
+ * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to replace an element of.
  * @param Index The position of the element to be replaced.
- * @param Element The replacement element. If NULL the operation does nothing.
+ * @param Element The replacement element. This must not be NULL.
  * @param ReplacedElement A pointer to where the old value that was replaced can be written to. If NULL
  *        this will be ignored.
+ * @return Whether or not an element was replaced at the given index.
  */
-void CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, void *ReplacedElement);
+_Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, void *ReplacedElement);
 
 #pragma mark - Query Info
 /*!
@@ -119,7 +118,7 @@ size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap);
  * @brief Get the element at index.
  * @param IndexMap The index map to get the element of.
  * @param Index The index of the element.
- * @param Element A pointer to where the value should be written to. This should not be NULL.
+ * @param Element A pointer to where the value should be written to. If NULL this will be ignored.
  * @return Whether or not an element existed at the given index.
  */
 _Bool CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element);
