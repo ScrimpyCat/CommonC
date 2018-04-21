@@ -81,6 +81,7 @@ typedef struct {
     _Bool (*getElement)(CCConcurrentIndexMap, const void *, size_t, void *);
     _Bool (*removeElement)(const void *, size_t);
     _Bool (*setElement)(CCConcurrentIndexMap, const void *, size_t, const void *, void *);
+    _Bool (*appendElement)(CCConcurrentIndexMap, const void *, size_t *, size_t, const void *, void **);
 } CCConcurrentIndexMapAtomicOperation;
 
 typedef struct CCConcurrentIndexMapInfo {
@@ -116,6 +117,22 @@ static _Bool CCConcurrentIndexMapAtomicSetElement##x(CCConcurrentIndexMap IndexM
     Value = atomic_exchange_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], ((CCConcurrentIndexMapAtomicType##x){ .set = TRUE, .element = *(CCConcurrentIndexMapAtomicElementType##x*)New }), memory_order_relaxed); \
     if ((Value.set) && (Out)) *(CCConcurrentIndexMapAtomicElementType##x*)Out = Value.element; \
     return Value.set; \
+} \
+static _Bool CCConcurrentIndexMapAtomicAppendElement##x(CCConcurrentIndexMap IndexMap, const void *Data, size_t *Index, size_t MaxCount, const void *New, void **State) \
+{ \
+    for (size_t Loop = *Index; Loop < MaxCount; Loop++) \
+    { \
+        CCConcurrentIndexMapAtomicType##x Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Loop], memory_order_relaxed); \
+        if (!Value.set) \
+        { \
+            if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Loop], &Value, ((CCConcurrentIndexMapAtomicType##x){ .set = TRUE, .element = *(CCConcurrentIndexMapAtomicElementType##x*)New }), memory_order_relaxed, memory_order_relaxed)) \
+            { \
+                *Index = Loop; \
+                return TRUE; \
+            } \
+        } \
+    } \
+    return FALSE; \
 }
 
 CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(1)
@@ -183,13 +200,47 @@ static _Bool CCConcurrentIndexMapAtomicSetElementPtr(CCConcurrentIndexMap IndexM
     return Value.ptr;
 }
 
+static _Bool CCConcurrentIndexMapAtomicAppendElementPtr(CCConcurrentIndexMap IndexMap, const void *Data, size_t *Index, size_t MaxCount, const void *New, void **State)
+{
+    void *Element = *State;
+    if (!Element)
+    {
+        Element = CCMalloc(IndexMap->allocator, IndexMap->size, NULL, CC_DEFAULT_ERROR_CALLBACK);
+        if (!Element)
+        {
+            *Index = SIZE_MAX;
+            return FALSE;
+        }
+        
+        memcpy(Element, New, IndexMap->size);
+
+        *State = Element;
+    }
+    
+    for (size_t Loop = *Index; Loop < MaxCount; Loop++)
+    {
+        CCConcurrentIndexMapAtomicTypePtr Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Loop], memory_order_relaxed);
+        if (!Value.ptr)
+        {
+            if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Loop], &Value, ((CCConcurrentIndexMapAtomicTypePtr){ .ptr = Element }), memory_order_release, memory_order_relaxed))
+            {
+                *Index = Loop;
+                return TRUE;
+            }
+        }
+    }
+    
+    return FALSE;
+}
+
 #define CC_CONCURRENT_INDEX_MAP_ATOMIC_OPERATION(x) \
 { \
     .size = sizeof(_Atomic(CCConcurrentIndexMapAtomicType##x)), \
     .initElement = CCConcurrentIndexMapAtomicInitElement##x, \
     .getElement = CCConcurrentIndexMapAtomicGetElement##x, \
     .removeElement = CCConcurrentIndexMapAtomicRemoveElement##x, \
-    .setElement = CCConcurrentIndexMapAtomicSetElement##x \
+    .setElement = CCConcurrentIndexMapAtomicSetElement##x, \
+    .appendElement = CCConcurrentIndexMapAtomicAppendElement##x \
 }
 
 static CCConcurrentIndexMapAtomicOperation CCConcurrentIndexMapAtomicOperations[] = {
