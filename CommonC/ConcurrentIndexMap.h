@@ -77,8 +77,8 @@ void CCConcurrentIndexMapDestroy(CCConcurrentIndexMap CC_DESTROY(IndexMap));
  * @description Increases the index map's count by 1.
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to append the element to.
- * @param Element The pointer to the element to be copied to the end of the index map. If NULL it
- *        will create an uninitialized element.
+ * @param Element The pointer to the element to be copied to the end of the index map. This must not
+ *        be NULL.
  *
  * @return The index the element was added or SIZE_MAX on failure.
  */

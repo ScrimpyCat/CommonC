@@ -405,3 +405,52 @@ _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, s
     
     return Exists;
 }
+
+size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const void *Element)
+{
+    CCAssertLog(IndexMap, "IndexMap must not be null");
+    CCAssertLog(Element, "Element must not be null");
+    
+    CCConcurrentGarbageCollectorBegin(IndexMap->gc);
+    
+#if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+    CCConcurrentIndexMapDataPointer Pointer;
+    do {
+        Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+    } while (!atomic_compare_exchange_weak_explicit(&IndexMap->pointer, &Pointer, ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), memory_order_acquire, memory_order_relaxed));
+#else
+    atomic_fetch_add_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->modify, 1, memory_order_acquire);
+    
+    CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+#endif
+    
+    size_t Index;
+    void *State = NULL;
+    for ( ; ; )
+    {
+        Index = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
+        const size_t MaxCount = ((Index / IndexMap->chunkSize) + 1) * IndexMap->chunkSize;
+        
+        const _Bool Success = CCConcurrentIndexMapGetAtomicOperation(IndexMap->size)->appendElement(IndexMap, Pointer.data->buffer, &Index, MaxCount, Element, &State);
+        
+#if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+        if (!atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify - 1, .mutate = Pointer.mutate + Success, .data = Pointer.data }), memory_order_release, memory_order_relaxed))
+        {
+            do {
+                Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+            } while (!atomic_compare_exchange_weak_explicit(&IndexMap->pointer, &Pointer, ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify - 1, .mutate = Pointer.mutate + Success, .data = Pointer.data }), memory_order_release, memory_order_relaxed));
+        }
+#else
+        if (Success) atomic_fetch_add_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->mutate, 1, memory_order_relaxed);
+        atomic_fetch_sub_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->modify, 1, memory_order_release);
+#endif
+        
+        if ((Success) || (CC_UNLIKELY(Index == SIZE_MAX))) break;
+        
+        //TODO: resize
+    }
+    
+    CCConcurrentGarbageCollectorEnd(IndexMap->gc);
+    
+    return Index;
+}
