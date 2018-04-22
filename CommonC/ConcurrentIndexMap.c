@@ -334,7 +334,8 @@ CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_
                 .mutate = ATOMIC_VAR_INIT(0),
                 .modify = ATOMIC_VAR_INIT(0)
 #endif
-            }))
+            })),
+            .gc = GC
         };
         
         CCMemorySetDestructor(IndexMap, (CCMemoryDestructorCallback)CCConcurrentIndexMapDestructor);
