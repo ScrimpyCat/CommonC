@@ -369,7 +369,7 @@ size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap)
 {
     CCAssertLog(IndexMap, "IndexMap must not be null");
     
-    return IndexMap->chunkSize;
+    return IndexMap->size;
 }
 
 _Bool CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element)
