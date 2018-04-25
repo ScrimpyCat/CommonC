@@ -296,12 +296,17 @@ static inline const CCConcurrentIndexMapAtomicOperation *CCConcurrentIndexMapGet
     return CCConcurrentIndexMapRequiresExternalStorage(ElementSize) ? &CCConcurrentIndexMapAtomicPtrOperation : &CCConcurrentIndexMapAtomicOperations[ElementSize];
 }
 
+static inline size_t CCConcurrentIndexMapGetMaxCount(CCConcurrentIndexMap IndexMap, size_t Count)
+{
+    return ((Count / IndexMap->chunkSize) + ((Count % IndexMap->chunkSize) || (!Count))) * IndexMap->chunkSize;
+}
+
 static void CCConcurrentIndexMapDestructor(CCConcurrentIndexMap IndexMap)
 {
     CCConcurrentIndexMapDataPointer Pointer = atomic_load(&IndexMap->pointer);
     const CCConcurrentIndexMapAtomicOperation *Atomic = CCConcurrentIndexMapGetAtomicOperation(IndexMap->size);
     
-    for (size_t Loop = 0, MaxCount = ((atomic_load_explicit(&Pointer.data->count, memory_order_relaxed) / IndexMap->chunkSize) + 1) * IndexMap->chunkSize; Loop < MaxCount; Loop++) Atomic->removeElement(Pointer.data->buffer, Loop);
+    for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, atomic_load_explicit(&Pointer.data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->removeElement(Pointer.data->buffer, Loop);
     
     CCFree(Pointer.data);
     
@@ -379,7 +384,8 @@ _Bool CCConcurrentIndexMapGetElementAtIndex(CCConcurrentIndexMap IndexMap, size_
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
     
     CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
-    const size_t MaxCount = ((atomic_load_explicit(&Pointer.data->count, memory_order_relaxed) / IndexMap->chunkSize) + 1) * IndexMap->chunkSize;
+    const size_t Count = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
+    const size_t MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, Count);
     
     const _Bool Exists = Index < MaxCount ? CCConcurrentIndexMapGetAtomicOperation(IndexMap->size)->getElement(IndexMap, Pointer.data->buffer, Index, Element) : FALSE;
     
@@ -406,7 +412,8 @@ _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, s
     CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
 #endif
     
-    const size_t MaxCount = ((atomic_load_explicit(&Pointer.data->count, memory_order_relaxed) / IndexMap->chunkSize) + 1) * IndexMap->chunkSize;
+    const size_t Count = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
+    const size_t MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, Count);
     
     const _Bool Exists = Index < MaxCount ? CCConcurrentIndexMapGetAtomicOperation(IndexMap->size)->setElement(IndexMap, Pointer.data->buffer, Index, Element, ReplacedElement) : FALSE;
     
@@ -467,9 +474,9 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
     for ( ; ; )
     {
         Index = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
-        const size_t MaxCount = ((Index / IndexMap->chunkSize) + 1) * IndexMap->chunkSize;
+        const size_t MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, Index);
         
-        const _Bool Success = Index % IndexMap->chunkSize ? Atomic->appendElement(IndexMap, Pointer.data->buffer, &Index, MaxCount, Element, &State) : FALSE;
+        const _Bool Success = Atomic->appendElement(IndexMap, Pointer.data->buffer, &Index, MaxCount, Element, &State);
         if (Success)
         {
             atomic_fetch_add_explicit(&Pointer.data->count, 1, memory_order_relaxed);
@@ -494,7 +501,7 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
         
         if (Index == atomic_load_explicit(&Pointer.data->count, memory_order_relaxed))
         {
-            CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount);
+            CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount + IndexMap->chunkSize);
             if ((!Data) || (!Atomic->initElement(IndexMap, Data->buffer, Index, Element)))
             {
                 Index = SIZE_MAX;
