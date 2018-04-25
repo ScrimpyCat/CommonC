@@ -56,168 +56,66 @@
 
 -(void) testAppending
 {
-    CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 1, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    int Value;
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 1, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 2, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 3, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 4 });
-    
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 4, @"Should be the fourth element");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
-    
-    
-    
-    IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 2, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 1, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 2, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 3, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 4 });
-    
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 4, @"Should be the fourth element");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
-    
-    
-    
-    IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 4, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 1, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 2, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 3, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 4 });
-    
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 4, @"Should be the fourth element");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
+    for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
+    {
+        CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
+        
+        int Value;
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should be the first element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should be the second element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should be the third element");
+        
+        XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 4 });
+        
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 4, @"Should be the fourth element");
+        
+        CCConcurrentIndexMapDestroy(IndexMap);
+    }
 }
 
 -(void) testReplacing
 {
-    CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 1, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    int Value;
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 0, &(int){ 10 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 1, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 1, &(int){ 20 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 2, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 2, &(int){ 30 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 3, "Should retrieve the previous element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 3, &(int){ 40 }, &Value), "Should not replace an element that does not exist");
-    
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 10, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 20, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 30, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
-    
-    
-    
-    IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 2, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 0, &(int){ 10 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 1, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 1, &(int){ 20 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 2, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 2, &(int){ 30 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 3, "Should retrieve the previous element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 3, &(int){ 40 }, &Value), "Should not replace an element that does not exist");
-    
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 10, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 20, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 30, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
-    
-    
-    
-    IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 4, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
-    
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
-    CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
-    
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 0, &(int){ 10 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 1, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 1, &(int){ 20 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 2, "Should retrieve the previous element");
-    XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 2, &(int){ 30 }, &Value), "Should replace the element");
-    XCTAssertEqual(Value, 3, "Should retrieve the previous element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 3, &(int){ 40 }, &Value), "Should not replace an element that does not exist");
-    
-    XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 10, @"Should be the first element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 20, @"Should be the second element");
-    XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
-    XCTAssertEqual(Value, 30, @"Should be the third element");
-    
-    XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
-    
-    CCConcurrentIndexMapDestroy(IndexMap);
+    for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
+    {
+        CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
+        
+        int Value;
+        XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 0, &(int){ 10 }, &Value), "Should replace the element");
+        XCTAssertEqual(Value, 1, "Should retrieve the previous element");
+        XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 1, &(int){ 20 }, &Value), "Should replace the element");
+        XCTAssertEqual(Value, 2, "Should retrieve the previous element");
+        XCTAssertTrue(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 2, &(int){ 30 }, &Value), "Should replace the element");
+        XCTAssertEqual(Value, 3, "Should retrieve the previous element");
+        
+        XCTAssertFalse(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 3, &(int){ 40 }, &Value), "Should not replace an element that does not exist");
+        
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should be the first element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should be the second element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 30, @"Should be the third element");
+        
+        XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
+        
+        CCConcurrentIndexMapDestroy(IndexMap);
+    }
 }
 
 @end
