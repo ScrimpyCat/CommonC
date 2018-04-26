@@ -118,6 +118,82 @@
     }
 }
 
+#define ELEMENT_COUNT 1000
+#define ELEMENT_INC 1000
+
+static CCConcurrentIndexMap M;
+static _Atomic(int) ReplaceCount = ATOMIC_VAR_INIT(0);
+static _Atomic(int) CorrectCount = ATOMIC_VAR_INIT(0);
+static void *Counters(void *Arg)
+{
+    size_t Indexes[ELEMENT_COUNT];
+    
+    for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++)
+    {
+        Indexes[Loop] = CCConcurrentIndexMapAppendElement(M, &Loop);
+    }
+    
+    for (int Loop = 0; Loop < ELEMENT_INC; Loop++)
+    {
+        for (int Loop2 = 0; Loop2 < ELEMENT_COUNT; Loop2++)
+        {
+            int Element;
+            if (CCConcurrentIndexMapGetElementAtIndex(M, Indexes[Loop2], &Element))
+            {
+                int ReplacedElement;
+                if (CCConcurrentIndexMapReplaceElementAtIndex(M, Indexes[Loop2], &(int){ Element + 1 }, &ReplacedElement))
+                {
+                    atomic_fetch_add_explicit(&ReplaceCount, 1, memory_order_relaxed);
+                }
+            }
+        }
+    }
+    
+    int Matches = 0;
+    for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++)
+    {
+        int Element;
+        if (CCConcurrentIndexMapGetElementAtIndex(M, Indexes[Loop], &Element))
+        {
+            if (Element == (ELEMENT_INC + Loop))
+            {
+                Matches++;
+            }
+        }
+    }
+    
+    if (Matches == ELEMENT_COUNT) atomic_fetch_add_explicit(&CorrectCount, 1, memory_order_relaxed);
+    
+    return NULL;
+}
+
+#define THREAD_COUNT 10
+
+-(void) testMultiThreading
+{
+    atomic_store(&ReplaceCount, 0);
+    atomic_store(&CorrectCount, 0);
+    M = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 4, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+    
+    pthread_t CounterThreads[THREAD_COUNT];
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(CounterThreads + Loop, NULL, Counters, NULL);
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(CounterThreads[Loop], NULL);
+    }
+    
+    
+    CCConcurrentIndexMapDestroy(M);
+    
+    XCTAssertEqual(atomic_load(&ReplaceCount), ELEMENT_INC * ELEMENT_COUNT * THREAD_COUNT, @"Should cause this many replacements");
+    XCTAssertEqual(atomic_load(&CorrectCount), THREAD_COUNT, @"All threads should end up in the correct state");
+}
+
 @end
 
 @interface ConcurrentIndexMapTestsLazyGC : ConcurrentIndexMapTests
