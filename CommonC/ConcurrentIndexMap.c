@@ -418,7 +418,7 @@ _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, s
     const _Bool Exists = Index < MaxCount ? CCConcurrentIndexMapGetAtomicOperation(IndexMap->size)->setElement(IndexMap, Pointer.data->buffer, Index, Element, ReplacedElement) : FALSE;
     
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
-    if (!atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify - 1, .mutate = Pointer.mutate + Exists, .data = Pointer.data }), memory_order_release, memory_order_relaxed))
+    if (!atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify, .mutate = Pointer.mutate + Exists, .data = Pointer.data }), memory_order_release, memory_order_relaxed))
     {
         do {
             Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
