@@ -456,23 +456,23 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
     
     CCConcurrentGarbageCollectorBegin(IndexMap->gc);
     
-#if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
-    CCConcurrentIndexMapDataPointer Pointer;
-    do {
-        Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
-    } while (!atomic_compare_exchange_weak_explicit(&IndexMap->pointer, &Pointer, ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), memory_order_acquire, memory_order_relaxed));
-#else
-    atomic_fetch_add_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->modify, 1, memory_order_acquire);
-    
-    CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
-#endif
-    
     const CCConcurrentIndexMapAtomicOperation *Atomic =  CCConcurrentIndexMapGetAtomicOperation(IndexMap->size);
     
     size_t Index;
     void *State = NULL;
     for ( ; ; )
     {
+#if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+        CCConcurrentIndexMapDataPointer Pointer;
+        do {
+            Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+        } while (!atomic_compare_exchange_weak_explicit(&IndexMap->pointer, &Pointer, ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), memory_order_acquire, memory_order_relaxed));
+#else
+        atomic_fetch_add_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->modify, 1, memory_order_acquire);
+        
+        CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+#endif
+        
         Index = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
         const size_t MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, Index);
         
@@ -487,7 +487,7 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
         }
         
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
-        if (!atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify - 1, .mutate = Pointer.mutate + Success, .data = Pointer.data }), memory_order_release, memory_order_relaxed))
+        if (!atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify + 1, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = Pointer.modify, .mutate = Pointer.mutate + Success, .data = Pointer.data }), memory_order_release, memory_order_relaxed))
         {
             do {
                 Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
@@ -504,6 +504,8 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
             CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount + IndexMap->chunkSize);
             if ((!Data) || (!Atomic->initElement(IndexMap, Data->buffer, Index, Element)))
             {
+                if (Data) CCFree(Data);
+                
                 Index = SIZE_MAX;
                 break;
             }
