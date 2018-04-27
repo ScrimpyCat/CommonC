@@ -169,7 +169,7 @@ static void *Counters(void *Arg)
 
 #define THREAD_COUNT 10
 
--(void) testMultiThreading
+-(void) testMultiThreadedReplacements
 {
     atomic_store(&ReplaceCount, 0);
     atomic_store(&CorrectCount, 0);
@@ -192,6 +192,60 @@ static void *Counters(void *Arg)
     
     XCTAssertEqual(atomic_load(&ReplaceCount), ELEMENT_INC * ELEMENT_COUNT * THREAD_COUNT, @"Should cause this many replacements");
     XCTAssertEqual(atomic_load(&CorrectCount), THREAD_COUNT, @"All threads should end up in the correct state");
+}
+
+static CCConcurrentIndexMap M2;
+static void *Appenders(void *Arg)
+{
+    for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++)
+    {
+        CCConcurrentIndexMapAppendElement(M2, &Loop);
+    }
+    
+    return NULL;
+}
+
+static size_t Sum = 0;
+static void *Summer(void *Arg)
+{
+    Sum = 0;
+    for (int Loop = 0; Loop < ELEMENT_COUNT * THREAD_COUNT; Loop++)
+    {
+        int Element;
+        while (!CCConcurrentIndexMapGetElementAtIndex(M2, Loop, &Element));
+        
+        Sum += Element;
+    }
+    
+    return NULL;
+}
+
+-(void) testMultiThreadedAppends
+{
+    M2 = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 4, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+    
+    pthread_t AppenderThreads[THREAD_COUNT], SummerThread;
+    
+    pthread_create(&SummerThread, NULL, Summer, NULL);
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(AppenderThreads + Loop, NULL, Appenders, NULL);
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(AppenderThreads[Loop], NULL);
+    }
+    
+    pthread_join(SummerThread, NULL);
+    
+    CCConcurrentIndexMapDestroy(M2);
+    
+    size_t CorrectSum = 0;
+    for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++) CorrectSum += Loop;
+    
+    XCTAssertEqual(Sum, (CorrectSum * THREAD_COUNT), @"Should cause this many replacements");
 }
 
 @end
