@@ -133,6 +133,7 @@ static void *Counters(void *Arg)
         Indexes[Loop] = CCConcurrentIndexMapAppendElement(M, &Loop);
     }
     
+    int LocalReplaceCount = 0;
     for (int Loop = 0; Loop < ELEMENT_INC; Loop++)
     {
         for (int Loop2 = 0; Loop2 < ELEMENT_COUNT; Loop2++)
@@ -143,7 +144,7 @@ static void *Counters(void *Arg)
                 int ReplacedElement;
                 if (CCConcurrentIndexMapReplaceElementAtIndex(M, Indexes[Loop2], &(int){ Element + 1 }, &ReplacedElement))
                 {
-                    atomic_fetch_add_explicit(&ReplaceCount, 1, memory_order_relaxed);
+                    LocalReplaceCount++;
                 }
             }
         }
@@ -163,6 +164,8 @@ static void *Counters(void *Arg)
     }
     
     if (Matches == ELEMENT_COUNT) atomic_fetch_add_explicit(&CorrectCount, 1, memory_order_relaxed);
+    
+    atomic_fetch_add_explicit(&ReplaceCount, LocalReplaceCount, memory_order_relaxed);
     
     return NULL;
 }
@@ -245,7 +248,7 @@ static void *Summer(void *Arg)
     size_t CorrectSum = 0;
     for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++) CorrectSum += Loop;
     
-    XCTAssertEqual(Sum, (CorrectSum * THREAD_COUNT), @"Should cause this many replacements");
+    XCTAssertEqual(Sum, (CorrectSum * THREAD_COUNT), @"Should append all elements");
 }
 
 @end
