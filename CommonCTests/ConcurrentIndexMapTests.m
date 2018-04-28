@@ -251,6 +251,65 @@ static void *Summer(void *Arg)
     XCTAssertEqual(Sum, (CorrectSum * THREAD_COUNT), @"Should append all elements");
 }
 
+static CCConcurrentIndexMap M3;
+static _Atomic(size_t) ReplacerSum = ATOMIC_VAR_INIT(0);
+static void *Replacers(void *Arg)
+{
+    size_t LocalSum = 0;
+    for (int Loop = 0; Loop < ELEMENT_INC; Loop++)
+    {
+        int ReplacedElement;
+        if (CCConcurrentIndexMapReplaceElementAtIndex(M3, 0, &(int){ (int)Arg }, &ReplacedElement))
+        {
+            LocalSum += ReplacedElement;
+        }
+    }
+    
+    atomic_fetch_add_explicit(&ReplacerSum, LocalSum, memory_order_relaxed);
+    
+    return NULL;
+}
+
+-(void) testMultiThreadedSingleElementReplacement
+{
+    atomic_store(&ReplacerSum, 0);
+    
+    M3 = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), 4, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+    
+    CCConcurrentIndexMapAppendElement(M3, &(int){ 1 });
+    
+    pthread_t ReplacerThreads[THREAD_COUNT];
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_create(ReplacerThreads + Loop, NULL, Replacers, (void*)(uintptr_t)(Loop + 1));
+    }
+    
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        pthread_join(ReplacerThreads[Loop], NULL);
+    }
+    
+    size_t CorrectSum = 1;
+    for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
+    {
+        for (int Loop2 = 0; Loop2 < ELEMENT_INC; Loop2++)
+        {
+            CorrectSum += (Loop + 1);
+        }
+    }
+    
+    int ReplacedElement;
+    if (CCConcurrentIndexMapReplaceElementAtIndex(M3, 0, &(int){ 0 }, &ReplacedElement))
+    {
+        CorrectSum -= ReplacedElement;
+    }
+    
+    CCConcurrentIndexMapDestroy(M3);
+    
+    XCTAssertEqual(atomic_load(&ReplacerSum), CorrectSum, @"Should cause this many replacements");
+}
+
 @end
 
 @interface ConcurrentIndexMapTestsLazyGC : ConcurrentIndexMapTests
