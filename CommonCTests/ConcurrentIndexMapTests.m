@@ -118,6 +118,37 @@
     }
 }
 
+-(void) testReplacingMatches
+{
+    for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
+    {
+        CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
+        
+        XCTAssertTrue(CCConcurrentIndexMapReplaceExactElementAtIndex(IndexMap, 0, &(int){ 10 }, &(int){ 1 }), "Should replace the element");
+        XCTAssertFalse(CCConcurrentIndexMapReplaceExactElementAtIndex(IndexMap, 1, &(int){ 20 }, &(int){ 5 }), "Should replace the element");
+        XCTAssertFalse(CCConcurrentIndexMapReplaceExactElementAtIndex(IndexMap, 2, &(int){ 30 }, &(int){ 2 }), "Should replace the element");
+        
+        XCTAssertFalse(CCConcurrentIndexMapReplaceElementAtIndex(IndexMap, 3, &(int){ 40 }, &(int){ 3 }), "Should not replace an element that does not exist");
+        
+        int Value;
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 3, @"Should contain 3 elements");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should be the first element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should be the second element");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should be the third element");
+        
+        XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should not have an element at the given index");
+        
+        CCConcurrentIndexMapDestroy(IndexMap);
+    }
+}
+
 #define ELEMENT_COUNT 1000
 #define ELEMENT_INC 1000
 
