@@ -96,6 +96,19 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
  */
 _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, void *ReplacedElement);
 
+/*!
+ * @brief Replace element at index with new element if the existing element matches.
+ * @warning The size of element must be the same size as specified in the index map creation.
+ * @param IndexMap The index map to replace an element of.
+ * @param Index The position of the element to be replaced.
+ * @param Element The replacement element. This must not be NULL.
+ * @param Match The value the element currently needs to be in order to perform the replace. This
+ *        must not be NULL.
+ *
+ * @return Whether or not an element was replaced at the given index.
+ */
+_Bool CCConcurrentIndexMapReplaceExactElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, const void *Match);
+
 #pragma mark - Query Info
 /*!
  * @brief Get the current number of elements in the index map.
