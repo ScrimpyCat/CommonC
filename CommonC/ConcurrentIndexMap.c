@@ -565,6 +565,8 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
 #if !CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
             atomic_fetch_add_explicit(&((CCConcurrentIndexMapDataPointer*)&IndexMap->pointer)->mutate, 1, memory_order_relaxed);
 #endif
+            
+            State = NULL;
         }
         
 #if CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
@@ -602,6 +604,8 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
     }
     
     CCConcurrentGarbageCollectorEnd(IndexMap->gc);
+    
+    if (State) CCFree(State);
     
     return Index;
 }
