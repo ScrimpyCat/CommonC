@@ -80,7 +80,7 @@ typedef struct {
     _Bool (*initElement)(CCConcurrentIndexMap, void *, size_t, const void *);
     void (*copyElement)(void *, size_t, const void *, size_t);
     _Bool (*getElement)(CCConcurrentIndexMap, const void *, size_t, void *);
-    _Bool (*removeElement)(const void *, size_t);
+    _Bool (*removeElement)(CCConcurrentIndexMap, const void *, size_t);
     _Bool (*setElement)(CCConcurrentIndexMap, const void *, size_t, const void *, void *);
     _Bool (*compareAndSwapElement)(CCConcurrentIndexMap, const void *, size_t, const void *, const void *);
     _Bool (*appendElement)(CCConcurrentIndexMap, const void *, size_t *, size_t, const void *, void **);
@@ -113,7 +113,7 @@ static _Bool CCConcurrentIndexMapAtomicGetElement##x(CCConcurrentIndexMap IndexM
     if ((Value.set) && (Out)) *(CCConcurrentIndexMapAtomicElementType##x*)Out = Value.element; \
     return Value.set; \
 } \
-static _Bool CCConcurrentIndexMapAtomicRemoveElement##x(const void *Data, size_t Index) \
+static _Bool CCConcurrentIndexMapAtomicRemoveElement##x(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index) \
 { \
     CCConcurrentIndexMapAtomicType##x Value = atomic_exchange_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], ((CCConcurrentIndexMapAtomicType##x){ .set = FALSE }), memory_order_relaxed); \
     return Value.set; \
@@ -198,11 +198,11 @@ static _Bool CCConcurrentIndexMapAtomicGetElementPtr(CCConcurrentIndexMap IndexM
     return Value.ptr;
 }
 
-static _Bool CCConcurrentIndexMapAtomicRemoveElementPtr(const void *Data, size_t Index)
+static _Bool CCConcurrentIndexMapAtomicRemoveElementPtr(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index)
 {
     CCConcurrentIndexMapAtomicTypePtr Value = atomic_exchange_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Index], ((CCConcurrentIndexMapAtomicTypePtr){ .ptr = NULL }), memory_order_relaxed);
     
-    if (Value.ptr) CCFree(Value.ptr);
+    if (Value.ptr) CCConcurrentGarbageCollectorManage(IndexMap->gc, Value.ptr, CCFree);
     
     return Value.ptr;
 }
@@ -346,7 +346,7 @@ static void CCConcurrentIndexMapDestructor(CCConcurrentIndexMap IndexMap)
     CCConcurrentIndexMapDataPointer Pointer = atomic_load(&IndexMap->pointer);
     const CCConcurrentIndexMapAtomicOperation *Atomic = CCConcurrentIndexMapGetAtomicOperation(IndexMap->size);
     
-    for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, atomic_load_explicit(&Pointer.data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->removeElement(Pointer.data->buffer, Loop);
+    for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, atomic_load_explicit(&Pointer.data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->removeElement(IndexMap, Pointer.data->buffer, Loop);
     
     CCFree(Pointer.data);
     
@@ -587,7 +587,11 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
             CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount + IndexMap->chunkSize);
             if ((!Data) || (!Atomic->initElement(IndexMap, Data->buffer, Index, Element)))
             {
-                if (Data) CCFree(Data);
+                if (Data)
+                {
+                    for (size_t Loop = 0, Count = atomic_load_explicit(&Data->count, memory_order_relaxed); Loop < Count; Loop++) Atomic->removeElement(IndexMap, Data->buffer, Loop);
+                    CCFree(Data);
+                }
                 
                 Index = SIZE_MAX;
                 break;
@@ -595,11 +599,16 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
             
             else if (atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = 0, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = 0, .mutate = Pointer.mutate + 1, .data = Data }), memory_order_release, memory_order_relaxed))
             {
+                for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(IndexMap, atomic_load_explicit(&Pointer.data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->removeElement(IndexMap, Pointer.data->buffer, Loop);
                 CCConcurrentGarbageCollectorManage(IndexMap->gc, Pointer.data, CCFree);
                 break;
             }
             
-            else CCFree(Data);
+            else
+            {
+                for (size_t Loop = 0, Count = atomic_load_explicit(&Data->count, memory_order_relaxed); Loop < Count; Loop++) Atomic->removeElement(IndexMap, Data->buffer, Loop);
+                CCFree(Data);
+            }
         }
     }
     
