@@ -27,6 +27,7 @@
 #import "ConcurrentGarbageCollector.h"
 #import "EpochGarbageCollector.h"
 #import "LazyGarbageCollector.h"
+#import "MemoryAllocation.h"
 #import <stdatomic.h>
 #import <pthread.h>
 
@@ -271,7 +272,7 @@ static void *ManagedCycles2(void *Arg)
     XCTAssertEqual(self.reclaimationSum, CorrectSum, "Should have reclaimed all managed entities");
 }
 
-static _Bool References[CYCLE_COUNT] = {0};
+static _Bool *References = NULL;
 static void ReclaimReference(void *Ref)
 {
     References[(uintptr_t)Ref] = TRUE;
@@ -301,6 +302,7 @@ static void *ManagedCycles3(void *Arg)
 
 -(void) testEarlyReclaimation
 {
+    References = CCMalloc(CC_STD_ALLOCATOR, sizeof(_Bool) * CYCLE_COUNT, NULL, CC_DEFAULT_ERROR_CALLBACK);
     memset(References, 0, sizeof(_Bool) * CYCLE_COUNT);
     
     GC = CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc);
@@ -322,8 +324,98 @@ static void *ManagedCycles3(void *Arg)
     }
     
     CCConcurrentGarbageCollectorDestroy(GC);
+    CCFree(References);
     
     XCTAssertFalse(EarlyRecycle, "Should not have reclaimed entities still in use");
+}
+
+static _Atomic(size_t) RefIndex = SIZE_MAX;
+static _Atomic(int) *Refs = NULL;
+static _Atomic(_Bool) Retry = ATOMIC_VAR_INIT(FALSE);
+static void *Cycles2(void *Arg)
+{
+    while (atomic_load_explicit(&Retry, memory_order_relaxed))
+    {
+        CCConcurrentGarbageCollectorBegin(GC);
+        
+        size_t Index = atomic_load_explicit(&RefIndex, memory_order_acquire);
+        if (Index != SIZE_MAX) atomic_fetch_add_explicit(&Refs[Index], 1, memory_order_relaxed);
+        
+        CCConcurrentGarbageCollectorEnd(GC);
+    }
+    
+    [((ThreadArg*)Arg)->test forceFlush: GC];
+    
+    return NULL;
+}
+
+static void ReclaimReference2(void *Ref)
+{
+    atomic_store_explicit((_Atomic(int)*)Ref, 0, memory_order_release);
+}
+
+static void *ManagedCycles4(void *Arg)
+{
+    for (int Loop = 0; Loop < CYCLE_COUNT; Loop++)
+    {
+        CCConcurrentGarbageCollectorBegin(GC);
+        
+        atomic_store_explicit(&Refs[Loop], 0, memory_order_relaxed);
+        atomic_store_explicit(&RefIndex, Loop, memory_order_release);
+        
+        for (int Loop2 = 0, Wait = arc4random() % 30; Loop2 < Wait; Loop2++);
+        
+        atomic_store_explicit(&RefIndex, SIZE_MAX, memory_order_relaxed);
+        
+        CCConcurrentGarbageCollectorManage(GC, &Refs[Loop], ReclaimReference2);
+        
+        CCConcurrentGarbageCollectorEnd(GC);
+    }
+    
+    [((ThreadArg*)Arg)->test forceFlush: GC];
+    
+    return NULL;
+}
+
+-(void) testReferences
+{
+    Refs = CCMalloc(CC_STD_ALLOCATOR, sizeof(int) * CYCLE_COUNT, NULL, CC_DEFAULT_ERROR_CALLBACK);
+    
+    GC = CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc);
+    
+    pthread_t Threads[THREAD_COUNT - 1];
+    ThreadArg Args[THREAD_COUNT - 1];
+    
+    atomic_store(&Retry, TRUE);
+    for (int Loop = 0; Loop < THREAD_COUNT - 1; Loop++)
+    {
+        Args[Loop] = (ThreadArg){ .value = 0, .test = self };
+        pthread_create(Threads + Loop, NULL, Cycles2, Args + Loop);
+    }
+    
+    ManagedCycles4(&(ThreadArg){ .value = 0, .test = self });
+    atomic_store(&Retry, FALSE);
+    
+    for (int Loop = 0; Loop < THREAD_COUNT - 1; Loop++)
+    {
+        pthread_join(Threads[Loop], NULL);
+    }
+    
+    CCConcurrentGarbageCollectorDestroy(GC);
+    CCFree(Refs);
+    
+    
+    _Bool Referenced = FALSE;
+    for (int Loop = 0; Loop < CYCLE_COUNT; Loop++)
+    {
+        if (atomic_load(&Refs[Loop]))
+        {
+            Referenced = TRUE;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(Referenced, "Should not have reclaimed entities still referenced");
 }
 
 @end
