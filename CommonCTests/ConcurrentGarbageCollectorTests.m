@@ -339,9 +339,14 @@ static void *Cycles2(void *Arg)
         CCConcurrentGarbageCollectorBegin(GC);
         
         size_t Index = atomic_load_explicit(&RefIndex, memory_order_acquire);
+        
+        for (int Loop2 = 0, Wait = arc4random() % 30; Loop2 < Wait; Loop2++);
+        
         if (Index != SIZE_MAX) atomic_fetch_add_explicit(&Refs[Index], 1, memory_order_relaxed);
         
         CCConcurrentGarbageCollectorEnd(GC);
+        
+        for (int Loop2 = 0, Wait = arc4random() % 5; Loop2 < Wait; Loop2++);
     }
     
     [((ThreadArg*)Arg)->test forceFlush: GC];
@@ -370,6 +375,8 @@ static void *ManagedCycles4(void *Arg)
         CCConcurrentGarbageCollectorManage(GC, &Refs[Loop], ReclaimReference2);
         
         CCConcurrentGarbageCollectorEnd(GC);
+        
+        for (int Loop2 = 0, Wait = arc4random() % 3; Loop2 < Wait; Loop2++);
     }
     
     [((ThreadArg*)Arg)->test forceFlush: GC];
