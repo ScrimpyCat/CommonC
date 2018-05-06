@@ -132,7 +132,7 @@ typedef struct {
     CCEpochGarbageCollectorEpoch epoch;
 } CCEpochGarbageCollectorThread;
 
-static void CCEpochGarbageCollectorDrain(CCEpochGarbageCollectorInternal *GC, CCEpochGarbageCollectorNode *Node);
+static void CCEpochGarbageCollectorDrain(CCEpochGarbageCollectorInternal *GC, CCEpochGarbageCollectorNode *Node, CCEpochGarbageCollectorEpoch Epoch);
 
 static void *CCEpochGarbageCollectorConstructor(CCAllocatorType Allocator)
 {
@@ -170,7 +170,7 @@ void CCEpochGarbageCollectorDestructor(CCEpochGarbageCollectorInternal *GC)
     for (int Loop = 0; Loop < 3; Loop++)
     {
         CCEpochGarbageCollectorManagedList Managed = atomic_load_explicit(&GC->managed[Loop], memory_order_relaxed);
-        CCEpochGarbageCollectorDrain(GC, Managed.list);
+        CCEpochGarbageCollectorDrain(GC, Managed.list, atomic_load_explicit(&GC->epoch, memory_order_relaxed));
     }
     
     CCFree(GC);
@@ -199,18 +199,31 @@ void CCEpochGarbageCollectorBegin(CCEpochGarbageCollectorInternal *GC, CCAllocat
 #endif
     }
     
-    const CCEpochGarbageCollectorEpoch PrevEpoch = LocalEpoch->epoch;
-    CCEpochGarbageCollectorEpoch Epoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed) % 3;
-    Epoch = PrevEpoch <= Epoch ? (Epoch + 1) % 3 : PrevEpoch;
-    *LocalEpoch = (CCEpochGarbageCollectorThread){ .head = NULL, .tail = NULL, .epoch = Epoch };
-    
-    CCEpochGarbageCollectorManagedList Managed;
-    do {
-        Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
-    } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount + 1 }), memory_order_relaxed, memory_order_relaxed));
+    for (CCEpochGarbageCollectorEpoch GlobalEpoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed); ; )
+    {
+        CCEpochGarbageCollectorEpoch Epoch = (GlobalEpoch + 2) % 3;
+        *LocalEpoch = (CCEpochGarbageCollectorThread){ .head = NULL, .tail = NULL, .epoch = Epoch };
+        
+        CCEpochGarbageCollectorManagedList Managed;
+        do {
+            Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
+        } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount + 1 }), memory_order_relaxed, memory_order_relaxed));
+        
+        CCEpochGarbageCollectorEpoch NewGlobalEpoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed);
+        if (GlobalEpoch == NewGlobalEpoch) break;
+        
+        GlobalEpoch = NewGlobalEpoch;
+        
+        if (!atomic_compare_exchange_strong_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed))
+        {
+            do {
+                Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
+            } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed));
+        }
+    }
 }
 
-static void CCEpochGarbageCollectorDrain(CCEpochGarbageCollectorInternal *GC, CCEpochGarbageCollectorNode *Node)
+static void CCEpochGarbageCollectorDrain(CCEpochGarbageCollectorInternal *GC, CCEpochGarbageCollectorNode *Node, CCEpochGarbageCollectorEpoch Epoch)
 {
     while (Node)
     {
@@ -221,7 +234,7 @@ static void CCEpochGarbageCollectorDrain(CCEpochGarbageCollectorInternal *GC, CC
         CCEpochGarbageCollectorDestroyNode(Temp);
     }
     
-    atomic_fetch_add_explicit(&GC->epoch, 1, memory_order_relaxed);
+    atomic_compare_exchange_strong_explicit(&GC->epoch, &Epoch, Epoch + 1, memory_order_relaxed, memory_order_relaxed);
 }
 
 void CCEpochGarbageCollectorEnd(CCEpochGarbageCollectorInternal *GC, CCAllocatorType Allocator)
@@ -231,8 +244,8 @@ void CCEpochGarbageCollectorEnd(CCEpochGarbageCollectorInternal *GC, CCAllocator
 #elif CC_GC_USING_STDTHREADS
     CCEpochGarbageCollectorThread *LocalEpoch = tss_get(GC->key);
 #endif
+    const CCEpochGarbageCollectorEpoch GlobalEpoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed);
     const CCEpochGarbageCollectorEpoch Epoch = LocalEpoch->epoch;
-    LocalEpoch->epoch = Epoch <= ((atomic_load_explicit(&GC->epoch, memory_order_relaxed) + 1) % 3) ? (Epoch + 1) % 3 : Epoch;
     
     CCEpochGarbageCollectorManagedList Managed;
     if (LocalEpoch->head)
@@ -250,9 +263,50 @@ void CCEpochGarbageCollectorEnd(CCEpochGarbageCollectorInternal *GC, CCAllocator
         } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed));
     }
     
-    const CCEpochGarbageCollectorEpoch StaleEpoch = ((Epoch + 3) - 2) % 3;
-    Managed = atomic_load_explicit(&GC->managed[StaleEpoch], memory_order_acquire);
-    if ((Managed.refCount == 0) && (atomic_compare_exchange_strong_explicit(&GC->managed[StaleEpoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = NULL, .refCount = 0 }), memory_order_relaxed, memory_order_relaxed))) CCEpochGarbageCollectorDrain(GC, Managed.list);
+    const CCEpochGarbageCollectorEpoch StaleEpoch = GlobalEpoch % 3;
+    Managed = atomic_load_explicit(&GC->managed[StaleEpoch], memory_order_relaxed);
+    if (Managed.refCount == 0)
+    {
+        CCEpochGarbageCollectorManagedList NextManaged = atomic_load_explicit(&GC->managed[(StaleEpoch + 1) % 3], memory_order_relaxed);
+        if ((NextManaged.refCount == 0) && (atomic_compare_exchange_strong_explicit(&GC->managed[StaleEpoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = NULL, .refCount = 0 }), memory_order_acquire, memory_order_relaxed)))
+        {
+            if (GlobalEpoch == atomic_load_explicit(&GC->epoch, memory_order_relaxed)) CCEpochGarbageCollectorDrain(GC, Managed.list, GlobalEpoch);
+            else if (Managed.list)
+            {
+                CCEpochGarbageCollectorNode *List = Managed.list, *Tail = Managed.list;
+                while (Tail->next) Tail = Tail->next;
+                
+                for (CCEpochGarbageCollectorEpoch GlobalEpoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed); ; )
+                {
+                    CCEpochGarbageCollectorEpoch Epoch = (GlobalEpoch + 2) % 3;
+                    CCEpochGarbageCollectorManagedList Managed;
+                    do {
+                        Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
+                    } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount + 1 }), memory_order_relaxed, memory_order_relaxed));
+                    
+                    CCEpochGarbageCollectorEpoch NewGlobalEpoch = atomic_load_explicit(&GC->epoch, memory_order_relaxed);
+                    if (GlobalEpoch == NewGlobalEpoch)
+                    {
+                        do {
+                            Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
+                            Tail->next = Managed.list;
+                        } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = List, .refCount = Managed.refCount - 1 }), memory_order_release, memory_order_relaxed));
+                        
+                        break;
+                    }
+                    
+                    GlobalEpoch = NewGlobalEpoch;
+                    
+                    if (!atomic_compare_exchange_strong_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed))
+                    {
+                        do {
+                            Managed = atomic_load_explicit(&GC->managed[Epoch], memory_order_relaxed);
+                        } while (!atomic_compare_exchange_weak_explicit(&GC->managed[Epoch], &Managed, ((CCEpochGarbageCollectorManagedList){ .list = Managed.list, .refCount = Managed.refCount - 1 }), memory_order_relaxed, memory_order_relaxed));
+                    }
+                }
+            }
+        }
+    }
 }
 
 void CCEpochGarbageCollectorManage(CCEpochGarbageCollectorInternal *GC, void *Item, CCConcurrentGarbageCollectorReclaimer Reclaimer, CCAllocatorType Allocator)
