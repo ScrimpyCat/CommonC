@@ -155,13 +155,14 @@
 static CCConcurrentIndexMap M;
 static _Atomic(int) ReplaceCount = ATOMIC_VAR_INIT(0);
 static _Atomic(int) CorrectCount = ATOMIC_VAR_INIT(0);
+static _Atomic(int) GetElementFailureCount = ATOMIC_VAR_INIT(0);
+static _Atomic(int) ReplaceElementFailureCount = ATOMIC_VAR_INIT(0);
 static void *Counters(void *Arg)
 {
     size_t Indexes[ELEMENT_COUNT];
-    
     for (int Loop = 0; Loop < ELEMENT_COUNT; Loop++)
     {
-        Indexes[Loop] = CCConcurrentIndexMapAppendElement(M, &Loop);
+        Indexes[Loop] = CCConcurrentIndexMapAppendElement(M, &(int){ Loop + 1 });
     }
     
     int LocalReplaceCount = 0;
@@ -177,6 +178,16 @@ static void *Counters(void *Arg)
                 {
                     LocalReplaceCount++;
                 }
+                
+                else
+                {
+                    atomic_fetch_add_explicit(&ReplaceElementFailureCount, 1, memory_order_relaxed);
+                }
+            }
+            
+            else
+            {
+                atomic_fetch_add_explicit(&GetElementFailureCount, 1, memory_order_relaxed);
             }
         }
     }
@@ -187,10 +198,15 @@ static void *Counters(void *Arg)
         int Element;
         if (CCConcurrentIndexMapGetElementAtIndex(M, Indexes[Loop], &Element))
         {
-            if (Element == (ELEMENT_INC + Loop))
+            if (Element == (ELEMENT_INC + Loop + 1))
             {
                 Matches++;
             }
+        }
+        
+        else
+        {
+            atomic_fetch_add_explicit(&GetElementFailureCount, 1, memory_order_relaxed);
         }
     }
     
@@ -226,6 +242,8 @@ static void *Counters(void *Arg)
     
     XCTAssertEqual(atomic_load(&ReplaceCount), ELEMENT_INC * ELEMENT_COUNT * THREAD_COUNT, @"Should cause this many replacements");
     XCTAssertEqual(atomic_load(&CorrectCount), THREAD_COUNT, @"All threads should end up in the correct state");
+    XCTAssertEqual(atomic_load(&GetElementFailureCount), 0, @"Should not fail to retrieve any elements");
+    XCTAssertEqual(atomic_load(&ReplaceElementFailureCount), 0, @"Should not fail to replace any elements");
 }
 
 static CCConcurrentIndexMap M2;
