@@ -109,6 +109,19 @@ _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, s
  */
 _Bool CCConcurrentIndexMapReplaceExactElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, const void *Match);
 
+/*!
+ * @brief Removes an element at a given index from the index map.
+ * @description Decreases the index map's count by 1.
+ * @warning The size of element must be the same size as specified in the index map creation.
+ * @param IndexMap The index map to remove an element from.
+ * @param Index The position of the element to be removed.
+ * @param RemovedElement A pointer to where the old value that was removed can be written to. If NULL
+ *        this will be ignored.
+ *
+ * @return Whether or not an element was removed at the given index.
+ */
+_Bool CCConcurrentIndexMapRemoveElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *RemovedElement);
+
 #pragma mark - Query Info
 /*!
  * @brief Get the current number of elements in the index map.
