@@ -149,6 +149,46 @@
     }
 }
 
+
+-(void) testRemoving
+{
+    for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
+    {
+        CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+        
+        int Value = 0;
+        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertEqual(Value, 0, @"Should not have been set");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 0, @"Should have the correct number of elements");
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertEqual(Value, 1, @"Should contain the removed element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 2, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 1, &Value));
+        XCTAssertEqual(Value, 3, @"Should contain the removed element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 1, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 2, &Value));
+        XCTAssertEqual(Value, 0, @"Should not have been set");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 1, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertEqual(Value, 2, @"Should contain the removed element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 0, @"Should have the correct number of elements");
+        
+        CCConcurrentIndexMapDestroy(IndexMap);
+    }
+}
+
 #define ELEMENT_COUNT 1000
 #define ELEMENT_INC 1000
 
