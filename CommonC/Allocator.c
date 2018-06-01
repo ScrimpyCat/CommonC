@@ -145,48 +145,48 @@ static void AlignedDeallocator(void *Ptr)
 #pragma mark - BoundsCheck Allocator Implementation
 static void *BoundsCheckAllocator(void *Data, size_t Size)
 {
-    void *Ptr = malloc(Size + 512 + sizeof(size_t));
-    for (size_t Loop = 0; Loop < 256; Loop++)
+    void *Ptr = malloc(Size + 16 + sizeof(size_t));
+    for (size_t Loop = 0; Loop < 8; Loop++)
     {
         ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
-        ((uint8_t*)Ptr + sizeof(size_t))[256 + Size + Loop] = Loop;
+        ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
     }
 
     *(size_t*)Ptr = Size;
     
-    return Ptr + 256 + sizeof(size_t);
+    return Ptr + 8 + sizeof(size_t);
 }
 
 static void *BoundsCheckReallocator(void *Data, void *Ptr, size_t Size)
 {
-    Ptr -= 256 + sizeof(size_t);
+    Ptr -= 8 + sizeof(size_t);
     
-    for (size_t Loop = 0, CurSize = *(size_t*)Ptr; Loop < 256; Loop++)
+    for (size_t Loop = 0, CurSize = *(size_t*)Ptr; Loop < 8; Loop++)
     {
         CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[Loop] == Loop, "Data changed before bounds");
-        CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[256 + CurSize + Loop] == Loop, "Data changed after bounds");
+        CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[8 + CurSize + Loop] == Loop, "Data changed after bounds");
     }
     
-    Ptr = realloc(Ptr, Size + 512 + sizeof(size_t));
-    for (size_t Loop = 0; Loop < 256; Loop++)
+    Ptr = realloc(Ptr, Size + 16 + sizeof(size_t));
+    for (size_t Loop = 0; Loop < 8; Loop++)
     {
         ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
-        ((uint8_t*)Ptr + sizeof(size_t))[256 + Size + Loop] = Loop;
+        ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
     }
 
     *(size_t*)Ptr = Size;
     
-    return Ptr + 256 + sizeof(size_t);
+    return Ptr + 8 + sizeof(size_t);
 }
 
 static void BoundsCheckDeallocator(void *Ptr)
 {
-    Ptr -= 256 + sizeof(size_t);
+    Ptr -= 8 + sizeof(size_t);
     
-    for (size_t Loop = 0, CurSize = *(size_t*)Ptr; Loop < 256; Loop++)
+    for (size_t Loop = 0, CurSize = *(size_t*)Ptr; Loop < 8; Loop++)
     {
         CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[Loop] == Loop, "Data changed before bounds");
-        CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[256 + CurSize + Loop] == Loop, "Data changed after bounds");
+        CCAssertLog(((uint8_t*)Ptr + sizeof(size_t))[8 + CurSize + Loop] == Loop, "Data changed after bounds");
     }
     
     free(Ptr);
