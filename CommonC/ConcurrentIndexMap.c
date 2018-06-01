@@ -521,7 +521,7 @@ _Bool CCConcurrentIndexMapReplaceExactElementAtIndex(CCConcurrentIndexMap IndexM
     return Exists;
 }
 
-static CCConcurrentIndexMapData *CCConcurrentIndexMapResize(CCConcurrentIndexMap IndexMap, CCConcurrentIndexMapData *PrevData, size_t Count, size_t MaxCount)
+static CCConcurrentIndexMapData *CCConcurrentIndexMapResize(CCConcurrentIndexMap IndexMap, CCConcurrentIndexMapData *PrevData, size_t Count, size_t MaxCount, size_t SkipIndex)
 {
     const CCConcurrentIndexMapAtomicOperation *Atomic = CCConcurrentIndexMapGetAtomicOperation(IndexMap->size);
     CCConcurrentIndexMapData *Data = CCMalloc(IndexMap->allocator, sizeof(CCConcurrentIndexMapData) + (MaxCount * Atomic->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
@@ -529,8 +529,8 @@ static CCConcurrentIndexMapData *CCConcurrentIndexMapResize(CCConcurrentIndexMap
     if (Data)
     {
         Data->indexMap = IndexMap;
-        atomic_init(&Data->count, Count + 1);
-        for (size_t Loop = 0; Loop < Count; Loop++) Atomic->copyElement(Data->buffer, Loop, PrevData->buffer, Loop); //TODO: at different copies
+        atomic_init(&Data->count, Count + (SkipIndex == SIZE_MAX ? 1 : 0));
+        for (size_t Loop = 0; Loop < Count; Loop++) Atomic->copyElement(Data->buffer, Loop, PrevData->buffer, (Loop < SkipIndex ? Loop : Loop + 1));
         for (size_t Loop = Count; Loop < MaxCount; Loop++) Atomic->initElement(IndexMap, Data->buffer, Loop, NULL);
         
         CCMemorySetDestructor(Data, (CCMemoryDestructorCallback)CleanupElements);
@@ -593,7 +593,7 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
         
         if (Index == atomic_load_explicit(&Pointer.data->count, memory_order_relaxed))
         {
-            CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount + IndexMap->chunkSize);
+            CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Index, MaxCount + IndexMap->chunkSize, SIZE_MAX);
             if ((!Data) || (!Atomic->initElement(IndexMap, Data->buffer, Index, Element)))
             {
                 if (Data)
@@ -625,4 +625,43 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
     if (State) CCFree(State);
     
     return Index;
+}
+
+_Bool CCConcurrentIndexMapRemoveElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *RemovedElement)
+{
+    CCAssertLog(IndexMap, "IndexMap must not be null");
+    
+    CCConcurrentGarbageCollectorBegin(IndexMap->gc);
+    
+    _Bool Removed = FALSE;
+    for (const CCConcurrentIndexMapAtomicOperation *Atomic =  CCConcurrentIndexMapGetAtomicOperation(IndexMap->size); ; )
+    {
+        CCConcurrentIndexMapDataPointer Pointer = atomic_load_explicit(&IndexMap->pointer, memory_order_relaxed);
+        const size_t Count = atomic_load_explicit(&Pointer.data->count, memory_order_relaxed);
+        
+        if ((Index >= Count) || (!Count)) break;
+        
+        CCConcurrentIndexMapData *Data = CCConcurrentIndexMapResize(IndexMap, Pointer.data, Count - 1, CCConcurrentIndexMapGetMaxCount(IndexMap, Count - 1), Index);
+        if (Data)
+        {
+            if (atomic_compare_exchange_strong_explicit(&IndexMap->pointer, &((CCConcurrentIndexMapDataPointer){ .modify = 0, .mutate = Pointer.mutate, .data = Pointer.data }), ((CCConcurrentIndexMapDataPointer){ .modify = 0, .mutate = Pointer.mutate + 1, .data = Data }), memory_order_release, memory_order_relaxed))
+            {
+                CCConcurrentIndexMapGetAtomicOperation(IndexMap->size)->getElement(IndexMap, Pointer.data->buffer, Index, RemovedElement);
+                CCConcurrentGarbageCollectorManage(IndexMap->gc, Pointer.data, CCFree);
+                
+                Removed = TRUE;
+                break;
+            }
+    
+            else
+            {
+                for (size_t Loop = 0, Count = atomic_load_explicit(&Data->count, memory_order_relaxed); Loop < Count; Loop++) Atomic->removeElement(IndexMap, Data->buffer, Loop);
+                CCFree(Data);
+            }
+        }
+    }
+    
+    CCConcurrentGarbageCollectorEnd(IndexMap->gc);
+    
+    return Removed;
 }
