@@ -104,8 +104,8 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
  *
  * @param Array The array to insert the element into.
  * @param Index The position in the array for the element to be inserted.
- * @param Element The pointer to the element to be copied to the end of the array. If NULL it
- *        will create an uninitialized element.
+ * @param Element The pointer to the element to be copied to the give position in the array. If NULL
+ *        it will create an uninitialized element.
  *
  * @return The index the element was added or SIZE_MAX on failure.
  */
@@ -113,7 +113,7 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
 
 /*!
  * @brief Removes an element at a given index from the array.
- * @description decreases the array's count by 1.
+ * @description Decreases the array's count by 1.
  * @performance The further away from the end of the array the index is, the slower it is. It has
  *              a worst case of O(n).
  *
