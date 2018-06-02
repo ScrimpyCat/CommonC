@@ -82,6 +82,7 @@ typedef struct {
     void (*copyElement)(void *, size_t, const void *, size_t);
     _Bool (*getElement)(CCConcurrentIndexMap, const void *, size_t, void *);
     _Bool (*removeElement)(CCConcurrentIndexMap, const void *, size_t);
+    void (*destroyElement)(CCConcurrentIndexMap, const void *, size_t);
     _Bool (*setElement)(CCConcurrentIndexMap, const void *, size_t, const void *, void *);
     _Bool (*compareAndSwapElement)(CCConcurrentIndexMap, const void *, size_t, const void *, const void *);
     _Bool (*appendElement)(CCConcurrentIndexMap, const void *, size_t *, size_t, const void *, void **);
@@ -118,6 +119,9 @@ static _Bool CCConcurrentIndexMapAtomicRemoveElement##x(CCConcurrentIndexMap Ind
 { \
     CCConcurrentIndexMapAtomicType##x Value = atomic_exchange_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], ((CCConcurrentIndexMapAtomicType##x){ .set = FALSE }), memory_order_relaxed); \
     return Value.set; \
+} \
+static void CCConcurrentIndexMapAtomicDestroyElement##x(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index) \
+{ \
 } \
 static _Bool CCConcurrentIndexMapAtomicSetElement##x(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index, const void *New, void *Out) \
 { \
@@ -206,6 +210,13 @@ static _Bool CCConcurrentIndexMapAtomicRemoveElementPtr(CCConcurrentIndexMap Ind
     if (Value.ptr) CCConcurrentGarbageCollectorManage(IndexMap->gc, Value.ptr, CCFree);
     
     return Value.ptr;
+}
+
+static void CCConcurrentIndexMapAtomicDestroyElementPtr(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index)
+{
+    CCConcurrentIndexMapAtomicTypePtr Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[Index], memory_order_relaxed);
+    
+    if (Value.ptr) CCFree(Value.ptr);
 }
 
 static _Bool CCConcurrentIndexMapAtomicSetElementPtr(CCConcurrentIndexMap IndexMap, const void *Data, size_t Index, const void *New, void *Out)
@@ -299,6 +310,7 @@ static _Bool CCConcurrentIndexMapAtomicAppendElementPtr(CCConcurrentIndexMap Ind
     .copyElement = CCConcurrentIndexMapAtomicCopyElement##x, \
     .getElement = CCConcurrentIndexMapAtomicGetElement##x, \
     .removeElement = CCConcurrentIndexMapAtomicRemoveElement##x, \
+    .destroyElement = CCConcurrentIndexMapAtomicDestroyElement##x, \
     .setElement = CCConcurrentIndexMapAtomicSetElement##x, \
     .compareAndSwapElement = CCConcurrentIndexMapAtomicCompareAndSwapElement##x, \
     .appendElement = CCConcurrentIndexMapAtomicAppendElement##x \
@@ -353,7 +365,7 @@ static void CCConcurrentIndexMapDestructor(CCConcurrentIndexMap IndexMap)
 static void CleanupElements(CCConcurrentIndexMapData *Data)
 {
     const CCConcurrentIndexMapAtomicOperation *Atomic =  CCConcurrentIndexMapGetAtomicOperation(Data->indexMap->size);
-    for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(Data->indexMap, atomic_load_explicit(&Data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->removeElement(Data->indexMap, Data->buffer, Loop);
+    for (size_t Loop = 0, MaxCount = CCConcurrentIndexMapGetMaxCount(Data->indexMap, atomic_load_explicit(&Data->count, memory_order_relaxed)); Loop < MaxCount; Loop++) Atomic->destroyElement(Data->indexMap, Data->buffer, Loop);
 }
 
 CCConcurrentIndexMap CCConcurrentIndexMapCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize, CCConcurrentGarbageCollector GC)
