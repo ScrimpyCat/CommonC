@@ -122,6 +122,19 @@ _Bool CCConcurrentIndexMapReplaceExactElementAtIndex(CCConcurrentIndexMap IndexM
  */
 _Bool CCConcurrentIndexMapRemoveElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *RemovedElement);
 
+/*!
+ * @brief Insert an element at a given index into the index map.
+ * @description Increases the index map's count by 1.
+ * @warning The size of element must be the same size as specified in the index map creation.
+ * @param IndexMap The index map to insert the element into.
+ * @param Index The position in the index map for the element to be inserted.
+ * @param Element The pointer to the element to be copied to the give position in the array. This must
+ *        not be NULL.
+ *
+ * @return Whether or not an element was inserted at the given index.
+ */
+_Bool CCConcurrentIndexMapInsertElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, void *Element);
+
 #pragma mark - Query Info
 /*!
  * @brief Get the current number of elements in the index map.
