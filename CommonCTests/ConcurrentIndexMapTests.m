@@ -149,7 +149,6 @@
     }
 }
 
-
 -(void) testRemoving
 {
     for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
@@ -157,7 +156,7 @@
         CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
         
         int Value = 0;
-        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value), "Should not remove the element at index");
         XCTAssertEqual(Value, 0, @"Should not have been set");
         XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 0, @"Should have the correct number of elements");
         
@@ -166,24 +165,150 @@
         CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
         
         Value = 0;
-        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value), "Should remove the element at index");
         XCTAssertEqual(Value, 1, @"Should contain the removed element");
         XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 2, @"Should have the correct number of elements");
         
         Value = 0;
-        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 1, &Value));
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 1, &Value), "Should remove the element at index");
         XCTAssertEqual(Value, 3, @"Should contain the removed element");
         XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 1, @"Should have the correct number of elements");
         
         Value = 0;
-        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 2, &Value));
+        XCTAssertFalse(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 2, &Value), "Should not remove the element at index");
         XCTAssertEqual(Value, 0, @"Should not have been set");
         XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 1, @"Should have the correct number of elements");
         
         Value = 0;
-        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value));
+        XCTAssertTrue(CCConcurrentIndexMapRemoveElementAtIndex(IndexMap, 0, &Value), "Should remove the element at index");
         XCTAssertEqual(Value, 2, @"Should contain the removed element");
         XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 0, @"Should have the correct number of elements");
+        
+        CCConcurrentIndexMapDestroy(IndexMap);
+    }
+}
+
+-(void) testInserting
+{
+    for (size_t ChunkSize = 1; ChunkSize <= 5; ChunkSize++)
+    {
+        CCConcurrentIndexMap IndexMap = CCConcurrentIndexMapCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize, CCConcurrentGarbageCollectorCreate(CC_STD_ALLOCATOR, self.gc));
+        
+        int Value = 0;
+        XCTAssertFalse(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 0, &(int){ 1 }), "Should not insert the element at index");
+        XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should not have an element at the given index");
+        XCTAssertEqual(Value, 0, @"Should not have been set");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 0, @"Should have the correct number of elements");
+        
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 1 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 2 });
+        CCConcurrentIndexMapAppendElement(IndexMap, &(int){ 3 });
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 0, &(int){ 10 }), "Should insert the element at index");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should contain the inserted element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 4, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should not contain a value");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 2, &(int){ 20 }), "Should insert the element at index");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should contain the inserted element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 5, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 4, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should not contain a value");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 4, &(int){ 30 }), "Should insert the element at index");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 4, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 30, @"Should contain the inserted element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 6, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 4, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 30, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 5, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should not contain a value");
+        
+        Value = 0;
+        XCTAssertFalse(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 6, &(int){ 40 }), "Should not insert the element at index");
+        XCTAssertFalse(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 6, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 0, @"Should not contain a value");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 6, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 5, &(int){ 40 }), "Should insert the element at index");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 5, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 40, @"Should contain the inserted element");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 7, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 4, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 30, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 5, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 40, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 6, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should not contain a value");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapInsertElementAtIndex(IndexMap, 0, &(int){ 50 }), "Should insert the element at index");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 50, @"Should not contain a value");
+        XCTAssertEqual(CCConcurrentIndexMapGetCount(IndexMap), 8, @"Should have the correct number of elements");
+        
+        Value = 0;
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 0, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 50, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 1, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 10, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 2, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 1, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 3, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 20, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 4, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 2, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 5, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 30, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 6, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 40, @"Should not contain a value");
+        XCTAssertTrue(CCConcurrentIndexMapGetElementAtIndex(IndexMap, 7, &Value), @"Should have an element at the given index");
+        XCTAssertEqual(Value, 3, @"Should not contain a value");
         
         CCConcurrentIndexMapDestroy(IndexMap);
     }
