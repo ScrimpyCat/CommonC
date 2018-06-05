@@ -75,6 +75,9 @@ void CCConcurrentIndexMapDestroy(CCConcurrentIndexMap CC_DESTROY(IndexMap));
 /*!
  * @brief Appends the element to the end of the index map.
  * @description Increases the index map's count by 1.
+ * @performance This operation is lock-free is it can be performed without a resize. If it cannot and
+ *              then it will require a resize and so will block.
+ *
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to append the element to.
  * @param Element The pointer to the element to be copied to the end of the index map. This must not
@@ -86,6 +89,9 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
 
 /*!
  * @brief Replace element at index with new element.
+ * @performance Wait-free O(1) operation when not run in @b CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+ *              mode. Otherwise is a O(1) lock-free operation.
+ *
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to replace an element of.
  * @param Index The position of the element to be replaced.
@@ -98,6 +104,10 @@ _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, s
 
 /*!
  * @brief Replace element at index with new element if the existing element matches.
+ * @performance Wait-free O(1) operation when not run in @b CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+ *              mode, and if element size is small (7 bytes on 32-bit platforms or up to 15 bytes on
+ *              a 64-bit platform). Otherwise if larger it is a O(1) lock-free operation.
+ *
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to replace an element of.
  * @param Index The position of the element to be replaced.
@@ -112,6 +122,7 @@ _Bool CCConcurrentIndexMapReplaceExactElementAtIndex(CCConcurrentIndexMap IndexM
 /*!
  * @brief Removes an element at a given index from the index map.
  * @description Decreases the index map's count by 1.
+ * @performance This operation always performs a resize and so will block.
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to remove an element from.
  * @param Index The position of the element to be removed.
@@ -125,6 +136,7 @@ _Bool CCConcurrentIndexMapRemoveElementAtIndex(CCConcurrentIndexMap IndexMap, si
 /*!
  * @brief Insert an element at a given index into the index map.
  * @description Increases the index map's count by 1.
+ * @performance This operation always performs a resize and so will block.
  * @warning The size of element must be the same size as specified in the index map creation.
  * @param IndexMap The index map to insert the element into.
  * @param Index The position in the index map for the element to be inserted.
@@ -155,6 +167,7 @@ size_t CCConcurrentIndexMapGetElementSize(CCConcurrentIndexMap IndexMap);
 
 /*!
  * @brief Get the element at index.
+ * @performance Wait-free O(1) operation.
  * @param IndexMap The index map to get the element of.
  * @param Index The index of the element.
  * @param Element A pointer to where the value should be written to. If NULL this will be ignored.
