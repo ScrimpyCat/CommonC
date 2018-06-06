@@ -55,6 +55,7 @@ static size_t ConvertEntryToIndex(CCCollectionArrayInternal *Internal, CCCollect
 static CCCollectionEntry CCOrderedCollectionArrayInsert(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
 static CCCollectionEntry CCOrderedCollectionArrayReplace(CCCollectionArrayInternal *Internal, const void *Element, size_t Index, CCAllocatorType Allocator, size_t ElementSize);
 static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal, size_t Index);
+static void CCOrderedCollectionArrayRemove(CCCollectionArrayInternal *Internal, size_t Index, CCAllocatorType Allocator);
 
 
 static const CCOrderedCollectionInterface CCOrderedCollectionArrayInterface = {
@@ -63,6 +64,7 @@ static const CCOrderedCollectionInterface CCOrderedCollectionArrayInterface = {
     .index = (CCOrderedCollectionIndexCallback)ConvertEntryToIndex,
     .optional = {
         .replace = (CCOrderedCollectionReplaceCallback)CCOrderedCollectionArrayReplace,
+        .remove = (CCOrderedCollectionRemoveCallback)CCOrderedCollectionArrayRemove,
         .element = (CCOrderedCollectionElementCallback)CCOrderedCollectionArrayElement
     }
 };
@@ -288,6 +290,12 @@ static CCCollectionEntry CCOrderedCollectionArrayReplace(CCCollectionArrayIntern
     CCArrayReplaceElementAtIndex(Internal->array, Index, Element);
     
     return ConvertIndexToEntry(Internal, Index);
+}
+
+static void CCOrderedCollectionArrayRemove(CCCollectionArrayInternal *Internal, size_t Index, CCAllocatorType Allocator)
+{
+    CCArrayRemoveElementAtIndex(Internal->array, Index);
+    RemoveEntryForIndex(Internal, Index);
 }
 
 static void *CCOrderedCollectionArrayElement(CCCollectionArrayInternal *Internal, size_t Index)
