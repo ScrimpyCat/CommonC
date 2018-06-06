@@ -28,6 +28,7 @@
 #include "PathComponent.h"
 #include "MemoryAllocation.h"
 #include "Logging.h"
+#include <string.h>
 
 FSPathComponent FSPathComponentCreate(FSPathComponentType Type, const char *String)
 {
