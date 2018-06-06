@@ -194,13 +194,12 @@
 
 
 #if !defined(CC_HARDWARE_ENDIAN_LITTLE) || !defined(CC_HARDWARE_ENDIAN_BIG)
-#if __BIG_ENDIAN__ || __ARMEB__ || __THUMBEB__ || __AARCH64EB__
+#if __BIG_ENDIAN__ || __ARMEB__ || __THUMBEB__ || __AARCH64EB__ || (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
 #define CC_HARDWARE_ENDIAN_BIG 1
-#elif __LITTLE_ENDIAN__ || __ARMEL__ || __THUMBEL__ || __AARCH64EL__
+#elif __LITTLE_ENDIAN__ || __ARMEL__ || __THUMBEL__ || __AARCH64EL__ || (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
 #define CC_HARDWARE_ENDIAN_LITTLE 1
 #endif
 #endif
 
 
 #endif
-
