@@ -34,6 +34,7 @@
 #ifndef Common_Platform_h
 #define Common_Platform_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Extensions.h>
 #include <CommonC/Generics.h>
