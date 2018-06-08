@@ -26,7 +26,7 @@
 #ifndef CommonC_SystemInfo_h
 #define CommonC_SystemInfo_h
 
-#include <stdint.h>
+#include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 
 #if CC_PLATFORM_OS_X

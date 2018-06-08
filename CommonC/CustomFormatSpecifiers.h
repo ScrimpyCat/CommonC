@@ -37,6 +37,7 @@
 #ifndef CommonC_CustomFormatSpecifiers_h
 #define CommonC_CustomFormatSpecifiers_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Logging.h>
 
 

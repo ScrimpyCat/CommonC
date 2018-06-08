@@ -32,8 +32,8 @@
 #ifndef CommonC_BitTricks_h
 #define CommonC_BitTricks_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Extensions.h>
-#include <stdint.h>
 
 
 /*!

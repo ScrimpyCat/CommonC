@@ -26,10 +26,9 @@
 #ifndef CommonC_ConcurrentBuffer_h
 #define CommonC_ConcurrentBuffer_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
-#include <stdint.h>
-#include <stddef.h>
 
 /*!
  * @brief A callback to handle custom destruction of buffer data when it is cleared or destroyed.

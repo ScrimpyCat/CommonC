@@ -26,7 +26,7 @@
 #ifndef CommonC_File_h
 #define CommonC_File_h
 
-#include <stdlib.h>
+#include <CommonC/Base.h>
 
 const char *CCLastComponent(const char *Path, size_t *Length, char Separator);
 

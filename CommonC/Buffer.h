@@ -26,7 +26,7 @@
 #ifndef CommonC_Buffer_h
 #define CommonC_Buffer_h
 
-#include <stddef.h>
+#include <CommonC/Base.h>
 #include <CommonC/DataTypes.h>
 
 typedef struct {

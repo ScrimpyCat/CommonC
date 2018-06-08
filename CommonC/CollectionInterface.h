@@ -26,6 +26,7 @@
 #ifndef CommonC_CollectionInterface_h
 #define CommonC_CollectionInterface_h
 
+#include <CommonC/Base.h>
 #include <CommonC/CollectionTypes.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>

@@ -26,7 +26,7 @@
 #ifndef CommonC_Allocator_h
 #define CommonC_Allocator_h
 
-#include <stdlib.h>
+#include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Ownership.h>
 

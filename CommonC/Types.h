@@ -26,18 +26,7 @@
 #ifndef CommonC_Types_h
 #define CommonC_Types_h
 
-#include <stdint.h>
-#include <stdbool.h>
-
-#ifndef TRUE
-#define TRUE true
-#endif
-
-#ifndef FALSE
-#define FALSE false
-#endif
-
-
+#include <CommonC/Base.h>
 #include <CommonC/Extensions.h>
 #include <CommonC/Platform.h>
 

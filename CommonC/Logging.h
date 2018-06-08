@@ -97,10 +97,10 @@
 #ifndef CommonC_Logging_h
 #define CommonC_Logging_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Extensions.h>
 #include <CommonC/Generics.h>
 #include <CommonC/Hacks.h>
-#include <stdarg.h>
 #include <CommonC/FileHandle.h>
 #include <CommonC/Ownership.h>
 

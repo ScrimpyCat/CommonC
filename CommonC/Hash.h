@@ -26,8 +26,8 @@
 #ifndef CommonC_Hash_h
 #define CommonC_Hash_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Data.h>
-#include <stdint.h>
 
 /*!
  * @brief An implementation of Jenkins's one-at-a-time hash

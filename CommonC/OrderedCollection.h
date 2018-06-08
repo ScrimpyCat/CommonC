@@ -35,6 +35,7 @@
 #ifndef CommonC_OrderedCollection_h
 #define CommonC_OrderedCollection_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Collection.h>
 
 

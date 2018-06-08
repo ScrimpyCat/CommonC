@@ -26,6 +26,7 @@
 #ifndef CommonC_Queue_h
 #define CommonC_Queue_h
 
+#include <CommonC/Base.h>
 #include <CommonC/LinkedList.h>
 #include <CommonC/Ownership.h>
 

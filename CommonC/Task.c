@@ -29,7 +29,6 @@
 #include "Logging.h"
 #include "Platform.h"
 #include <stdatomic.h>
-#include <stdint.h>
 
 #if defined(__has_include)
 
