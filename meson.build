@@ -1,6 +1,7 @@
-project('CommonC', 'c')
+project('CommonC', 'c',
+    default_options: ['c_std=gnu11']
+)
 
-add_global_arguments('-std=gnu11', language: 'c')
 add_global_arguments([
         '-Wno-logical-not-parentheses',
         '-Wno-missing-braces',
