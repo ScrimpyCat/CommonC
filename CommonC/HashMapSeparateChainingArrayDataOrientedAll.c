@@ -29,6 +29,7 @@
 #include "Array.h"
 #include "BitTricks.h"
 #include "Logging.h"
+#include <string.h>
 
 
 typedef struct {

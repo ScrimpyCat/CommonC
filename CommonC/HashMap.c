@@ -26,6 +26,7 @@
 #include "HashMap.h"
 #include "MemoryAllocation.h"
 #include "HashMapEnumerator.h"
+#include <string.h>
 
 
 static void CCHashMapDestructor(CCHashMap Ptr)
