@@ -23,6 +23,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define _XOPEN_SOURCE 500
+#define _BSD_SOURCE
 #include "FileSystem.h"
 #include "Platform.h"
 #include "OrderedCollection.h"
@@ -36,9 +38,12 @@
 //SystemPath.m
 #elif CC_PLATFORM_UNIX
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <ftw.h>
+#include <string.h>
 #elif CC_PLATFORM_WINDOWS
 #error Add support for windows
 #else
@@ -194,10 +199,16 @@ static void FSManagerAddContentsInPath(FSPath SystemPath, CCOrderedCollection *L
             const _Bool IsDir = Entry->d_type == DT_DIR;
             _Bool Match = TRUE;
             
+#ifdef _DIRENT_HAVE_D_NAMLEN
+            const size_t EntryLength = Entry->d_namlen;
+#else
+            const size_t EntryLength = strlen(Entry->d_name);
+#endif
+            
             const size_t SystemPathLength = strlen(FSPathGetPathString(SystemPath));
             char *ItemPath;
-            CC_SAFE_Malloc(ItemPath, SystemPathLength + Entry->d_namlen + 1,
-                           CC_LOG_ERROR("Failed to add path item: \"%s/%s\" due to allocation failure (%zu)", FSPathGetPathString(SystemPath), Item, SystemPathLength + Entry->d_namlen + 1);
+            CC_SAFE_Malloc(ItemPath, SystemPathLength + EntryLength + 1,
+                           CC_LOG_ERROR("Failed to add path item: \"%s/%s\" due to allocation failure (%zu)", FSPathGetPathString(SystemPath), Item, SystemPathLength + EntryLength + 1);
                            continue;
                            );
             
@@ -308,6 +319,13 @@ static int FSManagerRemover(const char *Path, const struct stat *Info, int Flags
     return remove(Path);
 }
 
+static int FSManagerMaxFileDescriptors(void)
+{
+    const int Max = sysconf(_SC_OPEN_MAX);
+    
+    return (Max / 100) >= 1 ? 100 : 1;
+}
+
 FSOperation FSManagerRemove(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
@@ -316,7 +334,7 @@ FSOperation FSManagerRemove(FSPath Path)
     {
         _Bool Success;
         if (FSPathIsFile(Path)) Success = !remove(FSPathSystemInternalRepresentation(Path));
-        else Success = !nftw(FSPathSystemInternalRepresentation(Path), FSManagerRemover, OPEN_MAX, FTW_DEPTH);
+        else Success = !nftw(FSPathSystemInternalRepresentation(Path), FSManagerRemover, FSManagerMaxFileDescriptors(), FTW_DEPTH);
         
         return Success ? FSOperationSuccess : FSOperationFailure;
     }
@@ -433,7 +451,7 @@ FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
             CopyDestination = Destination;
             BaseComponentCount = FSPathGetComponentCount(Path);
             
-            _Bool Success = !nftw(FSPathSystemInternalRepresentation(Path), FSManagerCopier, OPEN_MAX, 0);
+            _Bool Success = !nftw(FSPathSystemInternalRepresentation(Path), FSManagerCopier, FSManagerMaxFileDescriptors(), 0);
             
             Result = Success ? FSOperationSuccess : FSOperationFailure;
         }
