@@ -33,7 +33,7 @@
 #ifndef CommonC_Collection_h
 #define CommonC_Collection_h
 
-#include <stdio.h>
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>

@@ -26,6 +26,7 @@
 #ifndef CommonC_FileHandle_h
 #define CommonC_FileHandle_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Path.h>
 #include <CommonC/FileSystem.h>
 

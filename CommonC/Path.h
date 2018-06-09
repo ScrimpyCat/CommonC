@@ -26,6 +26,7 @@
 #ifndef CommonC_Path_h
 #define CommonC_Path_h
 
+#include <CommonC/Base.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/PathComponent.h>
 

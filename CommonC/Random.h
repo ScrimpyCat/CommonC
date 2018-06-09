@@ -26,9 +26,9 @@
 #ifndef CommonC_Random_h
 #define CommonC_Random_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Maths.h>
-#include <stdint.h>
 
 #if !defined(CC_RANDOM_ARC4) || !defined(CC_RANDOM_STD)
 

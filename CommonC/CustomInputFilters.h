@@ -40,6 +40,7 @@
 #ifndef CommonC_CustomInputFilters_h
 #define CommonC_CustomInputFilters_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Logging.h>
 
 

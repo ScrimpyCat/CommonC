@@ -26,7 +26,7 @@
 #ifndef CommonC_HashMap_h
 #define CommonC_HashMap_h
 
-#include <stdio.h>
+#include <CommonC/Base.h>
 #include <CommonC/HashMapInterface.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>

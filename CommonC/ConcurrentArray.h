@@ -26,11 +26,10 @@
 #ifndef CommonC_ConcurrentArray_h
 #define CommonC_ConcurrentArray_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/ConcurrentGarbageCollector.h>
-#include <stdint.h>
-#include <stddef.h>
 
 
 /*!

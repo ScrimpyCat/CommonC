@@ -26,7 +26,7 @@
 #ifndef CommonC_Dictionary_h
 #define CommonC_Dictionary_h
 
-#include <stdio.h>
+#include <CommonC/Base.h>
 #include <CommonC/DictionaryInterface.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>

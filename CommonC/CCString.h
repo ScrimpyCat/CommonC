@@ -26,7 +26,7 @@
 #ifndef CommonC_CCString_h
 #define CommonC_CCString_h
 
-#include <stdint.h>
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Platform.h>

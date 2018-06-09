@@ -26,6 +26,7 @@
 #ifndef CommonC_FileSystem_h
 #define CommonC_FileSystem_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Path.h>
 
 typedef enum {

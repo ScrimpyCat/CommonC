@@ -26,7 +26,7 @@
 #ifndef CommonC_CallbackAllocator_h
 #define CommonC_CallbackAllocator_h
 
-#include <stddef.h>
+#include <CommonC/Base.h>
 
 typedef enum {
     CCCallbackAllocatorEventAllocatePre,

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2013, Stefan Johnson
+ *  Copyright (c) 2018, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,11 +23,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CommonC_File_h
-#define CommonC_File_h
+#ifndef CommonC_Base_h
+#define CommonC_Base_h
 
-#include <CommonC/Base.h>
+#if !defined(CC_EXCLUDE_CSTD_HEADERS)
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <inttypes.h>
+#include <limits.h>
+#include <stdbool.h>
 
-const char *CCLastComponent(const char *Path, size_t *Length, char Separator);
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
+#endif
 
 #endif

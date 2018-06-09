@@ -26,8 +26,7 @@
 #ifndef CommonC_Data_h
 #define CommonC_Data_h
 
-#include <stdlib.h>
-#include <stdint.h>
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/DataTypes.h>
 #include <CommonC/DataInterface.h>

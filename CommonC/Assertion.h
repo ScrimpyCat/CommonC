@@ -32,8 +32,8 @@
 
 #else
 
+#include <CommonC/Base.h>
 #include <CommonC/Logging.h>
-#include <stdlib.h>
 
 #define CCAssertLog(e, ...) (void)(CC_LIKELY(e)? 0 : (CCLog(CCLogOptionOutputAll, CCTagError, CC_LOG_IDENTIFIER, __FILE__, __func__, __LINE__, "Assertion failed: (" #e "). " __VA_ARGS__), abort()))
 

@@ -26,6 +26,7 @@
 #ifndef CommonC_Task_h
 #define CommonC_Task_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Ownership.h>
 

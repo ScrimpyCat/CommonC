@@ -26,6 +26,7 @@
 #ifndef CommonC_DataBuffer_h
 #define CommonC_DataBuffer_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Data.h>
 
 /*!

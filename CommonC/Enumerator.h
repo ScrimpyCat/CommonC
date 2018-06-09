@@ -26,8 +26,7 @@
 #ifndef CommonC_Enumerator_h
 #define CommonC_Enumerator_h
 
-#include <stdint.h>
-#include <stddef.h>
+#include <CommonC/Base.h>
 
 typedef enum {
     CCEnumeratorFormatMask = 3,

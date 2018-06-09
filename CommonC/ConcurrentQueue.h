@@ -31,11 +31,10 @@
  Allows for many producer-consumer access.
  */
 
+#include <CommonC/Base.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/ConcurrentGarbageCollector.h>
-#include <stdint.h>
-#include <stddef.h>
 
 typedef struct {
     struct CCConcurrentQueueNode *node;

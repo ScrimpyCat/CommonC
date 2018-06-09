@@ -26,6 +26,7 @@
 #ifndef CommonC_CCStringEnumerator_h
 #define CommonC_CCStringEnumerator_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/CCString.h>
 #include <CommonC/Extensions.h>

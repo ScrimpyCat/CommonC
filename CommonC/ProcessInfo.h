@@ -26,9 +26,8 @@
 #ifndef CommonC_ProcessInfo_h
 #define CommonC_ProcessInfo_h
 
-
+#include <CommonC/Base.h>
 #include <CommonC/Platform.h>
-#include <stdint.h>
 
 #if CC_PLATFORM_POSIX_COMPLIANT
 

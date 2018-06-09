@@ -34,8 +34,7 @@
 #ifndef CommonC_Array_h
 #define CommonC_Array_h
 
-#include <stddef.h>
-#include <stdint.h>
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
 

@@ -26,6 +26,7 @@
 #ifndef CommonC_HashMapInterface_h
 #define CommonC_HashMapInterface_h
 
+#include <CommonC/Base.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/Enumerator.h>

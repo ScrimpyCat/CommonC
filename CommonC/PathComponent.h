@@ -26,7 +26,7 @@
 #ifndef CommonC_PathComponent_h
 #define CommonC_PathComponent_h
 
-#include <stdint.h>
+#include <CommonC/Base.h>
 #include <CommonC/Ownership.h>
 
 typedef enum {

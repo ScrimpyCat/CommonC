@@ -26,12 +26,11 @@
 #ifndef CommonC_MemoryAllocation_h
 #define CommonC_MemoryAllocation_h
 
+#include <CommonC/Base.h>
 #include <CommonC/DebugTypes.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Generics.h>
 #include <CommonC/Extensions.h>
-#include <stdlib.h>
-#include <stdint.h>
 
 
 typedef struct {

@@ -23,12 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <wchar.h>
-#include <inttypes.h>
-#include <stddef.h>
 #include "CustomFormatSpecifiers.h"
 #include "BitTricks.h"
 #include "MemoryAllocation.h"

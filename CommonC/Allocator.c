@@ -26,7 +26,6 @@
 #include "Allocator.h"
 #include "Assertion_Private.h"
 #include "CallbackAllocator.h"
-#include <stdint.h>
 
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)

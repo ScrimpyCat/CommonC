@@ -24,7 +24,6 @@
  */
 
 #include "File.h"
-#include <stdio.h>
 #include <string.h>
 #include "Platform.h"
 #include "Types.h"

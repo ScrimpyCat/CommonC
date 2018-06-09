@@ -25,7 +25,6 @@
 
 #define CC_DEFAULT_ERROR_CALLBACK NULL
 
-#include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
