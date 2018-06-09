@@ -94,6 +94,8 @@ static int CCDictionaryHashMapHintWeight(CCDictionaryHint Hint)
 
 static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDictionaryHint Hint, size_t KeySize, size_t ValueSize, CCDictionaryKeyHasher Hasher, CCComparator KeyComparator)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wenum-compare"
     _Static_assert(CCDictionaryEnumeratorActionHead == CCHashMapEnumeratorActionHead &&
                    CCDictionaryEnumeratorActionTail == CCHashMapEnumeratorActionTail &&
                    CCDictionaryEnumeratorActionNext == CCHashMapEnumeratorActionNext &&
@@ -101,6 +103,7 @@ static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDiction
                    CCDictionaryEnumeratorActionCurrent == CCHashMapEnumeratorActionCurrent &&
                    CCDictionaryEnumeratorTypeKey == CCHashMapEnumeratorTypeKey &&
                    CCDictionaryEnumeratorTypeValue == CCHashMapEnumeratorTypeValue, "Must match if we're doing a passthrough");
+#pragma clang diagnostic pop
     
     CCDictionaryHashMapInterface.enumerator = (CCDictionaryEnumeratorCallback)CCHashMapSeparateChainingArray->enumerator;
     CCDictionaryHashMapInterface.enumeratorReference = (CCDictionaryEnumeratorEntryCallback)CCHashMapSeparateChainingArray->enumeratorReference;
