@@ -6,7 +6,7 @@ add_global_arguments([
         '-Wno-missing-braces',
         '-Wno-multichar',
         '-Wno-unknown-pragmas',
-    ], 
+    ],
     language: 'c'
 )
 
@@ -54,6 +54,15 @@ src = [
     'CommonC/TypeCallbacks.c',
 ]
 
+deps = []
+
+if host_machine.system() == 'darwin'
+    add_languages('objc')
+    src += ['CommonC/SystemPath.m']
+    deps += [dependency('Foundation')]
+endif
+
 library('CommonC', src,
-    include_directories: include_directories('CommonC')    
+    include_directories: include_directories('CommonC'),
+    dependencies: deps
 )
