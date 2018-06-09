@@ -29,6 +29,10 @@
 #include "Assertion.h"
 #include "CollectionEnumerator.h"
 #include "TypeCallbacks.h"
+#include "Types.h"
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 
 static void FSPathClearPathStringCache(FSPath Path);

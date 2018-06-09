@@ -26,6 +26,7 @@
 #include "DataBuffer.h"
 #include "MemoryAllocation.h"
 #include "Assertion.h"
+#include <string.h>
 
 
 typedef struct {

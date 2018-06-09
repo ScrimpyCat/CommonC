@@ -28,6 +28,8 @@
 #include "Logging.h"
 #include "Assertion.h"
 #include "Hash.h"
+#include "Types.h"
+#include <string.h>
 
 static void CCDataDestructor(CCData Data)
 {

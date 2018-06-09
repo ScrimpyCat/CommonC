@@ -32,7 +32,6 @@
 #if CC_PLATFORM_POSIX_COMPLIANT
 
 #include <unistd.h>
-#include <sys/syslimits.h>
 #include <limits.h>
 
 #define CC_PATH_NAME_LENGTH_MAX PATH_MAX

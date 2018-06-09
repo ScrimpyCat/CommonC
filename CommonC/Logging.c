@@ -28,6 +28,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <wchar.h>
 #include "Logging.h"
 #include "Assertion.h"
 #include "MemoryAllocation.h"

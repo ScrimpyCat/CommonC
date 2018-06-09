@@ -23,3 +23,19 @@ The feature set so far includes:
 * Enumerators - simple enumerating interfaces for maps, collections, and strings.
 * Queues - single threaded and lock-free (many producer-consumer) concurrent FIFO queues.
 * Garbage Collectors - for safe memory reclamation in lock-free algorithms.
+
+
+## Build
+
+This project is intended to be compiled with clang using C11 with extensions.
+
+### Mac/iOS
+
+Use the xcode project.
+
+### Linux
+
+Use meson to generate the build:
+```bash
+mkdir build && CC=clang meson build
+```

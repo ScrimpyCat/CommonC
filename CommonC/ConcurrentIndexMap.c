@@ -27,6 +27,7 @@
 #include "MemoryAllocation.h"
 #include "Assertion.h"
 #include <stdatomic.h>
+#include <string.h>
 
 /*
  CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE enforces standard compliant usage of atomic types. This however will

@@ -1,0 +1,59 @@
+project('CommonC', 'c')
+
+add_global_arguments('-std=gnu11', language: 'c')
+add_global_arguments([
+        '-Wno-logical-not-parentheses',
+        '-Wno-missing-braces',
+        '-Wno-multichar',
+        '-Wno-unknown-pragmas',
+    ], 
+    language: 'c'
+)
+
+src = [
+    'CommonC/Allocator.c',
+    'CommonC/Array.c',
+    'CommonC/CCString.c',
+    'CommonC/CollectionArray.c',
+    'CommonC/Collection.c',
+    'CommonC/CollectionFastArray.c',
+    'CommonC/CollectionList.c',
+    'CommonC/CommonC.c',
+    'CommonC/ConcurrentBuffer.c',
+    'CommonC/ConcurrentGarbageCollector.c',
+    'CommonC/ConcurrentIndexMap.c',
+    'CommonC/ConcurrentQueue.c',
+    'CommonC/CustomFormatSpecifiers.c',
+    'CommonC/CustomInputFilters.c',
+    'CommonC/DataBuffer.c',
+    'CommonC/Data.c',
+    'CommonC/DebugTypes.c',
+    'CommonC/Dictionary.c',
+    'CommonC/DictionaryHashMap.c',
+    'CommonC/EpochGarbageCollector.c',
+    'CommonC/File.c',
+    'CommonC/FileHandle.c',
+    'CommonC/FileSystem.c',
+    'CommonC/Hash.c',
+    'CommonC/HashMap.c',
+    'CommonC/HashMapSeparateChainingArray.c',
+    'CommonC/HashMapSeparateChainingArrayDataOrientedAll.c',
+    'CommonC/HashMapSeparateChainingArrayDataOrientedHash.c',
+    'CommonC/LazyGarbageCollector.c',
+    'CommonC/LinkedList.c',
+    'CommonC/Logging.c',
+    'CommonC/MemoryAllocation.c',
+    'CommonC/OrderedCollection.c',
+    'CommonC/Path.c',
+    'CommonC/PathComponent.c',
+    'CommonC/ProcessInfo.c',
+    'CommonC/Queue.c',
+    'CommonC/SystemInfo.c',
+    'CommonC/Task.c',
+    'CommonC/TaskQueue.c',
+    'CommonC/TypeCallbacks.c',
+]
+
+library('CommonC', src,
+    include_directories: include_directories('CommonC')    
+)

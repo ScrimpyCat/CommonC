@@ -25,6 +25,7 @@
 
 #include "Hash.h"
 #include "Extensions.h"
+#include <stdint.h>
 
 uint32_t CCHashJenkins32(CCData Data)
 {

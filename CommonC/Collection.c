@@ -34,6 +34,7 @@
 #include "CollectionArray.h"
 #include "CollectionList.h"
 #include <string.h>
+#include <limits.h>
 
 
 typedef struct {

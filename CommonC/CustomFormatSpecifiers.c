@@ -25,6 +25,7 @@
 
 #include <string.h>
 #include <ctype.h>
+#include <wchar.h>
 #include "CustomFormatSpecifiers.h"
 #include "BitTricks.h"
 #include "MemoryAllocation.h"

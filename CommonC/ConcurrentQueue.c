@@ -27,6 +27,7 @@
 #include "MemoryAllocation.h"
 #include "Assertion.h"
 #include <stdatomic.h>
+#include <string.h>
 
 typedef struct CCConcurrentQueueInfo {
     _Atomic(CCConcurrentQueuePointer) head;
