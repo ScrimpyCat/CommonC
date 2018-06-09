@@ -41,8 +41,11 @@
 #include "CollectionEnumerator.h"
 
 #if CC_PLATFORM_APPLE
+
+#if !defined(__has_include) || __has_include("asl.h")
 #define CC_ASL_LOGGER 1
 #include <asl.h>
+#endif
 
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_6, CC_PLATFORM_IOS_4_0)
 #define CC_USE_GCD 1
@@ -86,7 +89,7 @@ const char * const CCTagDebug = "DEBUG";
 
 
 
-#define CC_IDENTIFIER_ "com.common.framework."
+#define CC_IDENTIFIER_ "io.scrimpycat.common"
 #define CC_FOLDER_ "CommonFramework/"
 #define CC_EXTENSION_ ".log"
 
@@ -95,14 +98,14 @@ const char * const CCTagDebug = "DEBUG";
 
 static CCOrderedCollection FileList = NULL;
 
+#if CC_USE_GCD
+static dispatch_queue_t LogQueue;
+#endif
 
 #if CC_ASL_LOGGER
 static aslclient Client;
-#endif
 
-#if CC_USE_GCD
-static dispatch_queue_t LogQueue;
-static void LogMessage(aslmsg Msg)
+static void LogMessageASL(aslmsg Msg)
 {
     asl_send(Client, Msg);
     asl_free(Msg);
@@ -671,48 +674,48 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     if (Option & CCLogOptionOutputFile)
     {
 #if CC_ASL_LOGGER
-        static pthread_once_t Once = PTHREAD_ONCE_INIT;
-        pthread_once(&Once, ASLSetup);
-        
-        
-        aslmsg Msg = asl_new(ASL_TYPE_MSG);
-        asl_set(Msg, ASL_KEY_MSG, Message);
-        asl_set(Msg, ASL_KEY_LEVEL, LogLevelMessage);
-        
-        _Bool FreeIdentifier = FALSE;
-        if (!Identifier)
+        if (&asl_new)
         {
-            const char *AppName = CCProcessCurrentStrippedName();
-            if (AppName)
+            static pthread_once_t Once = PTHREAD_ONCE_INIT;
+            pthread_once(&Once, ASLSetup);
+            
+            
+            aslmsg Msg = asl_new(ASL_TYPE_MSG);
+            asl_set(Msg, ASL_KEY_MSG, Message);
+            asl_set(Msg, ASL_KEY_LEVEL, LogLevelMessage);
+            
+            _Bool FreeIdentifier = FALSE;
+            if (!Identifier)
             {
-                const size_t AppLength = strlen(AppName);
-                
-                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, NULL)))
+                const char *AppName = CCProcessCurrentStrippedName();
+                if (AppName)
                 {
-                    FreeIdentifier = TRUE;
-                    strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
-                    strncpy((char*)(Identifier + sizeof(CC_IDENTIFIER_) - 1), AppName, AppLength);
+                    const size_t AppLength = strlen(AppName);
+                    
+                    if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, NULL)))
+                    {
+                        FreeIdentifier = TRUE;
+                        strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
+                        strncpy((char*)(Identifier + sizeof(CC_IDENTIFIER_) - 1), AppName, AppLength);
+                    }
                 }
             }
-        }
-        
-        if (Identifier)
-        {
-            asl_set(Msg, ASL_KEY_FACILITY, Identifier);
-            if (FreeIdentifier) CCFree((char*)Identifier);
-        }
+            
+            if (Identifier)
+            {
+                asl_set(Msg, ASL_KEY_FACILITY, Identifier);
+                if (FreeIdentifier) CCFree((char*)Identifier);
+            }
         
 #if CC_USE_GCD
-        if (Option & CCLogOptionAsync)
-        {
-            if (LogQueue) dispatch_async_f(LogQueue, Msg, (dispatch_function_t)LogMessage);
-        }
-        
-        else
+            if (Option & CCLogOptionAsync)
+            {
+                if (LogQueue) dispatch_async_f(LogQueue, Msg, (dispatch_function_t)LogMessageASL);
+            }
+            
+            else
 #endif
-        {
-            asl_send(Client, Msg);
-            asl_free(Msg);
+                LogMessageASL(Msg);
         }
 #elif CC_SYSLOG_LOGGER
         //TODO
@@ -818,7 +821,7 @@ void CCLogAddFile(FSHandle File)
     if (&asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
     else
 #endif 
-        asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
+        if (&asl_add_output) asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
 #elif CC_SYSLOG_LOGGER
     //TODO: use syslog
 #endif
