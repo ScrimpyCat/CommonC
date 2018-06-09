@@ -59,7 +59,10 @@ deps = []
 
 if host_machine.system() == 'darwin'
     add_languages('objc')
-    src += ['CommonC/SystemPath.m']
+    src += [
+        'CommonC/CFAllocator.c',
+        'CommonC/SystemPath.m',
+    ]
     deps += [dependency('Foundation')]
 endif
 
