@@ -58,7 +58,7 @@ size_t CCFileFilterInput(const CCLogData *LogData, const CCLogInputData *Data)
         if (!strncmp(Paths[Index].path, LogData->filename, Length))
         {
             CCLogv(*LogData->option, LogData->tag, LogData->identifier, LogData->filename + Length, LogData->functionName, LogData->line, Data->format, *Data->args);
-            *LogData->option = 0;
+            *LogData->option = CCLogOptionNone;
             break;
         }
     }
