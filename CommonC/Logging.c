@@ -40,11 +40,23 @@
 #include "TypeCallbacks.h"
 #include "CollectionEnumerator.h"
 
+// Specify which system specific loggers to build with
+//#define CC_EXCLUDE_ASL_LOGGER
+//#define CC_EXCLUDE_OSL_LOGGER
+//#define CC_EXCLUDE_SYSLOG_LOGGER
+
 #if CC_PLATFORM_APPLE
 
-#if !defined(__has_include) || __has_include("asl.h")
+#if !defined(CC_EXCLUDE_ASL_LOGGER) && (!defined(__has_include) || __has_include("asl.h"))
 #define CC_ASL_LOGGER 1
 #include <asl.h>
+#endif
+
+#if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_12, CC_PLATFORM_IOS_10_0)
+#if !defined(CC_EXCLUDE_OSL_LOGGER) && (!defined(__has_include) || __has_include("os/log.h"))
+#define CC_OSL_LOGGER 1
+#include <os/log.h>
+#endif
 #endif
 
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_6, CC_PLATFORM_IOS_4_0)
@@ -53,8 +65,10 @@
 #endif
 
 #elif CC_PLATFORM_UNIX
+#if !defined(CC_EXCLUDE_SYSLOG_LOGGER)
 #define CC_SYSLOG_LOGGER 1
 #include <syslog.h>
+#endif
 #endif
 
 #if CC_PLATFORM_POSIX_COMPLIANT
@@ -109,6 +123,23 @@ static void LogMessageASL(aslmsg Msg)
 {
     asl_send(Client, Msg);
     asl_free(Msg);
+}
+#endif
+
+#if CC_OSL_LOGGER
+typedef struct {
+    os_log_t log;
+    os_log_type_t type;
+    const char *msg;
+    _Bool destroy;
+} CCOSLogContext;
+
+static void LogMessageOSL(CCOSLogContext *Ctx)
+{
+    os_log_with_type(Ctx->log, Ctx->type, "%s", Ctx->msg);
+    os_release(Ctx->log);
+    
+    if (Ctx->destroy) CCFree(Ctx);
 }
 #endif
 
@@ -396,28 +427,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     
     if (Option == CCLogOptionNone) return 0;
     
-#if CC_ASL_LOGGER
-    const char *LogLevelMessage;
-#endif
-    if (!Tag)
-    {
-        Tag = CCTagInfo;
-#if CC_ASL_LOGGER
-        LogLevelMessage = ASL_STRING_INFO;
-    }
-    
-    else
-    {
-        if (Tag == CCTagEmergency) LogLevelMessage = ASL_STRING_EMERG;
-        else if (Tag == CCTagAlert) LogLevelMessage = ASL_STRING_ALERT;
-        else if (Tag == CCTagCritical) LogLevelMessage = ASL_STRING_CRIT;
-        else if (Tag == CCTagError) LogLevelMessage = ASL_STRING_ERR;
-        else if (Tag == CCTagWarning) LogLevelMessage = ASL_STRING_WARNING;
-        else if (Tag == CCTagNotice) LogLevelMessage = ASL_STRING_NOTICE;
-        else if (Tag == CCTagDebug) LogLevelMessage = ASL_STRING_DEBUG;
-        else LogLevelMessage = ASL_STRING_INFO; //CCTagInfo or custom
-#endif
-    }
+    if (!Tag) Tag = CCTagInfo;
     
     size_t MessageSize = 0, Length = strlen(Tag) + 1 //"%s:"
     + (Filename? 1 + strlen(Filename) + 1 + 11 + 2 : 0) //"[%s:%d]:" Approx max number of digits for unsigned int: 10 + 1 (sign) TODO: add a CCNumberOfDigits() function in bit tricks
@@ -671,11 +681,88 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             ((CCLogMessageFilter)CurrentFilter->filter)(&LogData, (CCLogMessage*)&MessageBuffer);
     }
     
+    enum {
+        CCSystemLoggerPrinted = 0x80000000,
+        
+        CCSystemLoggerNone = 0,
+        CCSystemLoggerASL = 1,
+        CCSystemLoggerOSL = 2 | CCSystemLoggerPrinted,
+        CCSystemLoggerSyslog = 3
+    } Logged = CCSystemLoggerNone;
+    
     if (Option & CCLogOptionOutputFile)
     {
-#if CC_ASL_LOGGER
-        if (&asl_new)
+#if CC_OSL_LOGGER || CC_ASL_LOGGER
+        _Bool FreeIdentifier = FALSE;
+        if (!Identifier)
         {
+            const char *AppName = CCProcessCurrentStrippedName();
+            if (AppName)
+            {
+                const size_t AppLength = strlen(AppName);
+                
+                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, CC_DEFAULT_ERROR_CALLBACK)))
+                {
+                    FreeIdentifier = TRUE;
+                    strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
+                    strncpy((char*)(Identifier + sizeof(CC_IDENTIFIER_) - 1), AppName, AppLength);
+                }
+            }
+        }
+#endif
+        
+#if CC_OSL_LOGGER
+        if ((!Logged) && (&os_log_create))
+        {
+            Logged = CCSystemLoggerOSL;
+            
+            os_log_t Log = Identifier ? os_log_create(Identifier, Tag) : os_retain(OS_LOG_DEFAULT);
+            
+            os_log_type_t LogType = OS_LOG_TYPE_DEFAULT; //custom
+            if (Tag == CCTagEmergency) LogType = OS_LOG_TYPE_FAULT;
+            else if (Tag == CCTagAlert) LogType = OS_LOG_TYPE_FAULT;
+            else if (Tag == CCTagCritical) LogType = OS_LOG_TYPE_FAULT;
+            else if (Tag == CCTagError) LogType = OS_LOG_TYPE_ERROR;
+            else if (Tag == CCTagWarning) LogType = OS_LOG_TYPE_ERROR;
+            else if (Tag == CCTagNotice) LogType = OS_LOG_TYPE_INFO;
+            else if (Tag == CCTagInfo) LogType = OS_LOG_TYPE_INFO;
+            else if (Tag == CCTagDebug) LogType = OS_LOG_TYPE_DEBUG;
+            
+#if CC_USE_GCD
+            if (Option & CCLogOptionAsync)
+            {
+                if (LogQueue)
+                {
+                    CCOSLogContext *Context;
+                    if ((Context = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CCOSLogContext), NULL, CC_DEFAULT_ERROR_CALLBACK)))
+                    {
+                        *Context = (CCOSLogContext){ .log = Log, .type = LogType, .msg = Message, .destroy = TRUE };
+                    }
+                    
+                    dispatch_async_f(LogQueue, Context, (dispatch_function_t)LogMessageOSL);
+                }
+            }
+            
+            else
+#endif
+                LogMessageOSL(&(CCOSLogContext){ .log = Log, .type = LogType, .msg = Message, .destroy = FALSE });
+        }
+#endif
+        
+#if CC_ASL_LOGGER
+        if ((!Logged) && (&asl_new))
+        {
+            Logged = CCSystemLoggerASL;
+            
+            const char *LogLevelMessage = ASL_STRING_INFO; //CCTagInfo or custom
+            if (Tag == CCTagEmergency) LogLevelMessage = ASL_STRING_EMERG;
+            else if (Tag == CCTagAlert) LogLevelMessage = ASL_STRING_ALERT;
+            else if (Tag == CCTagCritical) LogLevelMessage = ASL_STRING_CRIT;
+            else if (Tag == CCTagError) LogLevelMessage = ASL_STRING_ERR;
+            else if (Tag == CCTagWarning) LogLevelMessage = ASL_STRING_WARNING;
+            else if (Tag == CCTagNotice) LogLevelMessage = ASL_STRING_NOTICE;
+            else if (Tag == CCTagDebug) LogLevelMessage = ASL_STRING_DEBUG;
+            
             static pthread_once_t Once = PTHREAD_ONCE_INIT;
             pthread_once(&Once, ASLSetup);
             
@@ -683,34 +770,13 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             aslmsg Msg = asl_new(ASL_TYPE_MSG);
             asl_set(Msg, ASL_KEY_MSG, Message);
             asl_set(Msg, ASL_KEY_LEVEL, LogLevelMessage);
+            if (Identifier) asl_set(Msg, ASL_KEY_FACILITY, Identifier);
             
-            _Bool FreeIdentifier = FALSE;
-            if (!Identifier)
-            {
-                const char *AppName = CCProcessCurrentStrippedName();
-                if (AppName)
-                {
-                    const size_t AppLength = strlen(AppName);
-                    
-                    if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, NULL)))
-                    {
-                        FreeIdentifier = TRUE;
-                        strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
-                        strncpy((char*)(Identifier + sizeof(CC_IDENTIFIER_) - 1), AppName, AppLength);
-                    }
-                }
-            }
-            
-            if (Identifier)
-            {
-                asl_set(Msg, ASL_KEY_FACILITY, Identifier);
-                if (FreeIdentifier) CCFree((char*)Identifier);
-            }
-        
 #if CC_USE_GCD
             if (Option & CCLogOptionAsync)
             {
                 if (LogQueue) dispatch_async_f(LogQueue, Msg, (dispatch_function_t)LogMessageASL);
+                else asl_free(Msg);
             }
             
             else
@@ -719,33 +785,38 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
         }
 #elif CC_SYSLOG_LOGGER
         //TODO
-#else
-        char Timestamp[16];
-        strftime(Timestamp, sizeof(Timestamp), "%b %d %T", localtime(&(time_t){ time(NULL) }));
+#endif
         
-        const char *Hostname = CCHostCurrentName(), *ProcName = CCProcessCurrentStrippedName();
-        const CCPid Pid = CCProcessCurrent();
+#if CC_OSL_LOGGER || CC_ASL_LOGGER
+        if (FreeIdentifier) CCFree((char*)Identifier);
+#endif
         
-        const size_t FormattedLength = snprintf(NULL, 0, "%s %s %s[%" PRIuPTR "]: ", Timestamp, Hostname, ProcName, Pid) + Length + 2;
-        
-        char *FormattedMessage = CCMalloc(CC_DEFAULT_ALLOCATOR, FormattedLength, NULL, CC_DEFAULT_ERROR_CALLBACK);
-        if (FormattedMessage)
+        if ((FileList) && (Logged != CCSystemLoggerASL))
         {
-            snprintf(FormattedMessage, FormattedLength, "%s %s %s[%" PRIuPTR "]: %s\n", Timestamp, Hostname, ProcName, Pid, Message);
-            if (FileList)
+            char Timestamp[16];
+            strftime(Timestamp, sizeof(Timestamp), "%b %d %T", localtime(&(time_t){ time(NULL) }));
+            
+            const char *Hostname = CCHostCurrentName(), *ProcName = CCProcessCurrentStrippedName();
+            const CCPid Pid = CCProcessCurrent();
+            
+            const size_t FormattedLength = snprintf(NULL, 0, "%s %s %s[%" PRIuPTR "]: ", Timestamp, Hostname, ProcName, Pid) + Length + 2;
+            
+            char *FormattedMessage = CCMalloc(CC_DEFAULT_ALLOCATOR, FormattedLength, NULL, CC_DEFAULT_ERROR_CALLBACK);
+            if (FormattedMessage)
             {
+                snprintf(FormattedMessage, FormattedLength, "%s %s %s[%" PRIuPTR "]: %s\n", Timestamp, Hostname, ProcName, Pid, Message);
+                
                 CC_COLLECTION_FOREACH(FSHandle, Handle, FileList)
                 {
                     FSHandleWrite(Handle, FormattedLength - 1, FormattedMessage, FSBehaviourUpdateOffset);
                 }
+                
+                CC_SAFE_Free(FormattedMessage);
             }
-            
-            CC_SAFE_Free(FormattedMessage);
         }
-#endif
     }
     
-    if (Option & CCLogOptionOutputPrint) fprintf(stderr, "%s\n", Message);
+    if ((Option & CCLogOptionOutputPrint) && !(Logged & CCSystemLoggerPrinted)) fprintf(stderr, "%s\n", Message);
     
     CC_SAFE_Free(Message);
     
