@@ -117,6 +117,8 @@ static dispatch_queue_t LogQueue;
 #endif
 
 #if CC_ASL_LOGGER
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 static aslclient Client;
 
 static void LogMessageASL(aslmsg Msg)
@@ -124,6 +126,7 @@ static void LogMessageASL(aslmsg Msg)
     asl_send(Client, Msg);
     asl_free(Msg);
 }
+#pragma clang diagnostic pop
 #endif
 
 #if CC_OSL_LOGGER
@@ -151,7 +154,10 @@ static void ASLSetup(void)
     LogQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
 #endif
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     Client = asl_open(NULL, NULL, 0);
+#pragma clang diagnostic pop
     
 #if CC_PLATFORM_OS_X
     const char *AppName = CCProcessCurrentName();
@@ -750,8 +756,11 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
 #endif
         
 #if CC_ASL_LOGGER
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ((!Logged) && (&asl_new))
         {
+#pragma clang diagnostic pop
             Logged = CCSystemLoggerASL;
             
             const char *LogLevelMessage = ASL_STRING_INFO; //CCTagInfo or custom
@@ -767,16 +776,22 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             pthread_once(&Once, ASLSetup);
             
             
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             aslmsg Msg = asl_new(ASL_TYPE_MSG);
             asl_set(Msg, ASL_KEY_MSG, Message);
             asl_set(Msg, ASL_KEY_LEVEL, LogLevelMessage);
             if (Identifier) asl_set(Msg, ASL_KEY_FACILITY, Identifier);
+#pragma clang diagnostic pop
             
 #if CC_USE_GCD
             if (Option & CCLogOptionAsync)
             {
                 if (LogQueue) dispatch_async_f(LogQueue, Msg, (dispatch_function_t)LogMessageASL);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 else asl_free(Msg);
+#pragma clang diagnostic pop
             }
             
             else
@@ -886,6 +901,8 @@ void CCLogAddFile(FSHandle File)
 #if CC_PLATFORM_POSIX_COMPLIANT
     
 #if CC_ASL_LOGGER
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     int Fd = FSHandleGetFileDescriptor(File);
     
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
@@ -893,6 +910,7 @@ void CCLogAddFile(FSHandle File)
     else
 #endif 
         if (&asl_add_output) asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
+#pragma clang diagnostic pop
 #elif CC_SYSLOG_LOGGER
     //TODO: use syslog
 #endif
