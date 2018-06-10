@@ -147,17 +147,11 @@ static void LogMessageOSL(CCOSLogContext *Ctx)
 #endif
 
 #pragma mark - Logger Setup
-#if CC_ASL_LOGGER
-static void ASLSetup(void)
+static void Setup(void)
 {
 #if CC_USE_GCD
     LogQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
 #endif
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    Client = asl_open(NULL, NULL, 0);
-#pragma clang diagnostic pop
     
 #if CC_PLATFORM_OS_X
     const char *AppName = CCProcessCurrentName();
@@ -259,6 +253,15 @@ static void ASLSetup(void)
     CFRelease(Path);
     CC_TEMP_Free(PathStr);
 #endif
+}
+
+#if CC_ASL_LOGGER
+static void ASLSetup(void)
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    Client = asl_open(NULL, NULL, 0);
+#pragma clang diagnostic pop
 }
 #endif
 
@@ -698,6 +701,11 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
     
     if (Option & CCLogOptionOutputFile)
     {
+#if CC_PLATFORM_POSIX_COMPLIANT
+        static pthread_once_t OnceSetup = PTHREAD_ONCE_INIT;
+        pthread_once(&OnceSetup, Setup);
+#endif
+        
 #if CC_OSL_LOGGER || CC_ASL_LOGGER
         _Bool FreeIdentifier = FALSE;
         if (!Identifier)
