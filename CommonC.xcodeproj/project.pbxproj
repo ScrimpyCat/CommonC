@@ -113,6 +113,9 @@
 		F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */; };
 		F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */; };
+		F30E5A0720C57AB1004F7331 /* ConcurrentArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */; };
+		F30E5A0820C57AB1004F7331 /* ConcurrentArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */; };
+		F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0920C8D3DB004F7331 /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */; };
 		F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */; };
@@ -124,6 +127,9 @@
 		F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3143A9D1A8A7CF6004EB810 /* CollectionList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92D1C4DD790005AE64E /* Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F318D9301C4DD829005AE64E /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92F1C4DD7F5005AE64E /* Matrix4.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */; };
+		F31BEE95208276D200DD7F83 /* ConcurrentIndexMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F31BEE93208276D200DD7F83 /* ConcurrentIndexMap.c */; };
+		F31BEE97208CB06700DD7F83 /* ConcurrentIndexMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */; };
 		F322F05C1C09550100BAA44E /* PathComponent.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05A1C09550100BAA44E /* PathComponent.c */; };
 		F322F05D1C09550100BAA44E /* PathComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05B1C09550100BAA44E /* PathComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F322F0601C09551100BAA44E /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
@@ -195,6 +201,7 @@
 		F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */; };
 		F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F35AF325209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F362028217AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
@@ -261,6 +268,8 @@
 		F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99791A74F56C00212838 /* ArrayTests.m */; };
 		F3AE99BC1A7511D500212838 /* Collection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99BA1A7511D500212838 /* Collection.c */; };
 		F3AE99BD1A7511D500212838 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
+		F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B228E5207929E400550A6A /* ConcurrentTree.c */; };
 		F3B30AC01A8F9C9D0007FA7B /* OrderedCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */; };
 		F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BC6A1E1877030B00934291 /* Vector3D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BC6A241877637800934291 /* Vector3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A231877637800934291 /* Vector3DTests.m */; };
@@ -349,6 +358,9 @@
 		F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryHashMap.h; sourceTree = "<group>"; };
 		F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DTests.m; sourceTree = "<group>"; };
 		F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DTests.m; sourceTree = "<group>"; };
+		F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentArray.h; sourceTree = "<group>"; };
+		F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentArray.c; sourceTree = "<group>"; };
+		F30E5A0920C8D3DB004F7331 /* Base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentGarbageCollector.c; sourceTree = "<group>"; };
 		F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollector.h; sourceTree = "<group>"; };
 		F3143A9A1A8A67B5004EB810 /* CollectionArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionArrayTests.m; sourceTree = "<group>"; };
@@ -360,6 +372,9 @@
 		F3143AA31A8A8FE8004EB810 /* OrderedCollection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OrderedCollection.c; sourceTree = "<group>"; };
 		F318D92D1C4DD790005AE64E /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
 		F318D92F1C4DD7F5005AE64E /* Matrix4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
+		F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIndexMap.h; sourceTree = "<group>"; };
+		F31BEE93208276D200DD7F83 /* ConcurrentIndexMap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIndexMap.c; sourceTree = "<group>"; };
+		F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIndexMapTests.m; sourceTree = "<group>"; };
 		F322F05A1C09550100BAA44E /* PathComponent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PathComponent.c; sourceTree = "<group>"; };
 		F322F05B1C09550100BAA44E /* PathComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathComponent.h; sourceTree = "<group>"; };
 		F322F05E1C09551100BAA44E /* Path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Path.c; sourceTree = "<group>"; };
@@ -427,6 +442,7 @@
 		F359D0321C148F700028B86B /* DataBufferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBufferTests.m; sourceTree = "<group>"; };
 		F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LazyGarbageCollector.c; sourceTree = "<group>"; };
 		F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyGarbageCollector.h; sourceTree = "<group>"; };
+		F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentGarbageCollectorTests.m; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -489,6 +505,8 @@
 		F3AE99791A74F56C00212838 /* ArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayTests.m; sourceTree = "<group>"; };
 		F3AE99BA1A7511D500212838 /* Collection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Collection.c; sourceTree = "<group>"; };
 		F3AE99BB1A7511D500212838 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
+		F3B228E4207929E400550A6A /* ConcurrentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentTree.h; sourceTree = "<group>"; };
+		F3B228E5207929E400550A6A /* ConcurrentTree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentTree.c; sourceTree = "<group>"; };
 		F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedCollectionTests.m; sourceTree = "<group>"; };
 		F3B30AC11A8F9CAB0007FA7B /* OrderedCollectionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderedCollectionTests.h; sourceTree = "<group>"; };
 		F3BC6A1E1877030B00934291 /* Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector3D.h; sourceTree = "<group>"; };
@@ -800,6 +818,10 @@
 				F3AE99311A6D0FFF00212838 /* LinkedList.c */,
 				F3AE99761A7419D200212838 /* Array.h */,
 				F3AE99751A7419D200212838 /* Array.c */,
+				F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */,
+				F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */,
+				F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */,
+				F31BEE93208276D200DD7F83 /* ConcurrentIndexMap.c */,
 				F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */,
 				F37AFA9E1A78D1A80037ECB2 /* Comparator.h */,
 				F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */,
@@ -887,6 +909,7 @@
 				F362027717AC3FFD00153E85 /* Common.h */,
 				F362027817AC3FFD00153E85 /* CommonC.c */,
 				F36202EF17AC442700153E85 /* Platform.h */,
+				F30E5A0920C8D3DB004F7331 /* Base.h */,
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
@@ -991,6 +1014,7 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
@@ -1018,6 +1042,8 @@
 				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
 				F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */,
+				F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */,
+				F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */,
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
 				F36D63001D13434900D3827A /* DictionaryTests.h */,
 				F36D62FE1D13433700D3827A /* DictionaryTests.m */,
@@ -1041,6 +1067,15 @@
 				F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		F3B228E3207929BF00550A6A /* Tree */ = {
+			isa = PBXGroup;
+			children = (
+				F3B228E4207929E400550A6A /* ConcurrentTree.h */,
+				F3B228E5207929E400550A6A /* ConcurrentTree.c */,
+			);
+			name = Tree;
 			sourceTree = "<group>";
 		};
 		F3BC6A201877631800934291 /* Vector2D */ = {
@@ -1237,12 +1272,14 @@
 				F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F30529B618014BE500B17CFD /* Vector.h in Headers */,
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
+				F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */,
 				F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */,
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
 				F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */,
 				F334273E1DB40512008CB998 /* Queue.h in Headers */,
+				F30E5A0720C57AB1004F7331 /* ConcurrentArray.h in Headers */,
 				F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
@@ -1260,6 +1297,7 @@
 				F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */,
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
+				F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
@@ -1271,6 +1309,7 @@
 				F34219161D0C265A00FDBC8A /* HashMapInterface.h in Headers */,
 				F3143AA61A8A9022004EB810 /* CollectionArray.h in Headers */,
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
+				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
@@ -1512,6 +1551,7 @@
 				F33427421DB408FF008CB998 /* ConcurrentQueue.c in Sources */,
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
+				F31BEE95208276D200DD7F83 /* ConcurrentIndexMap.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
 				F334273D1DB40512008CB998 /* Queue.c in Sources */,
 				F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
@@ -1519,6 +1559,7 @@
 				F38018101DC30DE500343E07 /* Task.c in Sources */,
 				F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */,
 				F353DD4F17AC8C9000D1674C /* Logging.c in Sources */,
+				F30E5A0820C57AB1004F7331 /* ConcurrentArray.c in Sources */,
 				F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */,
 				F359D0301C147DB50028B86B /* DataBuffer.c in Sources */,
 				F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */,
@@ -1534,6 +1575,7 @@
 				F342191C1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */,
 				F322F05C1C09550100BAA44E /* PathComponent.c in Sources */,
 				F36F832D1D10C1E300193B08 /* Dictionary.c in Sources */,
+				F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */,
 				F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
 				F369C7D01C44D515006C3D96 /* CCString.c in Sources */,
@@ -1555,6 +1597,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F31BEE97208CB06700DD7F83 /* ConcurrentIndexMapTests.m in Sources */,
 				F3E3E09B187A5AF800A38E72 /* Vector2DSSSE3Tests.m in Sources */,
 				F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */,
 				F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */,
@@ -1562,6 +1605,7 @@
 				F362028E17AC3FFD00153E85 /* MemoryAllocationTests.m in Sources */,
 				F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */,
 				F34219141D09B21500FDBC8A /* HashMapTests.m in Sources */,
+				F35AF325209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m in Sources */,
 				F3236CB91FD8CAF700ACC970 /* ConcurrentBufferTests.m in Sources */,
 				F3067B7F1C591B1000766814 /* Vectorized4DSSETests.m in Sources */,
 				F3BC6A3A1877A84200934291 /* Vectorized3DSSSE3Tests.m in Sources */,
@@ -1886,7 +1930,7 @@
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrimpycat.CommonC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1906,7 +1950,7 @@
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "yourcompany.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrimpycat.CommonC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
