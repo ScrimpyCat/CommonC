@@ -65,6 +65,7 @@
 #include <CommonC/Enumerator.h>
 #include <CommonC/LinkedList.h>
 #include <CommonC/Array.h>
+#include <CommonC/ConcurrentIndexMap.h>
 #include <CommonC/Collection.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/CollectionEnumerator.h>

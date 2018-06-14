@@ -127,7 +127,7 @@
 		F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3143A9D1A8A7CF6004EB810 /* CollectionList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92D1C4DD790005AE64E /* Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F318D9301C4DD829005AE64E /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = F318D92F1C4DD7F5005AE64E /* Matrix4.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */; };
+		F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F31BEE95208276D200DD7F83 /* ConcurrentIndexMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F31BEE93208276D200DD7F83 /* ConcurrentIndexMap.c */; };
 		F31BEE97208CB06700DD7F83 /* ConcurrentIndexMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */; };
 		F322F05C1C09550100BAA44E /* PathComponent.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05A1C09550100BAA44E /* PathComponent.c */; };
