@@ -74,7 +74,7 @@ void CCConcurrentIndexMapDestroy(CCConcurrentIndexMap CC_DESTROY(IndexMap));
 /*!
  * @brief Appends the element to the end of the index map.
  * @description Increases the index map's count by 1.
- * @performance This operation is lock-free is it can be performed without a resize. If it cannot and
+ * @performance This operation is lock-free if it can be performed without a resize. If it cannot and
  *              then it will require a resize and so will block.
  *
  * @warning The size of element must be the same size as specified in the index map creation.
