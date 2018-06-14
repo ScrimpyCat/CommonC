@@ -49,17 +49,13 @@
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_DICTIONARY_CURRENT_KEY_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the key.
  * @param key The name for the key variable.
  * @param map The map to iterate through.
  */
 #define CC_DICTIONARY_FOREACH_KEY(type, key, map) \
-CCEnumerator CC_DICTIONARY_CURRENT_KEY_ENUMERATOR; \
-CCDictionaryGetKeyEnumerator(map, &CC_DICTIONARY_CURRENT_KEY_ENUMERATOR); \
-\
+for (CCEnumerator CC_DICTIONARY_CURRENT_KEY_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCDictionaryGetKeyEnumerator(map, &CC_DICTIONARY_CURRENT_KEY_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *CC_PRIV_##key##__ = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_CURRENT_KEY_ENUMERATOR), key = CC_PRIV_##key##__ ? *CC_PRIV_##key##__ : (type){ 0 }; CC_PRIV_##key##__; CC_PRIV_##key##__ = CCDictionaryEnumeratorNext(&CC_DICTIONARY_CURRENT_KEY_ENUMERATOR), key = CC_PRIV_##key##__ ? *CC_PRIV_##key##__ : (type){ 0 })
 
 /*!
@@ -68,17 +64,13 @@ for (type *CC_PRIV_##key##__ = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_C
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the value.
  * @param value The name for the value variable.
  * @param map The map to iterate through.
  */
 #define CC_DICTIONARY_FOREACH_VALUE(type, value, map) \
-CCEnumerator CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR; \
-CCDictionaryGetValueEnumerator(map, &CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR); \
-\
+for (CCEnumerator CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCDictionaryGetValueEnumerator(map, &CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *CC_PRIV_##value##__ = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR), value = CC_PRIV_##value##__ ? *CC_PRIV_##value##__ : (type){ 0 }; CC_PRIV_##value##__; CC_PRIV_##value##__ = CCDictionaryEnumeratorNext(&CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR), value = CC_PRIV_##value##__ ? *CC_PRIV_##value##__ : (type){ 0 })
 
 /*!
@@ -87,17 +79,13 @@ for (type *CC_PRIV_##value##__ = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_DICTIONARY_CURRENT_KEY_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the key. Note: The key will be a pointer to this type.
  * @param key The name for the key variable.
  * @param map The map to iterate through.
  */
 #define CC_DICTIONARY_FOREACH_KEY_PTR(type, key, map) \
-CCEnumerator CC_DICTIONARY_CURRENT_KEY_ENUMERATOR; \
-CCDictionaryGetKeyEnumerator(map, &CC_DICTIONARY_CURRENT_KEY_ENUMERATOR); \
-\
+for (CCEnumerator CC_DICTIONARY_CURRENT_KEY_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCDictionaryGetKeyEnumerator(map, &CC_DICTIONARY_CURRENT_KEY_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *key = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_CURRENT_KEY_ENUMERATOR); key; key = CCDictionaryEnumeratorNext(&CC_DICTIONARY_CURRENT_KEY_ENUMERATOR))
 
 /*!
@@ -106,17 +94,13 @@ for (type *key = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_CURRENT_KEY_ENU
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the value. Note: The value will be a pointer to this type.
  * @param value The name for the value variable.
  * @param map The map to iterate through.
  */
 #define CC_DICTIONARY_FOREACH_VALUE_PTR(type, value, map) \
-CCEnumerator CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR; \
-CCDictionaryGetValueEnumerator(map, &CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR); \
-\
+for (CCEnumerator CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCDictionaryGetValueEnumerator(map, &CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *value = CCDictionaryEnumeratorGetCurrent(&CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR); value; value = CCDictionaryEnumeratorNext(&CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR))
 
 /*!

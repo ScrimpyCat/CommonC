@@ -44,16 +44,12 @@
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_STRING_CURRENT_ENUMERATOR, or enclosed it in a braces.
- *
  * @param character The name for the character variable. Will be declared as type @b CCChar.
  * @param string The string to iterate through.
  */
 #define CC_STRING_FOREACH(character, string) \
-CCEnumerator CC_STRING_CURRENT_ENUMERATOR; \
-CCStringGetEnumerator(string, &CC_STRING_CURRENT_ENUMERATOR); \
-\
+for (CCEnumerator CC_STRING_CURRENT_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCStringGetEnumerator(string, &CC_STRING_CURRENT_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (CCChar character = CCStringEnumeratorGetCurrent(&CC_STRING_CURRENT_ENUMERATOR); character; character = CCStringEnumeratorNext(&CC_STRING_CURRENT_ENUMERATOR))
 
 

@@ -660,6 +660,23 @@ static void TestDictionaryValueDestructor(CCDictionary Dictionary, void *Element
     
     XCTAssertEqual(ValueSum, 60, @"Should iterate over all values");
     
+    
+    KeySum = 0;
+    CC_DICTIONARY_FOREACH_KEY_PTR(uintmax_t, Key, Dict)
+    {
+        KeySum += *Key;
+    }
+    
+    XCTAssertEqual(KeySum, 18, @"Should iterate over all keys");
+    
+    ValueSum = 0;
+    CC_DICTIONARY_FOREACH_VALUE(int, Value, Dict)
+    {
+        ValueSum += Value;
+    }
+    
+    XCTAssertEqual(ValueSum, 60, @"Should iterate over all values");
+    
 #define ENUMERATOR_VALUE_VARIABLE CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
 #undef CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR
 #define CC_DICTIONARY_CURRENT_VALUE_ENUMERATOR ENUMERATOR_VALUE_VARIABLE##1

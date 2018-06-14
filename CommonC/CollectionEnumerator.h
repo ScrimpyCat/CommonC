@@ -43,17 +43,13 @@
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_COLLECTION_CURRENT_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the element.
  * @param element The name for the element variable.
  * @param collection The collection to iterate through.
  */
 #define CC_COLLECTION_FOREACH(type, element, collection) \
-CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR; \
-CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR); \
-\
+for (CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *CC_PRIV_##element##__ = CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 }; CC_PRIV_##element##__; CC_PRIV_##element##__ = CCCollectionEnumeratorNext(&CC_COLLECTION_CURRENT_ENUMERATOR), element = CC_PRIV_##element##__ ? *CC_PRIV_##element##__ : (type){ 0 })
 
 /*!
@@ -62,17 +58,13 @@ for (type *CC_PRIV_##element##__ = CCCollectionEnumeratorGetCurrent(&CC_COLLECTI
  * @discussion Behaves like a for loop expression, where it should either be followed by parantheses or a
  *             single line statement.
  *
- * @warning Scoping rules apply, to avoid unintended problems with nested foreach loops either change
- *          CC_COLLECTION_CURRENT_ENUMERATOR, or enclosed it in a braces.
- *
  * @param type The type of the element. Note: The element will be a pointer to this type.
  * @param element The name for the element variable.
  * @param collection The collection to iterate through.
  */
 #define CC_COLLECTION_FOREACH_PTR(type, element, collection) \
-CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR; \
-CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR); \
-\
+for (CCEnumerator CC_COLLECTION_CURRENT_ENUMERATOR, CC_PRIV_loop_once__ = { .option = 2 }; CC_PRIV_loop_once__.option; CCCollectionGetEnumerator(collection, &CC_COLLECTION_CURRENT_ENUMERATOR), CC_PRIV_loop_once__.option--) \
+if (CC_PRIV_loop_once__.option == 1) \
 for (type *element = CCCollectionEnumeratorGetCurrent(&CC_COLLECTION_CURRENT_ENUMERATOR); element; element = CCCollectionEnumeratorNext(&CC_COLLECTION_CURRENT_ENUMERATOR))
 
 /*!
