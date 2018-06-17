@@ -26,6 +26,7 @@
 #include "Allocator.h"
 #include "Assertion_Private.h"
 #include "CallbackAllocator.h"
+#include "DebugAllocator.h"
 
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
@@ -192,10 +193,36 @@ static void BoundsCheckDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Debug Allocator Implementation
+static void *DebugAllocator(CCDebugAllocatorInfo *Data, size_t Size)
+{
+    void *Ptr = malloc(Size);
+    CCDebugAllocatorTrack(Ptr, *Data);
+    
+    return Ptr;
+}
+
+static void *DebugReallocator(CCDebugAllocatorInfo *Data, void *Ptr, size_t Size)
+{
+    void *NewPtr = realloc(Ptr, Size);
+    
+    if (!Ptr) CCDebugAllocatorTrack(NewPtr, *Data);
+    else CCDebugAllocatorTrackReplaced(Ptr, NewPtr, *Data);
+    
+    return Ptr;
+}
+
+static void DebugDeallocator(void *Ptr)
+{
+    CCDebugAllocatorUntrack(Ptr);
+    free(Ptr);
+}
+
+
 #pragma mark -
 
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
-_Static_assert(CC_ALLOCATORS_MAX >= 5, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 6, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -212,7 +239,8 @@ static struct {
         { .allocator = (CCAllocatorFunction)CustomAllocator, .reallocator = (CCReallocatorFunction)CustomReallocator, .deallocator = (CCDeallocatorFunction)CustomDeallocator },
         { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator },
         { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator },
-        { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator }
+        { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
+        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator }
     }
 };
 

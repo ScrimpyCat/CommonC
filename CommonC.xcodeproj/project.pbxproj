@@ -293,6 +293,8 @@
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
 		F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */ = {isa = PBXBuildFile; fileRef = F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3E2746420D5931900D6AFE1 /* DebugAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E2746220D5931900D6AFE1 /* DebugAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3E2746520D5931900D6AFE1 /* DebugAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3E2746320D5931900D6AFE1 /* DebugAllocator.c */; };
 		F3E3E095187A5A5E00A38E72 /* Vector2DSSETests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E094187A5A5E00A38E72 /* Vector2DSSETests.m */; };
 		F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E096187A5AE300A38E72 /* Vector2DSSE2Tests.m */; };
 		F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3E098187A5AED00A38E72 /* Vector2DSSE3Tests.m */; };
@@ -532,6 +534,8 @@
 		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
 		F3D85E601A84C0BD00C4A362 /* CollectionArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionArray.c; sourceTree = "<group>"; };
 		F3DD2A781D0D9E3E00EAAD16 /* HashMapEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapEnumerator.h; sourceTree = "<group>"; };
+		F3E2746220D5931900D6AFE1 /* DebugAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugAllocator.h; sourceTree = "<group>"; };
+		F3E2746320D5931900D6AFE1 /* DebugAllocator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DebugAllocator.c; sourceTree = "<group>"; };
 		F3E3E094187A5A5E00A38E72 /* Vector2DSSETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSETests.m; sourceTree = "<group>"; };
 		F3E3E096187A5AE300A38E72 /* Vector2DSSE2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE2Tests.m; sourceTree = "<group>"; };
 		F3E3E098187A5AED00A38E72 /* Vector2DSSE3Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DSSE3Tests.m; sourceTree = "<group>"; };
@@ -961,6 +965,8 @@
 			children = (
 				F353DD5517ADF3BC00D1674C /* Allocator.h */,
 				F353DD5717ADF3C600D1674C /* Allocator.c */,
+				F3E2746220D5931900D6AFE1 /* DebugAllocator.h */,
+				F3E2746320D5931900D6AFE1 /* DebugAllocator.c */,
 				F3AE99371A6D613600212838 /* CallbackAllocator.h */,
 				F3FEE9E219428E1400C3626C /* CFAllocator.c */,
 				F36202F117AC510700153E85 /* MemoryAllocation.h */,
@@ -1289,6 +1295,7 @@
 				F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */,
 				F3AE99BD1A7511D500212838 /* Collection.h in Headers */,
 				F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */,
+				F3E2746420D5931900D6AFE1 /* DebugAllocator.h in Headers */,
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
 				F38018111DC30DE500343E07 /* Task.h in Headers */,
@@ -1566,6 +1573,7 @@
 				F312A0421DB83E0E0003BB24 /* ConcurrentGarbageCollector.c in Sources */,
 				F3AE99BC1A7511D500212838 /* Collection.c in Sources */,
 				F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */,
+				F3E2746520D5931900D6AFE1 /* DebugAllocator.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,

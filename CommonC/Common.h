@@ -45,6 +45,7 @@
 
 #include <CommonC/Allocator.h>
 #include <CommonC/CallbackAllocator.h>
+#include <CommonC/DebugAllocator.h>
 #include <CommonC/MemoryAllocation.h>
 
 #include <CommonC/Logging.h>

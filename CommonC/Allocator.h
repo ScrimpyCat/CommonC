@@ -29,6 +29,7 @@
 #include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Ownership.h>
+#include <CommonC/DebugAllocator.h>
 
 typedef struct CCAllocatorType {
     int allocator; //the allocator to be used
@@ -41,6 +42,7 @@ typedef struct CCAllocatorType {
 #define CC_CALLBACK_ALLOCATOR(callback) (CCAllocatorType){ .allocator = 2, .data = callback } //Uses stdlib
 #define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 3, .data = &(size_t){ alignment } } //Uses stdlib
 #define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 4 } //Uses stdlib
+#define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 5, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
