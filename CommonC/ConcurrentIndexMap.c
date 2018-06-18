@@ -141,11 +141,7 @@ static _Bool CCConcurrentIndexMapAtomicAppendElement##x(CCConcurrentIndexMap Ind
 { \
     for ( ; *Index < MaxCount; (*Index)++) \
     { \
-        CCConcurrentIndexMapAtomicType##x Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[*Index], memory_order_relaxed); \
-        if (!Value.set) \
-        { \
-            if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[*Index], &Value, ((CCConcurrentIndexMapAtomicType##x){ .set = TRUE, .element = *(CCConcurrentIndexMapAtomicElementType##x*)New }), memory_order_relaxed, memory_order_relaxed)) return TRUE; \
-        } \
+        if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[*Index], &((CCConcurrentIndexMapAtomicType##x){ .set = FALSE }), ((CCConcurrentIndexMapAtomicType##x){ .set = TRUE, .element = *(CCConcurrentIndexMapAtomicElementType##x*)New }), memory_order_relaxed, memory_order_relaxed)) return TRUE; \
     } \
     return FALSE; \
 }
@@ -295,11 +291,7 @@ static _Bool CCConcurrentIndexMapAtomicAppendElementPtr(CCConcurrentIndexMap Ind
     
     for ( ; *Index < MaxCount; (*Index)++)
     {
-        CCConcurrentIndexMapAtomicTypePtr Value = atomic_load_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[*Index], memory_order_relaxed);
-        if (!Value.ptr)
-        {
-            if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[*Index], &Value, ((CCConcurrentIndexMapAtomicTypePtr){ .ptr = Element }), memory_order_release, memory_order_relaxed)) return TRUE;
-        }
+        if (atomic_compare_exchange_strong_explicit(&((_Atomic(CCConcurrentIndexMapAtomicTypePtr)*)Data)[*Index], &((CCConcurrentIndexMapAtomicTypePtr){ .ptr = NULL}), ((CCConcurrentIndexMapAtomicTypePtr){ .ptr = Element }), memory_order_release, memory_order_relaxed)) return TRUE;
     }
     
     return FALSE;
