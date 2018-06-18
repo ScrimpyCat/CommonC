@@ -96,10 +96,11 @@ typedef struct CCConcurrentIndexMapInfo {
     CCConcurrentGarbageCollector gc;
 } CCConcurrentIndexMapInfo;
 
+#define CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE_SIZE(x) (x <= 8 ? (x <= 4 ? (x <= 2 ? (x <= 1 ? 1 : 2) : 4) : 8) : 16)
 #define CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE(x) \
 typedef struct { uint8_t e[x - 1]; } CCConcurrentIndexMapAtomicElementType##x; \
-typedef struct { CCConcurrentIndexMapAtomicElementType##x element; uint8_t set; } CCConcurrentIndexMapAtomicType##x; \
-_Static_assert(sizeof(CCConcurrentIndexMapAtomicType##x) == x, "CCConcurrentIndexMapAtomicType"#x " should have a size of "#x); \
+typedef struct { CCConcurrentIndexMapAtomicElementType##x element; uint8_t set; uint8_t pad[CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE_SIZE(x) - x]; } CCConcurrentIndexMapAtomicType##x; \
+_Static_assert(sizeof(CCConcurrentIndexMapAtomicType##x) == CC_CONCURRENT_INDEX_MAP_ATOMIC_TYPE_SIZE(x), "CCConcurrentIndexMapAtomicType"#x " should be padded to a power of 2 size"); \
 static _Bool CCConcurrentIndexMapAtomicInitElement##x(CCConcurrentIndexMap IndexMap, void *Data, size_t Index, const void *Element) \
 { \
     atomic_init(&((_Atomic(CCConcurrentIndexMapAtomicType##x)*)Data)[Index], Element ? ((CCConcurrentIndexMapAtomicType##x){ .set = TRUE, .element = *(CCConcurrentIndexMapAtomicElementType##x*)Element }) : ((CCConcurrentIndexMapAtomicType##x){ .set = FALSE })); \
