@@ -330,6 +330,24 @@ void *CCMemoryRetain(void *Ptr)
     return Ptr;
 }
 
+int32_t CCMemoryRefCount(void *Ptr)
+{
+    CCAssertLog(Ptr, "Ptr must not be null");
+    
+    CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
+    
+    const int Index = Header->allocator;
+    if (Index < 0) return INT32_MAX;
+    
+#if CC_ALLOCATOR_USING_STDATOMIC
+    return atomic_load_explicit(&Header->refCount, memory_order_relaxed);
+#elif CC_ALLOCATOR_USING_OSATOMIC
+    return &Header->refCount;
+#else
+    return Header->refCount;
+#endif
+}
+
 void CCMemoryDeallocate(void *Ptr)
 {
     CCAssertLog(Ptr, "Ptr must not be null");

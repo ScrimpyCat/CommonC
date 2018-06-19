@@ -58,6 +58,7 @@ CC_NEW void *CCMalloc(CCAllocatorType Type, size_t Size, const char * const File
 CC_NEW void *CCRealloc(CCAllocatorType Type, void *CC_DESTROY(Ptr), size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallback ErrorCallback) CC_WARN_UNUSED_RESULT;
 void CCFree(void *CC_DESTROY(Ptr));
 CC_NEW void *CCRetain(void *Ptr);
+int32_t CCRefCount(void *Ptr);
 
 #if __BLOCKS__
 CC_NEW void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback) CC_WARN_UNUSED_RESULT;

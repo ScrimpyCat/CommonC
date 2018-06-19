@@ -111,12 +111,20 @@ CC_NEW void *CCMemoryReallocate(CCAllocatorType Type, void *CC_DESTROY(Ptr), siz
 
 /*!
  * @brief Retain a reference to the memory allocation.
- * description The function is threadsafe.
+ * @description The function is threadsafe.
  * @param Ptr The pointer to the memory allocation.
  * @return The pointer to the memory allocation (or Ptr). A subsequent call must be made to
  *         @b CCMemoryDeallocate in order to release the reference/free the memory.
  */
 CC_NEW void *CCMemoryRetain(void *Ptr);
+
+/*!
+ * @brief Get the number of retained references to the memory allocation.
+ * @description The function is threadsafe.
+ * @param Ptr The pointer to the memory allocation.
+ * @return The number of references to this memory allocation.
+ */
+int32_t CCMemoryRefCount(void *Ptr);
 
 /*!
  * @brief Deallocate the memory allocation.

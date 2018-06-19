@@ -78,6 +78,11 @@ void *CCRetain(void *Ptr)
     return Ptr ? CCMemoryRetain(Ptr) : NULL;
 }
 
+int32_t CCRefCount(void *Ptr)
+{
+    return Ptr ? CCMemoryRefCount(Ptr) : 0;
+}
+
 #if __BLOCKS__
 void *CCMallocBlock(CCAllocatorType Type, size_t Size, const char * const Filename, const char * const FunctionName, int Line, void *CallbackData, CCErrorCallbackBlock ErrorCallback)
 {
