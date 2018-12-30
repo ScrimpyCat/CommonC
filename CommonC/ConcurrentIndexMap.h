@@ -97,6 +97,7 @@ size_t CCConcurrentIndexMapAppendElement(CCConcurrentIndexMap IndexMap, const vo
  * @param Element The replacement element. This must not be NULL.
  * @param ReplacedElement A pointer to where the old value that was replaced can be written to. If NULL
  *        this will be ignored.
+ *
  * @return Whether or not an element was replaced at the given index.
  */
 _Bool CCConcurrentIndexMapReplaceElementAtIndex(CCConcurrentIndexMap IndexMap, size_t Index, const void *Element, void *ReplacedElement);
