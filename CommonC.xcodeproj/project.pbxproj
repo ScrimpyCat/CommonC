@@ -289,6 +289,8 @@
 		F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */; };
 		F3BD17C31C02E15F00B3849E /* FileSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BD17C11C02E15F00B3849E /* FileSystem.c */; };
 		F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BD17C21C02E15F00B3849E /* FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; };
+		F3BF12E121D8E363000385C6 /* ConcurrentIDPool.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */; };
 		F3D657D017D5DA8F00B54101 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
@@ -529,6 +531,8 @@
 		F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DAVXTests.m; sourceTree = "<group>"; };
 		F3BD17C11C02E15F00B3849E /* FileSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileSystem.c; sourceTree = "<group>"; };
 		F3BD17C21C02E15F00B3849E /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDPool.h; sourceTree = "<group>"; };
+		F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIDPool.c; sourceTree = "<group>"; };
 		F3D657CF17D5DA8F00B54101 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		F3D657D317D5FD5200B54101 /* Maths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Maths.h; sourceTree = "<group>"; };
 		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
@@ -1020,6 +1024,8 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */,
+				F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
@@ -1264,6 +1270,7 @@
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
+				F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */,
 				F353DD5617ADF3BC00D1674C /* Allocator.h in Headers */,
 				F353DD6E17B0239C00D1674C /* Types.h in Headers */,
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
@@ -1552,6 +1559,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3BF12E121D8E363000385C6 /* ConcurrentIDPool.c in Sources */,
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
 				F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */,
 				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
