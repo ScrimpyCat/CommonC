@@ -31,6 +31,7 @@
 
 #pragma mark - Collection Callbacks
 
+extern const CCCollectionElementDestructor CCGenericDestructorForCollection;
 extern const CCCollectionElementDestructor CCStringDestructorForCollection;
 extern const CCCollectionElementDestructor CCDataDestructorForCollection;
 extern const CCCollectionElementDestructor CCArrayDestructorForCollection;
@@ -46,6 +47,7 @@ extern const CCComparator CCStringComparatorForCollection;
 
 #pragma mark - Dictionary Callbacks
 
+extern const CCDictionaryElementDestructor CCGenericDestructorForDictionary;
 extern const CCDictionaryElementDestructor CCStringDestructorForDictionary;
 extern const CCDictionaryElementDestructor CCDataDestructorForDictionary;
 extern const CCDictionaryElementDestructor CCArrayDestructorForDictionary;

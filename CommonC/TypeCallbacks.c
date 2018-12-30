@@ -34,6 +34,7 @@
 
 #pragma mark Destructors
 
+static void CCGenericContainerElementDestructor(void *Container, void *Element);
 static void CCStringContainerElementDestructor(void *Container, CCString *Element);
 static void CCDataContainerElementDestructor(void *Container, CCData *Element);
 static void CCArrayContainerElementDestructor(void *Container, CCArray *Element);
@@ -56,6 +57,7 @@ static CCComparisonResult CCStringComparator(CCString *Left, CCString *Right);
 #pragma mark - Collection Callbacks
 #pragma mark Destructors
 
+const CCCollectionElementDestructor CCGenericDestructorForCollection = (CCCollectionElementDestructor)CCGenericContainerElementDestructor;
 const CCCollectionElementDestructor CCStringDestructorForCollection = (CCCollectionElementDestructor)CCStringContainerElementDestructor;
 const CCCollectionElementDestructor CCDataDestructorForCollection = (CCCollectionElementDestructor)CCDataContainerElementDestructor;
 const CCCollectionElementDestructor CCArrayDestructorForCollection = (CCCollectionElementDestructor)CCArrayContainerElementDestructor;
@@ -74,6 +76,7 @@ const CCComparator CCStringComparatorForCollection = (CCComparator)CCStringCompa
 #pragma mark - Dictionary Callbacks
 #pragma mark Destructors
 
+const CCDictionaryElementDestructor CCGenericDestructorForDictionary = (CCDictionaryElementDestructor)CCGenericContainerElementDestructor;
 const CCDictionaryElementDestructor CCStringDestructorForDictionary = (CCDictionaryElementDestructor)CCStringContainerElementDestructor;
 const CCDictionaryElementDestructor CCDataDestructorForDictionary = (CCDictionaryElementDestructor)CCDataContainerElementDestructor;
 const CCDictionaryElementDestructor CCArrayDestructorForDictionary = (CCDictionaryElementDestructor)CCArrayContainerElementDestructor;
@@ -94,6 +97,11 @@ const CCDictionaryKeyHasher CCStringHasherForDictionary = (CCDictionaryKeyHasher
 const CCComparator CCStringComparatorForDictionary = (CCComparator)CCStringComparator;
 
 #pragma mark -
+
+static void CCGenericContainerElementDestructor(void *Container, void *Element)
+{
+    CCFree(Element);
+}
 
 static void CCStringContainerElementDestructor(void *Container, CCString *Element)
 {
