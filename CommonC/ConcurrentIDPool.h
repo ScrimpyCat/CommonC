@@ -50,7 +50,7 @@
 
 
 /*!
- * @brief The concurrent ID.
+ * @brief The concurrent ID pool.
  * @description Allows @b CCRetain.
  */
 typedef struct CCConcurrentIDPoolInfo *CCConcurrentIDPool;
