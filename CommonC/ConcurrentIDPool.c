@@ -55,6 +55,8 @@ void CCConcurrentIDPoolDestroy(CCConcurrentIDPool IDPool)
 
 size_t CCConcurrentIDPoolAssign(CCConcurrentIDPool IDPool)
 {
+    CCAssertLog(IDPool, "IDPool must not be null");
+    
     size_t ID;
     while (!CCConcurrentIDPoolTryAssign(IDPool, &ID)) CC_SPIN_WAIT();
     
@@ -63,6 +65,8 @@ size_t CCConcurrentIDPoolAssign(CCConcurrentIDPool IDPool)
 
 _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID)
 {
+    CCAssertLog(IDPool, "IDPool must not be null");
+    
     for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop += (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0]))))
     {
         uint64_t Sample = atomic_load_explicit((_Atomic(uint64_t)*)&IDPool->pool[Loop], memory_order_relaxed);
@@ -85,6 +89,7 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID)
 
 void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID)
 {
+    CCAssertLog(IDPool, "IDPool must not be null");
     CCAssertLog(ID < IDPool->size, "ID must have been assigned from this pool");
     
     atomic_store_explicit(&IDPool->pool[ID], 0, memory_order_release);
