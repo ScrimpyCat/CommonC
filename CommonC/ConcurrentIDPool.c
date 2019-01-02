@@ -33,12 +33,20 @@ typedef struct CCConcurrentIDPoolInfo {
     _Atomic(uint8_t) pool[];
 } CCConcurrentIDPoolInfo;
 
+#if CC_HARDWARE_PTR_64
+typedef uint64_t CCConcurrentIDPoolSample;
+#define CC_CONCURRENT_ID_POOL_SAMPLE_MAX UINT64_MAX
+#else
+typedef uint32_t CCConcurrentIDPoolSample;
+#define CC_CONCURRENT_ID_POOL_SAMPLE_MAX UINT32_MAX
+#endif
+
 CCConcurrentIDPool CCConcurrentIDPoolCreate(CCAllocatorType Allocator, size_t PoolSize)
 {
     CCAssertLog(PoolSize >= 1, "PoolSize must be at least 1");
     
     CCConcurrentIDPool IDPool;
-    const size_t PaddedPoolCount = ((((PoolSize - 1) / (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0])))) + 1) * (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0]))));
+    const size_t PaddedPoolCount = ((((PoolSize - 1) / (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0])))) + 1) * (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0]))));
     IDPool = CCMalloc(Allocator, sizeof(CCConcurrentIDPoolInfo) + (PaddedPoolCount * sizeof(typeof(IDPool->pool[0]))), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (IDPool)
     {
@@ -70,12 +78,12 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID)
 {
     CCAssertLog(IDPool, "IDPool must not be null");
     
-    for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop += (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0]))))
+    for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop += (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0]))))
     {
-        uint64_t Sample = atomic_load_explicit((_Atomic(uint64_t)*)&IDPool->pool[Loop], memory_order_relaxed);
-        if (Sample != UINT64_MAX)
+        CCConcurrentIDPoolSample Sample = atomic_load_explicit((_Atomic(CCConcurrentIDPoolSample)*)&IDPool->pool[Loop], memory_order_relaxed);
+        if (Sample != CC_CONCURRENT_ID_POOL_SAMPLE_MAX)
         {
-            for (size_t Loop2 = Loop, SampleCount = Loop + (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0]))); Loop2 < SampleCount; Loop2++)
+            for (size_t Loop2 = Loop, SampleCount = Loop + (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0]))); Loop2 < SampleCount; Loop2++)
             {
                 if (atomic_exchange_explicit(&IDPool->pool[Loop2], UINT8_MAX, memory_order_relaxed) == 0)
                 {
