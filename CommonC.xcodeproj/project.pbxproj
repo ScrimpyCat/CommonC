@@ -290,7 +290,7 @@
 		F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */; };
 		F3BD17C31C02E15F00B3849E /* FileSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BD17C11C02E15F00B3849E /* FileSystem.c */; };
 		F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BD17C21C02E15F00B3849E /* FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; };
+		F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BF12E121D8E363000385C6 /* ConcurrentIDPool.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */; };
 		F3D657D017D5DA8F00B54101 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };

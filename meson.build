@@ -22,6 +22,7 @@ src = [
     'CommonC/CommonC.c',
     'CommonC/ConcurrentBuffer.c',
     'CommonC/ConcurrentGarbageCollector.c',
+    'CommonC/ConcurrentIDPool.c',
     'CommonC/ConcurrentIndexMap.c',
     'CommonC/ConcurrentQueue.c',
     'CommonC/CustomFormatSpecifiers.c',

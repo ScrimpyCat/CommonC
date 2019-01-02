@@ -104,5 +104,4 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID);
  */
 void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID);
 
-
 #endif

@@ -111,4 +111,6 @@
 
 #include <CommonC/ConcurrentBuffer.h>
 
+#include <CommonC/ConcurrentIDPool.h>
+
 #endif
