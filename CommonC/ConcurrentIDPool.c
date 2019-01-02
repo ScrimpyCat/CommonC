@@ -37,11 +37,14 @@ CCConcurrentIDPool CCConcurrentIDPoolCreate(CCAllocatorType Allocator, size_t Po
 {
     CCAssertLog(PoolSize >= 1, "PoolSize must be at least 1");
     
-    CCConcurrentIDPool IDPool = CCMalloc(Allocator, sizeof(CCConcurrentIDPoolInfo) + (sizeof(typeof(IDPool->pool[0])) * PoolSize), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    CCConcurrentIDPool IDPool;
+    const size_t PaddedPoolCount = ((((PoolSize - 1) / (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0])))) + 1) * (sizeof(uint64_t) / sizeof(typeof(IDPool->pool[0]))));
+    IDPool = CCMalloc(Allocator, sizeof(CCConcurrentIDPoolInfo) + (PaddedPoolCount * sizeof(typeof(IDPool->pool[0]))), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (IDPool)
     {
         IDPool->size = PoolSize;
         for (size_t Loop = 0; Loop < PoolSize; Loop++) atomic_init(&IDPool->pool[Loop], 0);
+        for (size_t Loop = PoolSize, PadCount = PaddedPoolCount; Loop < PadCount; Loop++) atomic_init(&IDPool->pool[Loop], UINT8_MAX);
     }
     
     return IDPool;
