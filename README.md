@@ -23,6 +23,7 @@ The feature set so far includes:
 * Enumerators - simple enumerating interfaces for maps, collections, and strings.
 * Queues - single threaded and lock-free (many producer-consumer) concurrent FIFO queues.
 * Garbage Collectors - for safe memory reclamation in lock-free algorithms.
+* Unique IDs - for obtaining and managing IDs.
 
 
 ## Build
