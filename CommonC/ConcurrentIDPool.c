@@ -32,7 +32,7 @@
  CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE enforces standard compliant usage of atomic types. This however will
  result in no batched operations.
  */
-#define CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE 1 // 0
+#define CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE 0
 
 #if !CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
 #if !CC_HARDWARE_PTR_64 && !CC_HARDWARE_PTR_32
@@ -151,8 +151,10 @@ void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID)
     CCAssertLog(ID < IDPool->size, "ID must have been assigned from this pool");
     
 #if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+    CCAssertLog(atomic_flag_test_and_set_explicit(&IDPool->pool[ID], memory_order_relaxed), "ID must be assigned");
     atomic_flag_clear_explicit(&IDPool->pool[ID], memory_order_release);
 #else
+    CCAssertLog(atomic_load_explicit(&IDPool->pool[ID], memory_order_relaxed), "ID must be assigned");
     atomic_store_explicit(&IDPool->pool[ID], 0, memory_order_release);
 #endif
 }
