@@ -221,7 +221,9 @@ static void DebugDeallocator(void *Ptr)
 
 #pragma mark -
 
+#ifndef CC_ALLOCATORS_MAX
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
+#endif
 _Static_assert(CC_ALLOCATORS_MAX >= 6, "Allocator max too small, must allow for the default allocators.");
 
 

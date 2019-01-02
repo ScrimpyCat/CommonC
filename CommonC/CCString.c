@@ -38,12 +38,16 @@
  This allows for more efficient checks, if it's not possible to guarantee this, it should be disabled (comment out or
  set to 0).
  */
+#ifndef CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0
 #define CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0 1
+#endif
 
 /*
  CC_STRING_TAGGED_HASH_CACHE allows for the hashes of tagged strings to be cached.
  */
+#ifndef CC_STRING_TAGGED_HASH_CACHE
 #define CC_STRING_TAGGED_HASH_CACHE 1
+#endif
 
 #if CC_STRING_TAGGED_HASH_CACHE
 #include "Dictionary.h"

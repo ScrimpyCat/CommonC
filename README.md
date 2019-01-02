@@ -39,3 +39,17 @@ Use meson to generate the build:
 ```bash
 mkdir build && CC=clang meson build
 ```
+
+## Configuration
+
+A list of globally defineable options to change the behaviour of the library (requires recompilation). For more details of each see their file reference.
+
+* `CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE` - ConcurrentIDPool.c (disable some optimisation)
+* `CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE` - ConcurrentIndexMap.c (disable some optimisation)
+* `CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0` - CCString.c (disable some optimisation)
+* `CC_STRING_TAGGED_HASH_CACHE` - CCString.c (disable some optimisation)
+* `CC_NO_ASSERT` - Assertion.c (remove all assertions)
+* `CC_EXCLUDE_ASL_LOGGER` - Logging.c (exclude system logger)
+* `CC_EXCLUDE_OSL_LOGGER` - Logging.c (exclude system logger)
+* `CC_EXCLUDE_SYSLOG_LOGGER` - Logging.c (exclude system logger)
+* `CC_ALLOCATORS_MAX` - Allocator.c (increase max allocator list size)

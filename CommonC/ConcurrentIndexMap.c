@@ -33,7 +33,9 @@
  CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE enforces standard compliant usage of atomic types. This however will
  result in all operations requiring CAS-loops.
  */
+#ifndef CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
 #define CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE 0
+#endif
 
 #if !CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
 #if !CC_HARDWARE_PTR_64 && !CC_HARDWARE_PTR_32
