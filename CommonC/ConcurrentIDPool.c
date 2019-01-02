@@ -28,11 +28,29 @@
 #include "Assertion.h"
 #include <stdatomic.h>
 
+/*
+ CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE enforces standard compliant usage of atomic types. This however will
+ result in no batched operations.
+ */
+#define CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE 1 // 0
+
+#if !CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+#if !CC_HARDWARE_PTR_64 && !CC_HARDWARE_PTR_32
+#undef CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+#define CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE 1
+#endif
+#endif
+
 typedef struct CCConcurrentIDPoolInfo {
     size_t size;
+#if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+    atomic_flag pool[];
+#else
     _Atomic(uint8_t) pool[];
+#endif
 } CCConcurrentIDPoolInfo;
 
+#if !CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
 #if CC_HARDWARE_PTR_64
 typedef uint64_t CCConcurrentIDPoolSample;
 #define CC_CONCURRENT_ID_POOL_SAMPLE_MAX UINT64_MAX
@@ -40,19 +58,36 @@ typedef uint64_t CCConcurrentIDPoolSample;
 typedef uint32_t CCConcurrentIDPoolSample;
 #define CC_CONCURRENT_ID_POOL_SAMPLE_MAX UINT32_MAX
 #endif
+#endif
+
+#if !CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+#if CC_HARDWARE_PTR_64
+_Static_assert(sizeof(_Atomic(CCConcurrentIDPoolSample)) == 8, "Native types are not atomic, please set CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE");
+#elif CC_HARDWARE_PTR_32
+_Static_assert(sizeof(_Atomic(CCConcurrentIDPoolSample)) == 4, "Native types are not atomic, please set CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE");
+#endif
+#endif
 
 CCConcurrentIDPool CCConcurrentIDPoolCreate(CCAllocatorType Allocator, size_t PoolSize)
 {
     CCAssertLog(PoolSize >= 1, "PoolSize must be at least 1");
     
     CCConcurrentIDPool IDPool;
+#if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+    const size_t PaddedPoolCount = PoolSize;
+#else
     const size_t PaddedPoolCount = ((((PoolSize - 1) / (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0])))) + 1) * (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0]))));
+#endif
     IDPool = CCMalloc(Allocator, sizeof(CCConcurrentIDPoolInfo) + (PaddedPoolCount * sizeof(typeof(IDPool->pool[0]))), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (IDPool)
     {
         IDPool->size = PoolSize;
+#if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+        for (size_t Loop = 0; Loop < PoolSize; Loop++) atomic_flag_clear_explicit(&IDPool->pool[Loop], memory_order_relaxed);
+#else
         for (size_t Loop = 0; Loop < PoolSize; Loop++) atomic_init(&IDPool->pool[Loop], 0);
         for (size_t Loop = PoolSize, PadCount = PaddedPoolCount; Loop < PadCount; Loop++) atomic_init(&IDPool->pool[Loop], UINT8_MAX);
+#endif
     }
     
     return IDPool;
@@ -78,6 +113,17 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID)
 {
     CCAssertLog(IDPool, "IDPool must not be null");
     
+#if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+    for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop++)
+    {
+        if (!atomic_flag_test_and_set_explicit(&IDPool->pool[Loop], memory_order_relaxed))
+        {
+            *ID = Loop;
+            atomic_thread_fence(memory_order_acquire);
+            return TRUE;
+        }
+    }
+#else
     for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop += (sizeof(CCConcurrentIDPoolSample) / sizeof(typeof(IDPool->pool[0]))))
     {
         CCConcurrentIDPoolSample Sample = atomic_load_explicit((_Atomic(CCConcurrentIDPoolSample)*)&IDPool->pool[Loop], memory_order_relaxed);
@@ -94,6 +140,7 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID)
             }
         }
     }
+#endif
     
     return FALSE;
 }
@@ -103,5 +150,9 @@ void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID)
     CCAssertLog(IDPool, "IDPool must not be null");
     CCAssertLog(ID < IDPool->size, "ID must have been assigned from this pool");
     
+#if CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE
+    atomic_flag_clear_explicit(&IDPool->pool[ID], memory_order_release);
+#else
     atomic_store_explicit(&IDPool->pool[ID], 0, memory_order_release);
+#endif
 }
