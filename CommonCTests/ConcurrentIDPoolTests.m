@@ -39,14 +39,20 @@
     size_t ID[17];
     CCConcurrentIDPool Pool = CCConcurrentIDPoolCreate(CC_STD_ALLOCATOR, sizeof(ID) / sizeof(size_t));
     
-    size_t Sum = 0, ExpectedSum = 0;
+    XCTAssertEqual(17, CCConcurrentIDPoolGetSize(Pool), @"Should return the correct size");
+    
+    size_t Sum = 0, ExpectedSum = 0, MaxID = 0, MinID = SIZE_MAX;
     for (size_t Loop = 0; Loop < sizeof(ID) / sizeof(size_t); Loop++)
     {
         XCTAssertTrue(CCConcurrentIDPoolTryAssign(Pool, &ID[Loop]), @"Should assign ID");
         Sum += ID[Loop];
         ExpectedSum += Loop;
+        if (MaxID < ID[Loop]) MaxID = ID[Loop];
+        if (MinID > ID[Loop]) MinID = ID[Loop];
     }
     
+    XCTAssertEqual(MinID, 0, @"IDs should start from 0");
+    XCTAssertEqual(MaxID, 16, @"IDs should end at size - 1");
     XCTAssertEqual(Sum, ExpectedSum, @"Should not assign any ID more than once");
     XCTAssertFalse(CCConcurrentIDPoolTryAssign(Pool, &Sum), @"Should not assign an ID");
     
