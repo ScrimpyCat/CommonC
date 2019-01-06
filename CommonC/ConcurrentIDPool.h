@@ -61,7 +61,7 @@ typedef struct CCConcurrentIDPoolInfo *CCConcurrentIDPool;
  * @description This ID pool allows for many producer-consumer access.
  * @param Allocator The allocator to be used for the allocation.
  * @param PoolSize The number of IDs that will be allocated. The base ID will start 0, and go up
- *                 to (PoolSize - 1). Due to this if the PoolSize = sizeof(uint8_t) then the ID
+ *                 to (PoolSize - 1). Due to this if the PoolSize = 2^8 then the ID
  *                 will be one that can fit within an uint8_t.
  *
  * @return An ID pool, or NULL on failure. Must be destroyed to free the memory.
@@ -103,5 +103,15 @@ _Bool CCConcurrentIDPoolTryAssign(CCConcurrentIDPool IDPool, size_t *ID);
  * @param ID The ID to be recycled.
  */
 void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID);
+
+#pragma mark - Info
+
+/*!
+ * @brief Get the size of the pool.
+ * @description The size - 1 will be the maximum ID that can be returned by this pool.
+ * @param IDPool The ID pool to get the size of.
+ * @return The size of this pool.
+ */
+size_t CCConcurrentIDPoolGetSize(CCConcurrentIDPool IDPool);
 
 #endif

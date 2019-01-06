@@ -160,3 +160,10 @@ void CCConcurrentIDPoolRecycle(CCConcurrentIDPool IDPool, size_t ID)
     atomic_store_explicit(&IDPool->pool[ID], 0, memory_order_release);
 #endif
 }
+
+size_t CCConcurrentIDPoolGetSize(CCConcurrentIDPool IDPool)
+{
+    CCAssertLog(IDPool, "IDPool must not be null");
+    
+    return IDPool->size;
+}
