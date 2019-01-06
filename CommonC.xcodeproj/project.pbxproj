@@ -260,6 +260,9 @@
 		F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */; };
 		F3A91A50186BC4B100EF0B95 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A91A4F186BC4B100EF0B95 /* XCTest.framework */; };
 		F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */; };
+		F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */; };
+		F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99301A6D0FFF00212838 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99311A6D0FFF00212838 /* LinkedList.c */; };
 		F3AE99351A6D508200212838 /* LinkedListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99341A6D508200212838 /* LinkedListTests.m */; };
@@ -502,6 +505,9 @@
 		F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandleTests.m; sourceTree = "<group>"; };
 		F3A91A4F186BC4B100EF0B95 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DTests.m; sourceTree = "<group>"; };
+		F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDGenerator.h; sourceTree = "<group>"; };
+		F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentIDGenerator.c; sourceTree = "<group>"; };
+		F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDGeneratorInterface.h; sourceTree = "<group>"; };
 		F3AE99301A6D0FFF00212838 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		F3AE99311A6D0FFF00212838 /* LinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LinkedList.c; sourceTree = "<group>"; };
 		F3AE99341A6D508200212838 /* LinkedListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedListTests.m; sourceTree = "<group>"; };
@@ -1023,11 +1029,22 @@
 			name = Vectors;
 			sourceTree = "<group>";
 		};
+		F3A938CB21E2629500BFDE93 /* ID Generator */ = {
+			isa = PBXGroup;
+			children = (
+				F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */,
+				F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */,
+				F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */,
+			);
+			name = "ID Generator";
+			sourceTree = "<group>";
+		};
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */,
 				F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */,
+				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
@@ -1265,6 +1282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F36202E917AC432500153E85 /* Common.h in Headers */,
+				F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F353DD5B17AE208600D1674C /* Generics.h in Headers */,
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
@@ -1316,6 +1334,7 @@
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
+				F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */,
 				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
@@ -1609,6 +1628,7 @@
 				F353DD7B17B14F9800D1674C /* File.c in Sources */,
 				F306400B184BAA8700122BE9 /* SystemInfo.c in Sources */,
 				F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */,
+				F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
