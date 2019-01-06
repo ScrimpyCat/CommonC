@@ -48,7 +48,7 @@ typedef void (*CCConcurrentIDGeneratorDestructorCallback)(void *Internal);
  * @param Internal The pointer to the internal of the ID generator.
  * @return The ID that has been assigned. This ID must not be assigned again until it has been recycled.
  */
-typedef size_t (*CCConcurrentIDGeneratorAssignCallback)(void *Internal);
+typedef uintptr_t (*CCConcurrentIDGeneratorAssignCallback)(void *Internal);
 
 /*!
  * @brief A callback to try obtain an ID from the ID generator.
@@ -58,21 +58,21 @@ typedef size_t (*CCConcurrentIDGeneratorAssignCallback)(void *Internal);
  *
  * @return Whether an ID was assigned (TRUE), or not (FALSE).
  */
-typedef _Bool (*CCConcurrentIDGeneratorTryAssignCallback)(void *Internal, size_t *ID);
+typedef _Bool (*CCConcurrentIDGeneratorTryAssignCallback)(void *Internal, uintptr_t *ID);
 
 /*!
  * @brief A callback to make an ID available again.
  * @param Internal The pointer to the internal of the ID generator.
  * @param ID The ID to be recycled.
  */
-typedef void (*CCConcurrentIDGeneratorRecycleCallback)(void *Internal, size_t ID);
+typedef void (*CCConcurrentIDGeneratorRecycleCallback)(void *Internal, uintptr_t ID);
 
 /*!
  * @brief A callback to get the max ID this generator may assign.
  * @param Internal The pointer to the internal of the ID generator.
  * @return The max ID it may assign.
  */
-typedef size_t (*CCConcurrentIDGeneratorGetMaxIDCallback)(void *Internal);
+typedef uintptr_t (*CCConcurrentIDGeneratorGetMaxIDCallback)(void *Internal);
 
 
 #pragma mark -
