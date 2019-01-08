@@ -28,7 +28,7 @@
 
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
-#include <CommonC/CCConcurrentIDGeneratorInterface.h>
+#include <CommonC/ConcurrentIDGeneratorInterface.h>
 
 /*!
  * @brief The concurrent ID generator.
