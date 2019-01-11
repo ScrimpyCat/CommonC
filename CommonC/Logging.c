@@ -911,12 +911,13 @@ void CCLogAddFile(FSHandle File)
 #if CC_ASL_LOGGER
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wunreachable-code"
     int Fd = FSHandleGetFileDescriptor(File);
     
 #if CC_PLATFORM_APPLE_VERSION_MIN_REQUIRED(CC_PLATFORM_MAC_10_9, CC_PLATFORM_IOS_7_0)
     if (&asl_add_output_file) asl_add_output_file(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG), ASL_ENCODE_SAFE);
     else
-#endif 
+#endif
         if (&asl_add_output) asl_add_output(Client, Fd, ASL_MSG_FMT_BSD, ASL_TIME_FMT_LCL, ASL_ENCODE_SAFE);
 #pragma clang diagnostic pop
 #elif CC_SYSLOG_LOGGER
