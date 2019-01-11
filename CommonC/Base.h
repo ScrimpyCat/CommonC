@@ -26,6 +26,12 @@
 #ifndef CommonC_Base_h
 #define CommonC_Base_h
 
+#include <CommonC/Platform.h>
+
+#if CC_PLATFORM_APPLE
+#import <CoreFoundation/CoreFoundation.h>
+#endif
+
 #if !defined(CC_EXCLUDE_CSTD_HEADERS)
 #include <stdio.h>
 #include <stdlib.h>
