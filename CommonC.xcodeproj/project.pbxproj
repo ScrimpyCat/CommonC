@@ -12,7 +12,6 @@
 		F30437A51C62DFA200388C74 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F304379B1C62DFA200388C74 /* CommonC.framework */; };
 		F30437AA1C62DFA200388C74 /* CommonC_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30437A91C62DFA200388C74 /* CommonC_iOSTests.m */; };
 		F30437B21C62E02C00388C74 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = F362027717AC3FFD00153E85 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F30437B41C62E06500388C74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F30437B31C62E06500388C74 /* Foundation.framework */; };
 		F30437B51C62E06F00388C74 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F30437B61C62E07200388C74 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202EF17AC442700153E85 /* Platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30437B71C62E07900388C74 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD6217AE61DE00D1674C /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,6 +134,30 @@
 		F322F0601C09551100BAA44E /* Path.c in Sources */ = {isa = PBXBuildFile; fileRef = F322F05E1C09551100BAA44E /* Path.c */; };
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3236CB91FD8CAF700ACC970 /* ConcurrentBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */; };
+		F328727121E8814D00B1A584 /* ConcurrentIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */; };
+		F328727221E8815500B1A584 /* ConcurrentIDPool.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */; };
+		F328727321E8815D00B1A584 /* ConcurrentTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B228E5207929E400550A6A /* ConcurrentTree.c */; };
+		F328727421E8816400B1A584 /* ConcurrentBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */; };
+		F328727521E8816D00B1A584 /* Task.c in Sources */ = {isa = PBXBuildFile; fileRef = F380180E1DC30DE500343E07 /* Task.c */; };
+		F328727621E8817B00B1A584 /* TaskQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = F3E746061DC6079400F1F268 /* TaskQueue.c */; };
+		F328727721E8817B00B1A584 /* ConcurrentGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F312A0401DB83E0E0003BB24 /* ConcurrentGarbageCollector.c */; };
+		F328727821E8817B00B1A584 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
+		F328727921E8817B00B1A584 /* LazyGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */; };
+		F328727A21E8818900B1A584 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
+		F328727B21E8818900B1A584 /* ConcurrentQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = F33427401DB408FF008CB998 /* ConcurrentQueue.c */; };
+		F328727C21E8818900B1A584 /* ConcurrentArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */; };
+		F328727D21E8818900B1A584 /* ConcurrentIndexMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F31BEE93208276D200DD7F83 /* ConcurrentIndexMap.c */; };
+		F328727E21E8818900B1A584 /* DebugAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3E2746320D5931900D6AFE1 /* DebugAllocator.c */; };
+		F328727F21E881BC00B1A584 /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
+		F328728021E881BC00B1A584 /* ConcurrentArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */; };
+		F328728121E881D300B1A584 /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0920C8D3DB004F7331 /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728221E881D300B1A584 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728721E881D300B1A584 /* DebugAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E2746220D5931900D6AFE1 /* DebugAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728921E8864300B1A584 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F328728821E8864300B1A584 /* Foundation.framework */; };
 		F32AF65521DB88C60030206F /* ConcurrentIDPoolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F32AF65421DB88C60030206F /* ConcurrentIDPoolTests.m */; };
 		F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -388,6 +411,7 @@
 		F322F05E1C09551100BAA44E /* Path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Path.c; sourceTree = "<group>"; };
 		F322F05F1C09551100BAA44E /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
 		F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentBufferTests.m; sourceTree = "<group>"; };
+		F328728821E8864300B1A584 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F32AF65421DB88C60030206F /* ConcurrentIDPoolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIDPoolTests.m; sourceTree = "<group>"; };
 		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
@@ -570,7 +594,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F30437B41C62E06500388C74 /* Foundation.framework in Frameworks */,
+				F328728921E8864300B1A584 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +925,7 @@
 			isa = PBXGroup;
 			children = (
 				F30437B31C62E06500388C74 /* Foundation.framework */,
+				F328728821E8864300B1A584 /* Foundation.framework */,
 				F3A91A4F186BC4B100EF0B95 /* XCTest.framework */,
 				F362026A17AC3FFD00153E85 /* Cocoa.framework */,
 				F3F9B60D17BA4B4100D50297 /* Foundation.framework */,
@@ -1271,7 +1296,16 @@
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
 				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
 				F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */,
+				F328728121E881D300B1A584 /* Base.h in Headers */,
+				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
+				F328728221E881D300B1A584 /* ConcurrentIDPool.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
+				F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */,
+				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
+				F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */,
+				F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */,
+				F328727F21E881BC00B1A584 /* ConcurrentTree.h in Headers */,
+				F328728021E881BC00B1A584 /* ConcurrentArray.h in Headers */,
 				F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */,
 				F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */,
 			);
@@ -1532,6 +1566,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F328727A21E8818900B1A584 /* Queue.c in Sources */,
+				F328727B21E8818900B1A584 /* ConcurrentQueue.c in Sources */,
+				F328727C21E8818900B1A584 /* ConcurrentArray.c in Sources */,
+				F328727D21E8818900B1A584 /* ConcurrentIndexMap.c in Sources */,
+				F328727E21E8818900B1A584 /* DebugAllocator.c in Sources */,
+				F328727621E8817B00B1A584 /* TaskQueue.c in Sources */,
+				F328727721E8817B00B1A584 /* ConcurrentGarbageCollector.c in Sources */,
+				F328727821E8817B00B1A584 /* EpochGarbageCollector.c in Sources */,
+				F328727921E8817B00B1A584 /* LazyGarbageCollector.c in Sources */,
+				F328727521E8816D00B1A584 /* Task.c in Sources */,
+				F328727421E8816400B1A584 /* ConcurrentBuffer.c in Sources */,
+				F328727321E8815D00B1A584 /* ConcurrentTree.c in Sources */,
+				F328727221E8815500B1A584 /* ConcurrentIDPool.c in Sources */,
+				F328727121E8814D00B1A584 /* ConcurrentIDGenerator.c in Sources */,
 				F30437E91C62E1B800388C74 /* PathComponent.c in Sources */,
 				F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F36F83201D10A91B00193B08 /* TypeCallbacks.c in Sources */,
@@ -1758,6 +1806,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1765,10 +1814,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "CommonC-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrimpycat.CommonC;
 				PRODUCT_NAME = CommonC;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1797,6 +1846,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1805,10 +1855,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "CommonC-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.CommonC-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrimpycat.CommonC;
 				PRODUCT_NAME = CommonC;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1901,7 +1951,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1949,7 +1999,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1972,6 +2022,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
@@ -1992,6 +2043,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
