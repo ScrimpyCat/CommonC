@@ -170,6 +170,7 @@ else x = CC_PRIV_temp___; \
 //The following only allow for x that is alpha-numeric chars only, no array indexing, accessing members of a structure or union, etc.
 //CC_TEMP_Malloc(x, size, error)
 #define CC_TEMP_Malloc(x, size, ...) /* Only to be used in the same scope as it is allocated, free using CC_TEMP_Free */ \
+x = NULL; \
 const size_t x##__CC_PRIV__SIZE = size; \
 const _Bool x##__CC_PRIV__NEEDS_FREEING = (x##__CC_PRIV__SIZE <= CC_SHOULD_ALLOC_ON_STACK? 0 : (x = CCMalloc(CC_DEFAULT_ALLOCATOR, size, NULL, CC_DEFAULT_ERROR_CALLBACK))); \
 const _Bool x##__CC_PRIV__ALLOC_ON_STACK = (!x##__CC_PRIV__NEEDS_FREEING) && (x##__CC_PRIV__SIZE <= CC_ALLOC_ON_STACK_MAX); \
