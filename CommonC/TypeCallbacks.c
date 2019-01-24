@@ -34,7 +34,7 @@
 
 #pragma mark Destructors
 
-static void CCGenericContainerElementDestructor(void *Container, void *Element);
+static void CCGenericContainerElementDestructor(void *Container, void **Element);
 static void CCStringContainerElementDestructor(void *Container, CCString *Element);
 static void CCDataContainerElementDestructor(void *Container, CCData *Element);
 static void CCArrayContainerElementDestructor(void *Container, CCArray *Element);
@@ -98,9 +98,9 @@ const CCComparator CCStringComparatorForDictionary = (CCComparator)CCStringCompa
 
 #pragma mark -
 
-static void CCGenericContainerElementDestructor(void *Container, void *Element)
+static void CCGenericContainerElementDestructor(void *Container, void **Element)
 {
-    CCFree(Element);
+    CCFree(*Element);
 }
 
 static void CCStringContainerElementDestructor(void *Container, CCString *Element)
