@@ -142,7 +142,11 @@ static void LogMessageOSL(CCOSLogContext *Ctx)
     os_log_with_type(Ctx->log, Ctx->type, "%s", Ctx->msg);
     os_release(Ctx->log);
     
-    if (Ctx->destroy) CCFree(Ctx);
+    if (Ctx->destroy)
+    {
+        CCFree((char*)Ctx->msg);
+        CCFree(Ctx);
+    }
 }
 #endif
 
@@ -750,7 +754,7 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
                     CCOSLogContext *Context;
                     if ((Context = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CCOSLogContext), NULL, CC_DEFAULT_ERROR_CALLBACK)))
                     {
-                        *Context = (CCOSLogContext){ .log = Log, .type = LogType, .msg = Message, .destroy = TRUE };
+                        *Context = (CCOSLogContext){ .log = Log, .type = LogType, .msg = CCRetain(Message), .destroy = TRUE };
                     }
                     
                     dispatch_async_f(LogQueue, Context, (dispatch_function_t)LogMessageOSL);
