@@ -111,6 +111,7 @@
 
 #include <CommonC/ConcurrentBuffer.h>
 
-#include <CommonC/ConcurrentIDPool.h>
+#include <CommonC/ConcurrentIDGenerator.h>
+#include <CommonC/ConsecutiveIDGenerator.h>
 
 #endif

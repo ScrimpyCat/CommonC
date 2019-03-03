@@ -24,27 +24,28 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "ConcurrentIDPool.h"
+#import "ConcurrentIDGenerator.h"
+#import "ConsecutiveIDGenerator.h"
 #import <stdatomic.h>
 #import <pthread.h>
 
-@interface ConcurrentIDPoolTests : XCTestCase
+@interface ConsecutiveIDGeneratorTests : XCTestCase
 
 @end
 
-@implementation ConcurrentIDPoolTests
+@implementation ConsecutiveIDGeneratorTests
 
 -(void) testExhaustingPool
 {
     size_t ID[17];
-    CCConcurrentIDPool Pool = CCConcurrentIDPoolCreate(CC_STD_ALLOCATOR, sizeof(ID) / sizeof(size_t));
+    CCConcurrentIDGenerator Pool = CCConcurrentIDGeneratorCreate(CC_STD_ALLOCATOR, sizeof(ID) / sizeof(size_t), CCConsecutiveIDGenerator);
     
-    XCTAssertEqual(17, CCConcurrentIDPoolGetSize(Pool), @"Should return the correct size");
+    XCTAssertEqual(17, CCConcurrentIDGeneratorGetMaxID(Pool), @"Should return the correct size");
     
     size_t Sum = 0, ExpectedSum = 0, MaxID = 0, MinID = SIZE_MAX;
     for (size_t Loop = 0; Loop < sizeof(ID) / sizeof(size_t); Loop++)
     {
-        XCTAssertTrue(CCConcurrentIDPoolTryAssign(Pool, &ID[Loop]), @"Should assign ID");
+        XCTAssertTrue(CCConcurrentIDGeneratorTryAssign(Pool, &ID[Loop]), @"Should assign ID");
         Sum += ID[Loop];
         ExpectedSum += Loop;
         if (MaxID < ID[Loop]) MaxID = ID[Loop];
@@ -54,19 +55,19 @@
     XCTAssertEqual(MinID, 0, @"IDs should start from 0");
     XCTAssertEqual(MaxID, 16, @"IDs should end at size - 1");
     XCTAssertEqual(Sum, ExpectedSum, @"Should not assign any ID more than once");
-    XCTAssertFalse(CCConcurrentIDPoolTryAssign(Pool, &Sum), @"Should not assign an ID");
+    XCTAssertFalse(CCConcurrentIDGeneratorTryAssign(Pool, &Sum), @"Should not assign an ID");
     
-    CCConcurrentIDPoolRecycle(Pool, ID[0]);
-    XCTAssertTrue(CCConcurrentIDPoolTryAssign(Pool, &Sum), @"Should assign ID");
+    CCConcurrentIDGeneratorRecycle(Pool, ID[0]);
+    XCTAssertTrue(CCConcurrentIDGeneratorTryAssign(Pool, &Sum), @"Should assign ID");
     
-    CCConcurrentIDPoolDestroy(Pool);
+    CCConcurrentIDGeneratorDestroy(Pool);
 }
 
 #define THREAD_COUNT 20
 #define IDS_PER_THREAD 500
 #define ID_POOL (IDS_PER_THREAD * THREAD_COUNT)
 
-static CCConcurrentIDPool P;
+static CCConcurrentIDGenerator P;
 static _Atomic(int) Assigned = ATOMIC_VAR_INIT(THREAD_COUNT);
 static void *Worker(void *Arg)
 {
@@ -74,21 +75,21 @@ static void *Worker(void *Arg)
     size_t ID[IDS_PER_THREAD];
     for (size_t Loop = 0; Loop < IDS_PER_THREAD; Loop++)
     {
-        ID[Loop] = CCConcurrentIDPoolAssign(P);
+        ID[Loop] = CCConcurrentIDGeneratorAssign(P);
         Sum += ID[Loop];
     }
     
     atomic_fetch_sub_explicit(&Assigned, 1, memory_order_release);
     while (atomic_load_explicit(&Assigned, memory_order_acquire));
     
-    for (size_t Loop = 0; Loop < IDS_PER_THREAD; Loop++) CCConcurrentIDPoolRecycle(P, ID[Loop]);
+    for (size_t Loop = 0; Loop < IDS_PER_THREAD; Loop++) CCConcurrentIDGeneratorRecycle(P, ID[Loop]);
     
     return (void*)Sum;
 }
 
 -(void) testMultiThreading
 {
-    P = CCConcurrentIDPoolCreate(CC_STD_ALLOCATOR, ID_POOL);
+    P = CCConcurrentIDGeneratorCreate(CC_STD_ALLOCATOR, ID_POOL, CCConsecutiveIDGenerator);
     
     pthread_t Threads[THREAD_COUNT];
     for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
@@ -111,24 +112,24 @@ static void *Worker(void *Arg)
     Sum = 0;
     for (size_t Loop = 0; Loop < ID_POOL; Loop++)
     {
-        Sum += CCConcurrentIDPoolAssign(P);
+        Sum += CCConcurrentIDGeneratorAssign(P);
     }
     
     XCTAssertEqual(Sum, Expected, @"All IDs should have been recycled");
     
-    CCConcurrentIDPoolDestroy(P);
+    CCConcurrentIDGeneratorDestroy(P);
 }
 
 #undef ID_POOL
 #define ID_POOL ((IDS_PER_THREAD / 5) * THREAD_COUNT)
 
-static CCConcurrentIDPool P;
+static CCConcurrentIDGenerator P;
 static void *Worker2(void *Arg)
 {
     size_t ID[IDS_PER_THREAD], Count = 0, FailureCount = 0;
     for (size_t Loop = 0; Loop < IDS_PER_THREAD; )
     {
-        if (CCConcurrentIDPoolTryAssign(P, &ID[Count]))
+        if (CCConcurrentIDGeneratorTryAssign(P, &ID[Count]))
         {
             Loop++;
             Count++;
@@ -136,7 +137,7 @@ static void *Worker2(void *Arg)
         
         else if (FailureCount == 10)
         {
-            for (size_t Loop = 0; Loop < Count; Loop++) CCConcurrentIDPoolRecycle(P, ID[Loop]);
+            for (size_t Loop = 0; Loop < Count; Loop++) CCConcurrentIDGeneratorRecycle(P, ID[Loop]);
             FailureCount = 0;
             Count = 0;
         }
@@ -144,14 +145,14 @@ static void *Worker2(void *Arg)
         else FailureCount++;
     }
     
-    for (size_t Loop = 0; Loop < Count; Loop++) CCConcurrentIDPoolRecycle(P, ID[Loop]);
+    for (size_t Loop = 0; Loop < Count; Loop++) CCConcurrentIDGeneratorRecycle(P, ID[Loop]);
     
     return NULL;
 }
 
 -(void) testSmallPoolMultiThreading
 {
-    P = CCConcurrentIDPoolCreate(CC_STD_ALLOCATOR, ID_POOL);
+    P = CCConcurrentIDGeneratorCreate(CC_STD_ALLOCATOR, ID_POOL, CCConsecutiveIDGenerator);
     
     pthread_t Threads[THREAD_COUNT];
     for (int Loop = 0; Loop < THREAD_COUNT; Loop++)
@@ -167,13 +168,13 @@ static void *Worker2(void *Arg)
     uintptr_t Sum = 0, Expected = 0;
     for (size_t Loop = 0; Loop < ID_POOL; Loop++)
     {
-        Sum += CCConcurrentIDPoolAssign(P);
+        Sum += CCConcurrentIDGeneratorAssign(P);
         Expected += Loop;
     }
     
     XCTAssertEqual(Sum, Expected, @"All IDs should have been recycled");
     
-    CCConcurrentIDPoolDestroy(P);
+    CCConcurrentIDGeneratorDestroy(P);
 }
 
 @end

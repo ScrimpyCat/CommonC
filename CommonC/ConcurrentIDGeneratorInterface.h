@@ -44,13 +44,6 @@ typedef void *(*CCConcurrentIDGeneratorConstructorCallback)(CCAllocatorType Allo
 typedef void (*CCConcurrentIDGeneratorDestructorCallback)(void *Internal);
 
 /*!
- * @brief A callback to obtain an ID from the ID generator.
- * @param Internal The pointer to the internal of the ID generator.
- * @return The ID that has been assigned. This ID must not be assigned again until it has been recycled.
- */
-typedef uintptr_t (*CCConcurrentIDGeneratorAssignCallback)(void *Internal);
-
-/*!
  * @brief A callback to try obtain an ID from the ID generator.
  * @param Internal The pointer to the internal of the ID generator.
  * @param ID The pointer to where the assigned ID should be stored. This ID must not be assigned again until
@@ -75,18 +68,32 @@ typedef void (*CCConcurrentIDGeneratorRecycleCallback)(void *Internal, uintptr_t
 typedef uintptr_t (*CCConcurrentIDGeneratorGetMaxIDCallback)(void *Internal);
 
 
+#pragma mark - Optional Callbacks
+
+/*!
+ * @brief An optional callback to obtain an ID from the ID generator.
+ * @param Internal The pointer to the internal of the ID generator.
+ * @return The ID that has been assigned. This ID must not be assigned again until it has been recycled.
+ */
+typedef uintptr_t (*CCConcurrentIDGeneratorAssignCallback)(void *Internal);
+
+
 #pragma mark -
 
 /*!
  * @brief The interface to the internal implementation.
+ * @description Optional interfaces do not need to be implemented and will instead be supported
+ *              through reusing the required interfaces.
  */
 typedef struct {
     CCConcurrentIDGeneratorConstructorCallback create;
     CCConcurrentIDGeneratorDestructorCallback destroy;
-    CCConcurrentIDGeneratorAssignCallback assign;
     CCConcurrentIDGeneratorTryAssignCallback try;
     CCConcurrentIDGeneratorRecycleCallback recycle;
     CCConcurrentIDGeneratorGetMaxIDCallback max;
+    struct {
+        CCConcurrentIDGeneratorAssignCallback assign;
+    } optional;
 } CCConcurrentIDGeneratorInterface;
 
 #endif

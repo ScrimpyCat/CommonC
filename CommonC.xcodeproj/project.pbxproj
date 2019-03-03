@@ -135,7 +135,7 @@
 		F322F0611C09551100BAA44E /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F05F1C09551100BAA44E /* Path.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3236CB91FD8CAF700ACC970 /* ConcurrentBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */; };
 		F328727121E8814D00B1A584 /* ConcurrentIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */; };
-		F328727221E8815500B1A584 /* ConcurrentIDPool.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */; };
+		F328727221E8815500B1A584 /* ConsecutiveIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */; };
 		F328727321E8815D00B1A584 /* ConcurrentTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B228E5207929E400550A6A /* ConcurrentTree.c */; };
 		F328727421E8816400B1A584 /* ConcurrentBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */; };
 		F328727521E8816D00B1A584 /* Task.c in Sources */ = {isa = PBXBuildFile; fileRef = F380180E1DC30DE500343E07 /* Task.c */; };
@@ -151,14 +151,14 @@
 		F328727F21E881BC00B1A584 /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
 		F328728021E881BC00B1A584 /* ConcurrentArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */; };
 		F328728121E881D300B1A584 /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0920C8D3DB004F7331 /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F328728221E881D300B1A584 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728721E881D300B1A584 /* DebugAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E2746220D5931900D6AFE1 /* DebugAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F328728921E8864300B1A584 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F328728821E8864300B1A584 /* Foundation.framework */; };
-		F32AF65521DB88C60030206F /* ConcurrentIDPoolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F32AF65421DB88C60030206F /* ConcurrentIDPoolTests.m */; };
+		F32AF65521DB88C60030206F /* ConsecutiveIDGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */; };
 		F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -316,8 +316,8 @@
 		F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */; };
 		F3BD17C31C02E15F00B3849E /* FileSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BD17C11C02E15F00B3849E /* FileSystem.c */; };
 		F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BD17C21C02E15F00B3849E /* FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3BF12E121D8E363000385C6 /* ConcurrentIDPool.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */; };
+		F3BF12E021D8E363000385C6 /* ConsecutiveIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BF12E121D8E363000385C6 /* ConsecutiveIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */; };
 		F3D657D017D5DA8F00B54101 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
@@ -412,7 +412,7 @@
 		F322F05F1C09551100BAA44E /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
 		F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentBufferTests.m; sourceTree = "<group>"; };
 		F328728821E8864300B1A584 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		F32AF65421DB88C60030206F /* ConcurrentIDPoolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIDPoolTests.m; sourceTree = "<group>"; };
+		F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsecutiveIDGeneratorTests.m; sourceTree = "<group>"; };
 		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
@@ -563,8 +563,8 @@
 		F3BC6A3F1877A86300934291 /* Vectorized3DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized3DAVXTests.m; sourceTree = "<group>"; };
 		F3BD17C11C02E15F00B3849E /* FileSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileSystem.c; sourceTree = "<group>"; };
 		F3BD17C21C02E15F00B3849E /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
-		F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDPool.h; sourceTree = "<group>"; };
-		F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIDPool.c; sourceTree = "<group>"; };
+		F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsecutiveIDGenerator.h; sourceTree = "<group>"; };
+		F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConsecutiveIDGenerator.c; sourceTree = "<group>"; };
 		F3D657CF17D5DA8F00B54101 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		F3D657D317D5FD5200B54101 /* Maths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Maths.h; sourceTree = "<group>"; };
 		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
@@ -733,6 +733,15 @@
 				F36F83031D0FE3BD00193B08 /* HashMapSeparateChainingArray.c */,
 			);
 			name = "Hash Map Implementations";
+			sourceTree = "<group>";
+		};
+		F34C30DF222C3ED000F0E845 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */,
+				F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */,
+			);
+			name = Implementations;
 			sourceTree = "<group>";
 		};
 		F353DD4617AC787200D1674C /* Debug */ = {
@@ -1060,6 +1069,7 @@
 				F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */,
 				F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */,
 				F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */,
+				F34C30DF222C3ED000F0E845 /* Implementations */,
 			);
 			name = "ID Generator";
 			sourceTree = "<group>";
@@ -1067,8 +1077,6 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				F3BF12DE21D8E363000385C6 /* ConcurrentIDPool.h */,
-				F3BF12DF21D8E363000385C6 /* ConcurrentIDPool.c */,
 				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
@@ -1097,7 +1105,7 @@
 				F3E878F01DC49FE100C34838 /* TaskTests.m */,
 				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
-				F32AF65421DB88C60030206F /* ConcurrentIDPoolTests.m */,
+				F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */,
 				F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */,
 				F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */,
 				F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */,
@@ -1298,7 +1306,7 @@
 				F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */,
 				F328728121E881D300B1A584 /* Base.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
-				F328728221E881D300B1A584 /* ConcurrentIDPool.h in Headers */,
+				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
 				F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */,
 				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
@@ -1325,7 +1333,7 @@
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
-				F3BF12E021D8E363000385C6 /* ConcurrentIDPool.h in Headers */,
+				F3BF12E021D8E363000385C6 /* ConsecutiveIDGenerator.h in Headers */,
 				F353DD5617ADF3BC00D1674C /* Allocator.h in Headers */,
 				F353DD6E17B0239C00D1674C /* Types.h in Headers */,
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
@@ -1578,7 +1586,7 @@
 				F328727521E8816D00B1A584 /* Task.c in Sources */,
 				F328727421E8816400B1A584 /* ConcurrentBuffer.c in Sources */,
 				F328727321E8815D00B1A584 /* ConcurrentTree.c in Sources */,
-				F328727221E8815500B1A584 /* ConcurrentIDPool.c in Sources */,
+				F328727221E8815500B1A584 /* ConsecutiveIDGenerator.c in Sources */,
 				F328727121E8814D00B1A584 /* ConcurrentIDGenerator.c in Sources */,
 				F30437E91C62E1B800388C74 /* PathComponent.c in Sources */,
 				F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
@@ -1629,7 +1637,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3BF12E121D8E363000385C6 /* ConcurrentIDPool.c in Sources */,
+				F3BF12E121D8E363000385C6 /* ConsecutiveIDGenerator.c in Sources */,
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
 				F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */,
 				F36F82F81D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
@@ -1739,7 +1747,7 @@
 				F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */,
 				F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */,
 				F334274C1DB6675F008CB998 /* ConcurrentQueueTests.m in Sources */,
-				F32AF65521DB88C60030206F /* ConcurrentIDPoolTests.m in Sources */,
+				F32AF65521DB88C60030206F /* ConsecutiveIDGeneratorTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,

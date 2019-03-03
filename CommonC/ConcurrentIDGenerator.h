@@ -76,7 +76,6 @@ _Bool CCConcurrentIDGeneratorTryAssign(CCConcurrentIDGenerator Generator, uintpt
 
 /*!
  * @brief Recycle an ID to the ID generator.
- * @performance Wait-free O(1) operation.
  * @param Generator The ID generator to recycle the ID to.
  * @param ID The ID to be recycled.
  */

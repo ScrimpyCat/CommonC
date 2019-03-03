@@ -45,7 +45,7 @@ mkdir build && CC=clang meson build
 
 A list of globally defineable options to change the behaviour of the library (requires recompilation). For more details of each see their file reference.
 
-* `CC_CONCURRENT_ID_POOL_STRICT_COMPLIANCE` - ConcurrentIDPool.c (disable some optimisation)
+* `CC_CONSECUTIVE_ID_GENERATOR_STRICT_COMPLIANCE` - ConsecutiveIDGenerator.c (disable some optimisation)
 * `CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE` - ConcurrentIndexMap.c (disable some optimisation)
 * `CC_STRING_TAGGED_NUL_CHAR_ALWAYS_0` - CCString.c (disable some optimisation)
 * `CC_STRING_TAGGED_HASH_CACHE` - CCString.c (disable some optimisation)

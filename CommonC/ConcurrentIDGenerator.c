@@ -40,6 +40,8 @@ static void CCConcurrentIDGeneratorDestructor(CCConcurrentIDGenerator Generator)
 
 CCConcurrentIDGenerator CCConcurrentIDGeneratorCreate(CCAllocatorType Allocator, size_t Count, const CCConcurrentIDGeneratorInterface *Interface)
 {
+    CCAssertLog(Count >= 1, "Count must be at least 1");
+    
     CCConcurrentIDGenerator Generator = CCMalloc(Allocator, sizeof(CCConcurrentIDGeneratorInfo), NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Generator)
     {
@@ -77,7 +79,11 @@ uintptr_t CCConcurrentIDGeneratorAssign(CCConcurrentIDGenerator Generator)
 {
     CCAssertLog(Generator, "Generator must not be null");
     
-    return Generator->interface->assign(Generator->internal);
+    uintptr_t ID;
+    if (Generator->interface->optional.assign) ID = Generator->interface->optional.assign(Generator->internal);
+    else while (!CCConcurrentIDGeneratorTryAssign(Generator, &ID)) CC_SPIN_WAIT();
+    
+    return ID;
 }
 
 _Bool CCConcurrentIDGeneratorTryAssign(CCConcurrentIDGenerator Generator, uintptr_t *ID)
