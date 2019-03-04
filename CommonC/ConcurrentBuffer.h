@@ -92,4 +92,13 @@ CC_NEW void *CCConcurrentBufferWriteDataSwap(CCConcurrentBuffer Buffer, void *CC
  */
 CC_NEW void *CCConcurrentBufferReadData(CCConcurrentBuffer Buffer);
 
+#pragma mark - Query
+
+/*!
+ * @brief Get the data destructor from the buffer.
+ * @param Buffer The buffer to get the data destructor from.
+ * @return The data destructor, or NULL if none was set during creation.
+ */
+CCConcurrentBufferDataDestructor CCConcurrentBufferGetDataDestructor(CCConcurrentBuffer Buffer);
+
 #endif

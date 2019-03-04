@@ -87,3 +87,10 @@ void *CCConcurrentBufferReadData(CCConcurrentBuffer Buffer)
 {    
     return CCConcurrentBufferWriteDataSwap(Buffer, NULL);
 }
+
+CCConcurrentBufferDataDestructor CCConcurrentBufferGetDataDestructor(CCConcurrentBuffer Buffer)
+{
+    CCAssertLog(Buffer, "Buffer must not be null");
+    
+    return Buffer->destructor;
+}
