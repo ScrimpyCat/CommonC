@@ -219,6 +219,7 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
 
 //CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
 //FSPath FSPathCurrent(void);
+//CC_NEW FSPath FSPathCreateAppData(const char *AppName);
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
 //SystemPath.m
 #elif CC_PLATFORM_UNIX
@@ -229,62 +230,15 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
 #warning Unsupported platform
 #endif
 
-FSPath FSPathCreate(const char *Path)
+FSPath FSPathCreateFromComponents(CCOrderedCollection Components)
 {
-    CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(Components, "Components must not be null");
     
     FSPath NewPath;
     CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
                    CC_LOG_ERROR("Failed to create path due to failing to allocate path. Allocation size: %zu", sizeof(FSPathInfo));
                    return NULL;
                    );
-    
-    *NewPath = (FSPathInfo){
-        .components = FSPathConvertPathToComponents(Path, TRUE),
-        .completeRep = NULL,
-        .filenameRep = NULL,
-        .pathRep = NULL
-    };
-    
-    return NewPath;
-}
-
-FSPath FSPathCreateFromSystemPath(const char *Path)
-{
-    CCAssertLog(Path, "Path must not be null");
-    
-    FSPath NewPath;
-    CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
-                   CC_LOG_ERROR("Failed to create path due to failing to allocate path. Allocation size: %zu", sizeof(FSPathInfo));
-                   return NULL;
-                   );
-    
-    *NewPath = (FSPathInfo){
-        .components = FSPathConvertSystemPathToComponents(Path, TRUE),
-        .completeRep = NULL,
-        .filenameRep = NULL,
-        .pathRep = NULL
-    };
-    
-    return NewPath;
-}
-
-FSPath FSPathCopy(FSPath Path)
-{
-    CCAssertLog(Path, "Path must not be null");
-    
-    FSPath NewPath;
-    CC_SAFE_Malloc(NewPath, sizeof(FSPathInfo),
-                   CC_LOG_ERROR("Failed to create path due to failing to allocate path. Allocation size: %zu", sizeof(FSPathInfo));
-                   return NULL;
-                   );
-    
-    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
-    
-    CC_COLLECTION_FOREACH(FSPathComponent, Element, Path->components)
-    {
-        CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCopy(Element) });
-    }
     
     *NewPath = (FSPathInfo){
         .components = Components,
@@ -294,6 +248,34 @@ FSPath FSPathCopy(FSPath Path)
     };
     
     return NewPath;
+}
+
+FSPath FSPathCreate(const char *Path)
+{
+    CCAssertLog(Path, "Path must not be null");
+    
+    return FSPathCreateFromComponents(FSPathConvertPathToComponents(Path, TRUE));
+}
+
+FSPath FSPathCreateFromSystemPath(const char *Path)
+{
+    CCAssertLog(Path, "Path must not be null");
+    
+    return FSPathCreateFromComponents(FSPathConvertSystemPathToComponents(Path, TRUE));
+}
+
+FSPath FSPathCopy(FSPath Path)
+{
+    CCAssertLog(Path, "Path must not be null");
+    
+    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
+    
+    CC_COLLECTION_FOREACH(FSPathComponent, Element, Path->components)
+    {
+        CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCopy(Element) });
+    }
+    
+    return FSPathCreateFromComponents(Components);
 }
 
 void FSPathDestroy(FSPath Path)

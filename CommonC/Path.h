@@ -102,6 +102,13 @@ CC_NEW CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool
 CC_NEW CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
 
 /*!
+ * @brief Create a FSPath from a collections of components.
+ * @param Components The components. Ownership is passed to the function.
+ * @return A path for the components, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW FSPath FSPathCreateFromComponents(CCOrderedCollection CC_OWN(Components));
+
+/*!
  * @brief Create a FSPath from an FSPath style path.
  * @see FSPathConvertPathToComponents
  * @param Path The path.
