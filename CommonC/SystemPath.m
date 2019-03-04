@@ -40,75 +40,81 @@
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS //Not really required as this shouldn't be included in the build on other platforms, but it simplifies testing
 
 #pragma mark Path
+static CCOrderedCollection FSPathConvertURLToComponents(NSURL *URLPath, _Bool CompletePath)
+{
+    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
+    
+    NSNumber *Dir;
+    if ([URLPath getResourceValue: &Dir forKey: NSURLIsRegularFileKey error: NULL])
+    {
+        Dir = @(!Dir.boolValue);
+    }
+    
+    else if (![URLPath getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL])
+    {
+        Dir = @([URLPath.absoluteString hasSuffix: @"/"]);
+    }
+    
+    NSArray <NSString*>*PathComponents = URLPath.pathComponents;
+    _Bool VolumeComponent = FALSE, HasRoot = FALSE, IsDir = [Dir boolValue];
+    NSUInteger Count = PathComponents.count, Index = 0;
+    for (NSString *PathComponent in PathComponents)
+    {
+        if ([PathComponent isEqualToString: @"/"])
+        {
+            HasRoot = TRUE;
+            CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeRoot, NULL) });
+        }
+        
+        else if ((Index == 1) && ([PathComponent isEqualToString: @"Volumes"]))
+        {
+            VolumeComponent = HasRoot;
+        }
+        
+        else if ((Index == 2) && (VolumeComponent))
+        {
+            CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeVolume, [PathComponent UTF8String]) });
+        }
+        
+        else if (((Index + 1) == Count) && (!IsDir))
+        {
+            //TODO: Change collections so destructors can be temporarily disabled or make a consumable insertion
+            CCOrderedCollection FileComponents = FSPathConvertPathToComponents([PathComponent UTF8String], FALSE);
+            
+            CC_COLLECTION_FOREACH(FSPathComponent, Element, FileComponents)
+            {
+                CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCopy(Element) });
+            }
+            
+            CCCollectionDestroy(FileComponents);
+        }
+        
+        else
+        {
+            CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeDirectory, [PathComponent UTF8String]) });
+        }
+        
+        Index++;
+    }
+    
+    if ((CompletePath) && (!HasRoot))
+    {
+        CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeRelativeRoot, NULL) });
+    }
+    
+    return Components;
+}
+
 CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath)
 {
     CCAssertLog(Path, "Path must not be null");
-    
-    CCOrderedCollection Components = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(FSPathComponent), FSPathComponentDestructorForCollection);
     
     @autoreleasepool {
         NSString *ExpandedPath = [[NSString stringWithUTF8String: Path] stringByExpandingTildeInPath];
         NSURL *URLPath = [NSURL fileURLWithPath: ExpandedPath];
         
-        NSNumber *Dir;
-        if ([URLPath getResourceValue: &Dir forKey: NSURLIsRegularFileKey error: NULL])
-        {
-            Dir = @(!Dir.boolValue);
-        }
-        
-        else if (![URLPath getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL])
-        {
-            Dir = @([URLPath.absoluteString hasSuffix: @"/"]);
-        }
-        
-        _Bool VolumeComponent = FALSE, HasRoot = FALSE, IsDir = [Dir boolValue];
-        NSUInteger Count = ExpandedPath.pathComponents.count, Index = 0;
-        for (NSString *PathComponent in ExpandedPath.pathComponents)
-        {
-            if ([PathComponent isEqualToString: @"/"])
-            {
-                HasRoot = TRUE;
-                CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeRoot, NULL) });
-            }
-            
-            else if ((Index == 1) && ([PathComponent isEqualToString: @"Volumes"]))
-            {
-                VolumeComponent = HasRoot;
-            }
-            
-            else if ((Index == 2) && (VolumeComponent))
-            {
-                CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeVolume, [PathComponent UTF8String]) });
-            }
-            
-            else if (((Index + 1) == Count) && (!IsDir))
-            {
-                //TODO: Change collections so destructors can be temporarily disabled or make a consumable insertion
-                CCOrderedCollection FileComponents = FSPathConvertPathToComponents([PathComponent UTF8String], FALSE);
-                
-                CC_COLLECTION_FOREACH(FSPathComponent, Element, FileComponents)
-                {
-                    CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCopy(Element) });
-                }
-                
-                CCCollectionDestroy(FileComponents);
-            }
-            
-            else
-            {
-                CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeDirectory, [PathComponent UTF8String]) });
-            }
-            
-            Index++;
-        }
-        
-        if ((CompletePath) && (!HasRoot))
-        {
-            CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeRelativeRoot, NULL) });
-        }
+        return FSPathConvertURLToComponents(URLPath, CompletePath);
     }
-    
-    return Components;
 }
 
 FSPath FSPathCurrent(void)
@@ -137,6 +143,19 @@ FSPath FSPathCurrent(void)
     }
     
     return &FSCurrentPath;
+}
+
+FSPath FSPathCreateAppData(const char *AppName)
+{
+    @autoreleasepool {
+        NSURL *URLPath = [[NSFileManager defaultManager] URLForDirectory: NSApplicationSupportDirectory inDomain: NSUserDomainMask appropriateForURL: nil create: NO error: NULL];
+
+        CCOrderedCollection Components = FSPathConvertURLToComponents(URLPath, TRUE);
+        
+        CCOrderedCollectionAppendElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeDirectory, AppName) });
+        
+        return FSPathCreateFromComponents(Components);
+    }
 }
 
 #pragma mark - FileSystem

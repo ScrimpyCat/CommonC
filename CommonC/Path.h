@@ -125,6 +125,13 @@ CC_NEW FSPath FSPathCreate(const char *Path);
 CC_NEW FSPath FSPathCreateFromSystemPath(const char *Path);
 
 /*!
+ * @brief Create a FSPath to an appropriate folder that can contain any application data.
+ * @param AppName The name of the application.
+ * @return A path representation of the app data path, or NULL on failure. Must be destroyed to free the memory.
+ */
+CC_NEW FSPath FSPathCreateAppData(const char *AppName);
+
+/*!
  * @brief Copy a path.
  * @param Path The path to be copied.
  * @return A path representation of the path, or NULL on failure. Must be destroyed to free the memory.
