@@ -76,9 +76,14 @@ void CCConcurrentBufferWriteData(CCConcurrentBuffer Buffer, void *Data)
     }
 }
 
-void *CCConcurrentBufferReadData(CCConcurrentBuffer Buffer)
+void *CCConcurrentBufferWriteDataSwap(CCConcurrentBuffer Buffer, void *Data)
 {
     CCAssertLog(Buffer, "Buffer must not be null");
     
-    return atomic_exchange_explicit(&Buffer->data, NULL, memory_order_acq_rel);
+    return atomic_exchange_explicit(&Buffer->data, Data, memory_order_acq_rel);
+}
+
+void *CCConcurrentBufferReadData(CCConcurrentBuffer Buffer)
+{    
+    return CCConcurrentBufferWriteDataSwap(Buffer, NULL);
 }

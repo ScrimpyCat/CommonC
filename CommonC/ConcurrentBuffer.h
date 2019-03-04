@@ -70,6 +70,20 @@ void CCConcurrentBufferDestroy(CCConcurrentBuffer CC_DESTROY(Buffer));
 void CCConcurrentBufferWriteData(CCConcurrentBuffer Buffer, void *CC_OWN(Data));
 
 /*!
+ * @brief Write data to the buffer and returns the previous buffer.
+ * @description Replaces the current contents of the buffer with the new data. The old data is
+ *              returned. This variant should be used instead of @b CCConcurrentBufferWriteData
+ *              whenever you want to manually handle the destruction of the data, or need to
+ *              inspect what the previous write data was.
+ *
+ * @param Buffer The buffer to be written to.
+ * @param Data The data to write to the buffer.
+ * @return The previous write data in the buffer, or NULL if there was no data. Must be destroyed
+ *         to free the memory.
+ */
+CC_NEW void *CCConcurrentBufferWriteDataSwap(CCConcurrentBuffer Buffer, void *CC_OWN(Data));
+
+/*!
  * @brief Read data from the buffer.
  * @description Replaces the current contents of the buffer with NULL.
  * @param Buffer The buffer to be read from.
