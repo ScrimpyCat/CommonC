@@ -29,7 +29,6 @@
 #include <stdatomic.h>
 
 typedef struct CCConcurrentBufferInfo {
-    CCAllocatorType allocator;
     CCConcurrentBufferDataDestructor destructor;
     _Atomic(void*) data;
 } CCConcurrentBufferInfo;
@@ -49,7 +48,6 @@ CCConcurrentBuffer CCConcurrentBufferCreate(CCAllocatorType Allocator, CCConcurr
     if (Buffer)
     {
         *Buffer = (CCConcurrentBufferInfo){
-            .allocator = Allocator,
             .destructor = Destructor,
             .data = ATOMIC_VAR_INIT(NULL)
         };
