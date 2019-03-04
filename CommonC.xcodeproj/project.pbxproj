@@ -185,6 +185,8 @@
 		F34219181D0C266500FDBC8A /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342191C1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */ = {isa = PBXBuildFile; fileRef = F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */; };
 		F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */ = {isa = PBXBuildFile; fileRef = F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F34C30EA222CAF1900F0E845 /* ConcurrentIndexBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */; };
 		F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4817AC788100D1674C /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
@@ -431,6 +433,8 @@
 		F34219151D0C13E400FDBC8A /* HashMapInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashMapInterface.h; sourceTree = "<group>"; };
 		F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMapSeparateChainingArrayDataOrientedAll.c; sourceTree = "<group>"; };
 		F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArrayDataOrientedAll.h; sourceTree = "<group>"; };
+		F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIndexBuffer.h; sourceTree = "<group>"; };
+		F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIndexBuffer.c; sourceTree = "<group>"; };
 		F353DD4317AC767800D1674C /* MemoryAllocation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MemoryAllocation.c; sourceTree = "<group>"; };
 		F353DD4717AC788100D1674C /* DebugTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTypes.h; sourceTree = "<group>"; };
 		F353DD4917AC88BA00D1674C /* DebugTypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DebugTypes.c; sourceTree = "<group>"; };
@@ -707,6 +711,8 @@
 			children = (
 				F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */,
 				F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */,
+				F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */,
+				F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */,
 			);
 			name = Buffer;
 			sourceTree = "<group>";
@@ -1399,6 +1405,7 @@
 				F369C7D51C462BB9006C3D96 /* CCStringEnumerator.h in Headers */,
 				F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */,
 				F3067B791C591AA800766814 /* Vector4D.h in Headers */,
+				F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */,
 				F318D9301C4DD829005AE64E /* Matrix4.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
@@ -1667,6 +1674,7 @@
 				F359D0291C1456D60028B86B /* Hash.c in Sources */,
 				F359D01E1C12B13E0028B86B /* Data.c in Sources */,
 				F342191C1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */,
+				F34C30EA222CAF1900F0E845 /* ConcurrentIndexBuffer.c in Sources */,
 				F322F05C1C09550100BAA44E /* PathComponent.c in Sources */,
 				F36F832D1D10C1E300193B08 /* Dictionary.c in Sources */,
 				F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */,

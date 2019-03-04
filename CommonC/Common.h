@@ -110,6 +110,7 @@
 #include <CommonC/TaskQueue.h>
 
 #include <CommonC/ConcurrentBuffer.h>
+#include <CommonC/ConcurrentIndexBuffer.h>
 
 #include <CommonC/ConcurrentIDGenerator.h>
 #include <CommonC/ConsecutiveIDGenerator.h>
