@@ -187,6 +187,7 @@
 		F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */ = {isa = PBXBuildFile; fileRef = F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34C30EA222CAF1900F0E845 /* ConcurrentIndexBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */; };
+		F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */; };
 		F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4817AC788100D1674C /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
@@ -435,6 +436,7 @@
 		F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArrayDataOrientedAll.h; sourceTree = "<group>"; };
 		F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIndexBuffer.h; sourceTree = "<group>"; };
 		F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIndexBuffer.c; sourceTree = "<group>"; };
+		F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIndexBuffer.m; sourceTree = "<group>"; };
 		F353DD4317AC767800D1674C /* MemoryAllocation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MemoryAllocation.c; sourceTree = "<group>"; };
 		F353DD4717AC788100D1674C /* DebugTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTypes.h; sourceTree = "<group>"; };
 		F353DD4917AC88BA00D1674C /* DebugTypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DebugTypes.c; sourceTree = "<group>"; };
@@ -1113,6 +1115,7 @@
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
 				F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */,
 				F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */,
+				F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */,
 				F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */,
 				F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */,
 				F369C7D31C462AEF006C3D96 /* StringTests.m */,
@@ -1757,6 +1760,7 @@
 				F334274C1DB6675F008CB998 /* ConcurrentQueueTests.m in Sources */,
 				F32AF65521DB88C60030206F /* ConsecutiveIDGeneratorTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
+				F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,
 				F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */,
