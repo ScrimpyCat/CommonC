@@ -152,6 +152,7 @@
 
 
 #include <TargetConditionals.h>
+#include <Availability.h>
 
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
 #define CC_PLATFORM_OS_X 1
