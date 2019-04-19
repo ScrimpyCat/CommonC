@@ -124,6 +124,16 @@
 #define CC_NON_TEMPORAL_STORE(value, addr) *(addr) = value
 #endif
 
+#if __has_builtin(__builtin_available)
+#if __OBJC__
+#define CC_AVAILABLE(...) @available(__VA_ARGS__)
+#else
+#define CC_AVAILABLE(...) __builtin_available(__VA_ARGS__)
+#endif
+#else
+#define CC_AVAILABLE(...) 0
+#endif
+
 
 /*!
  * @define CC_SPIN_WAIT
