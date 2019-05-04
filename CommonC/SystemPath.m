@@ -132,7 +132,7 @@ FSPath FSPathCurrent(void)
             
             if ((CCCollectionGetCount(Components) >= 1) && (FSPathComponentGetType(*(FSPathComponent*)CCOrderedCollectionGetElementAtIndex(Components, 0)) != FSPathComponentTypeVolume))
             {
-                NSString *Volume;
+                NSString *Volume = nil;
                 [[NSURL fileURLWithPath: CurrentPath] getResourceValue: &Volume forKey:NSURLVolumeNameKey error: NULL];
                 
                 CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeVolume, [Volume UTF8String]) });
@@ -236,9 +236,9 @@ size_t FSManagerGetSize(FSPath Path)
     
     @autoreleasepool {
         NSNumber *Size;
-        [FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLFileSizeKey error: NULL];
+        if ([FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLFileSizeKey error: NULL]) return (size_t)Size.unsignedLongLongValue;
         
-        return (size_t)Size.unsignedLongLongValue;
+        return 0;
     }
 }
 
@@ -248,9 +248,9 @@ size_t FSManagerGetPreferredIOBlockSize(FSPath Path)
     
     @autoreleasepool {
         NSNumber *Size;
-        [FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLPreferredIOBlockSizeKey error: NULL];
+        if ([FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLPreferredIOBlockSizeKey error: NULL]) return (size_t)Size.unsignedLongLongValue;
         
-        return (size_t)Size.unsignedLongLongValue;
+        return 0;
     }
 }
 
@@ -284,7 +284,7 @@ static void FSManagerAddContentsInPath(NSURL *SystemPath, CCOrderedCollection *L
                 }
             }
             
-            NSNumber *Dir;
+            NSNumber *Dir = nil;
             [Item getResourceValue: &Dir forKey: NSURLIsDirectoryKey error: NULL];
             _Bool IsDir = Dir ? Dir.boolValue : FALSE;
             
