@@ -52,9 +52,12 @@ static void *CustomAllocator(void **Data, size_t Size)
     if ((Data) && (Data[0]))
     {
         Ptr = ((CCAllocatorFunction)Data[0])(NULL, Size + (sizeof(void*) * 3));
-        *Ptr++ = Data[0];
-        *Ptr++ = Data[1];
-        *Ptr++ = Data[2];
+        if (Ptr)
+        {
+            *Ptr++ = Data[0];
+            *Ptr++ = Data[1];
+            *Ptr++ = Data[2];
+        }
     }
     
     return Ptr;
@@ -62,8 +65,11 @@ static void *CustomAllocator(void **Data, size_t Size)
 
 static void *CustomReallocator(void **Data, void **Ptr, size_t Size)
 {
-    Ptr = Ptr - 3;
-    return (void**)((CCReallocatorFunction)Ptr[1])(NULL, Ptr, Size + (sizeof(void*) * 3)) + 3;
+    Ptr -= 3;
+    Ptr = ((CCReallocatorFunction)Ptr[1])(NULL, Ptr, Size + (sizeof(void*) * 3));
+    if (Ptr) Ptr += 3;
+    
+    return Ptr;
 }
 
 static void CustomDeallocator(void **Ptr)
@@ -91,7 +97,8 @@ static void *CallbackReallocator(CCCallbackAllocatorFunction Data, void *Ptr, si
     Data = ((void**)Ptr)[-1];
     if (Data) Data(CCCallbackAllocatorEventReallocatePre, Ptr, &Size);
     
-    Ptr = (void**)realloc((void**)Ptr - 1, Size + sizeof(CCCallbackAllocatorFunction)) + 1;
+    Ptr = realloc((void**)Ptr - 1, Size + sizeof(CCCallbackAllocatorFunction));
+    if (Ptr) Ptr = (void**)Ptr + 1;
     
     if (Data) Data(CCCallbackAllocatorEventReallocatePost, Ptr, &Size);
     
@@ -116,10 +123,15 @@ typedef struct {
 static void *AlignedAllocator(size_t *Alignment, size_t Size)
 {
     void *Head = malloc(Size + *Alignment + sizeof(CCAlignedMemoryHeader));
-    void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(CCAllocatorHeader);
-    ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = *Alignment };
+    if (Head)
+    {
+        void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(CCAllocatorHeader);
+        ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = *Alignment };
+        
+        return Ptr;
+    }
     
-    return Ptr;
+    return NULL;
 }
 
 static void *AlignedReallocator(void *Data, void *Ptr, size_t Size)
@@ -129,11 +141,16 @@ static void *AlignedReallocator(void *Data, void *Ptr, size_t Size)
     int Allocator = *(int*)Ptr;
     
     void *Head = realloc(Header->head, Size + Alignment + sizeof(CCAlignedMemoryHeader));
-    Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + Alignment - 1) & ~(Alignment - 1)) - sizeof(CCAllocatorHeader);
-    ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Alignment };
-    *(int*)Ptr = Allocator;
+    if (Head)
+    {
+        Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + Alignment - 1) & ~(Alignment - 1)) - sizeof(CCAllocatorHeader);
+        ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Alignment };
+        *(int*)Ptr = Allocator;
+        
+        return Ptr;
+    }
     
-    return Ptr;
+    return NULL;
 }
 
 static void AlignedDeallocator(void *Ptr)
@@ -146,15 +163,20 @@ static void AlignedDeallocator(void *Ptr)
 static void *BoundsCheckAllocator(void *Data, size_t Size)
 {
     void *Ptr = malloc(Size + 16 + sizeof(size_t));
-    for (size_t Loop = 0; Loop < 8; Loop++)
+    if (Ptr)
     {
-        ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
-        ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
-    }
+        for (size_t Loop = 0; Loop < 8; Loop++)
+        {
+            ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
+            ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
+        }
 
-    *(size_t*)Ptr = Size;
+        *(size_t*)Ptr = Size;
+        
+        Ptr += 8 + sizeof(size_t);
+    }
     
-    return Ptr + 8 + sizeof(size_t);
+    return Ptr;
 }
 
 static void *BoundsCheckReallocator(void *Data, void *Ptr, size_t Size)
@@ -168,15 +190,20 @@ static void *BoundsCheckReallocator(void *Data, void *Ptr, size_t Size)
     }
     
     Ptr = realloc(Ptr, Size + 16 + sizeof(size_t));
-    for (size_t Loop = 0; Loop < 8; Loop++)
+    if (Ptr)
     {
-        ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
-        ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
-    }
+        for (size_t Loop = 0; Loop < 8; Loop++)
+        {
+            ((uint8_t*)Ptr + sizeof(size_t))[Loop] = Loop;
+            ((uint8_t*)Ptr + sizeof(size_t))[8 + Size + Loop] = Loop;
+        }
 
-    *(size_t*)Ptr = Size;
+        *(size_t*)Ptr = Size;
+        
+        Ptr += 8 + sizeof(size_t);
+    }
     
-    return Ptr + 8 + sizeof(size_t);
+    return Ptr;
 }
 
 static void BoundsCheckDeallocator(void *Ptr)
@@ -197,7 +224,7 @@ static void BoundsCheckDeallocator(void *Ptr)
 static void *DebugAllocator(CCDebugAllocatorInfo *Data, size_t Size)
 {
     void *Ptr = malloc(Size);
-    CCDebugAllocatorTrack(Ptr, *Data);
+    if (Ptr) CCDebugAllocatorTrack(Ptr, *Data);
     
     return Ptr;
 }
@@ -206,10 +233,9 @@ static void *DebugReallocator(CCDebugAllocatorInfo *Data, void *Ptr, size_t Size
 {
     void *NewPtr = realloc(Ptr, Size);
     
-    if (!Ptr) CCDebugAllocatorTrack(NewPtr, *Data);
-    else CCDebugAllocatorTrackReplaced(Ptr, NewPtr, *Data);
+    if (NewPtr) CCDebugAllocatorTrackReplaced(Ptr, NewPtr, *Data);
     
-    return Ptr;
+    return NewPtr;
 }
 
 static void DebugDeallocator(void *Ptr)
@@ -274,11 +300,14 @@ void *CCMemoryAllocate(CCAllocatorType Type, size_t Size)
         if (NewSize > Size)
         {
             Ptr = Allocator(Type.data, NewSize);
-            (*Ptr++) = (CCAllocatorHeader){
-                .allocator = Index,
-                .refCount = 1,
-                .destructor = NULL
-            };
+            if (Ptr)
+            {
+                (*Ptr++) = (CCAllocatorHeader){
+                    .allocator = Index,
+                    .refCount = 1,
+                    .destructor = NULL
+                };
+            }
         }
         
         else CC_LOG_DEBUG("Internal error: Integer overflow. Try reducing allocation size (%zu). #Attention #Error", Size);
@@ -300,7 +329,8 @@ void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     const size_t NewSize = Size + sizeof(CCAllocatorHeader);
     if (NewSize > Size)
     {
-        Ptr = Reallocator? ((CCAllocatorHeader*)Reallocator(Type.data, (CCAllocatorHeader*)Ptr - 1, NewSize) + 1) : NULL;
+        Ptr = Reallocator? Reallocator(Type.data, (CCAllocatorHeader*)Ptr - 1, NewSize) : NULL;
+        if (Ptr) Ptr = (CCAllocatorHeader*)Ptr + 1;
     }
     
     else
