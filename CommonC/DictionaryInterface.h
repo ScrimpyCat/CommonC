@@ -31,6 +31,9 @@
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/Enumerator.h>
 
+
+#undef CCOrderedCollection
+
 /*!
  * @brief The dictionary.
  * @description Allows @b CCRetain.
@@ -379,5 +382,7 @@ void CCDictionaryRegisterInterface(const CCDictionaryInterface *Interface);
  * @param Interface The interface to register.
  */
 void CCDictionaryDeregisterInterface(const CCDictionaryInterface *Interface);
+
+#define CCOrderedCollection(element) CC_ORDERED_COLLECTION(element)
 
 #endif

@@ -31,6 +31,8 @@
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/Enumerator.h>
 
+#undef CCOrderedCollection
+
 /*!
  * @brief The hashmap.
  * @description Allows @b CCRetain.
@@ -256,5 +258,7 @@ typedef struct {
         CCHashMapGetValuesCallback values;
     } optional;
 } CCHashMapInterface;
+
+#define CCOrderedCollection(element) CC_ORDERED_COLLECTION(element)
 
 #endif

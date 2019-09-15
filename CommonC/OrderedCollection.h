@@ -39,6 +39,32 @@
 #include <CommonC/Collection.h>
 
 
+CC_CONTAINER_DECLARE_PRESET_1(CCOrderedCollection);
+
+/*!
+ * @define CC_ORDERED_COLLECTION_DECLARE
+ * @abstract Convenient macro to define a @b CCOrderedCollection type that can be referenced by @b CCOrderedCollection.
+ * @param element The element type.
+ */
+#define CC_ORDERED_COLLECTION_DECLARE(element) CC_CONTAINER_DECLARE(CCOrderedCollection, element)
+
+/*!
+ * @define CC_ORDERED_COLLECTION
+ * @abstract Convenient macro to define an explicitly typed @b CCOrderedCollection.
+ * @param element The element type.
+ */
+#define CC_ORDERED_COLLECTION(element) CC_CONTAINER(CCOrderedCollection, element)
+
+/*!
+ * @define CCOrderedCollection
+ * @abstract Convenient macro to define an explicitly typed @b CCOrderedCollection.
+ * @description In the case that this macro is conflicting with the standalone @b CCOrderedCollection type, simply
+ *              undefine it and redefine it back to @b CC_ORDERED_COLLECTION.
+ *
+ * @param element The element type.
+ */
+#define CCOrderedCollection(element) CC_ORDERED_COLLECTION(element)
+
 #pragma mark - Insertion/Deletion
 
 /*!
