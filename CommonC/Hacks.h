@@ -29,6 +29,7 @@
  
  CC_SILENCE_UNUSED_WARNING: Silences the unused value/variable warning where it would otherwise not be appropriate or sometimes even able to use a compiler extension.
  CC_VA_ARG_COUNT: Get the argument count for __VA_ARGS__.
+ CC_TYPE_PRESETS: Repeat the input for the non-spaced types and types defined by this library.
  */
 
 #ifndef CommonC_Hacks_h
@@ -66,5 +67,162 @@ default: CC_NAME_RETURN_VALUE_FUNCTION_(void_ptr) \
 
 #define CC_VA_ARG_COUNT(...) CC_VA_ARG_COUNT_(0, ## __VA_ARGS__, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 #define CC_VA_ARG_COUNT_(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, count, ...) count
+
+#define CC_TYPE_PRESETS(func, ...) \
+func(__VA_ARGS__, char); \
+func(__VA_ARGS__, short); \
+func(__VA_ARGS__, int); \
+func(__VA_ARGS__, long); \
+func(__VA_ARGS__, float); \
+func(__VA_ARGS__, double); \
+func(__VA_ARGS__, int8_t); \
+func(__VA_ARGS__, int16_t); \
+func(__VA_ARGS__, int32_t); \
+func(__VA_ARGS__, int64_t); \
+func(__VA_ARGS__, uint8_t); \
+func(__VA_ARGS__, uint16_t); \
+func(__VA_ARGS__, uint32_t); \
+func(__VA_ARGS__, uint64_t); \
+func(__VA_ARGS__, intmax_t); \
+func(__VA_ARGS__, uintmax_t); \
+func(__VA_ARGS__, intptr_t); \
+func(__VA_ARGS__, uintptr_t); \
+func(__VA_ARGS__, ptrdiff_t); \
+func(__VA_ARGS__, size_t); \
+func(__VA_ARGS__, CCConcurrentIDGenerator); \
+func(__VA_ARGS__, CCConcurrentBuffer); \
+func(__VA_ARGS__, CCConcurrentIndexBuffer); \
+func(__VA_ARGS__, CCTask); \
+func(__VA_ARGS__, CCTaskQueue); \
+func(__VA_ARGS__, CCConcurrentGarbageCollector); \
+func(__VA_ARGS__, CCQueue); \
+func(__VA_ARGS__, CCConcurrentQueue); \
+func(__VA_ARGS__, CCHashMap); \
+func(__VA_ARGS__, CCHashMapEntry); \
+func(__VA_ARGS__, CCDictionary); \
+func(__VA_ARGS__, CCDictionaryEntry); \
+func(__VA_ARGS__, CCDictionaryHint); \
+func(__VA_ARGS__, CCString); \
+func(__VA_ARGS__, CCChar); \
+func(__VA_ARGS__, CCStringEncoding); \
+func(__VA_ARGS__, CCStringHint); \
+func(__VA_ARGS__, CCBufferMap); \
+func(__VA_ARGS__, CCData); \
+func(__VA_ARGS__, CCDataHint); \
+func(__VA_ARGS__, CCDataBufferHint); \
+func(__VA_ARGS__, CCLinkedListNode); \
+func(__VA_ARGS__, CCLinkedList); \
+func(__VA_ARGS__, CCLinkedListNodeData); \
+func(__VA_ARGS__, CCArray); \
+func(__VA_ARGS__, CCList); \
+func(__VA_ARGS__, CCConcurrentArray); \
+func(__VA_ARGS__, CCConcurrentIndexMap); \
+func(__VA_ARGS__, CCEnumerator); \
+func(__VA_ARGS__, CCComparisonResult); \
+func(__VA_ARGS__, CCCollection); \
+func(__VA_ARGS__, CCOrderedCollection); \
+func(__VA_ARGS__, CCCollectionHint); \
+func(__VA_ARGS__, CCOrderedCollectionHint); \
+func(__VA_ARGS__, CCCollectionEntry); \
+func(__VA_ARGS__, CCBigInt); \
+func(__VA_ARGS__, CCPid); \
+func(__VA_ARGS__, FSPathComponent); \
+func(__VA_ARGS__, FSPath); \
+func(__VA_ARGS__, FSHandle); \
+func(__VA_ARGS__, CCVector2D); \
+func(__VA_ARGS__, CCVector3D); \
+func(__VA_ARGS__, CCVector4D); \
+func(__VA_ARGS__, CCVector2Di); \
+func(__VA_ARGS__, CCVector3Di); \
+func(__VA_ARGS__, CCVector4Di); \
+func(__VA_ARGS__, CCColourRGB); \
+func(__VA_ARGS__, CCColourRGBi); \
+func(__VA_ARGS__, CCColourRGBA); \
+func(__VA_ARGS__, CCColourRGBAi); \
+func(__VA_ARGS__, CCRect); \
+func(__VA_ARGS__, CCMatrix2); \
+func(__VA_ARGS__, CCMatrix3); \
+func(__VA_ARGS__, CCMatrix4); \
+func(__VA_ARGS__, CCVector); \
+func(__VA_ARGS__, CCAllocatorType);
+
+#define CC_TYPE_PRESETS_(func, ...) \
+func(__VA_ARGS__, char); \
+func(__VA_ARGS__, short); \
+func(__VA_ARGS__, int); \
+func(__VA_ARGS__, long); \
+func(__VA_ARGS__, float); \
+func(__VA_ARGS__, double); \
+func(__VA_ARGS__, int8_t); \
+func(__VA_ARGS__, int16_t); \
+func(__VA_ARGS__, int32_t); \
+func(__VA_ARGS__, int64_t); \
+func(__VA_ARGS__, uint8_t); \
+func(__VA_ARGS__, uint16_t); \
+func(__VA_ARGS__, uint32_t); \
+func(__VA_ARGS__, uint64_t); \
+func(__VA_ARGS__, intmax_t); \
+func(__VA_ARGS__, uintmax_t); \
+func(__VA_ARGS__, intptr_t); \
+func(__VA_ARGS__, uintptr_t); \
+func(__VA_ARGS__, ptrdiff_t); \
+func(__VA_ARGS__, size_t); \
+func(__VA_ARGS__, CCConcurrentIDGenerator); \
+func(__VA_ARGS__, CCConcurrentBuffer); \
+func(__VA_ARGS__, CCConcurrentIndexBuffer); \
+func(__VA_ARGS__, CCTask); \
+func(__VA_ARGS__, CCTaskQueue); \
+func(__VA_ARGS__, CCConcurrentGarbageCollector); \
+func(__VA_ARGS__, CCQueue); \
+func(__VA_ARGS__, CCConcurrentQueue); \
+func(__VA_ARGS__, CCHashMap); \
+func(__VA_ARGS__, CCHashMapEntry); \
+func(__VA_ARGS__, CCDictionary); \
+func(__VA_ARGS__, CCDictionaryEntry); \
+func(__VA_ARGS__, CCDictionaryHint); \
+func(__VA_ARGS__, CCString); \
+func(__VA_ARGS__, CCChar); \
+func(__VA_ARGS__, CCStringEncoding); \
+func(__VA_ARGS__, CCStringHint); \
+func(__VA_ARGS__, CCBufferMap); \
+func(__VA_ARGS__, CCData); \
+func(__VA_ARGS__, CCDataHint); \
+func(__VA_ARGS__, CCDataBufferHint); \
+func(__VA_ARGS__, CCLinkedListNode); \
+func(__VA_ARGS__, CCLinkedList); \
+func(__VA_ARGS__, CCLinkedListNodeData); \
+func(__VA_ARGS__, CCArray); \
+func(__VA_ARGS__, CCList); \
+func(__VA_ARGS__, CCConcurrentArray); \
+func(__VA_ARGS__, CCConcurrentIndexMap); \
+func(__VA_ARGS__, CCEnumerator); \
+func(__VA_ARGS__, CCComparisonResult); \
+func(__VA_ARGS__, CCCollection); \
+func(__VA_ARGS__, CCOrderedCollection); \
+func(__VA_ARGS__, CCCollectionHint); \
+func(__VA_ARGS__, CCOrderedCollectionHint); \
+func(__VA_ARGS__, CCCollectionEntry); \
+func(__VA_ARGS__, CCBigInt); \
+func(__VA_ARGS__, CCPid); \
+func(__VA_ARGS__, FSPathComponent); \
+func(__VA_ARGS__, FSPath); \
+func(__VA_ARGS__, FSHandle); \
+func(__VA_ARGS__, CCVector2D); \
+func(__VA_ARGS__, CCVector3D); \
+func(__VA_ARGS__, CCVector4D); \
+func(__VA_ARGS__, CCVector2Di); \
+func(__VA_ARGS__, CCVector3Di); \
+func(__VA_ARGS__, CCVector4Di); \
+func(__VA_ARGS__, CCColourRGB); \
+func(__VA_ARGS__, CCColourRGBi); \
+func(__VA_ARGS__, CCColourRGBA); \
+func(__VA_ARGS__, CCColourRGBAi); \
+func(__VA_ARGS__, CCRect); \
+func(__VA_ARGS__, CCMatrix2); \
+func(__VA_ARGS__, CCMatrix3); \
+func(__VA_ARGS__, CCMatrix4); \
+func(__VA_ARGS__, CCVector); \
+func(__VA_ARGS__, CCAllocatorType);
+
 
 #endif
