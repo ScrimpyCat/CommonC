@@ -34,12 +34,39 @@
 #define CommonC_Collection_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>
 #include <CommonC/CollectionTypes.h>
 #include <CommonC/CollectionInterface.h>
 
+
+CC_CONTAINER_DECLARE_PRESET_1(CCCollection);
+
+/*!
+ * @define CC_COLLECTION_DECLARE
+ * @abstract Convenient macro to define a @b CCCollection type that can be referenced by @b CCCollection.
+ * @param element The element type.
+ */
+#define CC_COLLECTION_DECLARE(element) CC_CONTAINER_DECLARE(CCCollection, element)
+
+/*!
+ * @define CC_COLLECTION
+ * @abstract Convenient macro to define an explicitly typed @b CCCollection.
+ * @param element The element type.
+ */
+#define CC_COLLECTION(element) CC_CONTAINER(CCCollection, element)
+
+/*!
+ * @define CCCollection
+ * @abstract Convenient macro to define an explicitly typed @b CCCollection.
+ * @description In the case that this macro is conflicting with the standalone @b CCCollection type, simply
+ *              undefine it and redefine it back to @b CC_COLLECTION.
+ *
+ * @param element The element type.
+ */
+#define CCCollection(element) CC_COLLECTION(element)
 
 /*!
  * @brief A callback to handle custom destruction of an element when it is removed from the collection.
