@@ -28,6 +28,7 @@
  CC_DEBUG : Enables some debug information.
  CC_NO_LOG : Disables all logging.
  CC_NO_ASSERT : Disables all assertions.
+ CC_QUICK_COMPILE : Improves compilation speed by disabling unnecessary features.
  */
 
 //Other public headers not included here are typically just for internal use/not of much interest outside of the framework itself.
