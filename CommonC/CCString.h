@@ -242,7 +242,7 @@ CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedStrings(CCString St
  *
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences, CCOrderedCollection Replacements);
+CC_NEW CCString CCStringCreateByReplacingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection(CCString) Occurrences, CCOrderedCollection(CCString) Replacements);
 
 /*!
  * @brief Create a string by concatenating the list of strings, with an optional separator.
@@ -263,7 +263,7 @@ CC_NEW CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, 
  *
  * @return The string, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Separator);
+CC_NEW CCString CCStringCreateByJoiningEntries(CCOrderedCollection(CCString) Strings, CCString Separator);
 
 /*!
  * @brief Create a collection of strings separated by the occurrence of a string.
@@ -271,7 +271,7 @@ CC_NEW CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCSt
  * @param Occurrence The string to find.
  * @return The collection of strings, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCString String, CCString Occurrence);
+CC_NEW CCOrderedCollection(CCString) CCStringCreateBySeparatingOccurrencesOfString(CCString String, CCString Occurrence);
 
 /*!
  * @brief Create a collection of strings separated by the occurrences of strings.
@@ -284,7 +284,7 @@ CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCStrin
  * @param Count The amount of items in the list.
  * @return The collection of strings, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, size_t Count);
+CC_NEW CCOrderedCollection(CCString) CCStringCreateBySeparatingOccurrencesOfGroupedStrings(CCString String, CCString *Occurrences, size_t Count);
 
 /*!
  * @brief Create a collection of strings separated by the occurrences of strings.
@@ -296,7 +296,7 @@ CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedStrings
  * @param Occurrences The list of strings to find.
  * @return The collection of strings, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection Occurrences);
+CC_NEW CCOrderedCollection(CCString) CCStringCreateBySeparatingOccurrencesOfGroupedEntries(CCString String, CCOrderedCollection(CCString) Occurrences);
 
 /*!
  * @brief Copy a string.
