@@ -57,6 +57,32 @@ typedef struct {
  */
 typedef struct CCConcurrentQueueInfo *CCConcurrentQueue;
 
+CC_CONTAINER_DECLARE_PRESET_1(CCConcurrentQueue);
+
+/*!
+ * @define CC_CONCURRENT_QUEUE_DECLARE
+ * @abstract Convenient macro to define a @b CCConcurrentQueue type that can be referenced by @b CCConcurrentQueue.
+ * @param element The element type.
+ */
+#define CC_CONCURRENT_QUEUE_DECLARE(element) CC_CONTAINER_DECLARE(CCConcurrentQueue, element)
+
+/*!
+ * @define CC_CONCURRENT_QUEUE
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentQueue.
+ * @param element The element type.
+ */
+#define CC_CONCURRENT_QUEUE(element) CC_CONTAINER(CCConcurrentQueue, element)
+
+/*!
+ * @define CCConcurrentQueue
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentQueue.
+ * @description In the case that this macro is conflicting with the standalone @b CCConcurrentQueue type, simply
+ *              undefine it and redefine it back to @b CC_CONCURRENT_QUEUE.
+ *
+ * @param element The element type.
+ */
+#define CCConcurrentQueue(element) CC_CONCURRENT_QUEUE(element)
+
 #pragma mark - Creation / Destruction
 /*!
  * @brief Allocate and initialize a new node.
