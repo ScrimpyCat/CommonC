@@ -31,7 +31,7 @@
 #include <CommonC/PathComponent.h>
 
 typedef struct {
-    CCOrderedCollection components;
+    CCOrderedCollection(FSPathComponent) components;
     char *completeRep;
     const char *filenameRep, *pathRep;
 } FSPathInfo, *FSPath;
@@ -91,7 +91,7 @@ typedef enum {
  * @param CompletePath Whether the path should be completed or not if it is not a complete path.
  * @return An ordered collection of FSPathComponents, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool CompletePath);
+CC_NEW CCOrderedCollection(FSPathComponent) FSPathConvertPathToComponents(const char *Path, _Bool CompletePath);
 
 /*!
  * @brief Convert the system path to FSPathComponents.
@@ -99,14 +99,14 @@ CC_NEW CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool
  * @param CompletePath Whether the path should be completed or not if it is not a complete path.
  * @return An ordered collection of FSPathComponents, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
+CC_NEW CCOrderedCollection(FSPathComponent) FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
 
 /*!
  * @brief Create a FSPath from a collections of components.
  * @param Components The components. Ownership is passed to the function.
  * @return A path for the components, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW FSPath FSPathCreateFromComponents(CCOrderedCollection CC_OWN(Components));
+CC_NEW FSPath FSPathCreateFromComponents(CCOrderedCollection(FSPathComponent) CC_OWN(Components));
 
 /*!
  * @brief Create a FSPath from an FSPath style path.
