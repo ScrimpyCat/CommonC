@@ -32,6 +32,7 @@
  */
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/ConcurrentGarbageCollector.h>
