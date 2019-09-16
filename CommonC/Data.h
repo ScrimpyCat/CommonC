@@ -27,11 +27,38 @@
 #define CommonC_Data_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/DataTypes.h>
 #include <CommonC/DataInterface.h>
 #include <CommonC/Buffer.h>
 
+
+CC_CONTAINER_DECLARE_PRESET_1(CCData);
+
+/*!
+ * @define CC_DATA_DECLARE
+ * @abstract Convenient macro to define a @b CCData type that can be referenced by @b CCData.
+ * @param data The data type.
+ */
+#define CC_DATA_DECLARE(data) CC_CONTAINER_DECLARE(CCData, data)
+
+/*!
+ * @define CC_DATA
+ * @abstract Convenient macro to define an explicitly typed @b CCData.
+ * @param data The data type.
+ */
+#define CC_DATA(data) CC_CONTAINER(CCData, data)
+
+/*!
+ * @define CCData
+ * @abstract Convenient macro to define an explicitly typed @b CCData.
+ * @description In the case that this macro is conflicting with the standalone @b CCData type, simply
+ *              undefine it and redefine it back to @b CC_DATA.
+ *
+ * @param data The data type.
+ */
+#define CCData(data) CC_DATA(data)
 
 /*!
  * @brief A callback to handle custom destruction of a data buffer.
