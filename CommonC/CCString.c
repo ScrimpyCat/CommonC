@@ -1180,7 +1180,7 @@ size_t CCStringGetLength(CCString String)
 }
 
 #if CC_STRING_TAGGED_HASH_CACHE
-static CCDictionary TaggedHashCache = NULL;
+static CCDictionary(CCString, uint32_t) TaggedHashCache = NULL;
 
 #if CC_STRING_USING_STDATOMIC
 static _Atomic(int32_t) HashCacheLock = 0;
