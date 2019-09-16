@@ -27,11 +27,41 @@
 #define CommonC_Dictionary_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/DictionaryInterface.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>
 
+
+CC_CONTAINER_DECLARE_PRESET_2(CCDictionary);
+
+/*!
+ * @define CC_DICTIONARY_DECLARE
+ * @abstract Convenient macro to define a @b CCDictionary type that can be referenced by @b CCDictionary.
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CC_DICTIONARY_DECLARE(key, value) CC_CONTAINER_DECLARE(CCDictionary, key, value)
+
+/*!
+ * @define CC_DICTIONARY
+ * @abstract Convenient macro to define an explicitly typed @b CCDictionary.
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CC_DICTIONARY(key, value) CC_CONTAINER(CCDictionary, key, value)
+
+/*!
+ * @define CCDictionary
+ * @abstract Convenient macro to define an explicitly typed @b CCDictionary.
+ * @description In the case that this macro is conflicting with the standalone @b CCDictionary type, simply
+ *              undefine it and redefine it back to @b CC_DICTIONARY.
+ *
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CCDictionary(key, value) CC_DICTIONARY(key, value)
 
 /*!
  * @brief A callback to handle custom destruction of a key/value when it is removed from the dictionary.
