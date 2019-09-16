@@ -298,6 +298,11 @@
 		F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99791A74F56C00212838 /* ArrayTests.m */; };
 		F3AE99BC1A7511D500212838 /* Collection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99BA1A7511D500212838 /* Collection.c */; };
 		F3AE99BD1A7511D500212838 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA84E232B483B00A5CAF3 /* BigInt.h */; };
+		F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA84F232B483B00A5CAF3 /* BigInt.c */; };
+		F3AEA854232B7A4C00A5CAF3 /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA852232B7A4C00A5CAF3 /* List.h */; };
+		F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA853232B7A4C00A5CAF3 /* List.c */; };
+		F3AEA857232C85CF00A5CAF3 /* Container.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA856232C85CF00A5CAF3 /* Container.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
 		F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B228E5207929E400550A6A /* ConcurrentTree.c */; };
 		F3B30AC01A8F9C9D0007FA7B /* OrderedCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */; };
@@ -547,6 +552,11 @@
 		F3AE99791A74F56C00212838 /* ArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayTests.m; sourceTree = "<group>"; };
 		F3AE99BA1A7511D500212838 /* Collection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Collection.c; sourceTree = "<group>"; };
 		F3AE99BB1A7511D500212838 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collection.h; sourceTree = "<group>"; };
+		F3AEA84E232B483B00A5CAF3 /* BigInt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigInt.h; sourceTree = "<group>"; };
+		F3AEA84F232B483B00A5CAF3 /* BigInt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BigInt.c; sourceTree = "<group>"; };
+		F3AEA852232B7A4C00A5CAF3 /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		F3AEA853232B7A4C00A5CAF3 /* List.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = List.c; sourceTree = "<group>"; };
+		F3AEA856232C85CF00A5CAF3 /* Container.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Container.h; sourceTree = "<group>"; };
 		F3B228E4207929E400550A6A /* ConcurrentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentTree.h; sourceTree = "<group>"; };
 		F3B228E5207929E400550A6A /* ConcurrentTree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentTree.c; sourceTree = "<group>"; };
 		F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedCollectionTests.m; sourceTree = "<group>"; };
@@ -852,6 +862,8 @@
 				F3D657D317D5FD5200B54101 /* Maths.h */,
 				F353DD8C17B5A14300D1674C /* BitTricks.h */,
 				F3D657CF17D5DA8F00B54101 /* Random.h */,
+				F3AEA84E232B483B00A5CAF3 /* BigInt.h */,
+				F3AEA84F232B483B00A5CAF3 /* BigInt.c */,
 				F318D92C1C4DD77A005AE64E /* Matrices */,
 				F30529B418014B9C00B17CFD /* Vectors */,
 			);
@@ -875,6 +887,8 @@
 				F3AE99311A6D0FFF00212838 /* LinkedList.c */,
 				F3AE99761A7419D200212838 /* Array.h */,
 				F3AE99751A7419D200212838 /* Array.c */,
+				F3AEA852232B7A4C00A5CAF3 /* List.h */,
+				F3AEA853232B7A4C00A5CAF3 /* List.c */,
 				F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */,
 				F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */,
 				F31BEE92208276D200DD7F83 /* ConcurrentIndexMap.h */,
@@ -972,6 +986,7 @@
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
 				F367837E1CCAEB2B00BF8985 /* Ownership.h */,
+				F3AEA856232C85CF00A5CAF3 /* Container.h */,
 				F3AE992B1A6D0F8700212838 /* Utilities */,
 				F353DD8B17B59EC000D1674C /* Maths */,
 				F353DD6F17B02C1700D1674C /* System */,
@@ -1364,6 +1379,7 @@
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
 				F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */,
 				F334273E1DB40512008CB998 /* Queue.h in Headers */,
+				F3AEA854232B7A4C00A5CAF3 /* List.h in Headers */,
 				F30E5A0720C57AB1004F7331 /* ConcurrentArray.h in Headers */,
 				F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
@@ -1386,10 +1402,12 @@
 				F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */,
+				F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */,
 				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
+				F3AEA857232C85CF00A5CAF3 /* Container.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
 				F322F05D1C09550100BAA44E /* PathComponent.h in Headers */,
 				F359D01F1C12B13E0028B86B /* Data.h in Headers */,
@@ -1671,6 +1689,7 @@
 				F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */,
 				F3E2746520D5931900D6AFE1 /* DebugAllocator.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
+				F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
 				F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
@@ -1695,6 +1714,7 @@
 				F353DD7B17B14F9800D1674C /* File.c in Sources */,
 				F306400B184BAA8700122BE9 /* SystemInfo.c in Sources */,
 				F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */,
+				F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */,
 				F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2045,6 +2065,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
@@ -2067,6 +2091,7 @@
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "CC_QUICK_COMPILE=1";
 				INFOPLIST_FILE = "CommonC/CommonC-Info.plist";
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "";
