@@ -27,8 +27,10 @@
 #define CommonC_ConcurrentBuffer_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
+
 
 /*!
  * @brief A callback to handle custom destruction of buffer data when it is cleared or destroyed.
@@ -41,6 +43,32 @@ typedef void (*CCConcurrentBufferDataDestructor)(void *Data);
  * @description Allows @b CCRetain.
  */
 typedef struct CCConcurrentBufferInfo *CCConcurrentBuffer;
+
+CC_CONTAINER_DECLARE_PRESET_1(CCConcurrentBuffer);
+
+/*!
+ * @define CC_CONCURRENT_BUFFER_DECLARE
+ * @abstract Convenient macro to define a @b CCConcurrentBuffer type that can be referenced by @b CCConcurrentBuffer.
+ * @param data The data type.
+ */
+#define CC_CONCURRENT_BUFFER_DECLARE(data) CC_CONTAINER_DECLARE(CCConcurrentBuffer, data)
+
+/*!
+ * @define CC_CONCURRENT_BUFFER
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentBuffer.
+ * @param data The data type.
+ */
+#define CC_CONCURRENT_BUFFER(data) CC_CONTAINER(CCConcurrentBuffer, data)
+
+/*!
+ * @define CCConcurrentBuffer
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentBuffer.
+ * @description In the case that this macro is conflicting with the standalone @b CCConcurrentBuffer type, simply
+ *              undefine it and redefine it back to @b CC_CONCURRENT_BUFFER.
+ *
+ * @param data The data type.
+ */
+#define CCConcurrentBuffer(data) CC_CONCURRENT_BUFFER(data)
 
 #pragma mark - Creation / Destruction
 /*!
