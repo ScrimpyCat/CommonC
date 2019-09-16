@@ -23,6 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define CC_QUICK_COMPILE
 #include "ConcurrentArray.h"
 #include "MemoryAllocation.h"
 #include "Assertion.h"
@@ -70,7 +71,7 @@ typedef struct {
     CCConcurrentArrayData *data;
 } CCConcurrentArrayDataPointer;
 
-#if !CC_CONCURRENT_INDEX_MAP_STRICT_COMPLIANCE
+#if !CC_CONCURRENT_ARRAY_STRICT_COMPLIANCE
 #if CC_HARDWARE_PTR_64
 _Static_assert(sizeof(_Atomic(CCConcurrentArrayDataPointer)) == 16, "Native types are not atomic, please set CC_CONCURRENT_ARRAY_STRICT_COMPLIANCE");
 #elif CC_HARDWARE_PTR_32

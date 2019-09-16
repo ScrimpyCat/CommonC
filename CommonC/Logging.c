@@ -25,6 +25,7 @@
 
 #define CC_DEFAULT_ERROR_CALLBACK NULL
 
+#define CC_QUICK_COMPILE
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>

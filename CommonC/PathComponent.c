@@ -25,6 +25,7 @@
 
 #define CC_DEFAULT_ALLOCATOR CC_ALIGNED_ALLOCATOR(8)
 
+#define CC_QUICK_COMPILE
 #include "PathComponent.h"
 #include "MemoryAllocation.h"
 #include "Logging.h"

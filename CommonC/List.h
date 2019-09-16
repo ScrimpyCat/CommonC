@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, Stefan Johnson
+ *  Copyright (c) 2019, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -43,9 +43,9 @@
 
 typedef struct CCListInfo {
     size_t count;
-    size_t max;
+    size_t pageSize;
     CCLinkedList list;
-    CCAllocator allocator;
+    CCAllocatorType allocator;
 } CCListInfo;
 
 /*!
@@ -61,10 +61,12 @@ typedef struct CCListInfo *CCList;
  * @param Allocator The allocator to be used for the allocation.
  * @param ElementSize The size of the data elements.
  * @param ChunkSize The number of elements to fit with each allocation. Must be at least 1.
- * @param PageMax The maximum size of a single page. Must be at least 1.
+ * @param PageSize The maximum size of a single page. Must be at least 1. It will be rounded up
+ *        so it is divisible by the @b chunkSize.
+ *
  * @return An empty list, or NULL on failure. Must be destroyed to free the memory.
  */
-CC_NEW CCList CCListCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize, size_t PageMax);
+CC_NEW CCList CCListCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkSize, size_t PageSize);
 
 /*!
  * @brief Destroy an list.
@@ -158,6 +160,13 @@ static inline size_t CCListGetElementSize(CCList List);
  * @return The pointer to the element.
  */
 static inline void *CCListGetElementAtIndex(CCList List, size_t Index);
+
+/*!
+ * @brief Get the chunk size of the list.
+ * @param List The list to get the chunk size of.
+ * @return The chunk size of the list.
+ */
+static inline size_t CCListGetChunkSize(CCList List);
 
 
 #pragma mark -
