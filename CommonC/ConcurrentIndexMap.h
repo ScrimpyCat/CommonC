@@ -41,6 +41,7 @@
  */
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/ConcurrentGarbageCollector.h>
@@ -51,6 +52,32 @@
  * @description Allows @b CCRetain.
  */
 typedef struct CCConcurrentIndexMapInfo *CCConcurrentIndexMap;
+
+CC_CONTAINER_DECLARE_PRESET_1(CCConcurrentIndexMap);
+
+/*!
+ * @define CC_CONCURRENT_INDEX_MAP_DECLARE
+ * @abstract Convenient macro to define a @b CCConcurrentIndexMap type that can be referenced by @b CCConcurrentIndexMap.
+ * @param element The element type.
+ */
+#define CC_CONCURRENT_INDEX_MAP_DECLARE(element) CC_CONTAINER_DECLARE(CCConcurrentIndexMap, element)
+
+/*!
+ * @define CC_CONCURRENT_INDEX_MAP
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentIndexMap.
+ * @param element The element type.
+ */
+#define CC_CONCURRENT_INDEX_MAP(element) CC_CONTAINER(CCConcurrentIndexMap, element)
+
+/*!
+ * @define CCConcurrentIndexMap
+ * @abstract Convenient macro to define an explicitly typed @b CCConcurrentIndexMap.
+ * @description In the case that this macro is conflicting with the standalone @b CCConcurrentIndexMap type, simply
+ *              undefine it and redefine it back to @b CC_CONCURRENT_INDEX_MAP.
+ *
+ * @param element The element type.
+ */
+#define CCConcurrentIndexMap(element) CC_CONCURRENT_INDEX_MAP(element)
 
 #pragma mark - Creation / Destruction
 /*!
