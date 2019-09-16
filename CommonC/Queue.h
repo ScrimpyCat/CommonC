@@ -27,6 +27,7 @@
 #define CommonC_Queue_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/LinkedList.h>
 #include <CommonC/Ownership.h>
 
@@ -37,6 +38,32 @@ typedef CCLinkedListNode CCQueueNode;
  * @description Allows @b CCRetain.
  */
 typedef struct CCQueueInfo *CCQueue;
+
+CC_CONTAINER_DECLARE_PRESET_1(CCQueue);
+
+/*!
+ * @define CC_QUEUE_DECLARE
+ * @abstract Convenient macro to define a @b CCQueue type that can be referenced by @b CCQueue.
+ * @param element The element type.
+ */
+#define CC_QUEUE_DECLARE(element) CC_CONTAINER_DECLARE(CCQueue, element)
+
+/*!
+ * @define CC_QUEUE
+ * @abstract Convenient macro to define an explicitly typed @b CCQueue.
+ * @param element The element type.
+ */
+#define CC_QUEUE(element) CC_CONTAINER(CCQueue, element)
+
+/*!
+ * @define CCQueue
+ * @abstract Convenient macro to define an explicitly typed @b CCQueue.
+ * @description In the case that this macro is conflicting with the standalone @b CCQueue type, simply
+ *              undefine it and redefine it back to @b CC_QUEUE.
+ *
+ * @param element The element type.
+ */
+#define CCQueue(element) CC_QUEUE(element)
 
 #pragma mark - Creation / Destruction
 /*!
