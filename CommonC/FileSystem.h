@@ -82,12 +82,12 @@ size_t FSManagerGetPreferredIOBlockSize(FSPath Path);
  *              Where default matching behaviour is a case incensitive whitelist.
  *
  * @param Path The path.
- * @param NamingMatches An array of FSPath's to apply named matching rules on the list, or NULL
+ * @param NamingMatches A list of FSPath's to apply named matching rules on the list, or NULL
  *        for no named matches.
  * @param MatchOptions The options specifying the matching behaviour.
  * @return The list of FSPath's or NULL is there were no paths. Note: Must be destroyed.
  */
-CC_NEW CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions);
+CC_NEW CCOrderedCollection(FSPath) FSManagerGetContentsAtPath(FSPath Path, CCCollection(FSPath) NamingMatches, FSMatch MatchOptions);
 
 /*!
  * @brief Create a path and optionally any required intermediate directories.
