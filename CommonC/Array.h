@@ -35,6 +35,7 @@
 #define CommonC_Array_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
 
@@ -49,6 +50,32 @@ typedef struct CCArrayInfo {
  * @description Allows @b CCRetain.
  */
 typedef struct CCArrayInfo *CCArray;
+
+CC_CONTAINER_DECLARE_PRESET_1(CCArray);
+
+/*!
+ * @define CC_ARRAY_DECLARE
+ * @abstract Convenient macro to define a @b CCArray type that can be referenced by @b CCArray.
+ * @param element The element type.
+ */
+#define CC_ARRAY_DECLARE(element) CC_CONTAINER_DECLARE(CCArray, element)
+
+/*!
+ * @define CC_ARRAY
+ * @abstract Convenient macro to define an explicitly typed @b CCArray.
+ * @param element The element type.
+ */
+#define CC_ARRAY(element) CC_CONTAINER(CCArray, element)
+
+/*!
+ * @define CCArray
+ * @abstract Convenient macro to define an explicitly typed @b CCArray.
+ * @description In the case that this macro is conflicting with the standalone @b CCArray type, simply
+ *              undefine it and redefine it back to @b CC_ARRAY.
+ *
+ * @param element The element type.
+ */
+#define CCArray(element) CC_ARRAY(element)
 
 
 #pragma mark - Creation/Destruction
