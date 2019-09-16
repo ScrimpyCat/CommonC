@@ -38,6 +38,7 @@
 #define CommonC_LinkedList_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
 
 typedef struct CCLinkedListNode {
@@ -49,6 +50,31 @@ typedef struct {
     uint8_t data[];
 } CCLinkedListNodeData;
 
+CC_CONTAINER_DECLARE_PRESET_1(CCLinkedList);
+
+/*!
+ * @define CC_LINKED_LIST_DECLARE
+ * @abstract Convenient macro to define a @b CCLinkedList type that can be referenced by @b CCLinkedList.
+ * @param element The element type.
+ */
+#define CC_LINKED_LIST_DECLARE(element) CC_CONTAINER_DECLARE(CCLinkedList, element)
+
+/*!
+ * @define CC_LINKED_LIST
+ * @abstract Convenient macro to define an explicitly typed @b CCLinkedList.
+ * @param element The element type.
+ */
+#define CC_LINKED_LIST(element) CC_CONTAINER(CCLinkedList, element)
+
+/*!
+ * @define CCLinkedList
+ * @abstract Convenient macro to define an explicitly typed @b CCLinkedList.
+ * @description In the case that this macro is conflicting with the standalone @b CCLinkedList type, simply
+ *              undefine it and redefine it back to @b CC_LINKED_LIST.
+ *
+ * @param element The element type.
+ */
+#define CCLinkedList(element) CC_LINKED_LIST(element)
 
 #pragma mark - Creation / Destruction
 /*!
