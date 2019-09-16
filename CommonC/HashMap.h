@@ -27,12 +27,42 @@
 #define CommonC_HashMap_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Container.h>
 #include <CommonC/HashMapInterface.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Enumerator.h>
 #include <CommonC/Comparator.h>
 #include <CommonC/Assertion.h>
 
+
+CC_CONTAINER_DECLARE_PRESET_2(CCHashMap);
+
+/*!
+ * @define CC_HASH_MAP_DECLARE
+ * @abstract Convenient macro to define a @b CCHashMap type that can be referenced by @b CCHashMap.
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CC_HASH_MAP_DECLARE(key, value) CC_CONTAINER_DECLARE(CCHashMap, key, value)
+
+/*!
+ * @define CC_HASH_MAP
+ * @abstract Convenient macro to define an explicitly typed @b CCHashMap.
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CC_HASH_MAP(key, value) CC_CONTAINER(CCHashMap, key, value)
+
+/*!
+ * @define CCHashMap
+ * @abstract Convenient macro to define an explicitly typed @b CCHashMap.
+ * @description In the case that this macro is conflicting with the standalone @b CCHashMap type, simply
+ *              undefine it and redefine it back to @b CC_HASH_MAP.
+ *
+ * @param key The key type.
+ * @param value The value type.
+ */
+#define CCHashMap(key, value) CC_HASH_MAP(key, value)
 
 /*!
  * @brief A callback to handle custom destruction of an element when it is removed from the collection.
