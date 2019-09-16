@@ -28,6 +28,13 @@
 
 #include <CommonC/Hacks.h>
 
+#ifdef CC_QUICK_COMPILE
+#define CC_CONTAINER_DECLARE(type, ...)
+#define CC_CONTAINER(type, ...) type
+#define CC_CONTAINER_DECLARE_PRESET_1(type)
+#define CC_CONTAINER_DECLARE_PRESET_2(type)
+#else
+
 /*!
  * @define CC_CONTAINER_DECLARE
  * @abstract Convenient macro to define a type that can be referenced by @b CC_CONTAINER.
@@ -80,5 +87,7 @@
  * @param type The type of the container.
  */
 #define CC_CONTAINER_DECLARE_PRESET_2(type) CC_TYPE_PRESETS(CC_TYPE_PRESETS_, CC_CONTAINER_DECLARE, type)
+
+#endif
 
 #endif
