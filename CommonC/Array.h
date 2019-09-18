@@ -181,6 +181,13 @@ static inline size_t CCArrayGetElementSize(CCArray Array);
  */
 static inline void *CCArrayGetElementAtIndex(CCArray Array, size_t Index);
 
+/*!
+ * @brief Get the chunk size of the array.
+ * @param Array The array to get the chunk size of.
+ * @return The chunk size of the array.
+ */
+static inline size_t CCArrayGetChunkSize(CCArray Array);
+
 
 #pragma mark -
 static inline size_t CCArrayGetCount(CCArray Array)
@@ -203,6 +210,13 @@ static inline void *CCArrayGetElementAtIndex(CCArray Array, size_t Index)
     CCAssertLog(CCArrayGetCount(Array) > Index, "Index must not be out of bounds");
     
     return Array->data + (Index * CCArrayGetElementSize(Array));
+}
+
+static inline size_t CCArrayGetChunkSize(CCArray Array)
+{
+    CCAssertLog(Array, "Array must not be null");
+    
+    return Array->chunkSize;
 }
 
 #endif
