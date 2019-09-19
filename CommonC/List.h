@@ -44,7 +44,7 @@
 typedef struct CCListInfo {
     size_t count;
     size_t pageSize;
-    CCLinkedList list;
+    CCLinkedList(CCArray) list;
     CCAllocatorType allocator;
 } CCListInfo;
 
@@ -53,6 +53,32 @@ typedef struct CCListInfo {
  * @description Allows @b CCRetain.
  */
 typedef struct CCListInfo *CCList;
+
+CC_CONTAINER_DECLARE_PRESET_1(CCList);
+
+/*!
+ * @define CC_LIST_DECLARE
+ * @abstract Convenient macro to define a @b CCList type that can be referenced by @b CCList.
+ * @param element The element type.
+ */
+#define CC_LIST_DECLARE(element) CC_CONTAINER_DECLARE(CCList, element)
+
+/*!
+ * @define CC_LIST
+ * @abstract Convenient macro to define an explicitly typed @b CCList.
+ * @param element The element type.
+ */
+#define CC_LIST(element) CC_CONTAINER(CCList, element)
+
+/*!
+ * @define CCList
+ * @abstract Convenient macro to define an explicitly typed @b CCList.
+ * @description In the case that this macro is conflicting with the standalone @b CCList type, simply
+ *              undefine it and redefine it back to @b CC_LIST.
+ *
+ * @param element The element type.
+ */
+#define CCList(element) CC_LIST(element)
 
 
 #pragma mark - Creation/Destruction
