@@ -170,5 +170,42 @@ static inline size_t CCListGetChunkSize(CCList List);
 
 
 #pragma mark -
+static inline size_t CCListGetCount(CCList List)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    return List->count;
+}
+
+static inline size_t CCListGetElementSize(CCList List)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    return CCArrayGetElementSize(*(CCArray*)CCLinkedListGetNodeData(List->list));
+}
+
+static inline void *CCListGetElementAtIndex(CCList List, size_t Index)
+{
+    CCAssertLog(List, "List must not be null");
+    CCAssertLog(CCListGetCount(List) > Index, "Index must not be out of bounds");
+    
+    const size_t PageIndex = Index / List->pageSize;
+    const size_t ElementIndex = Index - (PageIndex * List->pageSize);
+    
+    CCLinkedListNode *Page = List->list;
+    for (size_t Loop = 0; Loop < PageIndex; Loop++)
+    {
+        Page = CCLinkedListEnumerateNext(Page);
+    }
+    
+    return CCArrayGetElementAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex);
+}
+
+static inline size_t CCListGetChunkSize(CCList List)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    return CCArrayGetChunkSize(*(CCArray*)CCLinkedListGetNodeData(List->list));
+}
 
 #endif
