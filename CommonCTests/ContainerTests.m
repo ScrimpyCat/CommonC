@@ -34,6 +34,7 @@
 
 CC_CONTAINER_DECLARE(int32_t, int8_t);
 CC_CONTAINER_DECLARE(int32_t, int8_t, int16_t);
+CC_CONTAINER_DECLARE(int16_t, CC_CONTAINER(int32_t, int8_t));
 
 typedef int8_t int32_t_int16_t;
 
@@ -47,6 +48,9 @@ typedef int8_t int32_t_int16_t;
     
     XCTAssertEqual(sizeof(int32_t_int8_t), sizeof(int32_t), @"Should create an alias");
     XCTAssertEqual(sizeof(int32_t_int8_t_int16_t), sizeof(int32_t), @"Should create an alias");
+    XCTAssertEqual(sizeof(int16_t_int32_t_int8_t), sizeof(int16_t), @"Should create an alias");
+    
+    XCTAssertEqual(sizeof(CC_CONTAINER(int16_t, CC_CONTAINER(int32_t, int8_t))), sizeof(int16_t), @"Should handle nesting");
 }
 
 @end
