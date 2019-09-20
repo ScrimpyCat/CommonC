@@ -82,6 +82,32 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element)
     return Array->count++;
 }
 
+size_t CCArrayAppendElements(CCArray Array, const void *Elements, size_t Count)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Count, "Count must not be 0");
+    
+    size_t Rem = Array->count % Array->chunkSize;
+    if (((Array->chunkSize - Rem) < Count) || ((Rem == 0) && ((Array->count) || (!Array->data))))
+    {
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        if (!Temp)
+        {
+            CC_LOG_ERROR("Failed to append (%zu) elements to array (%p), could not allocate (%zu)", Count, Array, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            return SIZE_MAX;
+        }
+        
+        Array->data = Temp;
+    }
+    
+    if (Elements) memcpy(Array->data + (Array->count * Array->size), Elements, Array->size * Count);
+    
+    const size_t Index = Array->count;
+    Array->count += Count;
+    
+    return Index;
+}
+
 void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Element)
 {
     CCAssertLog(Array, "Array must not be null");

@@ -109,6 +109,19 @@ void CCArrayDestroy(CCArray CC_DESTROY(Array));
 size_t CCArrayAppendElement(CCArray Array, const void *Element);
 
 /*!
+ * @brief Appends the elements to the end of the array.
+ * @description Increases the array's count by the number of elements.
+ * @warning The size of the elements must be the same size as specified in the array creation.
+ * @param Array The array to append the element to.
+ * @param Elements The pointer to the elements to be copied to the end of the array. If NULL it
+ *        will create an uninitialized element.
+ *
+ * @param Count The number of elements to be appended. Must not be 0.
+ * @return The index the first element was added or SIZE_MAX on failure.
+ */
+size_t CCArrayAppendElements(CCArray Array, const void *Elements, size_t Count);
+
+/*!
  * @brief Replace element at index with new element.
  * @warning The size of element must be the same size as specified in the array creation. And the
  *          Index must not be out of bounds.
