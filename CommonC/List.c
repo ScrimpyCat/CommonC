@@ -52,6 +52,9 @@ CCList CCListCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkS
             .allocator = Allocator
         };
         
+        const size_t Diff = PageSize % ChunkSize;
+        if (Diff) List->pageSize += ChunkSize - Diff;
+        
         CCMemorySetDestructor(List, (CCMemoryDestructorCallback)CCListDestructor);
     }
     
