@@ -67,6 +67,34 @@
     XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
     
     CCArrayDestroy(Array);
+    
+    
+    for (size_t Loop = 0; Loop < 10; Loop++)
+    {
+        for (size_t Loop2 = 0; Loop2 < 10; Loop2++)
+        {
+            for (size_t ChunkSize = 1; ChunkSize < 20; ChunkSize++)
+            {
+                Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), ChunkSize);
+                
+                if (Loop) CCArrayAppendElements(Array, (int[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, Loop);
+                if (Loop2) CCArrayAppendElements(Array, (int[]){ 10, 20, 30, 40, 50, 60, 70, 80, 90 }, Loop2);
+                
+                XCTAssertEqual(CCArrayGetCount(Array), Loop + Loop2, @"Should contain the correct number of elements");
+                for (size_t Loop3 = 0; Loop3 < Loop; Loop3++)
+                {
+                    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, Loop3), Loop3 + 1, @"Should contain the correct element from the first source");
+                }
+                
+                for (size_t Loop3 = 0; Loop3 < Loop2; Loop3++)
+                {
+                    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, Loop3 + Loop), (Loop3 + 1) * 10, @"Should contain the correct element from the second source");
+                }
+                
+                CCArrayDestroy(Array);
+            }
+        }
+    }
 }
 
 -(void) testReplacing
