@@ -194,6 +194,13 @@ static inline void *CCListGetElementAtIndex(CCList List, size_t Index);
  */
 static inline size_t CCListGetChunkSize(CCList List);
 
+/*!
+ * @brief Get the page size of the list.
+ * @param List The list to get the page size of.
+ * @return The page size of the list.
+ */
+static inline size_t CCListGetPageSize(CCList List);
+
 
 #pragma mark -
 static inline size_t CCListGetCount(CCList List)
@@ -232,6 +239,13 @@ static inline size_t CCListGetChunkSize(CCList List)
     CCAssertLog(List, "List must not be null");
     
     return CCArrayGetChunkSize(*(CCArray*)CCLinkedListGetNodeData(List->list));
+}
+
+static inline size_t CCListGetPageSize(CCList List)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    return List->pageSize;
 }
 
 #endif
