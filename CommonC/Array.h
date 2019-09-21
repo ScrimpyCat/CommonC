@@ -112,7 +112,7 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element);
  * @brief Appends the elements to the end of the array.
  * @description Increases the array's count by the number of elements.
  * @warning The size of the elements must be the same size as specified in the array creation.
- * @param Array The array to append the element to.
+ * @param Array The array to append the elements to.
  * @param Elements The pointer to the elements to be copied to the end of the array. If NULL it
  *        will create an uninitialized element.
  *
@@ -156,11 +156,24 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
  * @performance The further away from the end of the array the index is, the slower it is. It has
  *              a worst case of O(n).
  *
- * @warning Index must not be out of bounds
+ * @warning Index must not be out of bounds.
  * @param Array The array to remove an element from.
  * @param Index The position in the array for the element to be removed from.
  */
 void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index);
+
+/*!
+ * @brief Removes the elements at a given index from the array.
+ * @description Decreases the array's count by the number of elements removed.
+ * @performance The further away from the end of the array the index is, the slower it is. It has
+ *              a worst case of O(n-k) where k is the number of items removed.
+ *
+ * @warning Index and count must not be out of bounds.
+ * @param Array The array to remove the elements from.
+ * @param Index The position in the array for the elements to be removed from.
+ * @param Count The number of elements to be removed.
+ */
+void CCArrayRemoveElementsAtIndex(CCArray Array, size_t Index, size_t Count);
 
 /*!
  * @brief Removes all elements from the array.

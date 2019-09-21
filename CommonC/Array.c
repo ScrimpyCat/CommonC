@@ -144,7 +144,16 @@ void CCArrayRemoveElementAtIndex(CCArray Array, size_t Index)
     CCAssertLog(Array, "Array must not be null");
     CCAssertLog(Array->count > Index, "Index must not be out of bounds");
     
-    memmove(Array->data + (Index * Array->size), Array->data + ((Index + 1) * Array->size), (Array->count-- - (Index + 1)) * Array->size);
+    CCArrayRemoveElementsAtIndex(Array, Index, 1);
+}
+
+void CCArrayRemoveElementsAtIndex(CCArray Array, size_t Index, size_t Count)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > (Index + Count - 1), "Index range must not be out of bounds");
+    
+    memmove(Array->data + (Index * Array->size), Array->data + ((Index + Count) * Array->size), (Array->count - (Index + Count)) * Array->size);
+    Array->count -= Count;
 }
 
 void CCArrayRemoveAllElements(CCArray Array)
