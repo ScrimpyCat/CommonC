@@ -149,6 +149,38 @@
     XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 3, @"Should now be the third element");
     
     CCArrayDestroy(Array);
+    
+    
+    for (size_t Loop = 0; Loop < 3; Loop++)
+    {
+        Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+        
+        CCArrayAppendElement(Array, &(int){ 1 });
+        CCArrayAppendElement(Array, &(int){ 2 });
+        CCArrayAppendElement(Array, &(int){ 3 });
+        
+        CCArrayRemoveElementsAtIndex(Array, 1, Loop);
+        
+        XCTAssertEqual(CCArrayGetCount(Array), 3 - Loop, @"Should contain the correct number of elements");
+        XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+        if (Loop < 2) XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), (Loop ? 3 : 2), @"Should now be the correct element");
+        if (!Loop) XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+        
+        CCArrayDestroy(Array);
+    }
+    
+    
+    Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    CCArrayRemoveElementsAtIndex(Array, 0, 3);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should contain no elements");
+    
+    CCArrayDestroy(Array);
 }
 
 @end
