@@ -88,6 +88,61 @@ size_t CCListAppendElement(CCList List, const void *Element)
     return Index;
 }
 
+size_t CCListAppendElements(CCList List, const void *Elements, size_t Count)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    CCLinkedListNode *Node = CCLinkedListGetTail(List->list);
+    
+    for (size_t Loop = 0; Loop < Count; )
+    {
+        CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Node);
+        size_t Available = List->pageSize - CCArrayGetCount(Array), CopyCount = Count - Loop;
+        
+        if (CopyCount > Available)
+        {
+            Node = CCLinkedListAppend(Node, CCLinkedListCreateNode(List->allocator, sizeof(CCArray), &(CCArray){ CCArrayCreate(List->allocator, CCArrayGetElementSize(Array), CCArrayGetChunkSize(Array)) }));
+            
+            if (!Available)
+            {
+                Available = List->pageSize;
+                Array = *(CCArray*)CCLinkedListGetNodeData(Node);
+            }
+            
+            CopyCount = Available;
+        }
+        
+        if (CCArrayAppendElements(Array, Elements + (Loop * CCArrayGetElementSize(Array)), CopyCount) == SIZE_MAX)
+        {
+            if (Loop)
+            {
+                const size_t PageIndex = List->count / List->pageSize;
+                
+                CCLinkedListNode *Page = List->list;
+                for (size_t Loop = 0; Loop < PageIndex; Loop++)
+                {
+                    Page = CCLinkedListEnumerateNext(Page);
+                }
+                
+                CCLinkedListNode *Node = CCLinkedListEnumerateNext(Page);
+                if (Node) CCLinkedListDestroy(Node);
+                
+                const size_t ElementIndex = List->count - (PageIndex * List->pageSize);
+                CCArrayRemoveElementsAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex, List->pageSize - ElementIndex);
+            }
+            
+            return SIZE_MAX;
+        }
+        
+        Loop += CopyCount;
+    }
+    
+    const size_t Index = List->count;
+    List->count += Count;
+    
+    return Index;
+}
+
 void CCListReplaceElementAtIndex(CCList List, size_t Index, const void *Element)
 {
     CCAssertLog(List, "List must not be null");
@@ -146,8 +201,15 @@ size_t CCListInsertElementAtIndex(CCList List, size_t Index, const void *Element
     
     Array = *(CCArray*)CCLinkedListGetNodeData(Page);
     
-    if (ElementIndex == CCArrayGetCount(Array)) CCArrayAppendElement(Array, Element);
-    else if (CCArrayInsertElementAtIndex(Array, ElementIndex, Element) == SIZE_MAX) return SIZE_MAX;
+    size_t Result;
+    if (ElementIndex == CCArrayGetCount(Array)) Result = CCArrayAppendElement(Array, Element);
+    else Result = CCArrayInsertElementAtIndex(Array, ElementIndex, Element);
+    
+    if (Result == SIZE_MAX)
+    {
+        CCAssertLog(0, "Need to restore state");
+        return SIZE_MAX;
+    }
     
     List->count++;
     

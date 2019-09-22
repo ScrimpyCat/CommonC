@@ -115,6 +115,19 @@ void CCListDestroy(CCList CC_DESTROY(List));
 size_t CCListAppendElement(CCList List, const void *Element);
 
 /*!
+ * @brief Appends the elements to the end of the list.
+ * @description Increases the list's count by the number of elements.
+ * @warning The size of the elements must be the same size as specified in the list creation.
+ * @param List The list to append the elements to.
+ * @param Elements The pointer to the elements to be copied to the end of the list. If NULL it
+ *        will create an uninitialized element.
+ *
+ * @param Count The number of elements to be appended. Must not be 0.
+ * @return The index the first element was added or SIZE_MAX on failure.
+ */
+size_t CCListAppendElements(CCList List, const void *Elements, size_t Count);
+
+/*!
  * @brief Replace element at index with new element.
  * @warning The size of element must be the same size as specified in the list creation. And the
  *          Index must not be out of bounds.
