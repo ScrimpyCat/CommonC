@@ -389,7 +389,7 @@ static CCString CCStringCreateFromString(CCAllocatorType Allocator, CCStringHint
         else
         {
             Str->string = (char*)String;
-            if (!SameLength) Str->hint |= CCStringMarkUnsafeBuffer;
+            if ((!SameLength) && (Size != strlen(String))) Str->hint |= CCStringMarkUnsafeBuffer;
         }
     }
     
@@ -409,7 +409,7 @@ CCString CCStringCreateWithSize(CCAllocatorType Allocator, CCStringHint Hint, co
 {
     CCAssertLog(String, "String must not be null");
     
-    return CCStringCreateFromString(Allocator, Hint, String, Size, Size == strlen(String));
+    return CCStringCreateFromString(Allocator, Hint, String, Size, FALSE);
 }
 
 CCString CCStringCreateByInsertingString(CCString String, size_t Index, CCString Insert)
