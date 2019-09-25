@@ -253,7 +253,7 @@ void CCListRemoveAllElements(CCList List)
         CCArrayDestroy(*(CCArray*)CCLinkedListGetNodeData(Node));
     }
     
-    CCLinkedListDestroy(Pages);
+    if (Pages) CCLinkedListDestroy(Pages);
     
     CCArrayRemoveAllElements(*(CCArray*)CCLinkedListGetNodeData(List->list));
     
