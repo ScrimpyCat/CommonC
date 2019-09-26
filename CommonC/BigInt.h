@@ -31,6 +31,12 @@
 #include <CommonC/Generics.h>
 #include <CommonC/Maths.h>
 #include <CommonC/CCString.h>
+#include <CommonC/List.h>
+
+typedef struct CCBigIntInfo {
+    CCList(uint64_t) value;
+    _Bool sign;
+} CCBigIntInfo;
 
 /*!
  * @brief The big integer.
@@ -52,6 +58,12 @@ CC_NEW CCBigInt CCBigIntCreate(CCAllocatorType Allocator);
  * @param Integer The big integer to be destroyed.
  */
 void CCBigIntDestroy(CCBigInt CC_DESTROY(Integer));
+
+#pragma mark - Query
+
+uint64_t CCBigIntGetComponent(CCBigInt Integer, size_t Index);
+size_t CCBigIntGetComponentCount(CCBigInt Integer);
+_Bool CCBigIntGetSign(CCBigInt Integer);
 
 #pragma mark - Getter/Setter
 
@@ -75,6 +87,8 @@ default: CCBigIntSetInt)(integer, value)
 void CCBigIntSetBigInt(CCBigInt Integer, CCBigInt Value);
 void CCBigIntSetInt(CCBigInt Integer, int64_t Value);
 void CCBigIntSetString(CCBigInt Integer, CCString Value);
+
+CC_NEW CCString CCBigIntGetString(CCBigInt Integer);
 
 #pragma mark - Operations
 

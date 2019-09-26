@@ -27,11 +27,6 @@
 #include "BigInt.h"
 #include "List.h"
 
-typedef struct CCBigIntInfo {
-    CCList(uint64_t) value;
-    _Bool sign;
-} CCBigIntInfo;
-
 
 static void CCBigIntDestructor(CCBigInt Ptr)
 {
@@ -150,7 +145,7 @@ static void CCBigIntParse(CCBigInt Integer, const char *String, size_t Length)
         size_t Index = 0;
         const size_t ElementCount = Length / 16;
         for (size_t Loop = 0; Loop < ElementCount; Loop++)
-        {   
+        {
             Index = CCListAppendElement(Integer->value, &(uint64_t){ 0 });
         }
         
