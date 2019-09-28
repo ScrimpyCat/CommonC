@@ -99,9 +99,11 @@ void CCBigIntSetInt(CCBigInt Integer, int64_t Value)
     
     CCListRemoveAllElements(Integer->value);
     
-    Integer->sign = Value >> 63;
+    const int64_t Mask = Value >> 63;
     
-    CCListAppendElement(Integer->value, &(uint64_t){ (Value ^ Integer->sign) - Value });
+    Integer->sign = Mask;
+    
+    CCListAppendElement(Integer->value, &(uint64_t){ (Value ^ Mask) - Mask });
 }
 
 static uint64_t CCBigIntParseHex(const char *String, size_t Length)
@@ -136,6 +138,8 @@ static void CCBigIntParse(CCBigInt Integer, const char *String, size_t Length)
         String++;
         Length--;
     }
+    
+    else Integer->sign = FALSE;
     
     if ((Length > 2) && (String[0] == '0') && (String[1] == 'x'))
     {
