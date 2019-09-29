@@ -66,6 +66,7 @@
 
 #include <CommonC/Comparator.h>
 #include <CommonC/Enumerator.h>
+#include <CommonC/Enumerable.h>
 #include <CommonC/LinkedList.h>
 #include <CommonC/Array.h>
 #include <CommonC/List.h>
