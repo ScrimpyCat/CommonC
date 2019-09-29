@@ -47,13 +47,58 @@
 {
     CCBigInt Integer = CCBigIntCreate(CC_STD_ALLOCATOR);
     
-    CCBigIntSet(Integer, CC_STRING("0x10f"));
+    CCBigIntSet(Integer, 0x10f);
     
     XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
     XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
     XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x10f, @"Should contain the correct component value");
     
     CCString Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000000010f")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -0x10f);
+    
+    XCTAssertTrue(CCBigIntGetSign(Integer), @"Should be negative");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x10f, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x000000000000010f")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigInt IntegerB = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSet(IntegerB, CC_STRING("0x1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
+    CCBigIntSet(Integer, IntegerB);
+    CCBigIntDestroy(IntegerB);
+    
+    XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 9, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 1), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 2), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 3), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 4), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 5), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 6), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 7), 0, @"Should contain the correct component value");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 8), 0x10000, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x10f"));
+    
+    XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x10f, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
     XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000000010f")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
     CCStringDestroy(Value);
     
