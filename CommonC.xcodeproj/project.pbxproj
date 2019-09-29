@@ -164,6 +164,7 @@
 		F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3300B13233A8B1C0068C378 /* BigIntTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3300B12233A8B1C0068C378 /* BigIntTests.m */; };
 		F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */; };
 		F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334273D1DB40512008CB998 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = F334273B1DB40512008CB998 /* Queue.c */; };
@@ -282,6 +283,9 @@
 		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
 		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3897D5E1DD1E743008D6C1D /* PathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3897D5D1DD1E743008D6C1D /* PathTests.m */; };
+		F394001D2340E39B00EE826D /* Enumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F394001C2340E39B00EE826D /* Enumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F394001F23410ECC00EE826D /* Enumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F394001E23410ECC00EE826D /* Enumerable.c */; };
+		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
 		F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FC1DCA158E006E24B7 /* FileSystemTests.m */; };
 		F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */; };
 		F3A91A50186BC4B100EF0B95 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A91A4F186BC4B100EF0B95 /* XCTest.framework */; };
@@ -300,7 +304,7 @@
 		F3AE99BD1A7511D500212838 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA84E232B483B00A5CAF3 /* BigInt.h */; };
 		F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA84F232B483B00A5CAF3 /* BigInt.c */; };
-		F3AEA854232B7A4C00A5CAF3 /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA852232B7A4C00A5CAF3 /* List.h */; };
+		F3AEA854232B7A4C00A5CAF3 /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA852232B7A4C00A5CAF3 /* List.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA853232B7A4C00A5CAF3 /* List.c */; };
 		F3AEA857232C85CF00A5CAF3 /* Container.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA856232C85CF00A5CAF3 /* Container.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
@@ -346,6 +350,8 @@
 		F3E7460D1DC623AF00F1F268 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = F380180F1DC30DE500343E07 /* Task.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E878F01DC49FE100C34838 /* TaskTests.m */; };
 		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3F41A332333525D0068A135 /* ListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A322333525D0068A135 /* ListTests.m */; };
+		F3F41A3523337CE80068A135 /* ContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A3423337CE80068A135 /* ContainerTests.m */; };
 		F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
 		F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9E219428E1400C3626C /* CFAllocator.c */; };
@@ -424,6 +430,7 @@
 		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
+		F3300B12233A8B1C0068C378 /* BigIntTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigIntTests.m; sourceTree = "<group>"; };
 		F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentBuffer.c; sourceTree = "<group>"; };
 		F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentBuffer.h; sourceTree = "<group>"; };
 		F334273B1DB40512008CB998 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
@@ -536,6 +543,9 @@
 		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
 		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3897D5D1DD1E743008D6C1D /* PathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathTests.m; sourceTree = "<group>"; };
+		F394001C2340E39B00EE826D /* Enumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerable.h; sourceTree = "<group>"; };
+		F394001E23410ECC00EE826D /* Enumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Enumerable.c; sourceTree = "<group>"; };
+		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
 		F39778FC1DCA158E006E24B7 /* FileSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemTests.m; sourceTree = "<group>"; };
 		F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandleTests.m; sourceTree = "<group>"; };
 		F3A91A4F186BC4B100EF0B95 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -599,6 +609,8 @@
 		F3E746071DC6079400F1F268 /* TaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskQueue.h; sourceTree = "<group>"; };
 		F3E7460A1DC6239800F1F268 /* TaskQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskQueueTests.m; sourceTree = "<group>"; };
 		F3E878F01DC49FE100C34838 /* TaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTests.m; sourceTree = "<group>"; };
+		F3F41A322333525D0068A135 /* ListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListTests.m; sourceTree = "<group>"; };
+		F3F41A3423337CE80068A135 /* ContainerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContainerTests.m; sourceTree = "<group>"; };
 		F3F9B60D17BA4B4100D50297 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CustomInputFilters.c; sourceTree = "<group>"; };
 		F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomInputFilters.h; sourceTree = "<group>"; };
@@ -1100,6 +1112,8 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F394001C2340E39B00EE826D /* Enumerable.h */,
+				F394001E23410ECC00EE826D /* Enumerable.c */,
 				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
@@ -1147,6 +1161,10 @@
 				F359D0321C148F700028B86B /* DataBufferTests.m */,
 				F3AE99341A6D508200212838 /* LinkedListTests.m */,
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
+				F3F41A322333525D0068A135 /* ListTests.m */,
+				F3300B12233A8B1C0068C378 /* BigIntTests.m */,
+				F39400202341304B00EE826D /* EnumerableTests.m */,
+				F3F41A3423337CE80068A135 /* ContainerTests.m */,
 				F3143A9C1A8A683F004EB810 /* CollectionTests.h */,
 				F37AFAA61A7913F20037ECB2 /* CollectionTests.m */,
 				F3B30AC11A8F9CAB0007FA7B /* OrderedCollectionTests.h */,
@@ -1429,6 +1447,7 @@
 				F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */,
 				F318D9301C4DD829005AE64E /* Matrix4.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
+				F394001D2340E39B00EE826D /* Enumerable.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
 				F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */,
@@ -1690,6 +1709,7 @@
 				F3E2746520D5931900D6AFE1 /* DebugAllocator.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */,
+				F394001F23410ECC00EE826D /* Enumerable.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
 				F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
@@ -1724,6 +1744,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31BEE97208CB06700DD7F83 /* ConcurrentIndexMapTests.m in Sources */,
+				F3F41A332333525D0068A135 /* ListTests.m in Sources */,
 				F3E3E09B187A5AF800A38E72 /* Vector2DSSSE3Tests.m in Sources */,
 				F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */,
 				F3BC6A401877A86300934291 /* Vectorized3DAVXTests.m in Sources */,
@@ -1743,6 +1764,7 @@
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
+				F39400212341304B00EE826D /* EnumerableTests.m in Sources */,
 				F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */,
 				F3E7460B1DC6239800F1F268 /* TaskQueueTests.m in Sources */,
 				F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */,
@@ -1750,6 +1772,7 @@
 				F3BC6A3018776CAE00934291 /* Vectorized2DSSE4_2Tests.m in Sources */,
 				F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */,
 				F3E3E095187A5A5E00A38E72 /* Vector2DSSETests.m in Sources */,
+				F3300B13233A8B1C0068C378 /* BigIntTests.m in Sources */,
 				F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */,
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
@@ -1773,6 +1796,7 @@
 				F353DD8A17B5870C00D1674C /* FileTests.m in Sources */,
 				F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */,
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
+				F3F41A3523337CE80068A135 /* ContainerTests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
 				F36D63021D13456100D3827A /* DictionaryHashMapTests.m in Sources */,
 				F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */,
