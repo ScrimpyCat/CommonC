@@ -145,7 +145,7 @@ static CC_FORCE_INLINE void *CCCollectionEnumeratorGetHead(CCEnumerator *Enumera
     return ((CCCollection)Enumerator->ref)->interface->enumerator(((CCCollection)Enumerator->ref)->internal, &Enumerator->state, CCCollectionEnumeratorActionHead);
 }
 
-static inline void *CCCollectionEnumeratorGetTail(CCEnumerator *Enumerator)
+static CC_FORCE_INLINE void *CCCollectionEnumeratorGetTail(CCEnumerator *Enumerator)
 {
     return ((CCCollection)Enumerator->ref)->interface->enumerator(((CCCollection)Enumerator->ref)->internal, &Enumerator->state, CCCollectionEnumeratorActionTail);
 }

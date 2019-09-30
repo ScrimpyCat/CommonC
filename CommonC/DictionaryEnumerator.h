@@ -193,7 +193,7 @@ static CC_FORCE_INLINE void *CCDictionaryEnumeratorGetHead(CCEnumerator *Enumera
     return ((CCDictionary)Enumerator->ref)->interface->enumerator(((CCDictionary)Enumerator->ref)->internal, &Enumerator->state, CCDictionaryEnumeratorActionHead, CCDictionaryEnumeratorGetType(Enumerator));
 }
 
-static inline void *CCDictionaryEnumeratorGetTail(CCEnumerator *Enumerator)
+static CC_FORCE_INLINE void *CCDictionaryEnumeratorGetTail(CCEnumerator *Enumerator)
 {
     return ((CCDictionary)Enumerator->ref)->interface->enumerator(((CCDictionary)Enumerator->ref)->internal, &Enumerator->state, CCDictionaryEnumeratorActionTail, CCDictionaryEnumeratorGetType(Enumerator));
 }

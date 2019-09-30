@@ -209,7 +209,7 @@ static CC_FORCE_INLINE void *CCHashMapEnumeratorGetHead(CCEnumerator *Enumerator
     return ((CCHashMap)Enumerator->ref)->interface->enumerator(Enumerator->ref, &Enumerator->state, CCHashMapEnumeratorActionHead, CCHashMapEnumeratorGetType(Enumerator));
 }
 
-static inline void *CCHashMapEnumeratorGetTail(CCEnumerator *Enumerator)
+static CC_FORCE_INLINE void *CCHashMapEnumeratorGetTail(CCEnumerator *Enumerator)
 {
     return ((CCHashMap)Enumerator->ref)->interface->enumerator(Enumerator->ref, &Enumerator->state, CCHashMapEnumeratorActionTail, CCHashMapEnumeratorGetType(Enumerator));
 }
