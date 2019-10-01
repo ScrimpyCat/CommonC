@@ -38,6 +38,7 @@
 #include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
+#include <CommonC/Enumerable.h>
 
 typedef struct CCArrayInfo {
     size_t size, chunkSize;
@@ -214,6 +215,13 @@ static inline void *CCArrayGetElementAtIndex(CCArray Array, size_t Index);
  */
 static inline size_t CCArrayGetChunkSize(CCArray Array);
 
+/*!
+ * @brief Get an enumerable for the array.
+ * @param Array The array to obtain an enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+static inline void CCArrayGetEnumerable(CCArray Array, CCEnumerable *Enumerable);
+
 
 #pragma mark -
 static inline size_t CCArrayGetCount(CCArray Array)
@@ -243,6 +251,13 @@ static inline size_t CCArrayGetChunkSize(CCArray Array)
     CCAssertLog(Array, "Array must not be null");
     
     return Array->chunkSize;
+}
+
+static inline void CCArrayGetEnumerable(CCArray Array, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Array, "Array must not be null");
+    
+    *Enumerable = CCEnumerableCreate(Array->data, Array->size, Array->count);
 }
 
 #endif
