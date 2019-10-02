@@ -197,3 +197,56 @@ void CCLinkedListRemove(CCLinkedList Start, CCLinkedList End)
     Start->prev = NULL;
     End->next = NULL;
 }
+
+static void *CCLinkedListEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    switch (Action)
+    {
+        case CCEnumerableActionHead:
+            Enumerator->state.internal.ptr = (void*)Enumerator->state.internal.extra[0];
+            break;
+            
+        case CCEnumerableActionTail:
+            if (!Enumerator->state.internal.extra[1]) Enumerator->state.internal.extra[1] = (uintptr_t)CCLinkedListGetTail(Enumerator->state.internal.ptr ? Enumerator->state.internal.ptr : Enumerator->ref);
+            Enumerator->state.internal.ptr = (void*)Enumerator->state.internal.extra[1];
+            break;
+            
+        case CCEnumerableActionNext:
+        {
+            CCLinkedList Next = CCLinkedListEnumerateNext(Enumerator->state.internal.ptr);
+            if ((!Next) && (!Enumerator->state.internal.extra[1])) Enumerator->state.internal.extra[1] = Enumerator->state.internal.ptr;
+            Enumerator->state.internal.ptr = Next;
+            break;
+        }
+            
+        case CCEnumerableActionPrevious:
+            Enumerator->state.internal.ptr = CCLinkedListEnumeratePrevious(Enumerator->state.internal.ptr);
+            break;
+            
+        default:
+            break;
+    }
+    
+    return Enumerator->state.internal.ptr ? CCLinkedListGetNodeData(Enumerator->state.internal.ptr) : NULL;
+}
+
+void CCLinkedListGetEnumerable(CCLinkedList List, CCEnumerable *Enumerable)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    CCLinkedList Head = CCLinkedListGetHead(List);
+    
+    *Enumerable = (CCEnumerable){
+        .handler = CCLinkedListEnumerableHandler,
+        .enumerator = {
+            .ref = List,
+            .state = {
+                .internal = {
+                    .ptr = Head,
+                    .extra = { (uintptr_t)Head, 0 }
+                },
+                .type = CCEnumeratorFormatInternal
+            }
+        }
+    };
+}

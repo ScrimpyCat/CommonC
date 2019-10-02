@@ -40,6 +40,7 @@
 #include <CommonC/Base.h>
 #include <CommonC/Container.h>
 #include <CommonC/Allocator.h>
+#include <CommonC/Enumerable.h>
 
 typedef struct CCLinkedListNode {
     struct CCLinkedListNode *next, *prev;
@@ -258,6 +259,14 @@ static inline CCLinkedList CCLinkedListGetTail(CCLinkedList List);
  * @return A pointer to the data it contains.
  */
 static inline void *CCLinkedListGetNodeData(CCLinkedListNode *Node);
+
+/*!
+ * @brief Get an enumerable for the list.
+ * @note Will position the enumerable at the head of the list, e.g. the result of @b CCLinkedListGetHead.
+ * @param List The list to obtain an enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCLinkedListGetEnumerable(CCLinkedList List, CCEnumerable *Enumerable);
 
 
 #pragma mark -
