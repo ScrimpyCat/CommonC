@@ -209,6 +209,13 @@ static inline size_t CCArrayGetElementSize(CCArray Array);
 static inline void *CCArrayGetElementAtIndex(CCArray Array, size_t Index);
 
 /*!
+ * @brief Get the internal data pointer in the array.
+ * @param Array The array to get the internal data pointer of.
+ * @return The beginning of the data pointer (where the first element would be if there is one).
+ */
+static inline void *CCArrayGetData(CCArray Array);
+
+/*!
  * @brief Get the chunk size of the array.
  * @param Array The array to get the chunk size of.
  * @return The chunk size of the array.
@@ -244,6 +251,13 @@ static inline void *CCArrayGetElementAtIndex(CCArray Array, size_t Index)
     CCAssertLog(CCArrayGetCount(Array) > Index, "Index must not be out of bounds");
     
     return Array->data + (Index * CCArrayGetElementSize(Array));
+}
+
+static inline void *CCArrayGetData(CCArray Array)
+{
+    CCAssertLog(Array, "Array must not be null");
+    
+    return Array->data;
 }
 
 static inline size_t CCArrayGetChunkSize(CCArray Array)
