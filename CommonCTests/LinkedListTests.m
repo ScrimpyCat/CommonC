@@ -255,4 +255,51 @@ typedef struct {
     CCLinkedListDestroy(List);
 }
 
+-(void) testEnumerable
+{
+    CCLinkedList List = CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 5 });
+    
+    List = CCLinkedListInsertBefore(List, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 4 }));
+    List = CCLinkedListInsertBefore(List, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    List = CCLinkedListInsertBefore(List, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    List = CCLinkedListInsertBefore(List, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    
+    CCEnumerable Enumerable;
+    CCLinkedListGetEnumerable(List, &Enumerable);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 3, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 4, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 3, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 2, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    CCLinkedListDestroy(List);
+}
+
 @end
