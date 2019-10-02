@@ -214,6 +214,13 @@ static inline size_t CCListGetChunkSize(CCList List);
  */
 static inline size_t CCListGetPageSize(CCList List);
 
+/*!
+ * @brief Get an enumerable for the list.
+ * @param List The list to obtain an enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCListGetEnumerable(CCList List, CCEnumerable *Enumerable);
+
 
 #pragma mark -
 static inline size_t CCListGetCount(CCList List)

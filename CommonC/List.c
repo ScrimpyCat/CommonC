@@ -259,3 +259,115 @@ void CCListRemoveAllElements(CCList List)
     
     List->count = 0;
 }
+static void *CCListEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    switch (Action)
+    {
+        case CCEnumerableActionHead:
+        {
+            CCLinkedList Head = ((CCList)(Enumerator->ref))->list;
+            Enumerator->state.batch.extra[0] = (uintptr_t)Head;
+            
+            CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Head);
+            
+            Enumerator->state.batch.ptr = CCArrayGetData(Array);
+            Enumerator->state.batch.count = CCArrayGetCount(Array);
+            Enumerator->state.batch.index = 0;
+            break;
+        }
+            
+        case CCEnumerableActionTail:
+        {
+            CCLinkedList Tail = (CCLinkedList)Enumerator->state.batch.extra[1];
+            if (!Tail) Tail = CCLinkedListGetTail((CCLinkedList)Enumerator->state.batch.extra[0]);
+            
+            Enumerator->state.batch.extra[0] = (uintptr_t)Tail;
+            
+            if (!Enumerator->state.batch.extra[1]) Enumerator->state.batch.extra[1] = (uintptr_t)Tail;
+            
+            CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Tail);
+            
+            Enumerator->state.batch.ptr = CCArrayGetData(Array);
+            Enumerator->state.batch.count = CCArrayGetCount(Array);
+            Enumerator->state.batch.index = Enumerator->state.batch.count - 1;
+            
+            return Enumerator->state.batch.count ? (Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride)) : NULL;
+        }
+            
+        case CCEnumerableActionNext:
+        {
+            CCLinkedList Next = CCLinkedListEnumerateNext((CCLinkedList)Enumerator->state.batch.extra[0]);
+            if (Next)
+            {
+                CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Next);
+                Enumerator->state.batch.ptr = CCArrayGetData(Array);
+                Enumerator->state.batch.count = CCArrayGetCount(Array);
+                Enumerator->state.batch.index = 0;
+            }
+            
+            else
+            {
+                if (!Enumerator->state.batch.extra[1]) Enumerator->state.batch.extra[1] = Enumerator->state.batch.extra[0];
+                
+                Enumerator->state.batch.ptr = NULL;
+                Enumerator->state.batch.count = 0;
+                Enumerator->state.batch.index = 0;
+            }
+            
+            Enumerator->state.batch.extra[0] = (uintptr_t)Next;
+            break;
+        }
+            
+        case CCEnumerableActionPrevious:
+        {
+            CCLinkedList Previous = CCLinkedListEnumeratePrevious((CCLinkedList)Enumerator->state.batch.extra[0]);
+            if (Previous)
+            {
+                CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Previous);
+                Enumerator->state.batch.ptr = CCArrayGetData(Array);
+                Enumerator->state.batch.count = CCArrayGetCount(Array);
+                Enumerator->state.batch.index = Enumerator->state.batch.count - 1;
+            }
+            
+            else
+            {
+                Enumerator->state.batch.ptr = NULL;
+                Enumerator->state.batch.count = 0;
+                Enumerator->state.batch.index = 0;
+            }
+            
+            Enumerator->state.batch.extra[0] = (uintptr_t)Previous;
+            
+            return Enumerator->state.batch.count ? (Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride)) : NULL;
+        }
+            
+        default:
+            break;
+    }
+    
+    return Enumerator->state.batch.count ? Enumerator->state.batch.ptr : NULL;
+}
+
+void CCListGetEnumerable(CCList List, CCEnumerable *Enumerable)
+{
+    CCAssertLog(List, "List must not be null");
+    
+    CCArray Array = *(CCArray*)CCLinkedListGetNodeData(List->list);
+    
+    *Enumerable = (CCEnumerable){
+        .handler = CCListEnumerableHandler,
+        .enumerator = {
+            .ref = List,
+            .state = {
+                .batch = {
+                    .ptr = CCArrayGetData(Array),
+                    .count = CCArrayGetCount(Array),
+                    .stride = CCArrayGetElementSize(Array),
+                    .index = 0,
+                    .extra = { (uintptr_t)List->list, 0 }
+                },
+                .type = CCEnumeratorFormatBatch
+            }
+        }
+    };
+}
