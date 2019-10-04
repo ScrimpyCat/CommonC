@@ -30,6 +30,7 @@
  CC_SILENCE_UNUSED_WARNING: Silences the unused value/variable warning where it would otherwise not be appropriate or sometimes even able to use a compiler extension.
  CC_VA_ARG_COUNT: Get the argument count for __VA_ARGS__.
  CC_TYPE_PRESETS: Repeat the input for the non-spaced types and types defined by this library.
+ CC_CUSTOM_TYPES: Intended to be defined by users of the library to easily include any custom types in the type preset definition.
  */
 
 #ifndef CommonC_Hacks_h
@@ -67,6 +68,10 @@ default: CC_NAME_RETURN_VALUE_FUNCTION_(void_ptr) \
 
 #define CC_VA_ARG_COUNT(...) CC_VA_ARG_COUNT_(0, ## __VA_ARGS__, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 #define CC_VA_ARG_COUNT_(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, count, ...) count
+
+#ifndef CC_CUSTOM_TYPES
+#define CC_CUSTOM_TYPES(func, ...)
+#endif
 
 #define CC_TYPE_PRESETS(func, ...) \
 func(__VA_ARGS__, char); \
@@ -144,7 +149,8 @@ func(__VA_ARGS__, CCMatrix2); \
 func(__VA_ARGS__, CCMatrix3); \
 func(__VA_ARGS__, CCMatrix4); \
 func(__VA_ARGS__, CCVector); \
-func(__VA_ARGS__, CCAllocatorType);
+func(__VA_ARGS__, CCAllocatorType); \
+CC_CUSTOM_TYPES(func, __VA_ARGS__);
 
 #define CC_TYPE_PRESETS_(func, ...) \
 func(__VA_ARGS__, char); \
@@ -222,7 +228,7 @@ func(__VA_ARGS__, CCMatrix2); \
 func(__VA_ARGS__, CCMatrix3); \
 func(__VA_ARGS__, CCMatrix4); \
 func(__VA_ARGS__, CCVector); \
-func(__VA_ARGS__, CCAllocatorType);
-
+func(__VA_ARGS__, CCAllocatorType); \
+CC_CUSTOM_TYPES(func, __VA_ARGS__);
 
 #endif
