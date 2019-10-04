@@ -256,6 +256,679 @@
     XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000010111218191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
     CCStringDestroy(Value);
     
+    
+    CCBigIntSet(Integer, CC_STRING("0x000000000000000001"));
+    
+    XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x1, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x000000000000000000"));
+    
+    XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x0, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0x0"));
+    
+    XCTAssertFalse(CCBigIntGetSign(Integer), @"Should be positive");
+    XCTAssertEqual(CCBigIntGetComponentCount(Integer), 1, @"Should contain the correct number of components");
+    XCTAssertEqual(CCBigIntGetComponent(Integer, 0), 0x0, @"Should contain the correct component value");
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    CCBigIntDestroy(Integer);
+}
+
+-(void) testComparison
+{
+    CCBigInt Integer = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, 1);
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, 2);
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x10000000000000000"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x10000000000000001"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x20000000000000001"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, -1);
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultEqual, @"Should be equal");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer, -2);
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultDescending, @"Should be greater than");
+    
+    
+    CCBigIntSet(Integer,  CC_STRING("-0x10000000000000000"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultEqual, @"Should be equal");
+    
+    
+    CCBigIntSet(Integer,  CC_STRING("-0x10000000000000001"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    
+    
+    CCBigIntSet(Integer,  CC_STRING("-0x20000000000000000"));
+    XCTAssertEqual(CCBigIntCompare(Integer, 0), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x0")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, 1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, -1), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x1")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
+    
+    CCBigIntDestroy(Integer);
+}
+
+-(void) testAddition
+{
+    CCBigInt Integer = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntAdd(Integer, 0);
+    
+    CCString Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntAdd(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntAdd(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntAdd(Integer, 0xffffffff);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000100000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntAdd(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntAdd(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntAdd(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xfffffffffffffffe"));
+    CCBigIntAdd(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xfffffffffffffffe"));
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x00000000000000010000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xfffffffffffffffe"));
+    CCBigIntAdd(Integer, CC_STRING("0x10000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001fffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x10000000000000000"));
+    CCBigIntAdd(Integer, CC_STRING("0xfffffffffffffffe"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001fffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntAdd(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000000000100000000000000000000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    CCBigIntAdd(Integer, CC_STRING("0xffffffffffffffff"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x000000000000000100000000000000000000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff"));
+    CCBigIntAdd(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x000000000000000100000000000000000000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    CCBigIntAdd(Integer, CC_STRING("-0xffffffffffffffff"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x000000000000000100000000000000000000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 0);
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntAdd(Integer, 0);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 1);
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntAdd(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 2);
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntAdd(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 3);
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntAdd(Integer, 3);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x00000000000000010000000000000000"));
+    CCBigIntAdd(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0x00000000000000010000000000000000"));
+    CCBigIntAdd(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0xfffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 2);
+    CCBigIntAdd(Integer, CC_STRING("-0x00000000000000010000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0xfffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntAdd(Integer, CC_STRING("0x00000000000000010000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000000"));
+    CCBigIntAdd(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000000"));
+    CCBigIntAdd(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    CCBigIntAdd(Integer, CC_STRING("0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    CCBigIntAdd(Integer, CC_STRING("-0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    CCBigIntDestroy(Integer);
+}
+
+-(void) testSubtraction
+{
+    CCBigInt Integer = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSub(Integer, 0);
+    
+    CCString Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000000")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSub(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSub(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSub(Integer, 0xffffffff);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000100000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntSub(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffe")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSub(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffd")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntSub(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffd")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xfffffffffffffffe"));
+    CCBigIntSub(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffc")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xfffffffffffffffe"));
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0xfffffffffffffffc")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xfffffffffffffffe"));
+    CCBigIntSub(Integer, CC_STRING("0x10000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x10000000000000000"));
+    CCBigIntSub(Integer, CC_STRING("0xfffffffffffffffe"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff"));
+    CCBigIntSub(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0xfffffffffffffffe0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("0xffffffffffffffff"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffe0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff"));
+    CCBigIntSub(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0xfffffffffffffffe0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("-0xffffffffffffffff"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0xfffffffffffffffe0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 0);
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntSub(Integer, 0);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 1);
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000003")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntSub(Integer, 1);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000003")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 2);
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000004")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntSub(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000004")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 3);
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000005")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntSub(Integer, 3);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000005")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0x00000000000000010000000000000000"));
+    CCBigIntSub(Integer, -2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0x00000000000000010000000000000000"));
+    CCBigIntSub(Integer, 2);
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x00000000000000010000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, 2);
+    CCBigIntSub(Integer, CC_STRING("-0x00000000000000010000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x00000000000000010000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, -2);
+    CCBigIntSub(Integer, CC_STRING("0x00000000000000010000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x00000000000000010000000000000002")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000000"));
+    CCBigIntSub(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001fffffffffffffffe0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000000"));
+    CCBigIntSub(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001fffffffffffffffe0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001fffffffffffffffe0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("-0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001fffffffffffffffe0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("-0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("-0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("-0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
+    
+    CCBigIntSet(Integer, CC_STRING("0xffffffffffffffff0000000000000001"));
+    CCBigIntSub(Integer, CC_STRING("0xffffffffffffffff0000000000000000"));
+    
+    Value = CCBigIntGetString(Integer);
+    XCTAssertTrue(CCStringEqual(Value, CC_STRING("0x0000000000000001")), @"Should have the correct value instead got: %s", CCStringGetBuffer(Value));
+    CCStringDestroy(Value);
+    
     CCBigIntDestroy(Integer);
 }
 
