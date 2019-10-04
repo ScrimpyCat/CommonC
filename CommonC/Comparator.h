@@ -26,6 +26,8 @@
 #ifndef CommonC_Comparator_h
 #define CommonC_Comparator_h
 
+#include <CommonC/Extensions.h>
+
 /*!
  * @brief The order result of two values.
  */
@@ -44,5 +46,27 @@ typedef enum {
  * @brief Generic comparator function.
  */
 typedef CCComparisonResult (*CCComparator)(const void *left, const void *right);
+
+/*!
+ * @brief Flip the order of a comparison result.
+ * @description @b CCComparisonResultAscending becomes @b CCComparisonResultDescending and vice
+ *              versa. @b CCComparisonResultEqual and @b CCComparisonResultInvalid remain the
+ *              same.
+ *
+ * @param Order The comparison order to be flipped.
+ * @return The flipped order.
+ */
+static CC_FORCE_INLINE CCComparisonResult CCComparisonResultFlipOrder(CCComparisonResult Order);
+
+#pragma mark -
+
+static CC_FORCE_INLINE CCComparisonResult CCComparisonResultFlipOrder(CCComparisonResult Order)
+{
+    if (CC_UNLIKELY(Order == CCComparisonResultInvalid)) return Order;
+    
+    _Static_assert((CCComparisonResultAscending == -1) && (CCComparisonResultDescending == 1) && (CCComparisonResultEqual == 0), "Expects these exact values");
+    
+    return -Order;
+}
 
 #endif
