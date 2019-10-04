@@ -31,6 +31,7 @@
  CC_VA_ARG_COUNT: Get the argument count for __VA_ARGS__.
  CC_TYPE_PRESETS: Repeat the input for the non-spaced types and types defined by this library.
  CC_CUSTOM_TYPES: Intended to be defined by users of the library to easily include any custom types in the type preset definition.
+ CC_CUSTOM_TYPES_: Intended to be defined by users of the library to easily include any custom types in the type preset definition.
  */
 
 #ifndef CommonC_Hacks_h
@@ -71,6 +72,10 @@ default: CC_NAME_RETURN_VALUE_FUNCTION_(void_ptr) \
 
 #ifndef CC_CUSTOM_TYPES
 #define CC_CUSTOM_TYPES(func, ...)
+#endif
+
+#ifndef CC_CUSTOM_TYPES_
+#define CC_CUSTOM_TYPES_(func, ...)
 #endif
 
 #define CC_TYPE_PRESETS(func, ...) \
@@ -229,6 +234,6 @@ func(__VA_ARGS__, CCMatrix3); \
 func(__VA_ARGS__, CCMatrix4); \
 func(__VA_ARGS__, CCVector); \
 func(__VA_ARGS__, CCAllocatorType); \
-CC_CUSTOM_TYPES(func, __VA_ARGS__);
+CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
 #endif
