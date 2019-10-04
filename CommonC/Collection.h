@@ -146,7 +146,7 @@ void CCCollectionRemoveAllElements(CCCollection Collection);
  * @param Entries A pointer to where the collection of entry references to the added elements
  *        will be stored. Requires collection to be destroyed when no longer needed. May be NULL.
  */
-void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements, CCCollection *Entries);
+void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements, CCCollection(CCCollectionEntry) *Entries);
 
 /*!
  * @brief Remove a collection of elements from the collection.
@@ -154,7 +154,7 @@ void CCCollectionInsertCollection(CCCollection Collection, CCCollection Elements
  * @param Entries The collection of references to the elements in the collection that will be
  *        removed.
  */
-void CCCollectionRemoveCollection(CCCollection Collection, CCCollection Entries);
+void CCCollectionRemoveCollection(CCCollection Collection, CCCollection(CCCollectionEntry) Entries);
 
 
 #pragma mark - Query Info
@@ -201,7 +201,7 @@ const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection);
  * @return A collection with all the entry references. This collection must be destroyed when no longer
  *         in use.
  */
-CCCollection CCCollectionGetAllEntries(CCCollection Collection);
+CCCollection(CCCollectionEntry) CCCollectionGetAllEntries(CCCollection Collection);
 
 /*!
  * @brief Find an element in the collection.
@@ -224,7 +224,7 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
  * @return A collection of entry references to the elements it found. An empty collection means no
  *         elements were found. The returned collection must be destroyed when it is no longer needed.
  */
-CCCollection CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator);
+CCCollection(CCCollectionEntry) CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator);
 
 /*!
  * @brief Get an enumerator for the collection.

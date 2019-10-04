@@ -383,7 +383,7 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
     return Found;
 }
 
-CCCollection CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator)
+CCCollection(CCCollectionEntry) CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator)
 {
     CCAssertLog(Collection, "Collection must not be null");
     CCAssertLog(Elements, "Collection must not be null");
