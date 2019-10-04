@@ -214,7 +214,7 @@ static void *CCLinkedListEnumerableHandler(CCEnumerator *Enumerator, CCEnumerabl
         case CCEnumerableActionNext:
         {
             CCLinkedList Next = CCLinkedListEnumerateNext(Enumerator->state.internal.ptr);
-            if ((!Next) && (!Enumerator->state.internal.extra[1])) Enumerator->state.internal.extra[1] = Enumerator->state.internal.ptr;
+            if ((!Next) && (!Enumerator->state.internal.extra[1])) Enumerator->state.internal.extra[1] = (uintptr_t)Enumerator->state.internal.ptr;
             Enumerator->state.internal.ptr = Next;
             break;
         }
