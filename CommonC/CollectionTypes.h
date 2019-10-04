@@ -26,6 +26,8 @@
 #ifndef CommonC_CollectionTypes_h
 #define CommonC_CollectionTypes_h
 
+#include <CommonC/Enumerable.h>
+
 /*!
  * @typedef CCCollectionHint
  * @brief Hints for the indended usage of the collection.
@@ -83,15 +85,15 @@ typedef enum {
  */
 typedef enum {
     ///Set the enumerator to the head end of the collection and return the element there.
-    CCCollectionEnumeratorActionHead,
+    CCCollectionEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the collection and return the element there.
-    CCCollectionEnumeratorActionTail,
+    CCCollectionEnumeratorActionTail = CCEnumerableActionTail,
     ///Set the enumerator to the next position in the collection, and return the element there.
-    CCCollectionEnumeratorActionNext,
+    CCCollectionEnumeratorActionNext = CCEnumerableActionNext,
     ///Set the enumerator to the previous position in the collection, and return the element there.
-    CCCollectionEnumeratorActionPrevious,
+    CCCollectionEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the element at the current position.
-    CCCollectionEnumeratorActionCurrent
+    CCCollectionEnumeratorActionCurrent = CCEnumerableActionCurrent
 } CCCollectionEnumeratorAction;
 
 /*!

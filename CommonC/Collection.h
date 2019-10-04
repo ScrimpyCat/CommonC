@@ -233,4 +233,11 @@ CCCollection CCCollectionFindCollection(CCCollection Collection, CCCollection El
  */
 void CCCollectionGetEnumerator(CCCollection Collection, CCEnumerator *Enumerator);
 
+/*!
+ * @brief Get an enumerable for the collection.
+ * @param Collection The collection to obtain an enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCCollectionGetEnumerable(CCCollection Collection, CCEnumerable *Enumerable);
+
 #endif

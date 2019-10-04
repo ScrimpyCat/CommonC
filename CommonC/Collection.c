@@ -415,3 +415,16 @@ void CCCollectionGetEnumerator(CCCollection Collection, CCEnumerator *Enumerator
     Collection->interface->enumerator(Collection->internal, &Enumerator->state, CCCollectionEnumeratorActionHead);
     Enumerator->ref = Collection;
 }
+
+static void *CCCollectionEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    return ((CCCollection)Enumerator->ref)->interface->enumerator(((CCCollection)Enumerator->ref)->internal, &Enumerator->state, (CCCollectionEnumeratorAction)Action);
+}
+
+void CCCollectionGetEnumerable(CCCollection Collection, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Collection, "Collection must not be null");
+    
+    CCCollectionGetEnumerator(Collection, &Enumerable->enumerator);
+    Enumerable->handler = CCCollectionEnumerableHandler;
+}
