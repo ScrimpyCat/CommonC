@@ -24,6 +24,7 @@ The feature set so far includes:
 * Queues - single threaded and lock-free (many producer-consumer) concurrent FIFO queues.
 * Garbage Collectors - for safe memory reclamation in lock-free algorithms.
 * Unique IDs - for obtaining and managing IDs.
+* Big integers - simple operations for handling infinite sized integers.
 
 
 ## Build
