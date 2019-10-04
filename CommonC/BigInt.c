@@ -43,6 +43,8 @@ CCBigInt CCBigIntCreate(CCAllocatorType Allocator)
             .value = CCListCreate(Allocator, sizeof(uint64_t), 4, 16)
         };
         
+        CCListAppendElement(Integer->value, &(uint64_t){ 0 });
+        
         CCMemorySetDestructor(Integer, (CCMemoryDestructorCallback)CCBigIntDestructor);
     }
     
@@ -54,27 +56,6 @@ void CCBigIntDestroy(CCBigInt Integer)
 {
     CCAssertLog(Integer, "Integer must not be null");
     CCFree(Integer);
-}
-
-uint64_t CCBigIntGetComponent(CCBigInt Integer, size_t Index)
-{
-    CCAssertLog(Integer, "Integer must not be null");
-    
-    return *(uint64_t*)CCListGetElementAtIndex(Integer->value, Index);
-}
-
-size_t CCBigIntGetComponentCount(CCBigInt Integer)
-{
-    CCAssertLog(Integer, "Integer must not be null");
-    
-    return CCListGetCount(Integer->value);
-}
-
-_Bool CCBigIntGetSign(CCBigInt Integer)
-{
-    CCAssertLog(Integer, "Integer must not be null");
-    
-    return Integer->sign;
 }
 
 void CCBigIntSetBigInt(CCBigInt Integer, CCBigInt Value)
@@ -153,17 +134,42 @@ static void CCBigIntParse(CCBigInt Integer, const char *String, size_t Length)
             Index = CCListAppendElement(Integer->value, &(uint64_t){ 0 });
         }
         
+        _Bool NonZero = FALSE;
         const size_t Leftover = Length % 16;
         if (Leftover)
         {
-            CCListAppendElement(Integer->value, &(uint64_t){ CCBigIntParseHex(String, Leftover) });
+            const uint64_t Value = CCBigIntParseHex(String, Leftover);
+            if (Value)
+            {
+                CCListAppendElement(Integer->value, &Value);
+                NonZero = TRUE;
+            }
         }
         
         String += Leftover;
         
-        for (size_t Loop = 0; Loop < ElementCount; Loop++, Index--)
+        size_t Loop = 0;
+        for ( ; (!NonZero) && (Loop < ElementCount); Loop++, Index--)
+        {
+            const uint64_t Value = CCBigIntParseHex(String + (Loop * 16), 16);
+            if (Value)
+            {
+                CCListReplaceElementAtIndex(Integer->value, Index, &Value);
+                NonZero = TRUE;
+            }
+            
+            else CCListRemoveElementAtIndex(Integer->value, Index);
+        }
+        
+        for ( ; Loop < ElementCount; Loop++, Index--)
         {
             CCListReplaceElementAtIndex(Integer->value, Index, &(uint64_t){ CCBigIntParseHex(String + (Loop * 16), 16) });
+        }
+        
+        if (!NonZero)
+        {
+            CCListAppendElement(Integer->value, &(uint64_t){ 0 });
+            Integer->sign = FALSE;
         }
     }
     
@@ -210,4 +216,225 @@ CCString CCBigIntGetString(CCBigInt Integer)
     String[Index] = 0;
     
     return CCStringCreateWithSize(CC_STD_ALLOCATOR, CCStringEncodingASCII | CCStringHintFree, String, Index);
+}
+
+static CCComparisonResult CCBigIntCompareComponents(CCBigInt a, size_t CountA, CCBigInt b, size_t CountB)
+{
+    if (CountA == CountB)
+    {
+        CCEnumerable EnumerableA, EnumerableB;
+        CCListGetEnumerable(a->value, &EnumerableA);
+        CCListGetEnumerable(b->value, &EnumerableB);
+        
+        for (const uint64_t *ComponentA = CCEnumerableGetTail(&EnumerableA), *ComponentB = CCEnumerableGetTail(&EnumerableB); ComponentA; ComponentA = CCEnumerablePrevious(&EnumerableA), ComponentB = CCEnumerablePrevious(&EnumerableB))
+        {
+            if (*ComponentA != *ComponentB)
+            {
+                return *ComponentA < *ComponentB ? CCComparisonResultAscending : CCComparisonResultDescending;
+            }
+        }
+        
+        return CCComparisonResultEqual;
+    }
+    
+    return CountA < CountB ? CCComparisonResultAscending : CCComparisonResultDescending;
+}
+
+CCComparisonResult CCBigIntCompareBigInt(CCBigInt a, CCBigInt b)
+{
+    CCAssertLog(a, "a must not be null");
+    CCAssertLog(b, "b must not be null");
+    
+    if (a == b) return CCComparisonResultEqual;
+    
+    if (a->sign != b->sign) return a->sign ? CCComparisonResultAscending : CCComparisonResultDescending;
+    
+    const CCComparisonResult Result = CCBigIntCompareComponents(a, CCListGetCount(a->value), b, CCListGetCount(b->value));
+    
+    return a->sign ? CCComparisonResultFlipOrder(Result) : Result;
+}
+
+CCComparisonResult CCBigIntCompareInt(CCBigInt Integer, int64_t Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    CCBigInt IntegerB = CCBigIntCreate(CC_STD_ALLOCATOR);
+    CCBigIntSet(IntegerB, Value);
+    const CCComparisonResult Result = CCBigIntCompare(Integer, IntegerB);
+    CCBigIntDestroy(IntegerB);
+    
+    return Result;
+}
+
+CCComparisonResult CCBigIntCompareString(CCBigInt Integer, CCString Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    CCBigInt IntegerB = CCBigIntCreate(CC_STD_ALLOCATOR);
+    CCBigIntSet(IntegerB, Value);
+    const CCComparisonResult Result = CCBigIntCompare(Integer, IntegerB);
+    CCBigIntDestroy(IntegerB);
+    
+    return Result;
+}
+
+static void CCBigIntApplyAdd(CCBigInt Integer, CCEnumerable *Values)
+{
+    const uint64_t *Value = CCEnumerableGetCurrent(Values);
+    uint64_t Carry = 0;
+    
+    CCEnumerable Enumerable;
+    CCListGetEnumerable(Integer->value, &Enumerable);
+    
+    for (uint64_t *Component = CCEnumerableGetCurrent(&Enumerable); (Carry || Value) && Component; Component = CCEnumerableNext(&Enumerable), Value = CCEnumerableNext(Values))
+    {
+        const uint64_t Result = *Component + (Value ? *Value : 0) + Carry;
+        Carry = (Result <= *Component) && ((Value ? *Value : 0) | Carry);
+        *Component = Result;
+    }
+    
+    for ( ; Value; Value = CCEnumerableNext(Values))
+    {
+        const uint64_t Result = *Value + Carry;
+        Carry = (Result < *Value);
+        CCListAppendElement(Integer->value, &Result);
+    }
+    
+    if (Carry) CCListAppendElement(Integer->value, &Carry);
+}
+
+static void CCBigIntApplySub(CCBigInt Integer, CCEnumerable *Values)
+{
+    const uint64_t *Value = CCEnumerableGetCurrent(Values);
+    uint64_t Carry = 0;
+    
+    CCEnumerable Enumerable;
+    CCListGetEnumerable(Integer->value, &Enumerable);
+    
+    size_t LastNonZero = 0, Index = 0;
+    for (uint64_t *Component = CCEnumerableGetCurrent(&Enumerable); (Carry || Value) && Component; Component = CCEnumerableNext(&Enumerable), Value = CCEnumerableNext(Values))
+    {
+        uint64_t Result = Value ? *Value : 0;
+        const _Bool NextCarry = (*Component < Result) || (*Component < (Result + Carry)) || ((Carry) && (Result == UINT64_MAX));
+        *Component = *Component - (Result + Carry);
+        Carry = NextCarry;
+        
+        if (*Component) LastNonZero = Index;
+        
+        Index++;
+    }
+    
+    CCAssertLog(!Value, "Values must not exceed size of Integer");
+    
+    for (size_t Loop = LastNonZero + 1, Count = CCListGetCount(Integer->value); Loop < Count; Loop++)
+    {
+        CCListRemoveElementAtIndex(Integer->value, Count - Loop);
+    }
+    
+    if (Carry)
+    {
+        Integer->sign = !Integer->sign;
+        uint64_t *Value = CCListGetElementAtIndex(Integer->value, 0);
+        
+        const int64_t Mask = *(int64_t*)Value >> 63;
+        *Value = (*(int64_t*)Value ^ Mask) - Mask;
+    }
+}
+
+void CCBigIntAddBigInt(CCBigInt Integer, CCBigInt Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    CCAssertLog(Value, "Value must not be null");
+    
+    CCEnumerable Enumerable;
+    CCListGetEnumerable(Value->value, &Enumerable);
+    
+    if (Integer->sign == Value->sign) CCBigIntApplyAdd(Integer, &Enumerable);
+    else if (CCBigIntCompareComponents(Integer, CCListGetCount(Integer->value), Value, CCListGetCount(Value->value)) != CCComparisonResultAscending) CCBigIntApplySub(Integer, &Enumerable);
+    else
+    {
+        const _Bool OriginalSign = Integer->sign;
+        CCList OriginalValue = Integer->value;
+        CCListGetEnumerable(OriginalValue, &Enumerable);
+        
+        Integer->value = CCListCreate(CC_STD_ALLOCATOR, sizeof(uint64_t), 4, 16);
+        CCBigIntSet(Integer, Value);
+        
+        CCBigIntApplySub(Integer, &Enumerable);
+        CCListDestroy(OriginalValue);
+        
+        Integer->sign = !OriginalSign;
+    }
+}
+
+void CCBigIntAddInt(CCBigInt Integer, int64_t Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    const int64_t Mask = Value >> 63;
+    uint64_t AbsValue = (Value ^ Mask) - Mask;
+    
+    CCEnumerable Enumerable = CCEnumerableCreate(&AbsValue, sizeof(typeof(AbsValue)), 1);
+    
+    if (Integer->sign == (_Bool)Mask) CCBigIntApplyAdd(Integer, &Enumerable);
+    else CCBigIntApplySub(Integer, &Enumerable);
+}
+
+void CCBigIntAddString(CCBigInt Integer, CCString Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    CCBigInt Source = CCBigIntCreate(CC_STD_ALLOCATOR);
+    CCBigIntSet(Source, Value);
+    CCBigIntAdd(Integer, Source);
+    CCBigIntDestroy(Source);
+}
+
+void CCBigIntSubBigInt(CCBigInt Integer, CCBigInt Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    CCAssertLog(Value, "Value must not be null");
+    
+    CCEnumerable Enumerable;
+    CCListGetEnumerable(Value->value, &Enumerable);
+    
+    if (Integer->sign != Value->sign) CCBigIntApplyAdd(Integer, &Enumerable);
+    else if (CCBigIntCompareComponents(Integer, CCListGetCount(Integer->value), Value, CCListGetCount(Value->value)) != CCComparisonResultAscending) CCBigIntApplySub(Integer, &Enumerable);
+    else
+    {
+        const _Bool OriginalSign = Integer->sign;
+        CCList OriginalValue = Integer->value;
+        CCListGetEnumerable(OriginalValue, &Enumerable);
+        
+        Integer->value = CCListCreate(CC_STD_ALLOCATOR, sizeof(uint64_t), 4, 16);
+        CCBigIntSet(Integer, Value);
+        
+        CCBigIntApplySub(Integer, &Enumerable);
+        CCListDestroy(OriginalValue);
+        
+        Integer->sign = !OriginalSign;
+    }
+}
+
+void CCBigIntSubInt(CCBigInt Integer, int64_t Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    const int64_t Mask = Value >> 63;
+    uint64_t AbsValue = (Value ^ Mask) - Mask;
+    
+    CCEnumerable Enumerable = CCEnumerableCreate(&AbsValue, sizeof(typeof(AbsValue)), 1);
+    
+    if (Integer->sign != (_Bool)Mask) CCBigIntApplyAdd(Integer, &Enumerable);
+    else CCBigIntApplySub(Integer, &Enumerable);
+}
+
+void CCBigIntSubString(CCBigInt Integer, CCString Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    
+    CCBigInt Source = CCBigIntCreate(CC_STD_ALLOCATOR);
+    CCBigIntSet(Source, Value);
+    CCBigIntSub(Integer, Source);
+    CCBigIntDestroy(Source);
 }
