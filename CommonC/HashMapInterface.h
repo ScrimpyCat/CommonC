@@ -30,6 +30,7 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/Enumerator.h>
+#include <CommonC/Enumerable.h>
 
 #undef CCOrderedCollection
 
@@ -49,15 +50,15 @@ typedef uintptr_t CCHashMapEntry;
  */
 typedef enum {
     ///Set the enumerator to the head end of the hashmap and return the key/value there.
-    CCHashMapEnumeratorActionHead,
+    CCHashMapEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the hashmap and return the key/value there.
-    CCHashMapEnumeratorActionTail,
+    CCHashMapEnumeratorActionTail = CCEnumerableActionTail,
     ///Set the enumerator to the next position in the hashmap, and return the key/value there.
-    CCHashMapEnumeratorActionNext,
+    CCHashMapEnumeratorActionNext = CCEnumerableActionNext,
     ///Set the enumerator to the previous position in the hashmap, and return the key/value there.
-    CCHashMapEnumeratorActionPrevious,
+    CCHashMapEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the key/value at the current position.
-    CCHashMapEnumeratorActionCurrent
+    CCHashMapEnumeratorActionCurrent = CCEnumerableActionCurrent
 } CCHashMapEnumeratorAction;
 
 /*!

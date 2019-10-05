@@ -290,3 +290,24 @@ void CCHashMapGetValueEnumerator(CCHashMap Map, CCEnumerator *Enumerator)
     Enumerator->ref = Map;
     Enumerator->option = CCHashMapEnumeratorTypeValue;
 }
+
+static void *CCHashMapEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    return ((CCHashMap)Enumerator->ref)->interface->enumerator(Enumerator->ref, &Enumerator->state, (CCHashMapEnumeratorAction)Action, CCHashMapEnumeratorGetType(Enumerator));
+}
+
+void CCHashMapGetKeyEnumerable(CCHashMap Map, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    CCHashMapGetKeyEnumerator(Map, &Enumerable->enumerator);
+    Enumerable->handler = CCHashMapEnumerableHandler;
+}
+
+void CCHashMapGetValueEnumerable(CCHashMap Map, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Map, "Map must not be null");
+    
+    CCHashMapGetValueEnumerator(Map, &Enumerable->enumerator);
+    Enumerable->handler = CCHashMapEnumerableHandler;
+}

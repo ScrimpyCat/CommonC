@@ -246,6 +246,20 @@ void CCHashMapGetKeyEnumerator(CCHashMap Map, CCEnumerator *Enumerator);
 void CCHashMapGetValueEnumerator(CCHashMap Map, CCEnumerator *Enumerator);
 
 /*!
+ * @brief Get a key enumerable for the hashmap.
+ * @param Map The hashmap to obtain a key enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCHashMapGetKeyEnumerable(CCHashMap Map, CCEnumerable *Enumerable);
+
+/*!
+ * @brief Get a value enumerable for the hashmap.
+ * @param Map The hashmap to obtain a value enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCHashMapGetValueEnumerable(CCHashMap Map, CCEnumerable *Enumerable);
+
+/*!
  * @brief Get the hash for a given key.
  * @param Map The hashmap to get the hash of the key for.
  * @param Key The pointer to the key to get the hash of.
