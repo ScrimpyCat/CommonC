@@ -79,6 +79,7 @@ default: CC_NAME_RETURN_VALUE_FUNCTION_(void_ptr) \
 #endif
 
 #define CC_TYPE_PRESETS(func, ...) \
+func(__VA_ARGS__, _Bool); \
 func(__VA_ARGS__, char); \
 func(__VA_ARGS__, short); \
 func(__VA_ARGS__, int); \
@@ -158,6 +159,7 @@ func(__VA_ARGS__, CCAllocatorType); \
 CC_CUSTOM_TYPES(func, __VA_ARGS__);
 
 #define CC_TYPE_PRESETS_(func, ...) \
+func(__VA_ARGS__, _Bool); \
 func(__VA_ARGS__, char); \
 func(__VA_ARGS__, short); \
 func(__VA_ARGS__, int); \
