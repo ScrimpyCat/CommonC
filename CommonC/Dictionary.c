@@ -346,6 +346,27 @@ void CCDictionaryGetValueEnumerator(CCDictionary Dictionary, CCEnumerator *Enume
     Enumerator->option = CCDictionaryEnumeratorTypeValue;
 }
 
+static void *CCDictionaryEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    return ((CCDictionary)Enumerator->ref)->interface->enumerator(((CCDictionary)Enumerator->ref)->internal, &Enumerator->state, (CCDictionaryEnumeratorAction)Action, CCDictionaryEnumeratorGetType(Enumerator));
+}
+
+void CCDictionaryGetKeyEnumerable(CCDictionary Dictionary, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Dictionary, "Dictionary must not be null");
+    
+    CCDictionaryGetKeyEnumerator(Dictionary, &Enumerable->enumerator);
+    Enumerable->handler = CCDictionaryEnumerableHandler;
+}
+
+void CCDictionaryGetValueEnumerable(CCDictionary Dictionary, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Dictionary, "Dictionary must not be null");
+    
+    CCDictionaryGetValueEnumerator(Dictionary, &Enumerable->enumerator);
+    Enumerable->handler = CCDictionaryEnumerableHandler;
+}
+
 size_t CCDictionaryGetCount(CCDictionary Dictionary)
 {
     CCAssertLog(Dictionary, "Dictionary must not be null");

@@ -247,6 +247,20 @@ void CCDictionaryGetKeyEnumerator(CCDictionary Dictionary, CCEnumerator *Enumera
 void CCDictionaryGetValueEnumerator(CCDictionary Dictionary, CCEnumerator *Enumerator);
 
 /*!
+ * @brief Get a key enumerable for the dictionary.
+ * @param Dictionary The dictionary to obtain a key enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCDictionaryGetKeyEnumerable(CCDictionary Dictionary, CCEnumerable *Enumerable);
+
+/*!
+ * @brief Get a value enumerable for the dictionary.
+ * @param Dictionary The dictionary to obtain a value enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCDictionaryGetValueEnumerable(CCDictionary Dictionary, CCEnumerable *Enumerable);
+
+/*!
  * @brief Get the current number of key/values in the dictionary.
  * @param Dictionary The dictionary to get the count of.
  * @return The number of key/values.

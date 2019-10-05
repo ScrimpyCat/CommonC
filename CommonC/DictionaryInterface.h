@@ -30,6 +30,7 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/OrderedCollection.h>
 #include <CommonC/Enumerator.h>
+#include <CommonC/Enumerable.h>
 
 
 #undef CCOrderedCollection
@@ -80,15 +81,15 @@ typedef enum {
  */
 typedef enum {
     ///Set the enumerator to the head end of the dictionary and return the key/value there.
-    CCDictionaryEnumeratorActionHead,
+    CCDictionaryEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the dictionary and return the key/value there.
-    CCDictionaryEnumeratorActionTail,
+    CCDictionaryEnumeratorActionTail = CCEnumerableActionTail,
     ///Set the enumerator to the next position in the dictionary, and return the key/value there.
-    CCDictionaryEnumeratorActionNext,
+    CCDictionaryEnumeratorActionNext = CCEnumerableActionNext,
     ///Set the enumerator to the previous position in the dictionary, and return the key/value there.
-    CCDictionaryEnumeratorActionPrevious,
+    CCDictionaryEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the key/value at the current position.
-    CCDictionaryEnumeratorActionCurrent
+    CCDictionaryEnumeratorActionCurrent = CCEnumerableActionCurrent
 } CCDictionaryEnumeratorAction;
 
 /*!
