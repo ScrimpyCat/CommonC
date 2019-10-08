@@ -14,38 +14,44 @@ Dir["{#{ARGV.join(',')}}/**/*.h"].each { |file|
 }
 
 private_types = []
-match = /^[^#\n]*?[^\w]*?(#{containers.join('|')})\((.*?)\)/
+match = /^[^#\n]*?[^\w]*?(#{containers.join('|')})(\((?>[\w\s,]+|\g<2>)*\))/
 
-Dir["#{ARGV[0]}/**/*.{c,m}"].each { |file|
-    src = File.read(file)
-    src.scan(match).each { |type|
-        if type[0].include? '_'
-            container = type[0].split('_').map { |s| s.capitalize }.join
-            container = container[0..2].upcase + container[3..-1]
-        else
-            container = type[0]
-        end
-        private_types << ["CC_CONTAINER_DECLARE(#{container}, #{type[1]});", type[1].split(',').map { |s| s.strip }]
+if containers.count > 0
+    Dir["#{ARGV[0]}/**/*.{c,m}"].each { |file|
+        src = File.read(file)
+        src.scan(match).each { |type|
+            if type[0].include? '_'
+                container = type[0].split('_').map { |s| s.capitalize }.join
+                container = container[0..2].upcase + container[3..-1]
+            else
+                container = type[0]
+            end
+            elements = type[1][1..-2]
+            private_types << ["CC_CONTAINER_DECLARE(#{container}, #{elements});", elements.split(',').map { |s| (s[/[^\(\)]+$/] || s[/^[^\(\)]*/]).strip }]
+        }
     }
-}
+end
 
 types = []
 
-Dir["{#{ARGV.join(',')}}/**/*.h"].each { |file|
-    src = File.read(file)
-    src.scan(match).each { |type|
-        if type[0].include? '_'
-            container = type[0].split('_').map { |s| s.capitalize }.join
-            container = container[0..2].upcase + container[3..-1]
-        else
-            container = type[0]
-        end
-        types << "CC_CONTAINER_DECLARE(#{container}, #{type[1]});"
+if containers.count > 0
+    Dir["{#{ARGV.join(',')}}/**/*.h"].each { |file|
+        src = File.read(file)
+        src.scan(match).each { |type|
+            if type[0].include? '_'
+                container = type[0].split('_').map { |s| s.capitalize }.join
+                container = container[0..2].upcase + container[3..-1]
+            else
+                container = type[0]
+            end
+            elements = type[1][1..-2]
+            types << "CC_CONTAINER_DECLARE(#{container}, #{elements});"
+        }
+        private_types.map { |e|
+            e[1].select! { |s| !src.match(/(^|\s)#{Regexp.quote(s)}([^\w]|$)/) }
+        }
     }
-    private_types.map { |e|
-        e[1].select! { |s| !src.match(/(^|\s)#{s}([^\w]|$)/) }
-    }
-}
+end
 
 types << private_types.select { |e| e[1].count == 0 }
 
