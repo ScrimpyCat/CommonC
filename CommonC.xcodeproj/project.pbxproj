@@ -272,6 +272,7 @@
 		F36F83301D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -532,6 +533,7 @@
 		F36F832B1D10C1E300193B08 /* Dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Dictionary.c; sourceTree = "<group>"; };
 		F36F832C1D10C1E300193B08 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
 		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
+		F378DAF5234C05D2000600CC /* ContainerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerTypes.h; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -999,6 +1001,7 @@
 				F353DD5A17AE208600D1674C /* Generics.h */,
 				F367837E1CCAEB2B00BF8985 /* Ownership.h */,
 				F3AEA856232C85CF00A5CAF3 /* Container.h */,
+				F378DAF5234C05D2000600CC /* ContainerTypes.h */,
 				F3AE992B1A6D0F8700212838 /* Utilities */,
 				F353DD8B17B59EC000D1674C /* Maths */,
 				F353DD6F17B02C1700D1674C /* System */,
@@ -1448,6 +1451,7 @@
 				F318D9301C4DD829005AE64E /* Matrix4.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F394001D2340E39B00EE826D /* Enumerable.h in Headers */,
+				F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
 				F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */,
