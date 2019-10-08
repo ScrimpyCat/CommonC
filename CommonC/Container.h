@@ -29,6 +29,10 @@
 #include <CommonC/Hacks.h>
 
 #ifdef CC_QUICK_COMPILE
+#define CC_CONTAINER_DISABLE_PRESETS
+#endif
+
+#if defined(CC_QUICK_COMPILE) && !defined(CC_CONTAINER_ENABLE)
 #define CC_CONTAINER_DECLARE(type, ...)
 #define CC_CONTAINER(type, ...) type
 #define CC_CONTAINER_DECLARE_PRESET_1(type)
@@ -74,6 +78,11 @@
 #define CC_CONTAINER_5(type, e1, e2, e3, e4, e5)        type##_##e1##_##e2##_##e3##_##e4##_##e5
 #define CC_CONTAINER_6(type, e1, e2, e3, e4, e5, e6)    type##_##e1##_##e2##_##e3##_##e4##_##e5##_##e6
 
+#ifdef CC_CONTAINER_DISABLE_PRESETS
+#define CC_CONTAINER_DECLARE_PRESET_1(type)
+#define CC_CONTAINER_DECLARE_PRESET_2(type)
+#else
+
 /*!
  * @define CC_CONTAINER_DECLARE_PRESET_1
  * @abstract Convenient macro to predefine all the main types as single element types for the container.
@@ -87,6 +96,8 @@
  * @param type The type of the container.
  */
 #define CC_CONTAINER_DECLARE_PRESET_2(type) CC_TYPE_PRESETS(CC_TYPE_PRESETS_, CC_CONTAINER_DECLARE, type)
+
+#endif
 
 #endif
 
