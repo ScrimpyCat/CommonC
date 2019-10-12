@@ -719,6 +719,47 @@ static CCComparisonResult TestComparatorEqual(const int *left, const int *right)
     CCCollectionDestroy(Collection);
 }
 
+-(void) testEnumerable
+{
+    CCCollection Collection = CCCollectionCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), NULL, self.interface);
+    
+    CCCollectionInsertElement(Collection, &(int){ 1 });
+    CCCollectionInsertElement(Collection, &(int){ 2 });
+    CCCollectionInsertElement(Collection, &(int){ 3 });
+    
+    CCEnumerable Enumerable;
+    CCCollectionGetEnumerable(Collection, &Enumerable);
+    
+    int *Element = CCEnumerableGetCurrent(&Enumerable);
+    int Total = 0;
+    size_t Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerableNext(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    Element = CCEnumerableGetTail(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerablePrevious(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    CCCollectionDestroy(Collection);
+}
+
 @end
 
 
