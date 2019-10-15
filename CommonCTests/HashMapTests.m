@@ -540,4 +540,77 @@ static CCComparisonResult StringComparator(CCString *left, CCString *right)
     [self assertStoreWithBucketCount: 50];
 }
 
+-(void) testEnumerable
+{
+    if (!self.interface) return;
+    
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(int), sizeof(int), 3, NULL, NULL, self.interface);
+    
+    CCHashMapSetValue(Map, &(int){ 1 }, &(int){ 100 });
+    CCHashMapSetValue(Map, &(int){ 2 }, &(int){ 200 });
+    CCHashMapSetValue(Map, &(int){ 3 }, &(int){ 300 });
+    
+    CCEnumerable Enumerable;
+    CCHashMapGetKeyEnumerable(Map, &Enumerable);
+    
+    int *Element = CCEnumerableGetCurrent(&Enumerable);
+    int Total = 0;
+    size_t Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerableNext(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    Element = CCEnumerableGetTail(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerablePrevious(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    CCHashMapGetValueEnumerable(Map, &Enumerable);
+    
+    Element = CCEnumerableGetCurrent(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerableNext(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 600, @"Should enumerate over each element once");
+    
+    
+    Element = CCEnumerableGetTail(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerablePrevious(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 600, @"Should enumerate over each element once");
+    
+    CCHashMapDestroy(Map);
+}
+
 @end
