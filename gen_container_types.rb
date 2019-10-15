@@ -69,7 +69,18 @@ end
 types.merge!(private_types) { |k, a, b| a << b.select { |e| e[1].count == 0 } }
 
 if preset
-    declarations = types.to_a.map { |e| "#define CC_CONTAINER_DECLARE_PRESET_#{e[0]}() \\\n" + e[1].flatten.uniq.sort.join(" \\\n") }.sort.join("\n\n")
+    containers.each { |type|
+        if type.include? '_'
+            container = type.split('_').map { |s| s.capitalize }.join
+            container = container[0..2].upcase + container[3..-1]
+        else
+            container = type
+        end
+
+        types[container] = types[container] || []
+    }
+
+    declarations = types.to_a.map { |e| "#define CC_CONTAINER_DECLARE_PRESET_#{e[0]}() #{e[1].count > 0 ? "\\" : ''}\n" + e[1].flatten.uniq.sort.join(" \\\n") }.sort.join("\n\n")
 else
     declarations = types.to_a.map { |e| e[1].flatten.uniq.sort.join("\n") }.sort.join("\n")
 end
