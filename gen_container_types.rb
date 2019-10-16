@@ -38,7 +38,9 @@ if containers.count > 0
                 container = type[0]
             end
             elements = type[1][1..-2]
-            (private_types[container] = private_types[container] || []) << ["CC_CONTAINER_DECLARE(#{container}, #{elements});", elements.split(',').map { |s| (s[/[^\(\)]+$/] || s[/^[^\(\)]*/]).strip }]
+            inner_types =  elements.split(',').map { |s| (s[/[^\(\)]+$/] || s[/^[^\(\)]*/]).strip }
+            elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
+            (private_types[container] = private_types[container] || []) << ["CC_CONTAINER_DECLARE(#{container}, #{elements});", inner_types]
         }
     }
 end
@@ -56,6 +58,7 @@ if containers.count > 0
                 container = type[0]
             end
             elements = type[1][1..-2]
+            elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
             (types[container] = types[container] || []) << "CC_CONTAINER_DECLARE(#{container}, #{elements});"
         }
         private_types.each_key { |k|
