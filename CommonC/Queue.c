@@ -91,3 +91,49 @@ CCQueueNode *CCQueuePeek(CCQueue Queue)
     
     return Queue->tail;
 }
+
+static void *CCQueueEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    switch (Action)
+    {
+        case CCEnumerableActionHead:
+            Enumerator->state.internal.ptr = (void*)Enumerator->state.internal.extra[0];
+            break;
+            
+        case CCEnumerableActionTail:
+            Enumerator->state.internal.ptr = (void*)Enumerator->state.internal.extra[1];
+            break;
+            
+        case CCEnumerableActionNext:
+            Enumerator->state.internal.ptr = CCLinkedListEnumeratePrevious(Enumerator->state.internal.ptr);
+            break;
+            
+        case CCEnumerableActionPrevious:
+            Enumerator->state.internal.ptr = CCLinkedListEnumerateNext(Enumerator->state.internal.ptr);
+            break;
+            
+        default:
+            break;
+    }
+    
+    return Enumerator->state.internal.ptr ? CCQueueGetNodeData(Enumerator->state.internal.ptr) : NULL;
+}
+
+void CCQueueGetEnumerable(CCQueue Queue, CCEnumerable *Enumerable)
+{
+    CCAssertLog(Queue, "Queue must not be null");
+    
+    *Enumerable = (CCEnumerable){
+        .handler = CCQueueEnumerableHandler,
+        .enumerator = {
+            .ref = Queue,
+            .state = {
+                .internal = {
+                    .ptr = Queue->tail,
+                    .extra = { (uintptr_t)Queue->tail, (uintptr_t)Queue->head }
+                },
+                .type = CCEnumeratorFormatInternal
+            }
+        }
+    };
+}

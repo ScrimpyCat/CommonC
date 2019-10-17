@@ -120,6 +120,13 @@ CC_NEW CCQueueNode *CCQueuePop(CCQueue Queue);
 CCQueueNode *CCQueuePeek(CCQueue Queue);
 
 /*!
+ * @brief Get an enumerable for the queue.
+ * @param Queue The queue to obtain an enumerable for.
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCQueueGetEnumerable(CCQueue Queue, CCEnumerable *Enumerable);
+
+/*!
  * @brief Get a pointer to the data in the node.
  * @param Node The node to get the data of.
  * @return A pointer to the data it contains.
