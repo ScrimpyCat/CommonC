@@ -140,6 +140,33 @@
     CCQueueDestroy(Queue);
 }
 
+-(void) testCount
+{
+    CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
+    
+    XCTAssertEqual(CCQueueGetCount(Queue), 0, @"Should get the correct count");
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    XCTAssertEqual(CCQueueGetCount(Queue), 1, @"Should get the correct count");
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    XCTAssertEqual(CCQueueGetCount(Queue), 2, @"Should get the correct count");
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    XCTAssertEqual(CCQueueGetCount(Queue), 3, @"Should get the correct count");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(CCQueueGetCount(Queue), 2, @"Should get the correct count");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(CCQueueGetCount(Queue), 1, @"Should get the correct count");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(CCQueueGetCount(Queue), 0, @"Should get the correct count");
+    
+    CCQueueDestroy(Queue);
+}
+
 -(void) testEnumerating
 {
     CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
