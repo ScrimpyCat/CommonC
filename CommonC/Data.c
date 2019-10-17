@@ -177,7 +177,7 @@ void CCDataUnmapBuffer(CCData Data, CCBufferMap MappedBuffer)
     CCAssertLog(Data, "Data must not be null");
     
     Data->interface->unmap(Data->internal, MappedBuffer);
-    Data->mutated = TRUE;
+    Data->mutated = MappedBuffer.hint & CCDataHintWrite;
 }
 
 size_t CCDataReadBuffer(CCData Data, ptrdiff_t Offset, size_t Size, void *Buffer)
