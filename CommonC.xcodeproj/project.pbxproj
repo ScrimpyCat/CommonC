@@ -94,6 +94,9 @@
 		F306400B184BAA8700122BE9 /* SystemInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F306400A184BAA8700122BE9 /* SystemInfo.c */; };
 		F306400F1850FB1E00122BE9 /* CustomFormatSpecifiers.c in Sources */ = {isa = PBXBuildFile; fileRef = F306400E1850FB1D00122BE9 /* CustomFormatSpecifiers.c */; };
 		F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = F30640101850FB2E00122BE9 /* CustomFormatSpecifiers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30646F32358D0B600DFD780 /* DataContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F30646F12358D0B600DFD780 /* DataContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30646F42358D0B600DFD780 /* DataContainer.c in Sources */ = {isa = PBXBuildFile; fileRef = F30646F22358D0B600DFD780 /* DataContainer.c */; };
+		F30646F62358E2EA00DFD780 /* DataContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30646F52358E2EA00DFD780 /* DataContainerTests.m */; };
 		F3067B791C591AA800766814 /* Vector4D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3067B781C59149E00766814 /* Vector4D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3067B7B1C591AF300766814 /* Vector4DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B7A1C591AF300766814 /* Vector4DTests.m */; };
 		F3067B7D1C591B0200766814 /* Vectorized4DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B7C1C591B0200766814 /* Vectorized4DTests.m */; };
@@ -389,6 +392,9 @@
 		F306400A184BAA8700122BE9 /* SystemInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SystemInfo.c; sourceTree = "<group>"; };
 		F306400E1850FB1D00122BE9 /* CustomFormatSpecifiers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CustomFormatSpecifiers.c; sourceTree = "<group>"; };
 		F30640101850FB2E00122BE9 /* CustomFormatSpecifiers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomFormatSpecifiers.h; sourceTree = "<group>"; };
+		F30646F12358D0B600DFD780 /* DataContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataContainer.h; sourceTree = "<group>"; };
+		F30646F22358D0B600DFD780 /* DataContainer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DataContainer.c; sourceTree = "<group>"; };
+		F30646F52358E2EA00DFD780 /* DataContainerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataContainerTests.m; sourceTree = "<group>"; };
 		F3067B781C59149E00766814 /* Vector4D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vector4D.h; sourceTree = "<group>"; };
 		F3067B7A1C591AF300766814 /* Vector4DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector4DTests.m; sourceTree = "<group>"; };
 		F3067B7C1C591B0200766814 /* Vectorized4DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DTests.m; sourceTree = "<group>"; };
@@ -939,6 +945,8 @@
 			children = (
 				F359D02F1C147DB50028B86B /* DataBuffer.h */,
 				F359D02E1C147DB40028B86B /* DataBuffer.c */,
+				F30646F12358D0B600DFD780 /* DataContainer.h */,
+				F30646F22358D0B600DFD780 /* DataContainer.c */,
 			);
 			name = "Data Implementations";
 			sourceTree = "<group>";
@@ -1162,6 +1170,7 @@
 				F359D02D1C146C5D0028B86B /* DataTests.h */,
 				F359D02B1C146C2E0028B86B /* DataTests.m */,
 				F359D0321C148F700028B86B /* DataBufferTests.m */,
+				F30646F52358E2EA00DFD780 /* DataContainerTests.m */,
 				F3AE99341A6D508200212838 /* LinkedListTests.m */,
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
 				F3F41A322333525D0068A135 /* ListTests.m */,
@@ -1370,6 +1379,7 @@
 			files = (
 				F36202E917AC432500153E85 /* Common.h in Headers */,
 				F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */,
+				F30646F32358D0B600DFD780 /* DataContainer.h in Headers */,
 				F353DD5B17AE208600D1674C /* Generics.h in Headers */,
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
@@ -1688,6 +1698,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F30646F42358D0B600DFD780 /* DataContainer.c in Sources */,
 				F3BF12E121D8E363000385C6 /* ConsecutiveIDGenerator.c in Sources */,
 				F322F0601C09551100BAA44E /* Path.c in Sources */,
 				F35A15EF1DC07E21008DC914 /* LazyGarbageCollector.c in Sources */,
@@ -1770,6 +1781,7 @@
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
 				F39400212341304B00EE826D /* EnumerableTests.m in Sources */,
 				F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */,
+				F30646F62358E2EA00DFD780 /* DataContainerTests.m in Sources */,
 				F3E7460B1DC6239800F1F268 /* TaskQueueTests.m in Sources */,
 				F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */,
 				F3067B831C591B3600766814 /* Vectorized4DSSE3Tests.m in Sources */,
