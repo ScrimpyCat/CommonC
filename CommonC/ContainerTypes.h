@@ -2,7 +2,8 @@
 #define CC_CONTAINER_DECLARE_PRESET_CCArray()
 
 #define CC_CONTAINER_DECLARE_PRESET_CCCollection() \
-CC_CONTAINER_DECLARE(CCCollection, CCCollectionEntry);
+CC_CONTAINER_DECLARE(CCCollection, CCCollectionEntry); \
+CC_CONTAINER_DECLARE(CCCollection, FSPath);
 
 #define CC_CONTAINER_DECLARE_PRESET_CCConcurrentBuffer()
 
