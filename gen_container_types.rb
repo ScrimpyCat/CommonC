@@ -20,27 +20,31 @@ Dir["{#{inputs}}/**/*.h"].each { |file|
     src = File.read(file)
     src.scan(/^\s*?#define\s*?CC_(.*?)\s*?\(.*?\)\s*?CC_CONTAINER\(/).each { |define|
         containers << 'CC_' + define[0]
-        containers <<  'CC' + define[0].split('_').map { |s| s.capitalize }.join
+        containers << 'CC' + define[0].split('_').map { |s| s.capitalize }.join
     }
 }
 
 private_types = {}
-match = /^[^#\n]*?[^\w]*?(#{containers.join('|')})(\((?>[\w\s,]+|\g<2>)*\))/
+
+match_line = /^\s*[^#\n].*$/
+match = /(#{containers.join('|')})(\((?>[\w\s,]+|\g<2>)*\))/
 
 if containers.count > 0
     Dir["#{output}/**/*.{c,m}"].each { |file|
         src = File.read(file)
-        src.scan(match).each { |type|
-            if type[0].include? '_'
-                container = type[0].split('_').map { |s| s.capitalize }.join
-                container = container[0..2].upcase + container[3..-1]
-            else
-                container = type[0]
-            end
-            elements = type[1][1..-2]
-            inner_types =  elements.split(',').map { |s| (s[/[^\(\)]+$/] || s[/^[^\(\)]*/]).strip }
-            elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
-            (private_types[container] = private_types[container] || []) << ["CC_CONTAINER_DECLARE(#{container}, #{elements});", inner_types]
+        src.scan(match_line).each { |line|
+            line.scan(match).each { |type|
+                if type[0].include? '_'
+                    container = type[0].split('_').map { |s| s.capitalize }.join
+                    container = container[0..2].upcase + container[3..-1]
+                else
+                    container = type[0]
+                end
+                elements = type[1][1..-2]
+                inner_types =  elements.split(',').map { |s| (s[/[^\(\)]+$/] || s[/^[^\(\)]*/]).strip }
+                elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
+                (private_types[container] = private_types[container] || []) << ["CC_CONTAINER_DECLARE(#{container}, #{elements});", inner_types]
+            }
         }
     }
 end
@@ -50,16 +54,18 @@ types = {}
 if containers.count > 0
     Dir["{#{inputs}}/**/*.h"].each { |file|
         src = File.read(file)
-        src.scan(match).each { |type|
-            if type[0].include? '_'
-                container = type[0].split('_').map { |s| s.capitalize }.join
-                container = container[0..2].upcase + container[3..-1]
-            else
-                container = type[0]
-            end
-            elements = type[1][1..-2]
-            elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
-            (types[container] = types[container] || []) << "CC_CONTAINER_DECLARE(#{container}, #{elements});"
+        src.scan(match_line).each { |line|
+            line.scan(match).each { |type|
+                if type[0].include? '_'
+                    container = type[0].split('_').map { |s| s.capitalize }.join
+                    container = container[0..2].upcase + container[3..-1]
+                else
+                    container = type[0]
+                end
+                elements = type[1][1..-2]
+                elements = elements.split(',').map { |s| s.include?('(') ? s.gsub(/(\w+)\(/, 'CC_CONTAINER(\1, ') : s }.join(',')
+                (types[container] = types[container] || []) << "CC_CONTAINER_DECLARE(#{container}, #{elements});"
+            }
         }
         private_types.each_key { |k|
             private_types[k].map { |e|
