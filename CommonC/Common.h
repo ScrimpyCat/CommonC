@@ -87,6 +87,7 @@
 #include <CommonC/Data.h>
 #include <CommonC/Hash.h>
 #include <CommonC/DataBuffer.h>
+#include <CommonC/DataContainer.h>
 
 #include <CommonC/CCString.h>
 #include <CommonC/CCStringEnumerator.h>
