@@ -116,4 +116,28 @@
     }
 }
 
+-(void) testPeeking
+{
+    CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
+    
+    XCTAssertEqual(CCQueuePeek(Queue), NULL, @"Should return null when nothing left in the queue");
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(CCQueuePeek(Queue)), 1, @"Should return the first element");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(CCQueuePeek(Queue)), 2, @"Should return the first element");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(CCQueuePeek(Queue)), 3, @"Should return the first element");
+    
+    CCQueueDestroyNode(CCQueuePop(Queue));
+    XCTAssertEqual(CCQueuePeek(Queue), NULL, @"Should return null when nothing left in the queue");
+    
+    CCQueueDestroy(Queue);
+}
+
 @end
