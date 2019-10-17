@@ -84,3 +84,10 @@ CCQueueNode *CCQueuePop(CCQueue Queue)
     
     return Tail;
 }
+
+CCQueueNode *CCQueuePeek(CCQueue Queue)
+{
+    CCAssertLog(Queue, "Queue must not be null");
+    
+    return Queue->tail;
+}

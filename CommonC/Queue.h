@@ -113,6 +113,13 @@ CC_NEW CCQueueNode *CCQueuePop(CCQueue Queue);
 
 #pragma mark - Query
 /*!
+ * @brief Get the node at the start of the queue without removing it from the queue.
+ * @param Queue The queue to get the node from.
+ * @result The node removed from the queue, or NULL if empty.
+ */
+CCQueueNode *CCQueuePeek(CCQueue Queue);
+
+/*!
  * @brief Get a pointer to the data in the node.
  * @param Node The node to get the data of.
  * @return A pointer to the data it contains.
