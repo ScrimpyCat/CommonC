@@ -120,6 +120,13 @@ CC_NEW CCQueueNode *CCQueuePop(CCQueue Queue);
 CCQueueNode *CCQueuePeek(CCQueue Queue);
 
 /*!
+ * @brief Get the current number of nodes in the queue.
+ * @param Queue The queue to get the count of.
+ * @result The number of nodes.
+ */
+size_t CCQueueGetCount(CCQueue Queue);
+
+/*!
  * @brief Get an enumerable for the queue.
  * @param Queue The queue to obtain an enumerable for.
  * @param Enumerable A pointer to the enumerable to use.

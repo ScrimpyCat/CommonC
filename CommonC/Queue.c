@@ -31,6 +31,7 @@
 typedef struct CCQueueInfo {
     CCQueueNode *head;
     CCQueueNode *tail;
+    size_t count;
 } CCQueueInfo;
 
 static void CCQueueDestructor(CCQueue Queue)
@@ -46,6 +47,7 @@ CCQueue CCQueueCreate(CCAllocatorType Allocator)
     {
         Queue->head = NULL;
         Queue->tail = NULL;
+        Queue->count = 0;
         
         CCMemorySetDestructor(Queue, (CCMemoryDestructorCallback)CCQueueDestructor);
     }
@@ -67,6 +69,8 @@ void CCQueuePush(CCQueue Queue, CCQueueNode *Node)
     Queue->head = Queue->head ? CCLinkedListInsertBefore(Queue->head, Node) : Node;
     
     if (!Queue->tail) Queue->tail = Queue->head;
+    
+    Queue->count++;
 }
 
 CCQueueNode *CCQueuePop(CCQueue Queue)
@@ -80,6 +84,8 @@ CCQueueNode *CCQueuePop(CCQueue Queue)
         if (!Queue->tail) Queue->head = NULL;
         
         CCLinkedListRemoveNode(Tail);
+        
+        Queue->count--;
     }
     
     return Tail;
@@ -90,6 +96,13 @@ CCQueueNode *CCQueuePeek(CCQueue Queue)
     CCAssertLog(Queue, "Queue must not be null");
     
     return Queue->tail;
+}
+
+size_t CCQueueGetCount(CCQueue Queue)
+{
+    CCAssertLog(Queue, "Queue must not be null");
+    
+    return Queue->count;
 }
 
 static void *CCQueueEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
