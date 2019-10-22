@@ -63,6 +63,7 @@
 #include <CommonC/Random.h>
 #include <CommonC/Vector.h>
 #include <CommonC/Matrix.h>
+#include <CommonC/BigInt.h>
 
 #include <CommonC/Comparator.h>
 #include <CommonC/Enumerator.h>

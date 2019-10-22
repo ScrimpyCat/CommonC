@@ -306,7 +306,7 @@
 		F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99791A74F56C00212838 /* ArrayTests.m */; };
 		F3AE99BC1A7511D500212838 /* Collection.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99BA1A7511D500212838 /* Collection.c */; };
 		F3AE99BD1A7511D500212838 /* Collection.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99BB1A7511D500212838 /* Collection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA84E232B483B00A5CAF3 /* BigInt.h */; };
+		F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA84E232B483B00A5CAF3 /* BigInt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA84F232B483B00A5CAF3 /* BigInt.c */; };
 		F3AEA854232B7A4C00A5CAF3 /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA852232B7A4C00A5CAF3 /* List.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AEA853232B7A4C00A5CAF3 /* List.c */; };
