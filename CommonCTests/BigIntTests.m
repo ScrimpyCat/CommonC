@@ -415,6 +415,19 @@
     XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
     XCTAssertEqual(CCBigIntCompare(Integer, CC_STRING("-0x10000000000000000")), CCComparisonResultAscending, @"Should be less than");
     
+    XCTAssertTrue(CCBigIntCompareEqual(Integer, CC_STRING("-0x20000000000000000")), @"Should be equal");
+    XCTAssertFalse(CCBigIntCompareEqual(Integer, CC_STRING("0x20000000000000000")), @"Should not be equal");
+    XCTAssertTrue(CCBigIntCompareLessThan(Integer, CC_STRING("0x20000000000000000")), @"Should be less than");
+    XCTAssertFalse(CCBigIntCompareLessThan(Integer, CC_STRING("-0x20000000000000000")), @"Should not be less than");
+    XCTAssertTrue(CCBigIntCompareLessThanEqual(Integer, CC_STRING("-0x20000000000000000")), @"Should be less than or equal");
+    XCTAssertTrue(CCBigIntCompareLessThanEqual(Integer, CC_STRING("0x20000000000000000")), @"Should be less than or equal");
+    XCTAssertFalse(CCBigIntCompareLessThanEqual(Integer, CC_STRING("-0x20000000000000001")), @"Should not be less than or equal");
+    XCTAssertTrue(CCBigIntCompareGreaterThan(Integer, CC_STRING("-0x20000000000000001")), @"Should be greater than");
+    XCTAssertFalse(CCBigIntCompareGreaterThan(Integer, CC_STRING("-0x20000000000000000")), @"Should not be greater than");
+    XCTAssertTrue(CCBigIntCompareGreaterThanEqual(Integer, CC_STRING("-0x20000000000000001")), @"Should be greater than or equal");
+    XCTAssertTrue(CCBigIntCompareGreaterThanEqual(Integer, CC_STRING("-0x20000000000000000")), @"Should be greater than or equal");
+    XCTAssertFalse(CCBigIntCompareGreaterThanEqual(Integer, CC_STRING("0x20000000000000000")), @"Should not be greater than or equal");
+    
     CCBigIntDestroy(Integer);
 }
 
