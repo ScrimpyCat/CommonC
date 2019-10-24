@@ -122,8 +122,8 @@ CC_NEW CCString CCBigIntGetString(CCBigInt Integer);
 /*!
  * @define CCBigIntCompare
  * @abstract Generic macro to compare a big integer with a value.
- * @param Integer The big integer to compare.
- * @param Value The value to compare to. The following types are allowed as inputs:
+ * @param integer The big integer to compare.
+ * @param value The value to compare to. The following types are allowed as inputs:
  *
  *        @b CCBigInt - to compare an integer to the value represented by another big integer.
  *
@@ -141,6 +141,51 @@ default: CCBigIntCompareInt)(integer, value)
 CCComparisonResult CCBigIntCompareBigInt(CCBigInt a, CCBigInt b);
 CCComparisonResult CCBigIntCompareInt(CCBigInt a, int64_t b);
 CCComparisonResult CCBigIntCompareString(CCBigInt a, CCString b);
+
+/*!
+ * @define CCBigIntCompareEqual
+ * @abstract Generic macro to check whether a big integer is equal to the value.
+ * @param a The big integer to compare.
+ * @param b The value to compare to. See inputs allowed by @b CCBigIntCompare
+ * @return Whether a and b are equal.
+ */
+#define CCBigIntCompareEqual(a, b) (CCBigIntCompare(a, b) == CCComparisonResultEqual)
+
+/*!
+ * @define CCBigIntCompareLessThan
+ * @abstract Generic macro to check whether a big integer is less than the value.
+ * @param a The big integer to compare.
+ * @param b The value to compare to. See inputs allowed by @b CCBigIntCompare
+ * @return Whether a is less than b.
+ */
+#define CCBigIntCompareLessThan(a, b) (CCBigIntCompare(a, b) == CCComparisonResultAscending)
+
+/*!
+ * @define CCBigIntCompareLessThanEqual
+ * @abstract Generic macro to check whether a big integer is equal or less than the value.
+ * @param a The big integer to compare.
+ * @param b The value to compare to. See inputs allowed by @b CCBigIntCompare
+ * @return Whether a is less than or equal to b.
+ */
+#define CCBigIntCompareLessThanEqual(a, b) (CCBigIntCompare(a, b) != CCComparisonResultDescending)
+
+/*!
+ * @define CCBigIntCompareGreaterThan
+ * @abstract Generic macro to check whether a big integer is greater than the value.
+ * @param a The big integer to compare.
+ * @param b The value to compare to. See inputs allowed by @b CCBigIntCompare
+ * @return Whether a is greater than b.
+ */
+#define CCBigIntCompareGreaterThan(a, b) (CCBigIntCompare(a, b) == CCComparisonResultDescending)
+
+/*!
+ * @define CCBigIntCompareGreaterThanEqual
+ * @abstract Generic macro to check whether a big integer is equal or greather than the value.
+ * @param a The big integer to compare.
+ * @param b The value to compare to. See inputs allowed by @b CCBigIntCompare
+ * @return Whether a is greater than or equal to b.
+ */
+#define CCBigIntCompareGreaterThanEqual(a, b) (CCBigIntCompare(a, b) != CCComparisonResultAscending)
 
 #pragma mark - Operations
 
