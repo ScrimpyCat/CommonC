@@ -739,4 +739,80 @@ static void TestDictionaryValueDestructor(CCDictionary Dictionary, void *Element
     CCDictionaryDestroy(Dict);
 }
 
+-(void) testEnumerable
+{
+    if (!self.interface) return;
+    
+    CCDictionary Dict = CCDictionaryCreateWithImplementation(CC_STD_ALLOCATOR, 0, sizeof(int), sizeof(int), &(CCDictionaryCallbacks){
+        .keyDestructor = TestDictionaryKeyDestructor,
+        .valueDestructor = TestDictionaryValueDestructor
+    }, self.interface);
+    
+    CCDictionarySetValue(Dict, &(int){ 1 }, &(int){ 100 });
+    CCDictionarySetValue(Dict, &(int){ 2 }, &(int){ 200 });
+    CCDictionarySetValue(Dict, &(int){ 3 }, &(int){ 300 });
+    
+    CCEnumerable Enumerable;
+    CCDictionaryGetKeyEnumerable(Dict, &Enumerable);
+    
+    int *Element = CCEnumerableGetCurrent(&Enumerable);
+    int Total = 0;
+    size_t Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerableNext(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    Element = CCEnumerableGetTail(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerablePrevious(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 6, @"Should enumerate over each element once");
+    
+    
+    CCDictionaryGetValueEnumerable(Dict, &Enumerable);
+    
+    Element = CCEnumerableGetCurrent(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerableNext(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 600, @"Should enumerate over each element once");
+    
+    
+    Element = CCEnumerableGetTail(&Enumerable);
+    Total = 0;
+    Count = 0;
+    do
+    {
+        Total += *Element;
+        Count++;
+    }
+    while ((Element = CCEnumerablePrevious(&Enumerable)));
+    
+    XCTAssertEqual(Count, 3, @"Should enumerate over 3 elements");
+    XCTAssertEqual(Total, 600, @"Should enumerate over each element once");
+    
+    CCDictionaryDestroy(Dict);
+}
+
 @end
