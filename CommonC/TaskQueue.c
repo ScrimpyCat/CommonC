@@ -141,7 +141,12 @@ CCTask CCTaskQueuePop(CCTaskQueue Queue)
     }
     
     CCConcurrentQueueNode *Node = CCConcurrentQueuePop(Queue->tasks);
-    if (!Node) return NULL;
+    if (!Node)
+    {
+        atomic_flag_clear_explicit(&Queue->lock, memory_order_release);
+        
+        return NULL;
+    }
     
     CCTask Task = *(CCTask*)CCConcurrentQueueGetNodeData(Node);
     *(CCTask*)CCConcurrentQueueGetNodeData(Node) = NULL;
