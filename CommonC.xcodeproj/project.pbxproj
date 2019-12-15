@@ -115,6 +115,13 @@
 		F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9A18787C4200AF0FAB /* Vectorized2DTests.m */; };
 		F30CCD9D1878EEC000AF0FAB /* Vectorized3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CCD9C1878EEC000AF0FAB /* Vectorized3DTests.m */; };
+		F30D804023A6979C0011A14D /* Container.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA856232C85CF00A5CAF3 /* Container.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804123A6979C0011A14D /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804223A6979C0011A14D /* Enumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F394001C2340E39B00EE826D /* Enumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804323A6979C0011A14D /* ConcurrentIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804423A6979C0011A14D /* DataContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F30646F12358D0B600DFD780 /* DataContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804523A6979C0011A14D /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA852232B7A4C00A5CAF3 /* List.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F30D804623A6979C0011A14D /* BigInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEA84E232B483B00A5CAF3 /* BigInt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30E5A0720C57AB1004F7331 /* ConcurrentArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0520C57AB1004F7331 /* ConcurrentArray.h */; };
 		F30E5A0820C57AB1004F7331 /* ConcurrentArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F30E5A0620C57AB1004F7331 /* ConcurrentArray.c */; };
 		F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E5A0920C8D3DB004F7331 /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1363,6 +1370,13 @@
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
 				F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */,
+				F30D804023A6979C0011A14D /* Container.h in Headers */,
+				F30D804123A6979C0011A14D /* ContainerTypes.h in Headers */,
+				F30D804223A6979C0011A14D /* Enumerable.h in Headers */,
+				F30D804323A6979C0011A14D /* ConcurrentIndexBuffer.h in Headers */,
+				F30D804423A6979C0011A14D /* DataContainer.h in Headers */,
+				F30D804523A6979C0011A14D /* List.h in Headers */,
+				F30D804623A6979C0011A14D /* BigInt.h in Headers */,
 				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
 				F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */,
 				F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */,
@@ -1566,6 +1580,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = F362025D17AC3FFD00153E85;
