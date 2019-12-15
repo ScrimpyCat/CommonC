@@ -132,7 +132,7 @@ _Bool CCConsecutiveIDGeneratorTryAssign(CCConsecutiveIDGeneratorInternal *IDPool
 #else
     for (size_t Loop = 0, Count = IDPool->size; Loop < Count; Loop += (sizeof(CCConsecutiveIDGeneratorSample) / sizeof(typeof(IDPool->pool[0]))))
     {
-        CCConsecutiveIDGeneratorSample Sample = atomic_load_explicit((_Atomic(CCConsecutiveIDGeneratorSample)*)&IDPool->pool[Loop], memory_order_relaxed);
+        CCConsecutiveIDGeneratorSample Sample = atomic_load_explicit(((_Atomic(CCConsecutiveIDGeneratorSample)*){ (_Atomic(CCConsecutiveIDGeneratorSample)*)&IDPool->pool[Loop] }), memory_order_relaxed);
         if (Sample != CC_CONCURRENT_ID_POOL_SAMPLE_MAX)
         {
             for (size_t Loop2 = Loop, SampleCount = Loop + (sizeof(CCConsecutiveIDGeneratorSample) / sizeof(typeof(IDPool->pool[0]))); Loop2 < SampleCount; Loop2++)
