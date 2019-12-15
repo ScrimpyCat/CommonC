@@ -53,7 +53,7 @@ void CCSystemVersion(uint32_t *Major, uint32_t *Minor, uint32_t *BugFix)
                 {
                     CFStringRef ProductVersion = (CFStringRef)CFDictionaryGetValue(Plist, CFSTR("ProductVersion"));
 #elif CC_PLATFORM_IOS
-                    CFStringRef ProductVersion = (CFStringRef)objc_msgSend(objc_msgSend((id)objc_getClass("UIDevice"), sel_getUid("currentDevice")), sel_getUid("systemVersion"));
+                    CFStringRef ProductVersion = (CFStringRef)((id(*)(id, SEL))objc_msgSend)(((id(*)(id, SEL))objc_msgSend)((id)objc_getClass("UIDevice"), sel_getUid("currentDevice")), sel_getUid("systemVersion"));
 #endif
                     if (ProductVersion)
                     {
