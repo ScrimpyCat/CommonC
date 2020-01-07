@@ -201,7 +201,7 @@ const CCCollectionInterface *CCCollectionGetInterface(CCCollection Collection);
  * @return A collection with all the entry references. This collection must be destroyed when no longer
  *         in use.
  */
-CCCollection(CCCollectionEntry) CCCollectionGetAllEntries(CCCollection Collection);
+CC_NEW CCCollection(CCCollectionEntry) CCCollectionGetAllEntries(CCCollection Collection);
 
 /*!
  * @brief Find an element in the collection.
@@ -224,7 +224,7 @@ CCCollectionEntry CCCollectionFindElement(CCCollection Collection, const void *E
  * @return A collection of entry references to the elements it found. An empty collection means no
  *         elements were found. The returned collection must be destroyed when it is no longer needed.
  */
-CCCollection(CCCollectionEntry) CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator);
+CC_NEW CCCollection(CCCollectionEntry) CCCollectionFindCollection(CCCollection Collection, CCCollection Elements, CCComparator Comparator);
 
 /*!
  * @brief Get an enumerator for the collection.
