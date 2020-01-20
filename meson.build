@@ -2,14 +2,16 @@ project('CommonC', 'c',
     default_options: ['c_std=gnu11']
 )
 
-add_global_arguments([
-        '-Wno-logical-not-parentheses',
-        '-Wno-missing-braces',
-        '-Wno-multichar',
-        '-Wno-unknown-pragmas',
-    ],
-    language: 'c'
-)
+if meson.is_subproject() == false
+    add_global_arguments([
+            '-Wno-logical-not-parentheses',
+            '-Wno-missing-braces',
+            '-Wno-multichar',
+            '-Wno-unknown-pragmas',
+        ],
+        language: 'c'
+    )
+endif
 
 src = [
     'CommonC/Allocator.c',
@@ -74,7 +76,12 @@ if host_machine.system() == 'darwin'
     deps += [dependency('Foundation')]
 endif
 
-library('CommonC', src,
+lib = library('CommonC', src,
     include_directories: include_directories('CommonC'),
     dependencies: deps
+)
+
+commonc = declare_dependency(
+    include_directories: include_directories('CommonC'),
+    link_with: lib
 )
