@@ -34,7 +34,13 @@ typedef struct {
     CCOrderedCollection(FSPathComponent) components;
     char *completeRep;
     const char *filenameRep, *pathRep;
-} FSPathInfo, *FSPath;
+} FSPathInfo;
+
+/*!
+ * @brief The path.
+ * @description Allows @b CCRetain.
+ */
+typedef FSPathInfo *FSPath;
 
 typedef enum {
     /// Default matching behaviour

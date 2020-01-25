@@ -124,8 +124,18 @@ FSPath FSPathCurrent(void)
      Potental issues with threading unless add locks around any FSCurrentPath usage. May be better to just
      implement FSPathCreateFromCurrent()
      */
-    static FSPathInfo FSCurrentPath;
-    if (!FSCurrentPath.components)
+    static struct {
+        CCAllocatorHeader header;
+        FSPathInfo info;
+    } FSCurrentPath = {
+        .header = {
+            .allocator = CC_NULL_ALLOCATOR.allocator
+        },
+        .info = {
+            .components = NULL
+        }
+    };
+    if (!FSCurrentPath.info.components)
     {
         @autoreleasepool {
             NSString *CurrentPath = [NSFileManager defaultManager].currentDirectoryPath;
@@ -139,11 +149,11 @@ FSPath FSPathCurrent(void)
                 CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeVolume, [Volume UTF8String]) });
             }
             
-            FSCurrentPath.components = Components;
+            FSCurrentPath.info.components = Components;
         }
     }
     
-    return &FSCurrentPath;
+    return &FSCurrentPath.info;
 }
 
 FSPath FSPathCreateAppData(const char *AppName)

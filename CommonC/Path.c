@@ -231,6 +231,14 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
 #warning Unsupported platform
 #endif
 
+static void FSPathDestructor(FSPath Path)
+{
+    CCAssertLog(Path != FSPathCurrent(), "Cannot mutate the current path");
+    
+    CCCollectionDestroy(Path->components);
+    FSPathClearPathStringCache(Path);
+}
+
 FSPath FSPathCreateFromComponents(CCOrderedCollection Components)
 {
     CCAssertLog(Components, "Components must not be null");
@@ -247,6 +255,8 @@ FSPath FSPathCreateFromComponents(CCOrderedCollection Components)
         .filenameRep = NULL,
         .pathRep = NULL
     };
+    
+    CCMemorySetDestructor(NewPath, (CCMemoryDestructorCallback)FSPathDestructor);
     
     return NewPath;
 }
@@ -282,11 +292,8 @@ FSPath FSPathCopy(FSPath Path)
 void FSPathDestroy(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
-    CCAssertLog(Path != FSPathCurrent(), "Cannot mutate the current path");
     
-    CCCollectionDestroy(Path->components);
-    FSPathClearPathStringCache(Path);
-    CC_SAFE_Free(Path);
+    CCFree(Path);
 }
 
 static void FSPathMutated(FSPath Path)
