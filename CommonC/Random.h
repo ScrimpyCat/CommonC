@@ -41,6 +41,32 @@
 #endif
 
 
+#pragma mark Custom PRNG Implementations
+#pragma mark Xorshift
+
+typedef uint32_t CCRandomState_xorshift;
+
+/*!
+ * @brief Get the next random value using a xorshift PRNG.
+ * @param State The current xorshift state.
+ * @return A random number.
+ */
+uint32_t CCRandom_xorshift(CCRandomState_xorshift *State);
+
+/*!
+ * @brief Get the maximum value the xorshift PRNG can generate.
+ * @return The largest possible number.
+ */
+uint32_t CCRandomMax_xorshift(void);
+
+/*!
+ * @brief Seed the xorshift PRNG.
+ * @param State The xorshift state.
+ * @param Seed The seed value.
+ */
+void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
+
+#pragma mark -
 
 static inline uint32_t CCRandom(void) //0 - CCRandomMax()
 {
