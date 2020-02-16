@@ -30,7 +30,7 @@
 #include <CommonC/Platform.h>
 #include <CommonC/Maths.h>
 
-#if !defined(CC_RANDOM_ARC4) || !defined(CC_RANDOM_STD)
+#if !defined(CC_RANDOM_ARC4) || !defined(CC_RANDOM_STD) || !defined(CC_RANDOM_XORSHIFT)
 
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS //or BSD
 #define CC_RANDOM_ARC4 1
@@ -68,10 +68,19 @@ void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
 
 #pragma mark -
 
+#if CC_RANDOM_XORSHIFT
+/*!
+ * @brief The global random PRNG state.
+ */
+extern CCRandomState_xorshift CCRandomState;
+#endif
+
 static inline uint32_t CCRandom(void) //0 - CCRandomMax()
 {
 #if CC_RANDOM_ARC4
     return arc4random(); //arc4random range: (2**32)-1
+#elif CC_RANDOM_XORSHIFT
+    return CCRandom_xorshift(&CCRandomState);
 #else //CC_RANDOM_STD
     return rand();
 #endif
@@ -81,6 +90,8 @@ static inline uint32_t CCRandomMax(void)
 {
 #if CC_RANDOM_ARC4
     return UINT32_MAX;
+#elif CC_RANDOM_XORSHIFT
+    return CCRandomMax_xorshift();
 #else
     return RAND_MAX;
 #endif
@@ -90,6 +101,8 @@ static inline void CCRandomSeed(uint32_t seed)
 {
 #if CC_RANDOM_ARC4
     //does not need seeding
+#elif CC_RANDOM_XORSHIFT
+    CCRandomSeed_xorshift(&CCRandomState, seed);
 #else
     srand(seed);
 #endif
