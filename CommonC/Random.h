@@ -29,6 +29,7 @@
 #include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Maths.h>
+#include <CommonC/Types.h>
 
 #if !defined(CC_RANDOM_ARC4) || !defined(CC_RANDOM_STD) || !defined(CC_RANDOM_XORSHIFT)
 
@@ -69,6 +70,8 @@ void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
 #pragma mark - Global PRNG
 
 #if CC_RANDOM_XORSHIFT
+#define CC_RANDOM_STATE 1
+
 /*!
  * @brief The global random PRNG state.
  */
