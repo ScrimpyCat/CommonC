@@ -66,7 +66,7 @@ uint32_t CCRandomMax_xorshift(void);
  */
 void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
 
-#pragma mark -
+#pragma mark - Global PRNG
 
 #if CC_RANDOM_XORSHIFT
 /*!
@@ -74,6 +74,119 @@ void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
  */
 extern CCRandomState_xorshift CCRandomState;
 #endif
+
+/*!
+ * @brief Get the next random value using the global PRNG.
+ * @description The global PRNG implementation can be selected by defining:
+ *
+ *              - @b CC_RANDOM_ARC4
+ *              - @b CC_RANDOM_STD
+ *              - @b CC_RANDOM_XORSHIFT
+ *
+ * @return A random number.
+ */
+static inline uint32_t CCRandom(void);
+
+/*!
+ * @brief Get the maximum value the global PRNG can generate.
+ * @description The global PRNG implementation can be selected by defining:
+ *
+ *              - @b CC_RANDOM_ARC4
+ *              - @b CC_RANDOM_STD
+ *              - @b CC_RANDOM_XORSHIFT
+ *
+ * @return The largest possible number.
+ */
+static inline uint32_t CCRandomMax(void);
+
+/*!
+ * @brief Seed the global PRNG.
+ * @description The global PRNG implementation can be selected by defining:
+ *
+ *              - @b CC_RANDOM_ARC4
+ *              - @b CC_RANDOM_STD
+ *              - @b CC_RANDOM_XORSHIFT
+ *
+ * @param seed The seed value.
+ */
+static inline void CCRandomSeed(uint32_t seed);
+
+/*!
+ * @brief Get the next random value as a double between 0.0 - 1.0.
+ * @note This uses the global PRNG.
+ * @return A random number between 0.0 - 1.0.
+ */
+static inline double CCRandomd(void);
+
+/*!
+ * @brief Get the next random value as a float between 0.0f - 1.0f.
+ * @note This uses the global PRNG.
+ * @return A random number between 0.0f - 1.0f.
+ */
+static inline float CCRandomf(void);
+
+/*!
+ * @brief Get the next random value as an integer between 0 - RAND_MAX.
+ * @description This is to replicate behaviour of the standard @b rand function.
+ * @note This uses the global PRNG.
+ * @return A random number between 0 - RAND_MAX.
+ */
+static inline int CCRandomi(void);
+
+/*!
+ * @brief Get the next random value as a double between the specified range.
+ * @note This uses the global PRNG.
+ * @param min The minimum value that can be returned.
+ * @param max The maximum value that can be returned.
+ * @return A random number between defined range.
+ */
+static inline double CCRandomRanged(double min, double max);
+
+/*!
+ * @brief Get the next random value as a float between the specified range.
+ * @note This uses the global PRNG.
+ * @param min The minimum value that can be returned.
+ * @param max The maximum value that can be returned.
+ * @return A random number between defined range.
+ */
+static inline float CCRandomRangef(float min, float max);
+
+/*!
+ * @brief Get the next random value as an integer between the specified range.
+ * @note This uses the global PRNG.
+ * @param min The minimum value that can be returned.
+ * @param max The maximum value that can be returned.
+ * @return A random number between defined range.
+ */
+static inline int32_t CCRandomRangei(int32_t min, int32_t max);
+
+/*!
+ * @brief Get the next random value as a point in the given rect.
+ * @note This uses the global PRNG.
+ * @param rect The rect to select a random point from.
+ * @return A random point.
+ */
+static inline CCVector2D CCRandomPointInRect(CCRect rect);
+
+/*!
+ * @brief Get the next random value as a point in the given ellipse.
+ * @note This uses the global PRNG.
+ * @param center The center of the ellipse.
+ * @param radius The radius of the ellipse.
+ * @return A random point.
+ */
+static inline CCVector2D CCRandomPointInEllipse(CCVector2D center, CCVector2D radius);
+
+/*!
+ * @brief Get the next random value as a point in the given circle.
+ * @note This uses the global PRNG.
+ * @param center The center of the circle.
+ * @param radius The radius of the circle.
+ * @return A random point.
+ */
+static inline CCVector2D CCRandomPointInCircle(CCVector2D center, float radius);
+
+#pragma mark -
 
 static inline uint32_t CCRandom(void) //0 - CCRandomMax()
 {
