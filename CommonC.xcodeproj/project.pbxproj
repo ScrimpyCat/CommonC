@@ -222,6 +222,8 @@
 		F353DD8A17B5870C00D1674C /* FileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F353DD8917B5870C00D1674C /* FileTests.m */; };
 		F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD8C17B5A14300D1674C /* BitTricks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD9417B6930600D1674C /* BitTricksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F353DD9317B6930600D1674C /* BitTricksTests.m */; };
+		F35767E723FDD4F900CEB76F /* Random.c in Sources */ = {isa = PBXBuildFile; fileRef = F35767E623FDD4F900CEB76F /* Random.c */; };
+		F35767E823FDD4F900CEB76F /* Random.c in Sources */ = {isa = PBXBuildFile; fileRef = F35767E623FDD4F900CEB76F /* Random.c */; };
 		F358D5F81C0A90D700FC10F1 /* SystemPath.m in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F71C0A90D700FC10F1 /* SystemPath.m */; };
 		F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */ = {isa = PBXBuildFile; fileRef = F358D5F91C0AA6C400FC10F1 /* FileHandle.c */; };
 		F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = F358D5FA1C0AA6C400FC10F1 /* FileHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -490,6 +492,7 @@
 		F353DD8C17B5A14300D1674C /* BitTricks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitTricks.h; sourceTree = "<group>"; };
 		F353DD9217B6930600D1674C /* BitTricksTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitTricksTests.h; sourceTree = "<group>"; };
 		F353DD9317B6930600D1674C /* BitTricksTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BitTricksTests.m; sourceTree = "<group>"; };
+		F35767E623FDD4F900CEB76F /* Random.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Random.c; sourceTree = "<group>"; };
 		F358D5F71C0A90D700FC10F1 /* SystemPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemPath.m; sourceTree = "<group>"; };
 		F358D5F91C0AA6C400FC10F1 /* FileHandle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileHandle.c; sourceTree = "<group>"; };
 		F358D5FA1C0AA6C400FC10F1 /* FileHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHandle.h; sourceTree = "<group>"; };
@@ -889,6 +892,7 @@
 				F3D657D317D5FD5200B54101 /* Maths.h */,
 				F353DD8C17B5A14300D1674C /* BitTricks.h */,
 				F3D657CF17D5DA8F00B54101 /* Random.h */,
+				F35767E623FDD4F900CEB76F /* Random.c */,
 				F3AEA84E232B483B00A5CAF3 /* BigInt.h */,
 				F3AEA84F232B483B00A5CAF3 /* BigInt.c */,
 				F318D92C1C4DD77A005AE64E /* Matrices */,
@@ -1671,6 +1675,7 @@
 				F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */,
 				F36F83061D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F30437E31C62E18600388C74 /* File.c in Sources */,
+				F35767E823FDD4F900CEB76F /* Random.c in Sources */,
 				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
 				F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */,
 				F36F82FC1D0FB57A00193B08 /* HashMapSeparateChainingArrayDataOrientedAll.c in Sources */,
@@ -1751,6 +1756,7 @@
 				F36F832D1D10C1E300193B08 /* Dictionary.c in Sources */,
 				F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */,
 				F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */,
+				F35767E723FDD4F900CEB76F /* Random.c in Sources */,
 				F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */,
 				F369C7D01C44D515006C3D96 /* CCString.c in Sources */,
 				F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */,

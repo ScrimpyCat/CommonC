@@ -59,6 +59,7 @@ src = [
     'CommonC/PathComponent.c',
     'CommonC/ProcessInfo.c',
     'CommonC/Queue.c',
+    'CommonC/Random.c',
     'CommonC/SystemInfo.c',
     'CommonC/Task.c',
     'CommonC/TaskQueue.c',
