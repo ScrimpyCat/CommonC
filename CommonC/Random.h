@@ -31,7 +31,7 @@
 #include <CommonC/Maths.h>
 #include <CommonC/Types.h>
 
-#if !defined(CC_RANDOM_ARC4) && !defined(CC_RANDOM_STD) && !defined(CC_RANDOM_XORSHIFT)
+#if !defined(CC_RANDOM_ARC4) && !defined(CC_RANDOM_STD) && !defined(CC_RANDOM_XORSHIFT) && !defined(CC_RANDOM_XORWOW)
 
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS //or BSD
 #define CC_RANDOM_ARC4 1
@@ -43,7 +43,7 @@
 
 
 #pragma mark Custom PRNG Implementations
-#pragma mark Xorshift
+#pragma mark xorshift
 
 typedef uint32_t CCRandomState_xorshift;
 
@@ -67,11 +67,48 @@ uint32_t CCRandomMax_xorshift(void);
  */
 void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed);
 
+#pragma mark xorwow
+
+typedef struct {
+    uint32_t a, b, c, d;
+    uint32_t counter;
+} CCRandomState_xorwow;
+
+/*!
+ * @brief Get the next random value using a xorwow PRNG.
+ * @param State The current xorwow state.
+ * @return A random number.
+ */
+uint32_t CCRandom_xorwow(CCRandomState_xorwow *State);
+
+/*!
+ * @brief Get the maximum value the xorwow PRNG can generate.
+ * @return The largest possible number.
+ */
+uint32_t CCRandomMax_xorwow(void);
+
+/*!
+ * @brief Seed the xorwow PRNG.
+ * @param State The xorwow state.
+ * @param Seed The seed value.
+ */
+void CCRandomSeed_xorwow(CCRandomState_xorwow *State, uint32_t Seed);
+
 #pragma mark - Global PRNG
 
-#if CC_RANDOM_XORSHIFT
 extern CCRandomState_xorshift CCRandomGlobalState_xorshift;
+extern CCRandomState_xorwow CCRandomGlobalState_xorwow;
+
+#if CC_RANDOM_XORSHIFT
 #define CCRandomState CCRandomGlobalState_xorshift
+#define CC_RANDOM_SEED CCRandomSeed_xorshift
+#define CC_RANDOM_MAX CCRandomMax_xorshift
+#define CC_RANDOM CCRandom_xorshift
+#elif CC_RANDOM_XORWOW
+#define CCRandomState CCRandomGlobalState_xorwow
+#define CC_RANDOM_SEED CCRandomSeed_xorwow
+#define CC_RANDOM_MAX CCRandomMax_xorwow
+#define CC_RANDOM CCRandom_xorwow
 #endif
 
 /*!
@@ -81,6 +118,7 @@ extern CCRandomState_xorshift CCRandomGlobalState_xorshift;
  *              - @b CC_RANDOM_ARC4
  *              - @b CC_RANDOM_STD
  *              - @b CC_RANDOM_XORSHIFT
+ *              - @b CC_RANDOM_XORWOW
  *
  * @return A random number.
  */
@@ -93,6 +131,7 @@ static inline uint32_t CCRandom(void);
  *              - @b CC_RANDOM_ARC4
  *              - @b CC_RANDOM_STD
  *              - @b CC_RANDOM_XORSHIFT
+ *              - @b CC_RANDOM_XORWOW
  *
  * @return The largest possible number.
  */
@@ -105,6 +144,7 @@ static inline uint32_t CCRandomMax(void);
  *              - @b CC_RANDOM_ARC4
  *              - @b CC_RANDOM_STD
  *              - @b CC_RANDOM_XORSHIFT
+ *              - @b CC_RANDOM_XORWOW
  *
  * @param seed The seed value.
  */
@@ -191,8 +231,8 @@ static inline uint32_t CCRandom(void) //0 - CCRandomMax()
 {
 #if CC_RANDOM_ARC4
     return arc4random(); //arc4random range: (2**32)-1
-#elif CC_RANDOM_XORSHIFT
-    return CCRandom_xorshift(&CCRandomState);
+#elif defined(CCRandomState)
+    return CC_RANDOM(&CCRandomState);
 #else //CC_RANDOM_STD
     return rand();
 #endif
@@ -202,8 +242,8 @@ static inline uint32_t CCRandomMax(void)
 {
 #if CC_RANDOM_ARC4
     return UINT32_MAX;
-#elif CC_RANDOM_XORSHIFT
-    return CCRandomMax_xorshift();
+#elif defined(CCRandomState)
+    return CC_RANDOM_MAX();
 #else
     return RAND_MAX;
 #endif
@@ -213,12 +253,16 @@ static inline void CCRandomSeed(uint32_t seed)
 {
 #if CC_RANDOM_ARC4
     //does not need seeding
-#elif CC_RANDOM_XORSHIFT
-    CCRandomSeed_xorshift(&CCRandomState, seed);
+#elif defined(CCRandomState)
+    CC_RANDOM_SEED(&CCRandomState, seed);
 #else
     srand(seed);
 #endif
 }
+
+#undef CC_RANDOM_SEED
+#undef CC_RANDOM_MAX
+#undef CC_RANDOM
 
 static inline double CCRandomd(void) //returns a random number between 0.0 - 1.0
 {

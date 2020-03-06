@@ -45,3 +45,42 @@ void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed)
 {
     *State = Seed ? Seed : 1;
 }
+
+CCRandomState_xorwow CCRandomGlobalState_xorwow = { 270369, 67634689, 2647435461, 307599695, 2398689233 };
+
+uint32_t CCRandom_xorwow(CCRandomState_xorwow *State)
+{
+    uint32_t t = State->d;
+    const uint32_t s = State->a;
+    State->d = State->c;
+    State->c = State->b;
+    State->b = s;
+    
+    t ^= t >> 2;
+    t ^= t << 1;
+    t ^= s ^ (s << 4);
+    State->a = t;
+    
+    State->counter += 362437;
+    
+    return t + State->counter;
+}
+
+uint32_t CCRandomMax_xorwow(void)
+{
+    return UINT32_MAX;
+}
+
+void CCRandomSeed_xorwow(CCRandomState_xorwow *State, uint32_t Seed)
+{
+    CCRandomState_xorshift Xorshift;
+    CCRandomSeed_xorshift(&Xorshift, Seed);
+    
+    *State = (CCRandomState_xorwow){
+        .a = CCRandom_xorshift(&Xorshift),
+        .b = CCRandom_xorshift(&Xorshift),
+        .c = CCRandom_xorshift(&Xorshift),
+        .d = CCRandom_xorshift(&Xorshift),
+        .counter = CCRandom_xorshift(&Xorshift)
+    };
+}
