@@ -30,6 +30,9 @@
 #include <CommonC/Platform.h>
 #include <CommonC/Maths.h>
 #include <CommonC/Types.h>
+#include <CommonC/DataBuffer.h>
+#include <CommonC/MemoryAllocation.h>
+#include <CommonC/Logging.h>
 
 #if !defined(CC_RANDOM_ARC4) && !defined(CC_RANDOM_STD) && !defined(CC_RANDOM_XORSHIFT) && !defined(CC_RANDOM_XORWOW)
 
@@ -151,6 +154,33 @@ static inline uint32_t CCRandomMax(void);
 static inline void CCRandomSeed(uint32_t seed);
 
 /*!
+ * @brief Get the global PRNG state in a generic data container.
+ * @description The global PRNG implementation can be selected by defining:
+ *
+ *              - @b CC_RANDOM_ARC4
+ *              - @b CC_RANDOM_STD
+ *              - @b CC_RANDOM_XORSHIFT
+ *              - @b CC_RANDOM_XORWOW
+ *
+ * @return The current global PRNG state. This must be destroyed.
+ */
+static inline CC_NEW CCData CCRandomGetState(void);
+
+/*!
+ * @brief Set the global PRNG state.
+ * @description The global PRNG implementation can be selected by defining:
+ *
+ *              - @b CC_RANDOM_ARC4
+ *              - @b CC_RANDOM_STD
+ *              - @b CC_RANDOM_XORSHIFT
+ *              - @b CC_RANDOM_XORWOW
+ *
+ * @param State The state data. This is intended to be a result retrieved from
+ *        @b CCRandomGetState.
+ */
+static inline void CCRandomSetState(CCData State);
+
+/*!
  * @brief Get the next random value as a double between 0.0 - 1.0.
  * @note This uses the global PRNG.
  * @return A random number between 0.0 - 1.0.
@@ -263,6 +293,34 @@ static inline void CCRandomSeed(uint32_t seed)
 #undef CC_RANDOM_SEED
 #undef CC_RANDOM_MAX
 #undef CC_RANDOM
+
+static inline CC_NEW CCData CCRandomGetState(void)
+{
+    size_t Size = 0;
+    
+#if defined(CCRandomState)
+    Size = sizeof(CCRandomState);
+#endif
+    
+    void *Buffer;
+    CC_SAFE_Malloc(Buffer, Size,
+                   CC_LOG_ERROR("Failed to get global random state due to allocation failure. Allocation size (%zu)", Size);
+                   return NULL;
+                   );
+    
+#if defined(CCRandomState)
+    memcpy(Buffer, &CCRandomState, Size);
+#endif
+    
+    return CCDataBufferCreate(CC_STD_ALLOCATOR, CCDataHintResize | CCDataHintReadWrite | CCDataBufferHintFree, Size, Buffer, NULL, NULL);
+}
+
+static inline void CCRandomSetState(CCData State)
+{
+#if defined(CCRandomState)
+    CCDataReadBuffer(State, 0, sizeof(CCRandomState), &CCRandomState);
+#endif
+}
 
 static inline double CCRandomd(void) //returns a random number between 0.0 - 1.0
 {
