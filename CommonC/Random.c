@@ -25,7 +25,7 @@
 
 #include "Random.h"
 
-CCRandomState_xorshift CCRandomState = 0;
+CCRandomState_xorshift CCRandomGlobalState_xorshift = 1;
 
 uint32_t CCRandom_xorshift(CCRandomState_xorshift *State)
 {
@@ -43,5 +43,5 @@ uint32_t CCRandomMax_xorshift(void)
 
 void CCRandomSeed_xorshift(CCRandomState_xorshift *State, uint32_t Seed)
 {
-	*State = Seed;
+    *State = Seed ? Seed : 1;
 }
