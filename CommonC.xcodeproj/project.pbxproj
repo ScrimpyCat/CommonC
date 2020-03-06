@@ -284,6 +284,7 @@
 		F36F83301D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F376C57424126F21004F27C4 /* RandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F376C57324126F21004F27C4 /* RandomTests.m */; };
 		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -549,6 +550,7 @@
 		F36F832B1D10C1E300193B08 /* Dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Dictionary.c; sourceTree = "<group>"; };
 		F36F832C1D10C1E300193B08 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
 		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
+		F376C57324126F21004F27C4 /* RandomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RandomTests.m; sourceTree = "<group>"; };
 		F378DAF5234C05D2000600CC /* ContainerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerTypes.h; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
@@ -907,6 +909,7 @@
 				F353DD9217B6930600D1674C /* BitTricksTests.h */,
 				F353DD9317B6930600D1674C /* BitTricksTests.m */,
 				F3A91A4A186BBAD400EF0B95 /* Vectors */,
+				F376C57324126F21004F27C4 /* RandomTests.m */,
 			);
 			name = Maths;
 			sourceTree = "<group>";
@@ -1833,6 +1836,7 @@
 				F353DD8A17B5870C00D1674C /* FileTests.m in Sources */,
 				F36F83021D0FCD5700193B08 /* HashMapSeparateChainingArrayDataOrientedHash.m in Sources */,
 				F3BC6A3118776CAE00934291 /* Vectorized2DSSETests.m in Sources */,
+				F376C57424126F21004F27C4 /* RandomTests.m in Sources */,
 				F3F41A3523337CE80068A135 /* ContainerTests.m in Sources */,
 				F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */,
 				F36D63021D13456100D3827A /* DictionaryHashMapTests.m in Sources */,
