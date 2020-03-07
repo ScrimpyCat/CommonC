@@ -720,11 +720,12 @@ int CCLogv(CCLoggingOption Option, const char *Tag, const char *Identifier, cons
             {
                 const size_t AppLength = strlen(AppName);
                 
-                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * AppLength), NULL, CC_DEFAULT_ERROR_CALLBACK)))
+                if ((Identifier = CCMalloc(CC_DEFAULT_ALLOCATOR, sizeof(CC_IDENTIFIER_) + (sizeof(char) * (AppLength + 2)), NULL, CC_DEFAULT_ERROR_CALLBACK)))
                 {
                     FreeIdentifier = TRUE;
                     strncpy((char*)Identifier, CC_IDENTIFIER_, sizeof(CC_IDENTIFIER_) - 1);
-                    strncpy((char*)(Identifier + sizeof(CC_IDENTIFIER_) - 1), AppName, AppLength);
+                    ((char*)Identifier)[sizeof(CC_IDENTIFIER_) - 1] = '.';
+                    strcpy((char*)(Identifier + sizeof(CC_IDENTIFIER_)), AppName);
                 }
             }
         }
