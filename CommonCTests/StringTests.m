@@ -218,6 +218,13 @@
     CCStringDestroy(String);
     
     
+    String = CCStringCreateByJoiningStrings((CCString[]){}, 0, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
+    
     CCString Str = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "123");
     CCString Str2 = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "456");
     CCString Separator = CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, " ");
@@ -298,6 +305,13 @@
     
     
     Strings = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered, sizeof(CCString), CCStringDestructorForCollection);
+    
+    String = CCStringCreateByJoiningEntries(Strings, 0);
+    
+    XCTAssertTrue(CCStringEqual(String, CC_STRING("")), @"Should create the correct string");
+    
+    CCStringDestroy(String);
+    
     
     CCOrderedCollectionAppendElement(Strings, &(CCString){ CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "example!!!!!!") });
     CCOrderedCollectionAppendElement(Strings, &(CCString){ CCStringCreate(CC_STD_ALLOCATOR, CCStringEncodingUTF8 | CCStringHintCopy, "!") });
@@ -1256,6 +1270,13 @@
     
     
     XCTAssertTrue(CCStringEqual(CC_STRING(""), CC_STRING("")), @"Should be equal");
+    
+    s1 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "");
+    s2 = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, "");
+    
+    XCTAssertTrue(CCStringEqual(s1, CC_STRING("")), @"Should be equal");
+    XCTAssertTrue(CCStringEqual(s2, CC_STRING("")), @"Should be equal");
+    XCTAssertTrue(CCStringEqual(s1, s2), @"Should be equal");
 }
 
 -(void) testEnumerating

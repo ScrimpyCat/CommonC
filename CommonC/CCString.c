@@ -694,7 +694,7 @@ CCString CCStringCreateByJoiningStrings(CCString *Strings, size_t Count, CCStrin
         }
     }
     
-    return NewString;
+    return NewString ? NewString : CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "");
 }
 
 CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Separator)
@@ -736,7 +736,7 @@ CCString CCStringCreateByJoiningEntries(CCOrderedCollection Strings, CCString Se
         }
     }
     
-    return NewString;
+    return NewString ? NewString : CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingASCII, "");
 }
 
 CCOrderedCollection CCStringCreateBySeparatingOccurrencesOfString(CCString String, CCString Occurrence)
