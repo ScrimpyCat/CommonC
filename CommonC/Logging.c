@@ -140,7 +140,7 @@ typedef struct {
 
 static void LogMessageOSL(CCOSLogContext *Ctx)
 {
-    os_log_with_type(Ctx->log, Ctx->type, "%s", Ctx->msg);
+    os_log_with_type(Ctx->log, Ctx->type, "%{public}s", Ctx->msg);
     os_release(Ctx->log);
     
     if (Ctx->destroy)
