@@ -119,8 +119,11 @@ extern CCRandomState_xorwow CCRandomGlobalState_xorwow;
  * @description The global PRNG implementation can be selected by defining:
  *
  *              - @b CC_RANDOM_ARC4
+ *
  *              - @b CC_RANDOM_STD
+ *
  *              - @b CC_RANDOM_XORSHIFT
+ *
  *              - @b CC_RANDOM_XORWOW
  *
  * @return A random number.
@@ -132,8 +135,11 @@ static inline uint32_t CCRandom(void);
  * @description The global PRNG implementation can be selected by defining:
  *
  *              - @b CC_RANDOM_ARC4
+ *
  *              - @b CC_RANDOM_STD
+ *
  *              - @b CC_RANDOM_XORSHIFT
+ *
  *              - @b CC_RANDOM_XORWOW
  *
  * @return The largest possible number.
@@ -145,8 +151,11 @@ static inline uint32_t CCRandomMax(void);
  * @description The global PRNG implementation can be selected by defining:
  *
  *              - @b CC_RANDOM_ARC4
+ *
  *              - @b CC_RANDOM_STD
+ *
  *              - @b CC_RANDOM_XORSHIFT
+ *
  *              - @b CC_RANDOM_XORWOW
  *
  * @param seed The seed value.
@@ -158,8 +167,11 @@ static inline void CCRandomSeed(uint32_t seed);
  * @description The global PRNG implementation can be selected by defining:
  *
  *              - @b CC_RANDOM_ARC4
+ *
  *              - @b CC_RANDOM_STD
+ *
  *              - @b CC_RANDOM_XORSHIFT
+ *
  *              - @b CC_RANDOM_XORWOW
  *
  * @return The current global PRNG state. This must be destroyed.
@@ -171,8 +183,11 @@ static inline CC_NEW CCData CCRandomGetState(void);
  * @description The global PRNG implementation can be selected by defining:
  *
  *              - @b CC_RANDOM_ARC4
+ *
  *              - @b CC_RANDOM_STD
+ *
  *              - @b CC_RANDOM_XORSHIFT
+ *
  *              - @b CC_RANDOM_XORWOW
  *
  * @param State The state data. This is intended to be a result retrieved from
