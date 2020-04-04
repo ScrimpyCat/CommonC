@@ -112,6 +112,10 @@
 #define __has_builtin(x) 0
 #endif
 
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+
 #if __has_builtin(__builtin_nontemporal_load)
 #define CC_NON_TEMPORAL_LOAD(addr) __builtin_nontemporal_load(addr)
 #else
@@ -134,6 +138,28 @@
 #define CC_AVAILABLE(...) 0
 #endif
 
+#if !defined(CC_DEFAULT_ENUM) && (__has_feature(objc_fixed_enum) || __cplusplus)
+#if __cplusplus
+#define CC_ENUM_DECLARE_NAMED(type, name) type name; enum : type
+#else
+#define CC_ENUM_DECLARE_NAMED(type, name) enum name : type name; enum name : type
+#endif
+
+#define CC_ENUM_DECLARE_UNNAMED(type) enum : type
+#else
+#define CC_ENUM_DECLARE_NAMED(type, name) enum name name; enum name
+#define CC_ENUM_DECLARE_UNNAMED(type) enum
+#endif
+
+#define CC_ENUM_DECLARE(_1, _2, name, ...) name
+
+/*!
+ * @define CC_ENUM
+ * @brief Declare a custom width enum.
+ * @description This should take the form of @b CC_ENUM(type) or @b typedef @b CC_ENUM(type, name).
+ *              The custom width can be disabled by defining @b CC_DEFAULT_ENUM.
+ */
+#define CC_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__)
 
 /*!
  * @define CC_SPIN_WAIT
