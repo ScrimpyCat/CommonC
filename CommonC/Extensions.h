@@ -46,37 +46,142 @@
 #include <CommonC/Platform.h>
 
 
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+
+#ifndef __has_extension
+#define __has_extension(x) __has_feature(x)
+#endif
+
+#ifndef __has_c_attribute
+#define __has_c_attribute(x) 0
+#endif
+
+#ifndef __has_attribute
+#define __has_attribute(x) 0
+#endif
 
 #if CC_COMPILER_CLANG || CC_COMPILER_GCC
+#if __has_attribute(always_inline)
 #define CC_FORCE_INLINE inline __attribute__((always_inline))
+#endif
+
+#if __has_attribute(noinline)
 #define CC_NO_INLINE __attribute__((noinline))
+#endif
+
+#if __has_attribute(deprecated)
 #define CC_DEPRECATED __attribute__((deprecated))
+#endif
+
+#if __has_attribute(warn_unused_result)
 #define CC_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+#endif
+
+#if __has_attribute(format)
 #define CC_FORMAT_PRINTF(fmt, args) __attribute__((format(printf, fmt, args)))
+#endif
+
+#if __has_attribute(format)
 #define CC_FORMAT_SCANF(fmt, args) __attribute__((format(scanf, fmt, args)))
+#endif
+
+#if __has_attribute(pure)
 #define CC_PURE_FUNCTION __attribute__((pure))
+#endif
+
+#if __has_attribute(const)
 #define CC_CONSTANT_FUNCTION __attribute__((const))
+#endif
+
+#if __has_builtin(__builtin_expect) || defined(__builtin_expect)
 #define CC_LIKELY(e) __builtin_expect(!!(e), 1)
 #define CC_UNLIKELY(e) __builtin_expect(!!(e), 0)
+#endif
+
+#if __has_attribute(packed)
 #define CC_PACKED __attribute__((packed))
+#endif
+
+#if __has_attribute(constructor)
 #define CC_CONSTRUCTOR __attribute__((constructor))
+#endif
+
+#if __has_attribute(destructor)
 #define CC_DESTRUCTOR __attribute__((destructor))
-#else
+#endif
+
+#if __has_attribute(enum_extensibility)
+#define CC_OPEN_ENUM __attribute__((enum_extensibility(open)))
+#define CC_CLOSED_ENUM __attribute__((enum_extensibility(closed)))
+#define CC_OPEN_FLAG_ENUM __attribute__((enum_extensibility(open), flag_enum))
+#define CC_CLOSED_FLAG_ENUM __attribute__((enum_extensibility(closed), flag_enum))
+#endif
+#endif
+
+#ifndef CC_FORCE_INLINE
 #define CC_FORCE_INLINE inline
+#endif
+
+#ifndef CC_NO_INLINE
 #define CC_NO_INLINE
+#endif
+
+#ifndef CC_DEPRECATED
 #define CC_DEPRECATED
+#endif
+
+#ifndef CC_WARN_UNUSED_RESULT
 #define CC_WARN_UNUSED_RESULT
+#endif
+
+#ifndef CC_FORMAT_PRINTF
 #define CC_FORMAT_PRINTF(fmt, args)
+#endif
+
+#ifndef CC_FORMAT_SCANF
 #define CC_FORMAT_SCANF(fmt, args)
+#endif
+
+#ifndef CC_PURE_FUNCTION
 #define CC_PURE_FUNCTION
+#endif
+
+#ifndef CC_CONSTANT_FUNCTION
 #define CC_CONSTANT_FUNCTION
+#endif
+
+#ifndef CC_LIKELY
 #define CC_LIKELY(e) (!!(e) == 1)
+#endif
+
+#ifndef CC_UNLIKELY
 #define CC_UNLIKELY(e) (!!(e) == 0)
+#endif
+
+#ifndef CC_PACKED
 #define CC_PACKED
+#endif
+
+#ifndef CC_CONSTRUCTOR
 #define CC_CONSTRUCTOR
+#endif
+
+#ifndef CC_DESTRUCTOR
 #define CC_DESTRUCTOR
 #endif
 
+#ifndef CC_OPEN_ENUM
+#define CC_OPEN_ENUM
+#define CC_CLOSED_ENUM
+#define CC_OPEN_FLAG_ENUM
+#define CC_CLOSED_FLAG_ENUM
+#endif
 
 #if __BLOCKS__
 #define CC_SUPPORT_BLOCKS(...) __VA_ARGS__
@@ -108,27 +213,19 @@
 #endif
 
 
-#ifndef __has_builtin
-#define __has_builtin(x) 0
-#endif
-
-#ifndef __has_feature
-#define __has_feature(x) 0
-#endif
-
-#if __has_builtin(__builtin_nontemporal_load)
+#if __has_builtin(__builtin_nontemporal_load) || defined(__builtin_nontemporal_load)
 #define CC_NON_TEMPORAL_LOAD(addr) __builtin_nontemporal_load(addr)
 #else
 #define CC_NON_TEMPORAL_LOAD(addr) *(addr)
 #endif
 
-#if __has_builtin(__builtin_nontemporal_store)
+#if __has_builtin(__builtin_nontemporal_store) || defined(__builtin_nontemporal_store)
 #define CC_NON_TEMPORAL_STORE(value, addr) __builtin_nontemporal_store(value, addr)
 #else
 #define CC_NON_TEMPORAL_STORE(value, addr) *(addr) = value
 #endif
 
-#if __has_builtin(__builtin_available)
+#if __has_builtin(__builtin_available) || defined(__builtin_available)
 #if __OBJC__
 #define CC_AVAILABLE(...) @available(__VA_ARGS__)
 #else
@@ -140,26 +237,71 @@
 
 #if !defined(CC_DEFAULT_ENUM) && (__has_feature(objc_fixed_enum) || __cplusplus)
 #if __cplusplus
-#define CC_ENUM_DECLARE_NAMED(type, name) type name; enum : type
+#define CC_ENUM_DECLARE_NAMED(name, type, attr) type name; enum attr : type
 #else
-#define CC_ENUM_DECLARE_NAMED(type, name) enum name : type name; enum name : type
+#define CC_ENUM_DECLARE_NAMED(name, type, attr) enum name : type name; enum attr name : type
+#define CC_ENUM_DECLARE_NAMED_IMPLICIT(name, type, attr) type name; enum attr
 #endif
 
-#define CC_ENUM_DECLARE_UNNAMED(type) enum : type
+#define CC_ENUM_DECLARE_UNNAMED(type, attr) enum attr : type
 #else
-#define CC_ENUM_DECLARE_NAMED(type, name) enum name name; enum name
-#define CC_ENUM_DECLARE_UNNAMED(type) enum
+#ifdef CC_DEFAULT_ENUM
+#define CC_ENUM_DECLARE_NAMED(name, type, attr) enum name name; enum attr name
+#else
+#define CC_ENUM_DECLARE_NAMED(name, type, attr) type name; enum attr
+#define CC_ENUM_DECLARE_NAMED_IMPLICIT(name, type, attr) type name; enum attr
+#endif
+
+#define CC_ENUM_DECLARE_UNNAMED(type, attr) enum attr
 #endif
 
 #define CC_ENUM_DECLARE(_1, _2, name, ...) name
 
+#if defined(CC_DEFAULT_ENUM) && !defined(CC_NO_IMPLICIT_ENUM)
+#define CC_NO_IMPLICIT_ENUM
+#endif
+
+/*!
+ * @define CC_EXTENSIBLE_ENUM
+ * @brief Declare an extensible custom width enum.
+ * @description This should take the form of @b CC_EXTENSIBLE_ENUM(type) or @b typedef @b CC_EXTENSIBLE_ENUM(name, type).
+ *              The custom width can be disabled by defining @b CC_DEFAULT_ENUM. Implicit conversion support can be disabled by
+ *              defining @b CC_NO_IMPLICIT_ENUM or when @b CC_DEFAULT_ENUM is used.
+ */
+#ifdef CC_NO_IMPLICIT_ENUM
+#define CC_EXTENSIBLE_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_OPEN_ENUM)
+#else
+#define CC_EXTENSIBLE_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED_IMPLICIT, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_OPEN_ENUM)
+#endif
+
+/*!
+ * @define CC_EXTENSIBLE_FLAG_ENUM
+ * @brief Declare an extensible custom width enum.
+ * @description This should take the form of @b CC_EXTENSIBLE_FLAG_ENUM(type) or @b typedef @b CC_EXTENSIBLE_FLAG_ENUM(name, type).
+ *              The custom width can be disabled by defining @b CC_DEFAULT_ENUM. Implicit conversion support can be disabled by
+ *              defining @b CC_NO_IMPLICIT_ENUM or when @b CC_DEFAULT_ENUM is used.
+ */
+#ifdef CC_NO_IMPLICIT_ENUM
+#define CC_EXTENSIBLE_FLAG_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_OPEN_FLAG_ENUM)
+#else
+#define CC_EXTENSIBLE_FLAG_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED_IMPLICIT, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_OPEN_FLAG_ENUM)
+#endif
+
 /*!
  * @define CC_ENUM
  * @brief Declare a custom width enum.
- * @description This should take the form of @b CC_ENUM(type) or @b typedef @b CC_ENUM(type, name).
+ * @description This should take the form of @b CC_ENUM(type) or @b typedef @b CC_ENUM(name, type).
  *              The custom width can be disabled by defining @b CC_DEFAULT_ENUM.
  */
-#define CC_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__)
+#define CC_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_CLOSED_ENUM)
+
+/*!
+ * @define CC_FLAG_ENUM
+ * @brief Declare a custom width flag enum.
+ * @description This should take the form of @b CC_FLAG_ENUM(type) or @b typedef @b CC_FLAG_ENUM(name, type).
+ *              The custom width can be disabled by defining @b CC_DEFAULT_ENUM.
+ */
+#define CC_FLAG_ENUM(...) CC_ENUM_DECLARE(__VA_ARGS__, CC_ENUM_DECLARE_NAMED, CC_ENUM_DECLARE_UNNAMED)(__VA_ARGS__, CC_CLOSED_FLAG_ENUM)
 
 /*!
  * @define CC_SPIN_WAIT
