@@ -26,11 +26,13 @@
 #ifndef CommonC_DataTypes_h
 #define CommonC_DataTypes_h
 
+#include <CommonC/Extensions.h>
+
 /*!
  * @typedef CCDataHint
  * @brief Hints for the indended usage of the data container.
  */
-enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCDataHint, int) {
     ///Mask for hints for a data container.
     CCDataHintMask = 0xff,
     CCDataHintResize = (1 << 0),
@@ -38,8 +40,6 @@ enum {
     CCDataHintWrite = (1 << 2),
     CCDataHintReadWrite = CCDataHintRead | CCDataHintWrite
 };
-
-typedef int CCDataHint;
 
 /*!
  * @brief The data.

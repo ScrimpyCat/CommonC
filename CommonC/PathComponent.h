@@ -28,8 +28,9 @@
 
 #include <CommonC/Base.h>
 #include <CommonC/Ownership.h>
+#include <CommonC/Extensions.h>
 
-typedef enum {
+typedef CC_ENUM(FSPathComponentType, uint8_t) {
     FSPathComponentTypeInvalid,
     FSPathComponentTypeVolume,
     FSPathComponentTypeRoot,
@@ -39,7 +40,7 @@ typedef enum {
     FSPathComponentTypeFile,
     FSPathComponentTypeExtension,
     FSPathComponentTypeMask = 7
-} FSPathComponentType;
+};
 
 typedef uintptr_t FSPathComponent;
 

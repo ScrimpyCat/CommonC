@@ -50,7 +50,7 @@ typedef uintptr_t CCDictionaryEntry;
  * @typedef CCDictionaryHint
  * @brief Hints for the indended usage of the dictionary.
  */
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCDictionaryHint, uint32_t) {
     ///Mask for hints for a dictionary.
     CCDictionaryHintMask = 0xff,
     ///Dictionary will involve a lot of enumerations.
@@ -74,12 +74,12 @@ typedef enum {
     CCDictionaryHintSizeMedium = (0 << 30),
     ///Dictionary will have lots of elements.
     CCDictionaryHintSizeLarge = (unsigned int)(2 << 30)
-} CCDictionaryHint;
+};
 
 /*!
  * @brief The type of action the enumerator callback will need to perform.
  */
-typedef enum {
+typedef CC_ENUM(CCDictionaryEnumeratorAction, uint8_t) {
     ///Set the enumerator to the head end of the dictionary and return the key/value there.
     CCDictionaryEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the dictionary and return the key/value there.
@@ -90,18 +90,18 @@ typedef enum {
     CCDictionaryEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the key/value at the current position.
     CCDictionaryEnumeratorActionCurrent = CCEnumerableActionCurrent
-} CCDictionaryEnumeratorAction;
+};
 
 /*!
  * @brief The type of enumerator.
  */
-typedef enum {
+typedef CC_ENUM(CCDictionaryEnumeratorType, uint8_t) {
     CCDictionaryEnumeratorTypeMask = 1,
     ///A key enumerator.
     CCDictionaryEnumeratorTypeKey = (0 << 0),
     ///A value enumerator.
     CCDictionaryEnumeratorTypeValue = (1 << 0)
-} CCDictionaryEnumeratorType;
+};
 
 /*!
  * @brief A callback to handle custom destruction of an element when it is removed from the collection.

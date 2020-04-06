@@ -29,18 +29,18 @@
 #include <CommonC/Base.h>
 #include <CommonC/Path.h>
 
-typedef enum {
+typedef CC_FLAG_ENUM(FSAccess, uint8_t) {
     FSAccessReadable = (1 << 0),
     FSAccessWritable = (1 << 1),
     FSAccessExecutable = (1 << 2),
     FSAccessDeletable = (1 << 3)
-} FSAccess;
+};
 
-typedef enum {
+typedef CC_ENUM(FSOperation, uint8_t) {
     FSOperationSuccess,
     FSOperationFailure, //generic failure
     FSOperationPathNotExist
-} FSOperation;
+};
 
 
 /*!

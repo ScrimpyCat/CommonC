@@ -32,7 +32,7 @@
  * @typedef CCCollectionHint
  * @brief Hints for the indended usage of the collection.
  */
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCCollectionHint, uint32_t) {
     ///Mask for hints for a collection.
     CCCollectionHintMask = 0xff,
     ///Collection will involve a lot of enumerations.
@@ -58,14 +58,14 @@ typedef enum {
     CCCollectionHintSizeMedium = (0 << 30),
     ///Collection will have lots of elements.
     CCCollectionHintSizeLarge = (unsigned int)(2 << 30)
-} CCCollectionHint;
+};
 
 /*!
  * @typedef CCOrderedCollectionHint
  * @brief Hints for the indended usage of the ordered collection.
  * @description Can be combined with CCCollectionHint.
  */
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCOrderedCollectionHint, uint32_t) {
     ///Mask for hints for a ordered collection.
     CCOrderedCollectionHintMask = 0xff00,
     ///Collection will involve a lot of replacing.
@@ -78,12 +78,12 @@ typedef enum {
     CCOrderedCollectionHintHeavySorting = (1 << 11) | CCCollectionHintOrdered,
     ///Collection will involve a lot of inserting.
     CCOrderedCollectionHintHeavyInserting = (1 << 12) | CCCollectionHintHeavyInserting | CCCollectionHintOrdered
-} CCOrderedCollectionHint;
+};
 
 /*!
  * @brief The type of action the enumerator callback will need to perform.
  */
-typedef enum {
+typedef CC_ENUM(CCCollectionEnumeratorAction, uint8_t) {
     ///Set the enumerator to the head end of the collection and return the element there.
     CCCollectionEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the collection and return the element there.
@@ -94,7 +94,7 @@ typedef enum {
     CCCollectionEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the element at the current position.
     CCCollectionEnumeratorActionCurrent = CCEnumerableActionCurrent
-} CCCollectionEnumeratorAction;
+};
 
 /*!
  * @brief The collection.

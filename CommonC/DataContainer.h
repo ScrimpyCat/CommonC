@@ -48,7 +48,7 @@ typedef void (*CCDataContainerEnumerable)(const void *Container, CCEnumerable *E
  * @typedef CCDataContainerHint
  * @brief Hints specific to CCDataContainer.
  */
-enum {
+CC_EXTENSIBLE_FLAG_ENUM(uint32_t) {
     ///Mask for hints for a data container.
     CCDataContainerHintMask = 0xff00,
     CCDataContainerHintFree = (1 << 8)

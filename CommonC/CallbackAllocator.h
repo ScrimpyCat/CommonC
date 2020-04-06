@@ -27,14 +27,15 @@
 #define CommonC_CallbackAllocator_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Extensions.h>
 
-typedef enum {
+typedef CC_ENUM(CCCallbackAllocatorEvent, uint8_t) {
     CCCallbackAllocatorEventAllocatePre,
     CCCallbackAllocatorEventAllocatePost,
     CCCallbackAllocatorEventReallocatePre,
     CCCallbackAllocatorEventReallocatePost,
     CCCallbackAllocatorEventDeallocatePre
-} CCCallbackAllocatorEvent;
+};
 
 typedef void (*CCCallbackAllocatorFunction)(CCCallbackAllocatorEvent Event, void *Ptr, size_t *Size);
 

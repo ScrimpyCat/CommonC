@@ -117,7 +117,7 @@ extern const char * const CCTagDebug;
 
 
 #pragma mark - Types
-typedef enum {
+typedef CC_FLAG_ENUM(CCLoggingOption, uint32_t) {
     CCLogOptionNone = 0,
     //Output
     CCLogOptionOutputPrint = (1 << 0),
@@ -126,13 +126,13 @@ typedef enum {
     
     //Asynchronous file output
     CCLogOptionAsync = (1 << 8) //Only available when GCD is supported
-} CCLoggingOption;
+};
 
-typedef enum {
+typedef CC_FLAG_ENUM(CCLogFilterType, uint8_t) {
     CCLogFilterInput = (1 << 0),
     CCLogFilterSpecifier = (1 << 1),
     CCLogFilterMessage = (1 << 2)
-} CCLogFilterType;
+};
 
 typedef struct {
     CCLogFilterType filter;

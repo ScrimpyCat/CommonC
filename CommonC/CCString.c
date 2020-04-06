@@ -89,7 +89,7 @@ _Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER_CCStringEncoding
 _Static_assert(sizeof(CCStringInfo) == (sizeof(CC_STRING_HEADER_CCStringEncodingUTF8) - 1), "Need to update CC_STRING padding");
 _Static_assert(offsetof(CCStringInfo, hint) == 0, "Need to update CC_STRING padding");
 
-enum {
+CC_FLAG_ENUM(uint32_t) {
     CCStringMarkConstant = 0x80000000,
     CCStringMarkHash = 0x40000000,
     CCStringMarkSize = 0x20000000,

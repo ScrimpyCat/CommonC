@@ -105,27 +105,27 @@ typedef uintptr_t CCString;
  */
 typedef uint32_t CCChar;
 
-typedef enum {
+typedef CC_ENUM(CCStringEncoding, uint8_t) {
     CCStringEncodingASCII,
     CCStringEncodingUTF8
-} CCStringEncoding;
+};
 
-typedef enum {
+typedef CC_ENUM(CCStringMapSet, uint8_t) {
     ///A 127 character set, first byte in the set should generally be 0.
     CCStringMapSet127 = 1,
     ///A 63 character set, first byte in the set should generally be 0.
     CCStringMapSet63,
     ///A 31 character set, first byte in the set should generally be 0.
     CCStringMapSet31
-} CCStringMapSet;
+};
 
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCStringHint, uint32_t) {
     CCStringHintEncodingMask = 1,
     CCStringHintFree = (1 << 1),
     CCStringHintCopy = (1 << 2) | CCStringHintFree
-} CCStringHint;
+};
 
-typedef enum {
+typedef CC_ENUM(CCStringEnumeratorAction, uint8_t) {
     ///Set the enumerator to the head end of the string and return the character there.
     CCStringEnumeratorActionHead,
     ///Set the enumerator to the tail end of the string and return the character there.
@@ -136,7 +136,7 @@ typedef enum {
     CCStringEnumeratorActionPrevious,
     ///Return the character at the current position.
     CCStringEnumeratorActionCurrent
-} CCStringEnumeratorAction;
+};
 
 typedef CCChar CCStringMap;
 

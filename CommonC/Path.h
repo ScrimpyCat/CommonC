@@ -42,7 +42,7 @@ typedef struct {
  */
 typedef FSPathInfo *FSPath;
 
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(FSMatch, uint32_t) {
     /// Default matching behaviour
     FSMatchDefault = 0,
     /// Skip file matches.
@@ -70,7 +70,7 @@ typedef enum {
     /// Define a custom wildcard ('*' << FSMatchNameOptionWildcard), default is '*'.
     FSMatchNameOptionWildcard = 25,
     FSMatchNameOptionWildcardMask = (127 << FSMatchNameOptionWildcard)
-} FSMatch;
+};
 
 
 /*!

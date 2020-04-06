@@ -30,16 +30,17 @@
 #include <CommonC/Ownership.h>
 #include <CommonC/Task.h>
 #include <CommonC/ConcurrentGarbageCollector.h>
+#include <CommonC/Extensions.h>
 
 /*!
  * @brief The execution type for the task queue.
  */
-typedef enum {
+typedef CC_ENUM(CCTaskQueueExecute, uint8_t) {
     /// Tasks are executed simultaneously.
     CCTaskQueueExecuteConcurrently,
     /// Tasks are executed one after the other.
     CCTaskQueueExecuteSerially
-} CCTaskQueueExecute;
+};
 
 /*!
  * @brief A task queue.

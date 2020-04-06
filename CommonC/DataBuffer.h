@@ -33,7 +33,7 @@
  * @typedef CCDataBufferHint
  * @brief Hints specific to CCDataBuffer.
  */
-enum {
+CC_EXTENSIBLE_FLAG_ENUM(uint32_t) {
     ///Mask for hints for a data container.
     CCDataBufferHintMask = 0xff00,
     CCDataBufferHintFree = (1 << 8),

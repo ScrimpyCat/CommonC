@@ -48,7 +48,7 @@ typedef uintptr_t CCHashMapEntry;
 /*!
  * @brief The type of action the enumerator callback will need to perform.
  */
-typedef enum {
+typedef CC_ENUM(CCHashMapEnumeratorAction, uint8_t) {
     ///Set the enumerator to the head end of the hashmap and return the key/value there.
     CCHashMapEnumeratorActionHead = CCEnumerableActionHead,
     ///Set the enumerator to the tail end of the hashmap and return the key/value there.
@@ -59,18 +59,18 @@ typedef enum {
     CCHashMapEnumeratorActionPrevious = CCEnumerableActionPrevious,
     ///Return the key/value at the current position.
     CCHashMapEnumeratorActionCurrent = CCEnumerableActionCurrent
-} CCHashMapEnumeratorAction;
+};
 
 /*!
  * @brief The type of enumerator.
  */
-typedef enum {
+typedef CC_FLAG_ENUM(CCHashMapEnumeratorType, uint8_t) {
     CCHashMapEnumeratorTypeMask = 1,
     ///A key enumerator.
     CCHashMapEnumeratorTypeKey = (0 << 0),
     ///A value enumerator.
     CCHashMapEnumeratorTypeValue = (1 << 0)
-} CCHashMapEnumeratorType;
+};
 
 
 #pragma mark - Required Callbacks

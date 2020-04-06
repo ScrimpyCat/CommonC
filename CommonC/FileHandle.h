@@ -31,11 +31,11 @@
 #include <CommonC/FileSystem.h>
 
 
-typedef enum {
+typedef CC_ENUM(FSHandleType, uint8_t) {
     FSHandleTypeRead,
     FSHandleTypeWrite,
     FSHandleTypeUpdate
-} FSHandleType;
+};
 
 typedef struct {
     FSHandleType type;
@@ -43,7 +43,7 @@ typedef struct {
     void *handle;
 } FSHandleInfo, *FSHandle;
 
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(FSBehaviour, uint32_t) {
     FSBehaviourDefault,
     FSBehaviourPreserveOffset = (0 << 0),
     FSBehaviourUpdateOffset = (1 << 0),
@@ -59,7 +59,7 @@ typedef enum {
     FSBehaviourMask        = 0x0000ff,
     FSReadingBehaviourMask = 0x00ff00,
     FSWritingBehaviourMask = 0xff0000
-} FSBehaviour;
+};
 
 
 /*!

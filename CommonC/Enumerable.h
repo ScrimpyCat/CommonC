@@ -33,7 +33,7 @@
 /*!
  * @brief The type of action the enumerable handler callback will need to perform.
  */
-typedef enum {
+typedef CC_ENUM(CCEnumerableAction, uint8_t) {
     ///Set the enumerable to the head end of the enumerable and return the value there.
     CCEnumerableActionHead,
     ///Set the enumerable to the tail end of the enumerable and return the value there.
@@ -44,7 +44,7 @@ typedef enum {
     CCEnumerableActionPrevious,
     ///Return the value at the current position.
     CCEnumerableActionCurrent
-} CCEnumerableAction;
+};
 
 /*!
  * @brief A callback to set the enumerator of the enumerable on a given action.

@@ -27,13 +27,14 @@
 #define CommonC_Enumerator_h
 
 #include <CommonC/Base.h>
+#include <CommonC/Extensions.h>
 
-typedef enum {
+typedef CC_EXTENSIBLE_FLAG_ENUM(CCEnumeratorFormat, uint32_t) {
     CCEnumeratorFormatMask = 3,
     CCEnumeratorFormatInternal = 0,
     CCEnumeratorFormatFixedBatch,
     CCEnumeratorFormatBatch
-} CCEnumeratorFormat;
+};
 
 typedef struct {
     union {

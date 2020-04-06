@@ -31,7 +31,7 @@
 /*!
  * @brief The order result of two values.
  */
-typedef enum {
+typedef CC_ENUM(CCComparisonResult, int8_t) {
     ///Left is smaller than Right
     CCComparisonResultAscending = -1,
     ///Left and Right are the same
@@ -40,7 +40,7 @@ typedef enum {
     CCComparisonResultDescending,
     ///A comparison between left and right is not valid
     CCComparisonResultInvalid
-} CCComparisonResult;
+};
 
 /*!
  * @brief Generic comparator function.
