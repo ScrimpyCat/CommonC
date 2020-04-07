@@ -238,4 +238,151 @@ func(__VA_ARGS__, CCVector); \
 func(__VA_ARGS__, CCAllocatorType); \
 CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
+#define CC_INC(n) CC_INC_##n
+#define CC_INC_0 1
+#define CC_INC_1 2
+#define CC_INC_2 3
+#define CC_INC_3 4
+#define CC_INC_4 5
+#define CC_INC_5 6
+#define CC_INC_6 7
+#define CC_INC_7 8
+#define CC_INC_8 9
+#define CC_INC_9 10
+#define CC_INC_10 11
+#define CC_INC_11 12
+#define CC_INC_12 13
+#define CC_INC_13 14
+#define CC_INC_14 15
+#define CC_INC_15 16
+#define CC_INC_16 17
+#define CC_INC_17 18
+#define CC_INC_18 19
+#define CC_INC_19 20
+#define CC_INC_20 21
+#define CC_INC_21 22
+#define CC_INC_22 23
+#define CC_INC_23 24
+#define CC_INC_24 25
+#define CC_INC_25 26
+#define CC_INC_26 27
+#define CC_INC_27 28
+#define CC_INC_28 29
+#define CC_INC_29 30
+#define CC_INC_30 31
+#define CC_INC_31 32
+#define CC_INC_32 33
+#define CC_INC_33 34
+#define CC_INC_34 35
+#define CC_INC_35 36
+#define CC_INC_36 37
+#define CC_INC_37 38
+#define CC_INC_38 39
+#define CC_INC_39 40
+#define CC_INC_40 41
+#define CC_INC_41 42
+#define CC_INC_42 43
+#define CC_INC_43 44
+#define CC_INC_44 45
+#define CC_INC_45 46
+#define CC_INC_46 47
+#define CC_INC_47 48
+#define CC_INC_48 49
+#define CC_INC_49 50
+#define CC_INC_50 51
+#define CC_INC_51 52
+#define CC_INC_52 53
+#define CC_INC_53 54
+#define CC_INC_54 55
+#define CC_INC_55 56
+#define CC_INC_56 57
+#define CC_INC_57 58
+#define CC_INC_58 59
+#define CC_INC_59 60
+#define CC_INC_60 61
+#define CC_INC_61 62
+#define CC_INC_62 63
+#define CC_INC_63 64
+#define CC_INC_64 65
+#define CC_INC_65 66
+#define CC_INC_66 67
+#define CC_INC_67 68
+#define CC_INC_68 69
+
+#define CC_REPEAT(index, count, fun, ...) CC_REPEAT_##count(index, fun, __VA_ARGS__)
+#define CC_REPEAT_0(index, fun, ...)
+#define CC_REPEAT_1(index, fun, ...) fun(__VA_ARGS__, index)
+#define CC_REPEAT_2(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_1(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_3(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_2(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_4(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_3(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_5(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_4(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_6(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_5(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_7(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_6(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_8(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_7(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_9(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_8(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_10(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_9(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_11(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_10(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_12(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_11(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_13(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_12(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_14(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_13(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_15(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_14(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_16(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_15(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_17(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_16(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_18(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_17(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_19(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_18(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_20(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_19(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_21(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_20(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_22(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_21(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_23(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_22(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_24(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_23(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_25(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_24(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_26(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_25(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_27(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_26(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_28(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_27(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_29(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_28(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_30(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_29(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_31(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_30(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_32(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_31(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_33(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_32(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_34(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_33(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_35(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_34(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_36(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_35(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_37(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_36(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_38(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_37(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_39(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_38(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_40(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_39(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_41(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_40(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_42(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_41(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_43(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_42(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_44(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_43(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_45(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_44(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_46(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_45(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_47(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_46(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_48(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_47(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_49(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_48(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_50(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_49(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_51(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_50(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_52(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_51(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_53(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_52(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_54(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_53(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_55(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_54(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_56(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_55(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_57(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_56(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_58(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_57(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_59(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_58(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_60(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_59(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_61(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_60(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_62(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_61(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_63(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_62(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_64(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_63(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_65(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_64(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_66(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_65(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_67(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_66(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_68(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_67(CC_INC(index), fun, __VA_ARGS__)
+#define CC_REPEAT_69(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_68(CC_INC(index), fun, __VA_ARGS__)
+
+#define CC_RESERVED_BIT(name, index) name##Reserved##index = (1 << index)
+
+#define CC_RESERVED_BITS(name, index, count) CC_REPEAT(index, count, CC_RESERVED_BIT, name)
+
 #endif
