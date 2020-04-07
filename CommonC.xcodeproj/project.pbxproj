@@ -366,6 +366,7 @@
 		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3F41A332333525D0068A135 /* ListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A322333525D0068A135 /* ListTests.m */; };
 		F3F41A3523337CE80068A135 /* ContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A3423337CE80068A135 /* ContainerTests.m */; };
+		F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FDAB62243C91AB00DEB68B /* EnumTests.m */; };
 		F3FEE9DF19424C5900C3626C /* CustomInputFilters.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */; };
 		F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3FEE9E319428E1400C3626C /* CFAllocator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3FEE9E219428E1400C3626C /* CFAllocator.c */; };
@@ -632,6 +633,7 @@
 		F3F41A322333525D0068A135 /* ListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListTests.m; sourceTree = "<group>"; };
 		F3F41A3423337CE80068A135 /* ContainerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContainerTests.m; sourceTree = "<group>"; };
 		F3F9B60D17BA4B4100D50297 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F3FDAB62243C91AB00DEB68B /* EnumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumTests.m; sourceTree = "<group>"; };
 		F3FEE9DE19424C5900C3626C /* CustomInputFilters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CustomInputFilters.c; sourceTree = "<group>"; };
 		F3FEE9E019424C6C00C3626C /* CustomInputFilters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomInputFilters.h; sourceTree = "<group>"; };
 		F3FEE9E219428E1400C3626C /* CFAllocator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CFAllocator.c; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 				F353DD5217ADEE5A00D1674C /* Debug */,
 				F353DD5417ADEE6F00D1674C /* Memory */,
 				F362028717AC3FFD00153E85 /* Supporting Files */,
+				F3FDAB62243C91AB00DEB68B /* EnumTests.m */,
 			);
 			path = CommonCTests;
 			sourceTree = "<group>";
@@ -1800,6 +1803,7 @@
 				F3BC6A3C1877A84F00934291 /* Vectorized3DSSE4_1Tests.m in Sources */,
 				F3067B7B1C591AF300766814 /* Vector4DTests.m in Sources */,
 				F3BC6A361877A82700934291 /* Vectorized3DSSE2Tests.m in Sources */,
+				F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */,
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
