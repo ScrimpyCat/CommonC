@@ -71,8 +71,40 @@ CC_EXTENSIBLE_FLAG_ENUM(EnumTestsType16_flag_ext, uint16_t){ EnumTestsType16_tes
 CC_EXTENSIBLE_FLAG_ENUM(EnumTestsType32_flag_ext, uint32_t){ EnumTestsType32_testSize_flag_ext };
 CC_EXTENSIBLE_FLAG_ENUM(EnumTestsType64_flag_ext, uint64_t){ EnumTestsType64_testSize_flag_ext };
 
+CC_FLAG_ENUM(uint32_t) {
+    CC_RESERVED_BIT(EnumTestsBit, 7),
+    CC_RESERVED_BIT(EnumTestsBit, 9),
+    CC_RESERVED_BITS(EnumTestsBit, 0, 7),
+    CC_RESERVED_BITS(EnumTestsBit, 8, 1),
+    CC_RESERVED_BITS(EnumTestsBit, 10, 7),
+    CC_RESERVED_BITS(EnumTestsBit, 28, 2),
+};
+
 
 @implementation EnumTests
+
+-(void) testBitReservation
+{
+    XCTAssertEqual(EnumTestsBitReserved0, (1 << 0), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved1, (1 << 1), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved2, (1 << 2), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved3, (1 << 3), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved4, (1 << 4), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved5, (1 << 5), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved6, (1 << 6), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved7, (1 << 7), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved8, (1 << 8), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved9, (1 << 9), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved10, (1 << 10), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved11, (1 << 11), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved12, (1 << 12), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved13, (1 << 13), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved14, (1 << 14), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved15, (1 << 15), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved16, (1 << 16), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved28, (1 << 28), @"should have correct value");
+    XCTAssertEqual(EnumTestsBitReserved29, (1 << 29), @"should have correct value");
+}
 
 -(void) testSize
 {
