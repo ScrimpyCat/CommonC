@@ -302,6 +302,9 @@
 		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
 		F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FC1DCA158E006E24B7 /* FileSystemTests.m */; };
 		F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */; };
+		F39C5F4C2523158A00D80F0D /* TemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39C5F4B2523158A00D80F0D /* TemplateTests.m */; };
+		F39C5F4D252315C300D80F0D /* Template.h in Headers */ = {isa = PBXBuildFile; fileRef = F39C5F4A25220CB500D80F0D /* Template.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39C5F4E252315C400D80F0D /* Template.h in Headers */ = {isa = PBXBuildFile; fileRef = F39C5F4A25220CB500D80F0D /* Template.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3A91A50186BC4B100EF0B95 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A91A4F186BC4B100EF0B95 /* XCTest.framework */; };
 		F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */; };
 		F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -569,6 +572,8 @@
 		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
 		F39778FC1DCA158E006E24B7 /* FileSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemTests.m; sourceTree = "<group>"; };
 		F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandleTests.m; sourceTree = "<group>"; };
+		F39C5F4A25220CB500D80F0D /* Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
+		F39C5F4B2523158A00D80F0D /* TemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TemplateTests.m; sourceTree = "<group>"; };
 		F3A91A4F186BC4B100EF0B95 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3A91A51186FF5FA00EF0B95 /* Vector2DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector2DTests.m; sourceTree = "<group>"; };
 		F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDGenerator.h; sourceTree = "<group>"; };
@@ -1023,6 +1028,7 @@
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
+				F39C5F4A25220CB500D80F0D /* Template.h */,
 				F367837E1CCAEB2B00BF8985 /* Ownership.h */,
 				F3AEA856232C85CF00A5CAF3 /* Container.h */,
 				F378DAF5234C05D2000600CC /* ContainerTypes.h */,
@@ -1056,6 +1062,7 @@
 				F353DD5417ADEE6F00D1674C /* Memory */,
 				F362028717AC3FFD00153E85 /* Supporting Files */,
 				F3FDAB62243C91AB00DEB68B /* EnumTests.m */,
+				F39C5F4B2523158A00D80F0D /* TemplateTests.m */,
 			);
 			path = CommonCTests;
 			sourceTree = "<group>";
@@ -1347,6 +1354,7 @@
 				F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
 				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
+				F39C5F4E252315C400D80F0D /* Template.h in Headers */,
 				F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F30437D51C62E11300388C74 /* CollectionList.h in Headers */,
 				F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */,
@@ -1428,6 +1436,7 @@
 				F30529B618014BE500B17CFD /* Vector.h in Headers */,
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
 				F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */,
+				F39C5F4D252315C300D80F0D /* Template.h in Headers */,
 				F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */,
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
@@ -1851,6 +1860,7 @@
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
 				F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
+				F39C5F4C2523158A00D80F0D /* TemplateTests.m in Sources */,
 				F3BC6A2E18776CAE00934291 /* Vectorized2DSSE3Tests.m in Sources */,
 				F3E3E09D187A5B0200A38E72 /* Vector2DSSE4_1Tests.m in Sources */,
 				F353DD9417B6930600D1674C /* BitTricksTests.m in Sources */,

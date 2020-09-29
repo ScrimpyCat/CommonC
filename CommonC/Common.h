@@ -41,6 +41,7 @@
 #include <CommonC/Generics.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Container.h>
+#include <CommonC/Template.h>
 
 #include <CommonC/Types.h>
 #include <CommonC/DebugTypes.h>
