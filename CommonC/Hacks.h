@@ -385,4 +385,58 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
 #define CC_RESERVED_BITS(name, index, count) CC_REPEAT(index, count, CC_RESERVED_BIT, name)
 
+#define CC_MAP(fun, ...) CC_MAP_(fun, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_MAP_(fun, n, ...) CC_MAP__(fun, n, __VA_ARGS__)
+#define CC_MAP__(fun, n, ...) CC_MAP___(fun, CC_MAP_##n, __VA_ARGS__)
+#define CC_MAP___(fun, apply, ...) apply(fun, __VA_ARGS__)
+
+#define CC_MAP_0(fun)
+#define CC_MAP_1(fun, x0) fun(x0, 0)
+#define CC_MAP_2(fun, x0, x1) fun(x0, 0), fun(x1, 1)
+#define CC_MAP_3(fun, x0, x1, x2) fun(x0, 0), fun(x1, 1), fun(x2, 2)
+#define CC_MAP_4(fun, x0, x1, x2, x3) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3)
+#define CC_MAP_5(fun, x0, x1, x2, x3, x4) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4)
+#define CC_MAP_6(fun, x0, x1, x2, x3, x4, x5) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5)
+#define CC_MAP_7(fun, x0, x1, x2, x3, x4, x5, x6) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6)
+#define CC_MAP_8(fun, x0, x1, x2, x3, x4, x5, x6, x7) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7)
+#define CC_MAP_9(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8)
+#define CC_MAP_10(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9)
+#define CC_MAP_11(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10)
+#define CC_MAP_12(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11)
+#define CC_MAP_13(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12)
+#define CC_MAP_14(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13)
+#define CC_MAP_15(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14)
+#define CC_MAP_16(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15)
+#define CC_MAP_17(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16)
+#define CC_MAP_18(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16), fun(x17, 17)
+#define CC_MAP_19(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16), fun(x17, 17), fun(x18, 18)
+#define CC_MAP_20(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16), fun(x17, 17), fun(x18, 18), fun(x19, 19)
+
+#define CC_CAT(...) CC_CAT_(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_CAT_(n, ...) CC_CAT__(n, __VA_ARGS__)
+#define CC_CAT__(n, ...) CC_CAT___(CC_CAT_##n, __VA_ARGS__)
+#define CC_CAT___(cat, ...) cat(__VA_ARGS__)
+
+#define CC_CAT_0()
+#define CC_CAT_1(x0) x0
+#define CC_CAT_2(x0, x1) x0##x1
+#define CC_CAT_3(x0, x1, x2) x0##x1##x2
+#define CC_CAT_4(x0, x1, x2, x3) x0##x1##x2##x3
+#define CC_CAT_5(x0, x1, x2, x3, x4) x0##x1##x2##x3##x4
+#define CC_CAT_6(x0, x1, x2, x3, x4, x5) x0##x1##x2##x3##x4##x5
+#define CC_CAT_7(x0, x1, x2, x3, x4, x5, x6) x0##x1##x2##x3##x4##x5##x6
+#define CC_CAT_8(x0, x1, x2, x3, x4, x5, x6, x7) x0##x1##x2##x3##x4##x5##x6##x7
+#define CC_CAT_9(x0, x1, x2, x3, x4, x5, x6, x7, x8) x0##x1##x2##x3##x4##x5##x6##x7##x8
+#define CC_CAT_10(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9
+#define CC_CAT_11(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10
+#define CC_CAT_12(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11
+#define CC_CAT_13(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12
+#define CC_CAT_14(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13
+#define CC_CAT_15(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14
+#define CC_CAT_16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14##x15
+#define CC_CAT_17(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14##x15##x16
+#define CC_CAT_18(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14##x15##x16##x17
+#define CC_CAT_19(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14##x15##x16##x17##x18
+#define CC_CAT_20(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) x0##x1##x2##x3##x4##x5##x6##x7##x8##x9##x10##x11##x12##x13##x14##x15##x16##x17##x18##x19
+
 #endif
