@@ -294,6 +294,19 @@
 #define CC_TYPE_8_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
 #define CC_TYPE_9_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
 
+//void
+#define CC_TYPE_void(...) void
+#define CC_TYPE_0_void CC_TYPE_void,
+#define CC_TYPE_1_void CC_TYPE_void,
+#define CC_TYPE_2_void CC_TYPE_void,
+#define CC_TYPE_3_void CC_TYPE_void,
+#define CC_TYPE_4_void CC_TYPE_void,
+#define CC_TYPE_5_void CC_TYPE_void,
+#define CC_TYPE_6_void CC_TYPE_void,
+#define CC_TYPE_7_void CC_TYPE_void,
+#define CC_TYPE_8_void CC_TYPE_void,
+#define CC_TYPE_9_void CC_TYPE_void,
+
 //_Bool
 #define CC_TYPE__Bool(...) _Bool
 #define CC_TYPE_0__Bool CC_TYPE__Bool,
