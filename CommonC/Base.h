@@ -39,6 +39,7 @@
 #include <stddef.h>
 #include <inttypes.h>
 #include <limits.h>
+#include <float.h>
 #include <stdbool.h>
 
 #ifndef TRUE
