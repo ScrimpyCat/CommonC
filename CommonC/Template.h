@@ -31,28 +31,48 @@
 
 #pragma mark Mangling
 
-#define CC_MANGLE_TYPE(x, ...) CC_MANGLE_TYPE_0_(CC_MANGLE_TYPE_0_##x)
+#define CC_MANGLE_TYPE(x, ...) CC_MANGLE_TYPE_0(x)
 
-#define CC_MANGLE_TYPE_0(x, ...) CC_MANGLE_TYPE_0_(CC_MANGLE_TYPE_0_##x)
-#define CC_MANGLE_TYPE_1(x, ...) CC_MANGLE_TYPE_1_(CC_MANGLE_TYPE_1_##x)
-#define CC_MANGLE_TYPE_2(x, ...) CC_MANGLE_TYPE_2_(CC_MANGLE_TYPE_2_##x)
-#define CC_MANGLE_TYPE_3(x, ...) CC_MANGLE_TYPE_3_(CC_MANGLE_TYPE_3_##x)
-#define CC_MANGLE_TYPE_4(x, ...) CC_MANGLE_TYPE_4_(CC_MANGLE_TYPE_4_##x)
-#define CC_MANGLE_TYPE_5(x, ...) CC_MANGLE_TYPE_5_(CC_MANGLE_TYPE_5_##x)
-#define CC_MANGLE_TYPE_6(x, ...) CC_MANGLE_TYPE_6_(CC_MANGLE_TYPE_6_##x)
-#define CC_MANGLE_TYPE_7(x, ...) CC_MANGLE_TYPE_7_(CC_MANGLE_TYPE_7_##x)
-#define CC_MANGLE_TYPE_8(x, ...) CC_MANGLE_TYPE_8_(CC_MANGLE_TYPE_8_##x)
-#define CC_MANGLE_TYPE_9(x, ...) CC_MANGLE_TYPE_9_(CC_MANGLE_TYPE_9_##x)
-#define CC_MANGLE_TYPE_0_(x) x
-#define CC_MANGLE_TYPE_1_(x) x
-#define CC_MANGLE_TYPE_2_(x) x
-#define CC_MANGLE_TYPE_3_(x) x
-#define CC_MANGLE_TYPE_4_(x) x
-#define CC_MANGLE_TYPE_5_(x) x
-#define CC_MANGLE_TYPE_6_(x) x
-#define CC_MANGLE_TYPE_7_(x) x
-#define CC_MANGLE_TYPE_8_(x) x
-#define CC_MANGLE_TYPE_9_(x) x
+#define CC_MANGLE_TYPE_0(x, ...) CC_MANGLE_TYPE_0_(CC_TYPE_0(x))
+#define CC_MANGLE_TYPE_1(x, ...) CC_MANGLE_TYPE_1_(CC_TYPE_1(x))
+#define CC_MANGLE_TYPE_2(x, ...) CC_MANGLE_TYPE_2_(CC_TYPE_2(x))
+#define CC_MANGLE_TYPE_3(x, ...) CC_MANGLE_TYPE_3_(CC_TYPE_3(x))
+#define CC_MANGLE_TYPE_4(x, ...) CC_MANGLE_TYPE_4_(CC_TYPE_4(x))
+#define CC_MANGLE_TYPE_5(x, ...) CC_MANGLE_TYPE_5_(CC_TYPE_5(x))
+#define CC_MANGLE_TYPE_6(x, ...) CC_MANGLE_TYPE_6_(CC_TYPE_6(x))
+#define CC_MANGLE_TYPE_7(x, ...) CC_MANGLE_TYPE_7_(CC_TYPE_7(x))
+#define CC_MANGLE_TYPE_8(x, ...) CC_MANGLE_TYPE_8_(CC_TYPE_8(x))
+#define CC_MANGLE_TYPE_9(x, ...) CC_MANGLE_TYPE_9_(CC_TYPE_9(x))
+#define CC_MANGLE_TYPE_0_(x) CC_MANGLE_TYPE_0__(x)
+#define CC_MANGLE_TYPE_1_(x) CC_MANGLE_TYPE_1__(x)
+#define CC_MANGLE_TYPE_2_(x) CC_MANGLE_TYPE_2__(x)
+#define CC_MANGLE_TYPE_3_(x) CC_MANGLE_TYPE_3__(x)
+#define CC_MANGLE_TYPE_4_(x) CC_MANGLE_TYPE_4__(x)
+#define CC_MANGLE_TYPE_5_(x) CC_MANGLE_TYPE_5__(x)
+#define CC_MANGLE_TYPE_6_(x) CC_MANGLE_TYPE_6__(x)
+#define CC_MANGLE_TYPE_7_(x) CC_MANGLE_TYPE_7__(x)
+#define CC_MANGLE_TYPE_8_(x) CC_MANGLE_TYPE_8__(x)
+#define CC_MANGLE_TYPE_9_(x) CC_MANGLE_TYPE_9__(x)
+#define CC_MANGLE_TYPE_0__(x, ...) CC_MANGLE_TYPE_0___(CC_MANGLE_TYPE_0_##x)
+#define CC_MANGLE_TYPE_1__(x, ...) CC_MANGLE_TYPE_1___(CC_MANGLE_TYPE_1_##x)
+#define CC_MANGLE_TYPE_2__(x, ...) CC_MANGLE_TYPE_2___(CC_MANGLE_TYPE_2_##x)
+#define CC_MANGLE_TYPE_3__(x, ...) CC_MANGLE_TYPE_3___(CC_MANGLE_TYPE_3_##x)
+#define CC_MANGLE_TYPE_4__(x, ...) CC_MANGLE_TYPE_4___(CC_MANGLE_TYPE_4_##x)
+#define CC_MANGLE_TYPE_5__(x, ...) CC_MANGLE_TYPE_5___(CC_MANGLE_TYPE_5_##x)
+#define CC_MANGLE_TYPE_6__(x, ...) CC_MANGLE_TYPE_6___(CC_MANGLE_TYPE_6_##x)
+#define CC_MANGLE_TYPE_7__(x, ...) CC_MANGLE_TYPE_7___(CC_MANGLE_TYPE_7_##x)
+#define CC_MANGLE_TYPE_8__(x, ...) CC_MANGLE_TYPE_8___(CC_MANGLE_TYPE_8_##x)
+#define CC_MANGLE_TYPE_9__(x, ...) CC_MANGLE_TYPE_9___(CC_MANGLE_TYPE_9_##x)
+#define CC_MANGLE_TYPE_0___(x) x
+#define CC_MANGLE_TYPE_1___(x) x
+#define CC_MANGLE_TYPE_2___(x) x
+#define CC_MANGLE_TYPE_3___(x) x
+#define CC_MANGLE_TYPE_4___(x) x
+#define CC_MANGLE_TYPE_5___(x) x
+#define CC_MANGLE_TYPE_6___(x) x
+#define CC_MANGLE_TYPE_7___(x) x
+#define CC_MANGLE_TYPE_8___(x) x
+#define CC_MANGLE_TYPE_9___(x) x
 
 #define CC_MANGLE_TYPE_0_TYPE(...) CC_CAT(__VA_ARGS__)
 #define CC_MANGLE_TYPE_1_TYPE(...) CC_CAT(__VA_ARGS__)
@@ -96,76 +116,116 @@
 #define CC_MANGLE_TYPE_8_PTYPE__(x) p##x
 #define CC_MANGLE_TYPE_9_PTYPE__(x) p##x
 
-#define CC_MANGLE_TYPE_0_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_0(CC_TYPE_0_##x)
-#define CC_MANGLE_TYPE_1_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_1(CC_TYPE_1_##x)
-#define CC_MANGLE_TYPE_2_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_2(CC_TYPE_2_##x)
-#define CC_MANGLE_TYPE_3_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_3(CC_TYPE_3_##x)
-#define CC_MANGLE_TYPE_4_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_4(CC_TYPE_4_##x)
-#define CC_MANGLE_TYPE_5_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_5(CC_TYPE_5_##x)
-#define CC_MANGLE_TYPE_6_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_6(CC_TYPE_6_##x)
-#define CC_MANGLE_TYPE_7_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_7(CC_TYPE_7_##x)
-#define CC_MANGLE_TYPE_8_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_8(CC_TYPE_8_##x)
-#define CC_MANGLE_TYPE_9_FPTYPE(x) CC_MANGLE_FPTYPE_EXPAND_9(CC_TYPE_9_##x)
-#define CC_MANGLE_FPTYPE_EXPAND_0(x, ...) CC_MANGLE_FPTYPE_EXPAND_0_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_1(x, ...) CC_MANGLE_FPTYPE_EXPAND_1_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_2(x, ...) CC_MANGLE_FPTYPE_EXPAND_2_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_3(x, ...) CC_MANGLE_FPTYPE_EXPAND_3_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_4(x, ...) CC_MANGLE_FPTYPE_EXPAND_4_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_5(x, ...) CC_MANGLE_FPTYPE_EXPAND_5_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_6(x, ...) CC_MANGLE_FPTYPE_EXPAND_6_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_7(x, ...) CC_MANGLE_FPTYPE_EXPAND_7_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_8(x, ...) CC_MANGLE_FPTYPE_EXPAND_8_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_9(x, ...) CC_MANGLE_FPTYPE_EXPAND_9_(x)
-#define CC_MANGLE_FPTYPE_EXPAND_0_(x, ...) CC_MANGLE_FPTYPE_EXPAND_0__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_1_(x, ...) CC_MANGLE_FPTYPE_EXPAND_1__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_2_(x, ...) CC_MANGLE_FPTYPE_EXPAND_2__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_3_(x, ...) CC_MANGLE_FPTYPE_EXPAND_3__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_4_(x, ...) CC_MANGLE_FPTYPE_EXPAND_4__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_5_(x, ...) CC_MANGLE_FPTYPE_EXPAND_5__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_6_(x, ...) CC_MANGLE_FPTYPE_EXPAND_6__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_7_(x, ...) CC_MANGLE_FPTYPE_EXPAND_7__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_8_(x, ...) CC_MANGLE_FPTYPE_EXPAND_8__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_9_(x, ...) CC_MANGLE_FPTYPE_EXPAND_9__(x(__VA_ARGS__), CC_MANGLE_FPTYPE_CONSUME __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_0__(r, ...) CC_MANGLE_FPTYPE_EXPAND_0___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_1__(r, ...) CC_MANGLE_FPTYPE_EXPAND_1___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_2__(r, ...) CC_MANGLE_FPTYPE_EXPAND_2___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_3__(r, ...) CC_MANGLE_FPTYPE_EXPAND_3___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_4__(r, ...) CC_MANGLE_FPTYPE_EXPAND_4___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_5__(r, ...) CC_MANGLE_FPTYPE_EXPAND_5___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_6__(r, ...) CC_MANGLE_FPTYPE_EXPAND_6___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_7__(r, ...) CC_MANGLE_FPTYPE_EXPAND_7___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_8__(r, ...) CC_MANGLE_FPTYPE_EXPAND_8___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_9__(r, ...) CC_MANGLE_FPTYPE_EXPAND_9___(r, __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_0___(r, ...) CC_MANGLE_FPTYPE_EXPAND_0____(CC_MANGLE_TYPE_1_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_0 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_1___(r, ...) CC_MANGLE_FPTYPE_EXPAND_1____(CC_MANGLE_TYPE_2_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_1 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_2___(r, ...) CC_MANGLE_FPTYPE_EXPAND_2____(CC_MANGLE_TYPE_3_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_2 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_3___(r, ...) CC_MANGLE_FPTYPE_EXPAND_3____(CC_MANGLE_TYPE_4_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_3 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_4___(r, ...) CC_MANGLE_FPTYPE_EXPAND_4____(CC_MANGLE_TYPE_5_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_4 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_5___(r, ...) CC_MANGLE_FPTYPE_EXPAND_5____(CC_MANGLE_TYPE_6_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_5 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_6___(r, ...) CC_MANGLE_FPTYPE_EXPAND_6____(CC_MANGLE_TYPE_7_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_6 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_7___(r, ...) CC_MANGLE_FPTYPE_EXPAND_7____(CC_MANGLE_TYPE_8_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_7 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_8___(r, ...) CC_MANGLE_FPTYPE_EXPAND_8____(CC_MANGLE_TYPE_9_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_8 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_9___(r, ...) CC_MANGLE_FPTYPE_EXPAND_9____(CC_MANGLE_TYPE_10_##r, CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_9 __VA_ARGS__)
-#define CC_MANGLE_FPTYPE_EXPAND_0____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_0_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_1____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_1_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_2____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_2_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_3____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_3_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_4____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_4_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_5____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_5_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_6____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_6_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_7____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_7_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_8____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_8_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_9____(r, n, t) CC_MANGLE_FPTYPE_EXPAND_9_____(r, n, _, t)
-#define CC_MANGLE_FPTYPE_EXPAND_0_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_1_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_2_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_3_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_4_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_5_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_6_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_7_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_8_____(r, n, s, t) fp##n##r##s##t
-#define CC_MANGLE_FPTYPE_EXPAND_9_____(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_TYPE_0_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_0(CC_TYPE_0_##x)
+#define CC_MANGLE_TYPE_1_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_1(CC_TYPE_1_##x)
+#define CC_MANGLE_TYPE_2_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_2(CC_TYPE_2_##x)
+#define CC_MANGLE_TYPE_3_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_3(CC_TYPE_3_##x)
+#define CC_MANGLE_TYPE_4_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_4(CC_TYPE_4_##x)
+#define CC_MANGLE_TYPE_5_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_5(CC_TYPE_5_##x)
+#define CC_MANGLE_TYPE_6_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_6(CC_TYPE_6_##x)
+#define CC_MANGLE_TYPE_7_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_7(CC_TYPE_7_##x)
+#define CC_MANGLE_TYPE_8_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_8(CC_TYPE_8_##x)
+#define CC_MANGLE_TYPE_9_FPTYPE(x, ...) CC_MANGLE_FPTYPE_EXPAND_9(CC_TYPE_9_##x)
+#define CC_MANGLE_FPTYPE_EXPAND_0(x, ...) CC_MANGLE_FPTYPE_EXPAND_0__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_1(x, ...) CC_MANGLE_FPTYPE_EXPAND_1__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_2(x, ...) CC_MANGLE_FPTYPE_EXPAND_2__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_3(x, ...) CC_MANGLE_FPTYPE_EXPAND_3__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_4(x, ...) CC_MANGLE_FPTYPE_EXPAND_4__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_5(x, ...) CC_MANGLE_FPTYPE_EXPAND_5__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_6(x, ...) CC_MANGLE_FPTYPE_EXPAND_6__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_7(x, ...) CC_MANGLE_FPTYPE_EXPAND_7__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_8(x, ...) CC_MANGLE_FPTYPE_EXPAND_8__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_9(x, ...) CC_MANGLE_FPTYPE_EXPAND_9__(x)
+#define CC_MANGLE_FPTYPE_EXPAND_0__(...) CC_MANGLE_FPTYPE_EXPAND_0___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1__(...) CC_MANGLE_FPTYPE_EXPAND_1___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2__(...) CC_MANGLE_FPTYPE_EXPAND_2___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3__(...) CC_MANGLE_FPTYPE_EXPAND_3___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4__(...) CC_MANGLE_FPTYPE_EXPAND_4___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5__(...) CC_MANGLE_FPTYPE_EXPAND_5___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6__(...) CC_MANGLE_FPTYPE_EXPAND_6___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7__(...) CC_MANGLE_FPTYPE_EXPAND_7___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8__(...) CC_MANGLE_FPTYPE_EXPAND_8___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9__(...) CC_MANGLE_FPTYPE_EXPAND_9___(CC_MANGLE_RETURN_##__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0___(...) CC_MANGLE_FPTYPE_EXPAND_0____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1___(...) CC_MANGLE_FPTYPE_EXPAND_1____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2___(...) CC_MANGLE_FPTYPE_EXPAND_2____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3___(...) CC_MANGLE_FPTYPE_EXPAND_3____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4___(...) CC_MANGLE_FPTYPE_EXPAND_4____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5___(...) CC_MANGLE_FPTYPE_EXPAND_5____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6___(...) CC_MANGLE_FPTYPE_EXPAND_6____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7___(...) CC_MANGLE_FPTYPE_EXPAND_7____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8___(...) CC_MANGLE_FPTYPE_EXPAND_8____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9___(...) CC_MANGLE_FPTYPE_EXPAND_9____(__VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0____(x, ...) CC_MANGLE_FPTYPE_EXPAND_0_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1____(x, ...) CC_MANGLE_FPTYPE_EXPAND_1_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2____(x, ...) CC_MANGLE_FPTYPE_EXPAND_2_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3____(x, ...) CC_MANGLE_FPTYPE_EXPAND_3_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4____(x, ...) CC_MANGLE_FPTYPE_EXPAND_4_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5____(x, ...) CC_MANGLE_FPTYPE_EXPAND_5_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6____(x, ...) CC_MANGLE_FPTYPE_EXPAND_6_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7____(x, ...) CC_MANGLE_FPTYPE_EXPAND_7_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8____(x, ...) CC_MANGLE_FPTYPE_EXPAND_8_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9____(x, ...) CC_MANGLE_FPTYPE_EXPAND_9_____(x(__VA_ARGS__), __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_0______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_1______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_2______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_3______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_4______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_5______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_6______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_7______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_8______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9_____(x, ...) CC_MANGLE_FPTYPE_EXPAND_9______(x, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_0_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_1______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_1_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_2______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_2_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_3______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_3_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_4______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_4_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_5______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_5_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_6______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_6_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_7______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_7_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_8______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_8_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_9______(r, x, ...) CC_MANGLE_FPTYPE_EXPAND_9_______(r, CC_MANGLE_FPTYPE_CONSUME x)
+#define CC_MANGLE_FPTYPE_EXPAND_0_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_0________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_1________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_2________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_3________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_4________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_5________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_6________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_7________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_8________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9_______(r, ...) CC_MANGLE_FPTYPE_EXPAND_9________(r, __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0________(r, ...) CC_MANGLE_FPTYPE_EXPAND_0_________(CC_MANGLE_TYPE_1(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_0 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_1________(r, ...) CC_MANGLE_FPTYPE_EXPAND_1_________(CC_MANGLE_TYPE_2(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_1 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_2________(r, ...) CC_MANGLE_FPTYPE_EXPAND_2_________(CC_MANGLE_TYPE_3(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_2 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_3________(r, ...) CC_MANGLE_FPTYPE_EXPAND_3_________(CC_MANGLE_TYPE_4(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_3 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_4________(r, ...) CC_MANGLE_FPTYPE_EXPAND_4_________(CC_MANGLE_TYPE_5(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_4 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_5________(r, ...) CC_MANGLE_FPTYPE_EXPAND_5_________(CC_MANGLE_TYPE_6(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_5 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_6________(r, ...) CC_MANGLE_FPTYPE_EXPAND_6_________(CC_MANGLE_TYPE_7(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_6 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_7________(r, ...) CC_MANGLE_FPTYPE_EXPAND_7_________(CC_MANGLE_TYPE_8(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_7 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_8________(r, ...) CC_MANGLE_FPTYPE_EXPAND_8_________(CC_MANGLE_TYPE_9(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_8 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_9________(r, ...) CC_MANGLE_FPTYPE_EXPAND_9_________(CC_MANGLE_TYPE_10(r), CC_VA_ARG_COUNT __VA_ARGS__, CC_MANGLE_TYPE_LIST_9 __VA_ARGS__)
+#define CC_MANGLE_FPTYPE_EXPAND_0_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_0__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_1_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_1__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_2_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_2__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_3_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_3__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_4_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_4__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_5_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_5__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_6_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_6__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_7_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_7__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_8_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_8__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_9_________(r, n, t) CC_MANGLE_FPTYPE_EXPAND_9__________(r, n, _, t)
+#define CC_MANGLE_FPTYPE_EXPAND_0__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_1__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_2__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_3__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_4__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_5__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_6__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_7__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_8__________(r, n, s, t) fp##n##r##s##t
+#define CC_MANGLE_FPTYPE_EXPAND_9__________(r, n, s, t) fp##n##r##s##t
 
 #define CC_MANGLE_FPTYPE_CONSUME(x, ...) __VA_ARGS__
 
@@ -426,6 +486,8 @@
 #define CC_TYPE_8_TYPE(...) CC_TYPE_TYPE, __VA_ARGS__,
 #define CC_TYPE_9_TYPE(...) CC_TYPE_TYPE, __VA_ARGS__,
 
+#define CC_MANGLE_RETURN_CC_TYPE_TYPE(x, ...) CC_TYPE_TYPE(x), __VA_ARGS__
+
 //Pointer type
 #define CC_TYPE_PTYPE(x, ...) PTYPE(x)
 #define CC_TYPE_0_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
@@ -438,6 +500,8 @@
 #define CC_TYPE_7_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
 #define CC_TYPE_8_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
 #define CC_TYPE_9_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
+
+#define CC_MANGLE_RETURN_CC_TYPE_PTYPE(x, ...) CC_TYPE_PTYPE(x), __VA_ARGS__
 
 //Function pointer type
 #define CC_TYPE_FPTYPE(x, ...) FPTYPE(x)
@@ -452,6 +516,8 @@
 #define CC_TYPE_8_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
 #define CC_TYPE_9_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
 
+#define CC_MANGLE_RETURN_CC_TYPE_FPTYPE(x, ...) CC_TYPE_FPTYPE(x), __VA_ARGS__
+
 //void
 #define CC_TYPE_void(...) void
 #define CC_TYPE_0_void CC_TYPE_void,
@@ -464,6 +530,8 @@
 #define CC_TYPE_7_void CC_TYPE_void,
 #define CC_TYPE_8_void CC_TYPE_void,
 #define CC_TYPE_9_void CC_TYPE_void,
+
+#define CC_MANGLE_RETURN_CC_TYPE_void CC_TYPE_void
 
 #define CC_MANGLE_TYPE_0_void V
 #define CC_MANGLE_TYPE_1_void V
@@ -489,6 +557,8 @@
 #define CC_TYPE_8__Bool CC_TYPE__Bool,
 #define CC_TYPE_9__Bool CC_TYPE__Bool,
 
+#define CC_MANGLE_RETURN_CC_TYPE__Bool CC_TYPE__Bool
+
 #define CC_MANGLE_TYPE_0__Bool B
 #define CC_MANGLE_TYPE_1__Bool B
 #define CC_MANGLE_TYPE_2__Bool B
@@ -513,6 +583,8 @@
 #define CC_TYPE_8_bool CC_TYPE_bool,
 #define CC_TYPE_9_bool CC_TYPE_bool,
 
+#define CC_MANGLE_RETURN_CC_TYPE_bool CC_TYPE_bool
+
 #define CC_MANGLE_TYPE_0_bool B
 #define CC_MANGLE_TYPE_1_bool B
 #define CC_MANGLE_TYPE_2_bool B
@@ -536,6 +608,8 @@
 #define CC_TYPE_7_char CC_TYPE_char,
 #define CC_TYPE_8_char CC_TYPE_char,
 #define CC_TYPE_9_char CC_TYPE_char,
+
+#define CC_MANGLE_RETURN_CC_TYPE_char CC_TYPE_char
 
 #if CHAR_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_char I8
@@ -596,6 +670,8 @@
 #define CC_TYPE_8_short CC_TYPE_short,
 #define CC_TYPE_9_short CC_TYPE_short,
 
+#define CC_MANGLE_RETURN_CC_TYPE_short CC_TYPE_short
+
 #if SHORT_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_short I8
 #define CC_MANGLE_TYPE_1_short I8
@@ -654,6 +730,8 @@
 #define CC_TYPE_7_int CC_TYPE_int,
 #define CC_TYPE_8_int CC_TYPE_int,
 #define CC_TYPE_9_int CC_TYPE_int,
+
+#define CC_MANGLE_RETURN_CC_TYPE_int CC_TYPE_int
 
 #if INT_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_int I8
@@ -714,6 +792,8 @@
 #define CC_TYPE_8_long CC_TYPE_long,
 #define CC_TYPE_9_long CC_TYPE_long,
 
+#define CC_MANGLE_RETURN_CC_TYPE_long CC_TYPE_long
+
 #if LONG_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_long I8
 #define CC_MANGLE_TYPE_1_long I8
@@ -773,6 +853,8 @@
 #define CC_TYPE_8_float CC_TYPE_float,
 #define CC_TYPE_9_float CC_TYPE_float,
 
+#define CC_MANGLE_RETURN_CC_TYPE_float CC_TYPE_float
+
 #if FLT_MANT_DIG == 24
 #define CC_MANGLE_TYPE_0_float F32
 #define CC_MANGLE_TYPE_1_float F32
@@ -809,6 +891,8 @@
 #define CC_TYPE_7_double CC_TYPE_double,
 #define CC_TYPE_8_double CC_TYPE_double,
 #define CC_TYPE_9_double CC_TYPE_double,
+
+#define CC_MANGLE_RETURN_CC_TYPE_double CC_TYPE_double
 
 #if DBL_MANT_DIG == 24
 #define CC_MANGLE_TYPE_0_double F32
@@ -847,6 +931,8 @@
 #define CC_TYPE_8_int8_t CC_TYPE_int8_t,
 #define CC_TYPE_9_int8_t CC_TYPE_int8_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_int8_t CC_TYPE_int8_t
+
 #define CC_MANGLE_TYPE_0_int8_t I8
 #define CC_MANGLE_TYPE_1_int8_t I8
 #define CC_MANGLE_TYPE_2_int8_t I8
@@ -870,6 +956,8 @@
 #define CC_TYPE_7_int16_t CC_TYPE_int16_t,
 #define CC_TYPE_8_int16_t CC_TYPE_int16_t,
 #define CC_TYPE_9_int16_t CC_TYPE_int16_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_int16_t CC_TYPE_int16_t
 
 #define CC_MANGLE_TYPE_0_int16_t I16
 #define CC_MANGLE_TYPE_1_int16_t I16
@@ -895,6 +983,8 @@
 #define CC_TYPE_8_int32_t CC_TYPE_int32_t,
 #define CC_TYPE_9_int32_t CC_TYPE_int32_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_int32_t CC_TYPE_int32_t
+
 #define CC_MANGLE_TYPE_0_int32_t I32
 #define CC_MANGLE_TYPE_1_int32_t I32
 #define CC_MANGLE_TYPE_2_int32_t I32
@@ -918,6 +1008,8 @@
 #define CC_TYPE_7_int64_t CC_TYPE_int64_t,
 #define CC_TYPE_8_int64_t CC_TYPE_int64_t,
 #define CC_TYPE_9_int64_t CC_TYPE_int64_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_int64_t CC_TYPE_int64_t
 
 #define CC_MANGLE_TYPE_0_int64_t I64
 #define CC_MANGLE_TYPE_1_int64_t I64
@@ -943,6 +1035,8 @@
 #define CC_TYPE_8_uint8_t CC_TYPE_uint8_t,
 #define CC_TYPE_9_uint8_t CC_TYPE_uint8_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_uint8_t CC_TYPE_uint8_t
+
 #define CC_MANGLE_TYPE_0_uint8_t U8
 #define CC_MANGLE_TYPE_1_uint8_t U8
 #define CC_MANGLE_TYPE_2_uint8_t U8
@@ -966,6 +1060,8 @@
 #define CC_TYPE_7_uint16_t CC_TYPE_uint16_t,
 #define CC_TYPE_8_uint16_t CC_TYPE_uint16_t,
 #define CC_TYPE_9_uint16_t CC_TYPE_uint16_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_uint16_t CC_TYPE_uint16_t
 
 #define CC_MANGLE_TYPE_0_uint16_t U16
 #define CC_MANGLE_TYPE_1_uint16_t U16
@@ -991,6 +1087,8 @@
 #define CC_TYPE_8_uint32_t CC_TYPE_uint32_t,
 #define CC_TYPE_9_uint32_t CC_TYPE_uint32_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_uint32_t CC_TYPE_uint32_t
+
 #define CC_MANGLE_TYPE_0_uint32_t U32
 #define CC_MANGLE_TYPE_1_uint32_t U32
 #define CC_MANGLE_TYPE_2_uint32_t U32
@@ -1015,6 +1113,8 @@
 #define CC_TYPE_8_uint64_t CC_TYPE_uint64_t,
 #define CC_TYPE_9_uint64_t CC_TYPE_uint64_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_uint64_t CC_TYPE_uint64_t
+
 #define CC_MANGLE_TYPE_0_uint64_t U64
 #define CC_MANGLE_TYPE_1_uint64_t U64
 #define CC_MANGLE_TYPE_2_uint64_t U64
@@ -1038,6 +1138,8 @@
 #define CC_TYPE_7_intmax_t CC_TYPE_intmax_t,
 #define CC_TYPE_8_intmax_t CC_TYPE_intmax_t,
 #define CC_TYPE_9_intmax_t CC_TYPE_intmax_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_intmax_t CC_TYPE_intmax_t
 
 #if INTMAX_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_intmax_t I8
@@ -1098,6 +1200,8 @@
 #define CC_TYPE_8_uintmax_t CC_TYPE_uintmax_t,
 #define CC_TYPE_9_uintmax_t CC_TYPE_uintmax_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_uintmax_t CC_TYPE_uintmax_t
+
 #if UINTMAX_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_uintmax_t U8
 #define CC_MANGLE_TYPE_1_uintmax_t U8
@@ -1156,6 +1260,8 @@
 #define CC_TYPE_7_intptr_t CC_TYPE_intptr_t,
 #define CC_TYPE_8_intptr_t CC_TYPE_intptr_t,
 #define CC_TYPE_9_intptr_t CC_TYPE_intptr_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_intptr_t CC_TYPE_intptr_t
 
 #if INTPTR_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_intptr_t I8
@@ -1216,6 +1322,8 @@
 #define CC_TYPE_8_uintptr_t CC_TYPE_uintptr_t,
 #define CC_TYPE_9_uintptr_t CC_TYPE_uintptr_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_uintptr_t CC_TYPE_uintptr_t
+
 #if UINTPTR_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_uintptr_t U8
 #define CC_MANGLE_TYPE_1_uintptr_t U8
@@ -1275,6 +1383,8 @@
 #define CC_TYPE_8_ptrdiff_t CC_TYPE_ptrdiff_t,
 #define CC_TYPE_9_ptrdiff_t CC_TYPE_ptrdiff_t,
 
+#define CC_MANGLE_RETURN_CC_TYPE_ptrdiff_t CC_TYPE_ptrdiff_t
+
 #if PTRDIFF_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_ptrdiff_t I8
 #define CC_MANGLE_TYPE_1_ptrdiff_t I8
@@ -1333,6 +1443,8 @@
 #define CC_TYPE_7_size_t CC_TYPE_size_t,
 #define CC_TYPE_8_size_t CC_TYPE_size_t,
 #define CC_TYPE_9_size_t CC_TYPE_size_t,
+
+#define CC_MANGLE_RETURN_CC_TYPE_size_t CC_TYPE_size_t
 
 #if SIZE_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_size_t U8
