@@ -31,6 +31,12 @@
 
 #pragma mark Mangling
 
+/*!
+ * @define CC_MANGLE_TYPE
+ * @brief Get the type signature for the given type declaration.
+ * @description Custom types will need to be compatible with @b CC_TYPE and provide their own
+ *              @b CC_MANGLE_TYPE_ defines to specify the signature of the custom type.
+ */
 #define CC_MANGLE_TYPE(x, ...) CC_MANGLE_TYPE_0(x)
 
 #define CC_MANGLE_TYPE_0(x, ...) CC_MANGLE_TYPE_0_(CC_TYPE_0(x))
