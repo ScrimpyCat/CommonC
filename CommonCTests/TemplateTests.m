@@ -34,8 +34,8 @@
 
 @implementation TemplateTests
 
-#define STR(x) STR_(x)
-#define STR_(x) [NSString stringWithUTF8String: #x]
+#define STR(...) STR_(__VA_ARGS__)
+#define STR_(...) [NSString stringWithUTF8String: #__VA_ARGS__]
 
 -(void) testExtractingTypes
 {
@@ -57,6 +57,25 @@
     XCTAssertEqualObjects(EXTRACT(TYPE(foo) var), @"TYPE(foo)", @"should have correct value");
     XCTAssertEqualObjects(EXTRACT(PTYPE(int) *), @"PTYPE(int)", @"should have correct value");
     XCTAssertEqualObjects(EXTRACT(FPTYPE(int(*)(int, int))), @"FPTYPE(int(*)(int, int))", @"should have correct value");
+    
+#define PRESERVE(...) STR(CC_PRESERVE_TYPE(__VA_ARGS__))
+    
+    XCTAssertEqualObjects(PRESERVE(int), @"int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(int var), @"int, var", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(const int), @"int, , int", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(static const int), @"int, , int, const int", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(int, float), @"int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(float, int), @"float,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(_Atomic int), @"int, , int", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE((int)), @"int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(_Atomic(int)), @"int, , (int)", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(static _Atomic(const int)), @"int, , int, (const int), _Atomic(const int)", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(static (_Atomic(const int))), @"int, , int, (const int), (_Atomic(const int))", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(_Alignas(float) int), @"int, , int", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(TYPE(foo)), @"TYPE(foo), , foo,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(TYPE(foo) var), @"TYPE(foo), var, foo, var", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(PTYPE(int) *), @"PTYPE(int), *, int, *", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE(FPTYPE(int(*)(int, int))), @"FPTYPE(int(*)(int, int)), , int(*)(int, int),", @"should have correct value");
 }
 
 -(void) testManglingTypes
@@ -72,8 +91,12 @@
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(void(*)(void))(*)(int))), @"fp1fp1V_V_I32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(int, FPTYPE(void(*)(void))))), @"fp2I32_I32_fp1V_V", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(int, FPTYPE(FPTYPE(char(*)(PTYPE(char)*))(*)(void))))), @"fp2I32_I32_fp1fp1I8_pI8_V", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(int, FPTYPE(FPTYPE(char(*)(PTYPE(char*)))(*)(void))))), @"fp2I32_I32_fp1fp1I8_pI8_V", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(int a, float b))), @"fp2I32_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(const int a, float b))), @"fp2I32_I32_F32", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(int(*)(const _Alignas(char) int a, float b))), @"fp2I32_I32_F32", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(const int(*)(int a, float b))), @"fp2I32_I32_F32", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(const _Alignas(char) int(*)(int a, float b))), @"fp2I32_I32_F32", @"should have correct value");
 }
 
 @end
