@@ -443,6 +443,46 @@
 #define CC_TYPE_9_(x) CC_TYPE_9_ x
 
 #pragma mark -
+#pragma mark Options
+
+/*!
+ * @define CC_TYPE_EMPTY
+ * @brief Gets replaced with nothing.
+ * @description Use this when you're unsure if any type arguments have been passed to @b CC_TYPE
+ *              or @b CC_PRESERVE_TYPE.
+ */
+#define CC_TYPE_CC_TYPE_EMPTY(...)
+#define CC_TYPE_0_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_1_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_2_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_3_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_4_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_5_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_6_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_7_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_8_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+#define CC_TYPE_9_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY,
+
+#define CC_PRESERVE_CC_TYPE_CC_TYPE_EMPTY CC_TYPE_CC_TYPE_EMPTY
+
+/*!
+ * @define CC_TYPE_SKIP
+ * @brief Places a @b CC_TYPE_EMPTY into the sequence if there is no type but is followed by
+ *        parantheses. If there is a type then this gets filtered out and no change is made.
+ */
+#define CC_TYPE_SKIP(x, ...) CC_TYPE_EMPTY (x) __VA_ARGS__
+#define CC_TYPE_0_CC_TYPE_SKIP CC_TYPE_1,
+#define CC_TYPE_1_CC_TYPE_SKIP CC_TYPE_2,
+#define CC_TYPE_2_CC_TYPE_SKIP CC_TYPE_3,
+#define CC_TYPE_3_CC_TYPE_SKIP CC_TYPE_4,
+#define CC_TYPE_4_CC_TYPE_SKIP CC_TYPE_5,
+#define CC_TYPE_5_CC_TYPE_SKIP CC_TYPE_6,
+#define CC_TYPE_6_CC_TYPE_SKIP CC_TYPE_7,
+#define CC_TYPE_7_CC_TYPE_SKIP CC_TYPE_8,
+#define CC_TYPE_8_CC_TYPE_SKIP CC_TYPE_9,
+#define CC_TYPE_9_CC_TYPE_SKIP CC_TYPE_10,
+
+#pragma mark -
 #pragma mark Keywords
 
 //const
@@ -602,16 +642,36 @@
 #define CC_PRESERVE_CC_TYPE_FPTYPE(x, ...) CC_TYPE_FPTYPE(x), __VA_ARGS__
 
 //unsigned
-#define CC_TYPE_unsigned_0(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_1(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_2(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_3(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_4(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_5(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_6(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_7(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_8(...) unsigned_##__VA_ARGS__
-#define CC_TYPE_unsigned_9(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_0(...) CC_TYPE_unsigned_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_1(...) CC_TYPE_unsigned_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_2(...) CC_TYPE_unsigned_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_3(...) CC_TYPE_unsigned_0_(CC_TYPE_4(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_4(...) CC_TYPE_unsigned_0_(CC_TYPE_5(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_5(...) CC_TYPE_unsigned_0_(CC_TYPE_6(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_6(...) CC_TYPE_unsigned_0_(CC_TYPE_7(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_7(...) CC_TYPE_unsigned_0_(CC_TYPE_8(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_8(...) CC_TYPE_unsigned_0_(CC_TYPE_9(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_9(...) CC_TYPE_unsigned_0_(CC_TYPE_10(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_unsigned_0_(...) CC_TYPE_unsigned_0__(__VA_ARGS__)
+#define CC_TYPE_unsigned_1_(...) CC_TYPE_unsigned_1__(__VA_ARGS__)
+#define CC_TYPE_unsigned_2_(...) CC_TYPE_unsigned_2__(__VA_ARGS__)
+#define CC_TYPE_unsigned_3_(...) CC_TYPE_unsigned_3__(__VA_ARGS__)
+#define CC_TYPE_unsigned_4_(...) CC_TYPE_unsigned_4__(__VA_ARGS__)
+#define CC_TYPE_unsigned_5_(...) CC_TYPE_unsigned_5__(__VA_ARGS__)
+#define CC_TYPE_unsigned_6_(...) CC_TYPE_unsigned_6__(__VA_ARGS__)
+#define CC_TYPE_unsigned_7_(...) CC_TYPE_unsigned_7__(__VA_ARGS__)
+#define CC_TYPE_unsigned_8_(...) CC_TYPE_unsigned_8__(__VA_ARGS__)
+#define CC_TYPE_unsigned_9_(...) CC_TYPE_unsigned_9__(__VA_ARGS__)
+#define CC_TYPE_unsigned_0__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_1__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_2__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_3__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_4__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_5__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_6__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_7__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_8__(...) unsigned_##__VA_ARGS__
+#define CC_TYPE_unsigned_9__(...) unsigned_##__VA_ARGS__
 #define CC_TYPE_0_unsigned CC_TYPE_unsigned_0,
 #define CC_TYPE_1_unsigned CC_TYPE_unsigned_1,
 #define CC_TYPE_2_unsigned CC_TYPE_unsigned_2,
@@ -623,16 +683,16 @@
 #define CC_TYPE_8_unsigned CC_TYPE_unsigned_8,
 #define CC_TYPE_9_unsigned CC_TYPE_unsigned_9,
 
-#define CC_PRESERVE_TYPE_unsigned_0(...) unsigned CC_PRESERVE_TYPE_1(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_1(...) unsigned CC_PRESERVE_TYPE_2(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_2(...) unsigned CC_PRESERVE_TYPE_3(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_3(...) unsigned CC_PRESERVE_TYPE_4(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_4(...) unsigned CC_PRESERVE_TYPE_5(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_5(...) unsigned CC_PRESERVE_TYPE_6(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_6(...) unsigned CC_PRESERVE_TYPE_7(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_7(...) unsigned CC_PRESERVE_TYPE_8(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_8(...) unsigned CC_PRESERVE_TYPE_9(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_unsigned_9(...) unsigned CC_PRESERVE_TYPE_10(__VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_0(...) unsigned CC_PRESERVE_TYPE_1(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_1(...) unsigned CC_PRESERVE_TYPE_2(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_2(...) unsigned CC_PRESERVE_TYPE_3(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_3(...) unsigned CC_PRESERVE_TYPE_4(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_4(...) unsigned CC_PRESERVE_TYPE_5(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_5(...) unsigned CC_PRESERVE_TYPE_6(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_6(...) unsigned CC_PRESERVE_TYPE_7(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_7(...) unsigned CC_PRESERVE_TYPE_8(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_8(...) unsigned CC_PRESERVE_TYPE_9(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_unsigned_9(...) unsigned CC_PRESERVE_TYPE_10(CC_TYPE_SKIP __VA_ARGS__)
 #define CC_PRESERVE_CC_TYPE_unsigned_0 CC_PRESERVE_TYPE_unsigned_0
 #define CC_PRESERVE_CC_TYPE_unsigned_1 CC_PRESERVE_TYPE_unsigned_1
 #define CC_PRESERVE_CC_TYPE_unsigned_2 CC_PRESERVE_TYPE_unsigned_2
@@ -655,17 +715,48 @@
 #define CC_MANGLE_TYPE_8_unsigned_ CC_MANGLE_TYPE_8_unsigned_int
 #define CC_MANGLE_TYPE_9_unsigned_ CC_MANGLE_TYPE_9_unsigned_int
 
+#define CC_MANGLE_TYPE_0_unsigned_CC_TYPE_1_ CC_MANGLE_TYPE_0_unsigned_
+#define CC_MANGLE_TYPE_1_unsigned_CC_TYPE_2_ CC_MANGLE_TYPE_1_unsigned_
+#define CC_MANGLE_TYPE_2_unsigned_CC_TYPE_3_ CC_MANGLE_TYPE_2_unsigned_
+#define CC_MANGLE_TYPE_3_unsigned_CC_TYPE_4_ CC_MANGLE_TYPE_3_unsigned_
+#define CC_MANGLE_TYPE_4_unsigned_CC_TYPE_5_ CC_MANGLE_TYPE_4_unsigned_
+#define CC_MANGLE_TYPE_5_unsigned_CC_TYPE_6_ CC_MANGLE_TYPE_5_unsigned_
+#define CC_MANGLE_TYPE_6_unsigned_CC_TYPE_7_ CC_MANGLE_TYPE_6_unsigned_
+#define CC_MANGLE_TYPE_7_unsigned_CC_TYPE_8_ CC_MANGLE_TYPE_7_unsigned_
+#define CC_MANGLE_TYPE_8_unsigned_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_
+#define CC_MANGLE_TYPE_9_unsigned_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_
+
 //signed
-#define CC_TYPE_signed_0(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_1(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_2(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_3(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_4(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_5(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_6(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_7(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_8(...) signed_##__VA_ARGS__
-#define CC_TYPE_signed_9(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_0(...) CC_TYPE_signed_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_1(...) CC_TYPE_signed_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_2(...) CC_TYPE_signed_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_3(...) CC_TYPE_signed_0_(CC_TYPE_4(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_4(...) CC_TYPE_signed_0_(CC_TYPE_5(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_5(...) CC_TYPE_signed_0_(CC_TYPE_6(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_6(...) CC_TYPE_signed_0_(CC_TYPE_7(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_7(...) CC_TYPE_signed_0_(CC_TYPE_8(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_8(...) CC_TYPE_signed_0_(CC_TYPE_9(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_9(...) CC_TYPE_signed_0_(CC_TYPE_10(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_signed_0_(...) CC_TYPE_signed_0__(__VA_ARGS__)
+#define CC_TYPE_signed_1_(...) CC_TYPE_signed_1__(__VA_ARGS__)
+#define CC_TYPE_signed_2_(...) CC_TYPE_signed_2__(__VA_ARGS__)
+#define CC_TYPE_signed_3_(...) CC_TYPE_signed_3__(__VA_ARGS__)
+#define CC_TYPE_signed_4_(...) CC_TYPE_signed_4__(__VA_ARGS__)
+#define CC_TYPE_signed_5_(...) CC_TYPE_signed_5__(__VA_ARGS__)
+#define CC_TYPE_signed_6_(...) CC_TYPE_signed_6__(__VA_ARGS__)
+#define CC_TYPE_signed_7_(...) CC_TYPE_signed_7__(__VA_ARGS__)
+#define CC_TYPE_signed_8_(...) CC_TYPE_signed_8__(__VA_ARGS__)
+#define CC_TYPE_signed_9_(...) CC_TYPE_signed_9__(__VA_ARGS__)
+#define CC_TYPE_signed_0__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_1__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_2__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_3__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_4__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_5__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_6__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_7__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_8__(...) signed_##__VA_ARGS__
+#define CC_TYPE_signed_9__(...) signed_##__VA_ARGS__
 #define CC_TYPE_0_signed CC_TYPE_signed_0,
 #define CC_TYPE_1_signed CC_TYPE_signed_1,
 #define CC_TYPE_2_signed CC_TYPE_signed_2,
@@ -677,16 +768,16 @@
 #define CC_TYPE_8_signed CC_TYPE_signed_8,
 #define CC_TYPE_9_signed CC_TYPE_signed_9,
 
-#define CC_PRESERVE_TYPE_signed_0(...) signed CC_PRESERVE_TYPE_1(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_1(...) signed CC_PRESERVE_TYPE_2(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_2(...) signed CC_PRESERVE_TYPE_3(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_3(...) signed CC_PRESERVE_TYPE_4(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_4(...) signed CC_PRESERVE_TYPE_5(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_5(...) signed CC_PRESERVE_TYPE_6(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_6(...) signed CC_PRESERVE_TYPE_7(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_7(...) signed CC_PRESERVE_TYPE_8(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_8(...) signed CC_PRESERVE_TYPE_9(__VA_ARGS__)
-#define CC_PRESERVE_TYPE_signed_9(...) signed CC_PRESERVE_TYPE_10(__VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_0(...) signed CC_PRESERVE_TYPE_1(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_1(...) signed CC_PRESERVE_TYPE_2(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_2(...) signed CC_PRESERVE_TYPE_3(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_3(...) signed CC_PRESERVE_TYPE_4(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_4(...) signed CC_PRESERVE_TYPE_5(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_5(...) signed CC_PRESERVE_TYPE_6(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_6(...) signed CC_PRESERVE_TYPE_7(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_7(...) signed CC_PRESERVE_TYPE_8(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_8(...) signed CC_PRESERVE_TYPE_9(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_signed_9(...) signed CC_PRESERVE_TYPE_10(CC_TYPE_SKIP __VA_ARGS__)
 #define CC_PRESERVE_CC_TYPE_signed_0 CC_PRESERVE_TYPE_signed_0
 #define CC_PRESERVE_CC_TYPE_signed_1 CC_PRESERVE_TYPE_signed_1
 #define CC_PRESERVE_CC_TYPE_signed_2 CC_PRESERVE_TYPE_signed_2
@@ -708,6 +799,17 @@
 #define CC_MANGLE_TYPE_7_signed_ CC_MANGLE_TYPE_7_signed_int
 #define CC_MANGLE_TYPE_8_signed_ CC_MANGLE_TYPE_8_signed_int
 #define CC_MANGLE_TYPE_9_signed_ CC_MANGLE_TYPE_9_signed_int
+
+#define CC_MANGLE_TYPE_0_signed_CC_TYPE_1_ CC_MANGLE_TYPE_0_signed_
+#define CC_MANGLE_TYPE_1_signed_CC_TYPE_2_ CC_MANGLE_TYPE_1_signed_
+#define CC_MANGLE_TYPE_2_signed_CC_TYPE_3_ CC_MANGLE_TYPE_2_signed_
+#define CC_MANGLE_TYPE_3_signed_CC_TYPE_4_ CC_MANGLE_TYPE_3_signed_
+#define CC_MANGLE_TYPE_4_signed_CC_TYPE_5_ CC_MANGLE_TYPE_4_signed_
+#define CC_MANGLE_TYPE_5_signed_CC_TYPE_6_ CC_MANGLE_TYPE_5_signed_
+#define CC_MANGLE_TYPE_6_signed_CC_TYPE_7_ CC_MANGLE_TYPE_6_signed_
+#define CC_MANGLE_TYPE_7_signed_CC_TYPE_8_ CC_MANGLE_TYPE_7_signed_
+#define CC_MANGLE_TYPE_8_signed_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_
+#define CC_MANGLE_TYPE_9_signed_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_
 
 //void
 #define CC_TYPE_void(...) void
@@ -1244,294 +1346,408 @@
 #endif
 
 //long
-#define CC_TYPE_long(...) long
-#define CC_TYPE_0_long CC_TYPE_long,
-#define CC_TYPE_1_long CC_TYPE_long,
-#define CC_TYPE_2_long CC_TYPE_long,
-#define CC_TYPE_3_long CC_TYPE_long,
-#define CC_TYPE_4_long CC_TYPE_long,
-#define CC_TYPE_5_long CC_TYPE_long,
-#define CC_TYPE_6_long CC_TYPE_long,
-#define CC_TYPE_7_long CC_TYPE_long,
-#define CC_TYPE_8_long CC_TYPE_long,
-#define CC_TYPE_9_long CC_TYPE_long,
+#define CC_TYPE_long_0(...) CC_TYPE_long_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_1(...) CC_TYPE_long_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_2(...) CC_TYPE_long_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_3(...) CC_TYPE_long_0_(CC_TYPE_4(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_4(...) CC_TYPE_long_0_(CC_TYPE_5(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_5(...) CC_TYPE_long_0_(CC_TYPE_6(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_6(...) CC_TYPE_long_0_(CC_TYPE_7(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_7(...) CC_TYPE_long_0_(CC_TYPE_8(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_8(...) CC_TYPE_long_0_(CC_TYPE_9(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_9(...) CC_TYPE_long_0_(CC_TYPE_10(__VA_ARGS__ CC_TYPE_EMPTY))
+#define CC_TYPE_long_0_(...) CC_TYPE_long_0__(__VA_ARGS__)
+#define CC_TYPE_long_1_(...) CC_TYPE_long_1__(__VA_ARGS__)
+#define CC_TYPE_long_2_(...) CC_TYPE_long_2__(__VA_ARGS__)
+#define CC_TYPE_long_3_(...) CC_TYPE_long_3__(__VA_ARGS__)
+#define CC_TYPE_long_4_(...) CC_TYPE_long_4__(__VA_ARGS__)
+#define CC_TYPE_long_5_(...) CC_TYPE_long_5__(__VA_ARGS__)
+#define CC_TYPE_long_6_(...) CC_TYPE_long_6__(__VA_ARGS__)
+#define CC_TYPE_long_7_(...) CC_TYPE_long_7__(__VA_ARGS__)
+#define CC_TYPE_long_8_(...) CC_TYPE_long_8__(__VA_ARGS__)
+#define CC_TYPE_long_9_(...) CC_TYPE_long_9__(__VA_ARGS__)
+#define CC_TYPE_long_0__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_1__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_2__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_3__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_4__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_5__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_6__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_7__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_8__(...) long_##__VA_ARGS__
+#define CC_TYPE_long_9__(...) long_##__VA_ARGS__
+#define CC_TYPE_0_long CC_TYPE_long_0,
+#define CC_TYPE_1_long CC_TYPE_long_1,
+#define CC_TYPE_2_long CC_TYPE_long_2,
+#define CC_TYPE_3_long CC_TYPE_long_3,
+#define CC_TYPE_4_long CC_TYPE_long_4,
+#define CC_TYPE_5_long CC_TYPE_long_5,
+#define CC_TYPE_6_long CC_TYPE_long_6,
+#define CC_TYPE_7_long CC_TYPE_long_7,
+#define CC_TYPE_8_long CC_TYPE_long_8,
+#define CC_TYPE_9_long CC_TYPE_long_9,
 
-#define CC_PRESERVE_CC_TYPE_long CC_TYPE_long
+#define CC_PRESERVE_TYPE_long_0(...) long CC_PRESERVE_TYPE_1(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_1(...) long CC_PRESERVE_TYPE_2(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_2(...) long CC_PRESERVE_TYPE_3(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_3(...) long CC_PRESERVE_TYPE_4(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_4(...) long CC_PRESERVE_TYPE_5(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_5(...) long CC_PRESERVE_TYPE_6(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_6(...) long CC_PRESERVE_TYPE_7(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_7(...) long CC_PRESERVE_TYPE_8(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_8(...) long CC_PRESERVE_TYPE_9(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_TYPE_long_9(...) long CC_PRESERVE_TYPE_10(CC_TYPE_SKIP __VA_ARGS__)
+#define CC_PRESERVE_CC_TYPE_long_0 CC_PRESERVE_TYPE_long_0
+#define CC_PRESERVE_CC_TYPE_long_1 CC_PRESERVE_TYPE_long_1
+#define CC_PRESERVE_CC_TYPE_long_2 CC_PRESERVE_TYPE_long_2
+#define CC_PRESERVE_CC_TYPE_long_3 CC_PRESERVE_TYPE_long_3
+#define CC_PRESERVE_CC_TYPE_long_4 CC_PRESERVE_TYPE_long_4
+#define CC_PRESERVE_CC_TYPE_long_5 CC_PRESERVE_TYPE_long_5
+#define CC_PRESERVE_CC_TYPE_long_6 CC_PRESERVE_TYPE_long_6
+#define CC_PRESERVE_CC_TYPE_long_7 CC_PRESERVE_TYPE_long_7
+#define CC_PRESERVE_CC_TYPE_long_8 CC_PRESERVE_TYPE_long_8
+#define CC_PRESERVE_CC_TYPE_long_9 CC_PRESERVE_TYPE_long_9
 
 #if LONG_MAX == INT8_MAX
-#define CC_MANGLE_TYPE_0_long I8
-#define CC_MANGLE_TYPE_1_long I8
-#define CC_MANGLE_TYPE_2_long I8
-#define CC_MANGLE_TYPE_3_long I8
-#define CC_MANGLE_TYPE_4_long I8
-#define CC_MANGLE_TYPE_5_long I8
-#define CC_MANGLE_TYPE_6_long I8
-#define CC_MANGLE_TYPE_7_long I8
-#define CC_MANGLE_TYPE_8_long I8
-#define CC_MANGLE_TYPE_9_long I8
+#define CC_MANGLE_TYPE_0_long_ I8
+#define CC_MANGLE_TYPE_1_long_ I8
+#define CC_MANGLE_TYPE_2_long_ I8
+#define CC_MANGLE_TYPE_3_long_ I8
+#define CC_MANGLE_TYPE_4_long_ I8
+#define CC_MANGLE_TYPE_5_long_ I8
+#define CC_MANGLE_TYPE_6_long_ I8
+#define CC_MANGLE_TYPE_7_long_ I8
+#define CC_MANGLE_TYPE_8_long_ I8
+#define CC_MANGLE_TYPE_9_long_ I8
 
-#define CC_MANGLE_TYPE_0_signed_long I8
-#define CC_MANGLE_TYPE_1_signed_long I8
-#define CC_MANGLE_TYPE_2_signed_long I8
-#define CC_MANGLE_TYPE_3_signed_long I8
-#define CC_MANGLE_TYPE_4_signed_long I8
-#define CC_MANGLE_TYPE_5_signed_long I8
-#define CC_MANGLE_TYPE_6_signed_long I8
-#define CC_MANGLE_TYPE_7_signed_long I8
-#define CC_MANGLE_TYPE_8_signed_long I8
-#define CC_MANGLE_TYPE_9_signed_long I8
+#define CC_MANGLE_TYPE_0_signed_long_ I8
+#define CC_MANGLE_TYPE_1_signed_long_ I8
+#define CC_MANGLE_TYPE_2_signed_long_ I8
+#define CC_MANGLE_TYPE_3_signed_long_ I8
+#define CC_MANGLE_TYPE_4_signed_long_ I8
+#define CC_MANGLE_TYPE_5_signed_long_ I8
+#define CC_MANGLE_TYPE_6_signed_long_ I8
+#define CC_MANGLE_TYPE_7_signed_long_ I8
+#define CC_MANGLE_TYPE_8_signed_long_ I8
+#define CC_MANGLE_TYPE_9_signed_long_ I8
 #elif LONG_MAX == INT16_MAX
-#define CC_MANGLE_TYPE_0_long I16
-#define CC_MANGLE_TYPE_1_long I16
-#define CC_MANGLE_TYPE_2_long I16
-#define CC_MANGLE_TYPE_3_long I16
-#define CC_MANGLE_TYPE_4_long I16
-#define CC_MANGLE_TYPE_5_long I16
-#define CC_MANGLE_TYPE_6_long I16
-#define CC_MANGLE_TYPE_7_long I16
-#define CC_MANGLE_TYPE_8_long I16
-#define CC_MANGLE_TYPE_9_long I16
+#define CC_MANGLE_TYPE_0_long_ I16
+#define CC_MANGLE_TYPE_1_long_ I16
+#define CC_MANGLE_TYPE_2_long_ I16
+#define CC_MANGLE_TYPE_3_long_ I16
+#define CC_MANGLE_TYPE_4_long_ I16
+#define CC_MANGLE_TYPE_5_long_ I16
+#define CC_MANGLE_TYPE_6_long_ I16
+#define CC_MANGLE_TYPE_7_long_ I16
+#define CC_MANGLE_TYPE_8_long_ I16
+#define CC_MANGLE_TYPE_9_long_ I16
 
-#define CC_MANGLE_TYPE_0_signed_long I16
-#define CC_MANGLE_TYPE_1_signed_long I16
-#define CC_MANGLE_TYPE_2_signed_long I16
-#define CC_MANGLE_TYPE_3_signed_long I16
-#define CC_MANGLE_TYPE_4_signed_long I16
-#define CC_MANGLE_TYPE_5_signed_long I16
-#define CC_MANGLE_TYPE_6_signed_long I16
-#define CC_MANGLE_TYPE_7_signed_long I16
-#define CC_MANGLE_TYPE_8_signed_long I16
-#define CC_MANGLE_TYPE_9_signed_long I16
+#define CC_MANGLE_TYPE_0_signed_long_ I16
+#define CC_MANGLE_TYPE_1_signed_long_ I16
+#define CC_MANGLE_TYPE_2_signed_long_ I16
+#define CC_MANGLE_TYPE_3_signed_long_ I16
+#define CC_MANGLE_TYPE_4_signed_long_ I16
+#define CC_MANGLE_TYPE_5_signed_long_ I16
+#define CC_MANGLE_TYPE_6_signed_long_ I16
+#define CC_MANGLE_TYPE_7_signed_long_ I16
+#define CC_MANGLE_TYPE_8_signed_long_ I16
+#define CC_MANGLE_TYPE_9_signed_long_ I16
 #elif LONG_MAX == INT32_MAX
-#define CC_MANGLE_TYPE_0_long I32
-#define CC_MANGLE_TYPE_1_long I32
-#define CC_MANGLE_TYPE_2_long I32
-#define CC_MANGLE_TYPE_3_long I32
-#define CC_MANGLE_TYPE_4_long I32
-#define CC_MANGLE_TYPE_5_long I32
-#define CC_MANGLE_TYPE_6_long I32
-#define CC_MANGLE_TYPE_7_long I32
-#define CC_MANGLE_TYPE_8_long I32
-#define CC_MANGLE_TYPE_9_long I32
+#define CC_MANGLE_TYPE_0_long_ I32
+#define CC_MANGLE_TYPE_1_long_ I32
+#define CC_MANGLE_TYPE_2_long_ I32
+#define CC_MANGLE_TYPE_3_long_ I32
+#define CC_MANGLE_TYPE_4_long_ I32
+#define CC_MANGLE_TYPE_5_long_ I32
+#define CC_MANGLE_TYPE_6_long_ I32
+#define CC_MANGLE_TYPE_7_long_ I32
+#define CC_MANGLE_TYPE_8_long_ I32
+#define CC_MANGLE_TYPE_9_long_ I32
 
-#define CC_MANGLE_TYPE_0_signed_long I32
-#define CC_MANGLE_TYPE_1_signed_long I32
-#define CC_MANGLE_TYPE_2_signed_long I32
-#define CC_MANGLE_TYPE_3_signed_long I32
-#define CC_MANGLE_TYPE_4_signed_long I32
-#define CC_MANGLE_TYPE_5_signed_long I32
-#define CC_MANGLE_TYPE_6_signed_long I32
-#define CC_MANGLE_TYPE_7_signed_long I32
-#define CC_MANGLE_TYPE_8_signed_long I32
-#define CC_MANGLE_TYPE_9_signed_long I32
+#define CC_MANGLE_TYPE_0_signed_long_ I32
+#define CC_MANGLE_TYPE_1_signed_long_ I32
+#define CC_MANGLE_TYPE_2_signed_long_ I32
+#define CC_MANGLE_TYPE_3_signed_long_ I32
+#define CC_MANGLE_TYPE_4_signed_long_ I32
+#define CC_MANGLE_TYPE_5_signed_long_ I32
+#define CC_MANGLE_TYPE_6_signed_long_ I32
+#define CC_MANGLE_TYPE_7_signed_long_ I32
+#define CC_MANGLE_TYPE_8_signed_long_ I32
+#define CC_MANGLE_TYPE_9_signed_long_ I32
 #elif LONG_MAX == INT64_MAX
-#define CC_MANGLE_TYPE_0_long I64
-#define CC_MANGLE_TYPE_1_long I64
-#define CC_MANGLE_TYPE_2_long I64
-#define CC_MANGLE_TYPE_3_long I64
-#define CC_MANGLE_TYPE_4_long I64
-#define CC_MANGLE_TYPE_5_long I64
-#define CC_MANGLE_TYPE_6_long I64
-#define CC_MANGLE_TYPE_7_long I64
-#define CC_MANGLE_TYPE_8_long I64
-#define CC_MANGLE_TYPE_9_long I64
+#define CC_MANGLE_TYPE_0_long_ I64
+#define CC_MANGLE_TYPE_1_long_ I64
+#define CC_MANGLE_TYPE_2_long_ I64
+#define CC_MANGLE_TYPE_3_long_ I64
+#define CC_MANGLE_TYPE_4_long_ I64
+#define CC_MANGLE_TYPE_5_long_ I64
+#define CC_MANGLE_TYPE_6_long_ I64
+#define CC_MANGLE_TYPE_7_long_ I64
+#define CC_MANGLE_TYPE_8_long_ I64
+#define CC_MANGLE_TYPE_9_long_ I64
 
-#define CC_MANGLE_TYPE_0_signed_long I64
-#define CC_MANGLE_TYPE_1_signed_long I64
-#define CC_MANGLE_TYPE_2_signed_long I64
-#define CC_MANGLE_TYPE_3_signed_long I64
-#define CC_MANGLE_TYPE_4_signed_long I64
-#define CC_MANGLE_TYPE_5_signed_long I64
-#define CC_MANGLE_TYPE_6_signed_long I64
-#define CC_MANGLE_TYPE_7_signed_long I64
-#define CC_MANGLE_TYPE_8_signed_long I64
-#define CC_MANGLE_TYPE_9_signed_long I64
+#define CC_MANGLE_TYPE_0_signed_long_ I64
+#define CC_MANGLE_TYPE_1_signed_long_ I64
+#define CC_MANGLE_TYPE_2_signed_long_ I64
+#define CC_MANGLE_TYPE_3_signed_long_ I64
+#define CC_MANGLE_TYPE_4_signed_long_ I64
+#define CC_MANGLE_TYPE_5_signed_long_ I64
+#define CC_MANGLE_TYPE_6_signed_long_ I64
+#define CC_MANGLE_TYPE_7_signed_long_ I64
+#define CC_MANGLE_TYPE_8_signed_long_ I64
+#define CC_MANGLE_TYPE_9_signed_long_ I64
 #endif
+
+#define CC_MANGLE_TYPE_0_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_long_
+#define CC_MANGLE_TYPE_1_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_long_
+#define CC_MANGLE_TYPE_2_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_long_
+#define CC_MANGLE_TYPE_3_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_long_
+#define CC_MANGLE_TYPE_4_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_long_
+#define CC_MANGLE_TYPE_5_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_long_
+#define CC_MANGLE_TYPE_6_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_long_
+#define CC_MANGLE_TYPE_7_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_long_
+#define CC_MANGLE_TYPE_8_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_long_
+#define CC_MANGLE_TYPE_9_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_long_
+
+#define CC_MANGLE_TYPE_0_signed_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_signed_long_
+#define CC_MANGLE_TYPE_1_signed_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_signed_long_
+#define CC_MANGLE_TYPE_2_signed_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_signed_long_
+#define CC_MANGLE_TYPE_3_signed_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_signed_long_
+#define CC_MANGLE_TYPE_4_signed_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_signed_long_
+#define CC_MANGLE_TYPE_5_signed_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_signed_long_
+#define CC_MANGLE_TYPE_6_signed_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_signed_long_
+#define CC_MANGLE_TYPE_7_signed_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_signed_long_
+#define CC_MANGLE_TYPE_8_signed_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_long_
+#define CC_MANGLE_TYPE_9_signed_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_long_
 
 //unsigned long
 #if ULONG_MAX == UINT8_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long U8
-#define CC_MANGLE_TYPE_1_unsigned_long U8
-#define CC_MANGLE_TYPE_2_unsigned_long U8
-#define CC_MANGLE_TYPE_3_unsigned_long U8
-#define CC_MANGLE_TYPE_4_unsigned_long U8
-#define CC_MANGLE_TYPE_5_unsigned_long U8
-#define CC_MANGLE_TYPE_6_unsigned_long U8
-#define CC_MANGLE_TYPE_7_unsigned_long U8
-#define CC_MANGLE_TYPE_8_unsigned_long U8
-#define CC_MANGLE_TYPE_9_unsigned_long U8
+#define CC_MANGLE_TYPE_0_unsigned_long_ U8
+#define CC_MANGLE_TYPE_1_unsigned_long_ U8
+#define CC_MANGLE_TYPE_2_unsigned_long_ U8
+#define CC_MANGLE_TYPE_3_unsigned_long_ U8
+#define CC_MANGLE_TYPE_4_unsigned_long_ U8
+#define CC_MANGLE_TYPE_5_unsigned_long_ U8
+#define CC_MANGLE_TYPE_6_unsigned_long_ U8
+#define CC_MANGLE_TYPE_7_unsigned_long_ U8
+#define CC_MANGLE_TYPE_8_unsigned_long_ U8
+#define CC_MANGLE_TYPE_9_unsigned_long_ U8
 #elif ULONG_MAX == UINT16_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long U16
-#define CC_MANGLE_TYPE_1_unsigned_long U16
-#define CC_MANGLE_TYPE_2_unsigned_long U16
-#define CC_MANGLE_TYPE_3_unsigned_long U16
-#define CC_MANGLE_TYPE_4_unsigned_long U16
-#define CC_MANGLE_TYPE_5_unsigned_long U16
-#define CC_MANGLE_TYPE_6_unsigned_long U16
-#define CC_MANGLE_TYPE_7_unsigned_long U16
-#define CC_MANGLE_TYPE_8_unsigned_long U16
-#define CC_MANGLE_TYPE_9_unsigned_long U16
+#define CC_MANGLE_TYPE_0_unsigned_long_ U16
+#define CC_MANGLE_TYPE_1_unsigned_long_ U16
+#define CC_MANGLE_TYPE_2_unsigned_long_ U16
+#define CC_MANGLE_TYPE_3_unsigned_long_ U16
+#define CC_MANGLE_TYPE_4_unsigned_long_ U16
+#define CC_MANGLE_TYPE_5_unsigned_long_ U16
+#define CC_MANGLE_TYPE_6_unsigned_long_ U16
+#define CC_MANGLE_TYPE_7_unsigned_long_ U16
+#define CC_MANGLE_TYPE_8_unsigned_long_ U16
+#define CC_MANGLE_TYPE_9_unsigned_long_ U16
 #elif ULONG_MAX == UINT32_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long U32
-#define CC_MANGLE_TYPE_1_unsigned_long U32
-#define CC_MANGLE_TYPE_2_unsigned_long U32
-#define CC_MANGLE_TYPE_3_unsigned_long U32
-#define CC_MANGLE_TYPE_4_unsigned_long U32
-#define CC_MANGLE_TYPE_5_unsigned_long U32
-#define CC_MANGLE_TYPE_6_unsigned_long U32
-#define CC_MANGLE_TYPE_7_unsigned_long U32
-#define CC_MANGLE_TYPE_8_unsigned_long U32
-#define CC_MANGLE_TYPE_9_unsigned_long U32
+#define CC_MANGLE_TYPE_0_unsigned_long_ U32
+#define CC_MANGLE_TYPE_1_unsigned_long_ U32
+#define CC_MANGLE_TYPE_2_unsigned_long_ U32
+#define CC_MANGLE_TYPE_3_unsigned_long_ U32
+#define CC_MANGLE_TYPE_4_unsigned_long_ U32
+#define CC_MANGLE_TYPE_5_unsigned_long_ U32
+#define CC_MANGLE_TYPE_6_unsigned_long_ U32
+#define CC_MANGLE_TYPE_7_unsigned_long_ U32
+#define CC_MANGLE_TYPE_8_unsigned_long_ U32
+#define CC_MANGLE_TYPE_9_unsigned_long_ U32
 #elif ULONG_MAX == UINT64_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long U64
-#define CC_MANGLE_TYPE_1_unsigned_long U64
-#define CC_MANGLE_TYPE_2_unsigned_long U64
-#define CC_MANGLE_TYPE_3_unsigned_long U64
-#define CC_MANGLE_TYPE_4_unsigned_long U64
-#define CC_MANGLE_TYPE_5_unsigned_long U64
-#define CC_MANGLE_TYPE_6_unsigned_long U64
-#define CC_MANGLE_TYPE_7_unsigned_long U64
-#define CC_MANGLE_TYPE_8_unsigned_long U64
-#define CC_MANGLE_TYPE_9_unsigned_long U64
+#define CC_MANGLE_TYPE_0_unsigned_long_ U64
+#define CC_MANGLE_TYPE_1_unsigned_long_ U64
+#define CC_MANGLE_TYPE_2_unsigned_long_ U64
+#define CC_MANGLE_TYPE_3_unsigned_long_ U64
+#define CC_MANGLE_TYPE_4_unsigned_long_ U64
+#define CC_MANGLE_TYPE_5_unsigned_long_ U64
+#define CC_MANGLE_TYPE_6_unsigned_long_ U64
+#define CC_MANGLE_TYPE_7_unsigned_long_ U64
+#define CC_MANGLE_TYPE_8_unsigned_long_ U64
+#define CC_MANGLE_TYPE_9_unsigned_long_ U64
 #endif
+
+#define CC_MANGLE_TYPE_0_unsigned_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_unsigned_long_
+#define CC_MANGLE_TYPE_1_unsigned_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_unsigned_long_
+#define CC_MANGLE_TYPE_2_unsigned_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_unsigned_long_
+#define CC_MANGLE_TYPE_3_unsigned_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_unsigned_long_
+#define CC_MANGLE_TYPE_4_unsigned_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_unsigned_long_
+#define CC_MANGLE_TYPE_5_unsigned_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_unsigned_long_
+#define CC_MANGLE_TYPE_6_unsigned_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_unsigned_long_
+#define CC_MANGLE_TYPE_7_unsigned_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_unsigned_long_
+#define CC_MANGLE_TYPE_8_unsigned_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_long_
+#define CC_MANGLE_TYPE_9_unsigned_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_long_
 
 //long long
 #if LLONG_MAX == INT8_MAX
-#define CC_MANGLE_TYPE_0_long_long I8
-#define CC_MANGLE_TYPE_1_long_long I8
-#define CC_MANGLE_TYPE_2_long_long I8
-#define CC_MANGLE_TYPE_3_long_long I8
-#define CC_MANGLE_TYPE_4_long_long I8
-#define CC_MANGLE_TYPE_5_long_long I8
-#define CC_MANGLE_TYPE_6_long_long I8
-#define CC_MANGLE_TYPE_7_long_long I8
-#define CC_MANGLE_TYPE_8_long_long I8
-#define CC_MANGLE_TYPE_9_long_long I8
+#define CC_MANGLE_TYPE_0_long_long_ I8
+#define CC_MANGLE_TYPE_1_long_long_ I8
+#define CC_MANGLE_TYPE_2_long_long_ I8
+#define CC_MANGLE_TYPE_3_long_long_ I8
+#define CC_MANGLE_TYPE_4_long_long_ I8
+#define CC_MANGLE_TYPE_5_long_long_ I8
+#define CC_MANGLE_TYPE_6_long_long_ I8
+#define CC_MANGLE_TYPE_7_long_long_ I8
+#define CC_MANGLE_TYPE_8_long_long_ I8
+#define CC_MANGLE_TYPE_9_long_long_ I8
 
-#define CC_MANGLE_TYPE_0_signed_long_long I8
-#define CC_MANGLE_TYPE_1_signed_long_long I8
-#define CC_MANGLE_TYPE_2_signed_long_long I8
-#define CC_MANGLE_TYPE_3_signed_long_long I8
-#define CC_MANGLE_TYPE_4_signed_long_long I8
-#define CC_MANGLE_TYPE_5_signed_long_long I8
-#define CC_MANGLE_TYPE_6_signed_long_long I8
-#define CC_MANGLE_TYPE_7_signed_long_long I8
-#define CC_MANGLE_TYPE_8_signed_long_long I8
-#define CC_MANGLE_TYPE_9_signed_long_long I8
+#define CC_MANGLE_TYPE_0_signed_long_long_ I8
+#define CC_MANGLE_TYPE_1_signed_long_long_ I8
+#define CC_MANGLE_TYPE_2_signed_long_long_ I8
+#define CC_MANGLE_TYPE_3_signed_long_long_ I8
+#define CC_MANGLE_TYPE_4_signed_long_long_ I8
+#define CC_MANGLE_TYPE_5_signed_long_long_ I8
+#define CC_MANGLE_TYPE_6_signed_long_long_ I8
+#define CC_MANGLE_TYPE_7_signed_long_long_ I8
+#define CC_MANGLE_TYPE_8_signed_long_long_ I8
+#define CC_MANGLE_TYPE_9_signed_long_long_ I8
 #elif LLONG_MAX == INT16_MAX
-#define CC_MANGLE_TYPE_0_long_long I16
-#define CC_MANGLE_TYPE_1_long_long I16
-#define CC_MANGLE_TYPE_2_long_long I16
-#define CC_MANGLE_TYPE_3_long_long I16
-#define CC_MANGLE_TYPE_4_long_long I16
-#define CC_MANGLE_TYPE_5_long_long I16
-#define CC_MANGLE_TYPE_6_long_long I16
-#define CC_MANGLE_TYPE_7_long_long I16
-#define CC_MANGLE_TYPE_8_long_long I16
-#define CC_MANGLE_TYPE_9_long_long I16
+#define CC_MANGLE_TYPE_0_long_long_ I16
+#define CC_MANGLE_TYPE_1_long_long_ I16
+#define CC_MANGLE_TYPE_2_long_long_ I16
+#define CC_MANGLE_TYPE_3_long_long_ I16
+#define CC_MANGLE_TYPE_4_long_long_ I16
+#define CC_MANGLE_TYPE_5_long_long_ I16
+#define CC_MANGLE_TYPE_6_long_long_ I16
+#define CC_MANGLE_TYPE_7_long_long_ I16
+#define CC_MANGLE_TYPE_8_long_long_ I16
+#define CC_MANGLE_TYPE_9_long_long_ I16
 
-#define CC_MANGLE_TYPE_0_signed_long_long I16
-#define CC_MANGLE_TYPE_1_signed_long_long I16
-#define CC_MANGLE_TYPE_2_signed_long_long I16
-#define CC_MANGLE_TYPE_3_signed_long_long I16
-#define CC_MANGLE_TYPE_4_signed_long_long I16
-#define CC_MANGLE_TYPE_5_signed_long_long I16
-#define CC_MANGLE_TYPE_6_signed_long_long I16
-#define CC_MANGLE_TYPE_7_signed_long_long I16
-#define CC_MANGLE_TYPE_8_signed_long_long I16
-#define CC_MANGLE_TYPE_9_signed_long_long I16
+#define CC_MANGLE_TYPE_0_signed_long_long_ I16
+#define CC_MANGLE_TYPE_1_signed_long_long_ I16
+#define CC_MANGLE_TYPE_2_signed_long_long_ I16
+#define CC_MANGLE_TYPE_3_signed_long_long_ I16
+#define CC_MANGLE_TYPE_4_signed_long_long_ I16
+#define CC_MANGLE_TYPE_5_signed_long_long_ I16
+#define CC_MANGLE_TYPE_6_signed_long_long_ I16
+#define CC_MANGLE_TYPE_7_signed_long_long_ I16
+#define CC_MANGLE_TYPE_8_signed_long_long_ I16
+#define CC_MANGLE_TYPE_9_signed_long_long_ I16
 #elif LLONG_MAX == INT32_MAX
-#define CC_MANGLE_TYPE_0_long_long I32
-#define CC_MANGLE_TYPE_1_long_long I32
-#define CC_MANGLE_TYPE_2_long_long I32
-#define CC_MANGLE_TYPE_3_long_long I32
-#define CC_MANGLE_TYPE_4_long_long I32
-#define CC_MANGLE_TYPE_5_long_long I32
-#define CC_MANGLE_TYPE_6_long_long I32
-#define CC_MANGLE_TYPE_7_long_long I32
-#define CC_MANGLE_TYPE_8_long_long I32
-#define CC_MANGLE_TYPE_9_long_long I32
+#define CC_MANGLE_TYPE_0_long_long_ I32
+#define CC_MANGLE_TYPE_1_long_long_ I32
+#define CC_MANGLE_TYPE_2_long_long_ I32
+#define CC_MANGLE_TYPE_3_long_long_ I32
+#define CC_MANGLE_TYPE_4_long_long_ I32
+#define CC_MANGLE_TYPE_5_long_long_ I32
+#define CC_MANGLE_TYPE_6_long_long_ I32
+#define CC_MANGLE_TYPE_7_long_long_ I32
+#define CC_MANGLE_TYPE_8_long_long_ I32
+#define CC_MANGLE_TYPE_9_long_long_ I32
 
-#define CC_MANGLE_TYPE_0_signed_long_long I32
-#define CC_MANGLE_TYPE_1_signed_long_long I32
-#define CC_MANGLE_TYPE_2_signed_long_long I32
-#define CC_MANGLE_TYPE_3_signed_long_long I32
-#define CC_MANGLE_TYPE_4_signed_long_long I32
-#define CC_MANGLE_TYPE_5_signed_long_long I32
-#define CC_MANGLE_TYPE_6_signed_long_long I32
-#define CC_MANGLE_TYPE_7_signed_long_long I32
-#define CC_MANGLE_TYPE_8_signed_long_long I32
-#define CC_MANGLE_TYPE_9_signed_long_long I32
+#define CC_MANGLE_TYPE_0_signed_long_long_ I32
+#define CC_MANGLE_TYPE_1_signed_long_long_ I32
+#define CC_MANGLE_TYPE_2_signed_long_long_ I32
+#define CC_MANGLE_TYPE_3_signed_long_long_ I32
+#define CC_MANGLE_TYPE_4_signed_long_long_ I32
+#define CC_MANGLE_TYPE_5_signed_long_long_ I32
+#define CC_MANGLE_TYPE_6_signed_long_long_ I32
+#define CC_MANGLE_TYPE_7_signed_long_long_ I32
+#define CC_MANGLE_TYPE_8_signed_long_long_ I32
+#define CC_MANGLE_TYPE_9_signed_long_long_ I32
 #elif LLONG_MAX == INT64_MAX
-#define CC_MANGLE_TYPE_0_long_long I64
-#define CC_MANGLE_TYPE_1_long_long I64
-#define CC_MANGLE_TYPE_2_long_long I64
-#define CC_MANGLE_TYPE_3_long_long I64
-#define CC_MANGLE_TYPE_4_long_long I64
-#define CC_MANGLE_TYPE_5_long_long I64
-#define CC_MANGLE_TYPE_6_long_long I64
-#define CC_MANGLE_TYPE_7_long_long I64
-#define CC_MANGLE_TYPE_8_long_long I64
-#define CC_MANGLE_TYPE_9_long_long I64
+#define CC_MANGLE_TYPE_0_long_long_ I64
+#define CC_MANGLE_TYPE_1_long_long_ I64
+#define CC_MANGLE_TYPE_2_long_long_ I64
+#define CC_MANGLE_TYPE_3_long_long_ I64
+#define CC_MANGLE_TYPE_4_long_long_ I64
+#define CC_MANGLE_TYPE_5_long_long_ I64
+#define CC_MANGLE_TYPE_6_long_long_ I64
+#define CC_MANGLE_TYPE_7_long_long_ I64
+#define CC_MANGLE_TYPE_8_long_long_ I64
+#define CC_MANGLE_TYPE_9_long_long_ I64
 
-#define CC_MANGLE_TYPE_0_signed_long_long I64
-#define CC_MANGLE_TYPE_1_signed_long_long I64
-#define CC_MANGLE_TYPE_2_signed_long_long I64
-#define CC_MANGLE_TYPE_3_signed_long_long I64
-#define CC_MANGLE_TYPE_4_signed_long_long I64
-#define CC_MANGLE_TYPE_5_signed_long_long I64
-#define CC_MANGLE_TYPE_6_signed_long_long I64
-#define CC_MANGLE_TYPE_7_signed_long_long I64
-#define CC_MANGLE_TYPE_8_signed_long_long I64
-#define CC_MANGLE_TYPE_9_signed_long_long I64
+#define CC_MANGLE_TYPE_0_signed_long_long_ I64
+#define CC_MANGLE_TYPE_1_signed_long_long_ I64
+#define CC_MANGLE_TYPE_2_signed_long_long_ I64
+#define CC_MANGLE_TYPE_3_signed_long_long_ I64
+#define CC_MANGLE_TYPE_4_signed_long_long_ I64
+#define CC_MANGLE_TYPE_5_signed_long_long_ I64
+#define CC_MANGLE_TYPE_6_signed_long_long_ I64
+#define CC_MANGLE_TYPE_7_signed_long_long_ I64
+#define CC_MANGLE_TYPE_8_signed_long_long_ I64
+#define CC_MANGLE_TYPE_9_signed_long_long_ I64
 #endif
+
+#define CC_MANGLE_TYPE_0_long_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_long_long_
+#define CC_MANGLE_TYPE_1_long_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_long_long_
+#define CC_MANGLE_TYPE_2_long_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_long_long_
+#define CC_MANGLE_TYPE_3_long_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_long_long_
+#define CC_MANGLE_TYPE_4_long_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_long_long_
+#define CC_MANGLE_TYPE_5_long_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_long_long_
+#define CC_MANGLE_TYPE_6_long_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_long_long_
+#define CC_MANGLE_TYPE_7_long_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_long_long_
+#define CC_MANGLE_TYPE_8_long_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_long_long_
+#define CC_MANGLE_TYPE_9_long_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_long_long_
+
+#define CC_MANGLE_TYPE_0_signed_long_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_signed_long_long_
+#define CC_MANGLE_TYPE_1_signed_long_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_signed_long_long_
+#define CC_MANGLE_TYPE_2_signed_long_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_signed_long_long_
+#define CC_MANGLE_TYPE_3_signed_long_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_signed_long_long_
+#define CC_MANGLE_TYPE_4_signed_long_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_signed_long_long_
+#define CC_MANGLE_TYPE_5_signed_long_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_signed_long_long_
+#define CC_MANGLE_TYPE_6_signed_long_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_signed_long_long_
+#define CC_MANGLE_TYPE_7_signed_long_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_signed_long_long_
+#define CC_MANGLE_TYPE_8_signed_long_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_long_long_
+#define CC_MANGLE_TYPE_9_signed_long_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_long_long_
 
 //unsigned long long
 #if ULLONG_MAX == UINT8_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long_long U8
-#define CC_MANGLE_TYPE_1_unsigned_long_long U8
-#define CC_MANGLE_TYPE_2_unsigned_long_long U8
-#define CC_MANGLE_TYPE_3_unsigned_long_long U8
-#define CC_MANGLE_TYPE_4_unsigned_long_long U8
-#define CC_MANGLE_TYPE_5_unsigned_long_long U8
-#define CC_MANGLE_TYPE_6_unsigned_long_long U8
-#define CC_MANGLE_TYPE_7_unsigned_long_long U8
-#define CC_MANGLE_TYPE_8_unsigned_long_long U8
-#define CC_MANGLE_TYPE_9_unsigned_long_long U8
+#define CC_MANGLE_TYPE_0_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_1_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_2_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_3_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_4_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_5_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_6_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_7_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_8_unsigned_long_long_ U8
+#define CC_MANGLE_TYPE_9_unsigned_long_long_ U8
 #elif ULLONG_MAX == UINT16_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long_long U16
-#define CC_MANGLE_TYPE_1_unsigned_long_long U16
-#define CC_MANGLE_TYPE_2_unsigned_long_long U16
-#define CC_MANGLE_TYPE_3_unsigned_long_long U16
-#define CC_MANGLE_TYPE_4_unsigned_long_long U16
-#define CC_MANGLE_TYPE_5_unsigned_long_long U16
-#define CC_MANGLE_TYPE_6_unsigned_long_long U16
-#define CC_MANGLE_TYPE_7_unsigned_long_long U16
-#define CC_MANGLE_TYPE_8_unsigned_long_long U16
-#define CC_MANGLE_TYPE_9_unsigned_long_long U16
+#define CC_MANGLE_TYPE_0_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_1_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_2_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_3_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_4_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_5_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_6_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_7_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_8_unsigned_long_long_ U16
+#define CC_MANGLE_TYPE_9_unsigned_long_long_ U16
 #elif ULLONG_MAX == UINT32_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long_long U32
-#define CC_MANGLE_TYPE_1_unsigned_long_long U32
-#define CC_MANGLE_TYPE_2_unsigned_long_long U32
-#define CC_MANGLE_TYPE_3_unsigned_long_long U32
-#define CC_MANGLE_TYPE_4_unsigned_long_long U32
-#define CC_MANGLE_TYPE_5_unsigned_long_long U32
-#define CC_MANGLE_TYPE_6_unsigned_long_long U32
-#define CC_MANGLE_TYPE_7_unsigned_long_long U32
-#define CC_MANGLE_TYPE_8_unsigned_long_long U32
-#define CC_MANGLE_TYPE_9_unsigned_long_long U32
+#define CC_MANGLE_TYPE_0_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_1_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_2_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_3_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_4_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_5_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_6_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_7_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_8_unsigned_long_long_ U32
+#define CC_MANGLE_TYPE_9_unsigned_long_long_ U32
 #elif ULLONG_MAX == UINT64_MAX
-#define CC_MANGLE_TYPE_0_unsigned_long_long U64
-#define CC_MANGLE_TYPE_1_unsigned_long_long U64
-#define CC_MANGLE_TYPE_2_unsigned_long_long U64
-#define CC_MANGLE_TYPE_3_unsigned_long_long U64
-#define CC_MANGLE_TYPE_4_unsigned_long_long U64
-#define CC_MANGLE_TYPE_5_unsigned_long_long U64
-#define CC_MANGLE_TYPE_6_unsigned_long_long U64
-#define CC_MANGLE_TYPE_7_unsigned_long_long U64
-#define CC_MANGLE_TYPE_8_unsigned_long_long U64
-#define CC_MANGLE_TYPE_9_unsigned_long_long U64
+#define CC_MANGLE_TYPE_0_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_1_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_2_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_3_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_4_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_5_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_6_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_7_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_8_unsigned_long_long_ U64
+#define CC_MANGLE_TYPE_9_unsigned_long_long_ U64
 #endif
+
+#define CC_MANGLE_TYPE_0_unsigned_long_long_CC_TYPE_1_ CC_MANGLE_TYPE_0_unsigned_long_long_
+#define CC_MANGLE_TYPE_1_unsigned_long_long_CC_TYPE_2_ CC_MANGLE_TYPE_1_unsigned_long_long_
+#define CC_MANGLE_TYPE_2_unsigned_long_long_CC_TYPE_3_ CC_MANGLE_TYPE_2_unsigned_long_long_
+#define CC_MANGLE_TYPE_3_unsigned_long_long_CC_TYPE_4_ CC_MANGLE_TYPE_3_unsigned_long_long_
+#define CC_MANGLE_TYPE_4_unsigned_long_long_CC_TYPE_5_ CC_MANGLE_TYPE_4_unsigned_long_long_
+#define CC_MANGLE_TYPE_5_unsigned_long_long_CC_TYPE_6_ CC_MANGLE_TYPE_5_unsigned_long_long_
+#define CC_MANGLE_TYPE_6_unsigned_long_long_CC_TYPE_7_ CC_MANGLE_TYPE_6_unsigned_long_long_
+#define CC_MANGLE_TYPE_7_unsigned_long_long_CC_TYPE_8_ CC_MANGLE_TYPE_7_unsigned_long_long_
+#define CC_MANGLE_TYPE_8_unsigned_long_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_long_long_
+#define CC_MANGLE_TYPE_9_unsigned_long_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_long_long_
 
 //float
 #define CC_TYPE_float(...) float
@@ -1570,6 +1786,39 @@
 #define CC_MANGLE_TYPE_7_float F64
 #define CC_MANGLE_TYPE_8_float F64
 #define CC_MANGLE_TYPE_9_float F64
+#elif FLT_MANT_DIG == 64
+#define CC_MANGLE_TYPE_0_float F80
+#define CC_MANGLE_TYPE_1_float F80
+#define CC_MANGLE_TYPE_2_float F80
+#define CC_MANGLE_TYPE_3_float F80
+#define CC_MANGLE_TYPE_4_float F80
+#define CC_MANGLE_TYPE_5_float F80
+#define CC_MANGLE_TYPE_6_float F80
+#define CC_MANGLE_TYPE_7_float F80
+#define CC_MANGLE_TYPE_8_float F80
+#define CC_MANGLE_TYPE_9_float F80
+#elif FLT_MANT_DIG == 113
+#define CC_MANGLE_TYPE_0_float F128
+#define CC_MANGLE_TYPE_1_float F128
+#define CC_MANGLE_TYPE_2_float F128
+#define CC_MANGLE_TYPE_3_float F128
+#define CC_MANGLE_TYPE_4_float F128
+#define CC_MANGLE_TYPE_5_float F128
+#define CC_MANGLE_TYPE_6_float F128
+#define CC_MANGLE_TYPE_7_float F128
+#define CC_MANGLE_TYPE_8_float F128
+#define CC_MANGLE_TYPE_9_float F128
+#elif FLT_MANT_DIG == 237
+#define CC_MANGLE_TYPE_0_float F256
+#define CC_MANGLE_TYPE_1_float F256
+#define CC_MANGLE_TYPE_2_float F256
+#define CC_MANGLE_TYPE_3_float F256
+#define CC_MANGLE_TYPE_4_float F256
+#define CC_MANGLE_TYPE_5_float F256
+#define CC_MANGLE_TYPE_6_float F256
+#define CC_MANGLE_TYPE_7_float F256
+#define CC_MANGLE_TYPE_8_float F256
+#define CC_MANGLE_TYPE_9_float F256
 #endif
 
 //double
@@ -1609,6 +1858,97 @@
 #define CC_MANGLE_TYPE_7_double F64
 #define CC_MANGLE_TYPE_8_double F64
 #define CC_MANGLE_TYPE_9_double F64
+#elif DBL_MANT_DIG == 64
+#define CC_MANGLE_TYPE_0_double F80
+#define CC_MANGLE_TYPE_1_double F80
+#define CC_MANGLE_TYPE_2_double F80
+#define CC_MANGLE_TYPE_3_double F80
+#define CC_MANGLE_TYPE_4_double F80
+#define CC_MANGLE_TYPE_5_double F80
+#define CC_MANGLE_TYPE_6_double F80
+#define CC_MANGLE_TYPE_7_double F80
+#define CC_MANGLE_TYPE_8_double F80
+#define CC_MANGLE_TYPE_9_double F80
+#elif DBL_MANT_DIG == 113
+#define CC_MANGLE_TYPE_0_double F128
+#define CC_MANGLE_TYPE_1_double F128
+#define CC_MANGLE_TYPE_2_double F128
+#define CC_MANGLE_TYPE_3_double F128
+#define CC_MANGLE_TYPE_4_double F128
+#define CC_MANGLE_TYPE_5_double F128
+#define CC_MANGLE_TYPE_6_double F128
+#define CC_MANGLE_TYPE_7_double F128
+#define CC_MANGLE_TYPE_8_double F128
+#define CC_MANGLE_TYPE_9_double F128
+#elif DBL_MANT_DIG == 237
+#define CC_MANGLE_TYPE_0_double F256
+#define CC_MANGLE_TYPE_1_double F256
+#define CC_MANGLE_TYPE_2_double F256
+#define CC_MANGLE_TYPE_3_double F256
+#define CC_MANGLE_TYPE_4_double F256
+#define CC_MANGLE_TYPE_5_double F256
+#define CC_MANGLE_TYPE_6_double F256
+#define CC_MANGLE_TYPE_7_double F256
+#define CC_MANGLE_TYPE_8_double F256
+#define CC_MANGLE_TYPE_9_double F256
+#endif
+
+//long double
+#if LDBL_MANT_DIG == 24
+#define CC_MANGLE_TYPE_0_long_double F32
+#define CC_MANGLE_TYPE_1_long_double F32
+#define CC_MANGLE_TYPE_2_long_double F32
+#define CC_MANGLE_TYPE_3_long_double F32
+#define CC_MANGLE_TYPE_4_long_double F32
+#define CC_MANGLE_TYPE_5_long_double F32
+#define CC_MANGLE_TYPE_6_long_double F32
+#define CC_MANGLE_TYPE_7_long_double F32
+#define CC_MANGLE_TYPE_8_long_double F32
+#define CC_MANGLE_TYPE_9_long_double F32
+#elif LDBL_MANT_DIG == 53
+#define CC_MANGLE_TYPE_0_long_double F64
+#define CC_MANGLE_TYPE_1_long_double F64
+#define CC_MANGLE_TYPE_2_long_double F64
+#define CC_MANGLE_TYPE_3_long_double F64
+#define CC_MANGLE_TYPE_4_long_double F64
+#define CC_MANGLE_TYPE_5_long_double F64
+#define CC_MANGLE_TYPE_6_long_double F64
+#define CC_MANGLE_TYPE_7_long_double F64
+#define CC_MANGLE_TYPE_8_long_double F64
+#define CC_MANGLE_TYPE_9_long_double F64
+#elif LDBL_MANT_DIG == 64
+#define CC_MANGLE_TYPE_0_long_double F80
+#define CC_MANGLE_TYPE_1_long_double F80
+#define CC_MANGLE_TYPE_2_long_double F80
+#define CC_MANGLE_TYPE_3_long_double F80
+#define CC_MANGLE_TYPE_4_long_double F80
+#define CC_MANGLE_TYPE_5_long_double F80
+#define CC_MANGLE_TYPE_6_long_double F80
+#define CC_MANGLE_TYPE_7_long_double F80
+#define CC_MANGLE_TYPE_8_long_double F80
+#define CC_MANGLE_TYPE_9_long_double F80
+#elif LDBL_MANT_DIG == 113
+#define CC_MANGLE_TYPE_0_long_double F128
+#define CC_MANGLE_TYPE_1_long_double F128
+#define CC_MANGLE_TYPE_2_long_double F128
+#define CC_MANGLE_TYPE_3_long_double F128
+#define CC_MANGLE_TYPE_4_long_double F128
+#define CC_MANGLE_TYPE_5_long_double F128
+#define CC_MANGLE_TYPE_6_long_double F128
+#define CC_MANGLE_TYPE_7_long_double F128
+#define CC_MANGLE_TYPE_8_long_double F128
+#define CC_MANGLE_TYPE_9_long_double F128
+#elif LDBL_MANT_DIG == 237
+#define CC_MANGLE_TYPE_0_long_double F256
+#define CC_MANGLE_TYPE_1_long_double F256
+#define CC_MANGLE_TYPE_2_long_double F256
+#define CC_MANGLE_TYPE_3_long_double F256
+#define CC_MANGLE_TYPE_4_long_double F256
+#define CC_MANGLE_TYPE_5_long_double F256
+#define CC_MANGLE_TYPE_6_long_double F256
+#define CC_MANGLE_TYPE_7_long_double F256
+#define CC_MANGLE_TYPE_8_long_double F256
+#define CC_MANGLE_TYPE_9_long_double F256
 #endif
 
 //int8_t
