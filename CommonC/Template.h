@@ -878,6 +878,26 @@
 
 #define CC_PRESERVE_CC_TYPE_TYPE(x, ...) CC_TYPE_TYPE(x), __VA_ARGS__
 
+#define CC_TYPE_DECL_0_TYPE_(x, ...) CC_TYPE_DECL_1(x)
+#define CC_TYPE_DECL_1_TYPE_(x, ...) CC_TYPE_DECL_2(x)
+#define CC_TYPE_DECL_2_TYPE_(x, ...) CC_TYPE_DECL_3(x)
+#define CC_TYPE_DECL_3_TYPE_(x, ...) CC_TYPE_DECL_4(x)
+#define CC_TYPE_DECL_4_TYPE_(x, ...) CC_TYPE_DECL_5(x)
+#define CC_TYPE_DECL_5_TYPE_(x, ...) CC_TYPE_DECL_6(x)
+#define CC_TYPE_DECL_6_TYPE_(x, ...) CC_TYPE_DECL_7(x)
+#define CC_TYPE_DECL_7_TYPE_(x, ...) CC_TYPE_DECL_8(x)
+#define CC_TYPE_DECL_8_TYPE_(x, ...) CC_TYPE_DECL_9(x)
+#define CC_TYPE_DECL_0_TYPE(...) CC_TYPE_DECL_0_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_1_TYPE(...) CC_TYPE_DECL_1_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_2_TYPE(...) CC_TYPE_DECL_2_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_3_TYPE(...) CC_TYPE_DECL_3_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_4_TYPE(...) CC_TYPE_DECL_4_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_5_TYPE(...) CC_TYPE_DECL_5_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_6_TYPE(...) CC_TYPE_DECL_6_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_7_TYPE(...) CC_TYPE_DECL_7_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_8_TYPE(...) CC_TYPE_DECL_8_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_9_TYPE(...) CC_TYPE_DECL_9_TYPE_, __VA_ARGS__,
+
 //Pointer type
 #define CC_TYPE_PTYPE(x, ...) PTYPE(x)
 #define CC_TYPE_0_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
