@@ -575,26 +575,26 @@
 #define CC_TYPE_8_const CC_TYPE_9,
 #define CC_TYPE_9_const CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__const(...) const CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__const(...) const CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__const(...) const CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__const(...) const CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__const(...) const CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__const(...) const CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__const(...) const CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__const(...) const CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__const(...) const CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__const(...) const CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_const CC_TYPE_DECL_0__const,
-#define CC_TYPE_DECL_1_const CC_TYPE_DECL_1__const,
-#define CC_TYPE_DECL_2_const CC_TYPE_DECL_2__const,
-#define CC_TYPE_DECL_3_const CC_TYPE_DECL_3__const,
-#define CC_TYPE_DECL_4_const CC_TYPE_DECL_4__const,
-#define CC_TYPE_DECL_5_const CC_TYPE_DECL_5__const,
-#define CC_TYPE_DECL_6_const CC_TYPE_DECL_6__const,
-#define CC_TYPE_DECL_7_const CC_TYPE_DECL_7__const,
-#define CC_TYPE_DECL_8_const CC_TYPE_DECL_8__const,
-#define CC_TYPE_DECL_9_const CC_TYPE_DECL_9__const,
+#define CC_TYPE_DECL_const_0(...) const CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_const_1(...) const CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_const_2(...) const CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_const_3(...) const CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_const_4(...) const CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_const_5(...) const CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_const_6(...) const CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_const_7(...) const CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_const_8(...) const CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_const_9(...) const CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_const CC_TYPE_DECL_const_0,
+#define CC_TYPE_DECL_1_const CC_TYPE_DECL_const_1,
+#define CC_TYPE_DECL_2_const CC_TYPE_DECL_const_2,
+#define CC_TYPE_DECL_3_const CC_TYPE_DECL_const_3,
+#define CC_TYPE_DECL_4_const CC_TYPE_DECL_const_4,
+#define CC_TYPE_DECL_5_const CC_TYPE_DECL_const_5,
+#define CC_TYPE_DECL_6_const CC_TYPE_DECL_const_6,
+#define CC_TYPE_DECL_7_const CC_TYPE_DECL_const_7,
+#define CC_TYPE_DECL_8_const CC_TYPE_DECL_const_8,
+#define CC_TYPE_DECL_9_const CC_TYPE_DECL_const_9,
 
 //volatile
 #define CC_TYPE_0_volatile CC_TYPE_1,
@@ -608,26 +608,26 @@
 #define CC_TYPE_8_volatile CC_TYPE_9,
 #define CC_TYPE_9_volatile CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__volatile(...) volatile CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__volatile(...) volatile CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__volatile(...) volatile CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__volatile(...) volatile CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__volatile(...) volatile CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__volatile(...) volatile CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__volatile(...) volatile CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__volatile(...) volatile CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__volatile(...) volatile CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__volatile(...) volatile CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_volatile CC_TYPE_DECL_0__volatile,
-#define CC_TYPE_DECL_1_volatile CC_TYPE_DECL_1__volatile,
-#define CC_TYPE_DECL_2_volatile CC_TYPE_DECL_2__volatile,
-#define CC_TYPE_DECL_3_volatile CC_TYPE_DECL_3__volatile,
-#define CC_TYPE_DECL_4_volatile CC_TYPE_DECL_4__volatile,
-#define CC_TYPE_DECL_5_volatile CC_TYPE_DECL_5__volatile,
-#define CC_TYPE_DECL_6_volatile CC_TYPE_DECL_6__volatile,
-#define CC_TYPE_DECL_7_volatile CC_TYPE_DECL_7__volatile,
-#define CC_TYPE_DECL_8_volatile CC_TYPE_DECL_8__volatile,
-#define CC_TYPE_DECL_9_volatile CC_TYPE_DECL_9__volatile,
+#define CC_TYPE_DECL_volatile_0(...) volatile CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_1(...) volatile CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_2(...) volatile CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_3(...) volatile CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_4(...) volatile CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_5(...) volatile CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_6(...) volatile CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_7(...) volatile CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_8(...) volatile CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_volatile_9(...) volatile CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_volatile CC_TYPE_DECL_volatile_0,
+#define CC_TYPE_DECL_1_volatile CC_TYPE_DECL_volatile_1,
+#define CC_TYPE_DECL_2_volatile CC_TYPE_DECL_volatile_2,
+#define CC_TYPE_DECL_3_volatile CC_TYPE_DECL_volatile_3,
+#define CC_TYPE_DECL_4_volatile CC_TYPE_DECL_volatile_4,
+#define CC_TYPE_DECL_5_volatile CC_TYPE_DECL_volatile_5,
+#define CC_TYPE_DECL_6_volatile CC_TYPE_DECL_volatile_6,
+#define CC_TYPE_DECL_7_volatile CC_TYPE_DECL_volatile_7,
+#define CC_TYPE_DECL_8_volatile CC_TYPE_DECL_volatile_8,
+#define CC_TYPE_DECL_9_volatile CC_TYPE_DECL_volatile_9,
 
 //restrict
 #define CC_TYPE_0_restrict CC_TYPE_1,
@@ -641,26 +641,26 @@
 #define CC_TYPE_8_restrict CC_TYPE_9,
 #define CC_TYPE_9_restrict CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__restrict(...) restrict CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__restrict(...) restrict CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__restrict(...) restrict CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__restrict(...) restrict CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__restrict(...) restrict CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__restrict(...) restrict CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__restrict(...) restrict CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__restrict(...) restrict CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__restrict(...) restrict CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__restrict(...) restrict CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_restrict CC_TYPE_DECL_0__restrict,
-#define CC_TYPE_DECL_1_restrict CC_TYPE_DECL_1__restrict,
-#define CC_TYPE_DECL_2_restrict CC_TYPE_DECL_2__restrict,
-#define CC_TYPE_DECL_3_restrict CC_TYPE_DECL_3__restrict,
-#define CC_TYPE_DECL_4_restrict CC_TYPE_DECL_4__restrict,
-#define CC_TYPE_DECL_5_restrict CC_TYPE_DECL_5__restrict,
-#define CC_TYPE_DECL_6_restrict CC_TYPE_DECL_6__restrict,
-#define CC_TYPE_DECL_7_restrict CC_TYPE_DECL_7__restrict,
-#define CC_TYPE_DECL_8_restrict CC_TYPE_DECL_8__restrict,
-#define CC_TYPE_DECL_9_restrict CC_TYPE_DECL_9__restrict,
+#define CC_TYPE_DECL_restrict_0(...) restrict CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_1(...) restrict CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_2(...) restrict CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_3(...) restrict CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_4(...) restrict CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_5(...) restrict CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_6(...) restrict CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_7(...) restrict CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_8(...) restrict CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_restrict_9(...) restrict CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_restrict CC_TYPE_DECL_restrict_0,
+#define CC_TYPE_DECL_1_restrict CC_TYPE_DECL_restrict_1,
+#define CC_TYPE_DECL_2_restrict CC_TYPE_DECL_restrict_2,
+#define CC_TYPE_DECL_3_restrict CC_TYPE_DECL_restrict_3,
+#define CC_TYPE_DECL_4_restrict CC_TYPE_DECL_restrict_4,
+#define CC_TYPE_DECL_5_restrict CC_TYPE_DECL_restrict_5,
+#define CC_TYPE_DECL_6_restrict CC_TYPE_DECL_restrict_6,
+#define CC_TYPE_DECL_7_restrict CC_TYPE_DECL_restrict_7,
+#define CC_TYPE_DECL_8_restrict CC_TYPE_DECL_restrict_8,
+#define CC_TYPE_DECL_9_restrict CC_TYPE_DECL_restrict_9,
 
 //register
 #define CC_TYPE_0_register CC_TYPE_1,
@@ -674,26 +674,26 @@
 #define CC_TYPE_8_register CC_TYPE_9,
 #define CC_TYPE_9_register CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__register(...) register CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__register(...) register CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__register(...) register CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__register(...) register CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__register(...) register CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__register(...) register CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__register(...) register CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__register(...) register CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__register(...) register CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__register(...) register CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_register CC_TYPE_DECL_0__register,
-#define CC_TYPE_DECL_1_register CC_TYPE_DECL_1__register,
-#define CC_TYPE_DECL_2_register CC_TYPE_DECL_2__register,
-#define CC_TYPE_DECL_3_register CC_TYPE_DECL_3__register,
-#define CC_TYPE_DECL_4_register CC_TYPE_DECL_4__register,
-#define CC_TYPE_DECL_5_register CC_TYPE_DECL_5__register,
-#define CC_TYPE_DECL_6_register CC_TYPE_DECL_6__register,
-#define CC_TYPE_DECL_7_register CC_TYPE_DECL_7__register,
-#define CC_TYPE_DECL_8_register CC_TYPE_DECL_8__register,
-#define CC_TYPE_DECL_9_register CC_TYPE_DECL_9__register,
+#define CC_TYPE_DECL_register_0(...) register CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_register_1(...) register CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_register_2(...) register CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_register_3(...) register CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_register_4(...) register CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_register_5(...) register CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_register_6(...) register CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_register_7(...) register CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_register_8(...) register CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_register_9(...) register CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_register CC_TYPE_DECL_register_0,
+#define CC_TYPE_DECL_1_register CC_TYPE_DECL_register_1,
+#define CC_TYPE_DECL_2_register CC_TYPE_DECL_register_2,
+#define CC_TYPE_DECL_3_register CC_TYPE_DECL_register_3,
+#define CC_TYPE_DECL_4_register CC_TYPE_DECL_register_4,
+#define CC_TYPE_DECL_5_register CC_TYPE_DECL_register_5,
+#define CC_TYPE_DECL_6_register CC_TYPE_DECL_register_6,
+#define CC_TYPE_DECL_7_register CC_TYPE_DECL_register_7,
+#define CC_TYPE_DECL_8_register CC_TYPE_DECL_register_8,
+#define CC_TYPE_DECL_9_register CC_TYPE_DECL_register_9,
 
 //static
 #define CC_TYPE_0_static CC_TYPE_1,
@@ -707,26 +707,26 @@
 #define CC_TYPE_8_static CC_TYPE_9,
 #define CC_TYPE_9_static CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__static(...) static CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__static(...) static CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__static(...) static CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__static(...) static CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__static(...) static CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__static(...) static CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__static(...) static CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__static(...) static CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__static(...) static CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__static(...) static CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_static CC_TYPE_DECL_0__static,
-#define CC_TYPE_DECL_1_static CC_TYPE_DECL_1__static,
-#define CC_TYPE_DECL_2_static CC_TYPE_DECL_2__static,
-#define CC_TYPE_DECL_3_static CC_TYPE_DECL_3__static,
-#define CC_TYPE_DECL_4_static CC_TYPE_DECL_4__static,
-#define CC_TYPE_DECL_5_static CC_TYPE_DECL_5__static,
-#define CC_TYPE_DECL_6_static CC_TYPE_DECL_6__static,
-#define CC_TYPE_DECL_7_static CC_TYPE_DECL_7__static,
-#define CC_TYPE_DECL_8_static CC_TYPE_DECL_8__static,
-#define CC_TYPE_DECL_9_static CC_TYPE_DECL_9__static,
+#define CC_TYPE_DECL_static_0(...) static CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_static_1(...) static CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_static_2(...) static CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_static_3(...) static CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_static_4(...) static CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_static_5(...) static CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_static_6(...) static CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_static_7(...) static CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_static_8(...) static CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_static_9(...) static CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_static CC_TYPE_DECL_static_0,
+#define CC_TYPE_DECL_1_static CC_TYPE_DECL_static_1,
+#define CC_TYPE_DECL_2_static CC_TYPE_DECL_static_2,
+#define CC_TYPE_DECL_3_static CC_TYPE_DECL_static_3,
+#define CC_TYPE_DECL_4_static CC_TYPE_DECL_static_4,
+#define CC_TYPE_DECL_5_static CC_TYPE_DECL_static_5,
+#define CC_TYPE_DECL_6_static CC_TYPE_DECL_static_6,
+#define CC_TYPE_DECL_7_static CC_TYPE_DECL_static_7,
+#define CC_TYPE_DECL_8_static CC_TYPE_DECL_static_8,
+#define CC_TYPE_DECL_9_static CC_TYPE_DECL_static_9,
 
 //extern
 #define CC_TYPE_0_extern CC_TYPE_1,
@@ -740,26 +740,26 @@
 #define CC_TYPE_8_extern CC_TYPE_9,
 #define CC_TYPE_9_extern CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__extern(...) extern CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__extern(...) extern CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__extern(...) extern CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__extern(...) extern CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__extern(...) extern CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__extern(...) extern CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__extern(...) extern CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__extern(...) extern CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__extern(...) extern CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__extern(...) extern CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_extern CC_TYPE_DECL_0__extern,
-#define CC_TYPE_DECL_1_extern CC_TYPE_DECL_1__extern,
-#define CC_TYPE_DECL_2_extern CC_TYPE_DECL_2__extern,
-#define CC_TYPE_DECL_3_extern CC_TYPE_DECL_3__extern,
-#define CC_TYPE_DECL_4_extern CC_TYPE_DECL_4__extern,
-#define CC_TYPE_DECL_5_extern CC_TYPE_DECL_5__extern,
-#define CC_TYPE_DECL_6_extern CC_TYPE_DECL_6__extern,
-#define CC_TYPE_DECL_7_extern CC_TYPE_DECL_7__extern,
-#define CC_TYPE_DECL_8_extern CC_TYPE_DECL_8__extern,
-#define CC_TYPE_DECL_9_extern CC_TYPE_DECL_9__extern,
+#define CC_TYPE_DECL_extern_0(...) extern CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_1(...) extern CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_2(...) extern CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_3(...) extern CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_4(...) extern CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_5(...) extern CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_6(...) extern CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_7(...) extern CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_8(...) extern CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_extern_9(...) extern CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_extern CC_TYPE_DECL_extern_0,
+#define CC_TYPE_DECL_1_extern CC_TYPE_DECL_extern_1,
+#define CC_TYPE_DECL_2_extern CC_TYPE_DECL_extern_2,
+#define CC_TYPE_DECL_3_extern CC_TYPE_DECL_extern_3,
+#define CC_TYPE_DECL_4_extern CC_TYPE_DECL_extern_4,
+#define CC_TYPE_DECL_5_extern CC_TYPE_DECL_extern_5,
+#define CC_TYPE_DECL_6_extern CC_TYPE_DECL_extern_6,
+#define CC_TYPE_DECL_7_extern CC_TYPE_DECL_extern_7,
+#define CC_TYPE_DECL_8_extern CC_TYPE_DECL_extern_8,
+#define CC_TYPE_DECL_9_extern CC_TYPE_DECL_extern_9,
 
 //inline
 #define CC_TYPE_0_inline CC_TYPE_1,
@@ -773,26 +773,26 @@
 #define CC_TYPE_8_inline CC_TYPE_9,
 #define CC_TYPE_9_inline CC_TYPE_10,
 
-#define CC_TYPE_DECL_0__inline(...) inline CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1__inline(...) inline CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2__inline(...) inline CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3__inline(...) inline CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4__inline(...) inline CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5__inline(...) inline CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6__inline(...) inline CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7__inline(...) inline CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8__inline(...) inline CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9__inline(...) inline CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0_inline CC_TYPE_DECL_0__inline,
-#define CC_TYPE_DECL_1_inline CC_TYPE_DECL_1__inline,
-#define CC_TYPE_DECL_2_inline CC_TYPE_DECL_2__inline,
-#define CC_TYPE_DECL_3_inline CC_TYPE_DECL_3__inline,
-#define CC_TYPE_DECL_4_inline CC_TYPE_DECL_4__inline,
-#define CC_TYPE_DECL_5_inline CC_TYPE_DECL_5__inline,
-#define CC_TYPE_DECL_6_inline CC_TYPE_DECL_6__inline,
-#define CC_TYPE_DECL_7_inline CC_TYPE_DECL_7__inline,
-#define CC_TYPE_DECL_8_inline CC_TYPE_DECL_8__inline,
-#define CC_TYPE_DECL_9_inline CC_TYPE_DECL_9__inline,
+#define CC_TYPE_DECL_inline_0(...) inline CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_1(...) inline CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_2(...) inline CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_3(...) inline CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_4(...) inline CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_5(...) inline CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_6(...) inline CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_7(...) inline CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_8(...) inline CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_inline_9(...) inline CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_inline CC_TYPE_DECL_inline_0,
+#define CC_TYPE_DECL_1_inline CC_TYPE_DECL_inline_1,
+#define CC_TYPE_DECL_2_inline CC_TYPE_DECL_inline_2,
+#define CC_TYPE_DECL_3_inline CC_TYPE_DECL_inline_3,
+#define CC_TYPE_DECL_4_inline CC_TYPE_DECL_inline_4,
+#define CC_TYPE_DECL_5_inline CC_TYPE_DECL_inline_5,
+#define CC_TYPE_DECL_6_inline CC_TYPE_DECL_inline_6,
+#define CC_TYPE_DECL_7_inline CC_TYPE_DECL_inline_7,
+#define CC_TYPE_DECL_8_inline CC_TYPE_DECL_inline_8,
+#define CC_TYPE_DECL_9_inline CC_TYPE_DECL_inline_9,
 
 //_Atomic
 #define CC_TYPE_0__Atomic CC_TYPE_1,
@@ -806,26 +806,26 @@
 #define CC_TYPE_8__Atomic CC_TYPE_9,
 #define CC_TYPE_9__Atomic CC_TYPE_10,
 
-#define CC_TYPE_DECL_0___Atomic(...) _Atomic CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1___Atomic(...) _Atomic CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2___Atomic(...) _Atomic CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3___Atomic(...) _Atomic CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4___Atomic(...) _Atomic CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5___Atomic(...) _Atomic CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6___Atomic(...) _Atomic CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7___Atomic(...) _Atomic CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8___Atomic(...) _Atomic CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9___Atomic(...) _Atomic CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0__Atomic CC_TYPE_DECL_0___Atomic,
-#define CC_TYPE_DECL_1__Atomic CC_TYPE_DECL_1___Atomic,
-#define CC_TYPE_DECL_2__Atomic CC_TYPE_DECL_2___Atomic,
-#define CC_TYPE_DECL_3__Atomic CC_TYPE_DECL_3___Atomic,
-#define CC_TYPE_DECL_4__Atomic CC_TYPE_DECL_4___Atomic,
-#define CC_TYPE_DECL_5__Atomic CC_TYPE_DECL_5___Atomic,
-#define CC_TYPE_DECL_6__Atomic CC_TYPE_DECL_6___Atomic,
-#define CC_TYPE_DECL_7__Atomic CC_TYPE_DECL_7___Atomic,
-#define CC_TYPE_DECL_8__Atomic CC_TYPE_DECL_8___Atomic,
-#define CC_TYPE_DECL_9__Atomic CC_TYPE_DECL_9___Atomic,
+#define CC_TYPE_DECL__Atomic_0(...) _Atomic CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_1(...) _Atomic CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_2(...) _Atomic CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_3(...) _Atomic CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_4(...) _Atomic CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_5(...) _Atomic CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_6(...) _Atomic CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_7(...) _Atomic CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_8(...) _Atomic CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL__Atomic_9(...) _Atomic CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0__Atomic CC_TYPE_DECL__Atomic_0,
+#define CC_TYPE_DECL_1__Atomic CC_TYPE_DECL__Atomic_1,
+#define CC_TYPE_DECL_2__Atomic CC_TYPE_DECL__Atomic_2,
+#define CC_TYPE_DECL_3__Atomic CC_TYPE_DECL__Atomic_3,
+#define CC_TYPE_DECL_4__Atomic CC_TYPE_DECL__Atomic_4,
+#define CC_TYPE_DECL_5__Atomic CC_TYPE_DECL__Atomic_5,
+#define CC_TYPE_DECL_6__Atomic CC_TYPE_DECL__Atomic_6,
+#define CC_TYPE_DECL_7__Atomic CC_TYPE_DECL__Atomic_7,
+#define CC_TYPE_DECL_8__Atomic CC_TYPE_DECL__Atomic_8,
+#define CC_TYPE_DECL_9__Atomic CC_TYPE_DECL__Atomic_9,
 
 //_Alignas
 #define CC_TYPE_0__Alignas(x) CC_TYPE_1,
@@ -839,26 +839,26 @@
 #define CC_TYPE_8__Alignas(x) CC_TYPE_9,
 #define CC_TYPE_9__Alignas(x) CC_TYPE_10,
 
-#define CC_TYPE_DECL_0___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_1(__VA_ARGS__)
-#define CC_TYPE_DECL_1___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_2(__VA_ARGS__)
-#define CC_TYPE_DECL_2___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_3(__VA_ARGS__)
-#define CC_TYPE_DECL_3___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_4(__VA_ARGS__)
-#define CC_TYPE_DECL_4___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_5(__VA_ARGS__)
-#define CC_TYPE_DECL_5___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_6(__VA_ARGS__)
-#define CC_TYPE_DECL_6___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_7(__VA_ARGS__)
-#define CC_TYPE_DECL_7___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_8(__VA_ARGS__)
-#define CC_TYPE_DECL_8___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_9(__VA_ARGS__)
-#define CC_TYPE_DECL_9___Alignas(x, ...) _Alignas(x) CC_TYPE_DECL_10(__VA_ARGS__)
-#define CC_TYPE_DECL_0__Alignas(x) CC_TYPE_DECL_0___Alignas, x,
-#define CC_TYPE_DECL_1__Alignas(x) CC_TYPE_DECL_1___Alignas, x,
-#define CC_TYPE_DECL_2__Alignas(x) CC_TYPE_DECL_2___Alignas, x,
-#define CC_TYPE_DECL_3__Alignas(x) CC_TYPE_DECL_3___Alignas, x,
-#define CC_TYPE_DECL_4__Alignas(x) CC_TYPE_DECL_4___Alignas, x,
-#define CC_TYPE_DECL_5__Alignas(x) CC_TYPE_DECL_5___Alignas, x,
-#define CC_TYPE_DECL_6__Alignas(x) CC_TYPE_DECL_6___Alignas, x,
-#define CC_TYPE_DECL_7__Alignas(x) CC_TYPE_DECL_7___Alignas, x,
-#define CC_TYPE_DECL_8__Alignas(x) CC_TYPE_DECL_8___Alignas, x,
-#define CC_TYPE_DECL_9__Alignas(x) CC_TYPE_DECL_9___Alignas, x,
+#define CC_TYPE_DECL__Alignas_0(x, ...) _Alignas(x) CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_1(x, ...) _Alignas(x) CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_2(x, ...) _Alignas(x) CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_3(x, ...) _Alignas(x) CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_4(x, ...) _Alignas(x) CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_5(x, ...) _Alignas(x) CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_6(x, ...) _Alignas(x) CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_7(x, ...) _Alignas(x) CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_8(x, ...) _Alignas(x) CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL__Alignas_9(x, ...) _Alignas(x) CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0__Alignas(x) CC_TYPE_DECL__Alignas_0, x,
+#define CC_TYPE_DECL_1__Alignas(x) CC_TYPE_DECL__Alignas_1, x,
+#define CC_TYPE_DECL_2__Alignas(x) CC_TYPE_DECL__Alignas_2, x,
+#define CC_TYPE_DECL_3__Alignas(x) CC_TYPE_DECL__Alignas_3, x,
+#define CC_TYPE_DECL_4__Alignas(x) CC_TYPE_DECL__Alignas_4, x,
+#define CC_TYPE_DECL_5__Alignas(x) CC_TYPE_DECL__Alignas_5, x,
+#define CC_TYPE_DECL_6__Alignas(x) CC_TYPE_DECL__Alignas_6, x,
+#define CC_TYPE_DECL_7__Alignas(x) CC_TYPE_DECL__Alignas_7, x,
+#define CC_TYPE_DECL_8__Alignas(x) CC_TYPE_DECL__Alignas_8, x,
+#define CC_TYPE_DECL_9__Alignas(x) CC_TYPE_DECL__Alignas_9, x,
 
 #pragma mark -
 #pragma mark Types
@@ -878,25 +878,26 @@
 
 #define CC_PRESERVE_CC_TYPE_TYPE(x, ...) CC_TYPE_TYPE(x), __VA_ARGS__
 
-#define CC_TYPE_DECL_0_TYPE_(x, ...) CC_TYPE_DECL_1(x)
-#define CC_TYPE_DECL_1_TYPE_(x, ...) CC_TYPE_DECL_2(x)
-#define CC_TYPE_DECL_2_TYPE_(x, ...) CC_TYPE_DECL_3(x)
-#define CC_TYPE_DECL_3_TYPE_(x, ...) CC_TYPE_DECL_4(x)
-#define CC_TYPE_DECL_4_TYPE_(x, ...) CC_TYPE_DECL_5(x)
-#define CC_TYPE_DECL_5_TYPE_(x, ...) CC_TYPE_DECL_6(x)
-#define CC_TYPE_DECL_6_TYPE_(x, ...) CC_TYPE_DECL_7(x)
-#define CC_TYPE_DECL_7_TYPE_(x, ...) CC_TYPE_DECL_8(x)
-#define CC_TYPE_DECL_8_TYPE_(x, ...) CC_TYPE_DECL_9(x)
-#define CC_TYPE_DECL_0_TYPE(...) CC_TYPE_DECL_0_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_1_TYPE(...) CC_TYPE_DECL_1_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_2_TYPE(...) CC_TYPE_DECL_2_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_3_TYPE(...) CC_TYPE_DECL_3_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_4_TYPE(...) CC_TYPE_DECL_4_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_5_TYPE(...) CC_TYPE_DECL_5_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_6_TYPE(...) CC_TYPE_DECL_6_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_7_TYPE(...) CC_TYPE_DECL_7_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_8_TYPE(...) CC_TYPE_DECL_8_TYPE_, __VA_ARGS__,
-#define CC_TYPE_DECL_9_TYPE(...) CC_TYPE_DECL_9_TYPE_, __VA_ARGS__,
+#define CC_TYPE_DECL_TYPE_0(x, ...) CC_TYPE_DECL_1(x)
+#define CC_TYPE_DECL_TYPE_1(x, ...) CC_TYPE_DECL_2(x)
+#define CC_TYPE_DECL_TYPE_2(x, ...) CC_TYPE_DECL_3(x)
+#define CC_TYPE_DECL_TYPE_3(x, ...) CC_TYPE_DECL_4(x)
+#define CC_TYPE_DECL_TYPE_4(x, ...) CC_TYPE_DECL_5(x)
+#define CC_TYPE_DECL_TYPE_5(x, ...) CC_TYPE_DECL_6(x)
+#define CC_TYPE_DECL_TYPE_6(x, ...) CC_TYPE_DECL_7(x)
+#define CC_TYPE_DECL_TYPE_7(x, ...) CC_TYPE_DECL_8(x)
+#define CC_TYPE_DECL_TYPE_8(x, ...) CC_TYPE_DECL_9(x)
+#define CC_TYPE_DECL_TYPE_9(x, ...) CC_TYPE_DECL_10(x)
+#define CC_TYPE_DECL_0_TYPE(...) CC_TYPE_DECL_TYPE_0, __VA_ARGS__,
+#define CC_TYPE_DECL_1_TYPE(...) CC_TYPE_DECL_TYPE_1, __VA_ARGS__,
+#define CC_TYPE_DECL_2_TYPE(...) CC_TYPE_DECL_TYPE_2, __VA_ARGS__,
+#define CC_TYPE_DECL_3_TYPE(...) CC_TYPE_DECL_TYPE_3, __VA_ARGS__,
+#define CC_TYPE_DECL_4_TYPE(...) CC_TYPE_DECL_TYPE_4, __VA_ARGS__,
+#define CC_TYPE_DECL_5_TYPE(...) CC_TYPE_DECL_TYPE_5, __VA_ARGS__,
+#define CC_TYPE_DECL_6_TYPE(...) CC_TYPE_DECL_TYPE_6, __VA_ARGS__,
+#define CC_TYPE_DECL_7_TYPE(...) CC_TYPE_DECL_TYPE_7, __VA_ARGS__,
+#define CC_TYPE_DECL_8_TYPE(...) CC_TYPE_DECL_TYPE_8, __VA_ARGS__,
+#define CC_TYPE_DECL_9_TYPE(...) CC_TYPE_DECL_TYPE_9, __VA_ARGS__,
 
 //Pointer type
 #define CC_TYPE_PTYPE(x, ...) PTYPE(x)
