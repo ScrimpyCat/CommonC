@@ -1517,6 +1517,18 @@
 
 #define CC_PRESERVE_CC_TYPE_int CC_TYPE_int
 
+#define CC_TYPE_DECL_int(...) int
+#define CC_TYPE_DECL_0_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_1_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_2_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_3_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_4_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_5_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_6_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_7_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_8_int CC_TYPE_DECL_int,
+#define CC_TYPE_DECL_9_int CC_TYPE_DECL_int,
+
 #if INT_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_int I8
 #define CC_MANGLE_TYPE_1_int I8
