@@ -1729,6 +1729,27 @@
 #define CC_PRESERVE_CC_TYPE_long_8 CC_PRESERVE_TYPE_long_8
 #define CC_PRESERVE_CC_TYPE_long_9 CC_PRESERVE_TYPE_long_9
 
+#define CC_TYPE_DECL_long_0(...) long CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_long_1(...) long CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_long_2(...) long CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_long_3(...) long CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_long_4(...) long CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_long_5(...) long CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_long_6(...) long CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_long_7(...) long CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_long_8(...) long CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_long_9(...) long CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_long CC_TYPE_DECL_long_0,
+#define CC_TYPE_DECL_1_long CC_TYPE_DECL_long_1,
+#define CC_TYPE_DECL_2_long CC_TYPE_DECL_long_2,
+#define CC_TYPE_DECL_3_long CC_TYPE_DECL_long_3,
+#define CC_TYPE_DECL_4_long CC_TYPE_DECL_long_4,
+#define CC_TYPE_DECL_5_long CC_TYPE_DECL_long_5,
+#define CC_TYPE_DECL_6_long CC_TYPE_DECL_long_6,
+#define CC_TYPE_DECL_7_long CC_TYPE_DECL_long_7,
+#define CC_TYPE_DECL_8_long CC_TYPE_DECL_long_8,
+#define CC_TYPE_DECL_9_long CC_TYPE_DECL_long_9,
+
 #if LONG_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_long_ I8
 #define CC_MANGLE_TYPE_1_long_ I8
