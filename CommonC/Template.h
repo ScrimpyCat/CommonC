@@ -563,7 +563,7 @@
 #pragma mark -
 #pragma mark Keywords
 
-//const
+// MARK: const
 #define CC_TYPE_0_const CC_TYPE_1,
 #define CC_TYPE_1_const CC_TYPE_2,
 #define CC_TYPE_2_const CC_TYPE_3,
@@ -596,7 +596,7 @@
 #define CC_TYPE_DECL_8_const CC_TYPE_DECL_const_8,
 #define CC_TYPE_DECL_9_const CC_TYPE_DECL_const_9,
 
-//volatile
+// MARK: volatile
 #define CC_TYPE_0_volatile CC_TYPE_1,
 #define CC_TYPE_1_volatile CC_TYPE_2,
 #define CC_TYPE_2_volatile CC_TYPE_3,
@@ -629,7 +629,7 @@
 #define CC_TYPE_DECL_8_volatile CC_TYPE_DECL_volatile_8,
 #define CC_TYPE_DECL_9_volatile CC_TYPE_DECL_volatile_9,
 
-//restrict
+// MARK: restrict
 #define CC_TYPE_0_restrict CC_TYPE_1,
 #define CC_TYPE_1_restrict CC_TYPE_2,
 #define CC_TYPE_2_restrict CC_TYPE_3,
@@ -662,7 +662,7 @@
 #define CC_TYPE_DECL_8_restrict CC_TYPE_DECL_restrict_8,
 #define CC_TYPE_DECL_9_restrict CC_TYPE_DECL_restrict_9,
 
-//register
+// MARK: register
 #define CC_TYPE_0_register CC_TYPE_1,
 #define CC_TYPE_1_register CC_TYPE_2,
 #define CC_TYPE_2_register CC_TYPE_3,
@@ -695,7 +695,7 @@
 #define CC_TYPE_DECL_8_register CC_TYPE_DECL_register_8,
 #define CC_TYPE_DECL_9_register CC_TYPE_DECL_register_9,
 
-//static
+// MARK: static
 #define CC_TYPE_0_static CC_TYPE_1,
 #define CC_TYPE_1_static CC_TYPE_2,
 #define CC_TYPE_2_static CC_TYPE_3,
@@ -728,7 +728,7 @@
 #define CC_TYPE_DECL_8_static CC_TYPE_DECL_static_8,
 #define CC_TYPE_DECL_9_static CC_TYPE_DECL_static_9,
 
-//extern
+// MARK: extern
 #define CC_TYPE_0_extern CC_TYPE_1,
 #define CC_TYPE_1_extern CC_TYPE_2,
 #define CC_TYPE_2_extern CC_TYPE_3,
@@ -761,7 +761,7 @@
 #define CC_TYPE_DECL_8_extern CC_TYPE_DECL_extern_8,
 #define CC_TYPE_DECL_9_extern CC_TYPE_DECL_extern_9,
 
-//inline
+// MARK: inline
 #define CC_TYPE_0_inline CC_TYPE_1,
 #define CC_TYPE_1_inline CC_TYPE_2,
 #define CC_TYPE_2_inline CC_TYPE_3,
@@ -794,7 +794,7 @@
 #define CC_TYPE_DECL_8_inline CC_TYPE_DECL_inline_8,
 #define CC_TYPE_DECL_9_inline CC_TYPE_DECL_inline_9,
 
-//_Atomic
+// MARK: _Atomic
 #define CC_TYPE_0__Atomic CC_TYPE_1,
 #define CC_TYPE_1__Atomic CC_TYPE_2,
 #define CC_TYPE_2__Atomic CC_TYPE_3,
@@ -827,7 +827,7 @@
 #define CC_TYPE_DECL_8__Atomic CC_TYPE_DECL__Atomic_8,
 #define CC_TYPE_DECL_9__Atomic CC_TYPE_DECL__Atomic_9,
 
-//_Alignas
+// MARK: _Alignas
 #define CC_TYPE_0__Alignas(x) CC_TYPE_1,
 #define CC_TYPE_1__Alignas(x) CC_TYPE_2,
 #define CC_TYPE_2__Alignas(x) CC_TYPE_3,
@@ -863,7 +863,7 @@
 #pragma mark -
 #pragma mark Types
 
-//Generic Type
+// MARK: Generic Type
 #define CC_TYPE_TYPE(x, ...) TYPE(x)
 #define CC_TYPE_0_TYPE(...) CC_TYPE_TYPE, __VA_ARGS__,
 #define CC_TYPE_1_TYPE(...) CC_TYPE_TYPE, __VA_ARGS__,
@@ -899,7 +899,7 @@
 #define CC_TYPE_DECL_8_TYPE(...) CC_TYPE_DECL_TYPE_8, __VA_ARGS__,
 #define CC_TYPE_DECL_9_TYPE(...) CC_TYPE_DECL_TYPE_9, __VA_ARGS__,
 
-//Pointer type
+// MARK: Pointer type
 #define CC_TYPE_PTYPE(x, ...) PTYPE(x)
 #define CC_TYPE_0_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
 #define CC_TYPE_1_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
@@ -935,7 +935,7 @@
 #define CC_TYPE_DECL_8_PTYPE(...) CC_TYPE_DECL_PTYPE_8, __VA_ARGS__
 #define CC_TYPE_DECL_9_PTYPE(...) CC_TYPE_DECL_PTYPE_9, __VA_ARGS__
 
-//Function pointer type
+// MARK: Function pointer type
 #define CC_TYPE_FPTYPE(x, ...) FPTYPE(x)
 #define CC_TYPE_0_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
 #define CC_TYPE_1_FPTYPE(...) CC_TYPE_FPTYPE, __VA_ARGS__,
@@ -950,7 +950,7 @@
 
 #define CC_PRESERVE_CC_TYPE_FPTYPE(x, ...) CC_TYPE_FPTYPE(x), __VA_ARGS__
 
-//unsigned
+// MARK: unsigned
 #define CC_TYPE_unsigned_0(...) CC_TYPE_unsigned_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_unsigned_1(...) CC_TYPE_unsigned_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_unsigned_2(...) CC_TYPE_unsigned_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
@@ -1035,7 +1035,7 @@
 #define CC_MANGLE_TYPE_8_unsigned_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_
 #define CC_MANGLE_TYPE_9_unsigned_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_
 
-//signed
+// MARK: signed
 #define CC_TYPE_signed_0(...) CC_TYPE_signed_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_signed_1(...) CC_TYPE_signed_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_signed_2(...) CC_TYPE_signed_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
@@ -1120,7 +1120,7 @@
 #define CC_MANGLE_TYPE_8_signed_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_
 #define CC_MANGLE_TYPE_9_signed_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_
 
-//void
+// MARK: void
 #define CC_TYPE_void(...) void
 #define CC_TYPE_0_void CC_TYPE_void,
 #define CC_TYPE_1_void CC_TYPE_void,
@@ -1146,7 +1146,7 @@
 #define CC_MANGLE_TYPE_8_void V
 #define CC_MANGLE_TYPE_9_void V
 
-//_Bool
+// MARK: _Bool
 #define CC_TYPE__Bool(...) _Bool
 #define CC_TYPE_0__Bool CC_TYPE__Bool,
 #define CC_TYPE_1__Bool CC_TYPE__Bool,
@@ -1172,7 +1172,7 @@
 #define CC_MANGLE_TYPE_8__Bool B
 #define CC_MANGLE_TYPE_9__Bool B
 
-//bool
+// MARK: bool
 #define CC_TYPE_bool(...) bool
 #define CC_TYPE_0_bool CC_TYPE_bool,
 #define CC_TYPE_1_bool CC_TYPE_bool,
@@ -1198,7 +1198,7 @@
 #define CC_MANGLE_TYPE_8_bool B
 #define CC_MANGLE_TYPE_9_bool B
 
-//char
+// MARK: char
 #define CC_TYPE_char(...) char
 #define CC_TYPE_0_char CC_TYPE_char,
 #define CC_TYPE_1_char CC_TYPE_char,
@@ -1303,7 +1303,7 @@
 #define CC_MANGLE_TYPE_9_signed_char I64
 #endif
 
-//unsigned char
+// MARK: unsigned char
 #if UCHAR_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_unsigned_char U8
 #define CC_MANGLE_TYPE_1_unsigned_char U8
@@ -1350,7 +1350,7 @@
 #define CC_MANGLE_TYPE_9_unsigned_char U64
 #endif
 
-//short
+// MARK: short
 #define CC_TYPE_short(...) short
 #define CC_TYPE_0_short CC_TYPE_short,
 #define CC_TYPE_1_short CC_TYPE_short,
@@ -1455,7 +1455,7 @@
 #define CC_MANGLE_TYPE_9_signed_short I64
 #endif
 
-//unsigned short
+// MARK: unsigned short
 #if USHRT_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_unsigned_short U8
 #define CC_MANGLE_TYPE_1_unsigned_short U8
@@ -1502,7 +1502,7 @@
 #define CC_MANGLE_TYPE_9_unsigned_short U64
 #endif
 
-//int
+// MARK: int
 #define CC_TYPE_int(...) int
 #define CC_TYPE_0_int CC_TYPE_int,
 #define CC_TYPE_1_int CC_TYPE_int,
@@ -1619,7 +1619,7 @@
 #define CC_MANGLE_TYPE_9_signed_int I64
 #endif
 
-//unsigned int
+// MARK: unsigned int
 #if UINT_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_unsigned_int U8
 #define CC_MANGLE_TYPE_1_unsigned_int U8
@@ -1666,7 +1666,7 @@
 #define CC_MANGLE_TYPE_9_unsigned_int U64
 #endif
 
-//long
+// MARK: long
 #define CC_TYPE_long_0(...) CC_TYPE_long_0_(CC_TYPE_1(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_long_1(...) CC_TYPE_long_0_(CC_TYPE_2(__VA_ARGS__ CC_TYPE_EMPTY))
 #define CC_TYPE_long_2(...) CC_TYPE_long_0_(CC_TYPE_3(__VA_ARGS__ CC_TYPE_EMPTY))
@@ -1862,7 +1862,7 @@
 #define CC_MANGLE_TYPE_8_signed_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_long_
 #define CC_MANGLE_TYPE_9_signed_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_long_
 
-//unsigned long
+// MARK: unsigned long
 #if ULONG_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_unsigned_long_ U8
 #define CC_MANGLE_TYPE_1_unsigned_long_ U8
@@ -1920,7 +1920,7 @@
 #define CC_MANGLE_TYPE_8_unsigned_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_long_
 #define CC_MANGLE_TYPE_9_unsigned_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_long_
 
-//long long
+// MARK: long long
 #if LLONG_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_long_long_ I8
 #define CC_MANGLE_TYPE_1_long_long_ I8
@@ -2033,7 +2033,7 @@
 #define CC_MANGLE_TYPE_8_signed_long_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_signed_long_long_
 #define CC_MANGLE_TYPE_9_signed_long_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_signed_long_long_
 
-//unsigned long long
+// MARK: unsigned long long
 #if ULLONG_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_unsigned_long_long_ U8
 #define CC_MANGLE_TYPE_1_unsigned_long_long_ U8
@@ -2091,7 +2091,7 @@
 #define CC_MANGLE_TYPE_8_unsigned_long_long_CC_TYPE_9_ CC_MANGLE_TYPE_8_unsigned_long_long_
 #define CC_MANGLE_TYPE_9_unsigned_long_long_CC_TYPE_10_ CC_MANGLE_TYPE_9_unsigned_long_long_
 
-//float
+// MARK: float
 #define CC_TYPE_float(...) float
 #define CC_TYPE_0_float CC_TYPE_float,
 #define CC_TYPE_1_float CC_TYPE_float,
@@ -2163,7 +2163,7 @@
 #define CC_MANGLE_TYPE_9_float F256
 #endif
 
-//double
+// MARK: double
 #define CC_TYPE_double(...) double
 #define CC_TYPE_0_double CC_TYPE_double,
 #define CC_TYPE_1_double CC_TYPE_double,
@@ -2235,7 +2235,7 @@
 #define CC_MANGLE_TYPE_9_double F256
 #endif
 
-//long double
+// MARK: long double
 #if LDBL_MANT_DIG == 24
 #define CC_MANGLE_TYPE_0_long_double F32
 #define CC_MANGLE_TYPE_1_long_double F32
@@ -2293,7 +2293,7 @@
 #define CC_MANGLE_TYPE_9_long_double F256
 #endif
 
-//int8_t
+// MARK: int8_t
 #define CC_TYPE_int8_t(...) int8_t
 #define CC_TYPE_0_int8_t CC_TYPE_int8_t,
 #define CC_TYPE_1_int8_t CC_TYPE_int8_t,
@@ -2319,7 +2319,7 @@
 #define CC_MANGLE_TYPE_8_int8_t I8
 #define CC_MANGLE_TYPE_9_int8_t I8
 
-//int16_t
+// MARK: int16_t
 #define CC_TYPE_int16_t(...) int16_t
 #define CC_TYPE_0_int16_t CC_TYPE_int16_t,
 #define CC_TYPE_1_int16_t CC_TYPE_int16_t,
@@ -2345,7 +2345,7 @@
 #define CC_MANGLE_TYPE_8_int16_t I16
 #define CC_MANGLE_TYPE_9_int16_t I16
 
-//int32_t
+// MARK: int32_t
 #define CC_TYPE_int32_t(...) int32_t
 #define CC_TYPE_0_int32_t CC_TYPE_int32_t,
 #define CC_TYPE_1_int32_t CC_TYPE_int32_t,
@@ -2371,7 +2371,7 @@
 #define CC_MANGLE_TYPE_8_int32_t I32
 #define CC_MANGLE_TYPE_9_int32_t I32
 
-//int64_t
+// MARK: int64_t
 #define CC_TYPE_int64_t(...) int64_t
 #define CC_TYPE_0_int64_t CC_TYPE_int64_t,
 #define CC_TYPE_1_int64_t CC_TYPE_int64_t,
@@ -2397,7 +2397,7 @@
 #define CC_MANGLE_TYPE_8_int64_t I64
 #define CC_MANGLE_TYPE_9_int64_t I64
 
-//uint8_t
+// MARK: uint8_t
 #define CC_TYPE_uint8_t(...) uint8_t
 #define CC_TYPE_0_uint8_t CC_TYPE_uint8_t,
 #define CC_TYPE_1_uint8_t CC_TYPE_uint8_t,
@@ -2423,7 +2423,7 @@
 #define CC_MANGLE_TYPE_8_uint8_t U8
 #define CC_MANGLE_TYPE_9_uint8_t U8
 
-//uint16_t
+// MARK: uint16_t
 #define CC_TYPE_uint16_t(...) uint16_t
 #define CC_TYPE_0_uint16_t CC_TYPE_uint16_t,
 #define CC_TYPE_1_uint16_t CC_TYPE_uint16_t,
@@ -2449,7 +2449,7 @@
 #define CC_MANGLE_TYPE_8_uint16_t U16
 #define CC_MANGLE_TYPE_9_uint16_t U16
 
-//uint32_t
+// MARK: uint32_t
 #define CC_TYPE_uint32_t(...) uint32_t
 #define CC_TYPE_0_uint32_t CC_TYPE_uint32_t,
 #define CC_TYPE_1_uint32_t CC_TYPE_uint32_t,
@@ -2475,7 +2475,7 @@
 #define CC_MANGLE_TYPE_8_uint32_t U32
 #define CC_MANGLE_TYPE_9_uint32_t U32
 
-//uint64_t
+// MARK: uint64_t
 #define CC_TYPE_uint64_t(...) uint64_t
 #define CC_TYPE_0_uint64_t CC_TYPE_uint64_t,
 #define CC_TYPE_1_uint64_t CC_TYPE_uint64_t,
@@ -2501,7 +2501,7 @@
 #define CC_MANGLE_TYPE_8_uint64_t U64
 #define CC_MANGLE_TYPE_9_uint64_t U64
 
-//intmax_t
+// MARK: intmax_t
 #define CC_TYPE_intmax_t(...) intmax_t
 #define CC_TYPE_0_intmax_t CC_TYPE_intmax_t,
 #define CC_TYPE_1_intmax_t CC_TYPE_intmax_t,
@@ -2562,7 +2562,7 @@
 #define CC_MANGLE_TYPE_9_intmax_t I64
 #endif
 
-//uintmax_t
+// MARK: uintmax_t
 #define CC_TYPE_uintmax_t(...) uintmax_t
 #define CC_TYPE_0_uintmax_t CC_TYPE_uintmax_t,
 #define CC_TYPE_1_uintmax_t CC_TYPE_uintmax_t,
@@ -2623,7 +2623,7 @@
 #define CC_MANGLE_TYPE_9_uintmax_t U64
 #endif
 
-//intptr_t
+// MARK: intptr_t
 #define CC_TYPE_intptr_t(...) intptr_t
 #define CC_TYPE_0_intptr_t CC_TYPE_intptr_t,
 #define CC_TYPE_1_intptr_t CC_TYPE_intptr_t,
@@ -2684,7 +2684,7 @@
 #define CC_MANGLE_TYPE_9_intptr_t I64
 #endif
 
-//uintptr_t
+// MARK: uintptr_t
 #define CC_TYPE_uintptr_t(...) uintptr_t
 #define CC_TYPE_0_uintptr_t CC_TYPE_uintptr_t,
 #define CC_TYPE_1_uintptr_t CC_TYPE_uintptr_t,
@@ -2745,7 +2745,7 @@
 #define CC_MANGLE_TYPE_9_uintptr_t U64
 #endif
 
-//ptrdiff_t
+// MARK: ptrdiff_t
 #define CC_TYPE_ptrdiff_t(...) ptrdiff_t
 #define CC_TYPE_0_ptrdiff_t CC_TYPE_ptrdiff_t,
 #define CC_TYPE_1_ptrdiff_t CC_TYPE_ptrdiff_t,
@@ -2806,7 +2806,7 @@
 #define CC_MANGLE_TYPE_9_ptrdiff_t I64
 #endif
 
-//size_t
+// MARK: size_t
 #define CC_TYPE_size_t(...) size_t
 #define CC_TYPE_0_size_t CC_TYPE_size_t,
 #define CC_TYPE_1_size_t CC_TYPE_size_t,
