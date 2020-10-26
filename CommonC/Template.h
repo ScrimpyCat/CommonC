@@ -1365,6 +1365,18 @@
 
 #define CC_PRESERVE_CC_TYPE_short CC_TYPE_short
 
+#define CC_TYPE_DECL_short(...) short
+#define CC_TYPE_DECL_0_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_1_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_2_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_3_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_4_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_5_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_6_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_7_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_8_short CC_TYPE_DECL_short,
+#define CC_TYPE_DECL_9_short CC_TYPE_DECL_short,
+
 #if SHRT_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_short I8
 #define CC_MANGLE_TYPE_1_short I8
