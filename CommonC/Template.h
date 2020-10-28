@@ -1161,6 +1161,18 @@
 
 #define CC_PRESERVE_CC_TYPE__Bool CC_TYPE__Bool
 
+#define CC_TYPE_DECL__Bool(...) _Bool
+#define CC_TYPE_DECL_0__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_1__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_2__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_3__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_4__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_5__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_6__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_7__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_8__Bool CC_TYPE_DECL__Bool,
+#define CC_TYPE_DECL_9__Bool CC_TYPE_DECL__Bool,
+
 #define CC_MANGLE_TYPE_0__Bool B
 #define CC_MANGLE_TYPE_1__Bool B
 #define CC_MANGLE_TYPE_2__Bool B
@@ -1186,6 +1198,18 @@
 #define CC_TYPE_9_bool CC_TYPE_bool,
 
 #define CC_PRESERVE_CC_TYPE_bool CC_TYPE_bool
+
+#define CC_TYPE_DECL_bool(...) bool
+#define CC_TYPE_DECL_0_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_1_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_2_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_3_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_4_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_5_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_6_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_7_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_8_bool CC_TYPE_DECL_bool,
+#define CC_TYPE_DECL_9_bool CC_TYPE_DECL_bool,
 
 #define CC_MANGLE_TYPE_0_bool B
 #define CC_MANGLE_TYPE_1_bool B
