@@ -1213,6 +1213,18 @@
 
 #define CC_PRESERVE_CC_TYPE_char CC_TYPE_char
 
+#define CC_TYPE_DECL_char(...) char
+#define CC_TYPE_DECL_0_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_1_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_2_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_3_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_4_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_5_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_6_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_7_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_8_char CC_TYPE_DECL_char,
+#define CC_TYPE_DECL_9_char CC_TYPE_DECL_char,
+
 #if CHAR_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_char I8
 #define CC_MANGLE_TYPE_1_char I8
