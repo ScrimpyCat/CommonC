@@ -1135,6 +1135,18 @@
 
 #define CC_PRESERVE_CC_TYPE_void CC_TYPE_void
 
+#define CC_TYPE_DECL_void(...) void
+#define CC_TYPE_DECL_0_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_1_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_2_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_3_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_4_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_5_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_6_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_7_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_8_void CC_TYPE_DECL_void,
+#define CC_TYPE_DECL_9_void CC_TYPE_DECL_void,
+
 #define CC_MANGLE_TYPE_0_void V
 #define CC_MANGLE_TYPE_1_void V
 #define CC_MANGLE_TYPE_2_void V
