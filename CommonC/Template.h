@@ -2166,6 +2166,18 @@
 
 #define CC_PRESERVE_CC_TYPE_float CC_TYPE_float
 
+#define CC_TYPE_DECL_float(...) float
+#define CC_TYPE_DECL_0_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_1_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_2_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_3_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_4_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_5_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_6_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_7_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_8_float CC_TYPE_DECL_float,
+#define CC_TYPE_DECL_9_float CC_TYPE_DECL_float,
+
 #if FLT_MANT_DIG == 24
 #define CC_MANGLE_TYPE_0_float F32
 #define CC_MANGLE_TYPE_1_float F32
