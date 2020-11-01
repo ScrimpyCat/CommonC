@@ -2250,6 +2250,18 @@
 
 #define CC_PRESERVE_CC_TYPE_double CC_TYPE_double
 
+#define CC_TYPE_DECL_double(...) double
+#define CC_TYPE_DECL_0_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_1_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_2_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_3_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_4_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_5_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_6_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_7_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_8_double CC_TYPE_DECL_double,
+#define CC_TYPE_DECL_9_double CC_TYPE_DECL_double,
+
 #if DBL_MANT_DIG == 24
 #define CC_MANGLE_TYPE_0_double F32
 #define CC_MANGLE_TYPE_1_double F32
