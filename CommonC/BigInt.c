@@ -25,6 +25,7 @@
 
 #define CC_QUICK_COMPILE
 #include "BigInt.h"
+#include "BigIntFast.h"
 #include "List.h"
 
 
@@ -72,6 +73,15 @@ void CCBigIntSetBigInt(CCBigInt Integer, CCBigInt Value)
         CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Node);
         CCListAppendElements(Integer->value, CCArrayGetElementAtIndex(Array, 0), CCArrayGetCount(Array));
     }
+}
+
+void CCBigIntSetBigIntFast(CCBigInt Integer, CCBigIntFast Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    CCAssertLog(Value, "Value must not be null");
+    
+    if (CCBigIntFastIsTaggedValue(Value)) CCBigIntSet(Integer, CCBigIntFastGetTaggedValue(Value));
+    else CCBigIntSet(Integer, (CCBigInt)Value);
 }
 
 void CCBigIntSetInt(CCBigInt Integer, int64_t Value)
@@ -254,6 +264,13 @@ CCComparisonResult CCBigIntCompareBigInt(CCBigInt a, CCBigInt b)
     return a->sign ? CCComparisonResultFlipOrder(Result) : Result;
 }
 
+CCComparisonResult CCBigIntCompareBigIntFast(CCBigInt a, CCBigIntFast b)
+{
+    if (CCBigIntFastIsTaggedValue(b)) return CCBigIntCompare(a, CCBigIntFastGetTaggedValue(b));
+    
+    return CCBigIntCompare(a, (CCBigInt)b);
+}
+
 CCComparisonResult CCBigIntCompareInt(CCBigInt Integer, int64_t Value)
 {
     CCAssertLog(Integer, "Integer must not be null");
@@ -367,6 +384,15 @@ void CCBigIntAddBigInt(CCBigInt Integer, CCBigInt Value)
     }
 }
 
+void CCBigIntAddBigIntFast(CCBigInt Integer, CCBigIntFast Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    CCAssertLog(Value, "Value must not be null");
+    
+    if (CCBigIntFastIsTaggedValue(Value)) CCBigIntAdd(Integer, CCBigIntFastGetTaggedValue(Value));
+    else CCBigIntAdd(Integer, (CCBigInt)Value);
+}
+
 void CCBigIntAddInt(CCBigInt Integer, int64_t Value)
 {
     CCAssertLog(Integer, "Integer must not be null");
@@ -414,6 +440,15 @@ void CCBigIntSubBigInt(CCBigInt Integer, CCBigInt Value)
         
         Integer->sign = !OriginalSign;
     }
+}
+
+void CCBigIntSubBigIntFast(CCBigInt Integer, CCBigIntFast Value)
+{
+    CCAssertLog(Integer, "Integer must not be null");
+    CCAssertLog(Value, "Value must not be null");
+    
+    if (CCBigIntFastIsTaggedValue(Value)) CCBigIntSub(Integer, CCBigIntFastGetTaggedValue(Value));
+    else CCBigIntSub(Integer, (CCBigInt)Value);
 }
 
 void CCBigIntSubInt(CCBigInt Integer, int64_t Value)

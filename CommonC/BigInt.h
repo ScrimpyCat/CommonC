@@ -44,6 +44,12 @@ typedef struct CCBigIntInfo {
  */
 typedef struct CCBigIntInfo *CCBigInt;
 
+/*!
+ * @brief The big integer.
+ * @warning Unsafe to call CCRetain, instead use CCBigIntFastCopy
+ */
+typedef struct CCBigIntFast *CCBigIntFast;
+
 
 #pragma mark - Creation/Destruction
 /*!
@@ -97,16 +103,20 @@ static CC_FORCE_INLINE _Bool CCBigIntGetSign(CCBigInt Integer);
  *
  *        @b CCBigInt - to set the integer to the value represented by another big integer.
  *
+ *        @b CCBigIntFast - to set the integer to the value represented by another fast big integer.
+ *
  *        @b CCString - a hexadecimal formatted string.
  *
  *        Otherwise will default to an @b int64_t.
  */
 #define CCBigIntSet(integer, value) CC_GENERIC_EVALUATE(value, \
 CCBigInt: CCBigIntSetBigInt, \
+CCBigIntFast: CCBigIntSetBigIntFast, \
 CCString: CCBigIntSetString, \
 default: CCBigIntSetInt)(integer, value)
 
 void CCBigIntSetBigInt(CCBigInt Integer, CCBigInt Value);
+void CCBigIntSetBigIntFast(CCBigInt Integer, CCBigIntFast Value);
 void CCBigIntSetInt(CCBigInt Integer, int64_t Value);
 void CCBigIntSetString(CCBigInt Integer, CCString Value);
 
@@ -135,10 +145,12 @@ CC_NEW CCString CCBigIntGetString(CCBigInt Integer);
  */
 #define CCBigIntCompare(integer, value) CC_GENERIC_EVALUATE(value, \
 CCBigInt: CCBigIntCompareBigInt, \
+CCBigIntFast: CCBigIntCompareBigIntFast, \
 CCString: CCBigIntCompareString, \
 default: CCBigIntCompareInt)(integer, value)
 
 CCComparisonResult CCBigIntCompareBigInt(CCBigInt a, CCBigInt b);
+CCComparisonResult CCBigIntCompareBigIntFast(CCBigInt a, CCBigIntFast b);
 CCComparisonResult CCBigIntCompareInt(CCBigInt a, int64_t b);
 CCComparisonResult CCBigIntCompareString(CCBigInt a, CCString b);
 
@@ -197,16 +209,20 @@ CCComparisonResult CCBigIntCompareString(CCBigInt a, CCString b);
  *
  *        @b CCBigInt - to add an integer to the value represented by another big integer.
  *
+ *        @b CCBigIntFast - to add an integer to the value represented by another fast big integer.
+ *
  *        @b CCString - a hexadecimal formatted string.
  *
  *        Otherwise will default to an @b int64_t.
  */
 #define CCBigIntAdd(integer, value) CC_GENERIC_EVALUATE(value, \
 CCBigInt: CCBigIntAddBigInt, \
+CCBigIntFast: CCBigIntAddBigIntFast, \
 CCString: CCBigIntAddString, \
 default: CCBigIntAddInt)(integer, value)
 
 void CCBigIntAddBigInt(CCBigInt Integer, CCBigInt Value);
+void CCBigIntAddBigIntFast(CCBigInt Integer, CCBigIntFast Value);
 void CCBigIntAddInt(CCBigInt Integer, int64_t Value);
 void CCBigIntAddString(CCBigInt Integer, CCString Value);
 
@@ -218,16 +234,20 @@ void CCBigIntAddString(CCBigInt Integer, CCString Value);
  *
  *        @b CCBigInt - to subtract an integer from the value represented by another big integer.
  *
+ *        @b CCBigIntFast - to subtract an integer from the value represented by another fast big integer.
+ *
  *        @b CCString - a hexadecimal formatted string.
  *
  *        Otherwise will default to an @b int64_t.
  */
 #define CCBigIntSub(integer, value) CC_GENERIC_EVALUATE(value, \
 CCBigInt: CCBigIntSubBigInt, \
+CCBigIntFast: CCBigIntSubBigIntFast, \
 CCString: CCBigIntSubString, \
 default: CCBigIntSubInt)(integer, value)
 
 void CCBigIntSubBigInt(CCBigInt Integer, CCBigInt Value);
+void CCBigIntSubBigIntFast(CCBigInt Integer, CCBigIntFast Value);
 void CCBigIntSubInt(CCBigInt Integer, int64_t Value);
 void CCBigIntSubString(CCBigInt Integer, CCString Value);
 
