@@ -294,6 +294,7 @@
 		F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37AFAA61A7913F20037ECB2 /* CollectionTests.m */; };
 		F38018101DC30DE500343E07 /* Task.c in Sources */ = {isa = PBXBuildFile; fileRef = F380180E1DC30DE500343E07 /* Task.c */; };
 		F38018111DC30DE500343E07 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = F380180F1DC30DE500343E07 /* Task.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F38515EE254DB830001C03C5 /* BigIntFast.h in Headers */ = {isa = PBXBuildFile; fileRef = F38515EC254DB830001C03C5 /* BigIntFast.h */; };
 		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
 		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3897D5E1DD1E743008D6C1D /* PathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3897D5D1DD1E743008D6C1D /* PathTests.m */; };
@@ -564,6 +565,7 @@
 		F37AFAA61A7913F20037ECB2 /* CollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTests.m; sourceTree = "<group>"; };
 		F380180E1DC30DE500343E07 /* Task.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Task.c; sourceTree = "<group>"; };
 		F380180F1DC30DE500343E07 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		F38515EC254DB830001C03C5 /* BigIntFast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigIntFast.h; sourceTree = "<group>"; };
 		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
 		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3897D5D1DD1E743008D6C1D /* PathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathTests.m; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 				F35767E623FDD4F900CEB76F /* Random.c */,
 				F3AEA84E232B483B00A5CAF3 /* BigInt.h */,
 				F3AEA84F232B483B00A5CAF3 /* BigInt.c */,
+				F38515EC254DB830001C03C5 /* BigIntFast.h */,
 				F318D92C1C4DD77A005AE64E /* Matrices */,
 				F30529B418014B9C00B17CFD /* Vectors */,
 			);
@@ -1454,6 +1457,7 @@
 				F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */,
 				F3AE99BD1A7511D500212838 /* Collection.h in Headers */,
 				F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */,
+				F38515EE254DB830001C03C5 /* BigIntFast.h in Headers */,
 				F3E2746420D5931900D6AFE1 /* DebugAllocator.h in Headers */,
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
