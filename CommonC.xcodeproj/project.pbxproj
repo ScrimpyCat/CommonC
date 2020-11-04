@@ -916,6 +916,7 @@
 		F353DD9117B692E300D1674C /* Maths */ = {
 			isa = PBXGroup;
 			children = (
+				F3300B12233A8B1C0068C378 /* BigIntTests.m */,
 				F353DD9217B6930600D1674C /* BitTricksTests.h */,
 				F353DD9317B6930600D1674C /* BitTricksTests.m */,
 				F3A91A4A186BBAD400EF0B95 /* Vectors */,
@@ -1201,7 +1202,6 @@
 				F3AE99341A6D508200212838 /* LinkedListTests.m */,
 				F3AE99791A74F56C00212838 /* ArrayTests.m */,
 				F3F41A322333525D0068A135 /* ListTests.m */,
-				F3300B12233A8B1C0068C378 /* BigIntTests.m */,
 				F39400202341304B00EE826D /* EnumerableTests.m */,
 				F3F41A3423337CE80068A135 /* ContainerTests.m */,
 				F3143A9C1A8A683F004EB810 /* CollectionTests.h */,
