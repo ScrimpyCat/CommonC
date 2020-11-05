@@ -423,7 +423,7 @@ static inline CCString CCBigIntFastGetString(CCBigIntFast Integer)
     if (CCBigIntFastIsTaggedValue(Integer))
     {
         CCBigInt Temp = CCBigIntFastGetBigInt(Integer);
-        CCString String = CCBigIntGetString((CCBigInt)Integer);
+        CCString String = CCBigIntGetString((CCBigInt)Temp);
         CCBigIntDestroy(Temp);
         
         return String;
