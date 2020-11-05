@@ -381,7 +381,7 @@ static inline void CCBigIntFastSetInt(CCBigIntFast *Integer, int64_t Value)
 {
     CCAssertLog(Integer, "Integer must not be null");
     CCAssertLog(*Integer, "Integer must not point to null");
-        
+    
     if ((Value <= CC_BIG_INT_FAST_TAGGED_MAX) || (Value >= CC_BIG_INT_FAST_TAGGED_MIN))
     {
         CCBigIntFastDestroy(*Integer);
@@ -400,9 +400,9 @@ static inline void CCBigIntFastSetString(CCBigIntFast *Integer, CCString Value)
     CCAssertLog(Integer, "Integer must not be null");
     CCAssertLog(*Integer, "Integer must not point to null");
     
-    if (CCBigIntFastIsTaggedValue(Value)) *Integer = (CCBigIntFast)CCBigIntCreate(CC_STD_ALLOCATOR);
+    if (CCBigIntFastIsTaggedValue(*Integer)) *Integer = (CCBigIntFast)CCBigIntCreate(CC_STD_ALLOCATOR);
     
-    CCBigIntFastSet((CCBigInt)*Integer, Value);
+    CCBigIntSet((CCBigInt)*Integer, Value);
 }
 
 static inline CCBigInt CCBigIntFastGetBigInt(CCBigIntFast Integer)
