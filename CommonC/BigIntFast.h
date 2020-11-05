@@ -30,8 +30,8 @@
 
 #define CC_BIG_INT_FAST_TAGGED_MASK 1
 
-#define CC_BIG_INT_FAST_TAGGED_MAX (UINTPTR_MAX >> 2)
-#define CC_BIG_INT_FAST_TAGGED_MIN (-CC_BIG_INT_FAST_TAGGED_MAX - 1)
+#define CC_BIG_INT_FAST_TAGGED_MAX ((int64_t)(UINTPTR_MAX >> 2))
+#define CC_BIG_INT_FAST_TAGGED_MIN ((int64_t)(-CC_BIG_INT_FAST_TAGGED_MAX - 1))
 
 #define CC_BIG_INT_FAST_TAGGED_CONSTANT(n) ((CCBigIntFast)(((uintptr_t)(n) << 1) | CC_BIG_INT_FAST_TAGGED_MASK))
 #define CC_BIG_INT_FAST_0   CC_BIG_INT_FAST_TAGGED_CONSTANT(0)
@@ -76,6 +76,9 @@
 #define CC_BIG_INT_FAST_NEGATIVE_64  CC_BIG_INT_FAST_TAGGED_CONSTANT(-64)
 #define CC_BIG_INT_FAST_NEGATIVE_128 CC_BIG_INT_FAST_TAGGED_CONSTANT(-128)
 #define CC_BIG_INT_FAST_NEGATIVE_256 CC_BIG_INT_FAST_TAGGED_CONSTANT(-256)
+
+_Static_assert((256 <= CC_BIG_INT_FAST_TAGGED_MAX) && (256 >= CC_BIG_INT_FAST_TAGGED_MIN), "");
+_Static_assert((-256 <= CC_BIG_INT_FAST_TAGGED_MAX) && (-256 >= CC_BIG_INT_FAST_TAGGED_MIN), "");
 
 #pragma mark - Creation/Destruction
 /*!
@@ -319,7 +322,7 @@ static inline int64_t CCBigIntFastGetTaggedValue(CCBigIntFast Integer)
 
 static inline CCBigIntFast CCBigIntFastTaggedValue(int64_t Value)
 {
-    CCAssertLog((Value <= CC_BIG_INT_FAST_TAGGED_MAX) || (Value >= CC_BIG_INT_FAST_TAGGED_MIN), "Integer must not be null");
+    CCAssertLog((Value <= CC_BIG_INT_FAST_TAGGED_MAX) && (Value >= CC_BIG_INT_FAST_TAGGED_MIN), "Integer must not be null");
     
     return (CCBigIntFast)(((uintptr_t)Value << 1) | CC_BIG_INT_FAST_TAGGED_MASK);
 }
@@ -343,9 +346,8 @@ static inline void CCBigIntFastSetBigInt(CCBigIntFast *Integer, CCBigInt Value)
         if ((Component & ~INT64_MAX) == 0)
         {
             const int64_t IntegerValue = CCBigIntGetSign(Value) ? -Component : Component;
-            const uintptr_t MaxValue = UINTPTR_MAX >> 1;
             
-            if ((IntegerValue <= MaxValue) || (IntegerValue >= (-MaxValue - 1)))
+            if ((IntegerValue <= CC_BIG_INT_FAST_TAGGED_MAX) || (IntegerValue >= CC_BIG_INT_FAST_TAGGED_MIN))
             {
                 CCBigIntFastDestroy(*Integer);
                 *Integer = CCBigIntFastTaggedValue(IntegerValue);
@@ -379,10 +381,8 @@ static inline void CCBigIntFastSetInt(CCBigIntFast *Integer, int64_t Value)
 {
     CCAssertLog(Integer, "Integer must not be null");
     CCAssertLog(*Integer, "Integer must not point to null");
-    
-    const uintptr_t MaxValue = UINTPTR_MAX >> 1;
-    
-    if ((Value <= MaxValue) || (Value >= (-MaxValue - 1)))
+        
+    if ((Value <= CC_BIG_INT_FAST_TAGGED_MAX) || (Value >= CC_BIG_INT_FAST_TAGGED_MIN))
     {
         CCBigIntFastDestroy(*Integer);
         *Integer = CCBigIntFastTaggedValue(Value);
@@ -539,9 +539,8 @@ static inline void CCBigIntFastAddInt(CCBigIntFast *Integer, int64_t Value)
         else
         {
             const int64_t Result = IntegerValue + Value;
-            const uintptr_t MaxValue = UINTPTR_MAX >> 1;
             
-            if ((Result <= MaxValue) || (Result >= (-MaxValue - 1)))
+            if ((Result <= CC_BIG_INT_FAST_TAGGED_MAX) || (Result >= CC_BIG_INT_FAST_TAGGED_MIN))
             {
                 *Integer = CCBigIntFastTaggedValue(Result);
             }
@@ -630,9 +629,8 @@ static inline void CCBigIntFastSubInt(CCBigIntFast *Integer, int64_t Value)
         else
         {
             const int64_t Result = IntegerValue - Value;
-            const uintptr_t MaxValue = UINTPTR_MAX >> 1;
             
-            if ((Result <= MaxValue) || (Result >= (-MaxValue - 1)))
+            if ((Result <= CC_BIG_INT_FAST_TAGGED_MAX) || (Result >= CC_BIG_INT_FAST_TAGGED_MIN))
             {
                 *Integer = CCBigIntFastTaggedValue(Result);
             }
