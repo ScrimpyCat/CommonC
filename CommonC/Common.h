@@ -65,6 +65,7 @@
 #include <CommonC/Vector.h>
 #include <CommonC/Matrix.h>
 #include <CommonC/BigInt.h>
+#include <CommonC/BigIntFast.h>
 
 #include <CommonC/Comparator.h>
 #include <CommonC/Enumerator.h>
