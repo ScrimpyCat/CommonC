@@ -1119,6 +1119,27 @@
 #define CC_PRESERVE_CC_TYPE_signed_8 CC_PRESERVE_TYPE_signed_8
 #define CC_PRESERVE_CC_TYPE_signed_9 CC_PRESERVE_TYPE_signed_9
 
+#define CC_TYPE_DECL_signed_0(...) signed CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_1(...) signed CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_2(...) signed CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_3(...) signed CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_4(...) signed CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_5(...) signed CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_6(...) signed CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_7(...) signed CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_8(...) signed CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_signed_9(...) signed CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_signed CC_TYPE_DECL_signed_0,
+#define CC_TYPE_DECL_1_signed CC_TYPE_DECL_signed_1,
+#define CC_TYPE_DECL_2_signed CC_TYPE_DECL_signed_2,
+#define CC_TYPE_DECL_3_signed CC_TYPE_DECL_signed_3,
+#define CC_TYPE_DECL_4_signed CC_TYPE_DECL_signed_4,
+#define CC_TYPE_DECL_5_signed CC_TYPE_DECL_signed_5,
+#define CC_TYPE_DECL_6_signed CC_TYPE_DECL_signed_6,
+#define CC_TYPE_DECL_7_signed CC_TYPE_DECL_signed_7,
+#define CC_TYPE_DECL_8_signed CC_TYPE_DECL_signed_8,
+#define CC_TYPE_DECL_9_signed CC_TYPE_DECL_signed_9,
+
 #define CC_MANGLE_TYPE_0_signed_ CC_MANGLE_TYPE_0_signed_int
 #define CC_MANGLE_TYPE_1_signed_ CC_MANGLE_TYPE_1_signed_int
 #define CC_MANGLE_TYPE_2_signed_ CC_MANGLE_TYPE_2_signed_int
