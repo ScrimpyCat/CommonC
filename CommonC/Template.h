@@ -1013,6 +1013,27 @@
 #define CC_PRESERVE_CC_TYPE_unsigned_8 CC_PRESERVE_TYPE_unsigned_8
 #define CC_PRESERVE_CC_TYPE_unsigned_9 CC_PRESERVE_TYPE_unsigned_9
 
+#define CC_TYPE_DECL_unsigned_0(...) unsigned CC_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_1(...) unsigned CC_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_2(...) unsigned CC_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_3(...) unsigned CC_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_4(...) unsigned CC_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_5(...) unsigned CC_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_6(...) unsigned CC_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_7(...) unsigned CC_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_8(...) unsigned CC_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL_unsigned_9(...) unsigned CC_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0_unsigned CC_TYPE_DECL_unsigned_0,
+#define CC_TYPE_DECL_1_unsigned CC_TYPE_DECL_unsigned_1,
+#define CC_TYPE_DECL_2_unsigned CC_TYPE_DECL_unsigned_2,
+#define CC_TYPE_DECL_3_unsigned CC_TYPE_DECL_unsigned_3,
+#define CC_TYPE_DECL_4_unsigned CC_TYPE_DECL_unsigned_4,
+#define CC_TYPE_DECL_5_unsigned CC_TYPE_DECL_unsigned_5,
+#define CC_TYPE_DECL_6_unsigned CC_TYPE_DECL_unsigned_6,
+#define CC_TYPE_DECL_7_unsigned CC_TYPE_DECL_unsigned_7,
+#define CC_TYPE_DECL_8_unsigned CC_TYPE_DECL_unsigned_8,
+#define CC_TYPE_DECL_9_unsigned CC_TYPE_DECL_unsigned_9,
+
 #define CC_MANGLE_TYPE_0_unsigned_ CC_MANGLE_TYPE_0_unsigned_int
 #define CC_MANGLE_TYPE_1_unsigned_ CC_MANGLE_TYPE_1_unsigned_int
 #define CC_MANGLE_TYPE_2_unsigned_ CC_MANGLE_TYPE_2_unsigned_int
