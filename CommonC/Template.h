@@ -2510,6 +2510,18 @@
 
 #define CC_PRESERVE_CC_TYPE_int32_t CC_TYPE_int32_t
 
+#define CC_TYPE_DECL_int32_t(...) int32_t
+#define CC_TYPE_DECL_0_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_1_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_2_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_3_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_4_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_5_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_6_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_7_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_8_int32_t CC_TYPE_DECL_int32_t,
+#define CC_TYPE_DECL_9_int32_t CC_TYPE_DECL_int32_t,
+
 #define CC_MANGLE_TYPE_0_int32_t I32
 #define CC_MANGLE_TYPE_1_int32_t I32
 #define CC_MANGLE_TYPE_2_int32_t I32
