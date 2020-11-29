@@ -2472,6 +2472,18 @@
 
 #define CC_PRESERVE_CC_TYPE_int16_t CC_TYPE_int16_t
 
+#define CC_TYPE_DECL_int16_t(...) int16_t
+#define CC_TYPE_DECL_0_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_1_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_2_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_3_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_4_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_5_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_6_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_7_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_8_int16_t CC_TYPE_DECL_int16_t,
+#define CC_TYPE_DECL_9_int16_t CC_TYPE_DECL_int16_t,
+
 #define CC_MANGLE_TYPE_0_int16_t I16
 #define CC_MANGLE_TYPE_1_int16_t I16
 #define CC_MANGLE_TYPE_2_int16_t I16
