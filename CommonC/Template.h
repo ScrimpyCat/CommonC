@@ -2548,6 +2548,18 @@
 
 #define CC_PRESERVE_CC_TYPE_int64_t CC_TYPE_int64_t
 
+#define CC_TYPE_DECL_int64_t(...) int64_t
+#define CC_TYPE_DECL_0_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_1_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_2_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_3_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_4_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_5_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_6_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_7_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_8_int64_t CC_TYPE_DECL_int64_t,
+#define CC_TYPE_DECL_9_int64_t CC_TYPE_DECL_int64_t,
+
 #define CC_MANGLE_TYPE_0_int64_t I64
 #define CC_MANGLE_TYPE_1_int64_t I64
 #define CC_MANGLE_TYPE_2_int64_t I64
