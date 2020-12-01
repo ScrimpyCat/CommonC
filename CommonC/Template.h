@@ -2586,6 +2586,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uint8_t CC_TYPE_uint8_t
 
+#define CC_TYPE_DECL_uint8_t(...) uint8_t
+#define CC_TYPE_DECL_0_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_1_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_2_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_3_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_4_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_5_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_6_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_7_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_8_uint8_t CC_TYPE_DECL_uint8_t,
+#define CC_TYPE_DECL_9_uint8_t CC_TYPE_DECL_uint8_t,
+
 #define CC_MANGLE_TYPE_0_uint8_t U8
 #define CC_MANGLE_TYPE_1_uint8_t U8
 #define CC_MANGLE_TYPE_2_uint8_t U8
