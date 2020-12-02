@@ -2624,6 +2624,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uint16_t CC_TYPE_uint16_t
 
+#define CC_TYPE_DECL_uint16_t(...) uint16_t
+#define CC_TYPE_DECL_0_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_1_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_2_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_3_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_4_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_5_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_6_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_7_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_8_uint16_t CC_TYPE_DECL_uint16_t,
+#define CC_TYPE_DECL_9_uint16_t CC_TYPE_DECL_uint16_t,
+
 #define CC_MANGLE_TYPE_0_uint16_t U16
 #define CC_MANGLE_TYPE_1_uint16_t U16
 #define CC_MANGLE_TYPE_2_uint16_t U16
