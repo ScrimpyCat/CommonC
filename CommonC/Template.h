@@ -2662,6 +2662,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uint32_t CC_TYPE_uint32_t
 
+#define CC_TYPE_DECL_uint32_t(...) uint32_t
+#define CC_TYPE_DECL_0_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_1_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_2_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_3_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_4_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_5_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_6_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_7_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_8_uint32_t CC_TYPE_DECL_uint32_t,
+#define CC_TYPE_DECL_9_uint32_t CC_TYPE_DECL_uint32_t,
+
 #define CC_MANGLE_TYPE_0_uint32_t U32
 #define CC_MANGLE_TYPE_1_uint32_t U32
 #define CC_MANGLE_TYPE_2_uint32_t U32
