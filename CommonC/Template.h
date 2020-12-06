@@ -2802,6 +2802,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uint64_t CC_TYPE_uint64_t
 
+#define CC_TYPE_DECL_uint64_t(...) uint64_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_1_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_2_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_3_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_4_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_5_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_6_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_7_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_8_uint64_t CC_TYPE_DECL_uint64_t,
+#define CC_TYPE_DECL_9_uint64_t CC_TYPE_DECL_uint64_t,
+
 #define CC_MANGLE_TYPE_0_uint64_t U64
 #define CC_MANGLE_TYPE_1_uint64_t U64
 #define CC_MANGLE_TYPE_2_uint64_t U64
