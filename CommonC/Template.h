@@ -2913,6 +2913,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uintmax_t CC_TYPE_uintmax_t
 
+#define CC_TYPE_DECL_uintmax_t(...) uintmax_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_1_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_2_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_3_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_4_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_5_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_6_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_7_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_8_uintmax_t CC_TYPE_DECL_uintmax_t,
+#define CC_TYPE_DECL_9_uintmax_t CC_TYPE_DECL_uintmax_t,
+
 #if UINTMAX_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_uintmax_t U8
 #define CC_MANGLE_TYPE_1_uintmax_t U8
