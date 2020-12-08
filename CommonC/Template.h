@@ -2840,6 +2840,18 @@
 
 #define CC_PRESERVE_CC_TYPE_intmax_t CC_TYPE_intmax_t
 
+#define CC_TYPE_DECL_intmax_t(...) intmax_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_1_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_2_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_3_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_4_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_5_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_6_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_7_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_8_intmax_t CC_TYPE_DECL_intmax_t,
+#define CC_TYPE_DECL_9_intmax_t CC_TYPE_DECL_intmax_t,
+
 #if INTMAX_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_intmax_t I8
 #define CC_MANGLE_TYPE_1_intmax_t I8
