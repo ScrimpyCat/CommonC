@@ -3059,6 +3059,18 @@
 
 #define CC_PRESERVE_CC_TYPE_uintptr_t CC_TYPE_uintptr_t
 
+#define CC_TYPE_DECL_uintptr_t(...) uintptr_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_1_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_2_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_3_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_4_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_5_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_6_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_7_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_8_uintptr_t CC_TYPE_DECL_uintptr_t,
+#define CC_TYPE_DECL_9_uintptr_t CC_TYPE_DECL_uintptr_t,
+
 #if UINTPTR_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_uintptr_t U8
 #define CC_MANGLE_TYPE_1_uintptr_t U8
