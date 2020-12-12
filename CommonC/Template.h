@@ -3205,6 +3205,18 @@
 
 #define CC_PRESERVE_CC_TYPE_size_t CC_TYPE_size_t
 
+#define CC_TYPE_DECL_size_t(...) size_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_1_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_2_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_3_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_4_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_5_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_6_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_7_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_8_size_t CC_TYPE_DECL_size_t,
+#define CC_TYPE_DECL_9_size_t CC_TYPE_DECL_size_t,
+
 #if SIZE_MAX == UINT8_MAX
 #define CC_MANGLE_TYPE_0_size_t U8
 #define CC_MANGLE_TYPE_1_size_t U8
