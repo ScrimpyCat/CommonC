@@ -3132,6 +3132,18 @@
 
 #define CC_PRESERVE_CC_TYPE_ptrdiff_t CC_TYPE_ptrdiff_t
 
+#define CC_TYPE_DECL_ptrdiff_t(...) ptrdiff_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_1_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_2_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_3_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_4_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_5_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_6_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_7_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_8_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+#define CC_TYPE_DECL_9_ptrdiff_t CC_TYPE_DECL_ptrdiff_t,
+
 #if PTRDIFF_MAX == INT8_MAX
 #define CC_MANGLE_TYPE_0_ptrdiff_t I8
 #define CC_MANGLE_TYPE_1_ptrdiff_t I8
