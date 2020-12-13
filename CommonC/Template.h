@@ -29,6 +29,52 @@
 #include <CommonC/Base.h>
 #include <CommonC/Hacks.h>
 
+#pragma mark Template
+
+/*!
+ * @define CC_TEMPLATE
+ * @brief Get the templated variable or functon.
+ * @description The variable or functon name should have a @b CC_TYPE_0_ definition,
+ *              and a functon name should have a @b CC_TYPE_DECL_0_ definition.
+ */
+#define CC_TEMPLATE(x) CC_TYPE_DECL(x) CC_TEMPLATE_(CC_PRESERVE_TYPE(x))
+#define CC_TEMPLATE_(...) CC_TEMPLATE__(__VA_ARGS__)
+#define CC_TEMPLATE__(x, y, ...) CC_TEMPLATE___(CC_MANGLE_TYPE(x), y)
+#define CC_TEMPLATE___(...) CC_TEMPLATE____(__VA_ARGS__)
+#define CC_TEMPLATE____(x, y) CC_TEMPLATE_____(x, CC_TYPE(y), y)
+#define CC_TEMPLATE_____(...) CC_TEMPLATE______(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_TEMPLATE______(...) CC_TEMPLATE_______(__VA_ARGS__)
+#define CC_TEMPLATE_______(n, ...) CC_TEMPLATE________(CC_TEMPLATE_##n, __VA_ARGS__)
+#define CC_TEMPLATE________(n, ...) n(__VA_ARGS__)
+
+#define CC_TEMPLATE_3(r, a, f) CC_TEMPLATE_3_(r, a, CC_TYPE_DECL(f))
+#define CC_TEMPLATE_3_(r, a, f) CC_TEMPLATE_3__(r, a, f)
+#define CC_TEMPLATE_3__(r, a, f) r##_##a##_##f
+#define CC_TEMPLATE_4(t, _1, _2, v) t##_##v
+
+/*!
+ * @define CC_MANGLE_ARGS
+ * @brief Get the type signature for the functon arguments.
+ * @description This should be used when defining your type for your function name. e.g. #define
+ *              CC_TYPE_0_var(...) CC_MANGLE_ARGS(__VA_ARGS__)
+ */
+#define CC_MANGLE_ARGS(...) CC_MANGLE_TYPE_LIST_0, __VA_ARGS__ void
+
+#define CC_TYPE_DECL_ARG(x, ...) CC_TYPE_DECL_ARG_(CC_PRESERVE_TYPE_DECL_1(x))
+#define CC_TYPE_DECL_ARG_(...) CC_TYPE_DECL_ARG__(__VA_ARGS__)
+#define CC_TYPE_DECL_ARG__(x, ...) x CC_VA_ARG_LAST(__VA_ARGS__)
+
+#define CC_TYPE_DECL_ARGS(...) CC_RECURSIVE_0_MAP(CC_TYPE_DECL_ARG, __VA_ARGS__)
+
+/*!
+ * @define CC_TYPE_DECL_FUN
+ * @brief Get the declaration for a function.
+ * @description This should be used when defining your decl for your function name. e.g. #define
+ *              CC_TYPE_DECL_0_var CC_TYPE_DECL_FUN, var,
+ */
+#define CC_TYPE_DECL_FUN(name, ...) name(CC_TYPE_DECL_ARGS __VA_ARGS__)
+
+
 #pragma mark Mangling
 
 /*!
