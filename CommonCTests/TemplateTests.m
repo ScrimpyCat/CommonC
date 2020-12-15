@@ -257,4 +257,79 @@
 #endif
 }
 
+-(void) testTypeDeclaration
+{
+#define DECL(...) STR(CC_TYPE_DECL(__VA_ARGS__))
+#define PRESERVE_DECL(...) STR(CC_PRESERVE_TYPE_DECL(__VA_ARGS__))
+    
+    XCTAssertEqualObjects(DECL(int), @"int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(int var), @"int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(const int), @"const int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned int), @"unsigned int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned), @"unsigned", @"should have correct value");
+    XCTAssertEqualObjects(DECL(PTYPE(int)), @"int *", @"should have correct value");
+    XCTAssertEqualObjects(DECL(PTYPE(int *)), @"int *", @"should have correct value");
+    XCTAssertEqualObjects(DECL(PTYPE(PTYPE(int))), @"int * *", @"should have correct value");
+    XCTAssertEqualObjects(DECL(static _Alignas(int) _Atomic unsigned char v), @"static _Alignas(int) _Atomic unsigned char", @"should have correct value");
+    
+    XCTAssertEqualObjects(PRESERVE_DECL(int), @"int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(int var), @"int, var", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(static char var), @"static char, char, var", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(const int), @"const int, int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(unsigned int), @"unsigned int, int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(unsigned int v), @"unsigned int, int, v", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(unsigned), @"unsigned ,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(TYPE(unsigned) v), @"unsigned, v", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(int)), @"int *, int,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(int) v), @"int *, int, v", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(int *)), @"int *, int *,", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(int *) v), @"int *, int *, v", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(PTYPE(int))), @"int * *, PTYPE(int),", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(PTYPE(PTYPE(int)) v), @"int * *, PTYPE(int), v", @"should have correct value");
+    XCTAssertEqualObjects(PRESERVE_DECL(static _Alignas(int) _Atomic unsigned char v), @"static _Alignas(int) _Atomic unsigned char, _Alignas(int) _Atomic unsigned char, _Atomic unsigned char, unsigned char, char, v", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(char), @"char", @"should have correct value");
+    XCTAssertEqualObjects(DECL(signed char), @"signed char", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned char), @"unsigned char", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(short), @"short", @"should have correct value");
+    XCTAssertEqualObjects(DECL(signed short), @"signed short", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned short), @"unsigned short", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(int), @"int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(signed int), @"signed int", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned int), @"unsigned int", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(long), @"long", @"should have correct value");
+    XCTAssertEqualObjects(DECL(signed long), @"signed long", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned long), @"unsigned long", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(long long), @"long long", @"should have correct value");
+    XCTAssertEqualObjects(DECL(signed long long), @"signed long long", @"should have correct value");
+    XCTAssertEqualObjects(DECL(unsigned long long), @"unsigned long long", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(float), @"float", @"should have correct value");
+    XCTAssertEqualObjects(DECL(double), @"double", @"should have correct value");
+    XCTAssertEqualObjects(DECL(long double), @"long double", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(int8_t), @"int8_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uint8_t), @"uint8_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(int16_t), @"int16_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uint16_t), @"uint16_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(int32_t), @"int32_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uint32_t), @"uint32_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(int64_t), @"int64_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uint64_t), @"uint64_t", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(size_t), @"size_t", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(intmax_t), @"intmax_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uintmax_t), @"uintmax_t", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(intptr_t), @"intptr_t", @"should have correct value");
+    XCTAssertEqualObjects(DECL(uintptr_t), @"uintptr_t", @"should have correct value");
+    
+    XCTAssertEqualObjects(DECL(ptrdiff_t), @"ptrdiff_t", @"should have correct value");
+}
+
 @end
