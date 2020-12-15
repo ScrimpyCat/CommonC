@@ -332,4 +332,20 @@
     XCTAssertEqualObjects(DECL(ptrdiff_t), @"ptrdiff_t", @"should have correct value");
 }
 
+-(void) testTemplate
+{
+#define TEMPLATE(...) STR(CC_TEMPLATE(__VA_ARGS__))
+#define CC_TYPE_0_var(...) CC_MANGLE_ARGS(__VA_ARGS__)
+#define CC_TYPE_DECL_0_var CC_TYPE_DECL_FUN, var,
+    
+    XCTAssertEqualObjects(TEMPLATE(int var), @"int I32_var", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(const float var), @"const float F32_var", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(const PTYPE(float*) var), @"const float * pF32_var", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int var(void)), @"int I32_V_var(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int var(PTYPE(void*) Ptr, size_t Size)), @"int I32_pV_U64_var(void * Ptr, size_t Size)", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int var(const PTYPE(void*) Ptr, register size_t Size)), @"int I32_pV_U64_var(const void * Ptr, register size_t Size)", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int var(const PTYPE(void*) const Ptr, register size_t Size)), @"int I32_pV_U64_var(const void * const Ptr, register size_t Size)", @"should have correct value");
+    
+}
+
 @end
