@@ -718,4 +718,31 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_RECURSIVE_8_MAP_20(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16), fun(x17, 17), fun(x18, 18), fun(x19, 19)
 #define CC_RECURSIVE_9_MAP_20(fun, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) fun(x0, 0), fun(x1, 1), fun(x2, 2), fun(x3, 3), fun(x4, 4), fun(x5, 5), fun(x6, 6), fun(x7, 7), fun(x8, 8), fun(x9, 9), fun(x10, 10), fun(x11, 11), fun(x12, 12), fun(x13, 13), fun(x14, 14), fun(x15, 15), fun(x16, 16), fun(x17, 17), fun(x18, 18), fun(x19, 19)
 
+#define CC_VA_ARG_LAST(...) CC_VA_ARG_LAST_(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_VA_ARG_LAST_(n, ...) CC_VA_ARG_LAST__(n, __VA_ARGS__)
+#define CC_VA_ARG_LAST__(n, ...) CC_VA_ARG_LAST___(CC_VA_ARG_LAST_##n, __VA_ARGS__)
+#define CC_VA_ARG_LAST___(last, ...) last(__VA_ARGS__)
+
+#define CC_VA_ARG_LAST_0()
+#define CC_VA_ARG_LAST_1(x0) x0
+#define CC_VA_ARG_LAST_2(x0, x1) x1
+#define CC_VA_ARG_LAST_3(x0, x1, x2) x2
+#define CC_VA_ARG_LAST_4(x0, x1, x2, x3) x3
+#define CC_VA_ARG_LAST_5(x0, x1, x2, x3, x4) x4
+#define CC_VA_ARG_LAST_6(x0, x1, x2, x3, x4, x5) x5
+#define CC_VA_ARG_LAST_7(x0, x1, x2, x3, x4, x5, x6) x6
+#define CC_VA_ARG_LAST_8(x0, x1, x2, x3, x4, x5, x6, x7) x7
+#define CC_VA_ARG_LAST_9(x0, x1, x2, x3, x4, x5, x6, x7, x8) x8
+#define CC_VA_ARG_LAST_10(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) x9
+#define CC_VA_ARG_LAST_11(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10) x10
+#define CC_VA_ARG_LAST_12(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11) x11
+#define CC_VA_ARG_LAST_13(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12) x12
+#define CC_VA_ARG_LAST_14(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13) x13
+#define CC_VA_ARG_LAST_15(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14) x14
+#define CC_VA_ARG_LAST_16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15) x15
+#define CC_VA_ARG_LAST_17(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16) x16
+#define CC_VA_ARG_LAST_18(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17) x17
+#define CC_VA_ARG_LAST_19(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) x18
+#define CC_VA_ARG_LAST_20(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) x19
+
 #endif
