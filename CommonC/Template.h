@@ -74,6 +74,13 @@
  */
 #define CC_TYPE_DECL_FUN(name, ...) name(CC_TYPE_DECL_ARGS __VA_ARGS__)
 
+/*!
+ * @define CC_TEMPLATE_REF
+ * @brief Get the templated name for the given type description.
+ */
+#define CC_TEMPLATE_REF(name, ...) CC_TEMPLATE_REF_(name, CC_MANGLE_TYPE_LIST_0(__VA_ARGS__))
+#define CC_TEMPLATE_REF_(...) CC_TEMPLATE_REF__(__VA_ARGS__)
+#define CC_TEMPLATE_REF__(name, sig) sig##_##name
 
 #pragma mark Mangling
 
