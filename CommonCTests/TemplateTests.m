@@ -348,4 +348,25 @@
     XCTAssertEqualObjects(TEMPLATE(int var(const PTYPE(void*) const Ptr, register size_t Size)), @"int I32_pV_U64_var(const void * const Ptr, register size_t Size)", @"should have correct value");
 }
 
+-(void) testTemplateRef
+{
+#define TEMPLATE_REF(...) STR(CC_TEMPLATE_REF(__VA_ARGS__))
+    
+    XCTAssertEqualObjects(TEMPLATE_REF(foo, int), @"I32_foo", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE_REF(foo, int, void), @"I32_V_foo", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE_REF(foo, PTYPE(int *)), @"pI32_foo", @"should have correct value");
+    
+#if ULONG_MAX == UINT32_MAX
+    XCTAssertEqualObjects(TEMPLATE_REF(var, long), @"I32_var", @"should have correct value");
+#elif ULONG_MAX == UINT64_MAX
+    XCTAssertEqualObjects(TEMPLATE_REF(var, long), @"I64_var", @"should have correct value");
+#endif
+    
+#if ULLONG_MAX == UINT32_MAX
+    XCTAssertEqualObjects(TEMPLATE_REF(var, long long), @"I32_var", @"should have correct value");
+#elif ULLONG_MAX == UINT64_MAX
+    XCTAssertEqualObjects(TEMPLATE_REF(var, long long), @"I64_var", @"should have correct value");
+#endif
+}
+
 @end
