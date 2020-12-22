@@ -1015,6 +1015,39 @@
 #define CC_TYPE_DECL_8__Alignas(x) CC_TYPE_DECL__Alignas_8, x,
 #define CC_TYPE_DECL_9__Alignas(x) CC_TYPE_DECL__Alignas_9, x,
 
+// MARK: __attribute__
+#define CC_TYPE_0___attribute__(x) CC_TYPE_1,
+#define CC_TYPE_1___attribute__(x) CC_TYPE_2,
+#define CC_TYPE_2___attribute__(x) CC_TYPE_3,
+#define CC_TYPE_3___attribute__(x) CC_TYPE_4,
+#define CC_TYPE_4___attribute__(x) CC_TYPE_5,
+#define CC_TYPE_5___attribute__(x) CC_TYPE_6,
+#define CC_TYPE_6___attribute__(x) CC_TYPE_7,
+#define CC_TYPE_7___attribute__(x) CC_TYPE_8,
+#define CC_TYPE_8___attribute__(x) CC_TYPE_9,
+#define CC_TYPE_9___attribute__(x) CC_TYPE_10,
+
+#define CC_TYPE_DECL___attribute___0(x, ...) __attribute__(x) CC_TYPE_DECL_1(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_1(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___1(x, ...) __attribute__(x) CC_TYPE_DECL_2(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_2(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___2(x, ...) __attribute__(x) CC_TYPE_DECL_3(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_3(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___3(x, ...) __attribute__(x) CC_TYPE_DECL_4(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_4(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___4(x, ...) __attribute__(x) CC_TYPE_DECL_5(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_5(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___5(x, ...) __attribute__(x) CC_TYPE_DECL_6(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_6(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___6(x, ...) __attribute__(x) CC_TYPE_DECL_7(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_7(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___7(x, ...) __attribute__(x) CC_TYPE_DECL_8(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_8(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___8(x, ...) __attribute__(x) CC_TYPE_DECL_9(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_9(__VA_ARGS__)
+#define CC_TYPE_DECL___attribute___9(x, ...) __attribute__(x) CC_TYPE_DECL_10(__VA_ARGS__), CC_PRESERVE_TYPE_DECL_10(__VA_ARGS__)
+#define CC_TYPE_DECL_0___attribute__(x) CC_TYPE_DECL___attribute___0, x,
+#define CC_TYPE_DECL_1___attribute__(x) CC_TYPE_DECL___attribute___1, x,
+#define CC_TYPE_DECL_2___attribute__(x) CC_TYPE_DECL___attribute___2, x,
+#define CC_TYPE_DECL_3___attribute__(x) CC_TYPE_DECL___attribute___3, x,
+#define CC_TYPE_DECL_4___attribute__(x) CC_TYPE_DECL___attribute___4, x,
+#define CC_TYPE_DECL_5___attribute__(x) CC_TYPE_DECL___attribute___5, x,
+#define CC_TYPE_DECL_6___attribute__(x) CC_TYPE_DECL___attribute___6, x,
+#define CC_TYPE_DECL_7___attribute__(x) CC_TYPE_DECL___attribute___7, x,
+#define CC_TYPE_DECL_8___attribute__(x) CC_TYPE_DECL___attribute___8, x,
+#define CC_TYPE_DECL_9___attribute__(x) CC_TYPE_DECL___attribute___9, x,
+
 #pragma mark -
 #pragma mark Types
 
