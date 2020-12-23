@@ -37,20 +37,35 @@
  * @description The variable or functon name should have a @b CC_TYPE_0_ definition,
  *              and a functon name should have a @b CC_TYPE_DECL_0_ definition.
  */
-#define CC_TEMPLATE(x) CC_TYPE_DECL(x) CC_TEMPLATE_(CC_PRESERVE_TYPE(x))
+#define CC_TEMPLATE(...) CC_TEMPLATE_(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
 #define CC_TEMPLATE_(...) CC_TEMPLATE__(__VA_ARGS__)
-#define CC_TEMPLATE__(x, y, ...) CC_TEMPLATE___(CC_MANGLE_TYPE(x), y)
-#define CC_TEMPLATE___(...) CC_TEMPLATE____(__VA_ARGS__)
-#define CC_TEMPLATE____(x, y) CC_TEMPLATE_____(x, CC_TYPE(y), y)
-#define CC_TEMPLATE_____(...) CC_TEMPLATE______(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
-#define CC_TEMPLATE______(...) CC_TEMPLATE_______(__VA_ARGS__)
-#define CC_TEMPLATE_______(n, ...) CC_TEMPLATE________(CC_TEMPLATE_##n, __VA_ARGS__)
-#define CC_TEMPLATE________(n, ...) n(__VA_ARGS__)
+#define CC_TEMPLATE__(n, ...) CC_TEMPLATE___(CC_TEMPLATE_V##n, __VA_ARGS__)
+#define CC_TEMPLATE___(n, ...) n(__VA_ARGS__)
 
-#define CC_TEMPLATE_3(r, a, f) CC_TEMPLATE_3_(r, a, CC_TYPE_DECL(f))
-#define CC_TEMPLATE_3_(r, a, f) CC_TEMPLATE_3__(r, a, f)
-#define CC_TEMPLATE_3__(r, a, f) r##_##a##_##f
-#define CC_TEMPLATE_4(t, _1, _2, v) t##_##v
+#define CC_TEMPLATE_V1(x) CC_TYPE_DECL(x) CC_TEMPLATE_V1_(CC_PRESERVE_TYPE(x))
+#define CC_TEMPLATE_V1_(...) CC_TEMPLATE_V1__(__VA_ARGS__)
+#define CC_TEMPLATE_V1__(x, y, ...) CC_TEMPLATE_V1___(CC_MANGLE_TYPE(x), y)
+#define CC_TEMPLATE_V1___(...) CC_TEMPLATE_V1____(__VA_ARGS__)
+#define CC_TEMPLATE_V1____(x, y) CC_TEMPLATE_V1_____(x, CC_TYPE(y), y)
+#define CC_TEMPLATE_V1_____(...) CC_TEMPLATE_V1______(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_TEMPLATE_V1______(...) CC_TEMPLATE_V1_______(__VA_ARGS__)
+#define CC_TEMPLATE_V1_______(n, ...) CC_TEMPLATE_V1________(CC_TEMPLATE_V1_##n, __VA_ARGS__)
+#define CC_TEMPLATE_V1________(n, ...) n(__VA_ARGS__)
+
+#define CC_TEMPLATE_V1_3(r, a, f) CC_TEMPLATE_V1_3_(r, a, CC_TYPE_DECL(f))
+#define CC_TEMPLATE_V1_3_(r, a, f) CC_TEMPLATE_V1_3__(r, a, f)
+#define CC_TEMPLATE_V1_3__(r, a, f) r##_##a##_##f
+#define CC_TEMPLATE_V1_4(t, _1, _2, v) t##_##v
+
+#define CC_TEMPLATE_V2(x, name) CC_TYPE_DECL(x) CC_TEMPLATE_V2_(CC_MANGLE_TYPE(x), name)
+#define CC_TEMPLATE_V2_(...) CC_TEMPLATE_V2__(__VA_ARGS__)
+#define CC_TEMPLATE_V2__(x, name) x##_##name
+
+#define CC_TEMPLATE_V3(r, name, a) CC_TYPE_DECL(r) CC_TEMPLATE_V3_(CC_MANGLE_TYPE(r), name, CC_MANGLE_ARGS a)(CC_TYPE_DECL_ARGS a)
+#define CC_TEMPLATE_V3_(...) CC_TEMPLATE_V3__(__VA_ARGS__)
+#define CC_TEMPLATE_V3__(r, name, x, ...) CC_TEMPLATE_V3___(r, name, x(__VA_ARGS__))
+#define CC_TEMPLATE_V3___(...) CC_TEMPLATE_V3____(__VA_ARGS__)
+#define CC_TEMPLATE_V3____(r, name, a) r##_##a##_##name
 
 /*!
  * @define CC_MANGLE_ARGS
