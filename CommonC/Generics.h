@@ -26,6 +26,44 @@
 #ifndef CommonC_Generics_h
 #define CommonC_Generics_h
 
+#include <CommonC/Hacks.h>
+
 #define CC_GENERIC_EVALUATE(val, ...) _Generic((1? (val) : (val)), __VA_ARGS__)
+
+#define CC_GENERIC_INDEXED_TYPE(name, index) name##index
+
+#define CC_GENERIC_INDEXED_TYPE_LIST(name, count) CC_REPEAT(0, count, CC_GENERIC_INDEXED_TYPE, name)
+
+#define CC_GENERIC_TYPE_MATCH(type, _, fun) type: fun(type)
+
+#define CC_GENERIC_CONSUME(...) __VA_ARGS__
+
+#define CC_GENERIC_1(generic, types, ...) CC_GENERIC_1_(generic, types, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
+#define CC_GENERIC_1_(...) CC_GENERIC_1__(__VA_ARGS__)
+#define CC_GENERIC_1__(generic, types, n, ...) CC_GENERIC_1___(generic, types, CC_GENERIC_1_##n, __VA_ARGS__)
+#define CC_GENERIC_1___(generic, types, x, ...) x(generic, types, __VA_ARGS__)
+
+#define CC_GENERIC_N_n(generic, types, args, ...) CC_GENERIC_EVALUATE(__VA_ARGS__, CC_MAP_WITH(CC_GENERIC_TYPE_MATCH, generic, CC_GENERIC_CONSUME types)) args
+
+#define CC_GENERIC_1_n(generic, types, x, ...) CC_GENERIC_N_n(generic, types, (__VA_ARGS__), x)
+#define CC_GENERIC_1_1(generic, types, x) CC_GENERIC_1_n(generic, types, x, x)
+#define CC_GENERIC_1_2(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_3(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_4(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_5(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_6(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_7(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_8(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_9(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_10(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_11(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_12(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_13(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_14(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_15(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_16(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_17(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_18(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
+#define CC_GENERIC_1_19(generic, types, x, ...) CC_GENERIC_1_n(generic, types, x, x, __VA_ARGS__)
 
 #endif
