@@ -76,16 +76,6 @@
 #include "Extrema.h"
 #undef T
 
-static CC_FORCE_INLINE double CCClampd(const double val, const double min, const double max)
-{
-    return fmin(fmax(val, min), max);
-}
-
-static CC_FORCE_INLINE int CCClampi(const int val, const int min, const int max)
-{
-    return (val > min? (val < max? val : max ) : min);
-}
-
 static CC_FORCE_INLINE uint32_t CCFloatGetUlps(const float a, const float b)
 {
     return *(uint32_t*)&a > *(uint32_t*)&b ? *(uint32_t*)&a - *(uint32_t*)&b : *(uint32_t*)&b - *(uint32_t*)&a;

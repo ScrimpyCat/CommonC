@@ -354,12 +354,12 @@ static inline int CCRandomi(void) //returns a random number between 0 - RAND_MAX
 
 static inline double CCRandomRanged(double min, double max)
 {
-    return CCClampd(CCRandomd() * (max - min) + min, min, max);
+    return CCClamp(CCRandomd() * (max - min) + min, min, max);
 }
 
 static inline float CCRandomRangef(float min, float max)
 {
-    return CCClampf(CCRandomf() * (max - min) + min, min, max);
+    return CCClamp(CCRandomf() * (max - min) + min, min, max);
 }
 
 static inline int32_t CCRandomRangei(int32_t min, int32_t max)
