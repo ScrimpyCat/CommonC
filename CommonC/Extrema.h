@@ -410,9 +410,7 @@
 
 #undef CC_EXTREMA_COUNT
 
-#if CC_GENERIC_COUNT == 0
-#define CC_EXTREMA_COUNT 0
-#elif CC_GENERIC_COUNT == 1
+#if CC_GENERIC_COUNT == 1
 #define CC_EXTREMA_COUNT 1
 #elif CC_GENERIC_COUNT == 2
 #define CC_EXTREMA_COUNT 2
@@ -450,6 +448,10 @@
 #define CC_EXTREMA_COUNT 18
 #elif CC_GENERIC_COUNT == 19
 #define CC_EXTREMA_COUNT 19
+#elif CC_GENERIC_COUNT == 20
+#define CC_EXTREMA_COUNT 20
+#else
+#error Add additional cases
 #endif
 
 #undef CC_GENERIC_COUNT
