@@ -27,7 +27,7 @@
 
 #define CCMin_T(t) CC_TEMPLATE_REF(CCMin, t, t, t)
 #define CCMax_T(t) CC_TEMPLATE_REF(CCMax, t, t, t)
-#define CCClamp_T(t) CC_TEMPLATE_REF(CCClamp, t, t, t)
+#define CCClamp_T(t) CC_TEMPLATE_REF(CCClamp, t, t, t, t)
 
 CC_TEMPLATE(static CC_FORCE_INLINE T, CCMin, (const T a, const T b));
 CC_TEMPLATE(static CC_FORCE_INLINE T, CCMax, (const T a, const T b));
