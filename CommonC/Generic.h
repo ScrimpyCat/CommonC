@@ -510,7 +510,7 @@ typedef T CC_GENERIC_T(1);
 #elif CC_GENERIC_COUNT == 2
 typedef T CC_GENERIC_T(2);
 #undef T
-#define T CC_GENERIC_T(2)
+#define T CC_GENERIC_T2
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 3
@@ -518,7 +518,7 @@ typedef T CC_GENERIC_T(2);
 #elif CC_GENERIC_COUNT == 3
 typedef T CC_GENERIC_T(3);
 #undef T
-#define T CC_GENERIC_T(3)
+#define T CC_GENERIC_T3
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 4
@@ -526,7 +526,7 @@ typedef T CC_GENERIC_T(3);
 #elif CC_GENERIC_COUNT == 4
 typedef T CC_GENERIC_T(4);
 #undef T
-#define T CC_GENERIC_T(4)
+#define T CC_GENERIC_T4
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 5
@@ -534,7 +534,7 @@ typedef T CC_GENERIC_T(4);
 #elif CC_GENERIC_COUNT == 5
 typedef T CC_GENERIC_T(5);
 #undef T
-#define T CC_GENERIC_T(5)
+#define T CC_GENERIC_T5
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 6
@@ -542,7 +542,7 @@ typedef T CC_GENERIC_T(5);
 #elif CC_GENERIC_COUNT == 6
 typedef T CC_GENERIC_T(6);
 #undef T
-#define T CC_GENERIC_T(6)
+#define T CC_GENERIC_T6
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 7
@@ -550,7 +550,7 @@ typedef T CC_GENERIC_T(6);
 #elif CC_GENERIC_COUNT == 7
 typedef T CC_GENERIC_T(7);
 #undef T
-#define T CC_GENERIC_T(7)
+#define T CC_GENERIC_T7
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 8
@@ -558,7 +558,7 @@ typedef T CC_GENERIC_T(7);
 #elif CC_GENERIC_COUNT == 8
 typedef T CC_GENERIC_T(8);
 #undef T
-#define T CC_GENERIC_T(8)
+#define T CC_GENERIC_T8
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 9
@@ -566,7 +566,7 @@ typedef T CC_GENERIC_T(8);
 #elif CC_GENERIC_COUNT == 9
 typedef T CC_GENERIC_T(9);
 #undef T
-#define T CC_GENERIC_T(9)
+#define T CC_GENERIC_T9
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 10
@@ -574,7 +574,7 @@ typedef T CC_GENERIC_T(9);
 #elif CC_GENERIC_COUNT == 10
 typedef T CC_GENERIC_T(10);
 #undef T
-#define T CC_GENERIC_T(10)
+#define T CC_GENERIC_T10
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 11
@@ -582,7 +582,7 @@ typedef T CC_GENERIC_T(10);
 #elif CC_GENERIC_COUNT == 11
 typedef T CC_GENERIC_T(11);
 #undef T
-#define T CC_GENERIC_T(11)
+#define T CC_GENERIC_T11
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 12
@@ -590,7 +590,7 @@ typedef T CC_GENERIC_T(11);
 #elif CC_GENERIC_COUNT == 12
 typedef T CC_GENERIC_T(12);
 #undef T
-#define T CC_GENERIC_T(12)
+#define T CC_GENERIC_T12
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 13
@@ -598,7 +598,7 @@ typedef T CC_GENERIC_T(12);
 #elif CC_GENERIC_COUNT == 13
 typedef T CC_GENERIC_T(13);
 #undef T
-#define T CC_GENERIC_T(13)
+#define T CC_GENERIC_T13
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 14
@@ -606,7 +606,7 @@ typedef T CC_GENERIC_T(13);
 #elif CC_GENERIC_COUNT == 14
 typedef T CC_GENERIC_T(14);
 #undef T
-#define T CC_GENERIC_T(14)
+#define T CC_GENERIC_T14
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 15
@@ -614,7 +614,7 @@ typedef T CC_GENERIC_T(14);
 #elif CC_GENERIC_COUNT == 15
 typedef T CC_GENERIC_T(15);
 #undef T
-#define T CC_GENERIC_T(15)
+#define T CC_GENERIC_T15
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 16
@@ -622,7 +622,7 @@ typedef T CC_GENERIC_T(15);
 #elif CC_GENERIC_COUNT == 16
 typedef T CC_GENERIC_T(16);
 #undef T
-#define T CC_GENERIC_T(16)
+#define T CC_GENERIC_T16
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 17
@@ -630,7 +630,7 @@ typedef T CC_GENERIC_T(16);
 #elif CC_GENERIC_COUNT == 17
 typedef T CC_GENERIC_T(17);
 #undef T
-#define T CC_GENERIC_T(17)
+#define T CC_GENERIC_T17
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 18
@@ -638,7 +638,7 @@ typedef T CC_GENERIC_T(17);
 #elif CC_GENERIC_COUNT == 18
 typedef T CC_GENERIC_T(18);
 #undef T
-#define T CC_GENERIC_T(18)
+#define T CC_GENERIC_T18
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 19
@@ -646,7 +646,7 @@ typedef T CC_GENERIC_T(18);
 #elif CC_GENERIC_COUNT == 19
 typedef T CC_GENERIC_T(19);
 #undef T
-#define T CC_GENERIC_T(19)
+#define T CC_GENERIC_T19
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 20
