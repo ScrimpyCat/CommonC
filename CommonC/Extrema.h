@@ -25,9 +25,13 @@
 
 #include <CommonC/Generics.h>
 
-#define CCMin(a, b) CC_GENERIC_1(CCMin_T, (CCMin_T_0), a, b)
-#define CCMax(a, b) CC_GENERIC_1(CCMax_T, (CCMax_T_0), a, b)
-#define CCClamp(val, min, max) CC_GENERIC_1(CCClamp_T, (CCClamp_T_0), val, min, max)
+#define CCMin(a, b) CCMin_Ref(a, b)(a, b)
+#define CCMax(a, b) CCMax_Ref(a, b)(a, b)
+#define CCClamp(val, min, max) CCClamp_Ref(val, min, max)(val, min, max)
+
+#define CCMin_Ref(a, b) CC_GENERIC_1(((typeof(a)){0}), CCMin_T, CCMin_T_0)
+#define CCMax_Ref(a, b) CC_GENERIC_1(((typeof(a)){0}), CCMax_T, CCMax_T_0)
+#define CCClamp_Ref(val, min, max) CC_GENERIC_1(((typeof(val)){0}), CCClamp_T, CCClamp_T_0)
 
 #define CCMin_T_0 CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
 #define CCMax_T_0 CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
