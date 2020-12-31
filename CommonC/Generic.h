@@ -656,3 +656,7 @@ typedef T CC_GENERIC_T(19);
 #endif
 
 #include CC_GENERIC_TEMPLATE
+
+#ifndef CC_GENERIC_PRESERVE_TYPE
+#undef T
+#endif
