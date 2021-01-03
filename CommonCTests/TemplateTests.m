@@ -267,9 +267,11 @@
     XCTAssertEqualObjects(DECL(const int), @"const int", @"should have correct value");
     XCTAssertEqualObjects(DECL(unsigned int), @"unsigned int", @"should have correct value");
     XCTAssertEqualObjects(DECL(unsigned), @"unsigned", @"should have correct value");
+    XCTAssertEqualObjects(DECL(FPTYPE(unsigned int(*)(void))), @"typeof(unsigned int (*)(void))", @"should have correct value");
     XCTAssertEqualObjects(DECL(PTYPE(int)), @"int *", @"should have correct value");
     XCTAssertEqualObjects(DECL(PTYPE(int *)), @"int *", @"should have correct value");
     XCTAssertEqualObjects(DECL(PTYPE(PTYPE(int))), @"int * *", @"should have correct value");
+    XCTAssertEqualObjects(DECL(FPTYPE(const unsigned int(*)(void))), @"typeof(const unsigned int (*)(void))", @"should have correct value");
     XCTAssertEqualObjects(DECL(static _Alignas(int) _Atomic unsigned char v), @"static _Alignas(int) _Atomic unsigned char", @"should have correct value");
     
     XCTAssertEqualObjects(PRESERVE_DECL(int), @"int,", @"should have correct value");
@@ -341,12 +343,28 @@
     XCTAssertEqualObjects(TEMPLATE(int var), @"int I32_var", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(const float var), @"const float F32_var", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(const PTYPE(float*) var), @"const float * pF32_var", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(const FPTYPE(float(*)(int, int)) var), @"const typeof(float (*)(int, int)) fp2F32_I32_I32_var", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(int var()), @"int I32_V_var()", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(int var(void)), @"int I32_V_var(void )", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(int var(PTYPE(void*) Ptr, size_t Size)), @"int I32_pV_U64_var(void * Ptr, size_t Size)", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(int var(const PTYPE(void*) Ptr, register size_t Size)), @"int I32_pV_U64_var(const void * Ptr, register size_t Size)", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(int var(const PTYPE(void*) const Ptr, register size_t Size)), @"int I32_pV_U64_var(const void * const Ptr, register size_t Size)", @"should have correct value");
     XCTAssertEqualObjects(TEMPLATE(__attribute__((always_inline)) int var(void)), @"__attribute__((always_inline)) int I32_V_var(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(PTYPE(int*) var(void)), @"int * pI32_V_var(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(FPTYPE(int(*)(void)) var(void)), @"typeof(int (*)(void)) fp1I32_V_V_var(void )", @"should have correct value");
+    
+    XCTAssertEqualObjects(TEMPLATE(int, foo), @"int I32_foo", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(const float, foo), @"const float F32_foo", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(const PTYPE(float*), foo), @"const float * pF32_foo", @"should have correct value");
+     XCTAssertEqualObjects(TEMPLATE(const FPTYPE(float(*)(int, int)), foo), @"const typeof(float (*)(int, int)) fp2F32_I32_I32_foo", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int, foo, ()), @"int I32_V_foo()", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int, foo, (void)), @"int I32_V_foo(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int, foo, (PTYPE(void*) Ptr, size_t Size)), @"int I32_pV_U64_foo(void * Ptr, size_t Size)", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int, foo, (const PTYPE(void*) Ptr, register size_t Size)), @"int I32_pV_U64_foo(const void * Ptr, register size_t Size)", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(int, foo, (const PTYPE(void*) const Ptr, register size_t Size)), @"int I32_pV_U64_foo(const void * const Ptr, register size_t Size)", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(__attribute__((always_inline)) int, foo, (void)), @"__attribute__((always_inline)) int I32_V_foo(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(PTYPE(int*), foo, (void)), @"int * pI32_V_foo(void )", @"should have correct value");
+    XCTAssertEqualObjects(TEMPLATE(FPTYPE(int(*)(void)), foo, (void)), @"typeof(int (*)(void)) fp1I32_V_V_foo(void )", @"should have correct value");
 }
 
 -(void) testTemplateRef
