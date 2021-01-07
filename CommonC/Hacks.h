@@ -385,6 +385,31 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
 #define CC_RESERVED_BITS(name, index, count) CC_REPEAT(index, count, CC_RESERVED_BIT, name)
 
+#define CC_GET(index, ...) CC_GET_(CC_GET_##index, __VA_ARGS__)
+#define CC_GET_(get, ...) get(__VA_ARGS__)
+
+#define CC_GET_0(x0, ...) x0
+#define CC_GET_1(x0, x1, ...) x1
+#define CC_GET_2(x0, x1, x2, ...) x2
+#define CC_GET_3(x0, x1, x2, x3, ...) x3
+#define CC_GET_4(x0, x1, x2, x3, x4, ...) x4
+#define CC_GET_5(x0, x1, x2, x3, x4, x5, ...) x5
+#define CC_GET_6(x0, x1, x2, x3, x4, x5, x6, ...) x6
+#define CC_GET_7(x0, x1, x2, x3, x4, x5, x6, x7, ...) x7
+#define CC_GET_8(x0, x1, x2, x3, x4, x5, x6, x7, x8, ...) x8
+#define CC_GET_9(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, ...) x9
+#define CC_GET_10(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, ...) x10
+#define CC_GET_11(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, ...) x11
+#define CC_GET_12(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, ...) x12
+#define CC_GET_13(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, ...) x13
+#define CC_GET_14(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, ...) x14
+#define CC_GET_15(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, ...) x15
+#define CC_GET_16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, ...) x16
+#define CC_GET_17(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, ...) x17
+#define CC_GET_18(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, ...) x18
+#define CC_GET_19(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, ...) x19
+#define CC_GET_20(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, ...) x20
+
 #define CC_MAP(fun, ...) CC_MAP_(fun, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
 #define CC_MAP_(fun, n, ...) CC_MAP__(fun, n, __VA_ARGS__)
 #define CC_MAP__(fun, n, ...) CC_MAP___(fun, CC_MAP_##n, __VA_ARGS__)
