@@ -982,145 +982,199 @@ typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(1);
 #define CC_GENERIC_COUNT 2
 
 #elif CC_GENERIC_COUNT == 2
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(2);
-#undef T
-#define T CC_GENERIC_T2
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(2);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(2);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx2
+#define Ty CC_GENERIC_Ty2
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 3
 
 #elif CC_GENERIC_COUNT == 3
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(3);
-#undef T
-#define T CC_GENERIC_T3
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(3);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(3);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx3
+#define Ty CC_GENERIC_Ty3
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 4
 
 #elif CC_GENERIC_COUNT == 4
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(4);
-#undef T
-#define T CC_GENERIC_T4
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(4);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(4);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx4
+#define Ty CC_GENERIC_Ty4
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 5
 
 #elif CC_GENERIC_COUNT == 5
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(5);
-#undef T
-#define T CC_GENERIC_T5
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(5);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(5);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx5
+#define Ty CC_GENERIC_Ty5
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 6
 
 #elif CC_GENERIC_COUNT == 6
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(6);
-#undef T
-#define T CC_GENERIC_T6
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(6);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(6);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx6
+#define Ty CC_GENERIC_Ty6
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 7
 
 #elif CC_GENERIC_COUNT == 7
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(7);
-#undef T
-#define T CC_GENERIC_T7
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(7);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(7);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx7
+#define Ty CC_GENERIC_Ty7
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 8
 
 #elif CC_GENERIC_COUNT == 8
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(8);
-#undef T
-#define T CC_GENERIC_T8
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(8);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(8);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx8
+#define Ty CC_GENERIC_Ty8
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 9
 
 #elif CC_GENERIC_COUNT == 9
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(9);
-#undef T
-#define T CC_GENERIC_T9
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(9);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(9);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx9
+#define Ty CC_GENERIC_Ty9
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 10
 
 #elif CC_GENERIC_COUNT == 10
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(10);
-#undef T
-#define T CC_GENERIC_T10
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(10);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(10);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx10
+#define Ty CC_GENERIC_Ty10
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 11
 
 #elif CC_GENERIC_COUNT == 11
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(11);
-#undef T
-#define T CC_GENERIC_T11
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(11);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(11);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx11
+#define Ty CC_GENERIC_Ty11
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 12
 
 #elif CC_GENERIC_COUNT == 12
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(12);
-#undef T
-#define T CC_GENERIC_T12
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(12);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(12);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx12
+#define Ty CC_GENERIC_Ty12
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 13
 
 #elif CC_GENERIC_COUNT == 13
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(13);
-#undef T
-#define T CC_GENERIC_T13
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(13);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(13);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx13
+#define Ty CC_GENERIC_Ty13
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 14
 
 #elif CC_GENERIC_COUNT == 14
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(14);
-#undef T
-#define T CC_GENERIC_T14
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(14);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(14);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx14
+#define Ty CC_GENERIC_Ty14
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 15
 
 #elif CC_GENERIC_COUNT == 15
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(15);
-#undef T
-#define T CC_GENERIC_T15
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(15);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(15);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx15
+#define Ty CC_GENERIC_Ty15
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 16
 
 #elif CC_GENERIC_COUNT == 16
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(16);
-#undef T
-#define T CC_GENERIC_T16
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(16);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(16);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx16
+#define Ty CC_GENERIC_Ty16
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 17
 
 #elif CC_GENERIC_COUNT == 17
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(17);
-#undef T
-#define T CC_GENERIC_T17
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(17);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(17);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx17
+#define Ty CC_GENERIC_Ty17
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 18
 
 #elif CC_GENERIC_COUNT == 18
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(18);
-#undef T
-#define T CC_GENERIC_T18
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(18);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(18);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx18
+#define Ty CC_GENERIC_Ty18
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 19
 
 #elif CC_GENERIC_COUNT == 19
-typedef CC_TYPE_DECL(T) CC_GENERIC_T(19);
-#undef T
-#define T CC_GENERIC_T19
+typedef CC_TYPE_DECL(Tx) CC_GENERIC_Tx(19);
+typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(19);
+#undef Tx
+#undef Ty
+#define Tx CC_GENERIC_Tx19
+#define Ty CC_GENERIC_Ty19
 
 #undef CC_GENERIC_COUNT
 #define CC_GENERIC_COUNT 20
