@@ -326,7 +326,7 @@
 #undef CC_GENERIC_TEMPLATE
 #define CC_GENERIC_TYPE CC_EXTREMA
 #define CC_GENERIC_TEMPLATE <CommonC/ExtremaTemplate.h>
-#include <CommonC/Generic.h>
+#include <CommonC/Generic1.h>
 
 #if CC_GENERIC_COUNT < 1
 #undef CC_MANGLE_TYPE_CC_EXTREMA_T0
