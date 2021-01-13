@@ -29,13 +29,11 @@
 #define CCMax(a, b) CCMax_Ref(a, b)(a, b)
 #define CCClamp(val, min, max) CCClamp_Ref(val, min, max)(val, min, max)
 
-#define CCMin_Ref(a, b) CC_GENERIC((((typeof(a)){0})), CCMin_T, (CCMin_T_0))
-#define CCMax_Ref(a, b) CC_GENERIC((((typeof(a)){0})), CCMax_T, (CCMax_T_0))
-#define CCClamp_Ref(val, min, max) CC_GENERIC((((typeof(val)){0})), CCClamp_T, (CCClamp_T_0))
+#define CCMin_Ref(a, b) CC_GENERIC((((typeof(a)){0})), CCMin_T, (CC_EXTREMA_T))
+#define CCMax_Ref(a, b) CC_GENERIC((((typeof(a)){0})), CCMax_T, (CC_EXTREMA_T))
+#define CCClamp_Ref(val, min, max) CC_GENERIC((((typeof(val)){0})), CCClamp_T, (CC_EXTREMA_T))
 
-#define CCMin_T_0 CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
-#define CCMax_T_0 CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
-#define CCClamp_T_0 CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
+#define CC_EXTREMA_T CC_GENERIC_INDEXED_TYPE_LIST(CC_EXTREMA_T, CC_EXTREMA_COUNT)
 
 #ifndef CC_MANGLE_TYPE_CC_EXTREMA_T0
 #define CC_MANGLE_TYPE_CC_EXTREMA_T0 CC_EXTREMA_T0
