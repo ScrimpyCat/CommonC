@@ -185,6 +185,18 @@
 		F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F33427411DB408FF008CB998 /* ConcurrentQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F334274A1DB62A32008CB998 /* QueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33427491DB62A32008CB998 /* QueueTests.m */; };
 		F334274C1DB6675F008CB998 /* ConcurrentQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */; };
+		F3364F7B25907712002B2378 /* Extrema.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F7A25907712002B2378 /* Extrema.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364F7C25907712002B2378 /* Extrema.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F7A25907712002B2378 /* Extrema.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364F7E25949B94002B2378 /* ExtremaTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F7D25949B94002B2378 /* ExtremaTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364F7F25949B94002B2378 /* ExtremaTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F7D25949B94002B2378 /* ExtremaTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364F812595D320002B2378 /* Generic1.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F802595D320002B2378 /* Generic1.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364F822595D320002B2378 /* Generic1.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364F802595D320002B2378 /* Generic1.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FAC25A1B734002B2378 /* Generic2.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FAB25A1B5BF002B2378 /* Generic2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FAD25A1B734002B2378 /* Generic2.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FAB25A1B5BF002B2378 /* Generic2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FB425B232D9002B2378 /* Generic3.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB225ABA04B002B2378 /* Generic3.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FB525B232DA002B2378 /* Generic3.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB225ABA04B002B2378 /* Generic3.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FB625B232E9002B2378 /* Generic4.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB325ACFF50002B2378 /* Generic4.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3364FB725B232EA002B2378 /* Generic4.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB325ACFF50002B2378 /* Generic4.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -461,6 +473,12 @@
 		F33427411DB408FF008CB998 /* ConcurrentQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentQueue.h; sourceTree = "<group>"; };
 		F33427491DB62A32008CB998 /* QueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueTests.m; sourceTree = "<group>"; };
 		F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentQueueTests.m; sourceTree = "<group>"; };
+		F3364F7A25907712002B2378 /* Extrema.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extrema.h; sourceTree = "<group>"; };
+		F3364F7D25949B94002B2378 /* ExtremaTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtremaTemplate.h; sourceTree = "<group>"; };
+		F3364F802595D320002B2378 /* Generic1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generic1.h; sourceTree = "<group>"; };
+		F3364FAB25A1B5BF002B2378 /* Generic2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generic2.h; sourceTree = "<group>"; };
+		F3364FB225ABA04B002B2378 /* Generic3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generic3.h; sourceTree = "<group>"; };
+		F3364FB325ACFF50002B2378 /* Generic4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generic4.h; sourceTree = "<group>"; };
 		F34205291D1C43E900BE2E13 /* CollectionFastArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionFastArray.c; sourceTree = "<group>"; };
 		F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionFastArray.h; sourceTree = "<group>"; };
 		F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionFastArrayTests.m; sourceTree = "<group>"; };
@@ -781,6 +799,15 @@
 			name = Queue;
 			sourceTree = "<group>";
 		};
+		F3364F9F259E0B0E002B2378 /* Extrema */ = {
+			isa = PBXGroup;
+			children = (
+				F3364F7A25907712002B2378 /* Extrema.h */,
+				F3364F7D25949B94002B2378 /* ExtremaTemplate.h */,
+			);
+			name = Extrema;
+			sourceTree = "<group>";
+		};
 		F34219191D0C2B2200FDBC8A /* Hash Map Implementations */ = {
 			isa = PBXGroup;
 			children = (
@@ -901,6 +928,7 @@
 			isa = PBXGroup;
 			children = (
 				F3D657D317D5FD5200B54101 /* Maths.h */,
+				F3364F9F259E0B0E002B2378 /* Extrema */,
 				F353DD8C17B5A14300D1674C /* BitTricks.h */,
 				F3D657CF17D5DA8F00B54101 /* Random.h */,
 				F35767E623FDD4F900CEB76F /* Random.c */,
@@ -1032,6 +1060,10 @@
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
+				F3364F802595D320002B2378 /* Generic1.h */,
+				F3364FAB25A1B5BF002B2378 /* Generic2.h */,
+				F3364FB225ABA04B002B2378 /* Generic3.h */,
+				F3364FB325ACFF50002B2378 /* Generic4.h */,
 				F39C5F4A25220CB500D80F0D /* Template.h */,
 				F367837E1CCAEB2B00BF8985 /* Ownership.h */,
 				F3AEA856232C85CF00A5CAF3 /* Container.h */,
@@ -1320,19 +1352,23 @@
 				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
 				F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
+				F3364F7F25949B94002B2378 /* ExtremaTemplate.h in Headers */,
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
 				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
 				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
 				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
+				F3364FAD25A1B734002B2378 /* Generic2.h in Headers */,
 				F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */,
 				F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */,
 				F30437D11C62E0F900388C74 /* OrderedCollection.h in Headers */,
 				F342052E1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
 				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
+				F3364FB725B232EA002B2378 /* Generic4.h in Headers */,
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */,
+				F3364FB525B232DA002B2378 /* Generic3.h in Headers */,
 				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
 				F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */,
 				F30437E81C62E1B300388C74 /* PathComponent.h in Headers */,
@@ -1354,6 +1390,7 @@
 				F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */,
 				F3E7460D1DC623AF00F1F268 /* Task.h in Headers */,
 				F30437BF1C62E0A600388C74 /* Buffer.h in Headers */,
+				F3364F822595D320002B2378 /* Generic1.h in Headers */,
 				F30C84701D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
 				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
@@ -1384,6 +1421,7 @@
 				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
+				F3364F7C25907712002B2378 /* Extrema.h in Headers */,
 				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
 				F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */,
 				F328728121E881D300B1A584 /* Base.h in Headers */,
@@ -1417,19 +1455,23 @@
 				F30646F32358D0B600DFD780 /* DataContainer.h in Headers */,
 				F353DD5B17AE208600D1674C /* Generics.h in Headers */,
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
+				F3364F7E25949B94002B2378 /* ExtremaTemplate.h in Headers */,
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
 				F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
 				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
+				F3364FAC25A1B734002B2378 /* Generic2.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
 				F3BF12E021D8E363000385C6 /* ConsecutiveIDGenerator.h in Headers */,
 				F353DD5617ADF3BC00D1674C /* Allocator.h in Headers */,
 				F353DD6E17B0239C00D1674C /* Types.h in Headers */,
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
+				F3364FB625B232E9002B2378 /* Generic4.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
+				F3364FB425B232D9002B2378 /* Generic3.h in Headers */,
 				F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */,
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
 				F3E746091DC6079400F1F268 /* TaskQueue.h in Headers */,
@@ -1451,6 +1493,7 @@
 				F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
+				F3364F812595D320002B2378 /* Generic1.h in Headers */,
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
 				F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */,
 				F36F83211D10A91B00193B08 /* TypeCallbacks.h in Headers */,
@@ -1481,6 +1524,7 @@
 				F359D01F1C12B13E0028B86B /* Data.h in Headers */,
 				F34219161D0C265A00FDBC8A /* HashMapInterface.h in Headers */,
 				F3143AA61A8A9022004EB810 /* CollectionArray.h in Headers */,
+				F3364F7B25907712002B2378 /* Extrema.h in Headers */,
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
