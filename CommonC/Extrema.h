@@ -23,6 +23,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+//generic_imp.rb: -pc 1 -n 'CC_EXTREMA' -t CommonC/ExtremaTemplate.h -th '<CommonC/ExtremaTemplate.h>'
 #include <CommonC/Generics.h>
 
 #define CCMin(a, b) CCMin_Ref(a, b)(a, b)
