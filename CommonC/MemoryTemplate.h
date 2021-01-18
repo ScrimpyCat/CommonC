@@ -27,9 +27,13 @@
 
 #define CCMemoryRead_T(t) CC_TEMPLATE_REF(CCMemoryRead, void, PTYPE(void), size_t, size_t, size_t, t)
 #define CCMemoryReadSwap_T(t) CC_TEMPLATE_REF(CCMemoryReadSwap, void, PTYPE(void), size_t, size_t, size_t, t)
+#define CCMemoryReadBig_T(t) CC_TEMPLATE_REF(CCMemoryReadBig, void, PTYPE(void), size_t, size_t, size_t, t)
+#define CCMemoryReadLittle_T(t) CC_TEMPLATE_REF(CCMemoryReadLittle, void, PTYPE(void), size_t, size_t, size_t, t)
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
 
 #pragma mark -
 
@@ -51,4 +55,22 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const PTYPE(void *) 
     {
         ((uint8_t*)Buffer)[(ValueSize - 1) - (Loop % ValueSize) + ((Loop / ValueSize) * ValueSize)] = ((uint8_t*)Memory)[(Offset + Loop) % Size];
     }
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer))
+{
+#if CC_HARDWARE_ENDIAN_BIG
+    CCMemoryRead_T(T)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryReadSwap_T(T)(Memory, Size, Offset, Count, Buffer);
+#endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer))
+{
+#if CC_HARDWARE_ENDIAN_LITTLE
+    CCMemoryRead_T(T)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryReadSwap_T(T)(Memory, Size, Offset, Count, Buffer);
+#endif
 }
