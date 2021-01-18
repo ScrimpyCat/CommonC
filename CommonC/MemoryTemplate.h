@@ -26,8 +26,10 @@
 #include <CommonC/Template.h>
 
 #define CCMemoryRead_T(t) CC_TEMPLATE_REF(CCMemoryRead, void, PTYPE(void), size_t, size_t, size_t, t)
+#define CCMemoryReadSwap_T(t) CC_TEMPLATE_REF(CCMemoryReadSwap, void, PTYPE(void), size_t, size_t, size_t, t)
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer));
 
 #pragma mark -
 
@@ -38,5 +40,15 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const PTYPE(void *) Memo
     for (size_t Loop = 0; Loop < Count; Loop++)
     {
         ((uint8_t*)Buffer)[(Loop % ValueSize) + ((Loop / ValueSize) * ValueSize)] = ((uint8_t*)Memory)[(Offset + Loop) % Size];
+    }
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, T Buffer))
+{
+    const size_t ValueSize = sizeof(*Buffer);
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        ((uint8_t*)Buffer)[(ValueSize - 1) - (Loop % ValueSize) + ((Loop / ValueSize) * ValueSize)] = ((uint8_t*)Memory)[(Offset + Loop) % Size];
     }
 }
