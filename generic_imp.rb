@@ -32,7 +32,7 @@ ARGV.each { |e|
             template_header = e
         when :template
             src = File::read(e)
-            symbols = src.scan(/^[^\/\n]*?\#define .*?_T\(.*?\).*?CC_TEMPLATE_REF\([^\)]*/)
+            symbols = src.scan(/^[^\/\n]*?\#define .*?_T\(.*?\).*?CC_TEMPLATE_REF\(.*\)/)
             templates = src.scan(/CC_TEMPLATE\(.*\)/).uniq!
         end
 
@@ -114,16 +114,15 @@ symbols.each { |s|
     args = s[/\(.*?\)/][1..-2].split(',').map { |a| a.strip }
     template = s[/(?<=CC_TEMPLATE_REF\()\w*/]
     t_def = templates.find { |t| t[/\W#{template}\W/] }
-    t_args = s[/(?<=\()[^\(\)]*?$/].split(',').map { |a| a.strip }
     t_params = t_def.scan(/(?<=[\W\(])(#{params.join('|')})(?=[\W\)])/).flatten
-    t_types = s[/(?<=CC_TEMPLATE_REF\().*/].split(',').drop(1).map { |t| t.strip }
+    t_types = s[/(?<=CC_TEMPLATE_REF\().*/].chop.split(',').drop(1).map { |t| t.strip }
 
     if t_def[/\W#{template}\W*?[,\(\)]/][-1] != ')'
-        t_arg_names = t_def[/(?<=\W#{template})\W*.*/].chop[/(?<=\().*(?=\))/].gsub(/\(.*\)/, '').scan(/(\w+(?=,)|\w+$)/).flatten
+        t_arg_names = t_def[/(?<=\W#{template})\W*.*/].chop[/(?<=\().*(?=\))/].scan(/(\w+(?=,)|\w+$)/).flatten
         gen_args = []
 
         args.each { |a|
-            i = t_types.drop(1).index(a)
+            i = t_types.drop(1).index { |t| t == a or t[/\W#{a}\W/] != nil }
             if i != nil
                 gen_args << t_arg_names[i]
             end
