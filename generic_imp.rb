@@ -129,9 +129,9 @@ symbols.each { |s|
         }
 
         sym_calls << "#define #{template}(#{t_arg_names.map(&:format).join(', ')}) #{template}_Ref(#{t_arg_names.map(&:format).join(', ')})(#{t_arg_names.map(&:format).join(', ')})"
-        sym_refs << "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        sym_refs << "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
     else
-        sym_refs << "#define #{template}_Ref(#{'t'.format}) CC_GENERIC((((typeof(#{'t'.format})){0})), #{macro}, CC_GENERIC_MATCH, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        sym_refs << "#define #{template}_Ref(#{'t'.format}) CC_GENERIC((((typeof(#{'t'.format})){0})), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
     end
 }
 
