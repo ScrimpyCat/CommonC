@@ -7,6 +7,7 @@ symbols = []
 templates = []
 namespace = 'EXAMPLE'
 template_header = '<ExampleTemplate.h>'
+defaults = []
 
 class String
     def format
@@ -16,7 +17,7 @@ end
 
 input = nil
 ARGV.each { |e|
-    if input != nil
+    if input != nil and (input != :default or not e.start_with? '-')
         case input
         when :param_count
             param_count = e.to_i
@@ -34,9 +35,11 @@ ARGV.each { |e|
             src = File::read(e)
             symbols = src.scan(/^[^\/\n]*?\#define .*?_T\(.*?\).*?CC_TEMPLATE_REF\(.*\)/)
             templates = src.scan(/CC_TEMPLATE\(.*\)/).uniq!
+        when :default
+            defaults.last << e
         end
 
-        input = nil
+        input = nil if input != :default
     elsif e.start_with? '-'
         case e
         when '--param-count'
@@ -75,6 +78,12 @@ ARGV.each { |e|
             input = :template
         when '-t'
             input = :template
+        when '--default'
+            input = :default
+            defaults << []
+        when '-d'
+            input = :default
+            defaults << []
         when '--lowercase'
             class String
                 def format
@@ -90,6 +99,18 @@ ARGV.each { |e|
         end 
     end
 }
+
+class NilClass
+    def decl
+        nil
+    end
+end
+
+class String
+    def decl
+        "CC_TYPE_DECL(#{self})"
+    end
+end
 
 if params.count == 0
     if param_count == 1
@@ -128,10 +149,26 @@ symbols.each { |s|
             end
         }
 
+        default_refs = defaults.map.with_index { |d, r|
+            defs = Hash[d.map { |p| p.split('=') }]
+            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p] || "#{namespace}_#{p}"})" }.join(', ')})"
+        }
+
+        ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        default_refs.each { |d| ref.gsub!('CC_GENERIC_ERROR', d) }
+
         sym_calls << "#define #{template}(#{t_arg_names.map(&:format).join(', ')}) #{template}_Ref(#{t_arg_names.map(&:format).join(', ')})(#{t_arg_names.map(&:format).join(', ')})"
-        sym_refs << "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        sym_refs << ref
     else
-        sym_refs << "#define #{template}_Ref(#{'t'.format}) CC_GENERIC((((typeof(#{'t'.format})){0})), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        default_refs = defaults.map.with_index { |d, r|
+            defs = Hash[d.map { |p| p.split('=') }]
+            "CC_RECURSIVE_#{r}_GENERIC((((typeof(#{defs[t_params.uniq.first].decl || 't'.format})){0})), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p] || "#{namespace}_#{p}"})" }.join(', ')})"
+        }
+
+        ref = "#define #{template}_Ref(#{'t'.format}) CC_GENERIC((((typeof(#{'t'.format})){0})), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        default_refs.each { |d| ref.gsub!('CC_GENERIC_ERROR', d) }
+
+        sym_refs << ref
     end
 }
 
