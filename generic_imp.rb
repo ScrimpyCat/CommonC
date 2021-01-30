@@ -8,6 +8,7 @@ templates = []
 namespace = 'EXAMPLE'
 template_header = '<ExampleTemplate.h>'
 defaults = []
+mappings = []
 
 class String
     def format
@@ -17,7 +18,7 @@ end
 
 input = nil
 ARGV.each { |e|
-    if input != nil and (input != :default or not e.start_with? '-')
+    if input != nil and (not [:default, :mapping].include?(input) or not e.start_with? '-')
         case input
         when :param_count
             param_count = e.to_i
@@ -37,9 +38,11 @@ ARGV.each { |e|
             templates = src.scan(/CC_TEMPLATE\(.*\)/).uniq!
         when :default
             defaults.last << e
+        when :mapping
+            mappings << e
         end
 
-        input = nil if input != :default
+        input = nil if not [:default, :mapping].include?(input)
     elsif e.start_with? '-'
         case e
         when '--param-count'
@@ -84,6 +87,10 @@ ARGV.each { |e|
         when '-d'
             input = :default
             defaults << []
+        when '--map'
+            input = :mapping
+        when '-m'
+            input = :mapping
         when '--lowercase'
             class String
                 def format
@@ -121,6 +128,16 @@ if params.count == 0
 end
 
 params = params[0, param_count]
+
+mappings.each { |m|
+    mapping = m.split('=')
+    if mapping.count > 1
+        puts "#ifndef #{mapping.first}"
+        puts "#define #{mapping.first} #{mapping.last}"
+        puts "#endif"
+        puts ""
+    end
+}
 
 if include_header
     puts "#include <CommonC/Generics.h>"
@@ -256,3 +273,11 @@ params.each { |p|
         }
     }
 }
+
+mappings = mappings.map { |m| m.split('=').first }.select { |m| not m[/^(#{params.join('|')})$/] }
+if mappings.count 
+    puts ""
+    puts "#ifndef CC_GENERIC_PRESERVE_TYPE"
+    mappings.each { |m| puts "#undef #{m}" }
+    puts "#endif"
+end
