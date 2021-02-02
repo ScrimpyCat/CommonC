@@ -1189,3 +1189,7 @@ typedef CC_TYPE_DECL(Ty) CC_GENERIC_Ty(19);
 #undef Tx
 #undef Ty
 #endif
+
+#ifndef CC_GENERIC_PRESERVE_HEADER
+#undef CC_GENERIC_TEMPLATE
+#endif

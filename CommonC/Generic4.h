@@ -2245,3 +2245,7 @@ typedef CC_TYPE_DECL(Tw) CC_GENERIC_Tw(19);
 #undef Tz
 #undef Tw
 #endif
+
+#ifndef CC_GENERIC_PRESERVE_HEADER
+#undef CC_GENERIC_TEMPLATE
+#endif

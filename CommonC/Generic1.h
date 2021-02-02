@@ -661,3 +661,7 @@ typedef CC_TYPE_DECL(T) CC_GENERIC_T(19);
 #ifndef CC_GENERIC_PRESERVE_TYPE
 #undef T
 #endif
+
+#ifndef CC_GENERIC_PRESERVE_HEADER
+#undef CC_GENERIC_TEMPLATE
+#endif
