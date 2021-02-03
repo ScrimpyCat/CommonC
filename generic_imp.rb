@@ -277,7 +277,7 @@ params.each { |p|
 }
 
 mappings = mappings.map { |m| m.split('=').first }.select { |m| not m[/^(#{params.join('|')})$/] }
-if mappings.count 
+if mappings.count > 0
     puts ""
     puts "#ifndef CC_GENERIC_PRESERVE_TYPE"
     mappings.each { |m| puts "#undef #{m}" }
