@@ -321,10 +321,12 @@
 #define CC_GENERIC_COUNT CC_EXTREMA_COUNT
 #endif
 
-#undef CC_GENERIC_TYPE
-#undef CC_GENERIC_TEMPLATE
-#define CC_GENERIC_TYPE CC_EXTREMA
+#ifndef CC_GENERIC_TEMPLATE
 #define CC_GENERIC_TEMPLATE <CommonC/ExtremaTemplate.h>
+#endif
+
+#undef CC_GENERIC_TYPE
+#define CC_GENERIC_TYPE CC_EXTREMA
 #include <CommonC/Generic1.h>
 
 #if CC_GENERIC_COUNT < 1

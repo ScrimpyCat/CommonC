@@ -617,10 +617,12 @@
 #define CC_GENERIC_COUNT CC_MEMORY_COUNT
 #endif
 
-#undef CC_GENERIC_TYPE
-#undef CC_GENERIC_TEMPLATE
-#define CC_GENERIC_TYPE CC_MEMORY
+#ifndef CC_GENERIC_TEMPLATE
 #define CC_GENERIC_TEMPLATE <CommonC/MemoryTemplate.h>
+#endif
+
+#undef CC_GENERIC_TYPE
+#define CC_GENERIC_TYPE CC_MEMORY
 #include <CommonC/Generic2.h>
 
 #if CC_GENERIC_COUNT < 1
