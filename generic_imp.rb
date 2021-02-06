@@ -223,6 +223,18 @@ params.each { |p|
     puts ""
 }
 
+params.each { |p|
+    max_imps.times { |i| 
+        puts "#define CC_TYPE_DECL_#{namespace}_#{p}#{i}(...) #{namespace}_#{p}#{i}, __VA_ARGS__" 
+    }
+    max_imps.times { |i|
+        max_types.times { |t|
+            puts "#define CC_TYPE_DECL_#{t}_#{namespace}_#{p}#{i} CC_TYPE_DECL_#{namespace}_#{p}#{i},"
+        }
+    }
+    puts ""
+}
+
 puts "#ifdef #{namespace}_COUNT"
 puts "#define CC_GENERIC_COUNT #{namespace}_COUNT"
 puts "#endif"
