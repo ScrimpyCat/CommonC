@@ -111,11 +111,21 @@ class NilClass
     def decl
         nil
     end
+
+    def type_list
+        nil
+    end
 end
 
 class String
     def decl
         "CC_TYPE_DECL(#{self})"
+    end
+end
+
+String.class_eval do
+    define_method(:type_list) do
+        "CC_GENERIC_NAMED_TYPE_LIST(#{self}, #{namespace}_COUNT)"
     end
 end
 
@@ -168,7 +178,7 @@ symbols.each { |s|
 
         default_refs = defaults.map.with_index { |d, r|
             defs = Hash[d.map { |p| p.split('=') }]
-            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p] || "#{namespace}_#{p}"})" }.join(', ')})"
+            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p].type_list || "#{namespace}_#{p}"})" }.join(', ')})"
         }
 
         ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
@@ -179,7 +189,7 @@ symbols.each { |s|
     else
         default_refs = defaults.map.with_index { |d, r|
             defs = Hash[d.map { |p| p.split('=') }]
-            "CC_RECURSIVE_#{r}_GENERIC((((typeof(#{defs[t_params.uniq.first].decl || 't'.format})){0})), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p] || "#{namespace}_#{p}"})" }.join(', ')})"
+            "CC_RECURSIVE_#{r}_GENERIC((((typeof(#{defs[t_params.uniq.first].decl || 't'.format})){0})), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p].type_list || "#{namespace}_#{p}"})" }.join(', ')})"
         }
 
         ref = "#define #{template}_Ref(#{'t'.format}) CC_GENERIC((((typeof(#{'t'.format})){0})), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
