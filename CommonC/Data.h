@@ -242,4 +242,43 @@ size_t CCDataCopyBuffer(CCData SrcData, ptrdiff_t SrcOffset, size_t Size, CCData
  */
 size_t CCDataFillBuffer(CCData Data, ptrdiff_t Offset, size_t Size, uint8_t Fill);
 
+#pragma mark - Template Type
+
+#define CC_TYPE_CCData(...) CCData
+#define CC_TYPE_0_CCData CC_TYPE_CCData,
+#define CC_TYPE_1_CCData CC_TYPE_CCData,
+#define CC_TYPE_2_CCData CC_TYPE_CCData,
+#define CC_TYPE_3_CCData CC_TYPE_CCData,
+#define CC_TYPE_4_CCData CC_TYPE_CCData,
+#define CC_TYPE_5_CCData CC_TYPE_CCData,
+#define CC_TYPE_6_CCData CC_TYPE_CCData,
+#define CC_TYPE_7_CCData CC_TYPE_CCData,
+#define CC_TYPE_8_CCData CC_TYPE_CCData,
+#define CC_TYPE_9_CCData CC_TYPE_CCData,
+
+#define CC_PRESERVE_CC_TYPE_CCData CC_TYPE_CCData
+
+#define CC_TYPE_DECL_CCData(...) CCData, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_1_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_2_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_3_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_4_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_5_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_6_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_7_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_8_CCData CC_TYPE_DECL_CCData,
+#define CC_TYPE_DECL_9_CCData CC_TYPE_DECL_CCData,
+
+#define CC_MANGLE_TYPE_0_CCData CCData
+#define CC_MANGLE_TYPE_1_CCData CCData
+#define CC_MANGLE_TYPE_2_CCData CCData
+#define CC_MANGLE_TYPE_3_CCData CCData
+#define CC_MANGLE_TYPE_4_CCData CCData
+#define CC_MANGLE_TYPE_5_CCData CCData
+#define CC_MANGLE_TYPE_6_CCData CCData
+#define CC_MANGLE_TYPE_7_CCData CCData
+#define CC_MANGLE_TYPE_8_CCData CCData
+#define CC_MANGLE_TYPE_9_CCData CCData
+
 #endif
