@@ -34,6 +34,10 @@
 
 #define CC_GENERIC_INDEXED_TYPE_LIST(name, count) CC_REPEAT(0, count, CC_GENERIC_INDEXED_TYPE, name)
 
+#define CC_GENERIC_NAMED_TYPE(name, index) name
+
+#define CC_GENERIC_NAMED_TYPE_LIST(name, count) CC_REPEAT(0, count, CC_GENERIC_NAMED_TYPE, name)
+
 #define CC_GENERIC_CONSUME(...) __VA_ARGS__
 
 #define CC_GENERIC_MATCH(x, ...) x
