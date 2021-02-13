@@ -364,4 +364,87 @@
     CCLinkedListDestroy(List);
 }
 
+static size_t Count2(const void *Container)
+{
+    return 2;
+}
+
+static size_t Count10(const void *Container)
+{
+    return 10;
+}
+
+-(void) testDifferingSize
+{
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(uint32_t), 4);
+    for (uint32_t Loop = 1; Loop <= 4; Loop++) CCArrayAppendElement(Array, &(uint32_t){ Loop });
+    
+    CCData Data = CCDataContainerCreate(CC_STD_ALLOCATOR, CCDataHintReadWrite, sizeof(uint32_t), Count2, (CCDataContainerEnumerable)CCArrayGetEnumerable, Array, NULL, NULL);
+    
+    XCTAssertEqual(CCDataGetSize(Data), 2 * sizeof(uint32_t), @"Should get the correct size");
+    
+    CCBufferMap Map = CCDataMapBuffer(Data, 2, 5, CCDataHintRead);
+    XCTAssertEqual(((uint8_t*)Map.ptr)[0], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[1], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[2], 2, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[3], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[4], 0, @"Should retrieve the correct value");
+    CCDataUnmapBuffer(Data, Map);
+    
+    Map = CCDataMapBuffer(Data, 0, CCDataGetSize(Data), CCDataHintRead);
+    XCTAssertEqual(((uint8_t*)Map.ptr)[0], 1, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[1], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[2], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[3], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[4], 2, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[5], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[6], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[7], 0, @"Should retrieve the correct value");
+    CCDataUnmapBuffer(Data, Map);
+    
+    CCDataDestroy(Data);
+    Data = CCDataContainerCreate(CC_STD_ALLOCATOR, CCDataHintReadWrite, sizeof(uint32_t), Count10, (CCDataContainerEnumerable)CCArrayGetEnumerable, Array, NULL, NULL);
+    
+    XCTAssertEqual(CCDataGetSize(Data), 10 * sizeof(uint32_t), @"Should get the correct size");
+    
+    Map = CCDataMapBuffer(Data, 2, 5, CCDataHintRead);
+    XCTAssertEqual(((uint8_t*)Map.ptr)[0], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[1], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[2], 2, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[3], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[4], 0, @"Should retrieve the correct value");
+    CCDataUnmapBuffer(Data, Map);
+    
+    Map = CCDataMapBuffer(Data, 0, CCDataGetSize(Data), CCDataHintRead);
+    XCTAssertEqual(((uint8_t*)Map.ptr)[0], 1, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[1], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[2], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[3], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[4], 2, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[5], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[6], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[7], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[8], 3, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[9], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[10], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[11], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[12], 4, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[13], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[14], 0, @"Should retrieve the correct value");
+    XCTAssertEqual(((uint8_t*)Map.ptr)[15], 0, @"Should retrieve the correct value");
+    CCDataUnmapBuffer(Data, Map);
+    
+    Map = CCDataMapBuffer(Data, 20, 4, CCDataHintWrite);
+    ((uint8_t*)Map.ptr)[0] = 6;
+    ((uint8_t*)Map.ptr)[1] = 0;
+    ((uint8_t*)Map.ptr)[2] = 0;
+    ((uint8_t*)Map.ptr)[3] = 0;
+    CCDataUnmapBuffer(Data, Map);
+    
+    for (size_t Loop = 0, Count = CCArrayGetCount(Array); Loop < Count; Loop++) XCTAssertEqual(*(uint32_t*)CCArrayGetElementAtIndex(Array, Loop), Loop + 1, @"Should remain unchanged");
+    
+    CCArrayDestroy(Array);
+    CCDataDestroy(Data);
+}
+
 @end
