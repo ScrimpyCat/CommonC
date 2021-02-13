@@ -71,7 +71,10 @@ extern const CCDataInterface * const CCDataContainer;
  * @param Hint The hints for the intended usage of this data container.
  * @param ElementSize The size of the elements in the @p Container.
  * @param Count The callback to retrieve the number of elements in the @p Container. May be NULL,
- *        in which case the count is inferred from the enumerable.
+ *        in which case the count is inferred from the enumerable. If the count differs from the
+ *        true number of elements in the container then reads and writes will be limited to the
+ *        size of the count, or if the count is larger than the container then the data will be
+ *        unused.
  *
  * @param Enumerable The callback to retrieve the enumerable for the @p Container, must not be
  *        NULL.
