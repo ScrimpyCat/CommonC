@@ -97,7 +97,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const CCData Data, const
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintRead) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintRead);
     
-    CCMemoryRead(Map.ptr, Size, Offset, Count, Buffer);
+    CCMemoryRead(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
     
     CCDataUnmapBuffer(Data, Map);
 }
@@ -107,7 +107,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const CCData Data, c
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintRead) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintRead);
     
-    CCMemoryReadSwap(Map.ptr, Size, Offset, Count, Buffer);
+    CCMemoryReadSwap(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
     
     CCDataUnmapBuffer(Data, Map);
 }
@@ -117,7 +117,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadBig, (const CCData Data, co
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintRead) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintRead);
     
-    CCMemoryReadBig(Map.ptr, Size, Offset, Count, Buffer);
+    CCMemoryReadBig(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
     
     CCDataUnmapBuffer(Data, Map);
 }
@@ -127,7 +127,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const CCData Data,
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintRead) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintRead);
     
-    CCMemoryReadLittle(Map.ptr, Size, Offset, Count, Buffer);
+    CCMemoryReadLittle(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
     
     CCDataUnmapBuffer(Data, Map);
 }

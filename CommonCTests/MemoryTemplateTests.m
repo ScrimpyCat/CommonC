@@ -220,6 +220,18 @@
     XCTAssertEqual(aOut[8], 0xd3, @"Should have the correct value");
     XCTAssertEqual(aOut[9], 0xe3, @"Should have the correct value");
     
+    CCMemoryRead(Data, CCDataGetSize(Data), 1, sizeof(aOut), aOut);
+    XCTAssertEqual(aOut[0], 0xe1, @"Should have the correct value");
+    XCTAssertEqual(aOut[1], 0xf1, @"Should have the correct value");
+    XCTAssertEqual(aOut[2], 0x01, @"Should have the correct value");
+    XCTAssertEqual(aOut[3], 0xd2, @"Should have the correct value");
+    XCTAssertEqual(aOut[4], 0xe2, @"Should have the correct value");
+    XCTAssertEqual(aOut[5], 0xf2, @"Should have the correct value");
+    XCTAssertEqual(aOut[6], 0x02, @"Should have the correct value");
+    XCTAssertEqual(aOut[7], 0xd3, @"Should have the correct value");
+    XCTAssertEqual(aOut[8], 0xe3, @"Should have the correct value");
+    XCTAssertEqual(aOut[9], 0xf3, @"Should have the correct value");
+
     CCDataDestroy(Data);
 }
 
