@@ -447,7 +447,7 @@ static inline CCComparisonResult CCBigIntFastCompareBigIntFast(CCBigIntFast a, C
         
         if (CCBigIntFastIsTaggedValue(b))
         {
-            const int64_t ValueB = CCBigIntFastGetTaggedValue(a);
+            const int64_t ValueB = CCBigIntFastGetTaggedValue(b);
             
             return ValueA < ValueB ? CCComparisonResultAscending : (ValueA > ValueB ? CCComparisonResultDescending : CCComparisonResultEqual);
         }
