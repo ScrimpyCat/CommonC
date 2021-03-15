@@ -126,7 +126,7 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
         CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
-            CC_LOG_ERROR("Failed to append element to array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            CC_LOG_ERROR("Failed to insert element into array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
@@ -135,6 +135,33 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
     
     memmove(Array->data + ((Index + 1) * Array->size), Array->data + (Index * Array->size), (++Array->count - (Index + 1)) * Array->size);
     if (Element) memcpy(Array->data + (Index * Array->size), Element, Array->size);
+    
+    return Index;
+}
+
+size_t CCArrayInsertElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > Index, "Index must not be out of bounds");
+    CCAssertLog(Count, "Count must not be 0");
+    
+    size_t Rem = Array->count % Array->chunkSize;
+    if (((Array->chunkSize - Rem) < Count) || ((Rem == 0) && ((Array->count) || (!Array->data))))
+    {
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        if (!Temp)
+        {
+            CC_LOG_ERROR("Failed to insert (%zu) elements into array (%p), could not allocate (%zu)", Count, Array, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            return SIZE_MAX;
+        }
+        
+        Array->data = Temp;
+    }
+    
+    Array->count += Count;
+    
+    memmove(Array->data + ((Index + Count) * Array->size), Array->data + (Index * Array->size), (Array->count - (Index + Count)) * Array->size);
+    if (Elements) memcpy(Array->data + (Index * Array->size), Elements, Array->size * Count);
     
     return Index;
 }

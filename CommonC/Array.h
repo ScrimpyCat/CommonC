@@ -152,6 +152,24 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
 size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element);
 
 /*!
+ * @brief Insert the elements at a given index into the array.
+ * @description Increases the array's count by @b Count.
+ * @performance The further away from the end of the array the index is, the slower it is. It has
+ *              a worst case of O(n).
+ *
+ * @warning The size of the elements must be the same size as specified in the array creation. And the
+ *          Index must not be out of bounds
+ *
+ * @param Array The array to insert the elements into.
+ * @param Index The position in the array for the elements to be inserted.
+ * @param Elements The pointer to the elements to be copied to the give position in the array. If NULL
+ *        it will create uninitialized elements.
+ *
+ * @return The index the first element was added or SIZE_MAX on failure.
+ */
+size_t CCArrayInsertElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count);
+
+/*!
  * @brief Removes an element at a given index from the array.
  * @description Decreases the array's count by 1.
  * @performance The further away from the end of the array the index is, the slower it is. It has
