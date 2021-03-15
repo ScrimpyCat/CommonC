@@ -134,6 +134,18 @@ size_t CCArrayAppendElements(CCArray Array, const void *Elements, size_t Count);
 void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Element);
 
 /*!
+ * @brief Replace the elements at index with the new elements.
+ * @warning The size of the elements must be the same size as specified in the array creation. And the
+ *          Index must not be out of bounds.
+ *
+ * @param Array The array to replace the elements of.
+ * @param Index The position of the elements to be replaced.
+ * @param Elements The replacement elements. If NULL the operation does nothing.
+ * @param Count The number of elements to be replaced. Must not be 0.
+ */
+void CCArrayReplaceElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count);
+
+/*!
  * @brief Insert an element at a given index into the array.
  * @description Increases the array's count by 1.
  * @performance The further away from the end of the array the index is, the slower it is. It has
@@ -165,6 +177,7 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
  * @param Elements The pointer to the elements to be copied to the give position in the array. If NULL
  *        it will create uninitialized elements.
  *
+ * @param Count The number of elements to be inserted. Must not be 0.
  * @return The index the first element was added or SIZE_MAX on failure.
  */
 size_t CCArrayInsertElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count);

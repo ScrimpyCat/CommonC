@@ -116,6 +116,15 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
     if (Element) memcpy(Array->data + (Index * Array->size), Element, Array->size);
 }
 
+void CCArrayReplaceElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > Index, "Index must not be out of bounds");
+    CCAssertLog(Count, "Count must not be 0");
+    
+    if (Elements) memcpy(Array->data + (Index * Array->size), Elements, Array->size * Count);
+}
+
 size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element)
 {
     CCAssertLog(Array, "Array must not be null");
