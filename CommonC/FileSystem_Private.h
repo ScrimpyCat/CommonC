@@ -31,6 +31,9 @@
 #include "CCString.h"
 #include "Dictionary.h"
 
+#define T size_t
+#include "Extrema.h"
+
 // TODO: Convert this to a more optimal structure
 typedef struct {
     CCArray(uint8_t) contents;
@@ -54,7 +57,27 @@ typedef struct {
     size_t offset;
 } FSVirtualFileHandle;
 
+static CC_FORCE_INLINE void FSVirtualFileCreate(CC_NEW FSVirtualFile *File, size_t Count, void *Data);
+static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *CC_DESTROY(File));
+static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File);
+static CC_FORCE_INLINE void FSVirtualFileReadUnlock(FSVirtualFile *File);
+static CC_FORCE_INLINE void FSVirtualFileWriteLock(FSVirtualFile *File);
+static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File);
+
 #pragma mark -
+
+static CC_FORCE_INLINE void FSVirtualFileCreate(FSVirtualFile *File, size_t Count, void *Data)
+{
+    File->refs = ATOMIC_VAR_INIT(0);
+    File->contents = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), 128);
+    
+    if (Count) CCArrayAppendElements(File->contents, Data, Count);
+}
+
+static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *File)
+{
+    CCArrayDestroy(File->contents);
+}
 
 static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File)
 {
