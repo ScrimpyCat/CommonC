@@ -64,6 +64,7 @@ static CC_FORCE_INLINE void FSVirtualFileReadUnlock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileWriteLock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset, size_t *Count, void *Data);
+static CC_FORCE_INLINE void FSVirtualFileWrite(FSVirtualFile *File, size_t Offset, size_t Count, void *Data, _Bool Insert);
 
 #pragma mark -
 
@@ -119,6 +120,26 @@ static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset
     }
     
     else *Count = 0;
+}
+
+static CC_FORCE_INLINE void FSVirtualFileWrite(FSVirtualFile *File, size_t Offset, size_t Count, void *Data, _Bool Insert)
+{
+    const size_t Size = CCArrayGetCount(File->contents);
+
+    if (Offset < Size)
+    {
+        const size_t Chunk = CCMin(Size - Offset, Count);
+        if (Insert) CCArrayInsertElementsAtIndex(File->contents, Offset, Data, Chunk);
+        else CCArrayReplaceElementsAtIndex(File->contents, Offset, Data, Chunk);
+        
+        Count -= Chunk;
+        Data += Chunk;
+    }
+
+    if (Count)
+    {
+        CCArrayAppendElements(File->contents, Data, Count);
+    }
 }
 
 #endif
