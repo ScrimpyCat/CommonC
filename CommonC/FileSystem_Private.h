@@ -63,6 +63,7 @@ static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileReadUnlock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileWriteLock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File);
+static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset, size_t *Count, void *Data);
 
 #pragma mark -
 
@@ -105,6 +106,19 @@ static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File)
     const uint32_t Ref = atomic_fetch_xor_explicit(&File->refs, FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_release);
     
     CCAssertLog(Ref & FS_VIRTUAL_FILE_WRITE_FLAG, "Unlocking a read lock");
+}
+
+static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset, size_t *Count, void *Data)
+{
+    const size_t Size = CCArrayGetCount(File->contents);
+    
+    if (Offset < Size)
+    {
+        *Count = CCMin(Size - Offset, *Count);
+        memcpy(Data, CCArrayGetData(File->contents) + Offset, *Count);
+    }
+    
+    else *Count = 0;
 }
 
 #endif
