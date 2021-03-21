@@ -65,6 +65,7 @@ static CC_FORCE_INLINE void FSVirtualFileWriteLock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset, size_t *Count, void *Data);
 static CC_FORCE_INLINE void FSVirtualFileWrite(FSVirtualFile *File, size_t Offset, size_t Count, void *Data, _Bool Insert);
+static CC_FORCE_INLINE void FSVirtualFileRemove(FSVirtualFile *File, size_t Offset, size_t Count);
 
 #pragma mark -
 
@@ -140,6 +141,13 @@ static CC_FORCE_INLINE void FSVirtualFileWrite(FSVirtualFile *File, size_t Offse
     {
         CCArrayAppendElements(File->contents, Data, Count);
     }
+}
+
+static CC_FORCE_INLINE void FSVirtualFileRemove(FSVirtualFile *File, size_t Offset, size_t Count)
+{
+    const size_t Size = CCArrayGetCount(File->contents);
+    
+    CCArrayRemoveElementsAtIndex(File->contents, Offset, CCMin(Size - Offset, Count));
 }
 
 #endif
