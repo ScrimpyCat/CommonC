@@ -34,10 +34,12 @@
 #define T size_t
 #include "Extrema.h"
 
+typedef _Atomic(uint32_t) FSVirtualLock;
+
 // TODO: Convert this to a more optimal structure
 typedef struct {
     CCArray(uint8_t) contents;
-    _Atomic(uint32_t) refs;
+    FSVirtualLock lock;
 } FSVirtualFile;
 
 #define FS_VIRTUAL_FILE_WRITE_FLAG 0x80000000F
@@ -57,6 +59,11 @@ typedef struct {
     size_t offset;
 } FSVirtualFileHandle;
 
+static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock);
+static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock);
+static CC_FORCE_INLINE void FSVirtualWriteLock(volatile FSVirtualLock *Lock);
+static CC_FORCE_INLINE void FSVirtualWriteUnlock(volatile FSVirtualLock *Lock);
+
 static CC_FORCE_INLINE void FSVirtualFileCreate(CC_NEW FSVirtualFile *File, size_t Count, void *Data);
 static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *CC_DESTROY(File));
 static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File);
@@ -69,9 +76,37 @@ static CC_FORCE_INLINE void FSVirtualFileRemove(FSVirtualFile *File, size_t Offs
 
 #pragma mark -
 
+static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock)
+{
+    uint32_t Ref;
+    
+    do {
+        while ((Ref = atomic_load_explicit(Lock, memory_order_relaxed)) & FS_VIRTUAL_FILE_WRITE_FLAG) CC_SPIN_WAIT();
+    } while (!atomic_compare_exchange_weak_explicit(Lock, &Ref, Ref + 1, memory_order_acquire, memory_order_relaxed));
+}
+
+static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock)
+{
+    const uint32_t Ref = atomic_fetch_sub_explicit(Lock, 1, memory_order_release);
+    
+    CCAssertLog(!(Ref & FS_VIRTUAL_FILE_WRITE_FLAG), "Unlocking a write lock");
+}
+
+static CC_FORCE_INLINE void FSVirtualWriteLock(volatile FSVirtualLock *Lock)
+{
+    while (!atomic_compare_exchange_weak_explicit(Lock, (&(uint32_t){ 0 }), FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_acquire, memory_order_relaxed));
+}
+
+static CC_FORCE_INLINE void FSVirtualWriteUnlock(volatile FSVirtualLock *Lock)
+{
+    const uint32_t Ref = atomic_fetch_xor_explicit(Lock, FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_release);
+    
+    CCAssertLog(Ref & FS_VIRTUAL_FILE_WRITE_FLAG, "Unlocking a read lock");
+}
+
 static CC_FORCE_INLINE void FSVirtualFileCreate(FSVirtualFile *File, size_t Count, void *Data)
 {
-    File->refs = ATOMIC_VAR_INIT(0);
+    File->lock = ATOMIC_VAR_INIT(0);
     File->contents = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), 128);
     
     if (Count) CCArrayAppendElements(File->contents, Data, Count);
@@ -84,30 +119,22 @@ static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *File)
 
 static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File)
 {
-    uint32_t Ref;
-    
-    do {
-        while ((Ref = atomic_load_explicit(&File->refs, memory_order_relaxed)) & FS_VIRTUAL_FILE_WRITE_FLAG) CC_SPIN_WAIT();
-    } while (!atomic_compare_exchange_weak_explicit(&File->refs, &Ref, Ref + 1, memory_order_acquire, memory_order_relaxed));
+    FSVirtualReadLock(&File->lock);
 }
 
 static CC_FORCE_INLINE void FSVirtualFileReadUnlock(FSVirtualFile *File)
 {
-    const uint32_t Ref = atomic_fetch_sub_explicit(&File->refs, 1, memory_order_release);
-    
-    CCAssertLog(!(Ref & FS_VIRTUAL_FILE_WRITE_FLAG), "Unlocking a write lock");
+    FSVirtualReadUnlock(&File->lock);
 }
 
 static CC_FORCE_INLINE void FSVirtualFileWriteLock(FSVirtualFile *File)
 {
-    while (!atomic_compare_exchange_weak_explicit(&File->refs, (&(uint32_t){ 0 }), FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_acquire, memory_order_relaxed));
+    FSVirtualWriteLock(&File->lock);
 }
 
 static CC_FORCE_INLINE void FSVirtualFileWriteUnlock(FSVirtualFile *File)
 {
-    const uint32_t Ref = atomic_fetch_xor_explicit(&File->refs, FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_release);
-    
-    CCAssertLog(Ref & FS_VIRTUAL_FILE_WRITE_FLAG, "Unlocking a read lock");
+    FSVirtualWriteUnlock(&File->lock);
 }
 
 static CC_FORCE_INLINE void FSVirtualFileRead(FSVirtualFile *File, size_t Offset, size_t *Count, void *Data)
