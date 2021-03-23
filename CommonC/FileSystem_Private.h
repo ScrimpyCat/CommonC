@@ -59,6 +59,9 @@ typedef struct {
     size_t offset;
 } FSVirtualFileHandle;
 
+extern CCDictionary(CCString, FSVirtualNode) FSVirtualRoot;
+extern FSVirtualLock FSVirtualVolumeLock;
+
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualWriteLock(volatile FSVirtualLock *Lock);
