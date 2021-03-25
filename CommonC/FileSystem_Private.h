@@ -49,7 +49,7 @@ CC_DICTIONARY_DECLARE(CCString, FSVirtualNode);
 typedef struct {
     union {
         CCDictionary(CCString, FSVirtualNode) nodes;
-        FSVirtualFile file;
+        FSVirtualFile *file;
     };
     _Bool isDir;
 } FSVirtualNode;
@@ -59,15 +59,17 @@ typedef struct {
     size_t offset;
 } FSVirtualFileHandle;
 
-extern CCDictionary(CCString, FSVirtualNode) FSVirtualRoot;
+extern FSVirtualNode FSVirtualRoot;
 extern FSVirtualLock FSVirtualVolumeLock;
+
+void FSVirtualFileDestructor(FSVirtualFile *File);
 
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualWriteLock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualWriteUnlock(volatile FSVirtualLock *Lock);
 
-static CC_FORCE_INLINE void FSVirtualFileCreate(CC_NEW FSVirtualFile *File, size_t Count, void *Data);
+static CC_FORCE_INLINE CC_NEW FSVirtualFile *FSVirtualFileCreate(void);
 static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *CC_DESTROY(File));
 static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File);
 static CC_FORCE_INLINE void FSVirtualFileReadUnlock(FSVirtualFile *File);
@@ -108,17 +110,30 @@ static CC_FORCE_INLINE void FSVirtualWriteUnlock(volatile FSVirtualLock *Lock)
     CCAssertLog(Ref & FS_VIRTUAL_FILE_WRITE_FLAG, "Unlocking a read lock");
 }
 
-static CC_FORCE_INLINE void FSVirtualFileCreate(FSVirtualFile *File, size_t Count, void *Data)
+static CC_FORCE_INLINE FSVirtualFile *FSVirtualFileCreate(void)
 {
-    File->lock = ATOMIC_VAR_INIT(0);
-    File->contents = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), 128);
+    FSVirtualFile *File = CCMalloc(CC_STD_ALLOCATOR, sizeof(FSVirtualFile), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    if (File)
+    {
+        *File = (FSVirtualFile){
+            .contents = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(uint8_t), 128),
+            .lock = ATOMIC_VAR_INIT(0)
+        };
+        
+        CCMemorySetDestructor(File, (CCMemoryDestructorCallback)FSVirtualFileDestructor);
+    }
     
-    if (Count) CCArrayAppendElements(File->contents, Data, Count);
+    else
+    {
+        CC_LOG_ERROR("Failed to create virtual file: Failed to allocate memory of size (%zu)", sizeof(FSVirtualFile));
+    }
+    
+    return File;
 }
 
 static CC_FORCE_INLINE void FSVirtualFileDestroy(FSVirtualFile *File)
 {
-    CCArrayDestroy(File->contents);
+    CCFree(File);
 }
 
 static CC_FORCE_INLINE void FSVirtualFileReadLock(FSVirtualFile *File)
