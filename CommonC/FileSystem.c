@@ -254,7 +254,6 @@ static void FSManagerAddContentsInPath(FSPath SystemPath, CCOrderedCollection *L
 CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions)
 {
     CCAssertLog(Path, "Path must not be null");
-    CCAssertLog(NamingMatches, "NamingMatches must not be null");
     
     CCOrderedCollection List = NULL;
     
