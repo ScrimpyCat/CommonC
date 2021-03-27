@@ -26,7 +26,7 @@
 #define CC_QUICK_COMPILE
 #define _XOPEN_SOURCE 500
 #define _BSD_SOURCE
-#include "FileSystem.h"
+#include "FileSystem_Private.h"
 #include "Platform.h"
 #include "OrderedCollection.h"
 #include "CollectionEnumerator.h"
@@ -50,6 +50,13 @@
 #else
 #warning Unsupported platform
 #endif
+
+const char * FSVirtualVolume = "[MEMORY]";
+FSVirtualNode FSVirtualRoot = {
+    .isDir = TRUE,
+    .nodes = NULL
+};
+FSVirtualLock FSVirtualVolumeLock = ATOMIC_VAR_INIT(0);
 
 FSOperation FSManagerRename(FSPath Path, const char *Name)
 {
