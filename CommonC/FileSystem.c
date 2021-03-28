@@ -473,3 +473,8 @@ FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
 }
 
 #endif
+
+void FSVirtualFileDestructor(FSVirtualFile *File)
+{
+    CCArrayDestroy(File->contents);
+}
