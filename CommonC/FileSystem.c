@@ -478,3 +478,26 @@ void FSVirtualFileDestructor(FSVirtualFile *File)
 {
     CCArrayDestroy(File->contents);
 }
+
+static void FSManagerVirtualNodeElementDestructor(CCDictionary Dictionary, FSVirtualNode *Element)
+{
+    if (Element->isDir)
+    {
+        CCDictionaryDestroy(Element->nodes);
+    }
+    
+    else
+    {
+        FSVirtualFileDestroy(Element->file);
+    }
+}
+
+static inline CCDictionary FSManagerVirtualCreateDir(void)
+{
+    return CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(FSVirtualNode), &(CCDictionaryCallbacks){
+        .keyDestructor = CCStringDestructorForDictionary,
+        .valueDestructor = (CCDictionaryElementDestructor)FSManagerVirtualNodeElementDestructor,
+        .getHash = CCStringHasherForDictionary,
+        .compareKeys = CCStringComparatorForDictionary
+    });
+}
