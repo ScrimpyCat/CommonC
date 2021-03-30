@@ -62,6 +62,8 @@ typedef struct {
 extern FSVirtualNode FSVirtualRoot;
 extern FSVirtualLock FSVirtualVolumeLock;
 
+static CC_FORCE_INLINE _Bool FSPathIsVirtual(FSPath Path);
+
 void FSVirtualFileDestructor(FSVirtualFile *File);
 
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock);
@@ -81,6 +83,11 @@ static CC_FORCE_INLINE void FSVirtualFileRemove(FSVirtualFile *File, size_t Offs
 static CC_FORCE_INLINE size_t FSVirtualFileGetSize(FSVirtualFile *File);
 
 #pragma mark -
+
+static CC_FORCE_INLINE _Bool FSPathIsVirtual(FSPath Path)
+{
+    return !strcmp(FSPathComponentGetString(FSPathGetVolume(Path)), FSVirtualVolume);
+}
 
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock)
 {
