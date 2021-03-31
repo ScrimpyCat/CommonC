@@ -501,3 +501,17 @@ static inline CCDictionary FSManagerVirtualCreateDir(void)
         .compareKeys = CCStringComparatorForDictionary
     });
 }
+
+static void FSManagerVirtualInit(void)
+{
+    static atomic_flag Lock = ATOMIC_FLAG_INIT;
+    
+    while (!atomic_flag_test_and_set_explicit(&Lock, memory_order_acquire)) CC_SPIN_WAIT();
+    
+    if (!FSVirtualRoot.nodes)
+    {
+        FSVirtualRoot.nodes = FSManagerVirtualCreateDir();
+    }
+    
+    atomic_flag_clear_explicit(&Lock, memory_order_release);
+}
