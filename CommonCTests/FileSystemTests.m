@@ -561,6 +561,18 @@
     XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all folders that match blah/ in example/ and its subfolders");
     CCCollectionDestroy(Matches);
     
+    
+    Matches = FSManagerGetContentsAtPath(File, NULL, FSMatchDefault);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 3, @"Should find all files and folders in example/");
+    CCCollectionDestroy(Matches);
+    
+    
+    Matches = FSManagerGetContentsAtPath(File, NULL, FSMatchSearchRecursively);
+    
+    XCTAssertEqual(CCCollectionGetCount(Matches), 4, @"Should find all files and folders in example/ and its subfolders");
+    CCCollectionDestroy(Matches);
+    
     FSPathDestroy(File);
 }
 
