@@ -515,3 +515,164 @@ static void FSManagerVirtualInit(void)
     
     atomic_flag_clear_explicit(&Lock, memory_order_release);
 }
+
+typedef enum {
+    FSVirtualNodeOperationNone,
+    FSVirtualNodeOperationCreate,
+    FSVirtualNodeOperationRemove
+} FSVirtualNodeOperation;
+
+static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[128], size_t *Level, FSVirtualNodeOperation Op, _Bool IntermediateDirectories)
+{
+    if (!FSVirtualRoot.nodes) FSManagerVirtualInit();
+    
+    FSVirtualNode *Node = NULL;
+    CCString File = 0;
+    
+    size_t Index = 1, Count = FSPathGetComponentCount(Path);
+    CC_COLLECTION_FOREACH(FSPathComponent, Component, Path->components)
+    {
+        switch (FSPathComponentGetType(Component))
+        {
+            case FSPathComponentTypeVolume:
+                Node = File ? NULL : &FSVirtualRoot;
+                break;
+                
+            case FSPathComponentTypeRoot:
+                if (!Node) Node = File ? NULL : &FSVirtualRoot;
+                break;
+                
+            case FSPathComponentTypeRelativeRoot:
+                Node = File ? NULL : FSManagerVirtualNodeOp(FSPathCurrent(), Dirs, Level, FSVirtualNodeOperationNone, FALSE);
+                break;
+                
+            case FSPathComponentTypeDirectory:
+                if ((Node) && (Node->isDir))
+                {
+                    const _Bool Create = Op == FSVirtualNodeOperationCreate ? (Index == Count ? TRUE : IntermediateDirectories) : FALSE;
+                    
+                    CCString Key = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                    FSVirtualNode *Temp = CCDictionaryGetValue(Node->nodes, &Key);
+                    if ((!Temp) && (Create))
+                    {
+                        CCDictionaryEntry Entry = CCDictionaryEntryForKey(Node->nodes, &Key);
+                        CCDictionarySetEntry(Node->nodes, Entry, &(FSVirtualNode){
+                            .isDir = TRUE,
+                            .nodes = FSManagerVirtualCreateDir()
+                        });
+                        
+                        Temp = CCDictionaryGetEntry(Node->nodes, Entry);
+                    }
+                    
+                    CCStringDestroy(Key);
+                    
+                    Node = Temp;
+                    
+                    if (!Node->isDir) Node = NULL;
+                }
+                
+                else Node = NULL;
+                break;
+                
+            case FSPathComponentTypeRelativeParentDirectory:
+                Node = Dirs[--(*Level)];
+                break;
+                
+            case FSPathComponentTypeFile:
+                if ((Node) && (Node->isDir) && (!File))
+                {
+                    File = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                }
+                
+                else Node = NULL;
+                break;
+                
+            case FSPathComponentTypeExtension:
+                if ((Node) && (Node->isDir))
+                {
+                    CCString Ext = File = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                    
+                    if (File)
+                    {
+                        CCString Name = CCStringCreateByJoiningStrings((CCString[2]){ File, Ext }, 2, CC_STRING("."));
+                        
+                        CCStringDestroy(Ext);
+                        CCStringDestroy(File);
+                        
+                        File = Name;
+                    }
+                    
+                    else File = Ext;
+                }
+                
+                else Node = NULL;
+                break;
+        }
+        
+        if (!Node) break;
+        
+        if (Node->isDir) Dirs[(*Level)++] = Node;
+        
+        Index++;
+    }
+    
+    if (File)
+    {
+        if (Node)
+        {
+            if (Op == FSVirtualNodeOperationRemove)
+            {
+                CCDictionaryRemoveValue(Node->nodes, &File);
+                Node = NULL;
+            }
+            
+            else
+            {
+                Node = CCDictionaryGetValue(Node->nodes, &File);
+                
+                if ((!Node) && (Op == FSVirtualNodeOperationCreate))
+                {
+                    CCDictionaryEntry Entry = CCDictionaryEntryForKey(Node->nodes, &File);
+                    CCDictionarySetEntry(Node->nodes, Entry, &(FSVirtualNode){
+                        .isDir = FALSE,
+                        .file = FSVirtualFileCreate()
+                    });
+                    
+                    Node = CCDictionaryGetEntry(Node->nodes, Entry);
+                }
+            }
+        }
+        
+        CCStringDestroy(File);
+    }
+    
+    else if ((Node) && (Op == FSVirtualNodeOperationRemove))
+    {
+        FSPathComponent Component = FSPathGetComponentAtIndex(Path, Count - 1);
+        switch (FSPathComponentGetType(Component))
+        {
+            case FSPathComponentTypeVolume:
+            case FSPathComponentTypeRoot:
+            case FSPathComponentTypeRelativeRoot:
+            case FSPathComponentTypeRelativeParentDirectory:
+                CCDictionaryDestroy(Dirs[*Level - 1]->nodes);
+                Dirs[*Level - 1]->nodes = FSManagerVirtualCreateDir();
+                break;
+                
+            case FSPathComponentTypeDirectory:
+            {
+                CCString Key = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                CCDictionaryRemoveValue(Dirs[*Level - 1]->nodes, &Key);
+                CCStringDestroy(Key);
+                break;
+            }
+                
+            default:
+                break;
+        }
+        
+        Node = NULL;
+    }
+    
+    return Node;
+}
