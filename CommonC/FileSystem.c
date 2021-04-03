@@ -676,3 +676,17 @@ static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[12
     
     return Node;
 }
+
+static FSVirtualNode *FSManagerVirtualNode(FSPath Path)
+{
+    return FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationNone, FALSE);
+}
+
+_Bool FSManagerVirtualExists(FSPath Path)
+{
+    FSVirtualReadLock(&FSVirtualVolumeLock);
+    const _Bool Exist = FSManagerVirtualNode(Path) != NULL;
+    FSVirtualReadUnlock(&FSVirtualVolumeLock);
+    
+    return Exist;
+}
