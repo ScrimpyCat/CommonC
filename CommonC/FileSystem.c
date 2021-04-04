@@ -690,3 +690,25 @@ _Bool FSManagerVirtualExists(FSPath Path)
     
     return Exist;
 }
+
+size_t FSManagerVirtualGetSize(FSPath Path)
+{
+    size_t Size = 0;
+    
+    FSVirtualReadLock(&FSVirtualVolumeLock);
+    FSVirtualNode *Node = FSManagerVirtualNode(Path);
+    
+    if (Node)
+    {
+        if (!Node->isDir)
+        {
+            FSVirtualFileReadLock(Node->file);
+            Size = CCArrayGetCount(Node->file->contents);
+            FSVirtualFileReadUnlock(Node->file);
+        }
+    }
+    
+    FSVirtualReadUnlock(&FSVirtualVolumeLock);
+    
+    return Size;
+}
