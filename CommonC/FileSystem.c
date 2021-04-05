@@ -691,6 +691,16 @@ _Bool FSManagerVirtualExists(FSPath Path)
     return Exist;
 }
 
+FSAccess FSManagerVirtualGetAccessRights(FSPath Path)
+{
+    FSVirtualReadLock(&FSVirtualVolumeLock);
+    FSVirtualNode *Node = FSManagerVirtualNode(Path);
+    FSAccess Mode = Node ? Node->mode : 0;
+    FSVirtualReadUnlock(&FSVirtualVolumeLock);
+    
+    return Mode;
+}
+
 size_t FSManagerVirtualGetSize(FSPath Path)
 {
     size_t Size = 0;

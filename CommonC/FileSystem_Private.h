@@ -51,6 +51,7 @@ typedef struct {
         CCDictionary(CCString, FSVirtualNode) nodes;
         FSVirtualFile *file;
     };
+    FSAccess mode;
     _Bool isDir;
 } FSVirtualNode;
 
