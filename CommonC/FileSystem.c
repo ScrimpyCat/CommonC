@@ -722,3 +722,8 @@ size_t FSManagerVirtualGetSize(FSPath Path)
     
     return Size;
 }
+
+size_t FSManagerVirtualGetPreferredIOBlockSize(FSPath Path)
+{
+    return 4096;
+}
