@@ -727,3 +727,12 @@ size_t FSManagerVirtualGetPreferredIOBlockSize(FSPath Path)
 {
     return 4096;
 }
+
+FSOperation FSManagerVirtualCreate(FSPath Path, _Bool IntermediateDirectories)
+{
+    FSVirtualWriteLock(&FSVirtualVolumeLock);
+    FSVirtualNode *Node = FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationCreate, IntermediateDirectories);
+    FSVirtualWriteUnlock(&FSVirtualVolumeLock);
+    
+    return Node != NULL ? FSOperationSuccess : FSOperationFailure;
+}
