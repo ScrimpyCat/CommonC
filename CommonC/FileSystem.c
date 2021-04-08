@@ -736,3 +736,12 @@ FSOperation FSManagerVirtualCreate(FSPath Path, _Bool IntermediateDirectories)
     
     return Node != NULL ? FSOperationSuccess : FSOperationFailure;
 }
+
+FSOperation FSManagerVirtualRemove(FSPath Path)
+{
+    FSVirtualWriteLock(&FSVirtualVolumeLock);
+    FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationRemove, FALSE);
+    FSVirtualWriteUnlock(&FSVirtualVolumeLock);
+    
+    return FSOperationSuccess;
+}
