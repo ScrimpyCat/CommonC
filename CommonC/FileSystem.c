@@ -745,3 +745,86 @@ FSOperation FSManagerVirtualRemove(FSPath Path)
     
     return FSOperationSuccess;
 }
+
+FSOperation FSManagerVirtualCopy(FSPath Path, FSPath Destination)
+{
+    FSOperation Result = FSOperationFailure;
+    
+    if (FSManagerExists(Path))
+    {
+        if (FSPathIsDirectory(Path))
+        {
+            if (FSOperationSuccess == (Result = FSManagerCreate(Destination, FALSE)))
+            {
+                CCOrderedCollection(FSPath) Matches = FSManagerGetContentsAtPath(Path, NULL, FSMatchDefault);
+                
+                CC_COLLECTION_FOREACH(FSPath, Child, Matches)
+                {
+                    FSPath ChildDestination = FSPathCopy(Destination);
+                    const size_t Count = FSPathGetComponentCount(Path);
+                    
+                    FSPathComponent Component = FSPathGetComponentAtIndex(Path, Count - 1);
+                    FSPathAppendComponent(ChildDestination, FSPathComponentCopy(Component));
+                    
+                    switch (FSPathComponentGetType(Component))
+                    {
+                        case FSPathComponentTypeFile:
+                        case FSPathComponentTypeExtension:
+                        {
+                            _Static_assert(FSPathComponentTypeFile == 6 &&
+                                           FSPathComponentTypeExtension == 7 &&
+                                           FSPathComponentTypeMask == 7, "Path component types have changed");
+                            
+                            for (size_t Loop = 2, ChildDestCount = FSPathGetComponentCount(ChildDestination); (Loop < Count) && ((Component = FSPathGetComponentAtIndex(Path, Count - Loop)) & 6); Loop++)
+                            {
+                                FSPathInsertComponentAtIndex(ChildDestination, FSPathComponentCopy(Component), ChildDestCount);
+                            }
+                            break;
+                        }
+                            
+                        default:
+                            break;
+                    }
+                    
+                    FSManagerVirtualCopy(Child, Destination);
+                    FSPathDestroy(Destination);
+                }
+                
+                CCCollectionDestroy(Matches);
+            }
+        }
+        
+        else
+        {
+            size_t Size = FSManagerGetSize(Path);
+            void *Data;
+            CC_SAFE_Malloc(Data, Size,
+                           CC_LOG_ERROR("Failed to copy file due to memory allocation failure. Allocation size (%zu)", Size);
+                           return FSOperationFailure;
+                           );
+            
+            FSHandle Handle;
+            if (FSOperationSuccess == FSHandleOpen(Path, FSHandleTypeRead, &Handle))
+            {
+                if (FSOperationSuccess == FSHandleRead(Handle, &Size, Data, FSBehaviourDefault))
+                {
+                    if (FSOperationSuccess == FSManagerCreate(Destination, FALSE))
+                    {
+                        FSHandle DestinationHandle;
+                        if (FSOperationSuccess == FSHandleOpen(Destination, FSHandleTypeWrite, &DestinationHandle))
+                        {
+                            Result = FSHandleWrite(DestinationHandle, Size, Data, FSBehaviourDefault);
+                            FSHandleClose(DestinationHandle);
+                        }
+                    }
+                }
+                
+                FSHandleClose(Handle);
+            }
+            
+            CC_SAFE_Free(Data);
+        }
+    }
+    
+    return Result;
+}
