@@ -67,10 +67,10 @@ size_t CCArrayAppendElement(CCArray Array, const void *Element)
     
     if (((Array->count % Array->chunkSize) == 0) && ((Array->count) || (!Array->data)))
     {
-        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
-            CC_LOG_ERROR("Failed to append element to array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            CC_LOG_ERROR("Failed to append element to array (%p), could not allocate (%zu)", Array, (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
@@ -90,10 +90,10 @@ size_t CCArrayAppendElements(CCArray Array, const void *Elements, size_t Count)
     size_t Rem = Array->count % Array->chunkSize;
     if (((Array->chunkSize - Rem) < Count) || ((Rem == 0) && ((Array->count) || (!Array->data))))
     {
-        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
-            CC_LOG_ERROR("Failed to append (%zu) elements to array (%p), could not allocate (%zu)", Count, Array, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            CC_LOG_ERROR("Failed to append (%zu) elements to array (%p), could not allocate (%zu)", Count, Array, ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
@@ -132,10 +132,10 @@ size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Elem
     
     if (((Array->count % Array->chunkSize) == 0) && ((Array->count) || (!Array->data)))
     {
-        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
-            CC_LOG_ERROR("Failed to insert element into array (%p), could not allocate (%zu)", Array, sizeof(CCArrayInfo) + (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            CC_LOG_ERROR("Failed to insert element into array (%p), could not allocate (%zu)", Array, (((Array->count / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
@@ -157,10 +157,10 @@ size_t CCArrayInsertElementsAtIndex(CCArray Array, size_t Index, const void *Ele
     size_t Rem = Array->count % Array->chunkSize;
     if (((Array->chunkSize - Rem) < Count) || ((Rem == 0) && ((Array->count) || (!Array->data))))
     {
-        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
+        CCArray Temp = CCRealloc(CC_STD_ALLOCATOR, Array->data, ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size), NULL, CC_DEFAULT_ERROR_CALLBACK);
         if (!Temp)
         {
-            CC_LOG_ERROR("Failed to insert (%zu) elements into array (%p), could not allocate (%zu)", Count, Array, sizeof(CCArrayInfo) + ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
+            CC_LOG_ERROR("Failed to insert (%zu) elements into array (%p), could not allocate (%zu)", Count, Array, ((((Array->count + Count) / Array->chunkSize) + 1) * Array->chunkSize * Array->size));
             return SIZE_MAX;
         }
         
