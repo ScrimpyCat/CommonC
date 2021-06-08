@@ -70,6 +70,11 @@ default: CC_NAME_RETURN_VALUE_FUNCTION_(void_ptr) \
 #define CC_VA_ARG_COUNT(...) CC_VA_ARG_COUNT_(0, ## __VA_ARGS__, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 #define CC_VA_ARG_COUNT_(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, count, ...) count
 
+#define CC_VA_CALL(fun, ...) CC_VA_CALL_(CC_VA_ARG_COUNT(__VA_ARGS__), fun, __VA_ARGS__)
+#define CC_VA_CALL_(n, ...) CC_VA_CALL__(n, __VA_ARGS__)
+#define CC_VA_CALL__(n, fun, ...) CC_VA_CALL___(fun##n, __VA_ARGS__)
+#define CC_VA_CALL___(fun, ...) fun(__VA_ARGS__)
+
 #ifndef CC_CUSTOM_TYPES
 #define CC_CUSTOM_TYPES(func, ...)
 #endif
