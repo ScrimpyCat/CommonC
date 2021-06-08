@@ -95,6 +95,53 @@ CC_NEW CCArray CCArrayCreate(CCAllocatorType Allocator, size_t ElementSize, size
  */
 void CCArrayDestroy(CCArray CC_DESTROY(Array));
 
+/*!
+ * @define CC_STATIC_ARRAY
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCArray.
+ * @discussion If used globally the array will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param elementSize The size of the data elements.
+ * @param chunkSize The number of elements to fit with each allocation. Must be at least 1.
+ * @optional count The number of elements in the data ptr.
+ * @optional ptr The pointer to the data allocation. If not NULL, the allocation must be of at least
+ *               ((floor((count - 1) / chunkSize) + 1) * elementSize * chunkSize) size.
+ */
+#define CC_STATIC_ARRAY(elementSize, chunkSize, ...) CC_ARRAY_CREATE(elementSize, chunkSize, ##__VA_ARGS__)
+
+/*!
+ * @define CC_CONST_ARRAY
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCArray.
+ * @discussion If used globally the array will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param elementSize The size of the data elements.
+ * @param chunkSize The number of elements to fit with each allocation. Must be at least 1.
+ * @param count The number of elements in the data ptr.
+ * @param ptr The pointer to the data allocation. If not NULL, the allocation must be of at least
+ *               ((floor((count - 1) / chunkSize) + 1) * elementSize * chunkSize) size.
+ */
+#define CC_CONST_ARRAY(elementSize, chunkSize, count, ptr) CC_ARRAY_CREATE(elementSize, chunkSize, count, ptr, const)
+
+#define CC_ARRAY_CREATE(...) CC_VA_CALL(CC_ARRAY_CREATE_, __VA_ARGS__)
+#define CC_ARRAY_CREATE_2(...) CC_ARRAY_CREATE_5(__VA_ARGS__, 0, NULL)
+#define CC_ARRAY_CREATE_4(...) CC_ARRAY_CREATE_5(__VA_ARGS__)
+#define CC_ARRAY_CREATE_5(elementSize, chunkSize_, elementCount, ptr, ...) \
+(CCArray)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCArrayInfo info; \
+}){ \
+    .header = { \
+        .allocator = CC_NULL_ALLOCATOR.allocator \
+    }, \
+    .info = { \
+        .size = elementSize, \
+        .chunkSize = chunkSize_, \
+        .count = elementCount, \
+        .data = (void*)ptr \
+    } \
+}.info
+
 
 #pragma mark - Insertions/Deletions
 /*!
