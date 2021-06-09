@@ -127,20 +127,18 @@ void CCArrayDestroy(CCArray CC_DESTROY(Array));
 #define CC_ARRAY_CREATE_2(...) CC_ARRAY_CREATE_5(__VA_ARGS__, 0, NULL)
 #define CC_ARRAY_CREATE_4(...) CC_ARRAY_CREATE_5(__VA_ARGS__)
 #define CC_ARRAY_CREATE_5(elementSize, chunkSize_, elementCount, ptr, ...) \
-(CCArray)&(__VA_ARGS__ struct { \
+((CCArray)&(__VA_ARGS__ struct { \
     CCAllocatorHeader header; \
     CCArrayInfo info; \
 }){ \
-    .header = { \
-        .allocator = CC_NULL_ALLOCATOR.allocator \
-    }, \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
     .info = { \
         .size = elementSize, \
         .chunkSize = chunkSize_, \
         .count = elementCount, \
         .data = (void*)ptr \
     } \
-}.info
+}.info)
 
 
 #pragma mark - Insertions/Deletions
