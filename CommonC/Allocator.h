@@ -43,6 +43,7 @@ typedef struct CCAllocatorType {
 #define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 3, .data = &(size_t){ alignment } } //Uses stdlib
 #define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 4 } //Uses stdlib
 #define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 5, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
+#define CC_STATIC_ALLOCATOR (CCAllocatorType){ .allocator = 6 } //No allocation (requires static memory)
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
@@ -79,6 +80,12 @@ typedef struct {
 #endif
     CCMemoryDestructorCallback destructor;
 } CCAllocatorHeader;
+
+#if CC_ALLOCATOR_USING_STDATOMIC
+#define CC_ALLOCATOR_HEADER_INIT(alloc) (CCAllocatorHeader){ .allocator = alloc, .refCount = ATOMIC_VAR_INIT(0), .destructor = NULL }
+#else
+#define CC_ALLOCATOR_HEADER_INIT(alloc) (CCAllocatorHeader){ .allocator = alloc, .refCount = 0, .destructor = NULL }
+#endif
 
 
 /*!
@@ -168,5 +175,33 @@ CFAllocatorRef CCCreateCFAllocator(CCAllocatorType Type);
  */
 CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
 #endif
+
+
+#include <CommonC/Hacks.h>
+
+#define CC_STATIC_ALLOC(...) CC_VA_CALL(CC_STATIC_ALLOC_, __VA_ARGS__)
+
+#define CC_STATIC_ALLOC_1(type) \
+((void*)&(struct { \
+    size_t size; \
+    CCAllocatorHeader header; \
+    typeof(type) ptr; \
+}){ \
+    .size = sizeof(CCAllocatorHeader) + sizeof(type), \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_STATIC_ALLOCATOR.allocator) \
+}.ptr)
+
+#define CC_STATIC_ALLOC_2(type, init) \
+((void*)&(struct { \
+    size_t size; \
+    CCAllocatorHeader header; \
+    typeof(type) ptr; \
+}){ \
+    .size = sizeof(CCAllocatorHeader) + sizeof(type), \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_STATIC_ALLOCATOR.allocator), \
+    .ptr = CC_STATIC_ALLOC_CONSUME init \
+}.ptr)
+
+#define CC_STATIC_ALLOC_CONSUME(...) __VA_ARGS__
 
 #endif

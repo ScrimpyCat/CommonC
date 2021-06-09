@@ -246,12 +246,35 @@ static void DebugDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Static Allocator Implementation
+static void *StaticAllocator(void *Data, size_t Size)
+{
+    return NULL;
+}
+
+static void *StaticReallocator(void *Data, void *Ptr, size_t Size)
+{
+    if (Ptr)
+    {
+        const size_t *MaxSize = Ptr - sizeof(size_t);
+        
+        if (Size <= *MaxSize) return Ptr;
+    }
+    
+    return NULL;
+}
+
+static void StaticDeallocator(void *Ptr)
+{
+}
+
+
 #pragma mark -
 
 #ifndef CC_ALLOCATORS_MAX
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
 #endif
-_Static_assert(CC_ALLOCATORS_MAX >= 6, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 7, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -269,7 +292,8 @@ static struct {
         { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator },
         { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator },
         { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
-        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator }
+        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator },
+        { .allocator = (CCAllocatorFunction)StaticAllocator, .reallocator = (CCReallocatorFunction)StaticReallocator, .deallocator = StaticDeallocator }
     }
 };
 
