@@ -46,7 +46,31 @@
 -(void) testCreation
 {
     CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 1);
-
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should be empty");
+    XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), @"Should be the size specified on creation");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_CONST_ARRAY(sizeof(int), 1, 0, NULL);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should be empty");
+    XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), @"Should be the size specified on creation");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 1);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should be empty");
+    XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), @"Should be the size specified on creation");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 1, 0, NULL);
+    
     XCTAssertEqual(CCArrayGetCount(Array), 0, @"Should be empty");
     XCTAssertEqual(CCArrayGetElementSize(Array), sizeof(int), @"Should be the size specified on creation");
     
@@ -60,6 +84,58 @@
     CCArrayAppendElement(Array, &(int){ 1 });
     CCArrayAppendElement(Array, &(int){ 2 });
     CCArrayAppendElement(Array, &(int){ 3 });
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 1);
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 1, 0, CC_STATIC_ALLOC(int[4]));
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 4, 0, CC_STATIC_ALLOC(int[4]));
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 2, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CC_STATIC_ARRAY(sizeof(int), 1, 3, CC_STATIC_ALLOC(int[3], ({ 1, 2, 3 })));
     
     XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
     XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
