@@ -104,6 +104,44 @@ void CCLinkedListDestroyNode(CCLinkedListNode *CC_DESTROY(Node));
  */
 void CCLinkedListDestroy(CCLinkedList CC_DESTROY(List));
 
+/*!
+ * @define CC_STATIC_LINKED_LIST_NODE
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCLinkedListNode.
+ * @discussion If used globally the node will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param type The type of the node data.
+ * @param init What the node data is to be initialised with.
+ */
+#define CC_STATIC_LINKED_LIST_NODE(type, init) CC_LINKED_LIST_NODE_CREATE(type, init)
+
+/*!
+ * @define CC_CONST_LINKED_LIST_NODE
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCLinkedListNode.
+ * @discussion If used globally the node will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param type The type of the node data.
+ * @param init What the node data is to be initialised with.
+ */
+#define CC_CONST_LINKED_LIST_NODE(type, init) CC_LINKED_LIST_NODE_CREATE(type, init, const)
+
+#define CC_LINKED_LIST_NODE_CREATE(type, init, ...) \
+((CCLinkedListNode*)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCLinkedListNode node; \
+    typeof(type) data; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .node = { \
+        .next = NULL, \
+        .prev = NULL \
+    }, \
+    .data = CC_LINKED_LIST_NODE_CONSUME init \
+}.node)
+
+#define CC_LINKED_LIST_NODE_CONSUME(...) __VA_ARGS__
+
 
 #pragma mark - Relative Insertions
 /*!
