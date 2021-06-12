@@ -62,6 +62,22 @@ typedef struct {
     XCTAssertEqual(((TestList*)List)->data.b, 2, @"Should be initialized with the passed values");
     
     CCLinkedListDestroy(List);
+    
+    
+    List = CC_STATIC_LINKED_LIST_NODE(TestData, ({ 1, 2 }));
+    
+    XCTAssertEqual(((TestList*)List)->data.a, 1, @"Should be initialized with the passed values");
+    XCTAssertEqual(((TestList*)List)->data.b, 2, @"Should be initialized with the passed values");
+    
+    CCLinkedListDestroy(List);
+    
+    
+    List = CC_CONST_LINKED_LIST_NODE(TestData, ({ 1, 2 }));
+    
+    XCTAssertEqual(((TestList*)List)->data.a, 1, @"Should be initialized with the passed values");
+    XCTAssertEqual(((TestList*)List)->data.b, 2, @"Should be initialized with the passed values");
+    
+    CCLinkedListDestroy(List);
 }
 
 -(void) testInsertion
@@ -75,6 +91,29 @@ typedef struct {
     
     CCLinkedList N = List;
     int a = 0, b = 0;
+    do
+    {
+        a += ((TestList*)List)->data.a;
+        b += ((TestList*)List)->data.b;
+    } while ((N = CCLinkedListEnumerateNext(N)));
+    
+    
+    XCTAssertEqual(a, 3, @"Should have the correct value when list is summed");
+    XCTAssertEqual(b, 6, @"Should have the correct value when list is summed");
+    
+    CCLinkedListDestroy(List);
+    
+    
+    List = CC_STATIC_LINKED_LIST_NODE(TestData, ({ 1, 2 }));
+    
+    List = CCLinkedListInsert(List, CC_STATIC_LINKED_LIST_NODE(TestData, ({ 1, 2 })));
+    List = CCLinkedListInsert(List, CC_STATIC_LINKED_LIST_NODE(TestData, ({ 1, 2 })));
+    
+    XCTAssertTrue(CCLinkedListIsHead(List), @"Should return the head of the two inputs"); //in our case will be the absolute head
+    
+    N = List;
+    a = 0;
+    b = 0;
     do
     {
         a += ((TestList*)List)->data.a;
