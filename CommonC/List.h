@@ -100,6 +100,52 @@ CC_NEW CCList CCListCreate(CCAllocatorType Allocator, size_t ElementSize, size_t
  */
 void CCListDestroy(CCList CC_DESTROY(List));
 
+/*!
+ * @define CC_STATIC_LIST
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCList.
+ * @discussion If used globally the list will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param allocator The allocator to be used for future allocations.
+ * @param pageSize The maximum size of a single page. Must be at least 1. It will be rounded up
+ *        so it is divisible by the @b chunkSize.
+ *
+ * @param count The number of elements in the data ptr.
+ * @param ptr The pointer to the data allocation. Must not be NULL. The allocation is a list of arrays of
+ *        pageSize elements, or fewer for the tail array.
+ */
+#define CC_STATIC_LIST(allocator, pageSize, count, ptr) CC_LIST_CREATE(allocator, pageSize, count, ptr)
+
+/*!
+ * @define CC_CONST_ARRAY
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCList.
+ * @discussion If used globally the list will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param allocator The allocator to be used for future allocations.
+ * @param pageSize The maximum size of a single page. Must be at least 1. It will be rounded up
+ *        so it is divisible by the @b chunkSize.
+ *
+ * @param count The number of elements in the data ptr.
+ * @param ptr The pointer to the data allocation. Must not be NULL. The allocation is a list of arrays of
+ *        pageSize elements, or fewer for the tail array.
+ */
+#define CC_CONST_LIST(allocator, pageSize, count, ptr) CC_LIST_CREATE(allocator, pageSize, count, ptr, const)
+
+#define CC_LIST_CREATE(allocator_, pageSize_, elementCount, ptr, ...) \
+((CCList)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCListInfo info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .count = elementCount, \
+        .pageSize = ((pageSize_ % (*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize) ? pageSize_ + ((*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize - (pageSize_ % (*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize)) : pageSize_), \
+        .list = ptr, \
+        .allocator = allocator_ \
+    } \
+}.info)
+
 
 #pragma mark - Insertions/Deletions
 /*!
