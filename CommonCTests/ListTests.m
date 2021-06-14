@@ -81,6 +81,22 @@
     XCTAssertEqual(CCListGetElementSize(List), sizeof(int), @"Should be the size specified on creation");
     
     CCListDestroy(List);
+    
+    
+    List = CC_STATIC_LIST(CC_STD_ALLOCATOR, 1, 0, CC_STATIC_LINKED_LIST_NODE(CCArray, (CC_STATIC_ARRAY(sizeof(int), 1))));
+    
+    XCTAssertEqual(CCListGetCount(List), 0, @"Should be empty");
+    XCTAssertEqual(CCListGetElementSize(List), sizeof(int), @"Should be the size specified on creation");
+    
+    CCListDestroy(List);
+    
+    
+    List = CC_CONST_LIST(CC_STD_ALLOCATOR, 1, 0, CC_STATIC_LINKED_LIST_NODE(CCArray, (CC_STATIC_ARRAY(sizeof(int), 1))));
+    
+    XCTAssertEqual(CCListGetCount(List), 0, @"Should be empty");
+    XCTAssertEqual(CCListGetElementSize(List), sizeof(int), @"Should be the size specified on creation");
+    
+    CCListDestroy(List);
 }
 
 -(void) testAppending
@@ -100,6 +116,38 @@
         
         CCListDestroy(List);
     }
+    
+    
+    for (size_t PageSize = 1; PageSize <= 3; PageSize++)
+    {
+        CCList List = CC_STATIC_LIST(CC_STD_ALLOCATOR, PageSize, 0, CC_STATIC_LINKED_LIST_NODE(CCArray, (CC_STATIC_ARRAY(sizeof(int), 1))));
+        
+        CCListAppendElement(List, &(int){ 1 });
+        CCListAppendElement(List, &(int){ 2 });
+        CCListAppendElement(List, &(int){ 3 });
+        
+        XCTAssertEqual(CCListGetCount(List), 3, @"Should contain 3 elements");
+        XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 0), 1, @"Should be the first element");
+        XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 1), 2, @"Should be the second element");
+        XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 2), 3, @"Should be the third element");
+        
+        CCListDestroy(List);
+    }
+    
+    
+    CCList List = CC_STATIC_LIST(CC_STD_ALLOCATOR, 2, 1, CC_STATIC_LINKED_LIST_NODE(CCArray, (CC_STATIC_ARRAY(sizeof(int), 2, 1, CC_STATIC_ALLOC(int[2], ({ 9 }))))));
+    
+    CCListAppendElement(List, &(int){ 1 });
+    CCListAppendElement(List, &(int){ 2 });
+    CCListAppendElement(List, &(int){ 3 });
+    
+    XCTAssertEqual(CCListGetCount(List), 4, @"Should contain 4 elements");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 0), 9, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 1), 1, @"Should be the second element");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 2), 2, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 3), 3, @"Should be the fourth element");
+    
+    CCListDestroy(List);
     
     
     for (size_t Loop = 0; Loop < 10; Loop++)
