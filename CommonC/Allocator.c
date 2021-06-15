@@ -287,13 +287,13 @@ static struct {
     } allocators[CC_ALLOCATORS_MAX];
 } Allocators = {
     .allocators = {
+        { .allocator = StaticAllocator, .reallocator = StaticReallocator, .deallocator = StaticDeallocator },
         { .allocator = StandardAllocator, .reallocator = StandardReallocator, .deallocator = StandardDeallocator },
         { .allocator = (CCAllocatorFunction)CustomAllocator, .reallocator = (CCReallocatorFunction)CustomReallocator, .deallocator = (CCDeallocatorFunction)CustomDeallocator },
         { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator },
         { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator },
         { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
-        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator },
-        { .allocator = (CCAllocatorFunction)StaticAllocator, .reallocator = (CCReallocatorFunction)StaticReallocator, .deallocator = StaticDeallocator }
+        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator }
     }
 };
 

@@ -37,13 +37,13 @@ typedef struct CCAllocatorType {
 } CCAllocatorType;
 
 #define CC_NULL_ALLOCATOR (CCAllocatorType){ .allocator = -1 } //No allocation
-#define CC_STD_ALLOCATOR (CCAllocatorType){ .allocator = 0 } //Uses stdlib
-#define CC_CUSTOM_ALLOCATOR(alloc, realloc, dealloc) (CCAllocatorType){ .allocator = 1, .data = (void*[3]){ alloc, realloc, dealloc } }
-#define CC_CALLBACK_ALLOCATOR(callback) (CCAllocatorType){ .allocator = 2, .data = callback } //Uses stdlib
-#define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 3, .data = &(size_t){ alignment } } //Uses stdlib
-#define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 4 } //Uses stdlib
-#define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 5, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
-#define CC_STATIC_ALLOCATOR (CCAllocatorType){ .allocator = 6 } //No allocation (requires static memory)
+#define CC_STATIC_ALLOCATOR (CCAllocatorType){ .allocator = 0 } //No allocation (requires static memory)
+#define CC_STD_ALLOCATOR (CCAllocatorType){ .allocator = 1 } //Uses stdlib
+#define CC_CUSTOM_ALLOCATOR(alloc, realloc, dealloc) (CCAllocatorType){ .allocator = 2, .data = (void*[3]){ alloc, realloc, dealloc } }
+#define CC_CALLBACK_ALLOCATOR(callback) (CCAllocatorType){ .allocator = 3, .data = callback } //Uses stdlib
+#define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 4, .data = &(size_t){ alignment } } //Uses stdlib
+#define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 5 } //Uses stdlib
+#define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 6, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
@@ -179,6 +179,15 @@ CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
 
 #include <CommonC/Hacks.h>
 
+/*!
+ * @define CC_STATIC_ALLOC
+ * @abstract Convenient macro to statically allocate memory of type.
+ * @description A static allocation can be reallocated up to the size of @b type.
+ * @param type The type to be allocated.
+ * @optional init The data the memory should be initialised with (assignment). Must be
+ *           wrapped in parantheses. If this parameter is not passed then the memory is
+ *           uninitialised.
+ */
 #define CC_STATIC_ALLOC(...) CC_VA_CALL(CC_STATIC_ALLOC_, __VA_ARGS__)
 
 #define CC_STATIC_ALLOC_1(type) \
@@ -203,5 +212,26 @@ CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
 }.ptr)
 
 #define CC_STATIC_ALLOC_CONSUME(...) __VA_ARGS__
+
+/*!
+ * @define CC_STATIC_ALLOC_BSS
+ * @abstract Convenient macro to statically allocate zero-filled memory of type.
+ * @note This static allocation can not be reallocated. This is functionally similar to @b CC_NULL_ALLOCATOR
+ *       but can be stored in bss section. This is not intented to be used locally.
+ *
+ * @param type The type to be allocated.
+ * @optional init The data the memory should be initialised with (assignment). Must be
+ *           wrapped in parantheses.
+ */
+#define CC_STATIC_ALLOC_BSS(type) \
+((void*)&(struct { \
+    size_t size; \
+    CCAllocatorHeader header; \
+    typeof(type) ptr; \
+}){ \
+    .size = 0, \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_STATIC_ALLOCATOR.allocator), \
+    .ptr = {0} \
+}.ptr)
 
 #endif
