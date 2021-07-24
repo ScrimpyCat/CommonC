@@ -386,7 +386,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_REPEAT_68(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_67(CC_INC(index), fun, __VA_ARGS__)
 #define CC_REPEAT_69(index, fun, ...) fun(__VA_ARGS__, index), CC_REPEAT_68(CC_INC(index), fun, __VA_ARGS__)
 
-#define CC_RESERVED_BIT(name, index) name##Reserved##index = (1 << index)
+#define CC_RESERVED_BIT(name, index) name##Reserved##index = (1ULL << index)
 
 #define CC_RESERVED_BITS(name, index, count) CC_REPEAT(index, count, CC_RESERVED_BIT, name)
 
