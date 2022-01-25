@@ -151,3 +151,63 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const PTYPE(void *
 {
     CCAssertLog(0, "Unreachable");
 }
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t BaseOffset = Offset % Size;
+    CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
+    
+    CCMemoryWrite(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
+    
+    CCDataUnmapBuffer(Data, Map);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t BaseOffset = Offset % Size;
+    CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
+    
+    CCMemoryWriteSwap(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
+    
+    CCDataUnmapBuffer(Data, Map);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t BaseOffset = Offset % Size;
+    CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
+    
+    CCMemoryWriteBig(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
+    
+    CCDataUnmapBuffer(Data, Map);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t BaseOffset = Offset % Size;
+    CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
+    
+    CCMemoryWriteLittle(Map.ptr, Size, Offset - Map.offset, Count, Buffer);
+    
+    CCDataUnmapBuffer(Data, Map);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCAssertLog(0, "Unreachable");
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCAssertLog(0, "Unreachable");
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCAssertLog(0, "Unreachable");
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCAssertLog(0, "Unreachable");
+}

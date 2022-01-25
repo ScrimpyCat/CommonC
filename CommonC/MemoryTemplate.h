@@ -29,11 +29,19 @@
 #define CCMemoryReadSwap_T(tx, ty) CC_TEMPLATE_REF(CCMemoryReadSwap, void, tx, size_t, size_t, size_t, ty)
 #define CCMemoryReadBig_T(tx, ty) CC_TEMPLATE_REF(CCMemoryReadBig, void, tx, size_t, size_t, size_t, ty)
 #define CCMemoryReadLittle_T(tx, ty) CC_TEMPLATE_REF(CCMemoryReadLittle, void, tx, size_t, size_t, size_t, ty)
+#define CCMemoryWrite_T(tx, ty) CC_TEMPLATE_REF(CCMemoryWrite, void, tx, size_t, size_t, size_t, ty)
+#define CCMemoryWriteSwap_T(tx, ty) CC_TEMPLATE_REF(CCMemoryWriteSwap, void, tx, size_t, size_t, size_t, ty)
+#define CCMemoryWriteBig_T(tx, ty) CC_TEMPLATE_REF(CCMemoryWriteBig, void, tx, size_t, size_t, size_t, ty)
+#define CCMemoryWriteLittle_T(tx, ty) CC_TEMPLATE_REF(CCMemoryWriteLittle, void, tx, size_t, size_t, size_t, ty)
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 
 #pragma mark -
 
@@ -100,5 +108,71 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const Tx Memory, c
     CCMemoryRead_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
 #else
     CCMemoryReadSwap_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
+#endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t ValueSize = sizeof(*Buffer);
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        ((uint8_t*)Memory)[(Offset + Loop) % Size] = ((uint8_t*)Buffer)[(Loop % ValueSize) + ((Loop / ValueSize) * ValueSize)];
+    }
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const PTYPE(void *)  Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    const size_t ValueSize = sizeof(*Buffer);
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        ((uint8_t*)Memory)[(Offset + Loop) % Size] = ((uint8_t*)Buffer)[(ValueSize - 1) - (Loop % ValueSize) + ((Loop / ValueSize) * ValueSize)];
+    }
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+    CCMemoryWriteSwap_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+#if CC_HARDWARE_ENDIAN_BIG
+    CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryWriteSwap_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+#endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+#if CC_HARDWARE_ENDIAN_BIG
+    CCMemoryWrite_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryWriteSwap_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
+#endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+#if CC_HARDWARE_ENDIAN_LITTLE
+    CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryWriteSwap_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
+#endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+{
+#if CC_HARDWARE_ENDIAN_LITTLE
+    CCMemoryWrite_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
+#else
+    CCMemoryWriteSwap_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
 #endif
 }
