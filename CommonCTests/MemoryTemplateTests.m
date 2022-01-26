@@ -235,4 +235,155 @@
     CCDataDestroy(Data);
 }
 
+-(void) testWrite
+{
+    uint8_t aIn[3] = { 1, 2, 3 }, aOut[10] = {0};
+    CCMemoryWrite((void*)aOut, sizeof(aOut), 0, sizeof(aIn), aIn);
+    XCTAssertEqual(aOut[0], 1, @"Should have the correct value");
+    XCTAssertEqual(aOut[1], 2, @"Should have the correct value");
+    XCTAssertEqual(aOut[2], 3, @"Should have the correct value");
+    XCTAssertEqual(aOut[3], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(aOut, sizeof(aOut), 1, sizeof(aIn), aIn);
+    XCTAssertEqual(aOut[0], 1, @"Should have the correct value");
+    XCTAssertEqual(aOut[1], 1, @"Should have the correct value");
+    XCTAssertEqual(aOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(aOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(aOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWriteBig(aOut, sizeof(aOut), 1, sizeof(aIn), aIn);
+    XCTAssertEqual(aOut[0], 1, @"Should have the correct value");
+    XCTAssertEqual(aOut[1], 1, @"Should have the correct value");
+    XCTAssertEqual(aOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(aOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(aOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(aOut, sizeof(aOut), 1, 11, ((uint8_t[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }));
+    XCTAssertEqual(aOut[0], 10, @"Should have the correct value");
+    XCTAssertEqual(aOut[1], 11, @"Should have the correct value");
+    XCTAssertEqual(aOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(aOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(aOut[4], 4, @"Should have the correct value");
+    XCTAssertEqual(aOut[5], 5, @"Should have the correct value");
+    XCTAssertEqual(aOut[6], 6, @"Should have the correct value");
+    XCTAssertEqual(aOut[7], 7, @"Should have the correct value");
+    XCTAssertEqual(aOut[8], 8, @"Should have the correct value");
+    XCTAssertEqual(aOut[9], 9, @"Should have the correct value");
+    
+    uint16_t bIn[3] = { 0x01f1, 0x02f2, 0x03f3 }, bOut[10] = {0};
+    CCMemoryWrite((void*)bOut, sizeof(bOut), 0, sizeof(bIn), bIn);
+    XCTAssertEqual(bOut[0], 0x01f1, @"Should have the correct value");
+    XCTAssertEqual(bOut[1], 0x02f2, @"Should have the correct value");
+    XCTAssertEqual(bOut[2], 0x03f3, @"Should have the correct value");
+    XCTAssertEqual(bOut[3], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(bOut, sizeof(bOut), 1, sizeof(bIn), bIn);
+    XCTAssertEqual(bOut[0], 0xf1f1, @"Should have the correct value");
+    XCTAssertEqual(bOut[1], 0xf201, @"Should have the correct value");
+    XCTAssertEqual(bOut[2], 0xf302, @"Should have the correct value");
+    XCTAssertEqual(bOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(bOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWriteBig(bOut, sizeof(bOut), 1, sizeof(bIn), bIn);
+    XCTAssertEqual(bOut[0], 0x01f1, @"Should have the correct value");
+    XCTAssertEqual(bOut[1], 0x02f1, @"Should have the correct value");
+    XCTAssertEqual(bOut[2], 0x03f2, @"Should have the correct value");
+    XCTAssertEqual(bOut[3], 0xf3, @"Should have the correct value");
+    XCTAssertEqual(bOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(bOut, sizeof(bOut), 2, 22, ((uint16_t[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }));
+    XCTAssertEqual(bOut[0], 10, @"Should have the correct value");
+    XCTAssertEqual(bOut[1], 11, @"Should have the correct value");
+    XCTAssertEqual(bOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(bOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(bOut[4], 4, @"Should have the correct value");
+    XCTAssertEqual(bOut[5], 5, @"Should have the correct value");
+    XCTAssertEqual(bOut[6], 6, @"Should have the correct value");
+    XCTAssertEqual(bOut[7], 7, @"Should have the correct value");
+    XCTAssertEqual(bOut[8], 8, @"Should have the correct value");
+    XCTAssertEqual(bOut[9], 9, @"Should have the correct value");
+    
+    uint32_t cIn[3] = { 0x01f1e1d1, 0x02f2e2d2, 0x03f3e3d3 }, cOut[10] = {0};
+    CCMemoryWrite((void*)cOut, sizeof(cOut), 0, sizeof(cIn), cIn);
+    XCTAssertEqual(cOut[0], 0x01f1e1d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0x02f2e2d2, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0x03f3e3d3, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(cOut, sizeof(cOut), 1, sizeof(cIn), cIn);
+    
+    XCTAssertEqual(cOut[0], 0xf1e1d1d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0xf2e2d201, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0xf3e3d302, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWriteBig(cOut, sizeof(cOut), 1, sizeof(cIn), cIn);
+    XCTAssertEqual(cOut[0], 0xe1f101d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0xe2f202d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0xe3f303d2, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 0xd3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(cOut, sizeof(cOut), 4, 44, ((uint32_t[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }));
+    XCTAssertEqual(cOut[0], 10, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 11, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 4, @"Should have the correct value");
+    XCTAssertEqual(cOut[5], 5, @"Should have the correct value");
+    XCTAssertEqual(cOut[6], 6, @"Should have the correct value");
+    XCTAssertEqual(cOut[7], 7, @"Should have the correct value");
+    XCTAssertEqual(cOut[8], 8, @"Should have the correct value");
+    XCTAssertEqual(cOut[9], 9, @"Should have the correct value");
+    
+    memset(cOut, 0, sizeof(cOut));
+    
+    CCData Data = CCDataBufferCreate(CC_STD_ALLOCATOR, CCDataHintReadWrite, sizeof(cOut), cOut, NULL, NULL);
+    
+    CCMemoryWrite(Data, CCDataGetSize(Data), 0, sizeof(cIn), cIn);
+    XCTAssertEqual(cOut[0], 0x01f1e1d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0x02f2e2d2, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0x03f3e3d3, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(Data, sizeof(cOut), 1, sizeof(cIn), cIn);
+    XCTAssertEqual(cOut[0], 0xf1e1d1d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0xf2e2d201, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0xf3e3d302, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 0, @"Should have the correct value");
+    
+    CCMemoryWriteBig(Data, sizeof(cOut), 1, sizeof(cIn), cIn);
+    XCTAssertEqual(cOut[0], 0xe1f101d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0xe2f202d1, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 0xe3f303d2, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 0xd3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 0, @"Should have the correct value");
+    
+    cOut[1] = 0;
+    
+    CCMemoryWrite(Data, CCDataGetSize(Data), 0, sizeof(aIn), aIn);
+    XCTAssertEqual(cOut[0], 0xe1030201, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(Data, CCDataGetSize(Data), 1, sizeof(aIn), aIn);
+    XCTAssertEqual(cOut[0], 0x03020101, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 0, @"Should have the correct value");
+    
+    CCMemoryWrite(Data, CCDataGetSize(Data), 4, 44, ((uint32_t[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }));
+    XCTAssertEqual(cOut[0], 10, @"Should have the correct value");
+    XCTAssertEqual(cOut[1], 11, @"Should have the correct value");
+    XCTAssertEqual(cOut[2], 2, @"Should have the correct value");
+    XCTAssertEqual(cOut[3], 3, @"Should have the correct value");
+    XCTAssertEqual(cOut[4], 4, @"Should have the correct value");
+    XCTAssertEqual(cOut[5], 5, @"Should have the correct value");
+    XCTAssertEqual(cOut[6], 6, @"Should have the correct value");
+    XCTAssertEqual(cOut[7], 7, @"Should have the correct value");
+    XCTAssertEqual(cOut[8], 8, @"Should have the correct value");
+    XCTAssertEqual(cOut[9], 9, @"Should have the correct value");
+    
+    CCDataDestroy(Data);
+}
+
 @end
