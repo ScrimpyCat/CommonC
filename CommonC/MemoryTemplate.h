@@ -111,7 +111,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const Tx Memory, c
 #endif
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t ValueSize = sizeof(*Buffer);
     
@@ -121,12 +121,12 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const PTYPE(void *) Mem
     }
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const PTYPE(void *)  Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (PTYPE(void *)  Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t ValueSize = sizeof(*Buffer);
     
@@ -136,12 +136,12 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const PTYPE(void *)
     }
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCMemoryWriteSwap_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
 #if CC_HARDWARE_ENDIAN_BIG
     CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
@@ -150,7 +150,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const PTYPE(void *) 
 #endif
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
 #if CC_HARDWARE_ENDIAN_BIG
     CCMemoryWrite_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);
@@ -159,7 +159,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const Tx Memory, con
 #endif
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
 #if CC_HARDWARE_ENDIAN_LITTLE
     CCMemoryWrite_T(PTYPE(void *), Ty)(Memory, Size, Offset, Count, Buffer);
@@ -168,7 +168,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const PTYPE(void 
 #endif
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
 #if CC_HARDWARE_ENDIAN_LITTLE
     CCMemoryWrite_T(Tx, Ty)(Memory, Size, Offset, Count, Buffer);

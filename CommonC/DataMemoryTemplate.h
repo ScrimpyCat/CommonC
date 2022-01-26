@@ -152,7 +152,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const PTYPE(void *
     CCAssertLog(0, "Unreachable");
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (CCData Data, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
@@ -162,7 +162,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const CCData Data, cons
     CCDataUnmapBuffer(Data, Map);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (CCData Data, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
@@ -172,7 +172,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const CCData Data, 
     CCDataUnmapBuffer(Data, Map);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (CCData Data, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
@@ -182,7 +182,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const CCData Data, c
     CCDataUnmapBuffer(Data, Map);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const CCData Data, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (CCData Data, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     const size_t BaseOffset = Offset % Size;
     CCBufferMap Map = BaseOffset + Count >= Size ? CCDataMapBuffer(Data, 0, Size, CCDataHintWrite) : CCDataMapBuffer(Data, BaseOffset, Size - BaseOffset, CCDataHintWrite);
@@ -192,22 +192,22 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const CCData Data
     CCDataUnmapBuffer(Data, Map);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCAssertLog(0, "Unreachable");
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCAssertLog(0, "Unreachable");
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCAssertLog(0, "Unreachable");
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer))
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (PTYPE(void *) Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer))
 {
     CCAssertLog(0, "Unreachable");
 }
