@@ -38,10 +38,10 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryRead, (const Tx Memory, const s
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryReadLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
-CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (const Tx Memory, const size_t Size, const size_t Offset, const size_t Count, Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWrite, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteSwap, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteBig, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCMemoryWriteLittle, (Tx Memory, const size_t Size, const size_t Offset, const size_t Count, const Ty Buffer));
 
 #pragma mark -
 
