@@ -54,7 +54,7 @@ static void DestructorFunction(void *Ptr)
     CalledDtor = YES;
 }
 
-static const uint32_t TestAllocator = 4;
+static const uint32_t TestAllocator = 19;
 @implementation AllocatorTests
 
 -(void) setUp
