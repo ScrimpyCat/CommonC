@@ -52,6 +52,8 @@ CCList CCListCreate(CCAllocatorType Allocator, size_t ElementSize, size_t ChunkS
             .allocator = Allocator
         };
         
+        List->last = List->list;
+        
         const size_t Diff = PageSize % ChunkSize;
         if (Diff) List->pageSize += ChunkSize - Diff;
         
@@ -73,13 +75,15 @@ size_t CCListAppendElement(CCList List, const void *Element)
 {
     CCAssertLog(List, "List must not be null");
     
-    CCLinkedListNode *Node = CCLinkedListGetTail(List->list);
+    if (!List->last) List->last = CCLinkedListGetTail(List->list);
+    
+    CCLinkedListNode *Node = List->last;
     CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Node);
     
     if (CCArrayGetCount(Array) == List->pageSize)
     {
         Array = CCArrayCreate(List->allocator, CCArrayGetElementSize(Array), CCArrayGetChunkSize(Array));
-        CCLinkedListAppend(Node, CCLinkedListCreateNode(List->allocator, sizeof(CCArray), &Array));
+        List->last = CCLinkedListAppend(Node, CCLinkedListCreateNode(List->allocator, sizeof(CCArray), &Array));
     }
     
     size_t Index = CCArrayAppendElement(Array, Element);
@@ -92,7 +96,9 @@ size_t CCListAppendElements(CCList List, const void *Elements, size_t Count)
 {
     CCAssertLog(List, "List must not be null");
     
-    CCLinkedListNode *Node = CCLinkedListGetTail(List->list);
+    if (!List->last) List->last = CCLinkedListGetTail(List->list);
+    
+    CCLinkedListNode *Node = List->last;
     
     for (size_t Loop = 0; Loop < Count; )
     {
@@ -102,6 +108,7 @@ size_t CCListAppendElements(CCList List, const void *Elements, size_t Count)
         if (CopyCount > Available)
         {
             Node = CCLinkedListAppend(Node, CCLinkedListCreateNode(List->allocator, sizeof(CCArray), &(CCArray){ CCArrayCreate(List->allocator, CCArrayGetElementSize(Array), CCArrayGetChunkSize(Array)) }));
+            List->last = Node;
             
             if (!Available)
             {
@@ -129,6 +136,8 @@ size_t CCListAppendElements(CCList List, const void *Elements, size_t Count)
                 
                 const size_t ElementIndex = List->count - (PageIndex * List->pageSize);
                 CCArrayRemoveElementsAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex, List->pageSize - ElementIndex);
+                
+                List->last = Page;
             }
             
             return SIZE_MAX;
@@ -151,11 +160,7 @@ void CCListReplaceElementAtIndex(CCList List, size_t Index, const void *Element)
     const size_t PageIndex = Index / List->pageSize;
     const size_t ElementIndex = Index - (PageIndex * List->pageSize);
     
-    CCLinkedListNode *Page = List->list;
-    for (size_t Loop = 0; Loop < PageIndex; Loop++)
-    {
-        Page = CCLinkedListEnumerateNext(Page);
-    }
+    CCLinkedListNode *Page = CCListGetPage(List, PageIndex);
     
     CCArrayReplaceElementAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex, Element);
 }
@@ -165,21 +170,21 @@ size_t CCListInsertElementAtIndex(CCList List, size_t Index, const void *Element
     CCAssertLog(List, "List must not be null");
     CCAssertLog(List->count > Index, "Index must not be out of bounds");
     
+    if (!List->last) List->last = CCLinkedListGetTail(List->list);
+    
     const size_t PageIndex = Index / List->pageSize;
     const size_t ElementIndex = Index - (PageIndex * List->pageSize);
     
-    CCLinkedListNode *Page = List->list;
-    for (size_t Loop = 0; Loop < PageIndex; Loop++)
-    {
-        Page = CCLinkedListEnumerateNext(Page);
-    }
+    CCLinkedListNode *Page = CCListGetPage(List, PageIndex);
     
-    CCLinkedListNode *Node = CCLinkedListGetTail(Page), *Tail;
+    CCLinkedListNode *Node = List->last, *Tail;
     CCArray Array = *(CCArray*)CCLinkedListGetNodeData(Node);
     if (CCArrayGetCount(Array) == List->pageSize)
     {
         CCArray NextArray = CCArrayCreate(List->allocator, CCArrayGetElementSize(Array), CCArrayGetChunkSize(Array));
         CCLinkedListAppend(Node, Tail = CCLinkedListCreateNode(List->allocator, sizeof(CCArray), &NextArray));
+        
+        List->last = Tail;
     }
     
     else
@@ -224,11 +229,7 @@ void CCListRemoveElementAtIndex(CCList List, size_t Index)
     const size_t PageIndex = Index / List->pageSize;
     const size_t ElementIndex = Index - (PageIndex * List->pageSize);
     
-    CCLinkedListNode *Page = List->list;
-    for (size_t Loop = 0; Loop < PageIndex; Loop++)
-    {
-        Page = CCLinkedListEnumerateNext(Page);
-    }
+    CCLinkedListNode *Page = CCListGetPage(List, PageIndex);
     
     CCArrayRemoveElementAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex);
     
@@ -241,6 +242,12 @@ void CCListRemoveElementAtIndex(CCList List, size_t Index)
     }
     
     List->count--;
+    
+    if ((List->count) && (!CCArrayGetCount(*(CCArray*)CCLinkedListGetNodeData(Page))))
+    {
+        List->last = CCLinkedListEnumeratePrevious(Page);
+        CCLinkedListDestroyNode(Page);
+    }
 }
 
 void CCListRemoveAllElements(CCList List)
@@ -258,6 +265,7 @@ void CCListRemoveAllElements(CCList List)
     CCArrayRemoveAllElements(*(CCArray*)CCLinkedListGetNodeData(List->list));
     
     List->count = 0;
+    List->last = List->list;
 }
 static void *CCListEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
 {
@@ -364,7 +372,7 @@ void CCListGetEnumerable(CCList List, CCEnumerable *Enumerable)
                     .count = CCArrayGetCount(Array),
                     .stride = CCArrayGetElementSize(Array),
                     .index = 0,
-                    .extra = { (uintptr_t)List->list, 0 }
+                    .extra = { (uintptr_t)List->list, (uintptr_t)List->last }
                 },
                 .type = CCEnumeratorFormatBatch
             }

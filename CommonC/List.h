@@ -45,6 +45,7 @@ typedef struct CCListInfo {
     size_t count;
     size_t pageSize;
     CCLinkedList(CCArray) list;
+    CCLinkedList(CCArray) last;
     CCAllocatorType allocator;
 } CCListInfo;
 
@@ -142,6 +143,7 @@ void CCListDestroy(CCList CC_DESTROY(List));
         .count = elementCount, \
         .pageSize = ((pageSize_ % (*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize) ? pageSize_ + ((*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize - (pageSize_ % (*(CCArray*)((CCLinkedListNodeData*)ptr)->data)->chunkSize)) : pageSize_), \
         .list = ptr, \
+        .last = NULL, \
         .allocator = allocator_ \
     } \
 }.info)
@@ -283,6 +285,33 @@ static inline size_t CCListGetElementSize(CCList List)
     return CCArrayGetElementSize(*(CCArray*)CCLinkedListGetNodeData(List->list));
 }
 
+static inline CCLinkedListNode *CCListGetPage(CCList List, size_t PageIndex)
+{
+    const size_t MaxPageIndex = (List->count - 1) / List->pageSize;
+    
+    CCLinkedListNode *Page = List->list;
+    
+    if ((List->last) && (PageIndex > (MaxPageIndex - PageIndex)))
+    {
+        Page = List->last;
+        
+        for (size_t Loop = MaxPageIndex; Loop > PageIndex; Loop--)
+        {
+            Page = CCLinkedListEnumeratePrevious(Page);
+        }
+    }
+    
+    else
+    {
+        for (size_t Loop = 0; Loop < PageIndex; Loop++)
+        {
+            Page = CCLinkedListEnumerateNext(Page);
+        }
+    }
+    
+    return Page;
+}
+
 static inline void *CCListGetElementAtIndex(CCList List, size_t Index)
 {
     CCAssertLog(List, "List must not be null");
@@ -291,11 +320,7 @@ static inline void *CCListGetElementAtIndex(CCList List, size_t Index)
     const size_t PageIndex = Index / List->pageSize;
     const size_t ElementIndex = Index - (PageIndex * List->pageSize);
     
-    CCLinkedListNode *Page = List->list;
-    for (size_t Loop = 0; Loop < PageIndex; Loop++)
-    {
-        Page = CCLinkedListEnumerateNext(Page);
-    }
+    CCLinkedListNode *Page = CCListGetPage(List, PageIndex);
     
     return CCArrayGetElementAtIndex(*(CCArray*)CCLinkedListGetNodeData(Page), ElementIndex);
 }
