@@ -577,6 +577,33 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_JOIN_19(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) x0##sep##x1##sep##x2##sep##x3##sep##x4##sep##x5##sep##x6##sep##x7##sep##x8##sep##x9##sep##x10##sep##x11##sep##x12##sep##x13##sep##x14##sep##x15##sep##x16##sep##x17##sep##x18
 #define CC_JOIN_20(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) x0##sep##x1##sep##x2##sep##x3##sep##x4##sep##x5##sep##x6##sep##x7##sep##x8##sep##x9##sep##x10##sep##x11##sep##x12##sep##x13##sep##x14##sep##x15##sep##x16##sep##x17##sep##x18##sep##x19
 
+#define CC_SOFT_JOIN(sep, ...) CC_SOFT_JOIN_(CC_VA_ARG_COUNT(__VA_ARGS__), sep, __VA_ARGS__)
+#define CC_SOFT_JOIN_(n, ...) CC_SOFT_JOIN__(n, __VA_ARGS__)
+#define CC_SOFT_JOIN__(n, ...) CC_SOFT_JOIN___(CC_SOFT_JOIN_##n, __VA_ARGS__)
+#define CC_SOFT_JOIN___(join, ...) join(__VA_ARGS__)
+
+#define CC_SOFT_JOIN_0(sep)
+#define CC_SOFT_JOIN_1(sep, x0) x0
+#define CC_SOFT_JOIN_2(sep, x0, x1) x0 sep x1
+#define CC_SOFT_JOIN_3(sep, x0, x1, x2) x0 sep x1 sep x2
+#define CC_SOFT_JOIN_4(sep, x0, x1, x2, x3) x0 sep x1 sep x2 sep x3
+#define CC_SOFT_JOIN_5(sep, x0, x1, x2, x3, x4) x0 sep x1 sep x2 sep x3 sep x4
+#define CC_SOFT_JOIN_6(sep, x0, x1, x2, x3, x4, x5) x0 sep x1 sep x2 sep x3 sep x4 sep x5
+#define CC_SOFT_JOIN_7(sep, x0, x1, x2, x3, x4, x5, x6) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6
+#define CC_SOFT_JOIN_8(sep, x0, x1, x2, x3, x4, x5, x6, x7) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7
+#define CC_SOFT_JOIN_9(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8
+#define CC_SOFT_JOIN_10(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9
+#define CC_SOFT_JOIN_11(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10
+#define CC_SOFT_JOIN_12(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11
+#define CC_SOFT_JOIN_13(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12
+#define CC_SOFT_JOIN_14(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13
+#define CC_SOFT_JOIN_15(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14
+#define CC_SOFT_JOIN_16(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14 sep x15
+#define CC_SOFT_JOIN_17(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14 sep x15 sep x16
+#define CC_SOFT_JOIN_18(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14 sep x15 sep x16 sep x17
+#define CC_SOFT_JOIN_19(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14 sep x15 sep x16 sep x17 sep x18
+#define CC_SOFT_JOIN_20(sep, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) x0 sep x1 sep x2 sep x3 sep x4 sep x5 sep x6 sep x7 sep x8 sep x9 sep x10 sep x11 sep x12 sep x13 sep x14 sep x15 sep x16 sep x17 sep x18 sep x19
+
 #define CC_RECURSIVE_0_MAP(fun, ...) CC_RECURSIVE_0_MAP_(fun, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
 #define CC_RECURSIVE_1_MAP(fun, ...) CC_RECURSIVE_1_MAP_(fun, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
 #define CC_RECURSIVE_2_MAP(fun, ...) CC_RECURSIVE_2_MAP_(fun, CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
