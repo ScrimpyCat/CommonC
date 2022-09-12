@@ -367,6 +367,7 @@
 		F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BD17C21C02E15F00B3849E /* FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BF12E021D8E363000385C6 /* ConsecutiveIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BF12E121D8E363000385C6 /* ConsecutiveIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */; };
+		F3C5335428CEA9F900038DCA /* CompileTimeSortTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C5335328CEA9F900038DCA /* CompileTimeSortTests.m */; };
 		F3D657D017D5DA8F00B54101 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657CF17D5DA8F00B54101 /* Random.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D657D417D5FD5200B54101 /* Maths.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D657D317D5FD5200B54101 /* Maths.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3D85E611A84C0BD00C4A362 /* CollectionArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3D85E601A84C0BD00C4A362 /* CollectionArray.c */; };
@@ -648,6 +649,7 @@
 		F3BD17C21C02E15F00B3849E /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
 		F3BF12DE21D8E363000385C6 /* ConsecutiveIDGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsecutiveIDGenerator.h; sourceTree = "<group>"; };
 		F3BF12DF21D8E363000385C6 /* ConsecutiveIDGenerator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConsecutiveIDGenerator.c; sourceTree = "<group>"; };
+		F3C5335328CEA9F900038DCA /* CompileTimeSortTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompileTimeSortTests.m; sourceTree = "<group>"; };
 		F3D657CF17D5DA8F00B54101 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		F3D657D317D5FD5200B54101 /* Maths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Maths.h; sourceTree = "<group>"; };
 		F3D85E5F1A84C0AE00C4A362 /* CollectionArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArray.h; sourceTree = "<group>"; };
@@ -1120,6 +1122,7 @@
 				F353DD5417ADEE6F00D1674C /* Memory */,
 				F362028717AC3FFD00153E85 /* Supporting Files */,
 				F3FDAB62243C91AB00DEB68B /* EnumTests.m */,
+				F3C5335328CEA9F900038DCA /* CompileTimeSortTests.m */,
 				F39C5F4B2523158A00D80F0D /* TemplateTests.m */,
 			);
 			path = CommonCTests;
@@ -1898,6 +1901,7 @@
 				F30646F62358E2EA00DFD780 /* DataContainerTests.m in Sources */,
 				F3E7460B1DC6239800F1F268 /* TaskQueueTests.m in Sources */,
 				F3143A9B1A8A67B5004EB810 /* CollectionArrayTests.m in Sources */,
+				F3C5335428CEA9F900038DCA /* CompileTimeSortTests.m in Sources */,
 				F3067B831C591B3600766814 /* Vectorized4DSSE3Tests.m in Sources */,
 				F3BC6A3018776CAE00934291 /* Vectorized2DSSE4_2Tests.m in Sources */,
 				F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */,

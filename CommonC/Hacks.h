@@ -1135,4 +1135,130 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_VA_ARG_LAST_19(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18) x18
 #define CC_VA_ARG_LAST_20(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19) x19
 
+#define CC_EXPAND(...) __VA_ARGS__
+
+#pragma mark - Unique Sort
+
+//TODO: Add more compiler friendly unique sort when constexpr is added in C23
+#ifndef CC_UNIQUE_SORT_MAX
+#define CC_UNIQUE_SORT_MAX 3
+#endif
+
+#ifndef CC_UNIQUE_SORT_MAX_SET_OF_64
+#define CC_UNIQUE_SORT_MAX_SET_OF_64 2
+#endif
+
+#define CC_UNIQUE_SORT(...) CC_UNIQUE_SORT_(CC_VA_ARG_COUNT(__VA_ARGS__), CC_UNIQUE_SORT_MAX_SET_OF_64, __VA_ARGS__)
+#define CC_UNIQUE_SORT_(max, range, ...) CC_UNIQUE_SORT__(max, CC_MAP_WITH(CC_UNIQUE_SORT_SETS, (__VA_ARGS__), CC_REPEAT(0, range, CC_UNIQUE_SORT_SET_SIZE)))
+#define CC_UNIQUE_SORT__(...) CC_UNIQUE_SORT___(__VA_ARGS__)
+#define CC_UNIQUE_SORT___(max, ...) CC_REPEAT(0, max, CC_UNIQUE_SORT_SORTER, (__VA_ARGS__))
+
+#define CC_UNIQUE_SORT_SORTER(args, n) CC_UNIQUE_SORT_SORTER_(n, CC_EXPAND args)
+#define CC_UNIQUE_SORT_SORTER_(...) CC_UNIQUE_SORT_SORTER__(__VA_ARGS__)
+#define CC_UNIQUE_SORT_SORTER__(n, ...) CC_SOFT_JOIN(|, CC_MAP_WITH(CC_UNIQUE_SORT_GET, (n, (CC_MAP(CC_UNIQUE_SORT_BIT_COUNT_, __VA_ARGS__))), __VA_ARGS__))
+
+#define CC_UNIQUE_SORT_BIT_COUNT_(x, _) CC_UNIQUE_SORT_BIT_COUNT__ x
+#define CC_UNIQUE_SORT_BIT_COUNT__(x, _, b) CC_UNIQUE_SORT_BIT_COUNT(b)
+
+#define CC_UNIQUE_SORT_SET_SIZE(_, n) (64 * (n))
+
+#define CC_UNIQUE_SORT_SETS(n, i, args) CC_UNIQUE_SORT_SETS_(n, i, CC_EXPAND args)
+#define CC_UNIQUE_SORT_SETS_(n, i, ...) CC_UNIQUE_SORT_SETS__(n, i,  __VA_ARGS__)
+#define CC_UNIQUE_SORT_SETS__(n, i, ...) (n, i, CC_MERGE_MAP_WITH(CC_UNIQUE_SORT_SET_COMBINE, n, __VA_ARGS__) 0)
+
+#define CC_UNIQUE_SORT_SET_COMBINE(x, _, off) CC_UNIQUE_SORT_SET_BIT(x, _, off) |
+
+#define CC_UNIQUE_SORT_SET_BIT(x, _, off) (((x) - (off)) > 63 ? 0 : (((x) < (off) ? 0ULL : 1ULL) << (((x) < (off) ? 0 : ((x) - (off))) & 63)))
+
+#define CC_UNIQUE_SORT_BIT_COUNT(x) ((((((((x) - (((x) >> 1) & 0x5555555555555555)) & 0x3333333333333333) + ((((x) - (((x) >> 1) & 0x5555555555555555)) >> 2) & 0x3333333333333333)) + (((((x) - (((x) >> 1) & 0x5555555555555555)) & 0x3333333333333333) + ((((x) - (((x) >> 1) & 0x5555555555555555)) >> 2) & 0x3333333333333333)) >> 4)) & 0x0f0f0f0f0f0f0f0f) * 0x0101010101010101) >> 56)
+
+#define CC_UNIQUE_SORT_BIT_INDEX(x) ((((x) & 0xAAAAAAAAAAAAAAAA) ?  1 : 0) | (((x) & 0xCCCCCCCCCCCCCCCC) ?  2 : 0) | (((x) & 0xF0F0F0F0F0F0F0F0) ?  4 : 0) | (((x) & 0xFF00FF00FF00FF00) ?  8 : 0) | (((x) & 0xFFFF0000FFFF0000) ?  16 : 0) | (((x) & 0xFFFFFFFF00000000) ?  32 : 0))
+
+#define CC_UNIQUE_SORT_LOW_SET(x)  ((x) & -(x))
+
+#define CC_UNIQUE_SORT_MASK_LOWER_2(x) ((x)? ~-(x) : 0)
+
+#define CC_UNIQUE_SORT_MASK(x) CC_UNIQUE_SORT_MASK_LOWER_2(x << 1)
+
+#define CC_UNIQUE_SORT_MASK_0(set) CC_UNIQUE_SORT_LOW_SET(set)
+#define CC_UNIQUE_SORT_MASK_1(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_0(set)))
+#define CC_UNIQUE_SORT_MASK_2(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_1(set)))
+#define CC_UNIQUE_SORT_MASK_3(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_2(set)))
+#define CC_UNIQUE_SORT_MASK_4(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_3(set)))
+#define CC_UNIQUE_SORT_MASK_5(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_4(set)))
+#define CC_UNIQUE_SORT_MASK_6(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_5(set)))
+#define CC_UNIQUE_SORT_MASK_7(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_6(set)))
+#define CC_UNIQUE_SORT_MASK_8(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_7(set)))
+#define CC_UNIQUE_SORT_MASK_9(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_8(set)))
+#define CC_UNIQUE_SORT_MASK_10(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_9(set)))
+#define CC_UNIQUE_SORT_MASK_11(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_10(set)))
+#define CC_UNIQUE_SORT_MASK_12(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_11(set)))
+#define CC_UNIQUE_SORT_MASK_13(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_12(set)))
+#define CC_UNIQUE_SORT_MASK_14(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_13(set)))
+#define CC_UNIQUE_SORT_MASK_15(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_14(set)))
+#define CC_UNIQUE_SORT_MASK_16(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_15(set)))
+#define CC_UNIQUE_SORT_MASK_17(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_16(set)))
+#define CC_UNIQUE_SORT_MASK_18(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_17(set)))
+#define CC_UNIQUE_SORT_MASK_19(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_18(set)))
+#define CC_UNIQUE_SORT_MASK_20(set) CC_UNIQUE_SORT_LOW_SET((set) & ~CC_UNIQUE_SORT_MASK(CC_UNIQUE_SORT_MASK_19(set)))
+
+#define CC_UNIQUE_SORT_SUM(n, c) CC_UNIQUE_SORT_SUM_(CC_UNIQUE_SORT_SUM_##n, CC_EXPAND c)
+#define CC_UNIQUE_SORT_SUM_(sum, ...) CC_UNIQUE_SORT_SUM__(sum, __VA_ARGS__)
+#define CC_UNIQUE_SORT_SUM__(sum, ...) sum(__VA_ARGS__)
+
+#define CC_UNIQUE_SORT_SUM_0(x0, ...) (0, (x0))
+#define CC_UNIQUE_SORT_SUM_1(x0, x1, ...) ((x0), ((x0) + (x1)))
+#define CC_UNIQUE_SORT_SUM_2(x0, x1, x2, ...) (((x0) + (x1)), ((x0) + (x1) + (x2)))
+#define CC_UNIQUE_SORT_SUM_3(x0, x1, x2, x3, ...) (((x0) + (x1) + (x2)), ((x0) + (x1) + (x2) + (x3)))
+#define CC_UNIQUE_SORT_SUM_4(x0, x1, x2, x3, x4, ...) (((x0) + (x1) + (x2) + (x3)), ((x0) + (x1) + (x2) + (x3) + (x4)))
+#define CC_UNIQUE_SORT_SUM_5(x0, x1, x2, x3, x4, x5, ...) (((x0) + (x1) + (x2) + (x3) + (x4)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5)))
+#define CC_UNIQUE_SORT_SUM_6(x0, x1, x2, x3, x4, x5, x6, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6)))
+#define CC_UNIQUE_SORT_SUM_7(x0, x1, x2, x3, x4, x5, x6, x7, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7)))
+#define CC_UNIQUE_SORT_SUM_8(x0, x1, x2, x3, x4, x5, x6, x7, x8, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8)))
+#define CC_UNIQUE_SORT_SUM_9(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9)))
+#define CC_UNIQUE_SORT_SUM_10(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10)))
+#define CC_UNIQUE_SORT_SUM_11(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11)))
+#define CC_UNIQUE_SORT_SUM_12(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12)))
+#define CC_UNIQUE_SORT_SUM_13(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13)))
+#define CC_UNIQUE_SORT_SUM_14(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14)))
+#define CC_UNIQUE_SORT_SUM_15(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15)))
+#define CC_UNIQUE_SORT_SUM_16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16)))
+#define CC_UNIQUE_SORT_SUM_17(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17)))
+#define CC_UNIQUE_SORT_SUM_18(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17) + (x18)))
+#define CC_UNIQUE_SORT_SUM_19(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17) + (x18)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17) + (x18) + (x19)))
+#define CC_UNIQUE_SORT_SUM_20(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, ...) (((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17) + (x18) + (x19)), ((x0) + (x1) + (x2) + (x3) + (x4) + (x5) + (x6) + (x7) + (x8) + (x9) + (x10) + (x11) + (x12) + (x13) + (x14) + (x15) + (x16) + (x17) + (x18) + (x19) + (x20)))
+
+#define CC_UNIQUE_SORT_GET(set, _, args) CC_UNIQUE_SORT_GET_(CC_EXPAND args, CC_EXPAND set)
+#define CC_UNIQUE_SORT_GET_(...) CC_UNIQUE_SORT_GET__(__VA_ARGS__)
+#define CC_UNIQUE_SORT_GET__(i, c, n, si, set) CC_UNIQUE_SORT_GET___(i, n, si, set, CC_UNIQUE_SORT_SUM(si, c))
+#define CC_UNIQUE_SORT_GET___(i, n, si, set, sum) CC_UNIQUE_SORT_GET____(i, n, si, set, CC_EXPAND sum)
+#define CC_UNIQUE_SORT_GET____(...) CC_UNIQUE_SORT_GET_____(__VA_ARGS__)
+#define CC_UNIQUE_SORT_GET_____(i, n, si, set, min, max) ((((i) >= (min)) && ((i) < (max))) ? (CC_UNIQUE_SORT_GET_n(set, (i) - (min)) + (n)) : 0)
+
+#define CC_UNIQUE_SORT_GET_n(set, n) CC_UNIQUE_SORT_GET_n_(CC_UNIQUE_SORT_MAX, set, n)
+#define CC_UNIQUE_SORT_GET_n_(max, set, n) CC_UNIQUE_SORT_GET_n__(max, set, n)
+#define CC_UNIQUE_SORT_GET_n__(max, set, n) CC_UNIQUE_SORT_GET_##max(set, n)
+
+#define CC_UNIQUE_SORT_GET_0(set, n) ((n) == 0 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_0(set)) : 0)
+#define CC_UNIQUE_SORT_GET_1(set, n) ((n) == 1 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_1(set)) : CC_UNIQUE_SORT_GET_0(set, n))
+#define CC_UNIQUE_SORT_GET_2(set, n) ((n) == 2 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_2(set)) : CC_UNIQUE_SORT_GET_1(set, n))
+#define CC_UNIQUE_SORT_GET_3(set, n) ((n) == 3 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_3(set)) : CC_UNIQUE_SORT_GET_2(set, n))
+#define CC_UNIQUE_SORT_GET_4(set, n) ((n) == 4 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_4(set)) : CC_UNIQUE_SORT_GET_3(set, n))
+#define CC_UNIQUE_SORT_GET_5(set, n) ((n) == 5 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_5(set)) : CC_UNIQUE_SORT_GET_4(set, n))
+#define CC_UNIQUE_SORT_GET_6(set, n) ((n) == 6 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_6(set)) : CC_UNIQUE_SORT_GET_5(set, n))
+#define CC_UNIQUE_SORT_GET_7(set, n) ((n) == 7 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_7(set)) : CC_UNIQUE_SORT_GET_6(set, n))
+#define CC_UNIQUE_SORT_GET_8(set, n) ((n) == 8 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_8(set)) : CC_UNIQUE_SORT_GET_7(set, n))
+#define CC_UNIQUE_SORT_GET_9(set, n) ((n) == 9 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_9(set)) : CC_UNIQUE_SORT_GET_8(set, n))
+#define CC_UNIQUE_SORT_GET_10(set, n) ((n) == 10 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_10(set)) : CC_UNIQUE_SORT_GET_9(set, n))
+#define CC_UNIQUE_SORT_GET_11(set, n) ((n) == 11 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_11(set)) : CC_UNIQUE_SORT_GET_10(set, n))
+#define CC_UNIQUE_SORT_GET_12(set, n) ((n) == 12 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_12(set)) : CC_UNIQUE_SORT_GET_11(set, n))
+#define CC_UNIQUE_SORT_GET_13(set, n) ((n) == 13 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_13(set)) : CC_UNIQUE_SORT_GET_12(set, n))
+#define CC_UNIQUE_SORT_GET_14(set, n) ((n) == 14 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_14(set)) : CC_UNIQUE_SORT_GET_13(set, n))
+#define CC_UNIQUE_SORT_GET_15(set, n) ((n) == 15 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_15(set)) : CC_UNIQUE_SORT_GET_14(set, n))
+#define CC_UNIQUE_SORT_GET_16(set, n) ((n) == 16 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_16(set)) : CC_UNIQUE_SORT_GET_15(set, n))
+#define CC_UNIQUE_SORT_GET_17(set, n) ((n) == 17 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_17(set)) : CC_UNIQUE_SORT_GET_16(set, n))
+#define CC_UNIQUE_SORT_GET_18(set, n) ((n) == 18 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_18(set)) : CC_UNIQUE_SORT_GET_17(set, n))
+#define CC_UNIQUE_SORT_GET_19(set, n) ((n) == 19 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_19(set)) : CC_UNIQUE_SORT_GET_18(set, n))
+#define CC_UNIQUE_SORT_GET_20(set, n) ((n) == 20 ? CC_UNIQUE_SORT_BIT_INDEX(CC_UNIQUE_SORT_MASK_20(set)) : CC_UNIQUE_SORT_GET_19(set, n))
+
 #endif
