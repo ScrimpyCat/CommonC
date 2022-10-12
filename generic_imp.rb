@@ -121,6 +121,16 @@ class String
     def decl
         "CC_TYPE_DECL(#{self})"
     end
+
+    def formatter
+        # todo: handle more complex types such as FPTYPE
+        ptrs = self.scan(/PTYPE\(/).map { '*' }.join('')
+        if ptrs.length > 0
+            return lambda{ |x| "CC_MAP_WITH(CC_GENERIC_FORMAT, #{ptrs}, #{x})" }
+        else
+            return lambda{ |x| x }
+        end
+    end
 end
 
 String.class_eval do
@@ -168,20 +178,22 @@ symbols.each { |s|
     if t_def[/\W#{template}\W*?[,\(\)]/][-1] != ')'
         t_arg_names = t_def[/(?<=\W#{template})\W*.*/].chop[/(?<=\().*(?=\))/].scan(/(\w+(?=,)|\w+$)/).flatten
         gen_args = []
+        formatters = []
 
         args.each { |a|
             i = t_types.drop(1).index { |t| t == a or t[/\W#{a}\W/] != nil }
             if i != nil
                 gen_args << t_arg_names[i]
+                formatters << t_types[i + 1].formatter
             end
         }
 
         default_refs = defaults.map.with_index { |d, r|
             defs = Hash[d.map { |p| p.split('=') }]
-            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{defs[p].type_list || "#{namespace}_#{p}"})" }.join(', ')})"
+            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| "(#{formatters[i].call("#{defs[p].type_list || "#{namespace}_#{p}"}")})" }.join(', ')})"
         }
 
-        ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map { |p| "(#{namespace}_#{p})" }.join(', ')})"
+        ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| "(#{formatters[i].call("#{namespace}_#{p}")})" }.join(', ')})"
         default_refs.each { |d| ref.gsub!('CC_GENERIC_ERROR', d) }
 
         sym_calls << "#define #{template}(#{t_arg_names.map(&:format).join(', ')}) #{template}_Ref(#{t_arg_names.map(&:format).join(', ')})(#{t_arg_names.map(&:format).join(', ')})"

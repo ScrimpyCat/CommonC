@@ -44,6 +44,8 @@
 
 #define CC_GENERIC_ERROR (void)0
 
+#define CC_GENERIC_FORMAT(t, i, x) t x
+
 //values, generic, match, error, ...
 #define CC_GENERIC(...) CC_GENERIC_0(__VA_ARGS__)
 
