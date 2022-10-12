@@ -201,6 +201,14 @@ typedef struct {
 #define CCConcurrentPoolStagePush_T(t) CC_TEMPLATE_REF(CCConcurrentPoolStagePush, void, PTYPE(CCConcurrentPool *), t, CCConcurrentPoolIndex, PTYPE(CCConcurrentPoolStage *))
 
 /*!
+ * @brief Create a concurrent pool for the current scope (local or global).
+ * @param t The item type.
+ * @param size The size of the pool.
+ * @return The concurrent pool.
+ */
+#define CCConcurrentPoolCreate(t, size) ((CCConcurrentPool*)&(struct { CCConcurrentPool x; t items[size]; }){ .x = { .pointer = ATOMIC_VAR_INIT(((CCConcurrentPoolPointer){ .index = 0, .last = 0 })) } })
+
+/*!
  * @brief Pop the next item from the pool.
  * @description This variant provides strong guarantees for the CAS and as such is better suited outside of a tight loop.
  * @param Pool The concurrent pool.
