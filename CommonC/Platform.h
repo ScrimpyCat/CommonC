@@ -292,5 +292,8 @@
 #endif
 #endif
 
+#if CC_HARDWARE_ARCH_X86 || CC_HARDWARE_ARCH_X86_64
+#define CC_HARDWARE_ATOMICS_SUPPORT_MIXED_SIZE 1
+#endif
 
 #endif

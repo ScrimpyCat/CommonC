@@ -41,6 +41,7 @@
 #include <limits.h>
 #include <float.h>
 #include <stdbool.h>
+#include <stdatomic.h>
 
 #ifndef TRUE
 #define TRUE true
