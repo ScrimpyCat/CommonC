@@ -28,12 +28,12 @@
 
 #define CCConcurrentPoolPop_strong(pool, ref, max) CCConcurrentPoolPop_strong_Ref(pool, ref, max)(pool, ref, max)
 #define CCConcurrentPoolPop_weak(pool, ref, max) CCConcurrentPoolPop_weak_Ref(pool, ref, max)(pool, ref, max)
-#define CCConcurrentPoolPush(pool, item, count, max) CCConcurrentPoolPush_Ref(pool, item, count, max)(pool, item, count, max)
+#define CCConcurrentPoolPush(pool, items, count, max) CCConcurrentPoolPush_Ref(pool, items, count, max)(pool, items, count, max)
 #define CCConcurrentPoolStagePush(pool, item, max, stage) CCConcurrentPoolStagePush_Ref(pool, item, max, stage)(pool, item, max, stage)
 
 #define CCConcurrentPoolPop_strong_Ref(pool, ref, max) CC_GENERIC((((typeof(ref)){0})), CCConcurrentPoolPop_strong_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, **, CC_CONCURRENT_POOL_T)))
 #define CCConcurrentPoolPop_weak_Ref(pool, ref, max) CC_GENERIC((((typeof(ref)){0})), CCConcurrentPoolPop_weak_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, **, CC_CONCURRENT_POOL_T)))
-#define CCConcurrentPoolPush_Ref(pool, item, count, max) CC_GENERIC((((typeof(item)){0})), CCConcurrentPoolPush_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_POOL_T)))
+#define CCConcurrentPoolPush_Ref(pool, items, count, max) CC_GENERIC((((typeof(items)){0})), CCConcurrentPoolPush_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_POOL_T)))
 #define CCConcurrentPoolStagePush_Ref(pool, item, max, stage) CC_GENERIC((((typeof(item)){0})), CCConcurrentPoolStagePush_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_CONCURRENT_POOL_T))
 
 #define CC_CONCURRENT_POOL_T CC_GENERIC_INDEXED_TYPE_LIST(CC_CONCURRENT_POOL_T, CC_CONCURRENT_POOL_COUNT)
