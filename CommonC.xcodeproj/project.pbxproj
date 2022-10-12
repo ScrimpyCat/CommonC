@@ -305,6 +305,11 @@
 		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F376C57424126F21004F27C4 /* RandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F376C57324126F21004F27C4 /* RandomTests.m */; };
 		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A31E028F2FD67007B4209 /* ConcurrentPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A31E428F2FDF5007B4209 /* ConcurrentPoolTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A31E528F2FDF6007B4209 /* ConcurrentPoolTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A31E828F325DE007B4209 /* ConcurrentPoolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -587,6 +592,9 @@
 		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
 		F376C57324126F21004F27C4 /* RandomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RandomTests.m; sourceTree = "<group>"; };
 		F378DAF5234C05D2000600CC /* ContainerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerTypes.h; sourceTree = "<group>"; };
+		F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentPool.h; sourceTree = "<group>"; };
+		F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentPoolTemplate.h; sourceTree = "<group>"; };
+		F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentPoolTests.m; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -808,6 +816,7 @@
 				F334273B1DB40512008CB998 /* Queue.c */,
 				F33427411DB408FF008CB998 /* ConcurrentQueue.h */,
 				F33427401DB408FF008CB998 /* ConcurrentQueue.c */,
+				F37A31E228F2FDB2007B4209 /* ConcurrentPool */,
 			);
 			name = Queue;
 			sourceTree = "<group>";
@@ -1162,6 +1171,15 @@
 			name = String;
 			sourceTree = "<group>";
 		};
+		F37A31E228F2FDB2007B4209 /* ConcurrentPool */ = {
+			isa = PBXGroup;
+			children = (
+				F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */,
+				F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */,
+			);
+			name = ConcurrentPool;
+			sourceTree = "<group>";
+		};
 		F380180C1DC30D2F00343E07 /* Task */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,6 +1256,7 @@
 				F3E878F01DC49FE100C34838 /* TaskTests.m */,
 				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
+				F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */,
 				F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */,
 				F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */,
 				F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */,
@@ -1452,6 +1471,7 @@
 				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
 				F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */,
 				F328728121E881D300B1A584 /* Base.h in Headers */,
+				F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
@@ -1472,6 +1492,7 @@
 				F328728021E881BC00B1A584 /* ConcurrentArray.h in Headers */,
 				F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */,
 				F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */,
+				F37A31E528F2FDF6007B4209 /* ConcurrentPoolTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1510,11 +1531,13 @@
 				F30529B618014BE500B17CFD /* Vector.h in Headers */,
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
 				F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */,
+				F37A31E028F2FD67007B4209 /* ConcurrentPool.h in Headers */,
 				F39C5F4D252315C300D80F0D /* Template.h in Headers */,
 				F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */,
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
+				F37A31E428F2FDF5007B4209 /* ConcurrentPoolTemplate.h in Headers */,
 				F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */,
 				F3364FC325B42771002B2378 /* MemoryTemplate.h in Headers */,
 				F334273E1DB40512008CB998 /* Queue.h in Headers */,
@@ -1892,6 +1915,7 @@
 				F3BC6A3C1877A84F00934291 /* Vectorized3DSSE4_1Tests.m in Sources */,
 				F3067B7B1C591AF300766814 /* Vector4DTests.m in Sources */,
 				F3BC6A361877A82700934291 /* Vectorized3DSSE2Tests.m in Sources */,
+				F37A31E828F325DE007B4209 /* ConcurrentPoolTests.m in Sources */,
 				F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */,
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
