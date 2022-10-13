@@ -44,9 +44,19 @@ typedef struct {
     CCConcurrentPoolIndex last;
 } CCConcurrentPoolPointer;
 
-#define CCConcurrentPool(t) CCConcurrentPool_(CC_MANGLE_TYPE(t))
+#define CCConcurrentPool(...) CCConcurrentPool_(CC_VA_ARG_COUNT(__VA_ARGS__), __VA_ARGS__)
 #define CCConcurrentPool_(...) CCConcurrentPool__(__VA_ARGS__)
-#define CCConcurrentPool__(sig) CCConcurrentPool_##sig
+#define CCConcurrentPool__(n, ...) CC_CONCURRENT_POOL_##n(__VA_ARGS__)
+
+#define CC_CONCURRENT_POOL_1(t) CC_CONCURRENT_POOL_1_(CC_MANGLE_TYPE(t))
+#define CC_CONCURRENT_POOL_1_(...) CC_CONCURRENT_POOL_1__(__VA_ARGS__)
+#define CC_CONCURRENT_POOL_1__(sig) CCConcurrentPool_##sig
+#define CC_CONCURRENT_POOL_2(t, size) struct { \
+    CCConcurrentPool state; \
+    t items[size]; \
+}
+
+#define CC_CONCURRENT_POOL_INIT { .state = ((CCConcurrentPool){ .pointer = ATOMIC_VAR_INIT(((CCConcurrentPoolPointer){ .index = 0, .last = 0 })) }) }
 
 typedef union {
     _Atomic(CCConcurrentPoolPointer) pointer;
@@ -59,15 +69,7 @@ typedef union {
 } CCConcurrentPool;
 
 typedef struct {
-    union {
-        _Atomic(CCConcurrentPoolPointer) pointer;
-#if CC_HARDWARE_SUPPORT_ATOMICS_MIXED_SIZE
-        struct {
-            _Atomic(CCConcurrentPoolIndex) index;
-            _Atomic(CCConcurrentPoolIndex) last;
-        };
-#endif
-    };
+    CCConcurrentPool state;
     CC_TYPE_DECL(T) items[];
 } CCConcurrentPool(T);
 
@@ -206,7 +208,7 @@ typedef struct {
  * @param size The size of the pool.
  * @return The concurrent pool.
  */
-#define CCConcurrentPoolCreate(t, size) ((CCConcurrentPool*)&(struct { CCConcurrentPool x; t items[size]; }){ .x = { .pointer = ATOMIC_VAR_INIT(((CCConcurrentPoolPointer){ .index = 0, .last = 0 })) } })
+#define CCConcurrentPoolCreate(t, size) ((CCConcurrentPool*)&(CCConcurrentPool(t, size)) CC_CONCURRENT_POOL_INIT)
 
 /*!
  * @brief Pop the next item from the pool.
@@ -275,11 +277,11 @@ static CC_FORCE_INLINE void CCConcurrentPoolStageCommit(CCConcurrentPool *Pool, 
 
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentPoolPop_strong, (PTYPE(CCConcurrentPool *) Pool, PTYPE(PTYPE(T *) *) Ref, CCConcurrentPoolIndex Max))
 {
-    CCConcurrentPoolPointer Pointer = atomic_load_explicit(&((CCConcurrentPool(T)*)Pool)->pointer, memory_order_relaxed);
+    CCConcurrentPoolPointer Pointer = atomic_load_explicit(&Pool->pointer, memory_order_relaxed);
     
     if  (Pointer.index != Pointer.last)
     {
-        if (atomic_compare_exchange_strong_explicit(&((CCConcurrentPool(T)*)Pool)->pointer, &Pointer, ((CCConcurrentPoolPointer){ .index = Pointer.index + 1, .last = Pointer.last }), memory_order_consume, memory_order_relaxed))
+        if (atomic_compare_exchange_strong_explicit(&Pool->pointer, &Pointer, ((CCConcurrentPoolPointer){ .index = Pointer.index + 1, .last = Pointer.last }), memory_order_consume, memory_order_relaxed))
         {
             *Ref = &((CCConcurrentPool(T)*)Pool)->items[Pointer.index % Max];
             
@@ -292,11 +294,11 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentPoolPop_strong, (PTYPE(CCC
 
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentPoolPop_weak, (PTYPE(CCConcurrentPool *) Pool, PTYPE(PTYPE(T *) *) Ref, CCConcurrentPoolIndex Max))
 {
-    CCConcurrentPoolPointer Pointer = atomic_load_explicit(&((CCConcurrentPool(T)*)Pool)->pointer, memory_order_relaxed);
+    CCConcurrentPoolPointer Pointer = atomic_load_explicit(&Pool->pointer, memory_order_relaxed);
     
     if  (Pointer.index != Pointer.last)
     {
-        if (atomic_compare_exchange_weak_explicit(&((CCConcurrentPool(T)*)Pool)->pointer, &Pointer, ((CCConcurrentPoolPointer){ .index = Pointer.index + 1, .last = Pointer.last }), memory_order_consume, memory_order_relaxed))
+        if (atomic_compare_exchange_weak_explicit(&Pool->pointer, &Pointer, ((CCConcurrentPoolPointer){ .index = Pointer.index + 1, .last = Pointer.last }), memory_order_consume, memory_order_relaxed))
         {
             *Ref = &((CCConcurrentPool(T)*)Pool)->items[Pointer.index % Max];
             
@@ -339,7 +341,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentPoolStagePush, (PTYPE(CCCon
 static CC_FORCE_INLINE void CCConcurrentPoolStageCommit(CCConcurrentPool *Pool, CCConcurrentPoolStage *Stage)
 {
 #if CC_HARDWARE_SUPPORT_ATOMICS_MIXED_SIZE
-    atomic_store_explicit(&((CCConcurrentPool(T)*)Pool)->last, *Stage, memory_order_release);
+    atomic_store_explicit(&Pool->last, *Stage, memory_order_release);
 #else
     while (!atomic_compare_exchange_weak_explicit(&Pool->pointer, &Stage->pointer, ((CCConcurrentPoolPointer){ .index = Stage->pointer.index, .last = Stage->last }), memory_order_release, memory_order_relaxed));
 #endif
