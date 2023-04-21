@@ -92,6 +92,8 @@
 #include <CommonC/DataBuffer.h>
 #include <CommonC/DataContainer.h>
 
+#include <CommonC/BitSets.h>
+
 #include <CommonC/CCString.h>
 #include <CommonC/CCStringEnumerator.h>
 
