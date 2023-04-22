@@ -28,6 +28,7 @@
 #include "Assertion_Private.h"
 #include "CallbackAllocator.h"
 #include "DebugAllocator.h"
+#include "Alignment.h"
 
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
@@ -126,7 +127,7 @@ static void *AlignedAllocator(size_t *Alignment, size_t Size)
     void *Head = malloc(Size + *Alignment + sizeof(CCAlignedMemoryHeader));
     if (Head)
     {
-        void *Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + *Alignment - 1) & ~(*Alignment - 1)) - sizeof(CCAllocatorHeader);
+        void *Ptr = (void*)(CC_ALIGN((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader)), *Alignment)) - sizeof(CCAllocatorHeader);
         ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = *Alignment };
         
         return Ptr;
@@ -137,16 +138,20 @@ static void *AlignedAllocator(size_t *Alignment, size_t Size)
 
 static void *AlignedReallocator(void *Data, void *Ptr, size_t Size)
 {
-    CCAlignedMemoryHeader *Header = Ptr - sizeof(CCAlignedMemoryHeader);
-    size_t Alignment = Header->alignment;
-    int Allocator = *(int*)Ptr;
+    CCAlignedMemoryHeader Header = *(CCAlignedMemoryHeader*)(Ptr - sizeof(CCAlignedMemoryHeader));
     
-    void *Head = realloc(Header->head, Size + Alignment + sizeof(CCAlignedMemoryHeader));
+    void *Head = realloc(Header.head, Size + Header.alignment + sizeof(CCAlignedMemoryHeader));
     if (Head)
     {
-        Ptr = (void*)((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader) + Alignment - 1) & ~(Alignment - 1)) - sizeof(CCAllocatorHeader);
-        ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Alignment };
-        *(int*)Ptr = Allocator;
+        if (Head != Header.head)
+        {
+            Ptr = (void*)(CC_ALIGN((uintptr_t)(Head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader)), Header.alignment)) - sizeof(CCAllocatorHeader);
+            
+            void *Src = ((void*)(CC_ALIGN((uintptr_t)(Header.head + sizeof(CCAlignedMemoryHeader) + sizeof(CCAllocatorHeader)), Header.alignment)) - sizeof(CCAllocatorHeader)) - Header.head + Head;
+            memmove(Ptr, Src, Size);
+            
+            ((CCAlignedMemoryHeader*)Ptr)[-1] = (CCAlignedMemoryHeader){ .head = Head, .alignment = Header.alignment };
+        }
         
         return Ptr;
     }

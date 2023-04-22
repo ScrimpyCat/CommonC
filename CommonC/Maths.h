@@ -37,34 +37,34 @@
 #endif
 
 #define T float
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T double
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T int8_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T int16_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T int32_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T int64_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T uint8_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T uint16_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T uint32_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 #define T uint64_t
-#include "Extrema.h"
+#include <CommonC/Extrema.h>
 
 static CC_FORCE_INLINE uint32_t CCFloatGetUlps(const float a, const float b)
 {

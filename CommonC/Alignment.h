@@ -23,43 +23,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CommonC_BitSets_h
-#define CommonC_BitSets_h
+#ifndef CommonC_Alignment_h
+#define CommonC_Alignment_h
 
-#include <CommonC/Alignment.h>
-
-/*!
- * @define CCBits
- * @brief Create an array of bits.
- * @param type The base type for the array.
- * @param count The number of bits needing to be stored.
-*/
-#define CCBits(type, count) typeof((type[CC_ALIGN(count, (sizeof(type) * 8)) / (sizeof(type) * 8)]){})
-
-/*!
- * @define CC_BITS_INIT_SET
- * @brief Sets the entire array of bits.
- * @warning This should only be used with the variable declared by @b CCBits.
-*/
-#define CC_BITS_INIT_SET(set) memset(set, -1, sizeof(set))
-
-/*!
- * @define CC_BITS_INIT_SET
- * @brief Clears the entire array of bits.
- * @warning This should only be used with the variable declared by @b CCBits.
-*/
-#define CC_BITS_INIT_CLEAR(set) memset(set, 0, sizeof(set))
-
-#define Tbase uint8_t
-#include <CommonC/Bits.h>
-
-#define Tbase uint16_t
-#include <CommonC/Bits.h>
-
-#define Tbase uint32_t
-#include <CommonC/Bits.h>
-
-#define Tbase uint64_t
-#include <CommonC/Bits.h>
+#define CC_ALIGN(x, alignment) (((x) + (alignment) - 1) & ~((alignment) - 1))
 
 #endif

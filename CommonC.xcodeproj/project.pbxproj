@@ -209,6 +209,9 @@
 		F341B75529F2E6CC00CBA1EE /* BitSets.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75129F2E64800CBA1EE /* BitSets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75629F2E6CD00CBA1EE /* BitSets.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75129F2E64800CBA1EE /* BitSets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75829F2E71600CBA1EE /* BitSetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F341B75729F2E71600CBA1EE /* BitSetsTests.m */; };
+		F341B75A29F4000700CBA1EE /* AlignedAllocatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F341B75929F4000700CBA1EE /* AlignedAllocatorTests.m */; };
+		F341B75C29F402B200CBA1EE /* Alignment.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75B29F402B200CBA1EE /* Alignment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F341B75D29F402B200CBA1EE /* Alignment.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75B29F402B200CBA1EE /* Alignment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F34205291D1C43E900BE2E13 /* CollectionFastArray.c */; };
 		F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -506,6 +509,8 @@
 		F341B75029F2E46600CBA1EE /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
 		F341B75129F2E64800CBA1EE /* BitSets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitSets.h; sourceTree = "<group>"; };
 		F341B75729F2E71600CBA1EE /* BitSetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitSetsTests.m; sourceTree = "<group>"; };
+		F341B75929F4000700CBA1EE /* AlignedAllocatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlignedAllocatorTests.m; sourceTree = "<group>"; };
+		F341B75B29F402B200CBA1EE /* Alignment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alignment.h; sourceTree = "<group>"; };
 		F34205291D1C43E900BE2E13 /* CollectionFastArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectionFastArray.c; sourceTree = "<group>"; };
 		F342052A1D1C43E900BE2E13 /* CollectionFastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionFastArray.h; sourceTree = "<group>"; };
 		F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionFastArrayTests.m; sourceTree = "<group>"; };
@@ -933,6 +938,7 @@
 				F353DD5D17AE2C6400D1674C /* AllocatorTests.m */,
 				F362028C17AC3FFD00153E85 /* MemoryAllocationTests.h */,
 				F362028D17AC3FFD00153E85 /* MemoryAllocationTests.m */,
+				F341B75929F4000700CBA1EE /* AlignedAllocatorTests.m */,
 			);
 			name = Memory;
 			sourceTree = "<group>";
@@ -1113,6 +1119,7 @@
 				F30E5A0920C8D3DB004F7331 /* Base.h */,
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
+				F341B75B29F402B200CBA1EE /* Alignment.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
 				F3364F802595D320002B2378 /* Generic1.h */,
 				F3364FAB25A1B5BF002B2378 /* Generic2.h */,
@@ -1463,6 +1470,7 @@
 				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
 				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
 				F39C5F4E252315C400D80F0D /* Template.h in Headers */,
+				F341B75D29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75429F2E6C800CBA1EE /* Bits.h in Headers */,
 				F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F30437D51C62E11300388C74 /* CollectionList.h in Headers */,
@@ -1574,6 +1582,7 @@
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
 				F3364F812595D320002B2378 /* Generic1.h in Headers */,
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
+				F341B75C29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */,
 				F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */,
 				F36F83211D10A91B00193B08 /* TypeCallbacks.h in Headers */,
@@ -1936,6 +1945,7 @@
 				F3AE997A1A74F56C00212838 /* ArrayTests.m in Sources */,
 				F34219141D09B21500FDBC8A /* HashMapTests.m in Sources */,
 				F35AF325209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m in Sources */,
+				F341B75A29F4000700CBA1EE /* AlignedAllocatorTests.m in Sources */,
 				F3236CB91FD8CAF700ACC970 /* ConcurrentBufferTests.m in Sources */,
 				F3067B7F1C591B1000766814 /* Vectorized4DSSETests.m in Sources */,
 				F3BC6A3A1877A84200934291 /* Vectorized3DSSSE3Tests.m in Sources */,

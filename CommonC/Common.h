@@ -38,6 +38,8 @@
 #include <CommonC/Base.h>
 #include <CommonC/Platform.h>
 #include <CommonC/Extensions.h>
+#include <CommonC/Hacks.h>
+#include <CommonC/Alignment.h>
 #include <CommonC/Generics.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Container.h>
