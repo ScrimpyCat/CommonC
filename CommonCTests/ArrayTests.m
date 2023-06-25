@@ -217,6 +217,57 @@
     }
 }
 
+-(void) testCopying
+{
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+    
+    CCArrayAppendElement(Array, &(int){ 1 });
+    CCArrayAppendElement(Array, &(int){ 2 });
+    CCArrayAppendElement(Array, &(int){ 3 });
+    
+    CCArrayCopyElementAtIndex(Array, 0, 1);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 3, @"Should contain 3 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 1, @"Should be the replaced element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 3, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+    
+    
+    Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);
+    
+    CCArrayAppendElements(Array, (int[]){ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 9);
+    
+    CCArrayCopyElementsAtIndex(Array, 0, 1, 3);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 9, @"Should contain 9 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 1, @"Should be the replaced element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 2, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 3), 3, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 4), 5, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 5), 6, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 6), 7, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 7), 8, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 8), 9, @"Should be the third element");
+    
+    CCArrayCopyElementsAtIndex(Array, 6, 5, 3);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 9, @"Should contain 9 elements");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 0), 1, @"Should be the first element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 1), 1, @"Should be the replaced element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 2), 2, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 3), 3, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 4), 5, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 5), 7, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 6), 8, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 7), 9, @"Should be the third element");
+    XCTAssertEqual(*(int*)CCArrayGetElementAtIndex(Array, 8), 9, @"Should be the third element");
+    
+    CCArrayDestroy(Array);
+}
+
 -(void) testInserting
 {
     CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(int), 3);

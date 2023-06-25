@@ -191,6 +191,25 @@ void CCArrayReplaceElementAtIndex(CCArray Array, size_t Index, const void *Eleme
 void CCArrayReplaceElementsAtIndex(CCArray Array, size_t Index, const void *Elements, size_t Count);
 
 /*!
+ * @brief Copy element at index to another index in the array.
+ * @warning Index and DestinationIndex must not be out of bounds.
+ * @param Array The array to remove an element from.
+ * @param Index The position in the array for the element to be copied.
+ * @param DestinationIndex The position in the array for the element to be replaced.
+ */
+void CCArrayCopyElementAtIndex(CCArray Array, size_t Index, size_t DestinationIndex);
+
+/*!
+ * @brief Copy the elements at index to another index in the array.
+ * @warning Index, DestinationIndex and count must not be out of bounds.
+ * @param Array The array to remove the elements from.
+ * @param Index The position in the array for the elements to be copied.
+ * @param DestinationIndex The position in the array for the elements to be replaced.
+ * @param Count The number of elements to be copied.
+ */
+void CCArrayCopyElementsAtIndex(CCArray Array, size_t Index, size_t DestinationIndex, size_t Count);
+
+/*!
  * @brief Insert an element at a given index into the array.
  * @description Increases the array's count by 1.
  * @performance The further away from the end of the array the index is, the slower it is. It has

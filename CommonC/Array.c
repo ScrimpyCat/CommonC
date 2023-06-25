@@ -125,6 +125,25 @@ void CCArrayReplaceElementsAtIndex(CCArray Array, size_t Index, const void *Elem
     if (Elements) memcpy(Array->data + (Index * Array->size), Elements, Array->size * Count);
 }
 
+void CCArrayCopyElementAtIndex(CCArray Array, size_t Index, size_t DestinationIndex)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > Index, "Index must not be out of bounds");
+    CCAssertLog(Array->count > DestinationIndex, "DestinationIndex must not be out of bounds");
+    
+    CCArrayCopyElementsAtIndex(Array, Index, DestinationIndex, 1);
+}
+
+void CCArrayCopyElementsAtIndex(CCArray Array, size_t Index, size_t DestinationIndex, size_t Count)
+{
+    CCAssertLog(Array, "Array must not be null");
+    CCAssertLog(Array->count > (Index + Count - 1), "Index range must not be out of bounds");
+    CCAssertLog(Array->count > (DestinationIndex + Count - 1), "DestinationIndex range must not be out of bounds");
+    CCAssertLog(Count, "Count must not be 0");
+    
+    memmove(Array->data + (DestinationIndex * Array->size), Array->data + (Index * Array->size), Array->size * Count);
+}
+
 size_t CCArrayInsertElementAtIndex(CCArray Array, size_t Index, const void *Element)
 {
     CCAssertLog(Array, "Array must not be null");
