@@ -326,6 +326,8 @@
 		F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA71A7913F20037ECB2 /* CollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37AFAA61A7913F20037ECB2 /* CollectionTests.m */; };
+		F37C62772A7AD4C5003E4F73 /* Pragmas.h in Headers */ = {isa = PBXBuildFile; fileRef = F37C62762A7AD4C5003E4F73 /* Pragmas.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37C62782A7AD4C5003E4F73 /* Pragmas.h in Headers */ = {isa = PBXBuildFile; fileRef = F37C62762A7AD4C5003E4F73 /* Pragmas.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F38018101DC30DE500343E07 /* Task.c in Sources */ = {isa = PBXBuildFile; fileRef = F380180E1DC30DE500343E07 /* Task.c */; };
 		F38018111DC30DE500343E07 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = F380180F1DC30DE500343E07 /* Task.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F38515EE254DB830001C03C5 /* BigIntFast.h in Headers */ = {isa = PBXBuildFile; fileRef = F38515EC254DB830001C03C5 /* BigIntFast.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -617,6 +619,7 @@
 		F37AFAA11A78F0010037ECB2 /* CollectionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionInterface.h; sourceTree = "<group>"; };
 		F37AFAA41A78F2100037ECB2 /* CollectionTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionTypes.h; sourceTree = "<group>"; };
 		F37AFAA61A7913F20037ECB2 /* CollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionTests.m; sourceTree = "<group>"; };
+		F37C62762A7AD4C5003E4F73 /* Pragmas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pragmas.h; sourceTree = "<group>"; };
 		F380180E1DC30DE500343E07 /* Task.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Task.c; sourceTree = "<group>"; };
 		F380180F1DC30DE500343E07 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		F38515EC254DB830001C03C5 /* BigIntFast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigIntFast.h; sourceTree = "<group>"; };
@@ -1118,6 +1121,7 @@
 				F36202EF17AC442700153E85 /* Platform.h */,
 				F30E5A0920C8D3DB004F7331 /* Base.h */,
 				F353DD6217AE61DE00D1674C /* Extensions.h */,
+				F37C62762A7AD4C5003E4F73 /* Pragmas.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F341B75B29F402B200CBA1EE /* Alignment.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
@@ -1480,6 +1484,7 @@
 				F334273F1DB4057B008CB998 /* Queue.h in Headers */,
 				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
 				F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */,
+				F37C62782A7AD4C5003E4F73 /* Pragmas.h in Headers */,
 				F30437CB1C62E0DE00388C74 /* Comparator.h in Headers */,
 				F36F83221D10A91B00193B08 /* TypeCallbacks.h in Headers */,
 				F30437EA1C62E1BC00388C74 /* Path.h in Headers */,
@@ -1592,6 +1597,7 @@
 				F38515EE254DB830001C03C5 /* BigIntFast.h in Headers */,
 				F3E2746420D5931900D6AFE1 /* DebugAllocator.h in Headers */,
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
+				F37C62772A7AD4C5003E4F73 /* Pragmas.h in Headers */,
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
 				F341B74E29F29F6000CBA1EE /* BitsTemplate.h in Headers */,
 				F38018111DC30DE500343E07 /* Task.h in Headers */,
