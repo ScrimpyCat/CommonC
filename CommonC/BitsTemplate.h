@@ -40,17 +40,29 @@ CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsCount, (const T Set, const size
 
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsGet, (const T Set, const size_t Index))
 {
+#if CC_HARDWARE_ENDIAN_LITTLE
     return Set[Index / (sizeof(*Set) * 8)] & (1 << (Index % (sizeof(*Set) * 8)));
+#else
+    return ((uint8_t*)Set)[Index / (sizeof(uint8_t) * 8)] & (1 << (Index % (sizeof(uint8_t) * 8)));
+#endif
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsSet, (T Set, const size_t Index))
 {
+#if CC_HARDWARE_ENDIAN_LITTLE
     Set[Index / (sizeof(*Set) * 8)] |= 1 << (Index % (sizeof(*Set) * 8));
+#else
+    ((uint8_t*)Set)[Index / (sizeof(uint8_t) * 8)] |= 1 << (Index % (sizeof(uint8_t) * 8));
+#endif
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClear, (T Set, const size_t Index))
 {
+#if CC_HARDWARE_ENDIAN_LITTLE
     Set[Index / (sizeof(*Set) * 8)] &= ~(1 << (Index % (sizeof(*Set) * 8)));
+#else
+    ((uint8_t*)Set)[Index / (sizeof(uint8_t) * 8)] &= ~(1 << (Index % (sizeof(uint8_t) * 8)));
+#endif
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsCount, (const T Set, const size_t Index, const size_t Count))
