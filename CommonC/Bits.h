@@ -33,10 +33,12 @@
 #define CCBitsGet(set, index) CCBitsGet_Ref(set, index)(set, index)
 #define CCBitsSet(set, index) CCBitsSet_Ref(set, index)(set, index)
 #define CCBitsClear(set, index) CCBitsClear_Ref(set, index)(set, index)
+#define CCBitsCount(set, index, count) CCBitsCount_Ref(set, index, count)(set, index, count)
 
 #define CCBitsGet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsGet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsSet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsSet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsClear_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsClear_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
+#define CCBitsCount_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsCount_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 
 #define CC_BITS_T CC_GENERIC_INDEXED_TYPE_LIST(CC_BITS_T, CC_BITS_COUNT)
 
