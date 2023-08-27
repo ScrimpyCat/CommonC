@@ -50,6 +50,12 @@
 */
 #define CC_BITS_INIT_CLEAR(set) memset(set, 0, sizeof(set))
 
+/*!
+ * @define CC_BITS_BLOCK_SIZE
+ * @brief Get the size of one block (number of bits in a block) for the array of bits.
+*/
+#define CC_BITS_BLOCK_SIZE(set) (sizeof(*set) * 8)
+
 #define Tbase uint8_t
 #include <CommonC/Bits.h>
 
