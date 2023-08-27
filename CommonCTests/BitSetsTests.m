@@ -251,4 +251,142 @@ static size_t TestCount32(CCBits(uint32_t, 0) Bits, size_t Index, size_t Count)
     }
 }
 
+-(void) testAny
+{
+#define ASSERT_ANY(bits, index, count) XCTAssertEqual(CCBitsAny(bits, index, count), !!ASSERT_FUNC(bits, index, count), @"should check if any bits in range %zu,%zu are set", (size_t)index, (size_t)count);
+    
+#undef ASSERT_FUNC
+#define ASSERT_FUNC TestCount8
+    
+    CCBits(uint8_t, 193) x;
+    
+    CC_BITS_INIT_SET(x);
+    
+    CCBitsClear(x, 7);
+    
+    CCBitsClear(x, 144);
+    
+    CCBitsClear(x, 152);
+    CCBitsClear(x, 153);
+    
+    CCBitsClear(x, 160);
+    CCBitsClear(x, 161);
+    CCBitsClear(x, 162);
+    
+    CCBitsClear(x, 168);
+    CCBitsClear(x, 169);
+    CCBitsClear(x, 170);
+    CCBitsClear(x, 171);
+    
+    CCBitsClear(x, 176);
+    CCBitsClear(x, 177);
+    CCBitsClear(x, 178);
+    CCBitsClear(x, 179);
+    CCBitsClear(x, 180);
+    
+    CCBitsClear(x, 184);
+    CCBitsClear(x, 185);
+    CCBitsClear(x, 186);
+    CCBitsClear(x, 187);
+    CCBitsClear(x, 188);
+    CCBitsClear(x, 189);
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        for (size_t Count = 1, Max = 192 - Index; Count <= Max; Count++)
+        {
+            ASSERT_ANY(x, Index, Count);
+        }
+    }
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        if (Index % 3 == 0) CCBitsClear(x, Index);
+        else if (Index % 5 == 0) CCBitsClear(x, Index);
+        else if (Index % 18 == 0) CCBitsClear(x, Index);
+        else if (Index % 29 == 0) CCBitsClear(x, Index);
+        else if (Index % 53 == 0) CCBitsClear(x, Index);
+        else if (Index % 120 == 0) CCBitsClear(x, Index);
+        else if (Index % 122 == 0) CCBitsClear(x, Index);
+        else if (Index % 124 == 0) CCBitsClear(x, Index);
+        else if (Index % 128 == 0) CCBitsClear(x, Index);
+        else if (Index % 133 == 0) CCBitsClear(x, Index);
+    }
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        for (size_t Count = 1, Max = 192 - Index; Count <= Max; Count++)
+        {
+            ASSERT_ANY(x, Index, Count);
+        }
+    }
+
+#undef ASSERT_FUNC
+#define ASSERT_FUNC TestCount32
+    
+    CCBits(uint32_t, 193) x32;
+    
+    CC_BITS_INIT_SET(x32);
+    
+    CCBitsClear(x32, 7);
+    
+    CCBitsClear(x32, 144);
+    
+    CCBitsClear(x32, 152);
+    CCBitsClear(x32, 153);
+    
+    CCBitsClear(x32, 160);
+    CCBitsClear(x32, 161);
+    CCBitsClear(x32, 162);
+    
+    CCBitsClear(x32, 168);
+    CCBitsClear(x32, 169);
+    CCBitsClear(x32, 170);
+    CCBitsClear(x32, 171);
+    
+    CCBitsClear(x32, 176);
+    CCBitsClear(x32, 177);
+    CCBitsClear(x32, 178);
+    CCBitsClear(x32, 179);
+    CCBitsClear(x32, 180);
+    
+    CCBitsClear(x32, 184);
+    CCBitsClear(x32, 185);
+    CCBitsClear(x32, 186);
+    CCBitsClear(x32, 187);
+    CCBitsClear(x32, 188);
+    CCBitsClear(x32, 189);
+    
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        for (size_t Count = 1, Max = 192 - Index; Count <= Max; Count++)
+        {
+            ASSERT_ANY(x32, Index, Count);
+        }
+    }
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        if (Index % 3 == 0) CCBitsClear(x32, Index);
+        else if (Index % 5 == 0) CCBitsClear(x32, Index);
+        else if (Index % 18 == 0) CCBitsClear(x32, Index);
+        else if (Index % 29 == 0) CCBitsClear(x32, Index);
+        else if (Index % 53 == 0) CCBitsClear(x32, Index);
+        else if (Index % 120 == 0) CCBitsClear(x32, Index);
+        else if (Index % 122 == 0) CCBitsClear(x32, Index);
+        else if (Index % 124 == 0) CCBitsClear(x32, Index);
+        else if (Index % 128 == 0) CCBitsClear(x32, Index);
+        else if (Index % 133 == 0) CCBitsClear(x32, Index);
+    }
+    
+    for (size_t Index = 0; Index < 192; Index++)
+    {
+        for (size_t Count = 1, Max = 192 - Index; Count <= Max; Count++)
+        {
+            ASSERT_ANY(x32, Index, Count);
+        }
+    }
+}
+
 @end
