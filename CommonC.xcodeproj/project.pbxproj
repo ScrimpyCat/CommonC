@@ -347,6 +347,11 @@
 		F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */; };
 		F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3AD4CDC2AA33BCD006C20E4 /* MemoryZone.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AD4CDA2AA33BCD006C20E4 /* MemoryZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3AD4CDD2AA33BCD006C20E4 /* MemoryZone.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AD4CDB2AA33BCD006C20E4 /* MemoryZone.c */; };
+		F3AD4CDE2AA33BD6006C20E4 /* MemoryZone.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AD4CDA2AA33BCD006C20E4 /* MemoryZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3AD4CDF2AA33BDD006C20E4 /* MemoryZone.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AD4CDB2AA33BCD006C20E4 /* MemoryZone.c */; };
+		F3AD4CE12AA36EEA006C20E4 /* MemoryZoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AD4CE02AA36EEA006C20E4 /* MemoryZoneTests.m */; };
 		F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AE99301A6D0FFF00212838 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99311A6D0FFF00212838 /* LinkedList.c */; };
 		F3AE99351A6D508200212838 /* LinkedListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AE99341A6D508200212838 /* LinkedListTests.m */; };
@@ -638,6 +643,9 @@
 		F3A938CC21E262A800BFDE93 /* ConcurrentIDGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDGenerator.h; sourceTree = "<group>"; };
 		F3A938CD21E262A800BFDE93 /* ConcurrentIDGenerator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConcurrentIDGenerator.c; sourceTree = "<group>"; };
 		F3A938CE21E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentIDGeneratorInterface.h; sourceTree = "<group>"; };
+		F3AD4CDA2AA33BCD006C20E4 /* MemoryZone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryZone.h; sourceTree = "<group>"; };
+		F3AD4CDB2AA33BCD006C20E4 /* MemoryZone.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MemoryZone.c; sourceTree = "<group>"; };
+		F3AD4CE02AA36EEA006C20E4 /* MemoryZoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryZoneTests.m; sourceTree = "<group>"; };
 		F3AE99301A6D0FFF00212838 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		F3AE99311A6D0FFF00212838 /* LinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LinkedList.c; sourceTree = "<group>"; };
 		F3AE99341A6D508200212838 /* LinkedListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedListTests.m; sourceTree = "<group>"; };
@@ -942,6 +950,7 @@
 				F362028C17AC3FFD00153E85 /* MemoryAllocationTests.h */,
 				F362028D17AC3FFD00153E85 /* MemoryAllocationTests.m */,
 				F341B75929F4000700CBA1EE /* AlignedAllocatorTests.m */,
+				F3AD4CE02AA36EEA006C20E4 /* MemoryZoneTests.m */,
 			);
 			name = Memory;
 			sourceTree = "<group>";
@@ -1189,6 +1198,8 @@
 				F3FEE9E219428E1400C3626C /* CFAllocator.c */,
 				F36202F117AC510700153E85 /* MemoryAllocation.h */,
 				F353DD4317AC767800D1674C /* MemoryAllocation.c */,
+				F3AD4CDA2AA33BCD006C20E4 /* MemoryZone.h */,
+				F3AD4CDB2AA33BCD006C20E4 /* MemoryZone.c */,
 			);
 			name = Memory;
 			sourceTree = "<group>";
@@ -1429,6 +1440,7 @@
 				F30437B61C62E07200388C74 /* Platform.h in Headers */,
 				F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */,
 				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
+				F3AD4CDE2AA33BD6006C20E4 /* MemoryZone.h in Headers */,
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
 				F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F3364F7F25949B94002B2378 /* ExtremaTemplate.h in Headers */,
@@ -1542,6 +1554,7 @@
 				F36202E917AC432500153E85 /* Common.h in Headers */,
 				F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F30646F32358D0B600DFD780 /* DataContainer.h in Headers */,
+				F3AD4CDC2AA33BCD006C20E4 /* MemoryZone.h in Headers */,
 				F353DD5B17AE208600D1674C /* Generics.h in Headers */,
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
 				F3364F7E25949B94002B2378 /* ExtremaTemplate.h in Headers */,
@@ -1821,6 +1834,7 @@
 				F328727B21E8818900B1A584 /* ConcurrentQueue.c in Sources */,
 				F328727C21E8818900B1A584 /* ConcurrentArray.c in Sources */,
 				F328727D21E8818900B1A584 /* ConcurrentIndexMap.c in Sources */,
+				F3AD4CDF2AA33BDD006C20E4 /* MemoryZone.c in Sources */,
 				F328727E21E8818900B1A584 /* DebugAllocator.c in Sources */,
 				F328727621E8817B00B1A584 /* TaskQueue.c in Sources */,
 				F328727721E8817B00B1A584 /* ConcurrentGarbageCollector.c in Sources */,
@@ -1890,6 +1904,7 @@
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F31BEE95208276D200DD7F83 /* ConcurrentIndexMap.c in Sources */,
+				F3AD4CDD2AA33BCD006C20E4 /* MemoryZone.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
 				F334273D1DB40512008CB998 /* Queue.c in Sources */,
 				F36F83051D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
@@ -1943,6 +1958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31BEE97208CB06700DD7F83 /* ConcurrentIndexMapTests.m in Sources */,
+				F3AD4CE12AA36EEA006C20E4 /* MemoryZoneTests.m in Sources */,
 				F3F41A332333525D0068A135 /* ListTests.m in Sources */,
 				F3E3E09B187A5AF800A38E72 /* Vector2DSSSE3Tests.m in Sources */,
 				F3A91A52186FF5FA00EF0B95 /* Vector2DTests.m in Sources */,
