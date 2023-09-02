@@ -162,18 +162,30 @@ else x = CC_PRIV_temp___; \
  Free using CC_TEMP_Free(). Should only be used inside the same scope the CC_TEMP_Malloc was called.
  
  CC_TEMP_Malloc cannot be called multiple times in the same scope for the same variable, as this will cause redefinitions.
+ 
+ CC_TEMP_Malloc_explicit variant allows for custom stack sizes to be provided without re-defining CC_SHOULD_ALLOC_ON_STACK and CC_ALLOC_ON_STACK_MAX.
  */
 
-#define CC_ALLOC_ON_STACK_MAX 256 //If malloc fails it will opt in for stack allocation, it will not allocate any higher than this on the stack
+#ifndef CC_ALLOC_ON_STACK_MAX
+#define CC_ALLOC_ON_STACK_MAX (CC_SHOULD_ALLOC_ON_STACK * 2) //If malloc fails it will opt in for stack allocation, it will not allocate any higher than this on the stack
+#endif
+
+#ifndef CC_SHOULD_ALLOC_ON_STACK
 #define CC_SHOULD_ALLOC_ON_STACK 64 //Will opt out of malloc allocation if the size is equal or less than this, and opts for stack allocation.
+#endif
 
 //The following only allow for x that is alpha-numeric chars only, no array indexing, accessing members of a structure or union, etc.
 //CC_TEMP_Malloc(x, size, error)
 #define CC_TEMP_Malloc(x, size, ...) /* Only to be used in the same scope as it is allocated, free using CC_TEMP_Free */ \
+CC_TEMP_Malloc_explicit(x, size, CC_SHOULD_ALLOC_ON_STACK, CC_ALLOC_ON_STACK_MAX, __VA_ARGS__)
+
+//The following only allow for x that is alpha-numeric chars only, no array indexing, accessing members of a structure or union, etc.
+//CC_TEMP_Malloc_explicit(x, size, stackSize, maxStackSize, error)
+#define CC_TEMP_Malloc_explicit(x, size, stackSize, maxStackSize, ...) /* Only to be used in the same scope as it is allocated, free using CC_TEMP_Free */ \
 x = NULL; \
 const size_t x##__CC_PRIV__SIZE = size; \
-const _Bool x##__CC_PRIV__NEEDS_FREEING = (x##__CC_PRIV__SIZE <= CC_SHOULD_ALLOC_ON_STACK? 0 : (x = CCMalloc(CC_DEFAULT_ALLOCATOR, size, NULL, CC_DEFAULT_ERROR_CALLBACK))); \
-const _Bool x##__CC_PRIV__ALLOC_ON_STACK = (!x##__CC_PRIV__NEEDS_FREEING) && (x##__CC_PRIV__SIZE <= CC_ALLOC_ON_STACK_MAX); \
+const _Bool x##__CC_PRIV__NEEDS_FREEING = (x##__CC_PRIV__SIZE <= stackSize? 0 : (x = CCMalloc(CC_DEFAULT_ALLOCATOR, size, NULL, CC_DEFAULT_ERROR_CALLBACK))); \
+const _Bool x##__CC_PRIV__ALLOC_ON_STACK = (!x##__CC_PRIV__NEEDS_FREEING) && (x##__CC_PRIV__SIZE <= maxStackSize); \
 uint8_t x##__CC_PRIV__BACKUP[x##__CC_PRIV__SIZE * x##__CC_PRIV__ALLOC_ON_STACK]; x = (x##__CC_PRIV__ALLOC_ON_STACK? (void*)x##__CC_PRIV__BACKUP : x); \
 if (!x) \
 { \
