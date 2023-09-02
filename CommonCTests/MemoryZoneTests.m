@@ -34,7 +34,59 @@
 
 -(void) testAllocating
 {
-    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 8);
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 16);
+    
+    uint64_t *a = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *b = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *c = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    
+    *a = 1;
+    *b = 2;
+    *c = 3;
+    
+    XCTAssertEqual(*a, 1, @"Should be the correct value");
+    XCTAssertEqual(*b, 2, @"Should be the correct value");
+    XCTAssertEqual(*c, 3, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, sizeof(uint64_t));
+    
+    uint64_t *x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 4;
+    
+    XCTAssertEqual(*a, 1, @"Should be the correct value");
+    XCTAssertEqual(*b, 2, @"Should be the correct value");
+    XCTAssertEqual(*c, 4, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, sizeof(uint64_t) * 2);
+    
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 5;
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 6;
+    
+    XCTAssertEqual(*a, 1, @"Should be the correct value");
+    XCTAssertEqual(*b, 5, @"Should be the correct value");
+    XCTAssertEqual(*x, 6, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 7;
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 8;
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *x = 9;
+    
+    XCTAssertEqual(*a, 7, @"Should be the correct value");
+    XCTAssertEqual(*b, 8, @"Should be the correct value");
+    XCTAssertEqual(*x, 9, @"Should be the correct value");
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
+-(void) testRestoringState
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 128);
     
     uint32_t *a = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
     uint32_t *b = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
@@ -48,38 +100,97 @@
     XCTAssertEqual(*b, 2, @"Should be the correct value");
     XCTAssertEqual(*c, 3, @"Should be the correct value");
     
-    CCMemoryZoneDeallocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneRestore(Zone);
     
     uint32_t *x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
     *x = 4;
     
     XCTAssertEqual(*a, 1, @"Should be the correct value");
     XCTAssertEqual(*b, 2, @"Should be the correct value");
-    XCTAssertEqual(*c, 4, @"Should be the correct value");
-    
-    CCMemoryZoneDeallocate(Zone, sizeof(uint32_t) * 2);
-    
-    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
-    *x = 5;
-    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
-    *x = 6;
-    
-    XCTAssertEqual(*a, 1, @"Should be the correct value");
-    XCTAssertEqual(*b, 5, @"Should be the correct value");
-    XCTAssertEqual(*x, 6, @"Should be the correct value");
+    XCTAssertEqual(*c, 3, @"Should be the correct value");
+    XCTAssertEqual(*x, 4, @"Should be the correct value");
     
     CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneSave(Zone);
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
     
+    *a = 5;
+    *b = 6;
+    
+    XCTAssertEqual(*a, 5, @"Should be the correct value");
+    XCTAssertEqual(*b, 6, @"Should be the correct value");
+    
+    CCMemoryZoneRestore(Zone);
+    CCMemoryZoneAllocate(Zone, sizeof(CCMemoryZoneState));
     x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
     *x = 7;
-    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
-    *x = 8;
-    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
-    *x = 9;
     
-    XCTAssertEqual(*a, 7, @"Should be the correct value");
-    XCTAssertEqual(*b, 8, @"Should be the correct value");
-    XCTAssertEqual(*x, 9, @"Should be the correct value");
+    XCTAssertEqual(*a, 5, @"Should be the correct value");
+    XCTAssertEqual(*b, 7, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    CCMemoryZoneSave(Zone);
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneSave(Zone);
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    *a = 8;
+    *b = 9;
+    
+    XCTAssertEqual(*a, 8, @"Should be the correct value");
+    XCTAssertEqual(*b, 9, @"Should be the correct value");
+    
+    CCMemoryZoneRestore(Zone);
+    CCMemoryZoneRestore(Zone);
+    
+    CCMemoryZoneAllocate(Zone, sizeof(CCMemoryZoneState));
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    *x = 10;
+    
+    XCTAssertEqual(*a, 10, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    CCMemoryZoneSave(Zone);
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneSave(Zone);
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    *a = 11;
+    *b = 12;
+    
+    XCTAssertEqual(*a, 11, @"Should be the correct value");
+    XCTAssertEqual(*b, 12, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneRestore(Zone);
+    CCMemoryZoneAllocate(Zone, sizeof(CCMemoryZoneState));
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    *x = 13;
+    
+    XCTAssertEqual(*a, 11, @"Should be the correct value");
+    XCTAssertEqual(*b, 13, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    CCMemoryZoneSave(Zone);
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    CCMemoryZoneSave(Zone);
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    *a = 14;
+    *b = 15;
+    
+    XCTAssertEqual(*a, 14, @"Should be the correct value");
+    XCTAssertEqual(*b, 15, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, sizeof(uint32_t) + 1);
+    CCMemoryZoneRestore(Zone);
+    CCMemoryZoneAllocate(Zone, sizeof(CCMemoryZoneState));
+    x = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    *x = 16;
+    
+    XCTAssertEqual(*a, 16, @"Should be the correct value");
     
     CCMemoryZoneDestroy(Zone);
 }

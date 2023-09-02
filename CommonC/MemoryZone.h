@@ -32,6 +32,11 @@
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
 
+typedef struct CCMemoryZoneState {
+    size_t size;
+    struct CCMemoryZoneState *prev;
+} CCMemoryZoneState;
+
 typedef struct CCMemoryZoneBlock {
     union {
         struct CCMemoryZoneBlock *prev;
@@ -45,6 +50,7 @@ typedef struct CCMemoryZoneBlock {
 typedef struct {
     CCAllocatorType allocator;
     size_t blockSize;
+    CCMemoryZoneState *state;
     CCMemoryZoneBlock block;
 } CCMemoryZoneHeader;
 
@@ -57,7 +63,7 @@ typedef CCMemoryZoneHeader *CCMemoryZone;
 /*!
  * @brief Create a memory zone.
  * @param Allocator The allocator to be used for the allocation.
- * @param BlockSize The size of each block.
+ * @param BlockSize The size of each block. If the block size is smaller than the size of CCMemoryZoneState, then it will be increased up to that size.
  * @return A memory zone, or NULL on failure. Must be destroyed to free the memory.
  */
 CC_NEW CCMemoryZone CCMemoryZoneCreate(CCAllocatorType Allocator, size_t BlockSize);
@@ -80,10 +86,26 @@ void *CCMemoryZoneAllocate(CCMemoryZone Zone, size_t Size);
 /*!
  * @brief Deallocate some memory from the memory zone.
  * @description Deallocations release memory from the most recent allocations.
+ * @note If the deallocation size exceeds the current saved state (if there is one), then that state is destroyed (restoring will restore one before it
+ *       if there is one).
+ *
  * @param Zone The memory zone to deallocate in.
  * @param Size The size of the deallocation. Can pass in SIZE_MAX to deallocate all of the memory in the zone.
  */
 void CCMemoryZoneDeallocate(CCMemoryZone Zone, size_t Size);
+
+/*!
+ * @brief Save the current allocation state for the zone so it can be restored to later.
+ * @param Zone The memory zone to save the current state for.
+ */
+void CCMemoryZoneSave(CCMemoryZone Zone);
+
+/*!
+ * @brief Restore the previous allocation state for the zone.
+ * @description All memory in the current state will be deallocated. If no state is currently saved then no deallocation occurs.
+ * @param Zone The memory zone to restore the previous state for.
+ */
+void CCMemoryZoneRestore(CCMemoryZone Zone);
 
 /*!
  * @brief Get the block size for the memory zone.

@@ -38,12 +38,15 @@ static void CCMemoryZoneDestructor(CCMemoryZone Zone)
 
 CCMemoryZone CCMemoryZoneCreate(CCAllocatorType Allocator, size_t BlockSize)
 {
+    if (BlockSize < sizeof(CCMemoryZoneState)) BlockSize = sizeof(CCMemoryZoneState);
+    
     CCMemoryZone Zone = CCMalloc(Allocator, sizeof(CCMemoryZoneHeader) + BlockSize, NULL, CC_DEFAULT_ERROR_CALLBACK);
     if (Zone)
     {
         *Zone = (CCMemoryZoneHeader){
             .allocator = Allocator,
             .blockSize = BlockSize,
+            .state = NULL,
             .block = {
                 .last = &Zone->block,
                 .next = NULL,
@@ -69,7 +72,7 @@ void *CCMemoryZoneAllocate(CCMemoryZone Zone, size_t Size)
 {
     CCAssertLog(Zone, "Zone must not be null");
     CCAssertLog(Size, "Size must not be zero");
-    CCAssertLog(Size < Zone->blockSize, "Size must be less than the block size (%zu)", Zone->blockSize);
+    CCAssertLog(Size <= Zone->blockSize, "Size must be less than the block size (%zu)", Zone->blockSize);
     
     CCMemoryZoneBlock *Block = Zone->block.last;
     
@@ -97,12 +100,33 @@ void *CCMemoryZoneAllocate(CCMemoryZone Zone, size_t Size)
     void *Ptr = Block->data + Block->offset;
     Block->offset += Size;
     
+    if (Zone->state) Zone->state->size += Size;
+    
     return Ptr;
 }
 
 void CCMemoryZoneDeallocate(CCMemoryZone Zone, size_t Size)
 {
     CCAssertLog(Zone, "Zone must not be null");
+    
+    CCMemoryZoneState *State = Zone->state;
+    for (size_t DeallocSize = Size; State; )
+    {
+        const size_t StateSize = State->size;
+        if (StateSize < DeallocSize)
+        {
+            DeallocSize -= StateSize;
+            State = State->prev;
+        }
+        
+        else
+        {
+            State->size -= DeallocSize;
+            break;
+        }
+    }
+    
+    Zone->state = State;
     
     CCMemoryZoneBlock *Block = Zone->block.last;
     
@@ -136,4 +160,26 @@ void CCMemoryZoneDeallocate(CCMemoryZone Zone, size_t Size)
     }
     
     Zone->block.last = Block;
+}
+
+void CCMemoryZoneSave(CCMemoryZone Zone)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    CCMemoryZoneState *State = CCMemoryZoneAllocate(Zone, sizeof(CCMemoryZoneState));
+    
+    *State = (CCMemoryZoneState){
+        .size = 0,
+        .prev = Zone->state
+    };
+    
+    Zone->state = State;
+}
+
+void CCMemoryZoneRestore(CCMemoryZone Zone)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    CCMemoryZoneState *State = Zone->state;
+    if (State) CCMemoryZoneDeallocate(Zone, State->size + sizeof(CCMemoryZoneState));
 }
