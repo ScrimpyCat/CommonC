@@ -53,6 +53,7 @@
 #include <CommonC/CallbackAllocator.h>
 #include <CommonC/DebugAllocator.h>
 #include <CommonC/MemoryAllocation.h>
+#include <CommonC/MemoryZone.h>
 
 #include <CommonC/Logging.h>
 #include <CommonC/Assertion.h>
