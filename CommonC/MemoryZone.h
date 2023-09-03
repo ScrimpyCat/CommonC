@@ -114,6 +114,34 @@ void CCMemoryZoneRestore(CCMemoryZone Zone);
  */
 static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone);
 
+/*!
+ * @brief Get the first block for the memory zone.
+ * @param Zone The memory zone to retrieve the block for.
+ * @return The first block of the memory zone.
+ */
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlock(CCMemoryZone Zone);
+
+/*!
+ * @brief Get the pointer at the given offset for the memory zone.
+ * @param Zone The memory zone to retrieve the pointer for.
+ * @param Offset The offset of the allocated memory.
+ * @param Size A pointer to where to store the size of the memory that can be read from that pointer (not necessarily the size of the remaining allocation).
+ * @return The pointer to the memory, or NULL when there is none.
+ */
+static CC_FORCE_INLINE void *CCMemoryZoneGetPointer(CCMemoryZone Zone, ptrdiff_t Offset, size_t *Size);
+
+/*!
+ * @brief Get the pointer at the given offset relative to the provided block.
+ * @description This variant can provide faster lookup than @b CCMemoryZoneGetPointer, so it should be preferenced when you'll be
+ *              iterating through the memory zone and can keep a reference to the current block.
+ *
+ * @param ZoneBlock A pointer to the memory zone block pointer. This will be set to the block that contains the pointer.
+ * @param RelativeOffset A pointer to the offset of the allocated memory relative to the ZoneBlock. This will be set to the offset in the block the pointer was found.
+ * @param Size A pointer to where to store the size of the memory that can be read from that pointer (not necessarily the size of the remaining allocation).
+ * @return The pointer to the memory, or NULL when there is none.
+ */
+static CC_FORCE_INLINE void *CCMemoryZoneBlockGetPointer(CCMemoryZoneBlock **ZoneBlock, ptrdiff_t *RelativeOffset, size_t *Size);
+
 #pragma mark -
 
 static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone)
@@ -121,6 +149,53 @@ static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone)
     CCAssertLog(Zone, "Zone must not be null");
     
     return Zone->blockSize;
+}
+
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlock(CCMemoryZone Zone)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    return &Zone->block;
+}
+
+static CC_FORCE_INLINE void *CCMemoryZoneGetPointer(CCMemoryZone Zone, ptrdiff_t Offset, size_t *Size)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    return CCMemoryZoneBlockGetPointer(&(CCMemoryZoneBlock*){ &Zone->block }, &Offset, Size);
+}
+
+static CC_FORCE_INLINE void *CCMemoryZoneBlockGetPointer(CCMemoryZoneBlock **ZoneBlock, ptrdiff_t *RelativeOffset, size_t *Size)
+{
+    CCAssertLog(ZoneBlock, "ZoneBlock must not be null");
+    CCAssertLog(RelativeOffset, "Offset must not be null");
+    
+    ptrdiff_t Offset = *RelativeOffset;
+    
+    for (CCMemoryZoneBlock *Block = *ZoneBlock; Block; Block = Block->next)
+    {
+        if (Offset < Block->offset)
+        {
+            if (Size) *Size = Block->offset - Offset;
+            
+            *ZoneBlock = Block;
+            *RelativeOffset = Offset;
+            
+            return Block->data + Offset;
+        }
+        
+        else
+        {
+            Offset -= Block->offset;
+        }
+    }
+    
+    if (Size) *Size = 0;
+    
+    *ZoneBlock = NULL;
+    *RelativeOffset = 0;
+    
+    return NULL;
 }
 
 #endif

@@ -195,4 +195,186 @@
     CCMemoryZoneDestroy(Zone);
 }
 
+-(void) testPointerRetrieval
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 16);
+    
+    uint64_t *a = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *b = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *c = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *d = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *e = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    
+    *a = 1;
+    *b = 2;
+    *c = 3;
+    *d = 4;
+    *e = 5;
+    
+    size_t Size;
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 0, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 1, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 2, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 3, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 4, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 5, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 6, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    uint64_t *f = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *f = 6;
+    
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 0, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 1, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 2, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 3, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 4, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 5, &Size), 6, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 6, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, 0, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    CCMemoryZoneDestroy(Zone);
+    
+    
+    
+    Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 20);
+    
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    c = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    d = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    e = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    
+    *a = 1;
+    *b = 2;
+    *c = 3;
+    *d = 4;
+    *e = 5;
+    
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 0, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 1, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 2, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 3, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 4, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 5, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 6, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    f = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    *f = 6;
+    
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 0, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 1, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 2, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 3, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 4, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 5, &Size), 6, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, sizeof(uint64_t) * 6, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    
+    XCTAssertEqual(CCMemoryZoneGetPointer(Zone, 0, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    CCMemoryZoneDestroy(Zone);
+    
+    
+    
+    Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 16);
+    
+    a = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    b = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    c = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    d = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    e = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    
+    *a = 1;
+    *b = 2;
+    *c = 3;
+    *d = 4;
+    *e = 5;
+    
+    CCMemoryZoneBlock *Block = CCMemoryZoneGetBlock(Zone);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 0 }, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 1 }, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 2 }, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 0 }, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 1 }, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 2 }, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 0 }, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 1 }, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 0 }, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    ptrdiff_t Offset = 0;
+    Block = CCMemoryZoneGetBlock(Zone);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), 1, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), 2, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), 3, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), 4, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(*(uint64_t*)CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), 5, @"Should be the correct value");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&Block, &Offset, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    Offset += sizeof(uint64_t);
+    
+    CCMemoryZoneDeallocate(Zone, SIZE_MAX);
+    
+    Block = CCMemoryZoneGetBlock(Zone);
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&Block, &(ptrdiff_t){ sizeof(uint64_t) * 0 }, &Size), NULL, @"Should be the correct value");
+    XCTAssertEqual(Size, 0, @"Should be the correct value");
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
 @end
