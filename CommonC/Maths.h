@@ -66,6 +66,24 @@
 #define T uint64_t
 #include <CommonC/Extrema.h>
 
+#define T size_t
+#include <CommonC/Extrema.h>
+
+#define T ptrdiff_t
+#include <CommonC/Extrema.h>
+
+#define T intptr_t
+#include <CommonC/Extrema.h>
+
+#define T uintptr_t
+#include <CommonC/Extrema.h>
+
+#define T intmax_t
+#include <CommonC/Extrema.h>
+
+#define T uintmax_t
+#include <CommonC/Extrema.h>
+
 static CC_FORCE_INLINE uint32_t CCFloatGetUlps(const float a, const float b)
 {
     return *(uint32_t*)&a > *(uint32_t*)&b ? *(uint32_t*)&a - *(uint32_t*)&b : *(uint32_t*)&b - *(uint32_t*)&a;
