@@ -377,4 +377,70 @@
     CCMemoryZoneDestroy(Zone);
 }
 
+-(void) testOffsetRetrieval
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 16);
+    
+    uint64_t *a = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *b = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *c = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *d = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    uint64_t *e = CCMemoryZoneAllocate(Zone, sizeof(uint64_t));
+    
+    *a = 1;
+    *b = 2;
+    *c = 3;
+    *d = 4;
+    *e = 5;
+    
+    ptrdiff_t Offset;
+    CCMemoryZoneBlock *Block = CCMemoryZoneGetBlockForPointer(Zone, a, &Offset);
+    
+    size_t Size;
+    ptrdiff_t TestOffset = Offset;
+    CCMemoryZoneBlock *TestBlock = Block;
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&TestBlock, &TestOffset, &Size), a, @"Should get the correct pointer");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    XCTAssertEqual(TestOffset, Offset, @"Should be the correct offset");
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, b, &Offset);
+    TestOffset = Offset;
+    TestBlock = Block;
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&TestBlock, &TestOffset, &Size), b, @"Should get the correct pointer");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    XCTAssertEqual(TestOffset, Offset, @"Should be the correct offset");
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, c, &Offset);
+    TestOffset = Offset;
+    TestBlock = Block;
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&TestBlock, &TestOffset, &Size), c, @"Should get the correct pointer");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 2, @"Should be the correct value");
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    XCTAssertEqual(TestOffset, Offset, @"Should be the correct offset");
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, d, &Offset);
+    TestOffset = Offset;
+    TestBlock = Block;
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&TestBlock, &TestOffset, &Size), d, @"Should get the correct pointer");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    XCTAssertEqual(TestOffset, Offset, @"Should be the correct offset");
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, e, &Offset);
+    TestOffset = Offset;
+    TestBlock = Block;
+    XCTAssertEqual(CCMemoryZoneBlockGetPointer(&TestBlock, &TestOffset, &Size), e, @"Should get the correct pointer");
+    XCTAssertEqual(Size, sizeof(uint64_t) * 1, @"Should be the correct value");
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    XCTAssertEqual(TestOffset, Offset, @"Should be the correct offset");
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, e, NULL);
+    XCTAssertEqual(TestBlock, Block, @"Should be the correct block");
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
+
 @end

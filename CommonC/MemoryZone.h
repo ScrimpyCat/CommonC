@@ -142,6 +142,15 @@ static CC_FORCE_INLINE void *CCMemoryZoneGetPointer(CCMemoryZone Zone, ptrdiff_t
  */
 static CC_FORCE_INLINE void *CCMemoryZoneBlockGetPointer(CCMemoryZoneBlock **ZoneBlock, ptrdiff_t *RelativeOffset, size_t *Size);
 
+/*!
+ * @brief Get the block that contains the given pointer in the memory zone.
+ * @param Zone The memory zone to retrieve the block for.
+ * @param Ptr The pointer to find the block of
+ * @param Offset A pointer to where the offset that the pointer is at should be set. May be NULL.
+ * @return The block in the memory zone that contains the pointer, or NULL if there is none.
+ */
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlockForPointer(CCMemoryZone Zone, const void *Ptr, ptrdiff_t *Offset);
+
 #pragma mark -
 
 static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone)
@@ -194,6 +203,23 @@ static CC_FORCE_INLINE void *CCMemoryZoneBlockGetPointer(CCMemoryZoneBlock **Zon
     
     *ZoneBlock = NULL;
     *RelativeOffset = 0;
+    
+    return NULL;
+}
+
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlockForPointer(CCMemoryZone Zone, const void *Ptr, ptrdiff_t *Offset)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    for (CCMemoryZoneBlock *Block = &Zone->block; Block; Block = Block->next)
+    {
+        if ((Ptr >= (void*)Block->data) && (Ptr < (void*)(Block->data + Block->offset)))
+        {
+            if (Offset) *Offset = (ptrdiff_t)Ptr - (ptrdiff_t)Block->data;
+            
+            return Block;
+        }
+    }
     
     return NULL;
 }
