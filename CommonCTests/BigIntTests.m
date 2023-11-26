@@ -27,6 +27,7 @@
 #import <XCTest/XCTest.h>
 #import "BigInt.h"
 #import "BigIntFast.h"
+#import "TypeCallbacks.h"
 
 @interface BigIntTests : XCTestCase
 
@@ -1193,6 +1194,83 @@
     CCStringDestroy(Value);
     
     CCBigIntFastDestroy(Integer);
+}
+
+-(void) testHashing
+{
+    CCBigInt Integer = CCBigIntCreate(CC_STD_ALLOCATOR);
+    CCBigIntFast IntegerFast = CC_BIG_INT_FAST_0;
+    
+    CCBigIntSet(Integer, 0);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_1;
+    CCBigIntSet(Integer, 1);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_2;
+    CCBigIntSet(Integer, 2);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_128;
+    CCBigIntSet(Integer, 128);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_256;
+    CCBigIntSet(Integer, 256);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_NEGATIVE_1;
+    CCBigIntSet(Integer, -1);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_NEGATIVE_2;
+    CCBigIntSet(Integer, -2);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_NEGATIVE_128;
+    CCBigIntSet(Integer, -128);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_NEGATIVE_256;
+    CCBigIntSet(Integer, -256);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_CONSTANT(CC_BIG_INT_FAST_TAGGED_MAX);
+    CCBigIntSet(Integer, CC_BIG_INT_FAST_TAGGED_MAX);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    IntegerFast = CC_BIG_INT_FAST_CONSTANT(CC_BIG_INT_FAST_TAGGED_MIN);
+    CCBigIntSet(Integer, CC_BIG_INT_FAST_TAGGED_MIN);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    CCBigIntFastSet(&IntegerFast, (uint64_t)0xFFFFFFFFFFFFFFFF);
+    CCBigIntSet(Integer, (uint64_t)0xFFFFFFFFFFFFFFFF);
+    
+    XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
 }
 
 @end

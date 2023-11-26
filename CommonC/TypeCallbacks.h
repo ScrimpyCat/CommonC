@@ -42,8 +42,12 @@ extern const CCCollectionElementDestructor CCDictionaryDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathComponentDestructorForCollection;
 extern const CCCollectionElementDestructor FSPathDestructorForCollection;
 extern const CCCollectionElementDestructor FSHandleDestructorForCollection;
+extern const CCCollectionElementDestructor CCBigIntDestructorForCollection;
+extern const CCCollectionElementDestructor CCBigIntFastDestructorForCollection;
 
 extern const CCComparator CCStringComparatorForCollection;
+extern const CCComparator CCBigIntComparatorForCollection;
+extern const CCComparator CCBigIntFastComparatorForCollection;
 
 #pragma mark - Dictionary Callbacks
 
@@ -58,9 +62,17 @@ extern const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary;
 extern const CCDictionaryElementDestructor FSPathComponentDestructorForDictionary;
 extern const CCDictionaryElementDestructor FSPathDestructorForDictionary;
 extern const CCDictionaryElementDestructor FSHandleDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCBigIntDestructorForDictionary;
+extern const CCDictionaryElementDestructor CCBigIntFastDestructorForDictionary;
 
 extern const CCDictionaryKeyHasher CCStringHasherForDictionary;
+extern const CCDictionaryKeyHasher CCBigIntHasherForDictionary;
+extern const CCDictionaryKeyHasher CCBigIntFastHasherForDictionary;
+extern const CCDictionaryKeyHasher CCBigIntLowHasherForDictionary;
+extern const CCDictionaryKeyHasher CCBigIntFastLowHasherForDictionary;
 
 extern const CCComparator CCStringComparatorForDictionary;
+extern const CCComparator CCBigIntComparatorForDictionary;
+extern const CCComparator CCBigIntFastComparatorForDictionary;
 
 #endif

@@ -32,6 +32,8 @@
 #include "LinkedList.h"
 #include "HashMap.h"
 #include "FileHandle.h"
+#include "BigInt.h"
+#include "BigIntFast.h"
 
 #pragma mark Destructors
 
@@ -43,17 +45,25 @@ static void CCLinkedListContainerElementDestructor(void *Container, CCLinkedList
 static void CCCollectionContainerElementDestructor(void *Container, CCCollection *Element);
 static void CCHashMapContainerElementDestructor(void *Container, CCHashMap *Element);
 static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary *Element);
-static void CCPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element);
-static void CCPathContainerElementDestructor(void *Container, FSPath *Element);
-static void CCHandleContainerElementDestructor(void *Container, FSHandle *Element);
+static void FSPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element);
+static void FSPathContainerElementDestructor(void *Container, FSPath *Element);
+static void FSHandleContainerElementDestructor(void *Container, FSHandle *Element);
+static void CCBigIntContainerElementDestructor(void *Container, CCBigInt *Element);
+static void CCBigIntFastContainerElementDestructor(void *Container, CCBigIntFast *Element);
 
 #pragma mark Hashers
 
 static uintmax_t CCStringHasher(CCString *Key);
+static uintmax_t CCBigIntHasher(CCBigInt *Key);
+static uintmax_t CCBigIntFastHasher(CCBigIntFast *Key);
+static uintmax_t CCBigIntLowHasher(CCBigInt *Key);
+static uintmax_t CCBigIntFastLowHasher(CCBigIntFast *Key);
 
 #pragma mark Comparators
 
 static CCComparisonResult CCStringComparator(CCString *Left, CCString *Right);
+static CCComparisonResult CCBigIntComparator(CCBigInt *Left, CCBigInt *Right);
+static CCComparisonResult CCBigIntFastComparator(CCBigIntFast *Left, CCBigIntFast *Right);
 
 #pragma mark - Collection Callbacks
 #pragma mark Destructors
@@ -66,13 +76,17 @@ const CCCollectionElementDestructor CCLinkedListDestructorForCollection = (CCCol
 const CCCollectionElementDestructor CCCollectionDestructorForCollection = (CCCollectionElementDestructor)CCCollectionContainerElementDestructor;
 const CCCollectionElementDestructor CCHashMapDestructorForCollection = (CCCollectionElementDestructor)CCHashMapContainerElementDestructor;
 const CCCollectionElementDestructor CCDictionaryDestructorForCollection = (CCCollectionElementDestructor)CCDictionaryContainerElementDestructor;
-const CCCollectionElementDestructor FSPathComponentDestructorForCollection = (CCCollectionElementDestructor)CCPathComponentContainerElementDestructor;
-const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)CCPathContainerElementDestructor;
-const CCCollectionElementDestructor FSHandleDestructorForCollection = (CCCollectionElementDestructor)CCHandleContainerElementDestructor;
+const CCCollectionElementDestructor FSPathComponentDestructorForCollection = (CCCollectionElementDestructor)FSPathComponentContainerElementDestructor;
+const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)FSPathContainerElementDestructor;
+const CCCollectionElementDestructor FSHandleDestructorForCollection = (CCCollectionElementDestructor)FSHandleContainerElementDestructor;
+const CCCollectionElementDestructor CCBigIntDestructorForCollection = (CCCollectionElementDestructor)CCBigIntContainerElementDestructor;
+const CCCollectionElementDestructor CCBigIntFastDestructorForCollection = (CCCollectionElementDestructor)CCBigIntFastContainerElementDestructor;
 
 #pragma mark Comparators
 
 const CCComparator CCStringComparatorForCollection = (CCComparator)CCStringComparator;
+const CCComparator CCBigIntComparatorForCollection = (CCComparator)CCBigIntComparator;
+const CCComparator CCBigIntFastComparatorForCollection = (CCComparator)CCBigIntFastComparator;
 
 #pragma mark - Dictionary Callbacks
 #pragma mark Destructors
@@ -85,17 +99,25 @@ const CCDictionaryElementDestructor CCLinkedListDestructorForDictionary = (CCDic
 const CCDictionaryElementDestructor CCCollectionDestructorForDictionary = (CCDictionaryElementDestructor)CCCollectionContainerElementDestructor;
 const CCDictionaryElementDestructor CCHashMapDestructorForDictionary = (CCDictionaryElementDestructor)CCHashMapContainerElementDestructor;
 const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary = (CCDictionaryElementDestructor)CCDictionaryContainerElementDestructor;
-const CCDictionaryElementDestructor FSPathComponentDestructorForDictionary = (CCDictionaryElementDestructor)CCPathComponentContainerElementDestructor;
-const CCDictionaryElementDestructor FSPathDestructorForDictionary = (CCDictionaryElementDestructor)CCPathContainerElementDestructor;
-const CCDictionaryElementDestructor FSHandleDestructorForDictionary = (CCDictionaryElementDestructor)CCHandleContainerElementDestructor;
+const CCDictionaryElementDestructor FSPathComponentDestructorForDictionary = (CCDictionaryElementDestructor)FSPathComponentContainerElementDestructor;
+const CCDictionaryElementDestructor FSPathDestructorForDictionary = (CCDictionaryElementDestructor)FSPathContainerElementDestructor;
+const CCDictionaryElementDestructor FSHandleDestructorForDictionary = (CCDictionaryElementDestructor)FSHandleContainerElementDestructor;
+const CCDictionaryElementDestructor CCBigIntDestructorForDictionary = (CCDictionaryElementDestructor)CCBigIntContainerElementDestructor;
+const CCDictionaryElementDestructor CCBigIntFastDestructorForDictionary = (CCDictionaryElementDestructor)CCBigIntFastContainerElementDestructor;
 
 #pragma mark Hashers
 
 const CCDictionaryKeyHasher CCStringHasherForDictionary = (CCDictionaryKeyHasher)CCStringHasher;
+const CCDictionaryKeyHasher CCBigIntHasherForDictionary = (CCDictionaryKeyHasher)CCBigIntHasher;
+const CCDictionaryKeyHasher CCBigIntFastHasherForDictionary = (CCDictionaryKeyHasher)CCBigIntFastHasher;
+const CCDictionaryKeyHasher CCBigIntLowHasherForDictionary = (CCDictionaryKeyHasher)CCBigIntLowHasher;
+const CCDictionaryKeyHasher CCBigIntFastLowHasherForDictionary = (CCDictionaryKeyHasher)CCBigIntFastLowHasher;
 
 #pragma mark Comparators
 
 const CCComparator CCStringComparatorForDictionary = (CCComparator)CCStringComparator;
+const CCComparator CCBigIntComparatorForDictionary = (CCComparator)CCBigIntComparator;
+const CCComparator CCBigIntFastComparatorForDictionary = (CCComparator)CCBigIntFastComparator;
 
 #pragma mark -
 
@@ -139,19 +161,29 @@ static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary
     CCDictionaryDestroy(*Element);
 }
 
-static void CCPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element)
+static void FSPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element)
 {
     FSPathComponentDestroy(*Element);
 }
 
-static void CCPathContainerElementDestructor(void *Container, FSPath *Element)
+static void FSPathContainerElementDestructor(void *Container, FSPath *Element)
 {
     FSPathDestroy(*Element);
 }
 
-static void CCHandleContainerElementDestructor(void *Container, FSHandle *Element)
+static void FSHandleContainerElementDestructor(void *Container, FSHandle *Element)
 {
     FSHandleClose(*Element);
+}
+
+static void CCBigIntContainerElementDestructor(void *Container, CCBigInt *Element)
+{
+    CCBigIntDestroy(*Element);
+}
+
+static void CCBigIntFastContainerElementDestructor(void *Container, CCBigIntFast *Element)
+{
+    CCBigIntFastDestroy(*Element);
 }
 
 static uintmax_t CCStringHasher(CCString *Key)
@@ -159,7 +191,66 @@ static uintmax_t CCStringHasher(CCString *Key)
     return CCStringGetHash(*Key);
 }
 
+static uintmax_t CCBigIntHasher(CCBigInt *Key)
+{
+    CCEnumerable Enumerable;
+    CCListGetEnumerable((*Key)->value, &Enumerable);
+    
+    uintmax_t Hash = 0;
+    for (uint64_t *Component = CCEnumerableGetCurrent(&Enumerable); Component; Component = CCEnumerableNext(&Enumerable))
+    {
+        Hash ^= *Component;
+    }
+    
+    return Hash | ((uint64_t)CCBigIntGetSign(*Key) << 63);
+}
+
+static uintmax_t CCBigIntFastHasher(CCBigIntFast *Key)
+{
+    if (CCBigIntFastIsTaggedValue(*Key))
+    {
+        const int64_t Value = CCBigIntFastGetTaggedValue(*Key);
+        const int64_t Mask = Value >> 63;
+        
+        const uint64_t Hash = (Value ^ Mask) - Mask;
+        
+        return Hash | ((uint64_t)CCBigIntFastGetSign(*Key) << 63);
+    }
+    
+    return CCBigIntHasher((CCBigInt*)Key);
+}
+
+static uintmax_t CCBigIntLowHasher(CCBigInt *Key)
+{
+    return CCBigIntGetComponent(*Key, 0) | ((uint64_t)CCBigIntGetSign(*Key) << 63);
+}
+
+static uintmax_t CCBigIntFastLowHasher(CCBigIntFast *Key)
+{
+    if (CCBigIntFastIsTaggedValue(*Key))
+    {
+        const int64_t Value = CCBigIntFastGetTaggedValue(*Key);
+        const int64_t Mask = Value >> 63;
+        
+        const uint64_t Hash = (Value ^ Mask) - Mask;
+        
+        return Hash | ((uint64_t)CCBigIntFastGetSign(*Key) << 63);
+    }
+    
+    return CCBigIntLowHasher((CCBigInt*)Key);
+}
+
 static CCComparisonResult CCStringComparator(CCString *Left, CCString *Right)
 {
     return CCStringEqual(*Left, *Right) ? CCComparisonResultEqual : CCComparisonResultInvalid;
+}
+
+static CCComparisonResult CCBigIntComparator(CCBigInt *Left, CCBigInt *Right)
+{
+    return CCBigIntCompare(*Left, *Right);
+}
+
+static CCComparisonResult CCBigIntFastComparator(CCBigIntFast *Left, CCBigIntFast *Right)
+{
+    return CCBigIntFastCompare(*Left, *Right);
 }
