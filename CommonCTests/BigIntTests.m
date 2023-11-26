@@ -1271,6 +1271,9 @@
     
     XCTAssertEqual(CCBigIntHasherForDictionary(&Integer), CCBigIntFastHasherForDictionary(&IntegerFast), @"Hashes should be equal");
     XCTAssertEqual(CCBigIntLowHasherForDictionary(&Integer), CCBigIntFastLowHasherForDictionary(&IntegerFast), @"Hashes should be equal");
+    
+    CCBigIntDestroy(Integer);
+    CCBigIntFastDestroy(IntegerFast);
 }
 
 @end
