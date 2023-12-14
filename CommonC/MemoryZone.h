@@ -122,6 +122,14 @@ static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone);
 static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlock(CCMemoryZone Zone);
 
 /*!
+ * @brief Get the current block for the memory zone.
+ * @description The current block is the block that will be used for the next allocation.
+ * @param Zone The memory zone to retrieve the block for.
+ * @return The current block of the memory zone.
+ */
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetCurrentBlock(CCMemoryZone Zone);
+
+/*!
  * @brief Get the pointer at the given offset for the memory zone.
  * @param Zone The memory zone to retrieve the pointer for.
  * @param Offset The offset of the allocated memory.
@@ -151,6 +159,16 @@ static CC_FORCE_INLINE void *CCMemoryZoneBlockGetPointer(CCMemoryZoneBlock **Zon
  */
 static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlockForPointer(CCMemoryZone Zone, const void *Ptr, ptrdiff_t *Offset);
 
+/*!
+ * @brief Get the current offset in the provided block.
+ * @description The current offset is the offset a future allocation to that block will use. The current offset will also let you know the current size of the allocations
+ *              for that block.
+ *
+ * @param ZoneBlock The memory zone block.
+ * @return The current offset for that block.
+ */
+static CC_FORCE_INLINE ptrdiff_t CCMemoryZoneBlockGetCurrentOffset(CCMemoryZoneBlock *ZoneBlock);
+
 #pragma mark -
 
 static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone)
@@ -165,6 +183,13 @@ static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlock(CCMemoryZone Zone
     CCAssertLog(Zone, "Zone must not be null");
     
     return &Zone->block;
+}
+
+static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetCurrentBlock(CCMemoryZone Zone)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    
+    return Zone->block.last;
 }
 
 static CC_FORCE_INLINE void *CCMemoryZoneGetPointer(CCMemoryZone Zone, ptrdiff_t Offset, size_t *Size)
@@ -222,6 +247,13 @@ static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlockForPointer(CCMemor
     }
     
     return NULL;
+}
+
+static CC_FORCE_INLINE ptrdiff_t CCMemoryZoneBlockGetCurrentOffset(CCMemoryZoneBlock *ZoneBlock)
+{
+    CCAssertLog(ZoneBlock, "ZoneBlock must not be null");
+    
+    return ZoneBlock->offset;
 }
 
 #endif
