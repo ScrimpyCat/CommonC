@@ -26,6 +26,7 @@
 #ifndef CommonC_Logging_Private_h
 #define CommonC_Logging_Private_h
 
+#undef CC_LOG_IDENTIFIER
 #define CC_LOG_IDENTIFIER "io.scrimpycat.common"
 #include "Logging.h"
 
