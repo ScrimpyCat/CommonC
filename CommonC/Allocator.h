@@ -44,6 +44,7 @@ typedef struct CCAllocatorType {
 #define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 4, .data = &(size_t){ alignment } } //Uses stdlib
 #define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 5 } //Uses stdlib
 #define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 6, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
+#define CC_ZONE_ALLOCATOR(zone) (CCAllocatorType){ .allocator = 7, .data = zone } // Uses memory zone
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);

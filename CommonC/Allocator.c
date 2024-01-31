@@ -29,6 +29,7 @@
 #include "CallbackAllocator.h"
 #include "DebugAllocator.h"
 #include "Alignment.h"
+#include "MemoryZone.h"
 
 #pragma mark - Standard Allocator Implementation
 static void *StandardAllocator(void *Data, size_t Size)
@@ -274,12 +275,38 @@ static void StaticDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Zone Allocator Implementation
+static void *ZoneAllocator(CCMemoryZone *Zone, size_t Size)
+{
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(*Zone);
+    CCAssertLog(Size < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size, BlockSize);
+    
+    return CCMemoryZoneAllocate(*Zone, Size);
+}
+
+static void *ZoneReallocator(CCMemoryZone *Zone, void *Ptr, size_t Size)
+{
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(*Zone);
+    CCAssertLog(Size < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size, BlockSize);
+    
+    void *NewPtr = CCMemoryZoneAllocate(*Zone, Size);
+    
+    memcpy(NewPtr, Ptr, Size);
+    
+    return NewPtr;
+}
+
+static void ZoneDeallocator(void *Ptr)
+{
+}
+
+
 #pragma mark -
 
 #ifndef CC_ALLOCATORS_MAX
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
 #endif
-_Static_assert(CC_ALLOCATORS_MAX >= 7, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 8, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -298,7 +325,8 @@ static struct {
         { .allocator = (CCAllocatorFunction)CallbackAllocator, .reallocator = (CCReallocatorFunction)CallbackReallocator, .deallocator = CallbackDeallocator },
         { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator },
         { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
-        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator }
+        { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator },
+        { .allocator = (CCAllocatorFunction)ZoneAllocator, .reallocator = (CCReallocatorFunction)ZoneReallocator, .deallocator = ZoneDeallocator }
     }
 };
 
