@@ -276,28 +276,71 @@ static void StaticDeallocator(void *Ptr)
 
 
 #pragma mark - Zone Allocator Implementation
-static void *ZoneAllocator(CCMemoryZone *Zone, size_t Size)
+#include "MemoryAllocation.h"
+
+typedef struct {
+    CCMemoryZone zone;
+    size_t size;
+} CCZoneMemoryHeader;
+
+static void *ZoneAllocator(CCMemoryZone Zone, size_t Size)
 {
-    const size_t BlockSize = CCMemoryZoneGetBlockSize(*Zone);
-    CCAssertLog(Size < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size, BlockSize);
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
+    CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
     
-    return CCMemoryZoneAllocate(*Zone, Size);
+    void *Head = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    
+    ((CCZoneMemoryHeader*)Head)->zone = CCRetain(Zone);
+    ((CCZoneMemoryHeader*)Head)->size = Size;
+    
+    return Head + sizeof(CCZoneMemoryHeader);
 }
 
-static void *ZoneReallocator(CCMemoryZone *Zone, void *Ptr, size_t Size)
+static void *ZoneReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
 {
-    const size_t BlockSize = CCMemoryZoneGetBlockSize(*Zone);
-    CCAssertLog(Size < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size, BlockSize);
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
+    CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
     
-    void *NewPtr = CCMemoryZoneAllocate(*Zone, Size);
+    CCZoneMemoryHeader *Header = Ptr - sizeof(CCZoneMemoryHeader);
+    
+    if (Header->zone == Zone)
+    {
+        if (Header->size <= Size) return Ptr;
+        
+        ptrdiff_t Offset;
+        CCMemoryZoneBlock *Block = CCMemoryZoneGetBlockForPointer(Header->zone, Ptr, &Offset);
+        
+        const ptrdiff_t NextOffset = CCMemoryZoneBlockGetCurrentOffset(Block);
+        
+        if ((!Block->next) && ((NextOffset - Header->size) == Offset))
+        {
+            if ((Offset + Size) <= BlockSize)
+            {
+                CCMemoryZoneAllocate(Header->zone, Size - Header->size);
+                
+                Header->size = Size;
+                
+                return Ptr;
+            }
+        }
+    }
+    
+    void *NewHead = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *NewPtr = NewHead + sizeof(CCZoneMemoryHeader);
     
     memcpy(NewPtr, Ptr, Size);
+    
+    ((CCZoneMemoryHeader*)NewHead)->zone = CCRetain(Zone);
+    ((CCZoneMemoryHeader*)NewHead)->size = Size;
+    
+    CCMemoryZoneDestroy(Header->zone);
     
     return NewPtr;
 }
 
 static void ZoneDeallocator(void *Ptr)
 {
+    CCMemoryZoneDestroy(((CCZoneMemoryHeader*)Ptr)[-1].zone);
 }
 
 
