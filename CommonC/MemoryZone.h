@@ -169,6 +169,21 @@ static CC_FORCE_INLINE CCMemoryZoneBlock *CCMemoryZoneGetBlockForPointer(CCMemor
  */
 static CC_FORCE_INLINE ptrdiff_t CCMemoryZoneBlockGetCurrentOffset(CCMemoryZoneBlock *ZoneBlock);
 
+/*!
+ * @brief Get an enumerable for some allocated data in the memory zone.
+ * @note Will position the enumerable at the first item.
+ * @warning The zone can safely increase in size while enumerating, however deallocating (if it deallocates into the range of the enumerable) is unsafe.
+ * @param ZoneBlock The zone block to offset the start of the enumerable from.
+ * @param Offset The offset from the zone block to start the enumerable. If the offset is larger than the current block it will move to the next block.
+ * @param Stride The stride of the items to enumerate.
+ * @param Count The number of items to enumerate. This can be bigger than the current size of the memory zone. If it's bigger then it will enumerate to
+ *              the end of the memory zone, at which point there will be nothing left to enumerate. If a future allocation occurs then enumeration can
+ *              continue.
+ *
+ * @param Enumerable A pointer to the enumerable to use.
+ */
+void CCMemoryZoneGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable);
+
 #pragma mark -
 
 static CC_FORCE_INLINE size_t CCMemoryZoneGetBlockSize(CCMemoryZone Zone)

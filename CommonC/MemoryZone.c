@@ -26,6 +26,7 @@
 #include "MemoryZone.h"
 #include "MemoryAllocation.h"
 #include "Logging.h"
+#include "Maths.h"
 
 static void CCMemoryZoneDestructor(CCMemoryZone Zone)
 {
@@ -182,4 +183,113 @@ void CCMemoryZoneRestore(CCMemoryZone Zone)
     
     CCMemoryZoneState *State = Zone->state;
     if (State) CCMemoryZoneDeallocate(Zone, State->size + sizeof(CCMemoryZoneState));
+}
+
+static void *CCMemoryZoneEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    switch (Action)
+    {
+        case CCEnumerableActionHead:
+            while (CCMemoryZoneEnumerableHandler(Enumerator, CCEnumerableActionPrevious));
+            Enumerator->state.batch.index = 0;
+            break;
+            
+        case CCEnumerableActionTail:
+            while (CCMemoryZoneEnumerableHandler(Enumerator, CCEnumerableActionNext));
+            Enumerator->state.batch.index = Enumerator->state.batch.count - 1;
+            break;
+            
+        case CCEnumerableActionNext:
+        {
+            if ((Enumerator->state.batch.extra[0] + Enumerator->state.batch.count) == Enumerator->state.batch.extra[1]) return NULL;
+            
+            CCMemoryZoneBlock *Block = Enumerator->ref;
+            
+            if ((Block = Block->next))
+            {
+                Enumerator->state.batch.extra[0] += Enumerator->state.batch.count;
+                
+                Enumerator->ref = Block;
+                
+                Enumerator->state.batch.ptr = Block->data;
+                Enumerator->state.batch.index = 0;
+                
+                size_t Count = Block->offset / Enumerator->state.batch.stride;
+                const size_t Remainder = Enumerator->state.batch.extra[1] - Enumerator->state.batch.extra[0];
+                
+                if (Count > Remainder) Count = Remainder;
+                
+                Enumerator->state.batch.count = Count;
+            }
+            
+            else
+            {
+                const size_t Count = ((CCMemoryZoneBlock*)Enumerator->ref)->offset / Enumerator->state.batch.stride;
+
+                if (Count == Enumerator->state.batch.count) return NULL;
+
+                Enumerator->state.batch.count = Count;
+                Enumerator->state.batch.index++;
+            }
+            
+            break;
+        }
+            
+        case CCEnumerableActionPrevious:
+        {
+            if (Enumerator->state.batch.extra[0] == 0) return NULL;
+            
+            CCMemoryZoneBlock *Block = ((CCMemoryZoneBlock*)Enumerator->ref)->prev;
+            
+            Enumerator->ref = Block;
+            
+            Enumerator->state.batch.ptr = Block->data;
+            Enumerator->state.batch.count = Block->offset / Enumerator->state.batch.stride;
+            
+            if (Enumerator->state.batch.extra[0] < Enumerator->state.batch.count)
+            {
+                Enumerator->state.batch.ptr += (Enumerator->state.batch.count - Enumerator->state.batch.extra[0]) * Enumerator->state.batch.stride;
+                
+                Enumerator->state.batch.count = Enumerator->state.batch.extra[0];
+            }
+            
+            Enumerator->state.batch.index = Enumerator->state.batch.count - 1;
+            
+            Enumerator->state.batch.extra[0] -= Enumerator->state.batch.count;
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    if (Enumerator->state.batch.index >= Enumerator->state.batch.count) return NULL;
+    
+    return Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride);
+}
+
+void CCMemoryZoneGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable)
+{
+    CCAssertLog(ZoneBlock, "ZoneBlock must not be null");
+    
+    size_t Size;
+    void *Ptr = CCMemoryZoneBlockGetPointer(&ZoneBlock, &Offset, &Size);
+    
+    *Enumerable = (CCEnumerable){
+        .handler = CCMemoryZoneEnumerableHandler,
+        .enumerator = {
+            .ref = ZoneBlock,
+            .state = {
+                .batch = {
+                    .ptr = Ptr,
+                    .count = CCMin(Size / Stride, Count),
+                    .stride = Stride,
+                    .index = 0,
+                    .extra = { 0, Count }
+                },
+                .type = CCEnumeratorFormatBatch
+            }
+        }
+    };
 }

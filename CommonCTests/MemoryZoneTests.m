@@ -442,5 +442,360 @@
     CCMemoryZoneDestroy(Zone);
 }
 
+-(void) testEnumerable
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 16);
+    
+    uint32_t *x0 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x1 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x2 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x3 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x4 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x5 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x6 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x7 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x8 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x9 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    uint32_t *x10 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    ptrdiff_t Offset;
+    CCMemoryZoneBlock *Block = CCMemoryZoneGetBlockForPointer(Zone, x2, &Offset);
+    
+    CCEnumerable Enumerable2_3;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 2, &Enumerable2_3);
+    
+    CCEnumerable Enumerable2_8;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 7, &Enumerable2_8);
+    
+    CCEnumerable Enumerable2_10;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 9, &Enumerable2_10);
+    
+    CCEnumerable Enumerable2_12;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 11, &Enumerable2_12);
+    
+    CCEnumerable Enumerable2_Inf;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), SIZE_MAX, &Enumerable2_Inf);
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, x6, &Offset);
+    
+    CCEnumerable Enumerable6_7;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 2, &Enumerable6_7);
+    
+    CCEnumerable Enumerable6_Inf;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), SIZE_MAX, &Enumerable6_Inf);
+    
+    Block = CCMemoryZoneGetBlockForPointer(Zone, x0, &Offset);
+    
+    CCEnumerable Enumerable0_0;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 1, &Enumerable0_0);
+    
+    CCEnumerable Enumerable___;
+    CCMemoryZoneGetEnumerable(Block, Offset, sizeof(uint32_t), 0, &Enumerable___);
+    
+    
+    //0_0
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable0_0), x0, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable0_0), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable0_0), x0, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable0_0), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable0_0), x0, @"Should get the correct pointer");
+    
+    
+    //___
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable___), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable___), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable___), NULL, @"Should get the correct pointer");
+    
+    
+    //2_3
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable2_3), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_3), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_3), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable2_3), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_3), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_3), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable2_3), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_3), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_3), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_3), x3, @"Should get the correct pointer");
+    
+    
+    //2_8
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable2_8), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable2_8), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable2_8), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_8), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_8), x8, @"Should get the correct pointer");
+    
+    
+    //2_10
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable2_10), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable2_10), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable2_10), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_10), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), x10, @"Should get the correct pointer");
+    
+    
+    //2_12
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable2_12), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable2_12), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable2_12), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_12), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x10, @"Should get the correct pointer");
+    
+    
+    //2_Inf
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable2_Inf), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable2_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable2_Inf), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x2, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x3, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x4, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x5, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable2_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x10, @"Should get the correct pointer");
+    
+    
+    //6_7
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable6_7), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_7), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_7), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable6_7), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_7), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_7), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable6_7), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_7), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_7), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_7), x7, @"Should get the correct pointer");
+    
+    
+    //6_Inf
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable6_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetTail(&Enumerable6_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), NULL, @"Should get the correct pointer");
+    
+    XCTAssertEqual(CCEnumerableGetHead(&Enumerable6_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x6, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x7, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x8, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x10, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable6_Inf), x9, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x10, @"Should get the correct pointer");
+    
+    
+    CCEnumerableGetTail(&Enumerable2_10);
+    CCEnumerableGetTail(&Enumerable2_12);
+    CCEnumerableGetTail(&Enumerable2_Inf);
+    CCEnumerableGetTail(&Enumerable6_Inf);
+    
+    uint32_t *x11 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_10), NULL, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x11, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x11, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x11, @"Should get the correct pointer");
+    
+    uint32_t *x12 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), x12, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x12, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x12, @"Should get the correct pointer");
+    
+    uint32_t *x13 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_12), NULL, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x13, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x13, @"Should get the correct pointer");
+    
+    uint32_t *x14 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x14, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x14, @"Should get the correct pointer");
+    
+    uint32_t *x15 = CCMemoryZoneAllocate(Zone, sizeof(uint32_t));
+    
+    XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x15, @"Should get the correct pointer");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x15, @"Should get the correct pointer");
+    
+    CCMemoryZoneDestroy(Zone);
+}
 
 @end
