@@ -182,7 +182,7 @@ static CC_FORCE_INLINE ptrdiff_t CCMemoryZoneBlockGetCurrentOffset(CCMemoryZoneB
  *
  * @param Enumerable A pointer to the enumerable to use.
  */
-void CCMemoryZoneGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable);
+void CCMemoryZoneBlockGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable);
 
 #pragma mark -
 

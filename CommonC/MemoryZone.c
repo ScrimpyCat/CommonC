@@ -269,7 +269,7 @@ static void *CCMemoryZoneEnumerableHandler(CCEnumerator *Enumerator, CCEnumerabl
     return Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride);
 }
 
-void CCMemoryZoneGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable)
+void CCMemoryZoneBlockGetEnumerable(CCMemoryZoneBlock *ZoneBlock, ptrdiff_t Offset, size_t Stride, size_t Count, CCEnumerable *Enumerable)
 {
     CCAssertLog(ZoneBlock, "ZoneBlock must not be null");
     
