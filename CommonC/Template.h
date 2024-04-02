@@ -3019,6 +3019,614 @@
 #define CC_MANGLE_TYPE_8_uint64_t U64
 #define CC_MANGLE_TYPE_9_uint64_t U64
 
+// MARK: int_fast8_t
+#define CC_TYPE_int_fast8_t(...) int_fast8_t
+#define CC_TYPE_0_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_1_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_2_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_3_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_4_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_5_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_6_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_7_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_8_int_fast8_t CC_TYPE_int_fast8_t,
+#define CC_TYPE_9_int_fast8_t CC_TYPE_int_fast8_t,
+
+#define CC_PRESERVE_CC_TYPE_int_fast8_t CC_TYPE_int_fast8_t
+
+#define CC_TYPE_DECL_int_fast8_t(...) int_fast8_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_1_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_2_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_3_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_4_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_5_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_6_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_7_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_8_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+#define CC_TYPE_DECL_9_int_fast8_t CC_TYPE_DECL_int_fast8_t,
+
+#define CC_MANGLE_TYPE_0_int_fast8_t I8F
+#define CC_MANGLE_TYPE_1_int_fast8_t I8F
+#define CC_MANGLE_TYPE_2_int_fast8_t I8F
+#define CC_MANGLE_TYPE_3_int_fast8_t I8F
+#define CC_MANGLE_TYPE_4_int_fast8_t I8F
+#define CC_MANGLE_TYPE_5_int_fast8_t I8F
+#define CC_MANGLE_TYPE_6_int_fast8_t I8F
+#define CC_MANGLE_TYPE_7_int_fast8_t I8F
+#define CC_MANGLE_TYPE_8_int_fast8_t I8F
+#define CC_MANGLE_TYPE_9_int_fast8_t I8F
+
+// MARK: int_fast16_t
+#define CC_TYPE_int_fast16_t(...) int_fast16_t
+#define CC_TYPE_0_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_1_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_2_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_3_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_4_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_5_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_6_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_7_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_8_int_fast16_t CC_TYPE_int_fast16_t,
+#define CC_TYPE_9_int_fast16_t CC_TYPE_int_fast16_t,
+
+#define CC_PRESERVE_CC_TYPE_int_fast16_t CC_TYPE_int_fast16_t
+
+#define CC_TYPE_DECL_int_fast16_t(...) int_fast16_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_1_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_2_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_3_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_4_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_5_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_6_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_7_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_8_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+#define CC_TYPE_DECL_9_int_fast16_t CC_TYPE_DECL_int_fast16_t,
+
+#define CC_MANGLE_TYPE_0_int_fast16_t I16F
+#define CC_MANGLE_TYPE_1_int_fast16_t I16F
+#define CC_MANGLE_TYPE_2_int_fast16_t I16F
+#define CC_MANGLE_TYPE_3_int_fast16_t I16F
+#define CC_MANGLE_TYPE_4_int_fast16_t I16F
+#define CC_MANGLE_TYPE_5_int_fast16_t I16F
+#define CC_MANGLE_TYPE_6_int_fast16_t I16F
+#define CC_MANGLE_TYPE_7_int_fast16_t I16F
+#define CC_MANGLE_TYPE_8_int_fast16_t I16F
+#define CC_MANGLE_TYPE_9_int_fast16_t I16F
+
+// MARK: int_fast32_t
+#define CC_TYPE_int_fast32_t(...) int_fast32_t
+#define CC_TYPE_0_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_1_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_2_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_3_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_4_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_5_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_6_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_7_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_8_int_fast32_t CC_TYPE_int_fast32_t,
+#define CC_TYPE_9_int_fast32_t CC_TYPE_int_fast32_t,
+
+#define CC_PRESERVE_CC_TYPE_int_fast32_t CC_TYPE_int_fast32_t
+
+#define CC_TYPE_DECL_int_fast32_t(...) int_fast32_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_1_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_2_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_3_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_4_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_5_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_6_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_7_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_8_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+#define CC_TYPE_DECL_9_int_fast32_t CC_TYPE_DECL_int_fast32_t,
+
+#define CC_MANGLE_TYPE_0_int_fast32_t I32F
+#define CC_MANGLE_TYPE_1_int_fast32_t I32F
+#define CC_MANGLE_TYPE_2_int_fast32_t I32F
+#define CC_MANGLE_TYPE_3_int_fast32_t I32F
+#define CC_MANGLE_TYPE_4_int_fast32_t I32F
+#define CC_MANGLE_TYPE_5_int_fast32_t I32F
+#define CC_MANGLE_TYPE_6_int_fast32_t I32F
+#define CC_MANGLE_TYPE_7_int_fast32_t I32F
+#define CC_MANGLE_TYPE_8_int_fast32_t I32F
+#define CC_MANGLE_TYPE_9_int_fast32_t I32F
+
+// MARK: int_fast64_t
+#define CC_TYPE_int_fast64_t(...) int_fast64_t
+#define CC_TYPE_0_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_1_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_2_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_3_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_4_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_5_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_6_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_7_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_8_int_fast64_t CC_TYPE_int_fast64_t,
+#define CC_TYPE_9_int_fast64_t CC_TYPE_int_fast64_t,
+
+#define CC_PRESERVE_CC_TYPE_int_fast64_t CC_TYPE_int_fast64_t
+
+#define CC_TYPE_DECL_int_fast64_t(...) int_fast64_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_1_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_2_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_3_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_4_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_5_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_6_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_7_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_8_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+#define CC_TYPE_DECL_9_int_fast64_t CC_TYPE_DECL_int_fast64_t,
+
+#define CC_MANGLE_TYPE_0_int_fast64_t I64F
+#define CC_MANGLE_TYPE_1_int_fast64_t I64F
+#define CC_MANGLE_TYPE_2_int_fast64_t I64F
+#define CC_MANGLE_TYPE_3_int_fast64_t I64F
+#define CC_MANGLE_TYPE_4_int_fast64_t I64F
+#define CC_MANGLE_TYPE_5_int_fast64_t I64F
+#define CC_MANGLE_TYPE_6_int_fast64_t I64F
+#define CC_MANGLE_TYPE_7_int_fast64_t I64F
+#define CC_MANGLE_TYPE_8_int_fast64_t I64F
+#define CC_MANGLE_TYPE_9_int_fast64_t I64F
+
+// MARK: uint_fast8_t
+#define CC_TYPE_uint_fast8_t(...) uint_fast8_t
+#define CC_TYPE_0_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_1_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_2_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_3_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_4_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_5_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_6_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_7_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_8_uint_fast8_t CC_TYPE_uint_fast8_t,
+#define CC_TYPE_9_uint_fast8_t CC_TYPE_uint_fast8_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_fast8_t CC_TYPE_uint_fast8_t
+
+#define CC_TYPE_DECL_uint_fast8_t(...) uint_fast8_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_1_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_2_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_3_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_4_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_5_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_6_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_7_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_8_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+#define CC_TYPE_DECL_9_uint_fast8_t CC_TYPE_DECL_uint_fast8_t,
+
+#define CC_MANGLE_TYPE_0_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_1_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_2_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_3_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_4_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_5_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_6_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_7_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_8_uint_fast8_t U8F
+#define CC_MANGLE_TYPE_9_uint_fast8_t U8F
+
+// MARK: uint_fast16_t
+#define CC_TYPE_uint_fast16_t(...) uint_fast16_t
+#define CC_TYPE_0_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_1_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_2_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_3_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_4_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_5_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_6_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_7_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_8_uint_fast16_t CC_TYPE_uint_fast16_t,
+#define CC_TYPE_9_uint_fast16_t CC_TYPE_uint_fast16_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_fast16_t CC_TYPE_uint_fast16_t
+
+#define CC_TYPE_DECL_uint_fast16_t(...) uint_fast16_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_1_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_2_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_3_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_4_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_5_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_6_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_7_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_8_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+#define CC_TYPE_DECL_9_uint_fast16_t CC_TYPE_DECL_uint_fast16_t,
+
+#define CC_MANGLE_TYPE_0_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_1_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_2_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_3_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_4_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_5_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_6_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_7_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_8_uint_fast16_t U16F
+#define CC_MANGLE_TYPE_9_uint_fast16_t U16F
+
+// MARK: uint_fast32_t
+#define CC_TYPE_uint_fast32_t(...) uint_fast32_t
+#define CC_TYPE_0_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_1_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_2_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_3_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_4_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_5_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_6_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_7_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_8_uint_fast32_t CC_TYPE_uint_fast32_t,
+#define CC_TYPE_9_uint_fast32_t CC_TYPE_uint_fast32_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_fast32_t CC_TYPE_uint_fast32_t
+
+#define CC_TYPE_DECL_uint_fast32_t(...) uint_fast32_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_1_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_2_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_3_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_4_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_5_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_6_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_7_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_8_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+#define CC_TYPE_DECL_9_uint_fast32_t CC_TYPE_DECL_uint_fast32_t,
+
+#define CC_MANGLE_TYPE_0_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_1_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_2_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_3_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_4_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_5_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_6_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_7_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_8_uint_fast32_t U32F
+#define CC_MANGLE_TYPE_9_uint_fast32_t U32F
+
+// MARK: uint_fast64_t
+#define CC_TYPE_uint_fast64_t(...) uint_fast64_t
+#define CC_TYPE_0_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_1_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_2_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_3_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_4_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_5_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_6_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_7_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_8_uint_fast64_t CC_TYPE_uint_fast64_t,
+#define CC_TYPE_9_uint_fast64_t CC_TYPE_uint_fast64_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_fast64_t CC_TYPE_uint_fast64_t
+
+#define CC_TYPE_DECL_uint_fast64_t(...) uint_fast64_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_1_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_2_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_3_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_4_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_5_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_6_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_7_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_8_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+#define CC_TYPE_DECL_9_uint_fast64_t CC_TYPE_DECL_uint_fast64_t,
+
+#define CC_MANGLE_TYPE_0_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_1_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_2_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_3_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_4_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_5_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_6_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_7_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_8_uint_fast64_t U64F
+#define CC_MANGLE_TYPE_9_uint_fast64_t U64F
+
+// MARK: int_least8_t
+#define CC_TYPE_int_least8_t(...) int_least8_t
+#define CC_TYPE_0_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_1_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_2_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_3_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_4_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_5_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_6_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_7_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_8_int_least8_t CC_TYPE_int_least8_t,
+#define CC_TYPE_9_int_least8_t CC_TYPE_int_least8_t,
+
+#define CC_PRESERVE_CC_TYPE_int_least8_t CC_TYPE_int_least8_t
+
+#define CC_TYPE_DECL_int_least8_t(...) int_least8_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_1_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_2_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_3_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_4_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_5_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_6_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_7_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_8_int_least8_t CC_TYPE_DECL_int_least8_t,
+#define CC_TYPE_DECL_9_int_least8_t CC_TYPE_DECL_int_least8_t,
+
+#define CC_MANGLE_TYPE_0_int_least8_t I8L
+#define CC_MANGLE_TYPE_1_int_least8_t I8L
+#define CC_MANGLE_TYPE_2_int_least8_t I8L
+#define CC_MANGLE_TYPE_3_int_least8_t I8L
+#define CC_MANGLE_TYPE_4_int_least8_t I8L
+#define CC_MANGLE_TYPE_5_int_least8_t I8L
+#define CC_MANGLE_TYPE_6_int_least8_t I8L
+#define CC_MANGLE_TYPE_7_int_least8_t I8L
+#define CC_MANGLE_TYPE_8_int_least8_t I8L
+#define CC_MANGLE_TYPE_9_int_least8_t I8L
+
+// MARK: int_least16_t
+#define CC_TYPE_int_least16_t(...) int_least16_t
+#define CC_TYPE_0_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_1_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_2_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_3_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_4_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_5_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_6_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_7_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_8_int_least16_t CC_TYPE_int_least16_t,
+#define CC_TYPE_9_int_least16_t CC_TYPE_int_least16_t,
+
+#define CC_PRESERVE_CC_TYPE_int_least16_t CC_TYPE_int_least16_t
+
+#define CC_TYPE_DECL_int_least16_t(...) int_least16_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_1_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_2_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_3_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_4_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_5_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_6_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_7_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_8_int_least16_t CC_TYPE_DECL_int_least16_t,
+#define CC_TYPE_DECL_9_int_least16_t CC_TYPE_DECL_int_least16_t,
+
+#define CC_MANGLE_TYPE_0_int_least16_t I16L
+#define CC_MANGLE_TYPE_1_int_least16_t I16L
+#define CC_MANGLE_TYPE_2_int_least16_t I16L
+#define CC_MANGLE_TYPE_3_int_least16_t I16L
+#define CC_MANGLE_TYPE_4_int_least16_t I16L
+#define CC_MANGLE_TYPE_5_int_least16_t I16L
+#define CC_MANGLE_TYPE_6_int_least16_t I16L
+#define CC_MANGLE_TYPE_7_int_least16_t I16L
+#define CC_MANGLE_TYPE_8_int_least16_t I16L
+#define CC_MANGLE_TYPE_9_int_least16_t I16L
+
+// MARK: int_least32_t
+#define CC_TYPE_int_least32_t(...) int_least32_t
+#define CC_TYPE_0_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_1_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_2_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_3_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_4_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_5_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_6_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_7_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_8_int_least32_t CC_TYPE_int_least32_t,
+#define CC_TYPE_9_int_least32_t CC_TYPE_int_least32_t,
+
+#define CC_PRESERVE_CC_TYPE_int_least32_t CC_TYPE_int_least32_t
+
+#define CC_TYPE_DECL_int_least32_t(...) int_least32_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_1_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_2_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_3_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_4_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_5_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_6_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_7_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_8_int_least32_t CC_TYPE_DECL_int_least32_t,
+#define CC_TYPE_DECL_9_int_least32_t CC_TYPE_DECL_int_least32_t,
+
+#define CC_MANGLE_TYPE_0_int_least32_t I32L
+#define CC_MANGLE_TYPE_1_int_least32_t I32L
+#define CC_MANGLE_TYPE_2_int_least32_t I32L
+#define CC_MANGLE_TYPE_3_int_least32_t I32L
+#define CC_MANGLE_TYPE_4_int_least32_t I32L
+#define CC_MANGLE_TYPE_5_int_least32_t I32L
+#define CC_MANGLE_TYPE_6_int_least32_t I32L
+#define CC_MANGLE_TYPE_7_int_least32_t I32L
+#define CC_MANGLE_TYPE_8_int_least32_t I32L
+#define CC_MANGLE_TYPE_9_int_least32_t I32L
+
+// MARK: int_least64_t
+#define CC_TYPE_int_least64_t(...) int_least64_t
+#define CC_TYPE_0_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_1_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_2_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_3_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_4_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_5_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_6_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_7_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_8_int_least64_t CC_TYPE_int_least64_t,
+#define CC_TYPE_9_int_least64_t CC_TYPE_int_least64_t,
+
+#define CC_PRESERVE_CC_TYPE_int_least64_t CC_TYPE_int_least64_t
+
+#define CC_TYPE_DECL_int_least64_t(...) int_least64_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_1_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_2_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_3_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_4_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_5_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_6_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_7_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_8_int_least64_t CC_TYPE_DECL_int_least64_t,
+#define CC_TYPE_DECL_9_int_least64_t CC_TYPE_DECL_int_least64_t,
+
+#define CC_MANGLE_TYPE_0_int_least64_t I64L
+#define CC_MANGLE_TYPE_1_int_least64_t I64L
+#define CC_MANGLE_TYPE_2_int_least64_t I64L
+#define CC_MANGLE_TYPE_3_int_least64_t I64L
+#define CC_MANGLE_TYPE_4_int_least64_t I64L
+#define CC_MANGLE_TYPE_5_int_least64_t I64L
+#define CC_MANGLE_TYPE_6_int_least64_t I64L
+#define CC_MANGLE_TYPE_7_int_least64_t I64L
+#define CC_MANGLE_TYPE_8_int_least64_t I64L
+#define CC_MANGLE_TYPE_9_int_least64_t I64L
+
+// MARK: uint_least8_t
+#define CC_TYPE_uint_least8_t(...) uint_least8_t
+#define CC_TYPE_0_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_1_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_2_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_3_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_4_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_5_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_6_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_7_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_8_uint_least8_t CC_TYPE_uint_least8_t,
+#define CC_TYPE_9_uint_least8_t CC_TYPE_uint_least8_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_least8_t CC_TYPE_uint_least8_t
+
+#define CC_TYPE_DECL_uint_least8_t(...) uint_least8_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_1_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_2_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_3_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_4_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_5_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_6_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_7_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_8_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+#define CC_TYPE_DECL_9_uint_least8_t CC_TYPE_DECL_uint_least8_t,
+
+#define CC_MANGLE_TYPE_0_uint_least8_t U8L
+#define CC_MANGLE_TYPE_1_uint_least8_t U8L
+#define CC_MANGLE_TYPE_2_uint_least8_t U8L
+#define CC_MANGLE_TYPE_3_uint_least8_t U8L
+#define CC_MANGLE_TYPE_4_uint_least8_t U8L
+#define CC_MANGLE_TYPE_5_uint_least8_t U8L
+#define CC_MANGLE_TYPE_6_uint_least8_t U8L
+#define CC_MANGLE_TYPE_7_uint_least8_t U8L
+#define CC_MANGLE_TYPE_8_uint_least8_t U8L
+#define CC_MANGLE_TYPE_9_uint_least8_t U8L
+
+// MARK: uint_least16_t
+#define CC_TYPE_uint_least16_t(...) uint_least16_t
+#define CC_TYPE_0_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_1_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_2_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_3_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_4_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_5_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_6_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_7_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_8_uint_least16_t CC_TYPE_uint_least16_t,
+#define CC_TYPE_9_uint_least16_t CC_TYPE_uint_least16_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_least16_t CC_TYPE_uint_least16_t
+
+#define CC_TYPE_DECL_uint_least16_t(...) uint_least16_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_1_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_2_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_3_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_4_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_5_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_6_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_7_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_8_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+#define CC_TYPE_DECL_9_uint_least16_t CC_TYPE_DECL_uint_least16_t,
+
+#define CC_MANGLE_TYPE_0_uint_least16_t U16L
+#define CC_MANGLE_TYPE_1_uint_least16_t U16L
+#define CC_MANGLE_TYPE_2_uint_least16_t U16L
+#define CC_MANGLE_TYPE_3_uint_least16_t U16L
+#define CC_MANGLE_TYPE_4_uint_least16_t U16L
+#define CC_MANGLE_TYPE_5_uint_least16_t U16L
+#define CC_MANGLE_TYPE_6_uint_least16_t U16L
+#define CC_MANGLE_TYPE_7_uint_least16_t U16L
+#define CC_MANGLE_TYPE_8_uint_least16_t U16L
+#define CC_MANGLE_TYPE_9_uint_least16_t U16L
+
+// MARK: uint_least32_t
+#define CC_TYPE_uint_least32_t(...) uint_least32_t
+#define CC_TYPE_0_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_1_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_2_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_3_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_4_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_5_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_6_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_7_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_8_uint_least32_t CC_TYPE_uint_least32_t,
+#define CC_TYPE_9_uint_least32_t CC_TYPE_uint_least32_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_least32_t CC_TYPE_uint_least32_t
+
+#define CC_TYPE_DECL_uint_least32_t(...) uint_least32_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_1_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_2_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_3_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_4_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_5_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_6_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_7_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_8_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+#define CC_TYPE_DECL_9_uint_least32_t CC_TYPE_DECL_uint_least32_t,
+
+#define CC_MANGLE_TYPE_0_uint_least32_t U32L
+#define CC_MANGLE_TYPE_1_uint_least32_t U32L
+#define CC_MANGLE_TYPE_2_uint_least32_t U32L
+#define CC_MANGLE_TYPE_3_uint_least32_t U32L
+#define CC_MANGLE_TYPE_4_uint_least32_t U32L
+#define CC_MANGLE_TYPE_5_uint_least32_t U32L
+#define CC_MANGLE_TYPE_6_uint_least32_t U32L
+#define CC_MANGLE_TYPE_7_uint_least32_t U32L
+#define CC_MANGLE_TYPE_8_uint_least32_t U32L
+#define CC_MANGLE_TYPE_9_uint_least32_t U32L
+
+// MARK: uint_least64_t
+#define CC_TYPE_uint_least64_t(...) uint_least64_t
+#define CC_TYPE_0_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_1_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_2_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_3_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_4_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_5_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_6_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_7_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_8_uint_least64_t CC_TYPE_uint_least64_t,
+#define CC_TYPE_9_uint_least64_t CC_TYPE_uint_least64_t,
+
+#define CC_PRESERVE_CC_TYPE_uint_least64_t CC_TYPE_uint_least64_t
+
+#define CC_TYPE_DECL_uint_least64_t(...) uint_least64_t, __VA_ARGS__
+#define CC_TYPE_DECL_0_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_1_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_2_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_3_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_4_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_5_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_6_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_7_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_8_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+#define CC_TYPE_DECL_9_uint_least64_t CC_TYPE_DECL_uint_least64_t,
+
+#define CC_MANGLE_TYPE_0_uint_least64_t U64L
+#define CC_MANGLE_TYPE_1_uint_least64_t U64L
+#define CC_MANGLE_TYPE_2_uint_least64_t U64L
+#define CC_MANGLE_TYPE_3_uint_least64_t U64L
+#define CC_MANGLE_TYPE_4_uint_least64_t U64L
+#define CC_MANGLE_TYPE_5_uint_least64_t U64L
+#define CC_MANGLE_TYPE_6_uint_least64_t U64L
+#define CC_MANGLE_TYPE_7_uint_least64_t U64L
+#define CC_MANGLE_TYPE_8_uint_least64_t U64L
+#define CC_MANGLE_TYPE_9_uint_least64_t U64L
+
 // MARK: intmax_t
 #define CC_TYPE_intmax_t(...) intmax_t
 #define CC_TYPE_0_intmax_t CC_TYPE_intmax_t,
