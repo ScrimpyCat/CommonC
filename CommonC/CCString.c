@@ -97,19 +97,10 @@ CC_FLAG_ENUM(uint32_t) {
     CCStringMarkUnsafeBuffer = 0x8000000
 };
 
-enum {
-    CCStringTaggedMask = 3
-};
-
 static size_t CCStringGetLengthUTF8(const char *String);
 static CCChar CCStringGetCharacterUTF8(const char *String, size_t *Size);
 static size_t CCStringGetPreviousCodepointUTF8(const char *String, size_t Index);
 static size_t CCStringCopyCharacterUTF8(char *String, CCChar c);
-
-static CC_FORCE_INLINE _Bool CCStringIsTagged(CCString String)
-{
-    return String & CCStringTaggedMask;
-}
 
 static CC_FORCE_INLINE char *CCStringGetCharacters(CCStringInfo *String)
 {

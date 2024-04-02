@@ -416,4 +416,61 @@ void CCStringGetEnumerator(CCString String, CCEnumerator *Enumerator);
 ///For private use, use CCStringEnumerator* functions instead. Found in @b CCStringEnumerator.h
 CCChar CCStringEnumerator(CCString String, CCEnumeratorState *Enumerator, CCStringEnumeratorAction Action);
 
+/*!
+ * @brief Check whether a string is tagged.
+ * @param String The string to check.
+ * @return TRUE if the string is tagged, otherwise FALSE if it is not.
+ */
+static CC_FORCE_INLINE _Bool CCStringIsTagged(CCString String);
+
+#pragma mark -
+
+enum {
+    CCStringTaggedMask = 3
+};
+
+static CC_FORCE_INLINE _Bool CCStringIsTagged(CCString String)
+{
+    return String & CCStringTaggedMask;
+}
+
+#pragma mark -
+
+#define CC_TYPE_CCString(...) CCString
+#define CC_TYPE_0_CCString CC_TYPE_CCString,
+#define CC_TYPE_1_CCString CC_TYPE_CCString,
+#define CC_TYPE_2_CCString CC_TYPE_CCString,
+#define CC_TYPE_3_CCString CC_TYPE_CCString,
+#define CC_TYPE_4_CCString CC_TYPE_CCString,
+#define CC_TYPE_5_CCString CC_TYPE_CCString,
+#define CC_TYPE_6_CCString CC_TYPE_CCString,
+#define CC_TYPE_7_CCString CC_TYPE_CCString,
+#define CC_TYPE_8_CCString CC_TYPE_CCString,
+#define CC_TYPE_9_CCString CC_TYPE_CCString,
+
+#define CC_PRESERVE_CC_TYPE_CCString CC_TYPE_CCString
+
+#define CC_TYPE_DECL_CCString(...) CCString, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_1_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_2_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_3_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_4_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_5_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_6_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_7_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_8_CCString CC_TYPE_DECL_CCString,
+#define CC_TYPE_DECL_9_CCString CC_TYPE_DECL_CCString,
+
+#define CC_MANGLE_TYPE_0_CCString CCString
+#define CC_MANGLE_TYPE_1_CCString CCString
+#define CC_MANGLE_TYPE_2_CCString CCString
+#define CC_MANGLE_TYPE_3_CCString CCString
+#define CC_MANGLE_TYPE_4_CCString CCString
+#define CC_MANGLE_TYPE_5_CCString CCString
+#define CC_MANGLE_TYPE_6_CCString CCString
+#define CC_MANGLE_TYPE_7_CCString CCString
+#define CC_MANGLE_TYPE_8_CCString CCString
+#define CC_MANGLE_TYPE_9_CCString CCString
+
 #endif
