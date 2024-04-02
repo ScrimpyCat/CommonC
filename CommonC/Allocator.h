@@ -235,4 +235,41 @@ CFAllocatorRef CCDefaultCFAllocator(void); //Uses the CC_DEFAULT_ALLOCATOR
     .ptr = {0} \
 }.ptr)
 
+#define CC_TYPE_CCAllocatorType(...) CCAllocatorType
+#define CC_TYPE_0_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_1_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_2_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_3_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_4_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_5_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_6_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_7_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_8_CCAllocatorType CC_TYPE_CCAllocatorType,
+#define CC_TYPE_9_CCAllocatorType CC_TYPE_CCAllocatorType,
+
+#define CC_PRESERVE_CC_TYPE_CCAllocatorType CC_TYPE_CCAllocatorType
+
+#define CC_TYPE_DECL_CCAllocatorType(...) CCAllocatorType, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_1_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_2_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_3_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_4_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_5_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_6_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_7_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_8_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+#define CC_TYPE_DECL_9_CCAllocatorType CC_TYPE_DECL_CCAllocatorType,
+
+#define CC_MANGLE_TYPE_0_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_1_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_2_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_3_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_4_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_5_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_6_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_7_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_8_CCAllocatorType CCAllocatorType
+#define CC_MANGLE_TYPE_9_CCAllocatorType CCAllocatorType
+
 #endif
