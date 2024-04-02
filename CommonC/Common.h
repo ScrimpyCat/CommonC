@@ -96,6 +96,8 @@
 #include <CommonC/DataBuffer.h>
 #include <CommonC/DataContainer.h>
 
+#include <CommonC/Swap.h>
+
 #include <CommonC/BitSets.h>
 
 #include <CommonC/CCString.h>
