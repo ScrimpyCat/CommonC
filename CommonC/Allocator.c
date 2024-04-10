@@ -240,7 +240,7 @@ static void *DebugReallocator(CCDebugAllocatorInfo *Data, void *Ptr, size_t Size
 {
     void *NewPtr = realloc(Ptr, Size);
     
-    if (NewPtr) CCDebugAllocatorTrackReplaced(Ptr, NewPtr, *Data);
+    if ((NewPtr) || (Data)) CCDebugAllocatorTrackReplaced(Ptr, NewPtr, *Data);
     
     return NewPtr;
 }
@@ -298,12 +298,14 @@ static void *ZoneAllocator(CCMemoryZone Zone, size_t Size)
 
 static void *ZoneReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
 {
+    CCZoneMemoryHeader *Header = Ptr - sizeof(CCZoneMemoryHeader);
+    
+    if (!Zone) Zone = Header->zone;
+    
     const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
     CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
     
-    CCZoneMemoryHeader *Header = Ptr - sizeof(CCZoneMemoryHeader);
-    
-    if (Header->zone == Zone)
+    if ((!Zone) || (Header->zone == Zone))
     {
         if (Header->size <= Size) return Ptr;
         
@@ -430,7 +432,7 @@ void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     const size_t NewSize = Size + sizeof(CCAllocatorHeader);
     if (NewSize > Size)
     {
-        Ptr = Reallocator? Reallocator(Type.data, (CCAllocatorHeader*)Ptr - 1, NewSize) : NULL;
+        Ptr = Reallocator? Reallocator((Type.allocator == Index ? Type.data : NULL), (CCAllocatorHeader*)Ptr - 1, NewSize) : NULL;
         if (Ptr) Ptr = (CCAllocatorHeader*)Ptr + 1;
     }
     
