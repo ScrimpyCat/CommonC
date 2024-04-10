@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F3002B962B9C8A9000EFC5A0 /* Swap.h in Headers */ = {isa = PBXBuildFile; fileRef = F3002B952B9C8A9000EFC5A0 /* Swap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3002B972B9C8A9000EFC5A0 /* Swap.h in Headers */ = {isa = PBXBuildFile; fileRef = F3002B952B9C8A9000EFC5A0 /* Swap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30437941C62DEAA00388C74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026F17AC3FFD00153E85 /* Foundation.framework */; };
 		F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F304379D1C62DFA200388C74 /* CommonC-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30437A51C62DFA200388C74 /* CommonC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F304379B1C62DFA200388C74 /* CommonC.framework */; };
@@ -172,6 +174,10 @@
 		F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F312A0411DB83E0E0003BB24 /* ConcurrentGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9D01DBC6F7700792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32E09182BB895CA00383480 /* ReflectedTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F32E09172BB895CA00383480 /* ReflectedTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32E09192BB895CA00383480 /* ReflectedTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F32E09172BB895CA00383480 /* ReflectedTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F32E091B2BB8969500383480 /* ReflectedTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F32E091A2BB8969500383480 /* ReflectedTypes.c */; };
+		F32E091C2BB8969500383480 /* ReflectedTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F32E091A2BB8969500383480 /* ReflectedTypes.c */; };
 		F32FB02E1D07B364007E8E9B /* HashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F32FB02C1D07B364007E8E9B /* HashMap.c */; };
 		F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = F32FB02D1D07B364007E8E9B /* HashMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3300B13233A8B1C0068C378 /* BigIntTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3300B12233A8B1C0068C378 /* BigIntTests.m */; };
@@ -202,6 +208,7 @@
 		F3364FC725C40A92002B2378 /* MemoryTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3364FC625C40A92002B2378 /* MemoryTemplateTests.m */; };
 		F3364FC825C40D0E002B2378 /* Memory.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FC225B4249D002B2378 /* Memory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3364FC925C40D16002B2378 /* MemoryTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB825B33AF6002B2378 /* MemoryTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33AAE312B5C58F600448987 /* ReflectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AAE302B5C58F600448987 /* ReflectTests.m */; };
 		F341B74E29F29F6000CBA1EE /* BitsTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B74C29F29F6000CBA1EE /* BitsTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75029F2E46600CBA1EE /* Bits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75329F2E6C300CBA1EE /* BitsTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B74C29F29F6000CBA1EE /* BitsTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -225,6 +232,9 @@
 		F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */ = {isa = PBXBuildFile; fileRef = F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342B5BC25CF5314004BD31E /* DataMemoryTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F342B5BB25CF5314004BD31E /* DataMemoryTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F342B5BD25CF5314004BD31E /* DataMemoryTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F342B5BB25CF5314004BD31E /* DataMemoryTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F34397E32B8A212B00AEF700 /* ValidateMinimum.h in Headers */ = {isa = PBXBuildFile; fileRef = F34397E12B8A212B00AEF700 /* ValidateMinimum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F34397E42B8A212B00AEF700 /* ValidateMinimum.c in Sources */ = {isa = PBXBuildFile; fileRef = F34397E22B8A212B00AEF700 /* ValidateMinimum.c */; };
+		F34397E62B8A238E00AEF700 /* ValidateMinimum.h in Headers */ = {isa = PBXBuildFile; fileRef = F34397E12B8A212B00AEF700 /* ValidateMinimum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34C30EA222CAF1900F0E845 /* ConcurrentIndexBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */; };
 		F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */; };
@@ -409,6 +419,9 @@
 		F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E746071DC6079400F1F268 /* TaskQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E7460D1DC623AF00F1F268 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = F380180F1DC30DE500343E07 /* Task.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3E878F11DC49FE100C34838 /* TaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E878F01DC49FE100C34838 /* TaskTests.m */; };
+		F3ED7E8B2B404C6D00E66F8C /* Reflect.h in Headers */ = {isa = PBXBuildFile; fileRef = F3ED7E892B404C6D00E66F8C /* Reflect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3ED7E8C2B404C6D00E66F8C /* Reflect.c in Sources */ = {isa = PBXBuildFile; fileRef = F3ED7E8A2B404C6D00E66F8C /* Reflect.c */; };
+		F3ED7E8D2B404D5400E66F8C /* Reflect.h in Headers */ = {isa = PBXBuildFile; fileRef = F3ED7E892B404C6D00E66F8C /* Reflect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3F3F5AD1DBD4C98000A0FD9 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3F41A332333525D0068A135 /* ListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A322333525D0068A135 /* ListTests.m */; };
 		F3F41A3523337CE80068A135 /* ContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F41A3423337CE80068A135 /* ContainerTests.m */; };
@@ -436,6 +449,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F3002B952B9C8A9000EFC5A0 /* Swap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swap.h; sourceTree = "<group>"; };
 		F304379B1C62DFA200388C74 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F304379D1C62DFA200388C74 /* CommonC-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CommonC-iOS.h"; sourceTree = "<group>"; };
 		F304379F1C62DFA200388C74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -492,6 +506,8 @@
 		F328728821E8864300B1A584 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsecutiveIDGeneratorTests.m; sourceTree = "<group>"; };
 		F32BC9CF1DBC6F3000792524 /* ConcurrentGarbageCollectorInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentGarbageCollectorInterface.h; sourceTree = "<group>"; };
+		F32E09172BB895CA00383480 /* ReflectedTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReflectedTypes.h; sourceTree = "<group>"; };
+		F32E091A2BB8969500383480 /* ReflectedTypes.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ReflectedTypes.c; sourceTree = "<group>"; };
 		F32FB02C1D07B364007E8E9B /* HashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMap.c; sourceTree = "<group>"; };
 		F32FB02D1D07B364007E8E9B /* HashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMap.h; sourceTree = "<group>"; };
 		F3300B12233A8B1C0068C378 /* BigIntTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigIntTests.m; sourceTree = "<group>"; };
@@ -512,6 +528,7 @@
 		F3364FB825B33AF6002B2378 /* MemoryTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryTemplate.h; sourceTree = "<group>"; };
 		F3364FC225B4249D002B2378 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
 		F3364FC625C40A92002B2378 /* MemoryTemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryTemplateTests.m; sourceTree = "<group>"; };
+		F33AAE302B5C58F600448987 /* ReflectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReflectTests.m; sourceTree = "<group>"; };
 		F341B74C29F29F6000CBA1EE /* BitsTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitsTemplate.h; sourceTree = "<group>"; };
 		F341B75029F2E46600CBA1EE /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
 		F341B75129F2E64800CBA1EE /* BitSets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitSets.h; sourceTree = "<group>"; };
@@ -526,6 +543,8 @@
 		F342191A1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashMapSeparateChainingArrayDataOrientedAll.c; sourceTree = "<group>"; };
 		F342191B1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashMapSeparateChainingArrayDataOrientedAll.h; sourceTree = "<group>"; };
 		F342B5BB25CF5314004BD31E /* DataMemoryTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataMemoryTemplate.h; sourceTree = "<group>"; };
+		F34397E12B8A212B00AEF700 /* ValidateMinimum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValidateMinimum.h; sourceTree = "<group>"; };
+		F34397E22B8A212B00AEF700 /* ValidateMinimum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ValidateMinimum.c; sourceTree = "<group>"; };
 		F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIndexBuffer.h; sourceTree = "<group>"; };
 		F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIndexBuffer.c; sourceTree = "<group>"; };
 		F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIndexBuffer.m; sourceTree = "<group>"; };
@@ -703,6 +722,8 @@
 		F3E746071DC6079400F1F268 /* TaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskQueue.h; sourceTree = "<group>"; };
 		F3E7460A1DC6239800F1F268 /* TaskQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskQueueTests.m; sourceTree = "<group>"; };
 		F3E878F01DC49FE100C34838 /* TaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTests.m; sourceTree = "<group>"; };
+		F3ED7E892B404C6D00E66F8C /* Reflect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflect.h; sourceTree = "<group>"; };
+		F3ED7E8A2B404C6D00E66F8C /* Reflect.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Reflect.c; sourceTree = "<group>"; };
 		F3F41A322333525D0068A135 /* ListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListTests.m; sourceTree = "<group>"; };
 		F3F41A3423337CE80068A135 /* ContainerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContainerTests.m; sourceTree = "<group>"; };
 		F3F9B60D17BA4B4100D50297 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -890,6 +911,15 @@
 			name = "Hash Map Implementations";
 			sourceTree = "<group>";
 		};
+		F34397E52B8A236000AEF700 /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				F34397E12B8A212B00AEF700 /* ValidateMinimum.h */,
+				F34397E22B8A212B00AEF700 /* ValidateMinimum.c */,
+			);
+			name = Validators;
+			sourceTree = "<group>";
+		};
 		F34C30DF222C3ED000F0E845 /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1057,6 +1087,7 @@
 				F359D0231C132B800028B86B /* Buffer.h */,
 				F359D01B1C12B13E0028B86B /* Data.h */,
 				F359D01A1C12B13E0028B86B /* Data.c */,
+				F3002B952B9C8A9000EFC5A0 /* Swap.h */,
 				F3364FC525C408A8002B2378 /* Memory */,
 				F359D01C1C12B13E0028B86B /* DataInterface.h */,
 				F359D01D1C12B13E0028B86B /* DataTypes.h */,
@@ -1271,6 +1302,7 @@
 			children = (
 				F394001C2340E39B00EE826D /* Enumerable.h */,
 				F394001E23410ECC00EE826D /* Enumerable.c */,
+				F3ED7E882B404B5E00E66F8C /* Reflection */,
 				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
@@ -1293,6 +1325,7 @@
 		F3AE99361A6D508500212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F33AAE302B5C58F600448987 /* ReflectTests.m */,
 				F3897D5D1DD1E743008D6C1D /* PathTests.m */,
 				F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */,
 				F39778FC1DCA158E006E24B7 /* FileSystemTests.m */,
@@ -1430,6 +1463,18 @@
 			name = Collections;
 			sourceTree = "<group>";
 		};
+		F3ED7E882B404B5E00E66F8C /* Reflection */ = {
+			isa = PBXGroup;
+			children = (
+				F3ED7E892B404C6D00E66F8C /* Reflect.h */,
+				F3ED7E8A2B404C6D00E66F8C /* Reflect.c */,
+				F32E09172BB895CA00383480 /* ReflectedTypes.h */,
+				F32E091A2BB8969500383480 /* ReflectedTypes.c */,
+				F34397E52B8A236000AEF700 /* Validators */,
+			);
+			name = Reflection;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1459,6 +1504,7 @@
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */,
+				F3ED7E8D2B404D5400E66F8C /* Reflect.h in Headers */,
 				F3364FB525B232DA002B2378 /* Generic3.h in Headers */,
 				F30437FD1C62E22600388C74 /* MemoryAllocation.h in Headers */,
 				F32BC9CE1DBA366D00792524 /* ConcurrentGarbageCollector.h in Headers */,
@@ -1516,6 +1562,7 @@
 				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
 				F341B75329F2E6C300CBA1EE /* BitsTemplate.h in Headers */,
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
+				F34397E62B8A238E00AEF700 /* ValidateMinimum.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
 				F3364F7C25907712002B2378 /* Extrema.h in Headers */,
 				F3364FC925C40D16002B2378 /* MemoryTemplate.h in Headers */,
@@ -1524,7 +1571,9 @@
 				F328728121E881D300B1A584 /* Base.h in Headers */,
 				F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
+				F3002B972B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
+				F32E09192BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
 				F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */,
 				F30D804023A6979C0011A14D /* Container.h in Headers */,
@@ -1563,6 +1612,7 @@
 				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
+				F34397E32B8A212B00AEF700 /* ValidateMinimum.h in Headers */,
 				F3364FAC25A1B734002B2378 /* Generic2.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
 				F3BF12E021D8E363000385C6 /* ConsecutiveIDGenerator.h in Headers */,
@@ -1573,6 +1623,7 @@
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
+				F3ED7E8B2B404C6D00E66F8C /* Reflect.h in Headers */,
 				F3364FB425B232D9002B2378 /* Generic3.h in Headers */,
 				F36F82F41D0F8FA000193B08 /* HashMapEnumerator.h in Headers */,
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
@@ -1638,7 +1689,9 @@
 				F3364F7B25907712002B2378 /* Extrema.h in Headers */,
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
+				F3002B962B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
+				F32E09182BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
 				F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */,
@@ -1851,6 +1904,7 @@
 				F30437FA1C62E21800388C74 /* Allocator.c in Sources */,
 				F30437EC1C62E1C500388C74 /* SystemPath.m in Sources */,
 				F36F83061D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
+				F32E091C2BB8969500383480 /* ReflectedTypes.c in Sources */,
 				F30437E31C62E18600388C74 /* File.c in Sources */,
 				F35767E823FDD4F900CEB76F /* Random.c in Sources */,
 				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
@@ -1923,6 +1977,7 @@
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
 				F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */,
 				F394001F23410ECC00EE826D /* Enumerable.c in Sources */,
+				F32E091B2BB8969500383480 /* ReflectedTypes.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
 				F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
@@ -1947,7 +2002,9 @@
 				F30C846D1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */,
 				F353DD7B17B14F9800D1674C /* File.c in Sources */,
 				F306400B184BAA8700122BE9 /* SystemInfo.c in Sources */,
+				F3ED7E8C2B404C6D00E66F8C /* Reflect.c in Sources */,
 				F358D5FB1C0AA6C400FC10F1 /* FileHandle.c in Sources */,
+				F34397E42B8A212B00AEF700 /* ValidateMinimum.c in Sources */,
 				F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */,
 				F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */,
 			);
@@ -1980,6 +2037,7 @@
 				F3BC6A361877A82700934291 /* Vectorized3DSSE2Tests.m in Sources */,
 				F37A31E828F325DE007B4209 /* ConcurrentPoolTests.m in Sources */,
 				F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */,
+				F33AAE312B5C58F600448987 /* ReflectTests.m in Sources */,
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
