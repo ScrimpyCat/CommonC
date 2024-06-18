@@ -369,4 +369,43 @@ static inline void CCArrayGetEnumerable(CCArray Array, CCEnumerable *Enumerable)
     *Enumerable = CCEnumerableCreate(Array->data, Array->size, Array->count);
 }
 
+#pragma mark -
+
+#define CC_TYPE_CCArray(...) CCArray
+#define CC_TYPE_0_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_1_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_2_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_3_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_4_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_5_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_6_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_7_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_8_CCArray CC_TYPE_CCArray,
+#define CC_TYPE_9_CCArray CC_TYPE_CCArray,
+
+#define CC_PRESERVE_CC_TYPE_CCArray CC_TYPE_CCArray
+
+#define CC_TYPE_DECL_CCArray(...) CCArray, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_1_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_2_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_3_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_4_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_5_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_6_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_7_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_8_CCArray CC_TYPE_DECL_CCArray,
+#define CC_TYPE_DECL_9_CCArray CC_TYPE_DECL_CCArray,
+
+#define CC_MANGLE_TYPE_0_CCArray CCArray
+#define CC_MANGLE_TYPE_1_CCArray CCArray
+#define CC_MANGLE_TYPE_2_CCArray CCArray
+#define CC_MANGLE_TYPE_3_CCArray CCArray
+#define CC_MANGLE_TYPE_4_CCArray CCArray
+#define CC_MANGLE_TYPE_5_CCArray CCArray
+#define CC_MANGLE_TYPE_6_CCArray CCArray
+#define CC_MANGLE_TYPE_7_CCArray CCArray
+#define CC_MANGLE_TYPE_8_CCArray CCArray
+#define CC_MANGLE_TYPE_9_CCArray CCArray
+
 #endif
