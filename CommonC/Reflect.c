@@ -88,21 +88,730 @@ CCReflectType CCReflectValidate(const CCReflectValidator *Validator, void *Data,
     return BaseType;
 }
 
+#pragma mark - Print
+
+#define CC_REFLECT_PRINT_LEVELS_MAX 20
+
+static const char * const Fallback_uint8_t = "uint8_t";
+static const char * const Fallback_uint16_t = "uint16_t";
+static const char * const Fallback_uint32_t = "uint32_t";
+static const char * const Fallback_uint64_t = "uint64_t";
+
+static const char * const Fallback_unsigned_char = "unsigned char";
+static const char * const Fallback_unsigned_short = "unsigned short";
+static const char * const Fallback_unsigned_int = "unsigned int";
+static const char * const Fallback_unsigned_long = "unsigned long";
+static const char * const Fallback_unsigned_long_long = "unsigned long long";
+
+static const char * const Fallback_float = "float";
+static const char * const Fallback_long_double = "long double";
+
+const char *(*CCReflectTypeNameCallback)(CCReflectType Type) = CCReflectTypeNameDefaults;
+
+const char *CCReflectTypeName(CCReflectType Type)
+{
+    CCAssertLog(Type, "Type must not be null");
+    
+    const char *Name = CCReflectTypeNameCallback(Type);
+    
+    if (Name) return Name;
+    
+    switch (*(const CCReflectTypeID*)Type)
+    {
+        case CCReflectTypeInteger:
+            if (((const CCReflectInteger*)Type)->fixed)
+            {
+                switch (((const CCReflectInteger*)Type)->size)
+                {
+                    case sizeof(uint8_t):
+                        return Fallback_uint8_t + ((const CCReflectInteger*)Type)->sign;
+                        
+                    case sizeof(uint16_t):
+                        return Fallback_uint16_t + ((const CCReflectInteger*)Type)->sign;
+                        
+                    case sizeof(uint32_t):
+                        return Fallback_uint32_t + ((const CCReflectInteger*)Type)->sign;
+                        
+                    case sizeof(uint64_t):
+                        return Fallback_uint64_t + ((const CCReflectInteger*)Type)->sign;
+                }
+            }
+            
+            else
+            {
+                switch (((const CCReflectInteger*)Type)->size)
+                {
+                    case sizeof(unsigned char):
+                        return Fallback_unsigned_char + (((const CCReflectInteger*)Type)->sign * 9);
+
+#if USHRT_MAX > UCHAR_MAX
+                    case sizeof(unsigned short):
+                        return Fallback_unsigned_short + (((const CCReflectInteger*)Type)->sign * 9);
+#endif
+                        
+#if UINT_MAX > USHRT_MAX
+                    case sizeof(unsigned int):
+                        return Fallback_unsigned_int + (((const CCReflectInteger*)Type)->sign * 9);
+#endif
+                        
+#if ULONG_MAX > UINT_MAX
+                    case sizeof(unsigned long):
+                        return Fallback_unsigned_long + (((const CCReflectInteger*)Type)->sign * 9);
+#endif
+                        
+#if ULLONG_MAX > ULONG_MAX
+                    case sizeof(unsigned long long):
+                        return Fallback_unsigned_long_long + (((const CCReflectInteger*)Type)->sign * 9);
+#endif
+                }
+            }
+            break;
+            
+        case CCReflectTypeFloat:
+            switch (((const CCReflectFloat*)Type)->size)
+            {
+                case sizeof(float):
+                    return Fallback_float;
+
+#if DBL_MAX_EXP > FLT_MAX_EXP
+                case sizeof(double):
+                    return Fallback_long_double + 5;
+#endif
+                    
+#if LDBL_MAX_EXP > DBL_MAX_EXP
+                case sizeof(long double):
+                    return Fallback_long_double;
+#endif
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return NULL;
+}
+
+void CCReflectPrintIndent(FILE *File, const char *Indentation, size_t IndentCount, _Bool *ShouldIndent)
+{
+    if (*ShouldIndent)
+    {
+        for (size_t Loop = 0; Loop < IndentCount; Loop++)
+        {
+            fprintf(File, "%s", Indentation);
+        }
+        
+        *ShouldIndent = FALSE;
+    }
+}
+
+void CCReflectDetailedPrintType(FILE *File, size_t Levels, CCReflectType Type, const char *Indentation, size_t IndentCount, _Bool *ShouldIndent)
+{
+    CCAssertLog(Type, "Type must not be null");
+    
+    if (Levels > CC_REFLECT_PRINT_LEVELS_MAX) return;
+    
+    const char *Name = CCReflectTypeName(Type);
+    
+    switch (*(const CCReflectTypeID*)Type)
+    {
+        case CCReflectTypePointer:
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+                CCReflectDetailedPrintType(File, Levels, ((const CCReflectPointer*)Type)->type, Indentation, IndentCount, ShouldIndent);
+                fprintf(File, "*");
+            }
+            break;
+            
+        case CCReflectTypeInteger:
+#if CC_HARDWARE_ENDIAN_LITTLE
+            if (((const CCReflectInteger*)Type)->endian == CCReflectEndianBig)
+            {
+                fprintf(File, "big ");
+            }
+#elif CC_HARDWARE_ENDIAN_BIG
+            if (((const CCReflectInteger*)Type)->endian == CCReflectEndianLittle)
+            {
+                fprintf(File, "little ");
+            }
+#else
+#error Unknown native endianness
+#endif
+            
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstring-plus-int"
+#pragma clang diagnostic ignored "-Wformat-security"
+                fprintf(File, "uint" + ((const CCReflectInteger*)Type)->sign);
+#pragma clang diagnostic pop
+                
+                fprintf(File, "%zu", ((const CCReflectInteger*)Type)->size * 8);
+                
+                if (((const CCReflectInteger*)Type)->fixed)
+                {
+                    fprintf(File, "_nonfixed");
+                }
+            }
+            break;
+            
+        case CCReflectTypeFloat:
+#if CC_HARDWARE_ENDIAN_LITTLE
+            if (((const CCReflectFloat*)Type)->endian == CCReflectEndianBig)
+            {
+                fprintf(File, "big ");
+            }
+#elif CC_HARDWARE_ENDIAN_BIG
+            if (((const CCReflectFloat*)Type)->endian == CCReflectEndianLittle)
+            {
+                fprintf(File, "little ");
+            }
+#else
+#error Unknown native endianness
+#endif
+            
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstring-plus-int"
+#pragma clang diagnostic ignored "-Wformat-security"
+                fprintf(File, "float" + ((const CCReflectInteger*)Type)->sign);
+#pragma clang diagnostic pop
+                
+                fprintf(File, "%zu", ((const CCReflectInteger*)Type)->size * 8);
+            }
+            break;
+            
+        case CCReflectTypeStruct:
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else if (Levels < CC_REFLECT_PRINT_LEVELS_MAX)
+            {
+                fprintf(File, "struct {\n");
+                
+                for (size_t Loop = 0, Count = ((const CCReflectStruct*)Type)->count; Loop < Count; Loop++)
+                {
+                    CCReflectPrintIndent(File, Indentation, IndentCount + 1, &(_Bool){ TRUE });
+                    
+                    CCReflectDetailedPrintType(File, Levels + 1, ((const CCReflectStruct*)Type)->fields[Loop].type, Indentation, IndentCount + 1, &(_Bool){ FALSE });
+                    
+                    if (((const CCReflectStruct*)Type)->fields[Loop].name)
+                    {
+                        CC_STRING_TEMP_BUFFER(Buffer, ((const CCReflectStruct*)Type)->fields[Loop].name)
+                        {
+                            fprintf(File, " %s;\n", Buffer);
+                        }
+                    }
+                    
+                    else
+                    {
+                        fprintf(File, " ;\n");
+                    }
+                }
+                
+                CCReflectPrintIndent(File, Indentation, IndentCount, &(_Bool){ TRUE });
+                
+                fprintf(File, "}");
+            }
+            
+            else fprintf(File, "struct");
+            break;
+            
+        case CCReflectTypeOpaque:
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+                fprintf(File, "?");
+            }
+            break;
+            
+        case CCReflectTypeArray:
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+                CCReflectType ElementType = ((const CCReflectArray*)Type)->type;
+                while (*(const CCReflectTypeID*)ElementType == CCReflectTypeArray) ElementType = ((const CCReflectArray*)ElementType)->type;
+                
+                CCReflectDetailedPrintType(File, Levels, ElementType, Indentation, IndentCount, ShouldIndent);
+                
+                ElementType = Type;
+                do {
+                    fprintf(File, "[%zu]", ((const CCReflectArray*)ElementType)->count);
+                    ElementType = ((const CCReflectArray*)ElementType)->type;
+                } while (*(const CCReflectTypeID*)ElementType == CCReflectTypeArray);
+            }
+            break;
+            
+        case CCReflectTypeValidator:
+            if (Name)
+            {
+                fprintf(File, "%s(", Name);
+                
+                CCReflectDetailedPrintType(File, Levels, ((const CCReflectValidator*)Type)->type, Indentation, IndentCount, ShouldIndent);
+                
+                fprintf(File, ")");
+            }
+            
+            else
+            {
+                CCReflectDetailedPrintType(File, Levels, ((const CCReflectValidator*)Type)->type, Indentation, IndentCount, ShouldIndent);
+            }
+            break;
+            
+        case CCReflectTypeEnumerable:
+            if (Name)
+            {
+                fprintf(File, "%s", Name);
+            }
+            
+            else
+            {
+                fprintf(File, "CCEnumerable(");
+                
+                CCReflectDetailedPrintType(File, Levels, ((const CCReflectEnumerable*)Type)->type, Indentation, IndentCount, ShouldIndent);
+                
+                fprintf(File, ")");
+                
+            }
+            break;
+    }
+}
+
+void CCReflectPrintType(CCReflectType Type)
+{
+    CCReflectDetailedPrintType(stdout, 0, Type, "\t", 0, &(_Bool){ TRUE });
+    printf("\n");
+}
+
+void CCReflectPrintHandler(CCReflectType Type, const void *Data, CCReflectPrintHandlerArgs *Args)
+{
+    CCReflectDetailedPrint(Args->file, Args->levels, Type, Data, Args->makeCompoundLiteral, Args->indentation, Args->indentCount, Args->shouldIndent, Args->zone);
+}
+
+void CCReflectDetailedPrint(FILE *File, size_t Levels, CCReflectType Type, const void *Data, _Bool MakeCompoundLiteral, const char *Indentation, size_t IndentCount, _Bool *ShouldIndent, CCMemoryZone Zone)
+{
+    CCAssertLog(Type, "Type must not be null");
+    CCAssertLog(Data, "Data must not be null");
+    
+    if (MakeCompoundLiteral)
+    {
+        CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+        
+        fprintf(File, "(");
+        
+        CCReflectDetailedPrintType(File, Levels, Type, Indentation, IndentCount, ShouldIndent);
+        
+        CCReflectPrintIndent(File, Indentation, IndentCount++, ShouldIndent);
+        
+        fprintf(File, "){\n");
+        
+        *ShouldIndent = TRUE;
+    }
+    
+    switch (*(const CCReflectTypeID*)Type)
+    {
+        case CCReflectTypePointer:
+            if (*(void**)Data)
+            {
+                if ((Levels < CC_REFLECT_PRINT_LEVELS_MAX) && (((const CCReflectPointer*)Type)->type != &CC_REFLECT(void)))
+                {
+                    CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                    
+                    fprintf(File, "&");
+                    CCReflectDetailedPrint(File, Levels + 1, ((const CCReflectPointer*)Type)->type, *(void**)Data, TRUE, Indentation, IndentCount, ShouldIndent, Zone);
+                }
+                
+                else fprintf(File, "(void*)%p", *(void**)Data);
+            }
+            
+            else fprintf(File, "NULL");
+            break;
+            
+        case CCReflectTypeInteger:
+        {
+            CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+            
+            const size_t Size = ((const CCReflectInteger*)Type)->size;
+            
+            size_t Invert, Start, PrintStart, PrintInvert;
+#if CC_HARDWARE_ENDIAN_LITTLE
+            switch (((const CCReflectInteger*)Type)->endian)
+            {
+                case CCReflectEndianNative:
+                case CCReflectEndianLittle:
+                    Invert = 1;
+                    Start = 0;
+                    PrintInvert = -1;
+                    PrintStart = Size - 1;
+                    break;
+                    
+                case CCReflectEndianBig:
+                    Invert = -1;
+                    Start = Size - 1;
+                    PrintInvert = 1;
+                    PrintStart = 0;
+                    break;
+            }
+#elif CC_HARDWARE_ENDIAN_BIG
+            switch (((const CCReflectInteger*)Type)->endian)
+            {
+                case CCReflectEndianNative:
+                case CCReflectEndianBig:
+                    Invert = 1;
+                    Start = 0;
+                    PrintInvert = 1;
+                    PrintStart = 0;
+                    break;
+                    
+                case CCReflectEndianLittle:
+                    Invert = -1;
+                    Start = Size - 1;
+                    PrintInvert = -1;
+                    PrintStart = Size - 1;
+                    break;
+            }
+#else
+#error Unknown native endianness
+#endif
+            
+            if (((const CCReflectInteger*)Type)->sign)
+            {
+                if (Size <= sizeof(intmax_t))
+                {
+                    const uint8_t Sign = ((const uint8_t*)Data)[Start + (Invert * (Size - 1))] >> 7;
+                    
+                    intmax_t Value = Sign ? -1 : 0;
+                    
+                    for (size_t Loop = 0; Loop < Size; Loop++)
+                    {
+                        ((uint8_t*)&Value)[Loop] = ((const uint8_t*)Data)[Start + (Invert * Loop)];
+                    }
+                    
+                    fprintf(File, "%" PRIdMAX, Value);
+                    
+                    break;
+                }
+            }
+            
+            else
+            {
+                if (Size <= sizeof(uintmax_t))
+                {
+                    uintmax_t Value = 0;
+                    
+                    for (size_t Loop = 0; Loop < Size; Loop++)
+                    {
+                        ((uint8_t*)&Value)[Loop] = ((const uint8_t*)Data)[Start + (Invert * Loop)];
+                    }
+                    
+                    fprintf(File, "%" PRIuMAX, Value);
+                    
+                    break;
+                }
+            }
+            
+            fprintf(File, "0x");
+            
+            for (size_t Loop = 0; Loop < Size; Loop++)
+            {
+                fprintf(File, "%.2" PRIx8, ((const uint8_t*)Data)[PrintStart + (PrintInvert * Loop)]);
+            }
+            
+            break;
+        }
+            
+        case CCReflectTypeFloat:
+        {
+            CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+            
+            const size_t Size = ((const CCReflectFloat*)Type)->size;
+            
+            size_t Invert, Start, PrintStart, PrintInvert;
+#if CC_HARDWARE_ENDIAN_LITTLE
+            switch (((const CCReflectFloat*)Type)->endian)
+            {
+                case CCReflectEndianNative:
+                case CCReflectEndianLittle:
+                    Invert = 1;
+                    Start = 0;
+                    PrintInvert = -1;
+                    PrintStart = Size - 1;
+                    break;
+                    
+                case CCReflectEndianBig:
+                    Invert = -1;
+                    Start = Size - 1;
+                    PrintInvert = 1;
+                    PrintStart = 0;
+                    break;
+            }
+#elif CC_HARDWARE_ENDIAN_BIG
+            switch (((const CCReflectFloat*)Type)->endian)
+            {
+                case CCReflectEndianNative:
+                case CCReflectEndianBig:
+                    Invert = 1;
+                    Start = 0;
+                    PrintInvert = 1;
+                    PrintStart = 0;
+                    break;
+                    
+                case CCReflectEndianLittle:
+                    Invert = -1;
+                    Start = Size - 1;
+                    PrintInvert = -1;
+                    PrintStart = Size - 1;
+                    break;
+            }
+#else
+#error Unknown native endianness
+#endif
+            
+            switch (Size)
+            {
+                case sizeof(float):
+                {
+                    float Value;
+                    
+                    for (size_t Loop = 0; Loop < Size; Loop++)
+                    {
+                        ((uint8_t*)&Value)[Loop] = ((const uint8_t*)Data)[Start + (Invert * Loop)];
+                    }
+                    
+                    fprintf(File, "%f", Value);
+                    break;
+                }
+                    
+                case sizeof(double):
+                {
+                    double Value;
+                    
+                    for (size_t Loop = 0; Loop < Size; Loop++)
+                    {
+                        ((uint8_t*)&Value)[Loop] = ((const uint8_t*)Data)[Start + (Invert * Loop)];
+                    }
+                    
+                    fprintf(File, "%f", Value);
+                    break;
+                }
+                    
+                default:
+                    fprintf(File, "0x");
+                    
+                    for (size_t Loop = 0; Loop < Size; Loop++)
+                    {
+                        fprintf(File, "%.2" PRIx8, ((const uint8_t*)Data)[PrintStart + (PrintInvert * Loop)]);
+                    }
+                    break;
+            }
+            
+            break;
+        }
+            
+        case CCReflectTypeStruct:
+            if (!MakeCompoundLiteral)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount++, ShouldIndent);
+                fprintf(File, "{\n");
+                
+                *ShouldIndent = TRUE;
+            }
+            
+            for (size_t Loop = 0, Count = ((const CCReflectStruct*)Type)->count; Loop < Count; Loop++)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                
+                if (((const CCReflectStruct*)Type)->fields[Loop].name)
+                {
+                    CC_STRING_TEMP_BUFFER(Buffer, ((const CCReflectStruct*)Type)->fields[Loop].name)
+                    {
+                        fprintf(File, ".%s = ", Buffer);
+                    }
+                }
+                
+                CCReflectDetailedPrint(File, Levels, ((const CCReflectStruct*)Type)->fields[Loop].type, Data + ((const CCReflectStruct*)Type)->fields[Loop].offset, FALSE, Indentation, IndentCount, ShouldIndent, Zone);
+                
+                if ((Loop + 1) < Count) fprintf(File, ",\n");
+                
+                *ShouldIndent = TRUE;
+            }
+            
+            if (!MakeCompoundLiteral)
+            {
+                fprintf(File, "\n");
+                CCReflectPrintIndent(File, Indentation, --IndentCount, ShouldIndent);
+                fprintf(File, "}");
+            }
+            break;
+            
+        case CCReflectTypeOpaque:
+            ((const CCReflectOpaque*)Type)->map(Type, Data, &(CCReflectPrintHandlerArgs){
+                .file = File,
+                .levels = Levels + 1,
+                .makeCompoundLiteral = MakeCompoundLiteral,
+                .indentation = Indentation,
+                .indentCount = IndentCount,
+                .shouldIndent = ShouldIndent,
+                .zone = Zone
+            }, (CCReflectTypeHandler)CCReflectPrintHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            break;
+            
+        case CCReflectTypeArray:
+        {
+            if (!MakeCompoundLiteral)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                fprintf(File, "{ ");
+            }
+            
+            CCReflectType ElementType = ((const CCReflectArray*)Type)->type;
+            const size_t ElementSize = CCReflectTypeSize(ElementType);
+            
+            for (size_t Loop = 0, Count = ((const CCReflectArray*)Type)->count; Loop < Count; Loop++)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                
+                CCReflectDetailedPrint(File, Levels, ElementType, Data + (ElementSize * Loop), FALSE, Indentation, IndentCount, ShouldIndent, Zone);
+                
+                if ((Loop + 1) < Count)
+                {
+                    if (((Loop + 1) % 16) == 0)
+                    {
+                        fprintf(File, ",\n");
+                        *ShouldIndent = TRUE;
+                    }
+                    
+                    else
+                    {
+                        fprintf(File, ", ");
+                    }
+                }
+            }
+            
+            if (!MakeCompoundLiteral)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                fprintf(File, " }");
+            }
+            
+            break;
+        }
+            
+        case CCReflectTypeValidator:
+            CCReflectDetailedPrint(File, Levels, ((const CCReflectValidator*)Type)->type, Data, FALSE, Indentation, IndentCount, ShouldIndent, Zone);
+            break;
+            
+        case CCReflectTypeEnumerable:
+        {
+            if (!MakeCompoundLiteral)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                fprintf(File, "{ ");
+            }
+            
+            CCEnumerable Enumerable = *(const CCEnumerable*)Data;
+            
+            CCReflectType ElementType = ((const CCReflectEnumerable*)Type)->type;
+            
+            for (const void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable))
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                
+                CCReflectDetailedPrint(File, Levels + 1, ElementType, Element, FALSE, Indentation, IndentCount, ShouldIndent, Zone);
+                
+                fprintf(File, ",\n");
+                *ShouldIndent = TRUE;
+            }
+            
+            if (!MakeCompoundLiteral)
+            {
+                CCReflectPrintIndent(File, Indentation, IndentCount, ShouldIndent);
+                fprintf(File, " }");
+            }
+            
+            break;
+        }
+    }
+    
+    if (MakeCompoundLiteral)
+    {
+        fprintf(File, "\n");
+        
+        *ShouldIndent = TRUE;
+        
+        CCReflectPrintIndent(File, Indentation, IndentCount - 1, ShouldIndent);
+        
+        fprintf(File, "}");
+    }
+}
+
+void CCReflectPrint(CCReflectType Type, const void *Data)
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 1024);
+    
+    CCReflectDetailedPrint(stdout, 0, Type, Data, TRUE, "\t", 0, &(_Bool){ TRUE }, Zone);
+    printf("\n");
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
 #pragma mark - Copy
+
+typedef struct {
+    const CCReflectCopyHandlerArgs *args;
+    CCReflectAssignment assignment;
+} CCReflectSetHandlerArgs;
+
+static void CCReflectSetHandler(CCReflectType Type, const void *Data, CCReflectSetHandlerArgs *Args)
+{
+    CCReflectCopy(Type, Args->args->dest, Data, Args->args->zone, Args->args->allocator, Args->assignment, Args->args->validate);
+}
 
 void CCReflectTransferHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentTransfer, Args->validate);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentTransfer }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
 }
 
 void CCReflectShareHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentShare, Args->validate);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentShare }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
 }
+
+static void CCReflectDestroy(CCReflectType Type, void *Data);
 
 void CCReflectCopyHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentCopy, Args->validate);
+    void *CopiedData = CCMemoryZoneAllocate(Args->zone, CCReflectTypeSize(Type));
+    CCReflectCopy(Type, CopiedData, Data, Args->zone, Args->allocator, CCReflectAssignmentCopy, Args->validate);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, CopiedData, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentCopy }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
+    
+    CCReflectDestroy(Type, CopiedData);
 }
 
 void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectAssignment Assignment, _Bool Validate)
@@ -118,36 +827,58 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
             
             _Static_assert(CCReflectAssignmentTransfer == 0, "Expects transfer to be 0");
             
-            if (Assignment)
+            if ((Assignment) && (*(void**)Data))
             {
-                switch (((const CCReflectPointer*)Type)->ownership)
-                {
-                    case CCReflectOwnershipWeak:
-                        break;
-                        
-                    case CCReflectOwnershipRetain:
-                        if (Assignment == CCReflectAssignmentShare)
-                        {
+                if (((const CCReflectPointer*)Type)->type == &CC_REFLECT(void))
+                {   
+                    switch (((const CCReflectPointer*)Type)->ownership)
+                    {
+                        case CCReflectOwnershipWeak:
+                            break;
+                            
+                        case CCReflectOwnershipRetain:
                             CCRetain(*(void**)Data);
+                            break;
+                            
+                        case CCReflectOwnershipTransfer:
+                            break;
+                    }
+                }
+                
+                else
+                {
+                    switch (((const CCReflectPointer*)Type)->ownership)
+                    {
+                        case CCReflectOwnershipWeak:
+                            if (Assignment != CCReflectAssignmentCopy)
+                            {
+                                break;
+                            }
+                            
+                        case CCReflectOwnershipRetain:
+                            if (Assignment == CCReflectAssignmentShare)
+                            {
+                                CCRetain(*(void**)Data);
+                                
+                                break;
+                            }
+                            
+                        case CCReflectOwnershipTransfer:
+                        {
+                            CCAllocatorType DataAllocator = Allocator;
+                            
+                            if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
+                            {
+                                if (((const CCReflectDynamicPointer*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) DataAllocator = ((const CCReflectDynamicPointer*)Type)->allocator;
+                            }
+                            
+                            void *Ptr = CCMalloc(Allocator, CCReflectTypeSize(((const CCReflectPointer*)Type)->type), NULL, CC_DEFAULT_ERROR_CALLBACK);
+                            CCReflectCopy(((const CCReflectPointer*)Type)->type, Ptr, *(void**)Data, Zone, Allocator, Assignment, Validate);
+                            
+                            *(void**)Data = Ptr;
                             
                             break;
                         }
-                        
-                    case CCReflectOwnershipTransfer:
-                    {
-                        CCAllocatorType DataAllocator = Allocator;
-                        
-                        if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
-                        {
-                            if (((const CCReflectDynamicPointer*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) DataAllocator = ((const CCReflectDynamicPointer*)Type)->allocator;
-                        }
-                        
-                        void *Ptr = CCMalloc(Allocator, CCReflectTypeSize(((const CCReflectPointer*)Type)->type), NULL, CC_DEFAULT_ERROR_CALLBACK);
-                        CCReflectCopy(((const CCReflectPointer*)Type)->type, Ptr, *(void**)Data, Zone, Allocator, Assignment, Validate);
-                        
-                        *(void**)Data = Ptr;
-                        
-                        break;
                     }
                 }
             }
@@ -187,7 +918,13 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                     break;
             }
             
-            ((const CCReflectOpaque*)Type)->map(Type, Source, Data, Handler);
+            ((const CCReflectOpaque*)Type)->map(Type, Source, &(CCReflectCopyHandlerArgs){
+                .type = Type,
+                .dest = Data,
+                .zone = Zone,
+                .allocator = Allocator,
+                .validate = Validate
+            }, Handler, Zone, Allocator);
             
             break;
         }
@@ -212,7 +949,7 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
             
         case CCReflectTypeEnumerable:
         {
-            CCEnumerable Enumerable = *(const CCEnumerable*)Data;
+            CCEnumerable Enumerable = *(const CCEnumerable*)Source;
             
             CCReflectType ElementType = ((const CCReflectEnumerable*)Type)->type;
             const size_t ElementSize = CCReflectTypeSize(ElementType);
@@ -227,7 +964,7 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                 void *DestElement = CCMemoryZoneAllocate(Zone, ElementSize);
                 
                 CCMemoryZoneSave(Zone);
-                CCReflectCopy(Type, DestElement, Element, Zone, Allocator, Assignment, Validate);
+                CCReflectCopy(ElementType, DestElement, Element, Zone, Allocator, Assignment, Validate);
                 CCMemoryZoneRestore(Zone);
             }
             
@@ -642,7 +1379,7 @@ static void CCReflectDeserializeBinaryIntegerValue(CCReflectEndian DestinationEn
 static void CCReflectSerializeBinaryStringValue(const CCString String, CCReflectEndian DestinationEndianness, void *Stream, CCReflectStreamWriter Write)
 {
     const size_t Size = CCStringGetSize(String);
-    CCReflectSerializeBinaryEndianValue(CCReflectEndianNative, &Size, sizeof(Size), DestinationEndianness, Stream, Write);
+    CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Size, sizeof(Size), FALSE, Stream, Write);
     
     CC_STRING_TEMP_BUFFER(Buffer, String)
     {
@@ -653,16 +1390,28 @@ static void CCReflectSerializeBinaryStringValue(const CCString String, CCReflect
 static CC_NEW CCString CCReflectDeserializeBinaryStringValue(CCReflectEndian SourceEndianness, void *Stream, CCReflectStreamReader Read, CCAllocatorType Allocator)
 {
     size_t Size;
-    CCReflectDeserializeBinaryEndianValue(CCReflectEndianNative, &Size, sizeof(Size), SourceEndianness, Stream, Read);
+    CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Size, sizeof(Size), FALSE, Stream, Read);
     
-    void *Buffer = CCMalloc(Allocator, Size, NULL, CC_DEFAULT_ERROR_CALLBACK);
+    char *Buffer = CCMalloc(Allocator, Size + 1, NULL, CC_DEFAULT_ERROR_CALLBACK);
     
     Read(Stream, Buffer, Size);
+    
+    Buffer[Size] = 0;
     
     return CCStringCreateWithSize(Allocator, CCStringEncodingUTF8 | CCStringHintFree, Buffer, Size);
 }
 
-static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian DestinationEndianness, void *Stream, CCReflectStreamWriter Write, CCDictionary Indexes, size_t *Index)
+typedef struct {
+    CCReflectEndian serializedEndianness;
+    size_t preferVariableLength;
+    void *stream;
+    CCReflectStreamWriter write;
+    CCMemoryZone zone;
+} CCReflectSerializeBinaryHandlerArgs;
+
+static void CCReflectSerializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectSerializeBinaryHandlerArgs *Args);
+
+static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian DestinationEndianness, void *Stream, CCReflectStreamWriter Write, CCDictionary Indexes, size_t *Index, CCMemoryZone Zone)
 {
     CCDictionarySetValue(Indexes, &Type, Index);
     
@@ -674,12 +1423,9 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
     {
         case CCReflectTypePointer:
         {
-            CCAssertLog(((const CCReflectPointer*)Type)->storage != CCReflectStorageStatic, "Cannot serialize static pointer type");
-            
-            // [  0:4  ][_:1][storage:1][ownership:2][type:n][allocator:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n][static:n]
             Write(Stream, &(uint8_t){ ID | (((const CCReflectPointer*)Type)->storage << 2) | ((const CCReflectPointer*)Type)->ownership }, 1);
-            
-            CCAssertLog(((const CCReflectDynamicPointer*)Type)->allocator.allocator == CC_NULL_ALLOCATOR.allocator, "Cannot serialize dynamic pointer types with custom allocators");
             
             const size_t *TypeIndex = CCDictionaryGetValue(Indexes, &((const CCReflectPointer*)Type)->type);
             
@@ -691,7 +1437,23 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             else
             {
                 CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, Index, sizeof(*Index), FALSE, Stream, Write);
-                CCReflectSerializeBinaryTypeData(((const CCReflectPointer*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index);
+                CCReflectSerializeBinaryTypeData(((const CCReflectPointer*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index, Zone);
+            }
+            
+            if (((const CCReflectPointer*)Type)->storage == CCReflectStorageStatic)
+            {
+                CCReflectStaticPointerTypeDescriptorMap(&CC_REFLECT(CCReflectStaticPointer), Type, &(CCReflectSerializeBinaryHandlerArgs){
+                    .serializedEndianness = CCReflectEndianLittle,
+                    .preferVariableLength = 2,
+                    .stream = Stream,
+                    .write = Write,
+                    .zone = Zone
+                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }
+            
+            else
+            {
+                CCAssertLog(((const CCReflectDynamicPointer*)Type)->allocator.allocator == CC_NULL_ALLOCATOR.allocator, "Cannot serialize dynamic pointer types with custom allocators");
             }
             
             break;
@@ -711,7 +1473,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             
         case CCReflectTypeStruct:
             // [  4:4  ][_:4][size:n][count:n][field:n]
-            // field: [name:n][offset:n][type:n]
+            // field: [offset:n][type:n]
             
             Write(Stream, &ID, 1);
             CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectStruct*)Type)->size, sizeof(((const CCReflectStruct*)Type)->size), FALSE, Stream, Write);
@@ -719,7 +1481,6 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             
             for (size_t Loop = 0, Count = ((const CCReflectStruct*)Type)->count; Loop < Count; Loop++)
             {
-                CCReflectSerializeBinaryStringValue(((const CCReflectStruct*)Type)->fields[Loop].name, DestinationEndianness, Stream, Write);
                 CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectStruct*)Type)->fields[Loop].offset, sizeof(((const CCReflectStruct*)Type)->fields[Loop].offset), FALSE, Stream, Write);
                 
                 const size_t *TypeIndex = CCDictionaryGetValue(Indexes, &((const CCReflectStruct*)Type)->fields[Loop].type);
@@ -732,13 +1493,23 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
                 else
                 {
                     CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, Index, sizeof(*Index), FALSE, Stream, Write);
-                    CCReflectSerializeBinaryTypeData(((const CCReflectStruct*)Type)->fields[Loop].type, DestinationEndianness, Stream, Write, Indexes, Index);
+                    CCReflectSerializeBinaryTypeData(((const CCReflectStruct*)Type)->fields[Loop].type, DestinationEndianness, Stream, Write, Indexes, Index, Zone);
                 }
             }
             break;
             
         case CCReflectTypeOpaque:
-            CCAssertLog(0, "Cannot serialize opaque type");
+            // [  5:4  ][_:4][typeSize:n][descriptor:n]
+            Write(Stream, &ID, 1);
+            CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectOpaque*)Type)->typeSize, sizeof(((const CCReflectOpaque*)Type)->typeSize), FALSE, Stream, Write);
+            
+            CCReflectOpaqueTypeDescriptorMap(&CC_REFLECT(CCReflectType), &Type, &(CCReflectSerializeBinaryHandlerArgs){
+                .serializedEndianness = CCReflectEndianLittle,
+                .preferVariableLength = 2,
+                .stream = Stream,
+                .write = Write,
+                .zone = Zone
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
             break;
             
         case CCReflectTypeArray:
@@ -757,7 +1528,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             else
             {
                 CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, Index, sizeof(*Index), FALSE, Stream, Write);
-                CCReflectSerializeBinaryTypeData(((const CCReflectArray*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index);
+                CCReflectSerializeBinaryTypeData(((const CCReflectArray*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index, Zone);
             }
             
             break;
@@ -771,7 +1542,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
         {
             // [  8:4  ][_:4][count:n][type:n]
             Write(Stream, &ID, 1);
-            CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectEnumerable*)Type)->count, sizeof(((const CCReflectEnumerable*)Type)->count), FALSE, Stream, Write);
+            CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectEnumerable*)Type)->count, sizeof(((const CCReflectEnumerable*)Type)->count), TRUE, Stream, Write);
             
             const size_t *TypeIndex = CCDictionaryGetValue(Indexes, &((const CCReflectEnumerable*)Type)->type);
             
@@ -783,7 +1554,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             else
             {
                 CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, Index, sizeof(*Index), FALSE, Stream, Write);
-                CCReflectSerializeBinaryTypeData(((const CCReflectEnumerable*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index);
+                CCReflectSerializeBinaryTypeData(((const CCReflectEnumerable*)Type)->type, DestinationEndianness, Stream, Write, Indexes, Index, Zone);
             }
             
             break;
@@ -791,14 +1562,27 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
     }
 }
 
-static void CCReflectSerializeBinaryType(CCReflectType Type, CCReflectEndian DestinationEndianness, void *Stream, CCReflectStreamWriter Write, CCAllocatorType Allocator)
+static void CCReflectSerializeBinaryType(CCReflectType Type, CCReflectEndian DestinationEndianness, void *Stream, CCReflectStreamWriter Write, CCMemoryZone Zone)
 {
-    CCDictionary Indexes = CCDictionaryCreate(Allocator, CCDictionaryHintSizeSmall, sizeof(void*), sizeof(size_t), NULL);
+    CCDictionary Indexes = CCDictionaryCreate(CC_ZONE_ALLOCATOR(Zone), CCDictionaryHintSizeSmall, sizeof(void*), sizeof(size_t), NULL);
     
-    CCReflectSerializeBinaryTypeData(Type, DestinationEndianness, Stream, Write, Indexes, &(size_t){ 0 });
+    CCReflectSerializeBinaryTypeData(Type, DestinationEndianness, Stream, Write, Indexes, &(size_t){ 0 }, Zone);
     
     CCDictionaryDestroy(Indexes);
 }
+
+static CCReflectType CCReflectDeserializeBinaryType(CCMemoryZone Zone, CCReflectEndian SerializedEndianness, void *Stream, CCReflectStreamReader Read, CCAllocatorType Allocator);
+
+typedef struct {
+    void *dest;
+    CCReflectEndian serializedEndianness;
+    void *stream;
+    CCReflectStreamReader read;
+    CCAllocatorType allocator;
+    CCMemoryZone zone;
+} CCReflectDeserializeBinaryHandlerArgs;
+
+static void CCReflectDeserializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectDeserializeBinaryHandlerArgs *Args);
 
 static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCReflectEndian SerializedEndianness, void *Stream, CCReflectStreamReader Read, CCArray Types)
 {
@@ -809,7 +1593,8 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
     {
         case CCReflectTypePointer:
         {
-            // [  0:4  ][_:1][storage:1][ownership:2][type:n][allocator:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n][static:n]
             CCReflectPointer *Pointer = CCMemoryZoneAllocate(Zone, sizeof(union { CCReflectStaticPointer staticPointer; CCReflectDynamicPointer dynamicPointer; }));
             
             CCArrayAppendElement(Types, &Pointer);
@@ -818,14 +1603,31 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             Pointer->storage = (ID & 4) >> 2;
             Pointer->ownership = ID & 3;
             
-            CCAssertLog(Pointer->storage != CCReflectStorageStatic, "Cannot deserialize static pointer type");
-            
             size_t TypeIndex;
             CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &TypeIndex, sizeof(TypeIndex), FALSE, Stream, Read);
             
             Pointer->type = TypeIndex < CCArrayGetCount(Types) ? *(CCReflectType*)CCArrayGetElementAtIndex(Types, TypeIndex) : CCReflectDeserializeBinaryTypeData(Zone, SerializedEndianness, Stream, Read, Types);
             
-            ((CCReflectDynamicPointer*)Pointer)->allocator = CC_NULL_ALLOCATOR;
+            if (Pointer->storage == CCReflectStorageStatic)
+            {
+                CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+                void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
+                CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
+                
+                CCReflectStaticPointerTypeDescriptorUnmap(&CC_REFLECT(CCReflectStaticPointer), MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
+                    .dest = Pointer,
+                    .serializedEndianness = CCReflectEndianLittle,
+                    .stream = Stream,
+                    .read = Read,
+                    .allocator = CC_ZONE_ALLOCATOR(Zone),
+                    .zone = Zone
+                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }
+            
+            else
+            {
+                ((CCReflectDynamicPointer*)Pointer)->allocator = CC_NULL_ALLOCATOR;
+            }
             
             return Pointer;
         }
@@ -865,7 +1667,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
         case CCReflectTypeStruct:
         {
             // [  4:4  ][_:4][size:n][count:n][field:n]
-            // field: [name:n][offset:n][type:n]
+            // field: [offset:n][type:n]
             
             size_t Size, Count;
             CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Size, sizeof(Size), FALSE, Stream, Read);
@@ -881,7 +1683,6 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
             for (size_t Loop = 0; Loop < Count; Loop++)
             {
-                Struct->fields[Loop].name = CCReflectDeserializeBinaryStringValue(SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
                 CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Struct->fields[Loop].offset, sizeof(Struct->fields[Loop].offset), FALSE, Stream, Read);
                 
                 size_t TypeIndex;
@@ -894,8 +1695,28 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
         }
             
         case CCReflectTypeOpaque:
-            CCAssertLog(0, "Cannot deserialize opaque type");
-            break;
+        {
+            // [  5:4  ][_:4][typeSize:n][descriptor:n]
+            size_t TypeSize;
+            CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &TypeSize, sizeof(TypeSize), FALSE, Stream, Read);
+            
+            CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+            void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
+            CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
+            
+            CCReflectOpaque *Opaque = CCMemoryZoneAllocate(Zone, TypeSize);
+            
+            CCReflectOpaqueTypeDescriptorUnmap(&CC_REFLECT(CCReflectType), MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
+                .dest = Opaque,
+                .serializedEndianness = CCReflectEndianLittle,
+                .stream = Stream,
+                .read = Read,
+                .allocator = CC_ZONE_ALLOCATOR(Zone),
+                .zone = Zone
+            }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            
+            return Opaque;
+        }
             
         case CCReflectTypeArray:
         {
@@ -929,7 +1750,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
             Enumerable->id = CCReflectTypeEnumerable;
             
-            CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Enumerable->count, sizeof(Enumerable->count), FALSE, Stream, Read);
+            CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Enumerable->count, sizeof(Enumerable->count), TRUE, Stream, Read);
             
             size_t TypeIndex;
             CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &TypeIndex, sizeof(TypeIndex), FALSE, Stream, Read);
@@ -954,17 +1775,9 @@ static CCReflectType CCReflectDeserializeBinaryType(CCMemoryZone Zone, CCReflect
     return Type;
 }
 
-typedef struct {
-    CCReflectEndian serializedEndianness;
-    size_t preferVariableLength;
-    void *stream;
-    CCReflectStreamWriter write;
-    CCMemoryZone zone;
-} CCReflectSerializeBinaryHandlerArgs;
-
 static void CCReflectSerializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectSerializeBinaryHandlerArgs *Args)
 {
-    CCReflectSerializeBinaryType(Type, Args->serializedEndianness, Args->stream, Args->write, CC_ZONE_ALLOCATOR(Args->zone));
+    CCReflectSerializeBinaryType(Type, Args->serializedEndianness, Args->stream, Args->write, Args->zone);
     
     CCReflectSerializeBinary(Type, Data, Args->serializedEndianness, Args->preferVariableLength, Args->stream, Args->write, Args->zone);
 }
@@ -997,7 +1810,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                     .stream = Stream,
                     .write = Write,
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler);
+                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
             }
             break;
             
@@ -1023,7 +1836,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                 .stream = Stream,
                 .write = Write,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler);
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
             break;
             
         case CCReflectTypeArray:
@@ -1045,7 +1858,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
             
         case CCReflectTypeEnumerable:
         {
-            CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectEnumerable*)Type)->count, sizeof(((const CCReflectEnumerable*)Type)->count), FALSE, Stream, Write);
+            CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectEnumerable*)Type)->count, sizeof(((const CCReflectEnumerable*)Type)->count), TRUE, Stream, Write);
             
             if (((const CCReflectEnumerable*)Type)->count == SIZE_MAX)
             {
@@ -1080,14 +1893,63 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
     }
 }
 
-typedef struct {
-    void *dest;
-    CCReflectEndian serializedEndianness;
-    void *stream;
-    CCReflectStreamReader read;
-    CCAllocatorType allocator;
-    CCMemoryZone zone;
-} CCReflectDeserializeBinaryHandlerArgs;
+static void CCReflectDestroy(CCReflectType Type, void *Data)
+{
+    switch (*(const CCReflectTypeID*)Type)
+    {
+        case CCReflectTypePointer:
+            if (((CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
+            {
+                CCFree(*(void**)Data);
+            }
+            break;
+            
+        case CCReflectTypeInteger:
+        case CCReflectTypeFloat:
+            break;
+            
+        case CCReflectTypeStruct:
+            for (size_t Loop = 0, Count = ((const CCReflectStruct*)Type)->count; Loop < Count; Loop++)
+            {
+                CCReflectDestroy(((const CCReflectStruct*)Type)->fields[Loop].type, Data + ((const CCReflectStruct*)Type)->fields[Loop].offset);
+            }
+            break;
+            
+        case CCReflectTypeOpaque:
+            break;
+            
+        case CCReflectTypeArray:
+        {
+            CCReflectType ElementType = ((const CCReflectArray*)Type)->type;
+            const size_t ElementSize = CCReflectTypeSize(ElementType);
+            
+            for (size_t Loop = 0, Count = ((const CCReflectArray*)Type)->count; Loop < Count; Loop++)
+            {
+                CCReflectDestroy(ElementType, Data + (ElementSize * Loop));
+            }
+            
+            break;
+        }
+            
+        case CCReflectTypeValidator:
+            CCReflectDestroy(((const CCReflectValidator*)Type)->type, Data);
+            break;
+            
+        case CCReflectTypeEnumerable:
+        {
+            CCEnumerable Enumerable = *(const CCEnumerable*)Data;
+            
+            CCReflectType ElementType = ((const CCReflectEnumerable*)Type)->type;
+            
+            for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable))
+            {
+                CCReflectDestroy(ElementType, Element);
+            }
+            
+            break;
+        }
+    }
+}
 
 static void CCReflectDeserializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectDeserializeBinaryHandlerArgs *Args)
 {
@@ -1128,14 +1990,16 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                 void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
                 CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
                 
-                ((const CCReflectStaticPointer*)Type)->unmap(MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
+                ((const CCReflectStaticPointer*)Type)->unmap(Type, MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
                     .dest = Data,
                     .serializedEndianness = SerializedEndianness,
                     .stream = Stream,
                     .read = Read,
                     .allocator = Allocator,
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler);
+                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
+                
+                CCReflectDestroy(MappedType, MappedData);
             }
             
             break;
@@ -1162,14 +2026,16 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
             void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
             CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
             
-            ((const CCReflectOpaque*)Type)->unmap(MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
+            ((const CCReflectOpaque*)Type)->unmap(Type, MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
                 .dest = Data,
                 .serializedEndianness = SerializedEndianness,
                 .stream = Stream,
                 .read = Read,
                 .allocator = Allocator,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler);
+            }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
+            
+            CCReflectDestroy(MappedType, MappedData);
             
             break;
         }
@@ -1195,7 +2061,7 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
         case CCReflectTypeEnumerable:
         {
             typeof(((CCReflectEnumerable*)Type)->count) Count;
-            CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Count, sizeof(Count), FALSE, Stream, Read);
+            CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Count, sizeof(Count), TRUE, Stream, Read);
             
             CCReflectType ElementType = ((const CCReflectEnumerable*)Type)->type;
             const size_t ElementSize = CCReflectTypeSize(ElementType);
