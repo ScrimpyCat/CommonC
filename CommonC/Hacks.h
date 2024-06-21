@@ -1137,6 +1137,10 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
 #define CC_EXPAND(...) __VA_ARGS__
 
+#define CC_OVERRIDE_INIT(defaults, ...) CC_OVERRIDE_INIT_(CC_EXPAND defaults, ## __VA_ARGS__, CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND(__VA_ARGS__), CC_EXPAND defaults)
+#define CC_OVERRIDE_INIT_(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, init, ...) init
+
+
 #pragma mark - Unique Sort
 
 //TODO: Add more compiler friendly unique sort when constexpr is added in C23
