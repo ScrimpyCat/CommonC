@@ -40,12 +40,91 @@
 #define CC_TYPE_8_ARRAY(...) CC_TYPE_ARRAY, __VA_ARGS__,
 #define CC_TYPE_9_ARRAY(...) CC_TYPE_ARRAY, __VA_ARGS__,
 
+const char *CCReflectTypeNameDefaults(CCReflectType Type);
+
+#pragma mark - Reflected Types
+
+extern const CCReflectOpaque CC_REFLECT(CCReflectType);
+
+extern const CCReflectInteger CC_REFLECT(CCReflectTypeID);
+
+extern const CCReflectInteger CC_REFLECT(CCReflectStorage);
+
+extern const CCReflectInteger CC_REFLECT(CCReflectOwnership);
+
+extern const CCReflectStruct4 CC_REFLECT(CCReflectPointer);
+
+extern const CCReflectStruct3 CC_REFLECT(CCReflectStaticPointer);
+
+extern const CCReflectStruct2 CC_REFLECT(CCReflectDynamicPointer);
+
+extern const CCReflectInteger CC_REFLECT(CCReflectEndian);
+
+extern const CCReflectStruct5 CC_REFLECT(CCReflectInteger);
+
+extern const CCReflectStruct3 CC_REFLECT(CCReflectFloat);
+
+extern const CCReflectStruct3 CC_REFLECT(CCReflectStructField);
+
+extern const CCReflectStruct4 CC_REFLECT(CCReflectStruct);
+
+extern const CCReflectStruct3 CC_REFLECT(CCReflectArray);
+
+extern const CCReflectStruct3 CC_REFLECT(CCReflectEnumerable);
+
+extern const CCReflectStaticPointer CC_REFLECT(CCReflectTypeMapper);
+extern const CCReflectStaticPointer CC_REFLECT(CCReflectTypeUnmapper);
+
+extern CCReflectTypeMapper CCReflectUnmapperMap;
+extern CCReflectTypeUnmapper CCReflectUnmapperUnmap;
+
+void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTypeMapperUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTypeUnmapperUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+#define CC_REFLECT_VALUE_IS_POINTER(value) *(void**)CC_REFLECT_MAP_DATA_ARG == value
+
+#define CC_REFLECT_VALUE_TO_POINTER(type) &CC_REFLECT(type) CC_REFLECT_VALUE_TO_POINTER_
+#define CC_REFLECT_VALUE_TO_POINTER_(value) , &(void*){ value }
+
+extern const CCReflectStruct5 CC_REFLECT(CCReflectOpaque);
+
+extern CCReflectTypeMapper CCReflectOpaqueTypeDescriptorMap;
+extern CCReflectTypeUnmapper CCReflectOpaqueTypeDescriptorUnmap;
+
+void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectOpaqueTypeDescriptorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern CCReflectTypeMapper CCReflectStaticPointerTypeDescriptorMap;
+extern CCReflectTypeUnmapper CCReflectStaticPointerTypeDescriptorUnmap;
+
+void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectStaticPointerTypeDescriptorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+#define CC_REFLECT_STATIC_POINTER_IS_TYPE(value) CC_REFLECT_MAP_DATA_ARG == &CC_REFLECT(value)
+
+#define CC_REFLECT_VALUE_TO_STATIC_POINTER(value) &CC_REFLECT(CCReflectStaticPointer), &CC_REFLECT(value)
+
+void CCReflectValidationMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectValidationUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectStaticPointer CC_REFLECT(CCReflectValidation);
+
+extern CCReflectTypeMapper CCReflectValidationMap;
+extern CCReflectTypeUnmapper CCReflectValidationUnmap;
+
+extern const CCReflectStruct2 CC_REFLECT(CCReflectValue);
+extern const CCReflectStruct5 CC_REFLECT(CCReflectValidator);
+
 #pragma mark - void
 
 extern const CCReflectOpaque CC_REFLECT(void);
 
-
 #pragma mark - Integer Types
+
+extern const CCReflectInteger CC_REFLECT(_Bool);
 
 extern const CCReflectInteger CC_REFLECT(char);
 extern const CCReflectInteger CC_REFLECT(short);
@@ -142,10 +221,10 @@ typedef struct {
     const void *terminator;
 } CCReflectTerminatedArray;
 
-#define CC_REFLECT_TERMINATED_ARRAY(type, terminator_, maxSize) ((CCReflectTerminatedArray){ .opaque = CC_REFLECT_OPAQUE(maxSize, CCReflectTerminatedArrayMapper, CCReflectTerminatedArrayUnmapper), .elementType = type, .terminator = terminator_ })
+#define CC_REFLECT_TERMINATED_ARRAY(type, terminator_, maxSize) ((CCReflectTerminatedArray){ .opaque = CC_REFLECT_OPAQUE(maxSize, sizeof(CCReflectTerminatedArray), CCReflectTerminatedArrayMapper, CCReflectTerminatedArrayUnmapper), .elementType = type, .terminator = terminator_ })
 
-void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
-void CCReflectTerminatedArrayUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
+void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
 #pragma mark - Strings
@@ -178,6 +257,67 @@ extern CCAllocatorTypeDataFieldTypeCallback CCAllocatorTypeDataFieldType;
 
 
 #pragma mark - Pointer Types
+
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectType, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectType, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectType, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeID, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeID, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeID, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStorage, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStorage, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStorage, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOwnership, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOwnership, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOwnership, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectPointer, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectPointer, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectPointer, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStaticPointer, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStaticPointer, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStaticPointer, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectDynamicPointer, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectDynamicPointer, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectDynamicPointer, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEndian, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEndian, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEndian, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectInteger, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectInteger, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectInteger, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectFloat, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectFloat, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectFloat, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStructField, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStructField, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStructField, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStruct, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStruct, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectStruct, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectArray, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectArray, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectArray, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeMapper, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeMapper, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeMapper, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeUnmapper, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeUnmapper, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectTypeUnmapper, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOpaque, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOpaque, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectOpaque, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEnumerable, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEnumerable, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectEnumerable, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidation, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidation, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidation, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValue, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValue, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValue, retain, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidator, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidator, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCReflectValidator, retain, dynamic));
 
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(void, weak, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(void, transfer, dynamic));
@@ -404,5 +544,350 @@ extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, retain, dynamic)
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic));
+
+#pragma mark - Collections
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType elementType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+    size_t chunkSize;
+} CCReflectCCArray;
+
+#define CC_REFLECT_CCArray(type, allocator_, chunkSize_) ((CCReflectCCArray){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCArray), sizeof(CCReflectCCArray), CCReflectCCArrayMapper, CCReflectCCArrayUnmapper), .elementType = type, .allocator = allocator_, .chunkSize = chunkSize_ })
+
+void CCReflectCCArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectCCArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType elementType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+    CCCollectionElementDestructor elementDestructor;
+    CCCollectionHint hint;
+} CCReflectCCCollection;
+
+#define CC_REFLECT_CCCollection(type, allocator_, hint_, elementDestructor_) ((CCReflectCCCollection){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCCollection), sizeof(CCReflectCCCollection), CCReflectCCCollectionMapper, CCReflectCCCollectionUnmapper), .elementType = type, .allocator = allocator_, .hint = hint_, .elementDestructor = elementDestructor_ })
+
+void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectCCCollectionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectInteger CC_REFLECT(CCCollectionHint);
+
+extern const CCReflectStaticPointer CC_REFLECT(CCCollectionElementDestructor);
+
+extern CCReflectTypeMapper CCCollectionElementDestructorMap;
+extern CCReflectTypeUnmapper CCCollectionElementDestructorUnmap;
+
+void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+#define CC_REFLECT_VALUE_IS_COLLECTION_ELEMENT_DESTRUCTOR(value) *(CCCollectionElementDestructor*)CC_REFLECT_MAP_DATA_ARG == value
+
+#define CC_REFLECT_VALUE_TO_COLLECTION_ELEMENT_DESTRUCTOR(value) &CC_REFLECT(CCCollectionElementDestructor), &value
+
+#pragma mark - Helpers
+/*!
+ * @abstract Overrideable macros:
+ *           - CC_REFLECT_VALUE_MAP_WITHOUT_NAME
+ *           - CC_REFLECT_MAP_DATA_ARG
+ *           - CC_REFLECT_UNMAP_DATA_ARG
+ *           - CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE
+ *           - CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_BASE
+ *           - CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE
+ *           - CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_BASE
+ */
+
+#ifndef CC_REFLECT_VALUE_MAP_WITHOUT_NAME
+#define CC_REFLECT_VALUE_MAP_WITHOUT_NAME 1
+#endif
+
+#ifndef CC_REFLECT_MAP_DATA_ARG
+#define CC_REFLECT_MAP_DATA_ARG Data
+#endif
+
+/*!
+ * @define CC_REFLECT_VALUE_IS_TYPE
+ * @brief Specify that the value is a reflected type.
+ */
+#define CC_REFLECT_VALUE_IS_TYPE(value) *(CCReflectType*)CC_REFLECT_MAP_DATA_ARG == &CC_REFLECT(value)
+
+/*!
+ * @define CC_REFLECT_VALUE_IS_OPAQUE
+ * @brief Specify that the value is an opaque value.
+ * @note @b CC_REFLECT_VALUE_OPAQUE_MAPPER(value) and @b CC_REFLECT_VALUE_OPAQUE_UNMAPPER(value) should both be defined to return the expected
+ *       function name.
+ */
+#define CC_REFLECT_VALUE_IS_OPAQUE(value) ((*(CCReflectOpaque**)CC_REFLECT_MAP_DATA_ARG)->map == CC_REFLECT_VALUE_OPAQUE_MAPPER(value)) && ((*(CCReflectOpaque**)CC_REFLECT_MAP_DATA_ARG)->unmap == CC_REFLECT_VALUE_OPAQUE_UNMAPPER(value))
+
+#if CC_REFLECT_VALUE_MAP_WITHOUT_NAME
+#ifndef CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE
+#define CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE uint8_t
+#endif
+
+#ifndef CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_BASE
+#define CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_BASE 0
+#endif
+
+#define CC_REFLECT_MAP_STATELESS_VALUE_HANDLER(value, index) Handler(&CC_REFLECT(CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE), &(CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE){ index + CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_BASE }, Args);
+#else
+#define CC_REFLECT_MAP_STATELESS_VALUE_HANDLER(value, index) Handler(&CC_REFLECT_ARRAY(&CC_REFLECT(unsigned char), sizeof(#value)), #value, Args);
+#endif
+
+/*!
+ * @define CC_REFLECT_MAP_STATELESS_VALUE
+ * @brief Map a stateless value with the given index and condition.
+ * @description A value is stateless if it can be mapped without any associated state.
+ * @param type The type of the value.
+ * @param index The index to associate with the value of this type.
+ * @param condition The condition to check the type with.
+ */
+#define CC_REFLECT_MAP_STATELESS_VALUE(value, index, condition) \
+(condition(value)) \
+{ \
+    CC_REFLECT_MAP_STATELESS_VALUE_HANDLER(value, index) \
+}
+
+/*!
+ * @define CC_REFLECT_MAP_STATELESS_VALUES_WHEN
+ * @brief Map a series of stateless values when the provided condition is met.
+ * @note See @b CC_REFLECT_MAP_STATEFUL_VALUE.
+ * @param condition The condition to check the types with.
+ */
+#define CC_REFLECT_MAP_STATELESS_VALUES_WHEN(condition, ...) CC_SOFT_JOIN(else if, CC_MAP_WITH(CC_REFLECT_MAP_STATELESS_VALUE, condition, __VA_ARGS__))
+
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER(args, index) CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER_ args
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER_(name, type) type name;
+
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBERS(...) CC_MERGE_MAP(CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER, __VA_ARGS__)
+
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER(args, index, prefix) CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER_(prefix, CC_EXPAND args)
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER_(...) CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER__(__VA_ARGS__)
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER__(prefix, name, type) (prefix name, &CC_REFLECT(type))
+
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBERS(prefix, ...) CC_MAP_WITH(CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBER, prefix, __VA_ARGS__)
+
+#define CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER(args, index, struct) CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER_(index, struct, CC_EXPAND args)
+#define CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER_(...) CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER__(__VA_ARGS__)
+#define CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER__(index, struct, name, ...) .name = (*(struct**)Data)->name
+
+#define CC_REFLECT_STATEFUL_VALUE_INIT_MEMBERS(struct, ...) CC_MAP_WITH(CC_REFLECT_STATEFUL_VALUE_INIT_MEMBER, struct, __VA_ARGS__)
+
+#if CC_REFLECT_VALUE_MAP_WITHOUT_NAME
+#ifndef CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE
+#define CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE uint8_t
+#endif
+
+#ifndef CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_BASE
+#define CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_BASE 0
+#endif
+
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_NAME(type) CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE name;
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_NAME(type) (name, &CC_REFLECT(CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE))
+#define CC_REFLECT_STATEFUL_VALUE_INIT_NAME(type, index) index + CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_BASE
+#else
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_NAME(type) char name[sizeof(#type)];
+#define CC_REFLECT_STATEFUL_VALUE_REFLECT_NAME(type) (name, &CC_REFLECT_ARRAY(&CC_REFLECT(unsigned char), sizeof(#type)))
+#define CC_REFLECT_STATEFUL_VALUE_INIT_NAME(type, index) #type
+#endif
+
+#define CC_REFLECT_MAP_STATEFUL_VALUE_HANDLER(type, index, ...) \
+typedef struct { \
+    CC_REFLECT_STATEFUL_VALUE_DEFINE_NAME(type) \
+    struct { \
+        CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBERS(__VA_ARGS__) \
+    } data; \
+} CC_REFLECT_STATEFUL_VALUE_STRUCT_NAME(type); \
+Handler(&CC_REFLECT_STRUCT(CC_REFLECT_STATEFUL_VALUE_STRUCT_NAME(type), \
+    CC_REFLECT_STATEFUL_VALUE_REFLECT_NAME(type), \
+    CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBERS(data., __VA_ARGS__) \
+), &(CC_REFLECT_STATEFUL_VALUE_STRUCT_NAME(type)){ \
+    .name = CC_REFLECT_STATEFUL_VALUE_INIT_NAME(type, index), \
+    .data = { CC_REFLECT_STATEFUL_VALUE_INIT_MEMBERS(CC_REFLECT_STATEFUL_VALUE_TYPE(type), __VA_ARGS__) } \
+}, Args);
+
+/*!
+ * @define CC_REFLECT_MAP_STATEFUL_VALUE
+ * @brief Map a stateful value with the given index and condition.
+ * @description A value is stateful if it needs to be mapped with some associated state.
+ * @note @b CC_REFLECT_STATEFUL_VALUE_STRUCT_NAME(type) and @b CC_REFLECT_STATEFUL_VALUE_TYPE(type) should both be defined to return the expected
+ *       type names.
+ * @param type The type of the value.
+ * @param index The index to associate with the value of this type.
+ * @param condition The condition to check the type with.
+ */
+#define CC_REFLECT_MAP_STATEFUL_VALUE(type, index, condition) CC_REFLECT_MAP_STATEFUL_VALUE_(index, condition, CC_EXPAND type)
+#define CC_REFLECT_MAP_STATEFUL_VALUE_(...) CC_REFLECT_MAP_STATEFUL_VALUE__(__VA_ARGS__)
+#define CC_REFLECT_MAP_STATEFUL_VALUE__(index, condition, type, ...) \
+(condition(type)) \
+{ \
+    CC_REFLECT_MAP_STATEFUL_VALUE_HANDLER(type, index, __VA_ARGS__) \
+}
+
+/*!
+ * @define CC_REFLECT_MAP_STATEFUL_VALUES_WHEN
+ * @brief Map a series of stateful values when the provided condition is met.
+ * @note See @b CC_REFLECT_MAP_STATEFUL_VALUE.
+ * @param condition The condition to check the types with.
+ */
+#define CC_REFLECT_MAP_STATEFUL_VALUES_WHEN(condition, ...) CC_SOFT_JOIN(else if, CC_RECURSIVE_0_MAP_WITH(CC_REFLECT_MAP_STATEFUL_VALUE, condition, __VA_ARGS__))
+
+
+#ifndef CC_REFLECT_UNMAP_DATA_ARG
+#define CC_REFLECT_UNMAP_DATA_ARG CC_REFLECT_MAP_DATA_ARG
+#endif
+
+#ifndef CC_REFLECT_UNMAP_MAPPED_TYPE_ARG
+#define CC_REFLECT_UNMAP_MAPPED_TYPE_ARG MappedType
+#endif
+
+#define CC_REFLECT_VALUE_TO_OPAQUE(value) &CC_REFLECT(CCReflectOpaque), &CC_REFLECT(value)
+
+#define CC_REFLECT_STATEFUL_VALUE_GET_FIELD(args, index) CC_REFLECT_STATEFUL_VALUE_GET_FIELD_(index, CC_EXPAND args)
+#define CC_REFLECT_STATEFUL_VALUE_GET_FIELD_(...) CC_REFLECT_STATEFUL_VALUE_GET_FIELD__(__VA_ARGS__)
+#define CC_REFLECT_STATEFUL_VALUE_GET_FIELD__(index, name, type) *(type*)(CC_REFLECT_UNMAP_DATA_ARG + ((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[index + 1].offset)
+
+/*!
+ * @define CC_REFLECT_VALUE_TO_STRUCT
+ * @brief Unmap the value to a struct value.
+ * @note @b CC_REFLECT_STATEFUL_VALUE_TYPE_CONSTRUCTOR(type) and @b CC_REFLECT_STATEFUL_VALUE_OPAQUE_FIELD should both be defined to return the expected
+ *       type and field names.
+ */
+#define CC_REFLECT_VALUE_TO_STRUCT(type, ...) \
+CC_REFLECT_VALUE_TO_STRUCT_(CC_REFLECT_STRUCT(CC_REFLECT_STATEFUL_VALUE_TYPE(type), \
+    (CC_REFLECT_STATEFUL_VALUE_OPAQUE_FIELD.id, &CC_REFLECT(CCReflectTypeID)), \
+    (CC_REFLECT_STATEFUL_VALUE_OPAQUE_FIELD.size, &CC_REFLECT(size_t)), \
+    (CC_REFLECT_STATEFUL_VALUE_OPAQUE_FIELD.map, &CC_REFLECT(CCReflectTypeMapper)), \
+    (CC_REFLECT_STATEFUL_VALUE_OPAQUE_FIELD.unmap, &CC_REFLECT(CCReflectTypeUnmapper)), \
+    CC_REFLECT_STATEFUL_VALUE_REFLECT_MEMBERS(, __VA_ARGS__) \
+), \
+CC_REFLECT_STATEFUL_VALUE_TYPE_CONSTRUCTOR(type), \
+CC_MAP(CC_REFLECT_STATEFUL_VALUE_GET_FIELD, __VA_ARGS__))
+#define CC_REFLECT_VALUE_TO_STRUCT_(...) CC_REFLECT_VALUE_TO_STRUCT__(__VA_ARGS__)
+#define CC_REFLECT_VALUE_TO_STRUCT__(struct, constructor, ...) &struct, &constructor(__VA_ARGS__)
+
+/*!
+ * @define CC_REFLECT_UNMAP_STATEFUL_VALUE
+ * @brief Unmap a stateful value with the given index and converter.
+ * @description A value is stateful if it needs to be unmapped with some associated state.
+ * @param type The type of the value.
+ * @param index The index to associate with the value of this type.
+ * @param convert How to convert the value.
+ */
+#define CC_REFLECT_UNMAP_STATEFUL_VALUE(value, index, convert) CC_REFLECT_UNMAP_STATEFUL_VALUE_(index, convert, CC_EXPAND value)
+#define CC_REFLECT_UNMAP_STATEFUL_VALUE_(...) CC_REFLECT_UNMAP_STATEFUL_VALUE__(__VA_ARGS__)
+
+/*!
+ * @define CC_REFLECT_UNMAP_STATELESS_VALUE
+ * @brief Unmap a stateless value with the given index and converter.
+ * @description A value is stateless if it can be unmapped without any associated state.
+ * @param type The type of the value.
+ * @param index The index to associate with the value of this type.
+ * @param convert How to convert the value.
+ */
+
+/*!
+ * @define CC_REFLECT_UNMAP_STATELESS_VALUES
+ * @brief Unmap a series of stateless values with the given converter.
+ * @note See @b CC_REFLECT_UNMAP_STATELESS_VALUE.
+ * @param convert How to convert the value.
+ */
+
+/*!
+ * @define CC_REFLECT_UNMAP_STATEFUL_VALUES
+ * @brief Unmap a series of stateful values with the given converter.
+ * @note See @b CC_REFLECT_UNMAP_STATEFUL_VALUE.
+ * @param convert How to convert the value.
+ */
+
+
+#if CC_REFLECT_VALUE_MAP_WITHOUT_NAME
+#define CC_REFLECT_UNMAP_STATELESS_VALUE(value, index, convert) \
+case index + CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_BASE: \
+    Handler(convert(value), Args); \
+    return;
+
+#define CC_REFLECT_UNMAP_STATELESS_VALUES(convert, ...) \
+(*(const CCReflectTypeID*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG == CCReflectTypeInteger) \
+{ \
+    if (((const CCReflectInteger*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->size == sizeof(CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE)) \
+    { \
+        switch (*(CC_REFLECT_MAP_STATELESS_VALUE_MAPPED_INDEX_TYPE*)CC_REFLECT_UNMAP_DATA_ARG) \
+        { \
+            CC_MERGE_MAP_WITH(CC_REFLECT_UNMAP_STATELESS_VALUE, convert, __VA_ARGS__) \
+        } \
+    } \
+}
+
+#define CC_REFLECT_UNMAP_STATEFUL_VALUE__(index, convert, type_, ...) \
+case index + CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_BASE: \
+    Handler(convert(type_, __VA_ARGS__), Args); \
+    return;
+
+#define CC_REFLECT_UNMAP_STATEFUL_VALUES(convert, ...) \
+(*(const CCReflectTypeID*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG == CCReflectTypeStruct) \
+{ \
+    if (((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->count >= 1) \
+    { \
+        if (*(const CCReflectTypeID*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type == CCReflectTypeInteger) \
+        { \
+            if (((const CCReflectInteger*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type)->size == sizeof(CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE)) \
+            { \
+                switch (*(CC_REFLECT_MAP_STATEFUL_VALUE_MAPPED_INDEX_TYPE*)CC_REFLECT_UNMAP_DATA_ARG) \
+                { \
+                    CC_MERGE_MAP_WITH(CC_REFLECT_UNMAP_STATEFUL_VALUE, convert, __VA_ARGS__) \
+                } \
+            } \
+        } \
+    } \
+}
+#else
+#define CC_REFLECT_UNMAP_STATELESS_VALUE(value, index, convert) \
+(!strncmp(CC_REFLECT_UNMAP_DATA_ARG, #value, ((const CCReflectArray*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->count)) \
+{ \
+    Handler(convert(value), Args); \
+    return; \
+}
+
+#define CC_REFLECT_UNMAP_STATELESS_VALUES(convert, ...) \
+(*(const CCReflectTypeID*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG == CCReflectTypeArray) \
+{ \
+    if (*(const CCReflectTypeID*)((const CCReflectArray*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->type == CCReflectTypeInteger) \
+    { \
+        if (((const CCReflectInteger*)((const CCReflectArray*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->type)->size == sizeof(char)) \
+        { \
+            if CC_SOFT_JOIN(else if, CC_MAP_WITH(CC_REFLECT_UNMAP_STATELESS_VALUE, convert, __VA_ARGS__)) \
+        } \
+    } \
+}
+
+#define CC_REFLECT_UNMAP_STATEFUL_VALUE__(index, convert, type_, ...) \
+(!strncmp(CC_REFLECT_UNMAP_DATA_ARG + ((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].offset, #type_, ((const CCReflectArray*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type)->count)) \
+{ \
+    Handler(convert(type_, __VA_ARGS__), Args); \
+    return; \
+}
+
+#define CC_REFLECT_UNMAP_STATEFUL_VALUES(convert, ...) \
+(*(const CCReflectTypeID*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG == CCReflectTypeStruct) \
+{ \
+    if (((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->count >= 1) \
+    { \
+        if (*(const CCReflectTypeID*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type == CCReflectTypeArray) \
+        { \
+            if (*(const CCReflectTypeID*)((const CCReflectArray*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type)->type == CCReflectTypeInteger) \
+            { \
+                if (((const CCReflectInteger*)((const CCReflectArray*)((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[0].type)->type)->size == 1) \
+                { \
+                    if CC_SOFT_JOIN(else if, CC_RECURSIVE_0_MAP_WITH(CC_REFLECT_UNMAP_STATEFUL_VALUE, convert, __VA_ARGS__)) \
+                } \
+            } \
+        } \
+    } \
+}
+#endif
 
 #endif
