@@ -78,10 +78,10 @@ extern const CCReflectStaticPointer CC_REFLECT(CCReflectTypeUnmapper);
 extern CCReflectTypeMapper CCReflectUnmapperMap;
 extern CCReflectTypeUnmapper CCReflectUnmapperUnmap;
 
-void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectTypeMapperUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
-void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectTypeUnmapperUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 #define CC_REFLECT_VALUE_IS_POINTER(value) *(void**)CC_REFLECT_MAP_DATA_ARG == value
@@ -94,20 +94,20 @@ extern const CCReflectStruct5 CC_REFLECT(CCReflectOpaque);
 extern CCReflectTypeMapper CCReflectOpaqueTypeDescriptorMap;
 extern CCReflectTypeUnmapper CCReflectOpaqueTypeDescriptorUnmap;
 
-void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectOpaqueTypeDescriptorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 extern CCReflectTypeMapper CCReflectStaticPointerTypeDescriptorMap;
 extern CCReflectTypeUnmapper CCReflectStaticPointerTypeDescriptorUnmap;
 
-void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectStaticPointerTypeDescriptorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 #define CC_REFLECT_STATIC_POINTER_IS_TYPE(value) CC_REFLECT_MAP_DATA_ARG == &CC_REFLECT(value)
 
 #define CC_REFLECT_VALUE_TO_STATIC_POINTER(value) &CC_REFLECT(CCReflectStaticPointer), &CC_REFLECT(value)
 
-void CCReflectValidationMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectValidationMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectValidationUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 extern const CCReflectStaticPointer CC_REFLECT(CCReflectValidation);
@@ -223,7 +223,7 @@ typedef struct {
 
 #define CC_REFLECT_TERMINATED_ARRAY(type, terminator_, maxSize) ((CCReflectTerminatedArray){ .opaque = CC_REFLECT_OPAQUE(maxSize, sizeof(CCReflectTerminatedArray), CCReflectTerminatedArrayMapper, CCReflectTerminatedArrayUnmapper), .elementType = type, .terminator = terminator_ })
 
-void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
@@ -557,7 +557,7 @@ typedef struct {
 
 #define CC_REFLECT_CCArray(type, allocator_, chunkSize_) ((CCReflectCCArray){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCArray), sizeof(CCReflectCCArray), CCReflectCCArrayMapper, CCReflectCCArrayUnmapper), .elementType = type, .allocator = allocator_, .chunkSize = chunkSize_ })
 
-void CCReflectCCArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectCCArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectCCArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
@@ -572,7 +572,7 @@ typedef struct {
 
 #define CC_REFLECT_CCCollection(type, allocator_, hint_, elementDestructor_) ((CCReflectCCCollection){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCCollection), sizeof(CCReflectCCCollection), CCReflectCCCollectionMapper, CCReflectCCCollectionUnmapper), .elementType = type, .allocator = allocator_, .hint = hint_, .elementDestructor = elementDestructor_ })
 
-void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectCCCollectionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 extern const CCReflectInteger CC_REFLECT(CCCollectionHint);
@@ -582,7 +582,7 @@ extern const CCReflectStaticPointer CC_REFLECT(CCCollectionElementDestructor);
 extern CCReflectTypeMapper CCCollectionElementDestructorMap;
 extern CCReflectTypeUnmapper CCCollectionElementDestructorUnmap;
 
-void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 #define CC_REFLECT_VALUE_IS_COLLECTION_ELEMENT_DESTRUCTOR(value) *(CCCollectionElementDestructor*)CC_REFLECT_MAP_DATA_ARG == value

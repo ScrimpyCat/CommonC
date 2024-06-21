@@ -157,7 +157,7 @@ const char *CCReflectTypeNameDefaults(CCReflectType Type)
 
 #pragma mark - void
 
-static void VoidTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void VoidTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
 }
 
@@ -263,7 +263,7 @@ const CCReflectStruct4 CC_REFLECT(CCMatrix4) = CC_REFLECT_STRUCT(CCMatrix4, (x, 
 
 #pragma mark - Arrays
 
-void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     const size_t ElementSize = CCReflectTypeSize(((const CCReflectTerminatedArray*)Type)->elementType);
     
@@ -280,19 +280,19 @@ void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedTy
 
 #pragma mark - Strings
 
-static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void CCStringUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectOpaque CC_REFLECT(CCString) = CC_REFLECT_OPAQUE(sizeof(CCString), sizeof(CCReflectOpaque), CCStringMapper, CCStringUnmapper);
 
-static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    if (Handler == (CCReflectTypeHandler)CCReflectTransferHandler)
+    if (Intent == CCReflectMapIntentTransfer)
     {
         Handler(&CC_REFLECT(PTYPE(void, weak, dynamic)), Data, Args);
     }
     
-    else if ((Handler == (CCReflectTypeHandler)CCReflectShareHandler) || (Handler == (CCReflectTypeHandler)CCReflectCopyHandler))
+    else if ((Intent == CCReflectMapIntentShare) || (Intent == CCReflectMapIntentCopy))
     {
         CCString String = CCStringCopy(*(CCString*)Data);
         
@@ -360,12 +360,12 @@ const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v65536)) = CC_REFLECT_TERM
 
 #pragma mark - CCAllocatorType
 
-static void AllocatorTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void AllocatorTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void AllocatorTypeUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectOpaque CC_REFLECT(CCAllocatorType) = CC_REFLECT_OPAQUE(sizeof(CCAllocatorType), sizeof(CCReflectOpaque), AllocatorTypeMapper, AllocatorTypeUnmapper);
 
-static void AllocatorTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void AllocatorTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCReflectStruct2 AllocatorType = CC_REFLECT_STRUCT(CCAllocatorType, (allocator, &CC_REFLECT(int)), (data, CCAllocatorTypeDataFieldType(*(const CCAllocatorType*)Data)));
     
@@ -526,7 +526,7 @@ REFLECT_DYNAMIC_POINTERS(CCReflectValidator);
 
 #pragma mark - Reflected Types
 
-static void ReflectTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void ReflectTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void ReflectTypeUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectOpaque CC_REFLECT(CCReflectType) = CC_REFLECT_OPAQUE(sizeof(void*), sizeof(CCReflectOpaque), ReflectTypeMapper, ReflectTypeUnmapper);
@@ -598,9 +598,9 @@ const CCReflectStruct3 CC_REFLECT(CCReflectEnumerable) = CC_REFLECT_STRUCT(CCRef
     (count, &CC_REFLECT(size_t))
 );
 
-static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(CCReflectTypeMapper) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, MapFunctionMapper, MapFunctionUnmapper);
@@ -609,9 +609,9 @@ const CCReflectStaticPointer CC_REFLECT(CCReflectTypeUnmapper) = CC_REFLECT_STAT
 CCReflectTypeMapper CCReflectMapperMap = CCReflectTypeMapperMapDefaults;
 CCReflectTypeUnmapper CCReflectMapperUnmap = CCReflectTypeMapperUnmapDefaults;
 
-static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    CCReflectMapperMap(Type, Data, Args, Handler, Zone, Allocator);
+    CCReflectMapperMap(Type, Data, Args, Handler, Zone, Allocator, Intent);
 }
 
 static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
@@ -619,7 +619,7 @@ static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, co
     CCReflectMapperUnmap(Type, MappedType, Data, Args, Handler, Zone, Allocator);
 }
 
-void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER,
         CCStringMapper
@@ -640,9 +640,9 @@ void CCReflectTypeMapperUnmapDefaults(CCReflectType Type, CCReflectType MappedTy
 CCReflectTypeMapper CCReflectUnmapperMap = CCReflectTypeUnmapperMapDefaults;
 CCReflectTypeUnmapper CCReflectUnmapperUnmap = CCReflectTypeUnmapperUnmapDefaults;
 
-static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    CCReflectUnmapperMap(Type, Data, Args, Handler, Zone, Allocator);
+    CCReflectUnmapperMap(Type, Data, Args, Handler, Zone, Allocator, Intent);
 }
 
 static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
@@ -650,7 +650,7 @@ static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, 
     CCReflectUnmapperUnmap(Type, MappedType, Data, Args, Handler, Zone, Allocator);
 }
 
-void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER,
         CCStringUnmapper
@@ -676,7 +676,7 @@ const CCReflectStruct5 CC_REFLECT(CCReflectOpaque) = CC_REFLECT_STRUCT(CCReflect
     (unmap, &CC_REFLECT(CCReflectTypeUnmapper))
 );
 
-void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
 #define CC_REFLECT_VALUE_OPAQUE_MAPPER(value) CCReflect##value##Mapper
 #define CC_REFLECT_VALUE_OPAQUE_UNMAPPER(value) CCReflect##value##Unmapper
@@ -727,7 +727,7 @@ const CCReflectStruct3 CC_REFLECT(CCReflectStaticPointer) = CC_REFLECT_STRUCT(CC
 CCReflectTypeMapper CCReflectOpaqueTypeDescriptorMap = CCReflectOpaqueTypeDescriptorMapDefaults;
 CCReflectTypeUnmapper CCReflectOpaqueTypeDescriptorUnmap = CCReflectOpaqueTypeDescriptorUnmapDefaults;
 
-void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_STATIC_POINTER_IS_TYPE,
         CCReflectTypeMapper,
@@ -754,7 +754,7 @@ CCReflectTypeUnmapper CCReflectStaticPointerTypeDescriptorUnmap = CCReflectStati
 
 #include "ValidateMinimum.h"
 
-static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void ValidationUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(CCReflectValidation) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, ValidationMapper, ValidationUnmapper);
@@ -762,9 +762,9 @@ const CCReflectStaticPointer CC_REFLECT(CCReflectValidation) = CC_REFLECT_STATIC
 CCReflectTypeMapper CCReflectValidationMap = CCReflectValidationMapDefaults;
 CCReflectTypeUnmapper CCReflectValidationUnmap = CCReflectValidationUnmapDefaults;
 
-static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    CCReflectValidationMap(Type, Data, Args, Handler, Zone, Allocator);
+    CCReflectValidationMap(Type, Data, Args, Handler, Zone, Allocator, Intent);
 }
 
 static void ValidationUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
@@ -772,7 +772,7 @@ static void ValidationUnmapper(CCReflectType Type, CCReflectType MappedType, con
     CCReflectValidationUnmap(Type, MappedType, Data, Args, Handler, Zone, Allocator);
 }
 
-void CCReflectValidationMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectValidationMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER,
         CCReflectValidateMinimum
@@ -803,7 +803,7 @@ const CCReflectStruct5 CC_REFLECT(CCReflectValidator) = CC_REFLECT_STRUCT(CCRefl
     (failure, &CC_REFLECT(CCReflectValue))
 );
 
-static void ReflectTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void ReflectTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCReflectType DataType = *(CCReflectType*)Data;
     
@@ -894,11 +894,11 @@ void CCReflectMapHandler(CCReflectType Type, const void *Data, CCReflectMapHandl
 
 #include "Array.h"
 
-void CCReflectCCArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectCCArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCArray Array;
     
-    if ((Handler == (CCReflectTypeHandler)CCReflectTransferHandler) || (Handler == (CCReflectTypeHandler)CCReflectShareHandler) || (!(Array = *(CCArray*)Data)))
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Array = *(CCArray*)Data)))
     {
         Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
     }
@@ -933,11 +933,11 @@ void CCReflectCCArrayUnmapper(CCReflectType Type, CCReflectType MappedType, cons
 }
 
 
-void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCCollection Collection;
     
-    if ((Handler == (CCReflectTypeHandler)CCReflectTransferHandler) || (Handler == (CCReflectTypeHandler)CCReflectShareHandler) || (!(Collection = *(CCCollection*)Data)))
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Collection = *(CCCollection*)Data)))
     {
         Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
     }
@@ -979,7 +979,7 @@ void CCReflectCCCollectionUnmapper(CCReflectType Type, CCReflectType MappedType,
 
 const CCReflectInteger CC_REFLECT(CCCollectionHint) = CC_REFLECT_SIGNED_INTEGER(int, CCReflectEndianNative);
 
-static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void CCCollectionElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(CCCollectionElementDestructor) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCCollectionElementDestructorMapper, CCCollectionElementDestructorUnmapper);
@@ -987,9 +987,9 @@ const CCReflectStaticPointer CC_REFLECT(CCCollectionElementDestructor) = CC_REFL
 CCReflectTypeMapper CCCollectionElementDestructorMap = CCCollectionElementDestructorMapDefaults;
 CCReflectTypeUnmapper CCCollectionElementDestructorUnmap = CCCollectionElementDestructorUnmapDefaults;
 
-static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    CCCollectionElementDestructorMap(Type, Data, Args, Handler, Zone, Allocator);
+    CCCollectionElementDestructorMap(Type, Data, Args, Handler, Zone, Allocator, Intent);
 }
 
 static void CCCollectionElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
@@ -997,7 +997,7 @@ static void CCCollectionElementDestructorUnmapper(CCReflectType Type, CCReflectT
     CCCollectionElementDestructorUnmap(Type, MappedType, Data, Args, Handler, Zone, Allocator);
 }
 
-void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_COLLECTION_ELEMENT_DESTRUCTOR,
         CCGenericDestructorForCollection,

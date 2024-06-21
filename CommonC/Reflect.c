@@ -682,7 +682,7 @@ void CCReflectDetailedPrint(FILE *File, size_t Levels, CCReflectType Type, const
                 .indentCount = IndentCount,
                 .shouldIndent = ShouldIndent,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectPrintHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }, (CCReflectTypeHandler)CCReflectPrintHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentDisplay);
             break;
             
         case CCReflectTypeArray:
@@ -927,7 +927,7 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                 .zone = Zone,
                 .allocator = Allocator,
                 .validate = Validate
-            }, Handler, Zone, Allocator);
+            }, Handler, Zone, Allocator, (CCReflectMapIntent)Assignment);
             
             break;
         }
@@ -1451,7 +1451,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
                     .stream = Stream,
                     .write = Write,
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             }
             
             else
@@ -1512,7 +1512,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
                 .stream = Stream,
                 .write = Write,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             break;
             
         case CCReflectTypeArray:
@@ -1813,7 +1813,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                     .stream = Stream,
                     .write = Write,
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             }
             break;
             
@@ -1839,7 +1839,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                 .stream = Stream,
                 .write = Write,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             break;
             
         case CCReflectTypeArray:

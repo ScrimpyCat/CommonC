@@ -45,9 +45,18 @@ typedef enum {
 
 typedef const void *CCReflectType;
 
+typedef enum {
+    CCReflectMapIntentTransfer,
+    CCReflectMapIntentShare,
+    CCReflectMapIntentCopy,
+    CCReflectMapIntentSerialize,
+    CCReflectMapIntentDisplay,
+    CCReflectMapIntentInspect
+} CCReflectMapIntent;
+
 typedef void (*CCReflectTypeHandler)(CCReflectType Type, const void *Data, void *Args);
 
-typedef void (*CCReflectTypeMapper)(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+typedef void (*CCReflectTypeMapper)(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 typedef void (*CCReflectTypeUnmapper)(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 typedef enum {
@@ -391,9 +400,9 @@ typedef struct {
 #define CC_REFLECT_EXPAND_ARRAY(type, count, ...) type, count
 
 typedef enum {
-    CCReflectAssignmentTransfer,
-    CCReflectAssignmentShare,
-    CCReflectAssignmentCopy
+    CCReflectAssignmentTransfer = CCReflectMapIntentTransfer,
+    CCReflectAssignmentShare = CCReflectMapIntentShare,
+    CCReflectAssignmentCopy = CCReflectMapIntentCopy
 } CCReflectAssignment;
 
 /*!
