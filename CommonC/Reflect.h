@@ -178,7 +178,7 @@ typedef struct {
 
 #define CC_REFLECT_ARRAY(type_, count_) ((CCReflectArray){ .id = CCReflectTypeArray, .type = type_, .count = count_ })
 
-#define CC_REFLECT_ENUMERABLE(type_, ...) ((CCReflectEnumerable){ .id = CCReflectTypeEnumerable, .type = type_, .count = SIZE_MAX, __VA_ARGS__ })
+#define CC_REFLECT_ENUMERABLE(type_, ...) ((CCReflectEnumerable){ .id = CCReflectTypeEnumerable, .type = type_, CC_OVERRIDE_INIT((.count = SIZE_MAX), ## __VA_ARGS__) })
 
 #define CC_REFLECT_OPAQUE(size_, typeSize_, mapper, unmapper) ((CCReflectOpaque){ .id = CCReflectTypeOpaque, .size = size_, .typeSize = typeSize_, .map = mapper, .unmap = unmapper })
 
