@@ -92,6 +92,8 @@ CCReflectType CCReflectValidate(const CCReflectValidator *Validator, void *Data,
 
 #define CC_REFLECT_PRINT_LEVELS_MAX 20
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused"
 static const char * const Fallback_uint8_t = "uint8_t";
 static const char * const Fallback_uint16_t = "uint16_t";
 static const char * const Fallback_uint32_t = "uint32_t";
@@ -105,6 +107,7 @@ static const char * const Fallback_unsigned_long_long = "unsigned long long";
 
 static const char * const Fallback_float = "float";
 static const char * const Fallback_long_double = "long double";
+#pragma clang diagnostic pop
 
 const char *(*CCReflectTypeNameCallback)(CCReflectType Type) = CCReflectTypeNameDefaults;
 
