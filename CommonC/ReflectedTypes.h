@@ -56,7 +56,7 @@ extern const CCReflectStruct4 CC_REFLECT(CCReflectPointer);
 
 extern const CCReflectStruct3 CC_REFLECT(CCReflectStaticPointer);
 
-extern const CCReflectStruct2 CC_REFLECT(CCReflectDynamicPointer);
+extern const CCReflectStruct3 CC_REFLECT(CCReflectDynamicPointer);
 
 extern const CCReflectInteger CC_REFLECT(CCReflectEndian);
 
@@ -254,6 +254,18 @@ extern const CCReflectStruct2 CC_REFLECT(CCDebugAllocatorInfo);
 typedef CCReflectType (*CCAllocatorTypeDataFieldTypeCallback)(CCAllocatorType Allocator);
 
 extern CCAllocatorTypeDataFieldTypeCallback CCAllocatorTypeDataFieldType;
+
+extern const CCReflectStaticPointer CC_REFLECT(CCMemoryDestructorCallback);
+
+extern CCReflectTypeMapper CCMemoryDestructorCallbackMap;
+extern CCReflectTypeUnmapper CCMemoryDestructorCallbackUnmap;
+
+void CCMemoryDestructorCallbackMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCMemoryDestructorCallbackUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+#define CC_REFLECT_VALUE_IS_MEMORY_DESTRUCTOR_CALLBACK(value) *(CCMemoryDestructorCallback*)CC_REFLECT_MAP_DATA_ARG == value
+
+#define CC_REFLECT_VALUE_TO_MEMORY_DESTRUCTOR_CALLBACK(value) &CC_REFLECT(CCMemoryDestructorCallback), &value
 
 
 #pragma mark - Pointer Types

@@ -880,6 +880,11 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                             
                             *(void**)Data = Ptr;
                             
+                            if (((const CCReflectDynamicPointer*)Type)->destructor)
+                            {
+                                CCMemorySetDestructor(Ptr, ((const CCReflectDynamicPointer*)Type)->destructor);
+                            }
+                            
                             break;
                         }
                     }
@@ -1982,6 +1987,11 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                     CCReflectDeserializeBinary(((const CCReflectPointer*)Type)->type, Ptr, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
                     
                     *(void**)Data = Ptr;
+                    
+                    if (((const CCReflectDynamicPointer*)Type)->destructor)
+                    {
+                        CCMemorySetDestructor(Ptr, ((const CCReflectDynamicPointer*)Type)->destructor);
+                    }
                 }
                 
                 else *(void**)Data = NULL;

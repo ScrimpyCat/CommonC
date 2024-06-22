@@ -87,6 +87,7 @@ typedef struct {
     CCReflectPointer pointer;
     /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
     CCAllocatorType allocator;
+    CCMemoryDestructorCallback destructor;
 } CCReflectDynamicPointer;
 
 typedef enum {
@@ -183,7 +184,7 @@ typedef struct {
 
 #define CC_REFLECT_POINTER(type_, storage_, ownership_) ((CCReflectPointer){ .id = CCReflectTypePointer, .type = type_, .storage = storage_, .ownership = ownership_ })
 #define CC_REFLECT_STATIC_POINTER(type, ownership, mapper, unmapper) ((CCReflectStaticPointer){ .pointer = CC_REFLECT_POINTER(type, CCReflectStorageStatic, ownership), .map = mapper, .unmap = unmapper })
-#define CC_REFLECT_DYNAMIC_POINTER(type, ownership, ...) ((CCReflectDynamicPointer){ .pointer = CC_REFLECT_POINTER(type, CCReflectStorageDynamic, ownership), .allocator = CC_NULL_ALLOCATOR, __VA_ARGS__ })
+#define CC_REFLECT_DYNAMIC_POINTER(type, ownership, ...) ((CCReflectDynamicPointer){ .pointer = CC_REFLECT_POINTER(type, CCReflectStorageDynamic, ownership), CC_OVERRIDE_INIT((.allocator = CC_NULL_ALLOCATOR, .destructor = NULL), ## __VA_ARGS__) })
 
 #define CC_REFLECT_ARRAY(type_, count_) ((CCReflectArray){ .id = CCReflectTypeArray, .type = type_, .count = count_ })
 

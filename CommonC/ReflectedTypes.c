@@ -410,6 +410,35 @@ CCReflectType CCAllocatorTypeDataFieldTypeDefaults(CCAllocatorType Allocator)
 
 CCAllocatorTypeDataFieldTypeCallback CCAllocatorTypeDataFieldType = CCAllocatorTypeDataFieldTypeDefaults;
 
+static void CCMemoryDestructorCallbackMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCMemoryDestructorCallbackUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+const CCReflectStaticPointer CC_REFLECT(CCMemoryDestructorCallback) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCMemoryDestructorCallbackMapper, CCMemoryDestructorCallbackUnmapper);
+
+CCReflectTypeMapper CCMemoryDestructorCallbackMap = CCMemoryDestructorCallbackMapDefaults;
+CCReflectTypeUnmapper CCMemoryDestructorCallbackUnmap = CCMemoryDestructorCallbackUnmapDefaults;
+
+static void CCMemoryDestructorCallbackMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCMemoryDestructorCallbackMap(Type, Data, Args, Handler, Zone, Allocator, Intent);
+}
+
+static void CCMemoryDestructorCallbackUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    CCMemoryDestructorCallbackUnmap(Type, MappedType, Data, Args, Handler, Zone, Allocator);
+}
+
+void CCMemoryDestructorCallbackMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCAssertLog(0, "Unknown destructor type");
+}
+
+void CCMemoryDestructorCallbackUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    CCAssertLog(0, "Unknown destructor type");
+}
+
+
 #pragma mark - Pointer Types
 
 #define REFLECT_DYNAMIC_POINTERS(type) \
@@ -499,7 +528,7 @@ REFLECT_DYNAMIC_POINTERS(ARRAY(char, v1024));
 REFLECT_DYNAMIC_POINTERS(ARRAY(char, v4096));
 REFLECT_DYNAMIC_POINTERS(ARRAY(char, v65536));
 
-REFLECT_DYNAMIC_POINTERS(CCString);
+REFLECT_DYNAMIC_POINTERS(CCString); // TODO: need destructor
 
 REFLECT_DYNAMIC_POINTERS(CCAllocatorType);
 
@@ -544,9 +573,10 @@ const CCReflectStruct4 CC_REFLECT(CCReflectPointer) = CC_REFLECT_STRUCT(CCReflec
     (ownership, &CC_REFLECT(CCReflectOwnership))
 );
 
-const CCReflectStruct2 CC_REFLECT(CCReflectDynamicPointer) = CC_REFLECT_STRUCT(CCReflectDynamicPointer,
+const CCReflectStruct3 CC_REFLECT(CCReflectDynamicPointer) = CC_REFLECT_STRUCT(CCReflectDynamicPointer,
     (pointer, &CC_REFLECT(CCReflectPointer)),
-    (allocator, &CC_REFLECT(CCAllocatorType))
+    (allocator, &CC_REFLECT(CCAllocatorType)),
+    (destructor, &CC_REFLECT(CCMemoryDestructorCallback))
 );
 
 const CCReflectInteger CC_REFLECT(CCReflectEndian) = CC_REFLECT_INTEGER(CCReflectEndian, CCReflectEndianNative);
