@@ -34,6 +34,7 @@ const char *CCReflectTypeNameDefaults(CCReflectType Type)
             {
                 if (Type == &CC_REFLECT(CCReflectTypeMapper)) return "CCReflectTypeMapper";
                 else if (Type == &CC_REFLECT(CCReflectTypeUnmapper)) return "CCReflectTypeUnmapper";
+                else if (Type == &CC_REFLECT(CCMemoryDestructorCallback)) return "CCMemoryDestructorCallback";
                 else if (Type == &CC_REFLECT(CCCollectionElementDestructor)) return "CCCollectionElementDestructor";
             }
             break;
@@ -138,7 +139,7 @@ const char *CCReflectTypeNameDefaults(CCReflectType Type)
             else
             {
                 if ((((const CCReflectOpaque*)Type)->map == CCReflectCCArrayMapper) && (((const CCReflectOpaque*)Type)->unmap == CCReflectCCArrayUnmapper)) return "CCArray";
-                else if ((((const CCReflectOpaque*)Type)->map == CCReflectCCCollectionMapper) && (((const CCReflectOpaque*)Type)->unmap == CCReflectCCCollectionUnmapper)) return "CCCollection";
+                else if ((((const CCReflectOpaque*)Type)->map == CCReflectCCCollectionMapper) && (((const CCReflectOpaque*)Type)->unmap == CCReflectCCCollectionUnmapper)) return ((const CCReflectCCCollection*)Type)->hint & CCCollectionHintOrdered ? "CCOrderedCollection" : "CCCollection";
             }
             break;
             
@@ -963,6 +964,105 @@ void CCReflectCCArrayUnmapper(CCReflectType Type, CCReflectType MappedType, cons
 }
 
 
+#include "LinkedList.h"
+
+void CCReflectCCLinkedListMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCLinkedList List;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(List = *(CCLinkedList*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        CCEnumerable Enumerable;
+        CCLinkedListGetEnumerable(List, &Enumerable);
+        
+        Handler(&CC_REFLECT_ENUMERABLE(((const CCReflectCCLinkedList*)Type)->elementType), &Enumerable, Args);
+
+    }
+}
+
+void CCReflectCCLinkedListUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeEnumerable)
+    {
+        if (((const CCReflectCCLinkedList*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) Allocator = ((const CCReflectCCLinkedList*)Type)->allocator;
+        
+        const size_t ElementSize = CCReflectTypeSize(((const CCReflectCCLinkedList*)Type)->elementType);
+        
+        CCEnumerable Enumerable = *(CCEnumerable*)Data;
+        void *Element = CCEnumerableGetCurrent(&Enumerable);
+        
+        CCLinkedList List = CCLinkedListCreateNode(Allocator, ElementSize, Element);
+        CCLinkedListNode *Last = List;
+        
+        for ( ; Element; Element = CCEnumerableNext(&Enumerable))
+        {
+            CCLinkedListNode *Node = CCLinkedListCreateNode(Allocator, ElementSize, Element);
+            
+            Last = CCLinkedListAppend(Last, Node);
+        }
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &List, Args);
+        
+        CCLinkedListDestroy(List);
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+
+#include "List.h"
+
+void CCReflectCCListMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCList List;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(List = *(CCList*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        CCEnumerable Enumerable;
+        CCListGetEnumerable(List, &Enumerable);
+        
+        Handler(&CC_REFLECT_ENUMERABLE(((const CCReflectCCList*)Type)->elementType, .count = CCListGetCount(List)), &Enumerable, Args);
+    }
+}
+
+void CCReflectCCListUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeEnumerable)
+    {
+        if (((const CCReflectCCList*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) Allocator = ((const CCReflectCCList*)Type)->allocator;
+        
+        const size_t ElementSize = CCReflectTypeSize(((const CCReflectCCList*)Type)->elementType);
+        CCList List = CCListCreate(Allocator, ElementSize, ((const CCReflectCCList*)Type)->chunkSize, ((const CCReflectCCList*)Type)->pageSize);
+        
+        CCEnumerable Enumerable = *(CCEnumerable*)Data;
+        
+        for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable)) CCListAppendElement(List, Element);
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &List, Args);
+        
+        CCListDestroy(List);
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+
 void CCReflectCCCollectionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCCollection Collection;
@@ -992,7 +1092,15 @@ void CCReflectCCCollectionUnmapper(CCReflectType Type, CCReflectType MappedType,
         
         CCEnumerable Enumerable = *(CCEnumerable*)Data;
         
-        for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable)) CCCollectionInsertElement(Collection, Element);
+        if (((const CCReflectCCCollection*)Type)->hint & CCCollectionHintOrdered)
+        {
+            for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable)) CCOrderedCollectionAppendElement(Collection, Element);
+        }
+        
+        else
+        {
+            for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable)) CCCollectionInsertElement(Collection, Element);
+        }
         
         Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Collection, Args);
         

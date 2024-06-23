@@ -578,6 +578,34 @@ typedef struct {
     CCReflectType elementType;
     /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
     CCAllocatorType allocator;
+} CCReflectCCLinkedList;
+
+#define CC_REFLECT_CCLinkedList(type, allocator_) ((CCReflectCCLinkedList){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCLinkedList), sizeof(CCReflectCCLinkedList), CCReflectCCLinkedListMapper, CCReflectCCLinkedListUnmapper), .elementType = type, .allocator = allocator_ })
+
+void CCReflectCCLinkedListMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCReflectCCLinkedListUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType elementType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+    size_t chunkSize;
+    size_t pageSize;
+} CCReflectCCList;
+
+#define CC_REFLECT_CCList(type, allocator_, chunkSize_, pageSize_) ((CCReflectCCList){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCList), sizeof(CCReflectCCList), CCReflectCCListMapper, CCReflectCCListUnmapper), .elementType = type, .allocator = allocator_, .chunkSize = chunkSize_, .pageSize = pageSize_ })
+
+void CCReflectCCListMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCReflectCCListUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType elementType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
     CCCollectionElementDestructor elementDestructor;
     CCCollectionHint hint;
 } CCReflectCCCollection;
