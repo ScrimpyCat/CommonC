@@ -1431,7 +1431,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
     {
         case CCReflectTypePointer:
         {
-            // [  0:4  ][_:1][storage:1][ownership:2][type:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n][dynamic:n]
             // [  0:4  ][_:1][storage:1][ownership:2][type:n][static:n]
             Write(Stream, &(uint8_t){ ID | (((const CCReflectPointer*)Type)->storage << 2) | ((const CCReflectPointer*)Type)->ownership }, 1);
             
@@ -1462,6 +1462,8 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             else
             {
                 CCAssertLog(((const CCReflectDynamicPointer*)Type)->allocator.allocator == CC_NULL_ALLOCATOR.allocator, "Cannot serialize dynamic pointer types with custom allocators");
+                
+                CCReflectSerializeBinary(&CC_REFLECT(CCMemoryDestructorCallback), &((const CCReflectDynamicPointer*)Type)->destructor, CCReflectEndianLittle, 2, Stream, Write, Zone);
             }
             
             break;
@@ -1601,7 +1603,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
     {
         case CCReflectTypePointer:
         {
-            // [  0:4  ][_:1][storage:1][ownership:2][type:n]
+            // [  0:4  ][_:1][storage:1][ownership:2][type:n][dynamic:n]
             // [  0:4  ][_:1][storage:1][ownership:2][type:n][static:n]
             CCReflectPointer *Pointer = CCMemoryZoneAllocate(Zone, sizeof(union { CCReflectStaticPointer staticPointer; CCReflectDynamicPointer dynamicPointer; }));
             
@@ -1635,6 +1637,8 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             else
             {
                 ((CCReflectDynamicPointer*)Pointer)->allocator = CC_NULL_ALLOCATOR;
+                
+                CCReflectDeserializeBinary(&CC_REFLECT(CCMemoryDestructorCallback), &((CCReflectDynamicPointer*)Pointer)->destructor, CCReflectEndianLittle, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
             }
             
             return Pointer;
@@ -1799,27 +1803,28 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
     switch (*(const CCReflectTypeID*)Type)
     {
         case CCReflectTypePointer:
-            if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
+            if (*(void**)Data)
             {
-                if (*(void**)Data)
+                Write(Stream, &(uint8_t){ 1 }, 1);
+                
+                if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
                 {
-                    Write(Stream, &(uint8_t){ 1 }, 1);
                     CCReflectSerializeBinary(((const CCReflectPointer*)Type)->type, *(void**)Data, SerializedEndianness, PreferVariableLength, Stream, Write, Zone);
                 }
                 
-                else Write(Stream, &(uint8_t){ 0 }, 1);
+                else
+                {
+                    ((const CCReflectStaticPointer*)Type)->map(Type, Data, &(CCReflectSerializeBinaryHandlerArgs){
+                        .serializedEndianness = SerializedEndianness,
+                        .preferVariableLength = PreferVariableLength,
+                        .stream = Stream,
+                        .write = Write,
+                        .zone = Zone
+                    }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
+                }
             }
             
-            else
-            {
-                ((const CCReflectStaticPointer*)Type)->map(Type, Data, &(CCReflectSerializeBinaryHandlerArgs){
-                    .serializedEndianness = SerializedEndianness,
-                    .preferVariableLength = PreferVariableLength,
-                    .stream = Stream,
-                    .write = Write,
-                    .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
-            }
+            else Write(Stream, &(uint8_t){ 0 }, 1);
             break;
             
         case CCReflectTypeInteger:
@@ -1974,12 +1979,12 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
     {
         case CCReflectTypePointer:
         {
-            if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
+            uint8_t Exists;
+            Read(Stream, &Exists, sizeof(uint8_t));
+            
+            if (Exists)
             {
-                uint8_t Exists;
-                Read(Stream, &Exists, sizeof(uint8_t));
-                
-                if (Exists)
+                if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
                 {
                     CCAllocatorType CustomAllocator = ((const CCReflectDynamicPointer*)Type)->allocator;
                     
@@ -1994,26 +1999,26 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                     }
                 }
                 
-                else *(void**)Data = NULL;
+                else
+                {
+                    CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+                    void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
+                    CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
+                    
+                    ((const CCReflectStaticPointer*)Type)->unmap(Type, MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
+                        .dest = Data,
+                        .serializedEndianness = SerializedEndianness,
+                        .stream = Stream,
+                        .read = Read,
+                        .allocator = Allocator,
+                        .zone = Zone
+                    }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
+                    
+                    CCReflectDestroy(MappedType, MappedData);
+                }
             }
             
-            else
-            {
-                CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
-                void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
-                CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
-                
-                ((const CCReflectStaticPointer*)Type)->unmap(Type, MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
-                    .dest = Data,
-                    .serializedEndianness = SerializedEndianness,
-                    .stream = Stream,
-                    .read = Read,
-                    .allocator = Allocator,
-                    .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
-                
-                CCReflectDestroy(MappedType, MappedData);
-            }
+            else *(void**)Data = NULL;
             
             break;
         }
