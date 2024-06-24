@@ -307,7 +307,7 @@ static void *ZoneReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
     
     if ((!Zone) || (Header->zone == Zone))
     {
-        if (Header->size <= Size) return Ptr;
+        if (Size <= Header->size) return Ptr;
         
         ptrdiff_t Offset;
         CCMemoryZoneBlock *Block = CCMemoryZoneGetBlockForPointer(Header->zone, Ptr, &Offset);
