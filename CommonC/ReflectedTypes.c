@@ -1176,3 +1176,110 @@ void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectTyp
     
     CCAssertLog(0, "Unknown destructor type");
 }
+
+
+#pragma mark - Map
+
+typedef struct {
+    CCEnumerable keyEnumerable;
+    CCEnumerable valueEnumerable;
+} CCReflectKVEnumerables;
+
+void CCReflectCCHashMapMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCHashMap Map;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Map = *(CCHashMap*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        const size_t Count = CCHashMapGetCount(Map);
+        
+        CCReflectKVEnumerables KVEnumerables;
+        CCHashMapGetKeyEnumerable(Map, &KVEnumerables.keyEnumerable);
+        CCHashMapGetValueEnumerable(Map, &KVEnumerables.valueEnumerable);
+        
+        Handler(&CC_REFLECT_STRUCT(CCReflectKVEnumerables,
+            (keyEnumerable, &CC_REFLECT_ENUMERABLE(((const CCReflectCCHashMap*)Type)->keyType, .count = Count)),
+            (valueEnumerable, &CC_REFLECT_ENUMERABLE(((const CCReflectCCHashMap*)Type)->valueType, .count = Count))
+        ), &KVEnumerables, Args);
+    }
+}
+
+void CCReflectCCHashMapUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeStruct)
+    {
+        if (((const CCReflectCCHashMap*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) Allocator = ((const CCReflectCCHashMap*)Type)->allocator;
+        
+        const size_t KeySize = CCReflectTypeSize(((const CCReflectCCHashMap*)Type)->keyType);
+        const size_t ValueSize = CCReflectTypeSize(((const CCReflectCCHashMap*)Type)->valueType);
+        CCHashMap Map = CCHashMapCreate(Allocator, KeySize, ValueSize, ((const CCReflectCCHashMap*)Type)->bucketCount, ((const CCReflectCCHashMap*)Type)->hasher, ((const CCReflectCCHashMap*)Type)->keyComparator, ((const CCReflectCCHashMap*)Type)->interface);
+        
+        CCReflectKVEnumerables KVEnumerables = *(CCReflectKVEnumerables*)Data;
+        
+        for (void *Key = CCEnumerableGetCurrent(&KVEnumerables.keyEnumerable), *Value = CCEnumerableGetCurrent(&KVEnumerables.valueEnumerable); Key && Value; Key = CCEnumerableNext(&KVEnumerables.keyEnumerable), Value = CCEnumerableNext(&KVEnumerables.valueEnumerable)) CCHashMapSetValue(Map, Key, Value);
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Map, Args);
+        
+        CCHashMapDestroy(Map);
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+
+void CCReflectCCDictionaryMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCDictionary Map;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Map = *(CCDictionary*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        const size_t Count = CCDictionaryGetCount(Map);
+        
+        CCReflectKVEnumerables KVEnumerables;
+        CCDictionaryGetKeyEnumerable(Map, &KVEnumerables.keyEnumerable);
+        CCDictionaryGetValueEnumerable(Map, &KVEnumerables.valueEnumerable);
+        
+        Handler(&CC_REFLECT_STRUCT(CCReflectKVEnumerables,
+            (keyEnumerable, &CC_REFLECT_ENUMERABLE(((const CCReflectCCDictionary*)Type)->keyType, .count = Count)),
+            (valueEnumerable, &CC_REFLECT_ENUMERABLE(((const CCReflectCCDictionary*)Type)->valueType, .count = Count))
+        ), &KVEnumerables, Args);
+    }
+}
+
+void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeStruct)
+    {
+        if (((const CCReflectCCDictionary*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) Allocator = ((const CCReflectCCDictionary*)Type)->allocator;
+        
+        const size_t KeySize = CCReflectTypeSize(((const CCReflectCCDictionary*)Type)->keyType);
+        const size_t ValueSize = CCReflectTypeSize(((const CCReflectCCDictionary*)Type)->valueType);
+        CCDictionary Map = CCDictionaryCreate(Allocator, ((const CCReflectCCDictionary*)Type)->hint, KeySize, ValueSize, ((const CCReflectCCDictionary*)Type)->callbacks);
+        
+        CCReflectKVEnumerables KVEnumerables = *(CCReflectKVEnumerables*)Data;
+        
+        for (void *Key = CCEnumerableGetCurrent(&KVEnumerables.keyEnumerable), *Value = CCEnumerableGetCurrent(&KVEnumerables.valueEnumerable); Key && Value; Key = CCEnumerableNext(&KVEnumerables.keyEnumerable), Value = CCEnumerableNext(&KVEnumerables.valueEnumerable)) CCDictionarySetValue(Map, Key, Value);
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Map, Args);
+        
+        CCDictionaryDestroy(Map);
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}

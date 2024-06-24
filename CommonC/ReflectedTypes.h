@@ -557,6 +557,7 @@ extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, weak, dyn
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic));
 
+
 #pragma mark - Collections
 
 typedef struct {
@@ -628,6 +629,47 @@ void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectTyp
 #define CC_REFLECT_VALUE_IS_COLLECTION_ELEMENT_DESTRUCTOR(value) *(CCCollectionElementDestructor*)CC_REFLECT_MAP_DATA_ARG == value
 
 #define CC_REFLECT_VALUE_TO_COLLECTION_ELEMENT_DESTRUCTOR(value) &CC_REFLECT(CCCollectionElementDestructor), &value
+
+
+#pragma mark - Maps
+
+#include <CommonC/HashMap.h>
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType keyType;
+    CCReflectType valueType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+    size_t bucketCount;
+    CCHashMapKeyHasher hasher;
+    CCComparator keyComparator;
+    const CCHashMapInterface *interface;
+} CCReflectCCHashMap;
+
+#define CC_REFLECT_CCHashMap(keyType_, valueType_, allocator_, bucketCount_, hasher_, keyComparator_, interface_) ((CCReflectCCHashMap){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCHashMap), sizeof(CCReflectCCHashMap), CCReflectCCHashMapMapper, CCReflectCCHashMapUnmapper), .keyType = keyType_, .valueType = valueType_, .allocator = allocator_, .bucketCount = bucketCount_, .hasher = hasher_, .keyComparator = keyComparator_, .interface = interface_ })
+
+void CCReflectCCHashMapMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCReflectCCHashMapUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+
+#include <CommonC/Dictionary.h>
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType keyType;
+    CCReflectType valueType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+    CCDictionaryHint hint;
+    const CCDictionaryCallbacks *callbacks;
+} CCReflectCCDictionary;
+
+#define CC_REFLECT_CCDictionary(keyType_, valueType_, allocator_, hint_, callbacks_) ((CCReflectCCDictionary){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCDictionary), sizeof(CCReflectCCDictionary), CCReflectCCDictionaryMapper, CCReflectCCDictionaryUnmapper), .keyType = keyType_, .valueType = valueType_, .allocator = allocator_, .hint = hint_, .callbacks = callbacks_ })
+
+void CCReflectCCDictionaryMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
 
 #pragma mark - Helpers
 /*!
