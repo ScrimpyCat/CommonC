@@ -671,6 +671,21 @@ void CCReflectCCDictionaryMapper(CCReflectType Type, const void *Data, void *Arg
 void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
+#pragma mark - Queues
+
+typedef struct {
+    CCReflectOpaque opaque;
+    CCReflectType elementType;
+    /// Set to CC_NULL_ALLOCATOR to use the provided allocator, otherwise set to the allocator that should be used instead.
+    CCAllocatorType allocator;
+} CCReflectCCQueue;
+
+#define CC_REFLECT_CCQueue(type, allocator_) ((CCReflectCCQueue){ .opaque = CC_REFLECT_OPAQUE(sizeof(CCQueue), sizeof(CCReflectCCQueue), CCReflectCCQueueMapper, CCReflectCCQueueUnmapper), .elementType = type, .allocator = allocator_ })
+
+void CCReflectCCQueueMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCReflectCCQueueUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+
 #pragma mark - Helpers
 /*!
  * @abstract Overrideable macros:

@@ -981,7 +981,6 @@ void CCReflectCCLinkedListMapper(CCReflectType Type, const void *Data, void *Arg
         CCLinkedListGetEnumerable(List, &Enumerable);
         
         Handler(&CC_REFLECT_ENUMERABLE(((const CCReflectCCLinkedList*)Type)->elementType), &Enumerable, Args);
-
     }
 }
 
@@ -1178,7 +1177,7 @@ void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectTyp
 }
 
 
-#pragma mark - Map
+#pragma mark - Maps
 
 typedef struct {
     CCEnumerable keyEnumerable;
@@ -1276,6 +1275,53 @@ void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType,
         Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Map, Args);
         
         CCDictionaryDestroy(Map);
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+
+#pragma mark - Queue
+
+#include "Queue.h"
+
+void CCReflectCCQueueMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCQueue Queue;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Queue = *(CCQueue*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        CCEnumerable Enumerable;
+        CCQueueGetEnumerable(Queue, &Enumerable);
+        
+        Handler(&CC_REFLECT_ENUMERABLE(((const CCReflectCCQueue*)Type)->elementType), &Enumerable, Args);
+    }
+}
+
+void CCReflectCCQueueUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeEnumerable)
+    {
+        if (((const CCReflectCCQueue*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) Allocator = ((const CCReflectCCQueue*)Type)->allocator;
+        
+        const size_t ElementSize = CCReflectTypeSize(((const CCReflectCCQueue*)Type)->elementType);
+        CCQueue Queue = CCQueueCreate(Allocator);
+        
+        CCEnumerable Enumerable = *(CCEnumerable*)Data;
+        
+        for (void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable)) CCQueuePush(Queue, CCQueueCreateNode(Allocator, ElementSize, Element));
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Queue, Args);
+        
+        CCQueueDestroy(Queue);
     }
     
     else
