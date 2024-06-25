@@ -682,7 +682,7 @@ void CCReflectDetailedPrint(FILE *File, size_t Levels, CCReflectType Type, const
                 .indentCount = IndentCount,
                 .shouldIndent = ShouldIndent,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectPrintHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentDisplay);
+            }, (CCReflectTypeHandler)CCReflectPrintHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone), CCReflectMapIntentDisplay);
             break;
             
         case CCReflectTypeArray:
@@ -1452,7 +1452,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
                     .stream = Stream,
                     .write = Write,
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
+                }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             }
             
             else
@@ -1515,7 +1515,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
                 .stream = Stream,
                 .write = Write,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             break;
             
         case CCReflectTypeArray:
@@ -1616,25 +1616,25 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
             if (Pointer->storage == CCReflectStorageStatic)
             {
-                CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+                CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_AUTORELEASE_ALLOCATOR(Zone));
                 void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
-                CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
+                CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
                 
                 CCReflectStaticPointerTypeDescriptorUnmap(&CC_REFLECT(CCReflectStaticPointer), MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
                     .dest = Pointer,
                     .serializedEndianness = CCReflectEndianLittle,
                     .stream = Stream,
                     .read = Read,
-                    .allocator = CC_ZONE_ALLOCATOR(Zone),
+                    .allocator = CC_AUTORELEASE_ALLOCATOR(Zone),
                     .zone = Zone
-                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+                }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
             }
             
             else
             {
                 ((CCReflectDynamicPointer*)Pointer)->allocator = CC_NULL_ALLOCATOR;
                 
-                CCReflectDeserializeBinary(&CC_REFLECT(CCMemoryDestructorCallback), &((CCReflectDynamicPointer*)Pointer)->destructor, CCReflectEndianLittle, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
+                CCReflectDeserializeBinary(&CC_REFLECT(CCMemoryDestructorCallback), &((CCReflectDynamicPointer*)Pointer)->destructor, CCReflectEndianLittle, 2, Stream, Read, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
             }
             
             return Pointer;
@@ -1708,9 +1708,9 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             size_t TypeSize;
             CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &TypeSize, sizeof(TypeSize), FALSE, Stream, Read);
             
-            CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+            CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_AUTORELEASE_ALLOCATOR(Zone));
             void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
-            CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_ZONE_ALLOCATOR(Zone));
+            CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
             
             CCReflectOpaque *Opaque = CCMemoryZoneAllocate(Zone, TypeSize);
             
@@ -1719,9 +1719,9 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
                 .serializedEndianness = CCReflectEndianLittle,
                 .stream = Stream,
                 .read = Read,
-                .allocator = CC_ZONE_ALLOCATOR(Zone),
+                .allocator = CC_AUTORELEASE_ALLOCATOR(Zone),
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone));
+            }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
             
             return Opaque;
         }
@@ -1816,7 +1816,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                         .stream = Stream,
                         .write = Write,
                         .zone = Zone
-                    }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
+                    }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
                 }
             }
             
@@ -1845,7 +1845,7 @@ void CCReflectSerializeBinary(CCReflectType Type, const void *Data, CCReflectEnd
                 .stream = Stream,
                 .write = Write,
                 .zone = Zone
-            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_ZONE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
+            }, (CCReflectTypeHandler)CCReflectSerializeBinaryHandler, Zone, CC_AUTORELEASE_ALLOCATOR(Zone), CCReflectMapIntentSerialize);
             break;
             
         case CCReflectTypeArray:
@@ -1997,7 +1997,7 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                 
                 else
                 {
-                    CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+                    CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_AUTORELEASE_ALLOCATOR(Zone));
                     void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
                     CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
                     
@@ -2036,7 +2036,7 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
             
         case CCReflectTypeOpaque:
         {
-            CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_ZONE_ALLOCATOR(Zone));
+            CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_AUTORELEASE_ALLOCATOR(Zone));
             void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
             CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
             
