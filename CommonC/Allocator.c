@@ -346,12 +346,74 @@ static void ZoneDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Autorelease Allocator Implementation
+
+static void *AutoreleaseAllocator(CCMemoryZone Zone, size_t Size)
+{
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
+    CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
+    
+    void *Head = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    
+    ((CCZoneMemoryHeader*)Head)->zone = Zone;
+    ((CCZoneMemoryHeader*)Head)->size = Size;
+    
+    return Head + sizeof(CCZoneMemoryHeader);
+}
+
+static void *AutoreleaseReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
+{
+    CCZoneMemoryHeader *Header = Ptr - sizeof(CCZoneMemoryHeader);
+    
+    if (!Zone) Zone = Header->zone;
+    
+    const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
+    CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
+    
+    if ((!Zone) || (Header->zone == Zone))
+    {
+        if (Size <= Header->size) return Ptr;
+        
+        ptrdiff_t Offset;
+        CCMemoryZoneBlock *Block = CCMemoryZoneGetBlockForPointer(Header->zone, Ptr, &Offset);
+        
+        const ptrdiff_t NextOffset = CCMemoryZoneBlockGetCurrentOffset(Block);
+        
+        if ((!Block->next) && ((NextOffset - Header->size) == Offset))
+        {
+            if ((Offset + Size) <= BlockSize)
+            {
+                CCMemoryZoneAllocate(Header->zone, Size - Header->size);
+                
+                Header->size = Size;
+                
+                return Ptr;
+            }
+        }
+    }
+    
+    void *NewHead = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *NewPtr = NewHead + sizeof(CCZoneMemoryHeader);
+    
+    memcpy(NewPtr, Ptr, Size);
+    
+    ((CCZoneMemoryHeader*)NewHead)->zone = Zone;
+    ((CCZoneMemoryHeader*)NewHead)->size = Size;
+    
+    return NewPtr;
+}
+
+static void AutoreleaseDeallocator(void *Ptr)
+{
+}
+
+
 #pragma mark -
 
 #ifndef CC_ALLOCATORS_MAX
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
 #endif
-_Static_assert(CC_ALLOCATORS_MAX >= 8, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 9, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -371,7 +433,8 @@ static struct {
         { .allocator = (CCAllocatorFunction)AlignedAllocator, .reallocator = AlignedReallocator, .deallocator = AlignedDeallocator },
         { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
         { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator },
-        { .allocator = (CCAllocatorFunction)ZoneAllocator, .reallocator = (CCReallocatorFunction)ZoneReallocator, .deallocator = ZoneDeallocator }
+        { .allocator = (CCAllocatorFunction)ZoneAllocator, .reallocator = (CCReallocatorFunction)ZoneReallocator, .deallocator = ZoneDeallocator },
+        { .allocator = (CCAllocatorFunction)AutoreleaseAllocator, .reallocator = (CCReallocatorFunction)AutoreleaseReallocator, .deallocator = AutoreleaseDeallocator }
     }
 };
 
