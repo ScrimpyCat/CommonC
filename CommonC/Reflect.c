@@ -786,24 +786,19 @@ void CCReflectPrint(CCReflectType Type, const void *Data)
 
 #pragma mark - Copy
 
-typedef struct {
-    const CCReflectCopyHandlerArgs *args;
-    CCReflectAssignment assignment;
-} CCReflectSetHandlerArgs;
-
-static void CCReflectSetHandler(CCReflectType Type, const void *Data, CCReflectSetHandlerArgs *Args)
+static void CCReflectSetHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->args->dest, Data, Args->args->zone, Args->args->allocator, Args->assignment, Args->args->validate);
+    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, Args->assignment, Args->validate);
 }
 
 void CCReflectTransferHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentTransfer }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, Args, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
 }
 
 void CCReflectShareHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args)
 {
-    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentShare }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, Data, Args, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
 }
 
 static void CCReflectDestroy(CCReflectType Type, void *Data);
@@ -812,7 +807,7 @@ void CCReflectCopyHandler(CCReflectType Type, const void *Data, CCReflectCopyHan
 {
     void *CopiedData = CCMemoryZoneAllocate(Args->zone, CCReflectTypeSize(Type));
     CCReflectCopy(Type, CopiedData, Data, Args->zone, Args->allocator, CCReflectAssignmentCopy, Args->validate);
-    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, CopiedData, &(CCReflectSetHandlerArgs){ .args = Args, .assignment = CCReflectAssignmentCopy }, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
+    ((const CCReflectOpaque*)Args->type)->unmap(Args->type, Type, CopiedData, Args, (CCReflectTypeHandler)CCReflectSetHandler, Args->zone, Args->allocator);
     
     CCReflectDestroy(Type, CopiedData);
 }
@@ -853,40 +848,40 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                     switch (((const CCReflectPointer*)Type)->ownership)
                     {
                         case CCReflectOwnershipWeak:
-                            if (Assignment != CCReflectAssignmentCopy)
+                            if (!(Assignment & CCReflectAssignmentCopyWeakRefs))
                             {
-                                break;
+                                return;
                             }
+                            break;
                             
                         case CCReflectOwnershipRetain:
-                            if (Assignment == CCReflectAssignmentShare)
+                            if ((Assignment & ~CCReflectAssignmentCopyWeakRefs) == CCReflectAssignmentShare)
                             {
                                 CCRetain(*(void**)Data);
                                 
-                                break;
+                                return;
                             }
+                            break;
                             
                         case CCReflectOwnershipTransfer:
-                        {
-                            CCAllocatorType DataAllocator = Allocator;
-                            
-                            if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
-                            {
-                                if (((const CCReflectDynamicPointer*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) DataAllocator = ((const CCReflectDynamicPointer*)Type)->allocator;
-                            }
-                            
-                            void *Ptr = CCMalloc(Allocator, CCReflectTypeSize(((const CCReflectPointer*)Type)->type), NULL, CC_DEFAULT_ERROR_CALLBACK);
-                            CCReflectCopy(((const CCReflectPointer*)Type)->type, Ptr, *(void**)Data, Zone, Allocator, Assignment, Validate);
-                            
-                            *(void**)Data = Ptr;
-                            
-                            if (((const CCReflectDynamicPointer*)Type)->destructor)
-                            {
-                                CCMemorySetDestructor(Ptr, ((const CCReflectDynamicPointer*)Type)->destructor);
-                            }
-                            
                             break;
-                        }
+                    }
+                    
+                    CCAllocatorType DataAllocator = Allocator;
+                    
+                    if (((const CCReflectPointer*)Type)->storage == CCReflectStorageDynamic)
+                    {
+                        if (((const CCReflectDynamicPointer*)Type)->allocator.allocator != CC_NULL_ALLOCATOR.allocator) DataAllocator = ((const CCReflectDynamicPointer*)Type)->allocator;
+                    }
+                    
+                    void *Ptr = CCMalloc(DataAllocator, CCReflectTypeSize(((const CCReflectPointer*)Type)->type), NULL, CC_DEFAULT_ERROR_CALLBACK);
+                    CCReflectCopy(((const CCReflectPointer*)Type)->type, Ptr, *(void**)Data, Zone, Allocator, Assignment, Validate);
+                    
+                    *(void**)Data = Ptr;
+                    
+                    if (((const CCReflectDynamicPointer*)Type)->destructor)
+                    {
+                        CCMemorySetDestructor(Ptr, ((const CCReflectDynamicPointer*)Type)->destructor);
                     }
                 }
             }
@@ -911,7 +906,7 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
         {
             CCReflectTypeHandler Handler = NULL;
             
-            switch (Assignment)
+            switch (Assignment & ~CCReflectAssignmentCopyWeakRefs)
             {
                 case CCReflectAssignmentTransfer:
                     Handler = (CCReflectTypeHandler)CCReflectTransferHandler;
@@ -931,8 +926,9 @@ void CCReflectCopy(CCReflectType Type, void *Data, const void *Source, CCMemoryZ
                 .dest = Data,
                 .zone = Zone,
                 .allocator = Allocator,
-                .validate = Validate
-            }, Handler, Zone, Allocator, (CCReflectMapIntent)Assignment);
+                .validate = Validate,
+                .assignment = Assignment
+            }, Handler, Zone, Allocator, (CCReflectMapIntent)Assignment & ~CCReflectAssignmentCopyWeakRefs);
             
             break;
         }
@@ -1966,7 +1962,7 @@ static void CCReflectDestroy(CCReflectType Type, void *Data)
 
 static void CCReflectDeserializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectDeserializeBinaryHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentShare, TRUE);
+    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentShare | CCReflectAssignmentCopyWeakRefs, TRUE);
 }
 
 void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian SerializedEndianness, size_t PreferVariableLength, void *Stream, CCReflectStreamReader Read, CCMemoryZone Zone, CCAllocatorType Allocator)

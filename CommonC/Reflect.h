@@ -401,6 +401,8 @@ typedef struct {
 #define CC_REFLECT_EXPAND_ARRAY(type, count, ...) type, count
 
 typedef enum {
+    CCReflectAssignmentCopyWeakRefs = 0x80000000,
+    
     CCReflectAssignmentTransfer = CCReflectMapIntentTransfer,
     CCReflectAssignmentShare = CCReflectMapIntentShare,
     CCReflectAssignmentCopy = CCReflectMapIntentCopy
@@ -539,6 +541,7 @@ typedef struct {
     CCMemoryZone zone;
     CCAllocatorType allocator;
     _Bool validate;
+    CCReflectAssignment assignment;
 } CCReflectCopyHandlerArgs;
 
 void CCReflectTransferHandler(CCReflectType Type, const void *Data, CCReflectCopyHandlerArgs *Args);
