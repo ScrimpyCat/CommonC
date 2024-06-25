@@ -290,14 +290,14 @@ static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCR
 {
     if (Intent == CCReflectMapIntentTransfer)
     {
-        Handler(&CC_REFLECT(PTYPE(void, weak, dynamic)), Data, Args);
+        Handler((CCStringIsTagged(*(CCString*)Data) ? (CCReflectType)&CC_REFLECT(uintptr_t) : (CCReflectType)&CC_REFLECT(PTYPE(void, weak, dynamic))), Data, Args);
     }
     
     else if ((Intent == CCReflectMapIntentShare) || (Intent == CCReflectMapIntentCopy))
     {
         CCString String = CCStringCopy(*(CCString*)Data);
         
-        Handler((CCStringIsTagged(String) ? &CC_REFLECT(PTYPE(void, weak, dynamic)) : &CC_REFLECT(PTYPE(void, retain, dynamic))), &String, Args);
+        Handler((CCStringIsTagged(String) ? (CCReflectType)&CC_REFLECT(uintptr_t) : (CCReflectType)&CC_REFLECT(PTYPE(void, retain, dynamic))), &String, Args);
         
         CCStringDestroy(String);
     }
@@ -344,7 +344,7 @@ static void CCStringUnmapper(CCReflectType Type, CCReflectType MappedType, const
     
     else
     {
-        Handler(Type, Data, Args);
+        Handler(MappedType, Data, Args);
     }
 }
 
