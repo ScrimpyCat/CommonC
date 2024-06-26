@@ -763,6 +763,7 @@ void CCReflectStaticPointerTypeDescriptorMapDefaults(CCReflectType Type, const v
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_STATIC_POINTER_IS_TYPE,
         CCReflectTypeMapper,
         CCReflectTypeUnmapper,
+        CCMemoryDestructorCallback,
         CCCollectionElementDestructor
     )
     
@@ -774,6 +775,7 @@ void CCReflectStaticPointerTypeDescriptorUnmapDefaults(CCReflectType Type, CCRef
     if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_STATIC_POINTER,
         CCReflectTypeMapper,
         CCReflectTypeUnmapper,
+        CCMemoryDestructorCallback,
         CCCollectionElementDestructor
     )
     
