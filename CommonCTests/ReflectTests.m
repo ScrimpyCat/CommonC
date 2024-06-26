@@ -28,6 +28,8 @@
 #import "Array.h"
 #import "ValidateMinimum.h"
 #import "ReflectedTypes.h"
+#import "TypeCallbacks.h"
+#import "CollectionEnumerator.h"
 
 @interface ReflectTests : XCTestCase
 
@@ -62,15 +64,15 @@ typedef struct {
     CCReflectType elementType;
 } ReflectOpaqueArray;
 
-static void TestOpaqueArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
-static void TestOpaqueArrayUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
+static void TestOpaqueArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void TestOpaqueArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 ReflectOpaqueArray TestOpaqueArray = {
-    .opaque = CC_REFLECT_OPAQUE(sizeof(CCArray), TestOpaqueArrayMapper, TestOpaqueArrayUnmapper),
+    .opaque = CC_REFLECT_OPAQUE(sizeof(CCArray), sizeof(ReflectOpaqueArray), TestOpaqueArrayMapper, TestOpaqueArrayUnmapper),
     .elementType = &TestNativeU32
 };
 
-static void TestOpaqueArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueArrayMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     const size_t Count = CCArrayGetCount(*(CCArray*)Data);
     CCReflectArray Array = CC_REFLECT_ARRAY(((const ReflectOpaqueArray*)Type)->elementType, Count);
@@ -78,11 +80,11 @@ static void TestOpaqueArrayMapper(CCReflectType Type, const void *Data, void *Ar
     Handler(&Array, CCArrayGetData(*(CCArray*)Data), Args);
 }
 
-static void TestOpaqueArrayUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
-    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)Type)->type), 16);
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)MappedType)->type), 16);
     
-    CCArrayAppendElements(Array, Data, ((const CCReflectArray*)Type)->count);
+    CCArrayAppendElements(Array, Data, ((const CCReflectArray*)MappedType)->count);
     
     Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Array, Args);
     
@@ -100,7 +102,7 @@ static const uint32_t ConstantZero = 0;
 static const uint32_t ConstantOne = 1;
 static const uint32_t ConstantTwo = 2;
 
-static void TestStaticPointerMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestStaticPointerMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     uint32_t PortableValue = 0;
     
@@ -111,11 +113,11 @@ static void TestStaticPointerMapper(CCReflectType Type, const void *Data, void *
     Handler(&TestNativeU32, &PortableValue, Args);
 }
 
-static void TestStaticPointerUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
+static void TestStaticPointerUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 static const CCReflectStaticPointer TestStaticPointer = CC_REFLECT_STATIC_POINTER(&TestNativeU32, CCReflectOwnershipWeak, TestStaticPointerMapper, TestStaticPointerUnmapper);
 
-static void TestStaticPointerUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestStaticPointerUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
     const uint32_t *Ptr = NULL;
     
@@ -137,27 +139,27 @@ static void TestStaticPointerUnmapper(CCReflectType Type, const void *Data, void
     Handler(&TestStaticPointer, &Ptr, Args);
 }
 
-static void TestOpaqueFooMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
-static void TestOpaqueFooUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
+static void TestOpaqueFooMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void TestOpaqueFooUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
-CCReflectOpaque TestOpaqueFoo = CC_REFLECT_OPAQUE(sizeof(struct Foo), TestOpaqueFooMapper, TestOpaqueFooUnmapper);
+CCReflectOpaque TestOpaqueFoo = CC_REFLECT_OPAQUE(sizeof(struct Foo), sizeof(CCReflectOpaque), TestOpaqueFooMapper, TestOpaqueFooUnmapper);
 
-static void TestOpaqueFooMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueFooMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     Handler(&TestFoo, &(struct Foo){ .x = 5, .y = *(const uint32_t*)Data, .next = NULL }, Args);
 }
 
-static void TestOpaqueFooUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueFooUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
     Handler(&TestNativeU32, &((const struct Foo*)Data)->y, Args);
 }
 
-static void TestOpaqueEnumerableMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
-static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler);
+static void TestOpaqueEnumerableMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
-CCReflectOpaque TestOpaqueEnumerable = CC_REFLECT_OPAQUE(sizeof(CCArray), TestOpaqueEnumerableMapper, TestOpaqueEnumerableUnmapper);
+CCReflectOpaque TestOpaqueEnumerable = CC_REFLECT_OPAQUE(sizeof(CCArray), sizeof(CCReflectOpaque), TestOpaqueEnumerableMapper, TestOpaqueEnumerableUnmapper);
 
-static void TestOpaqueEnumerableMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueEnumerableMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
     CCEnumerable Enumerable;
     CCArrayGetEnumerable(*(CCArray*)Data, &Enumerable);
@@ -165,15 +167,15 @@ static void TestOpaqueEnumerableMapper(CCReflectType Type, const void *Data, voi
     Handler(&CC_REFLECT_ENUMERABLE(&TestNativeU32), &Enumerable, Args);
 }
 
-static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler)
+static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
-    switch (*(const CCReflectTypeID*)Type)
+    switch (*(const CCReflectTypeID*)MappedType)
     {
         case CCReflectTypeArray:
         {
-            CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)Type)->type), 16);
+            CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)MappedType)->type), 16);
             
-            CCArrayAppendElements(Array, Data, ((const CCReflectArray*)Type)->count);
+            CCArrayAppendElements(Array, Data, ((const CCReflectArray*)MappedType)->count);
             
             Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Array, Args);
             
@@ -186,7 +188,7 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
         {
             CCEnumerable Enumerable = *(const CCEnumerable*)Data;
             
-            CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)Type)->type), 16);
+            CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, CCReflectTypeSize(((const CCReflectArray*)MappedType)->type), 16);
             
             for (const void *Element = CCEnumerableGetCurrent(&Enumerable); Element; Element = CCEnumerableNext(&Enumerable))
             {
@@ -1761,8 +1763,35 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
                  OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
 }
 
+static int DestroyedValue = 0;
+static void CustomDestructor(void *Ptr)
+{
+    DestroyedValue += *(int*)Ptr;
+}
+
+void MemoryDestructorCallbackMaps(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_MEMORY_DESTRUCTOR_CALLBACK,
+        CustomDestructor
+    )
+    
+    else CCMemoryDestructorCallbackMapDefaults(Type, Data, Args, Handler, Zone, Allocator, Intent);
+}
+
+void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_MEMORY_DESTRUCTOR_CALLBACK,
+        CustomDestructor
+    )
+    
+    CCMemoryDestructorCallbackUnmapDefaults(Type, MappedType, Data, Args, Handler, Zone, Allocator);
+}
+
 -(void) testTypes
 {
+    CCMemoryDestructorCallbackMap = MemoryDestructorCallbackMaps;
+    CCMemoryDestructorCallbackUnmap = MemoryDestructorCallbackUnmaps;
+    
     CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 1024);
     
     int Value = 3;
@@ -1770,14 +1799,39 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
     
     *PtrValue = Value;
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(PTYPE(int, retain, dynamic)), &PtrValue, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     CCFree(PtrValue);
     
     CCReflectDeserializeBinary(&CC_REFLECT(PTYPE(int, retain, dynamic)), &PtrValue, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    void *Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertEqual(*PtrValue, Value, @"should deserialize the value correctly");
     
     CCFree(PtrValue);
+    
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT_DYNAMIC_POINTER(&CC_REFLECT(int), CCReflectOwnershipWeak, .allocator = CC_NULL_ALLOCATOR, .destructor = CustomDestructor), &(int*){ &Value }, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    CCFree(PtrValue);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_DYNAMIC_POINTER(&CC_REFLECT(int), CCReflectOwnershipWeak, .allocator = CC_NULL_ALLOCATOR, .destructor = CustomDestructor), &PtrValue, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(*PtrValue, Value, @"should deserialize the value correctly");
+    XCTAssertEqual(DestroyedValue, 0, @"should deserialize the destructor correctly");
+    
+    CCFree(PtrValue);
+    
+    XCTAssertEqual(DestroyedValue, 3, @"should deserialize the destructor correctly");
     
     
     void *Ptr = NULL;
@@ -1790,22 +1844,34 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
     
     char CString[] = "test";
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(ARRAY(char, v8)), &CString, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     
     memset(CString, 1, sizeof(CString));
     
     CCReflectDeserializeBinary(&CC_REFLECT(ARRAY(char, v8)), &CString, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertTrue(!strcmp(CString, "test"), @"should deserialize the value correctly");
     
     
     char *PtrCString = CString;
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(PTYPE(ARRAY(char, v8), transfer, dynamic)), &PtrCString, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     
     PtrCString = NULL;
     
     CCReflectDeserializeBinary(&CC_REFLECT(PTYPE(ARRAY(char, v8), transfer, dynamic)), &PtrCString, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertTrue(!strcmp(PtrCString, "test"), @"should deserialize the value correctly");
     
@@ -1814,23 +1880,37 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
     
     CCAllocatorType Allocator = CC_ALIGNED_ALLOCATOR(5);
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(CCAllocatorType), &Allocator, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     
     Allocator = CC_NULL_ALLOCATOR;
     
     CCReflectDeserializeBinary(&CC_REFLECT(CCAllocatorType), &Allocator, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertEqual(Allocator.allocator, (CC_ALIGNED_ALLOCATOR(5).allocator), @"should deserialize the value correctly");
     XCTAssertEqual(*(size_t*)Allocator.data, 5, @"should deserialize the value correctly");
     
+    CCFree(Allocator.data);
+    
     
     CCString String = CC_STRING("test");
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(CCString), &String, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     
     String = 0;
     
     CCReflectDeserializeBinary(&CC_REFLECT(CCString), &String, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("test")), @"should deserialise the value correctly");
     
@@ -1839,16 +1919,294 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, const void *Data, v
     
     String = CC_STRING("a very long string 1234567890");
     
+    CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT(CCString), &String, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
     
     String = 0;
     
     CCReflectDeserializeBinary(&CC_REFLECT(CCString), &String, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertTrue(CCStringEqual(String, CC_STRING("a very long string 1234567890")), @"should deserialise the value correctly");
     
     CCStringDestroy(String);
     
+    
+    CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(CCString), 4);
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("hello") });
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("world") });
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT_CCArray(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, 4), &Array, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 1));
+    CCArrayDestroy(Array);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCArray(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, 4), &Array, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCArrayGetCount(Array), 2, @"should deserialise the value correctly");
+    XCTAssertTrue((CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(Array, 0), CC_STRING("hello")) && CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(Array, 1), CC_STRING("world"))) || (CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(Array, 1), CC_STRING("hello")) && CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(Array, 0), CC_STRING("world"))), @"should deserialise the value correctly");
+    
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 1));
+    CCArrayDestroy(Array);
+    
+    
+    
+    Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(CCString), 4);
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("hello") });
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("world") });
+    CCArray DestArray;
+    CCMemoryZoneSave(Zone);
+    CCReflectCopy(&CC_REFLECT_CCArray(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, 4), &DestArray, &Array, Zone, CC_STD_ALLOCATOR, CCReflectAssignmentTransfer, TRUE);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCArrayGetCount(DestArray), 2, @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0), CC_STRING("hello")), @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1), CC_STRING("world")), @"should deserialise the value correctly");
+    
+    XCTAssertEqual(DestArray, Array, @"should deserialise the value correctly");
+    
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1));
+    CCArrayDestroy(DestArray);
+    
+    
+    
+    Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(CCString), 4);
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("hello") });
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("world") });
+    DestArray = NULL;
+    CCMemoryZoneSave(Zone);
+    CCReflectCopy(&CC_REFLECT_CCArray(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, 4), &DestArray, &Array, Zone, CC_STD_ALLOCATOR, CCReflectAssignmentShare, TRUE);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCArrayGetCount(DestArray), 2, @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0), CC_STRING("hello")), @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1), CC_STRING("world")), @"should deserialise the value correctly");
+    
+    XCTAssertEqual(DestArray, Array, @"should deserialise the value correctly");
+    
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 1));
+    CCArrayDestroy(DestArray);
+    CCArrayDestroy(Array);
+    
+    
+    
+    Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(CCString), 4);
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("hello") });
+    CCArrayAppendElement(Array, &(CCString){ CC_STRING("world") });
+    DestArray = NULL;
+    CCMemoryZoneSave(Zone);
+    CCReflectCopy(&CC_REFLECT_CCArray(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, 4), &DestArray, &Array, Zone, CC_STD_ALLOCATOR, CCReflectAssignmentCopy, TRUE);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCArrayGetCount(DestArray), 2, @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0), CC_STRING("hello")), @"should deserialise the value correctly");
+    XCTAssertTrue(CCStringEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1), CC_STRING("world")), @"should deserialise the value correctly");
+    
+    XCTAssertNotEqual(DestArray, Array, @"should deserialise the value correctly");
+    XCTAssertNotEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0), *(CCString*)CCArrayGetElementAtIndex(Array, 0), @"should deserialise the value correctly");
+    XCTAssertNotEqual(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1), *(CCString*)CCArrayGetElementAtIndex(Array, 1), @"should deserialise the value correctly");
+    
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(Array, 1));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(DestArray, 0));
+    CCStringDestroy(*(CCString*)CCArrayGetElementAtIndex(DestArray, 1));
+    CCArrayDestroy(DestArray);
+    CCArrayDestroy(Array);
+    
+    
+    
+    CCCollection Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("hello world") });
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("foo") });
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("one two three four five six") });
+    
+    CCCollection DestCollection = NULL;
+    CCMemoryZoneSave(Zone);
+    CCReflectCopy(&CC_REFLECT_CCCollection(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCStringDestructorForCollection), &DestCollection, &Collection, Zone, CC_STD_ALLOCATOR, CCReflectAssignmentCopy, TRUE);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 3, @"should deserialise the value correctly");
+    
+    
+    
+    uint8_t Matches = 0;
+    CC_COLLECTION_FOREACH(CCString, String, DestCollection)
+    {
+        if (CCStringEqual(String, CC_STRING("hello world"))) Matches = (Matches & 0xfc) | (((Matches & 3) + 1) & 3);
+        if (CCStringEqual(String, CC_STRING("foo"))) Matches = (Matches & 0xf3) | (((((Matches >> 2) & 3) + 1) & 3) << 2);
+        if (CCStringEqual(String, CC_STRING("one two three four five six"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
+    }
+    
+    CCCollectionDestroy(DestCollection);
+    CCCollectionDestroy(Collection);
+    
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("hello world") });
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("foo") });
+    CCCollectionInsertElement(Collection, &(CCString){ CC_STRING("one two three four five six") });
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCStringDestructorForCollection), &Collection, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCStringDestructorForCollection), &Collection, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(Collection), 3, @"should deserialise the value correctly");
+    
+    Matches = 0;
+    CC_COLLECTION_FOREACH(CCString, String, Collection)
+    {
+        if (CCStringEqual(String, CC_STRING("hello world"))) Matches = (Matches & 0xfc) | (((Matches & 3) + 1) & 3);
+        if (CCStringEqual(String, CC_STRING("foo"))) Matches = (Matches & 0xf3) | (((((Matches >> 2) & 3) + 1) & 3) << 2);
+        if (CCStringEqual(String, CC_STRING("one two three four five six"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
+    }
+    
+    CCCollectionDestroy(Collection);
+    
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCCollection), CCCollectionDestructorForCollection);
+    
+    CCCollection IntPtrCollection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(int*), CCGenericDestructorForCollection);
+    
+    int *IntPtr = CCMalloc(CC_STD_ALLOCATOR, sizeof(int), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    *IntPtr = 1;
+    CCCollectionInsertElement(IntPtrCollection, &IntPtr);
+    IntPtr = CCMalloc(CC_STD_ALLOCATOR, sizeof(int), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    *IntPtr = 2;
+    CCCollectionInsertElement(IntPtrCollection, &IntPtr);
+    
+    CCCollectionInsertElement(Collection, &IntPtrCollection);
+    
+    IntPtrCollection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(int*), CCGenericDestructorForCollection);
+    
+    IntPtr = CCMalloc(CC_STD_ALLOCATOR, sizeof(int), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    *IntPtr = 3;
+    CCCollectionInsertElement(IntPtrCollection, &IntPtr);
+    IntPtr = CCMalloc(CC_STD_ALLOCATOR, sizeof(int), NULL, CC_DEFAULT_ERROR_CALLBACK);
+    *IntPtr = 4;
+    CCCollectionInsertElement(IntPtrCollection, &IntPtr);
+    
+    CCCollectionInsertElement(Collection, &IntPtrCollection);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCCollection(&CC_REFLECT(PTYPE(int, retain, dynamic)), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCGenericDestructorForCollection), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCCollectionDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCCollection(&CC_REFLECT(PTYPE(int, retain, dynamic)), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCGenericDestructorForCollection), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCCollectionDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 2, @"should deserialise the value correctly");
+    
+    Matches = 0;
+    
+    CC_COLLECTION_FOREACH(CCCollection, IntCollections, DestCollection)
+    {
+        XCTAssertEqual(CCCollectionGetCount(IntCollections), 2, @"should deserialise the value correctly");
+        
+        CC_COLLECTION_FOREACH_PTR(void, IntPtr, IntCollections)
+        {
+            Matches |= 1 << (**(int**)IntPtr - 1);
+        }
+    }
+    
+    XCTAssertEqual(Matches, 0xf, @"should deserialise the value correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCCollection), CCCollectionDestructorForCollection);
+    
+    CCCollection StringCollection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("one") });
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("two") });
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("three is a very very very long string") });
+    
+    CCCollectionInsertElement(Collection, &StringCollection);
+    
+    
+    StringCollection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, sizeof(CCString), CCStringDestructorForCollection);
+    
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("four") });
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("five") });
+    CCCollectionInsertElement(StringCollection, &(CCString){ CC_STRING("six is a very very very long string") });
+    
+    CCCollectionInsertElement(Collection, &StringCollection);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCCollection(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCStringDestructorForCollection), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCCollectionDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCCollection(&CC_REFLECT(CCString), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCStringDestructorForCollection), CC_STD_ALLOCATOR, CCCollectionHintSizeSmall, CCCollectionDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    CC_COLLECTION_FOREACH(CCCollection, StrCollections, DestCollection)
+    {
+        CC_COLLECTION_FOREACH_PTR(CCString, String, StrCollections)
+        {
+            CC_STRING_TEMP_BUFFER(Buffer, *String)
+            {
+                printf("%p->%s\n", String, Buffer);
+            }
+        }
+    }
+    
+    CCCollectionDestroy(DestCollection);
     
     CCMemoryZoneDestroy(Zone);
 }
