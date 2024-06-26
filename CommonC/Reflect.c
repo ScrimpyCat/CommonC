@@ -1962,7 +1962,7 @@ static void CCReflectDestroy(CCReflectType Type, void *Data)
 
 static void CCReflectDeserializeBinaryHandler(CCReflectType Type, const void *Data, CCReflectDeserializeBinaryHandlerArgs *Args)
 {
-    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentShare | CCReflectAssignmentCopyWeakRefs, TRUE);
+    CCReflectCopy(Type, Args->dest, Data, Args->zone, Args->allocator, CCReflectAssignmentShare, TRUE);
 }
 
 void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian SerializedEndianness, size_t PreferVariableLength, void *Stream, CCReflectStreamReader Read, CCMemoryZone Zone, CCAllocatorType Allocator)
@@ -2009,8 +2009,6 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                         .allocator = Allocator,
                         .zone = Zone
                     }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
-                    
-                    CCReflectDestroy(MappedType, MappedData);
                 }
             }
             
@@ -2048,8 +2046,6 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
                 .allocator = Allocator,
                 .zone = Zone
             }, (CCReflectTypeHandler)CCReflectDeserializeBinaryHandler, Zone, Allocator);
-            
-            CCReflectDestroy(MappedType, MappedData);
             
             break;
         }
