@@ -1691,6 +1691,8 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
             for (size_t Loop = 0; Loop < Count; Loop++)
             {
+                Struct->fields[Loop].name = (CCString)0;
+                
                 CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &Struct->fields[Loop].offset, sizeof(Struct->fields[Loop].offset), FALSE, Stream, Read);
                 
                 size_t TypeIndex;
@@ -1713,6 +1715,8 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, 2, Stream, Read, Zone, CC_AUTORELEASE_ALLOCATOR(Zone));
             
             CCReflectOpaque *Opaque = CCMemoryZoneAllocate(Zone, TypeSize);
+            
+            CCArrayAppendElement(Types, &Opaque);
             
             CCReflectOpaqueTypeDescriptorUnmap(&CC_REFLECT(CCReflectType), MappedType, MappedData, &(CCReflectDeserializeBinaryHandlerArgs){
                 .dest = Opaque,
