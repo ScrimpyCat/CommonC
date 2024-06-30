@@ -30,7 +30,9 @@
 #include "Path.h"
 #include "Array.h"
 #include "LinkedList.h"
+#include "List.h"
 #include "HashMap.h"
+#include "Queue.h"
 #include "FileHandle.h"
 #include "BigInt.h"
 #include "BigIntFast.h"
@@ -42,9 +44,11 @@ static void CCStringContainerElementDestructor(void *Container, CCString *Elemen
 static void CCDataContainerElementDestructor(void *Container, CCData *Element);
 static void CCArrayContainerElementDestructor(void *Container, CCArray *Element);
 static void CCLinkedListContainerElementDestructor(void *Container, CCLinkedList *Element);
+static void CCListContainerElementDestructor(void *Container, CCList *Element);
 static void CCCollectionContainerElementDestructor(void *Container, CCCollection *Element);
 static void CCHashMapContainerElementDestructor(void *Container, CCHashMap *Element);
 static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary *Element);
+static void CCQueueContainerElementDestructor(void *Container, CCQueue *Element);
 static void FSPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element);
 static void FSPathContainerElementDestructor(void *Container, FSPath *Element);
 static void FSHandleContainerElementDestructor(void *Container, FSHandle *Element);
@@ -73,9 +77,11 @@ const CCCollectionElementDestructor CCStringDestructorForCollection = (CCCollect
 const CCCollectionElementDestructor CCDataDestructorForCollection = (CCCollectionElementDestructor)CCDataContainerElementDestructor;
 const CCCollectionElementDestructor CCArrayDestructorForCollection = (CCCollectionElementDestructor)CCArrayContainerElementDestructor;
 const CCCollectionElementDestructor CCLinkedListDestructorForCollection = (CCCollectionElementDestructor)CCLinkedListContainerElementDestructor;
+const CCCollectionElementDestructor CCListDestructorForCollection = (CCCollectionElementDestructor)CCListContainerElementDestructor;
 const CCCollectionElementDestructor CCCollectionDestructorForCollection = (CCCollectionElementDestructor)CCCollectionContainerElementDestructor;
 const CCCollectionElementDestructor CCHashMapDestructorForCollection = (CCCollectionElementDestructor)CCHashMapContainerElementDestructor;
 const CCCollectionElementDestructor CCDictionaryDestructorForCollection = (CCCollectionElementDestructor)CCDictionaryContainerElementDestructor;
+const CCCollectionElementDestructor CCQueueDestructorForCollection = (CCCollectionElementDestructor)CCQueueContainerElementDestructor;
 const CCCollectionElementDestructor FSPathComponentDestructorForCollection = (CCCollectionElementDestructor)FSPathComponentContainerElementDestructor;
 const CCCollectionElementDestructor FSPathDestructorForCollection = (CCCollectionElementDestructor)FSPathContainerElementDestructor;
 const CCCollectionElementDestructor FSHandleDestructorForCollection = (CCCollectionElementDestructor)FSHandleContainerElementDestructor;
@@ -96,9 +102,11 @@ const CCDictionaryElementDestructor CCStringDestructorForDictionary = (CCDiction
 const CCDictionaryElementDestructor CCDataDestructorForDictionary = (CCDictionaryElementDestructor)CCDataContainerElementDestructor;
 const CCDictionaryElementDestructor CCArrayDestructorForDictionary = (CCDictionaryElementDestructor)CCArrayContainerElementDestructor;
 const CCDictionaryElementDestructor CCLinkedListDestructorForDictionary = (CCDictionaryElementDestructor)CCLinkedListContainerElementDestructor;
+const CCDictionaryElementDestructor CCListDestructorForDictionary = (CCDictionaryElementDestructor)CCListContainerElementDestructor;
 const CCDictionaryElementDestructor CCCollectionDestructorForDictionary = (CCDictionaryElementDestructor)CCCollectionContainerElementDestructor;
 const CCDictionaryElementDestructor CCHashMapDestructorForDictionary = (CCDictionaryElementDestructor)CCHashMapContainerElementDestructor;
 const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary = (CCDictionaryElementDestructor)CCDictionaryContainerElementDestructor;
+const CCDictionaryElementDestructor CCQueueDestructorForDictionary = (CCDictionaryElementDestructor)CCQueueContainerElementDestructor;
 const CCDictionaryElementDestructor FSPathComponentDestructorForDictionary = (CCDictionaryElementDestructor)FSPathComponentContainerElementDestructor;
 const CCDictionaryElementDestructor FSPathDestructorForDictionary = (CCDictionaryElementDestructor)FSPathContainerElementDestructor;
 const CCDictionaryElementDestructor FSHandleDestructorForDictionary = (CCDictionaryElementDestructor)FSHandleContainerElementDestructor;
@@ -146,6 +154,11 @@ static void CCLinkedListContainerElementDestructor(void *Container, CCLinkedList
     CCLinkedListDestroy(*Element);
 }
 
+static void CCListContainerElementDestructor(void *Container, CCList *Element)
+{
+    CCListDestroy(*Element);
+}
+
 static void CCCollectionContainerElementDestructor(void *Container, CCCollection *Element)
 {
     CCCollectionDestroy(*Element);
@@ -159,6 +172,11 @@ static void CCHashMapContainerElementDestructor(void *Container, CCHashMap *Elem
 static void CCDictionaryContainerElementDestructor(void *Container, CCDictionary *Element)
 {
     CCDictionaryDestroy(*Element);
+}
+
+static void CCQueueContainerElementDestructor(void *Container, CCQueue *Element)
+{
+    CCQueueDestroy(*Element);
 }
 
 static void FSPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element)
