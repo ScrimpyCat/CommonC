@@ -30,6 +30,12 @@
 #import "ReflectedTypes.h"
 #import "TypeCallbacks.h"
 #import "CollectionEnumerator.h"
+#import "LinkedList.h"
+#import "List.h"
+#import "Queue.h"
+#import "HashMap.h"
+#import "HashMapSeparateChainingArray.h"
+#import "Dictionary.h"
 
 @interface ReflectTests : XCTestCase
 
@@ -1771,7 +1777,7 @@ static void CustomDestructor(void *Ptr)
 
 void MemoryDestructorCallbackMaps(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_MEMORY_DESTRUCTOR_CALLBACK,
+    if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER,
         CustomDestructor
     )
     
@@ -1780,7 +1786,7 @@ void MemoryDestructorCallbackMaps(CCReflectType Type, const void *Data, void *Ar
 
 void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
-    if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_MEMORY_DESTRUCTOR_CALLBACK,
+    if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_POINTER(CCMemoryDestructorCallback),
         CustomDestructor
     )
     
@@ -2068,6 +2074,8 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
         if (CCStringEqual(String, CC_STRING("one two three four five six"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
     }
     
+    XCTAssertEqual(Matches, 0x15, @"should deserialise the values correctly");
+    
     CCCollectionDestroy(DestCollection);
     CCCollectionDestroy(Collection);
     
@@ -2100,6 +2108,8 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
         if (CCStringEqual(String, CC_STRING("foo"))) Matches = (Matches & 0xf3) | (((((Matches >> 2) & 3) + 1) & 3) << 2);
         if (CCStringEqual(String, CC_STRING("one two three four five six"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
     }
+    
+    XCTAssertEqual(Matches, 0x15, @"should deserialise the values correctly");
     
     CCCollectionDestroy(Collection);
     
@@ -2195,16 +2205,397 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     memset(Memory, 0, 1024);
     CCMemoryZoneDeallocate(Zone, 1024);
     
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 2, @"should deserialise the value correctly");
+    
+    Matches = 0;
+    
     CC_COLLECTION_FOREACH(CCCollection, StrCollections, DestCollection)
     {
-        CC_COLLECTION_FOREACH_PTR(CCString, String, StrCollections)
+        XCTAssertEqual(CCCollectionGetCount(StrCollections), 3, @"should deserialise the value correctly");
+        
+        CC_COLLECTION_FOREACH(CCString, String, StrCollections)
         {
-            CC_STRING_TEMP_BUFFER(Buffer, *String)
-            {
-                printf("%p->%s\n", String, Buffer);
-            }
+            if (CCStringEqual(String, CC_STRING("one"))) Matches = (Matches & 0xfc) | (((Matches & 3) + 1) & 3);
+            if (CCStringEqual(String, CC_STRING("two"))) Matches = (Matches & 0xf3) | (((((Matches >> 2) & 3) + 1) & 3) << 2);
+            if (CCStringEqual(String, CC_STRING("three is a very very very long string"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
+            
+            if (CCStringEqual(String, CC_STRING("four"))) Matches = (Matches & 0xfc) | (((Matches & 3) + 1) & 3);
+            if (CCStringEqual(String, CC_STRING("five"))) Matches = (Matches & 0xf3) | (((((Matches >> 2) & 3) + 1) & 3) << 2);
+            if (CCStringEqual(String, CC_STRING("six is a very very very long string"))) Matches = (Matches & 0xcf) | (((((Matches >> 4) & 3) + 1) & 3) << 4);
         }
     }
+    
+    XCTAssertEqual(Matches, 0x2a, @"should deserialise the values correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(int), NULL);
+    
+    CCOrderedCollectionAppendElement(Collection, &(int){ 1 });
+    CCOrderedCollectionAppendElement(Collection, &(int){ 2 });
+    CCOrderedCollectionAppendElement(Collection, &(int){ 3 });
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT(int), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, NULL), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT(int), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, NULL), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 3, @"should deserialise the value correctly");
+    
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(DestCollection, 1), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCOrderedCollectionGetElementAtIndex(DestCollection, 2), 3, @"should deserialise the value correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    CCLinkedList LinkedList = CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 });
+    LinkedList = CCLinkedListPrepend(LinkedList, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    LinkedList = CCLinkedListPrepend(LinkedList, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCLinkedList(&CC_REFLECT(int), CC_STD_ALLOCATOR), &LinkedList, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCLinkedListDestroy(LinkedList);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCLinkedList(&CC_REFLECT(int), CC_STD_ALLOCATOR), &LinkedList, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList->next), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList->next->next), 3, @"should deserialise the value correctly");
+    XCTAssertEqual(LinkedList->next->next->next, NULL, @"should deserialise the value correctly");
+    
+    CCLinkedListDestroy(LinkedList);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCLinkedList), CCLinkedListDestructorForCollection);
+    
+    LinkedList = CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 });
+    LinkedList = CCLinkedListPrepend(LinkedList, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    LinkedList = CCLinkedListPrepend(LinkedList, CCLinkedListCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    
+    CCOrderedCollectionAppendElement(Collection, &LinkedList);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCLinkedList(&CC_REFLECT(int), CC_STD_ALLOCATOR), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCLinkedListDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCLinkedList(&CC_REFLECT(int), CC_STD_ALLOCATOR), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCLinkedListDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
+    
+    LinkedList = *(CCLinkedList*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
+    
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList->next), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCLinkedListGetNodeData(LinkedList->next->next), 3, @"should deserialise the value correctly");
+    XCTAssertEqual(LinkedList->next->next->next, NULL, @"should deserialise the value correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    CCList List = CCListCreate(CC_STD_ALLOCATOR, sizeof(int), 4, 4);
+    CCListAppendElement(List, &(int){ 1 });
+    CCListAppendElement(List, &(int){ 2 });
+    CCListAppendElement(List, &(int){ 3 });
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCList(&CC_REFLECT(int), CC_STD_ALLOCATOR, 4, 4), &List, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCListDestroy(List);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCList(&CC_REFLECT(int), CC_STD_ALLOCATOR, 4, 4), &List, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCListGetCount(List), 3, @"should deserialise the value correctly");
+    
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 0), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 1), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 2), 3, @"should deserialise the value correctly");
+    
+    CCListDestroy(List);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCList), CCListDestructorForCollection);
+    
+    List = CCListCreate(CC_STD_ALLOCATOR, sizeof(int), 4, 4);
+    CCListAppendElement(List, &(int){ 1 });
+    CCListAppendElement(List, &(int){ 2 });
+    CCListAppendElement(List, &(int){ 3 });
+    
+    CCOrderedCollectionAppendElement(Collection, &List);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCList(&CC_REFLECT(int), CC_STD_ALLOCATOR, 4, 4), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCListDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCList(&CC_REFLECT(int), CC_STD_ALLOCATOR, 4, 4), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCListDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
+    
+    List = *(CCList*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
+    
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 0), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 1), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCListGetElementAtIndex(List, 2), 3, @"should deserialise the value correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    CCHashMap Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray);
+    
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("one") }, &(int){ 1 });
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("two") }, &(int){ 2 });
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("three is a very very long string") }, &(int){ 3 });
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), &Map, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCHashMapDestroy(Map);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), &Map, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCReflectPrint(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), &Map);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("one") }), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("two") }), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("three is a very very long string") }), 3, @"should deserialise the value correctly");
+    
+    CCEnumerable Enumerable;
+    CCHashMapGetKeyEnumerable(Map, &Enumerable);
+    
+    for (CCString *Key = CCEnumerableGetCurrent(&Enumerable); Key; Key = CCEnumerableNext(&Enumerable))
+    {
+        CCStringDestroy(*Key);
+    }
+    
+    CCHashMapDestroy(Map);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCHashMap), CCHashMapDestructorForCollection);
+    
+    Map = CCHashMapCreate(CC_STD_ALLOCATOR, sizeof(CCString), sizeof(int), 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray);
+    
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("one") }, &(int){ 1 });
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("two") }, &(int){ 2 });
+    CCHashMapSetValue(Map, &(CCString){ CC_STRING("three is a very very long string") }, &(int){ 3 });
+    
+    CCOrderedCollectionAppendElement(Collection, &Map);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCHashMapDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCHashMapDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
+    
+    Map = *(CCHashMap*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
+    
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("one") }), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("two") }), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCHashMapGetValue(Map, &(CCString){ CC_STRING("three is a very very long string") }), 3, @"should deserialise the value correctly");
+    
+    CCHashMapGetKeyEnumerable(Map, &Enumerable);
+    
+    for (CCString *Key = CCEnumerableGetCurrent(&Enumerable); Key; Key = CCEnumerableNext(&Enumerable))
+    {
+        CCStringDestroy(*Key);
+    }
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    CCDictionaryCallbacks Callbacks = {
+        .getHash = CCStringHasherForDictionary,
+        .compareKeys = CCStringComparatorForDictionary,
+        .keyDestructor = CCStringDestructorForDictionary
+    };
+    
+    CCDictionary Dictionary = CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, sizeof(CCString), sizeof(int), &Callbacks);
+    
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("one") }, &(int){ 1 });
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("two") }, &(int){ 2 });
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }, &(int){ 3 });
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), &Dictionary, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCDictionaryDestroy(Dictionary);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), &Dictionary, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCReflectPrint(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), &Dictionary);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("one") }), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("two") }), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }), 3, @"should deserialise the value correctly");
+    
+    CCDictionaryDestroy(Dictionary);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCDictionary), CCDictionaryDestructorForCollection);
+
+    Dictionary = CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, sizeof(CCString), sizeof(int), &Callbacks);
+
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("one") }, &(int){ 1 });
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("two") }, &(int){ 2 });
+    CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }, &(int){ 3 });
+
+    CCOrderedCollectionAppendElement(Collection, &Dictionary);
+
+    CCMemoryZoneSave(Zone);
+
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCDictionaryDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+
+    CCCollectionDestroy(Collection);
+
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCDictionaryDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+
+    CCMemoryZoneRestore(Zone);
+
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
+
+    Dictionary = *(CCDictionary*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
+
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("one") }), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("two") }), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }), 3, @"should deserialise the value correctly");
+    
+    CCCollectionDestroy(DestCollection);
+    
+    
+    
+    CCQueue Queue = CCQueueCreate(CC_STD_ALLOCATOR);
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCQueue(&CC_REFLECT(int), CC_STD_ALLOCATOR), &Queue, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCQueueDestroy(Queue);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCQueue(&CC_REFLECT(int), CC_STD_ALLOCATOR), &Queue, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    CCQueueNode *Node = CCQueuePeek(Queue);
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node->prev), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node->prev->prev), 3, @"should deserialise the value correctly");
+    XCTAssertEqual(Node->prev->prev->prev, NULL, @"should deserialise the value correctly");
+    
+    CCQueueDestroy(Queue);
+    
+    
+    Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCQueue), CCQueueDestructorForCollection);
+    
+    Queue = CCQueueCreate(CC_STD_ALLOCATOR);
+    
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 1 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 2 }));
+    CCQueuePush(Queue, CCQueueCreateNode(CC_STD_ALLOCATOR, sizeof(int), &(int){ 3 }));
+    
+    CCOrderedCollectionAppendElement(Collection, &Queue);
+    
+    CCMemoryZoneSave(Zone);
+    
+    CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCQueue(&CC_REFLECT(int), CC_STD_ALLOCATOR), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCQueueDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    CCCollectionDestroy(Collection);
+    
+    CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCQueue(&CC_REFLECT(int), CC_STD_ALLOCATOR), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCQueueDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
+    
+    Queue = *(CCQueue*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
+    
+    Node = CCQueuePeek(Queue);
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node), 1, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node->prev), 2, @"should deserialise the value correctly");
+    XCTAssertEqual(*(int*)CCQueueGetNodeData(Node->prev->prev), 3, @"should deserialise the value correctly");
+    XCTAssertEqual(Node->prev->prev->prev, NULL, @"should deserialise the value correctly");
     
     CCCollectionDestroy(DestCollection);
     
