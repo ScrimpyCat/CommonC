@@ -281,6 +281,12 @@
 		F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F35AF325209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */; };
+		F35B1F342C31B5D8009325F0 /* ValidateMaximum.h in Headers */ = {isa = PBXBuildFile; fileRef = F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F35B1F352C31B5D8009325F0 /* ValidateMaximum.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */; };
+		F35B1F362C31B5E2009325F0 /* ValidateMinimum.c in Sources */ = {isa = PBXBuildFile; fileRef = F34397E22B8A212B00AEF700 /* ValidateMinimum.c */; };
+		F35B1F372C31B5E8009325F0 /* ValidateMaximum.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */; };
+		F35B1F382C31B5ED009325F0 /* ValidateMaximum.h in Headers */ = {isa = PBXBuildFile; fileRef = F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F35B1F392C31B5FB009325F0 /* Reflect.c in Sources */ = {isa = PBXBuildFile; fileRef = F3ED7E8A2B404C6D00E66F8C /* Reflect.c */; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F362028217AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
@@ -594,6 +600,8 @@
 		F35A15ED1DC07E21008DC914 /* LazyGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LazyGarbageCollector.c; sourceTree = "<group>"; };
 		F35A15EE1DC07E21008DC914 /* LazyGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyGarbageCollector.h; sourceTree = "<group>"; };
 		F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentGarbageCollectorTests.m; sourceTree = "<group>"; };
+		F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValidateMaximum.h; sourceTree = "<group>"; };
+		F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ValidateMaximum.c; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -916,6 +924,8 @@
 			children = (
 				F34397E12B8A212B00AEF700 /* ValidateMinimum.h */,
 				F34397E22B8A212B00AEF700 /* ValidateMinimum.c */,
+				F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */,
+				F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */,
 			);
 			name = Validators;
 			sourceTree = "<group>";
@@ -1561,6 +1571,7 @@
 				F30437C81C62E0D000388C74 /* Array.h in Headers */,
 				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
 				F341B75329F2E6C300CBA1EE /* BitsTemplate.h in Headers */,
+				F35B1F382C31B5ED009325F0 /* ValidateMaximum.h in Headers */,
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
 				F34397E62B8A238E00AEF700 /* ValidateMinimum.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
@@ -1679,6 +1690,7 @@
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
+				F35B1F342C31B5D8009325F0 /* ValidateMaximum.h in Headers */,
 				F3AEA857232C85CF00A5CAF3 /* Container.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
 				F3364FC425B4277A002B2378 /* Memory.h in Headers */,
@@ -1883,6 +1895,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F35B1F362C31B5E2009325F0 /* ValidateMinimum.c in Sources */,
 				F328727A21E8818900B1A584 /* Queue.c in Sources */,
 				F328727B21E8818900B1A584 /* ConcurrentQueue.c in Sources */,
 				F328727C21E8818900B1A584 /* ConcurrentArray.c in Sources */,
@@ -1899,6 +1912,7 @@
 				F328727221E8815500B1A584 /* ConsecutiveIDGenerator.c in Sources */,
 				F328727121E8814D00B1A584 /* ConcurrentIDGenerator.c in Sources */,
 				F30437E91C62E1B800388C74 /* PathComponent.c in Sources */,
+				F35B1F392C31B5FB009325F0 /* Reflect.c in Sources */,
 				F36F82FD1D0FB57D00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.c in Sources */,
 				F36F83201D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F30437FA1C62E21800388C74 /* Allocator.c in Sources */,
@@ -1916,6 +1930,7 @@
 				F30437E11C62E17600388C74 /* SystemInfo.c in Sources */,
 				F30437D21C62E0FE00388C74 /* OrderedCollection.c in Sources */,
 				F342052C1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
+				F35B1F372C31B5E8009325F0 /* ValidateMaximum.c in Sources */,
 				F30437B51C62E06F00388C74 /* CommonC.c in Sources */,
 				F30437F61C62E20200388C74 /* CustomFormatSpecifiers.c in Sources */,
 				F30437C11C62E0AF00388C74 /* Data.c in Sources */,
@@ -2007,6 +2022,7 @@
 				F34397E42B8A212B00AEF700 /* ValidateMinimum.c in Sources */,
 				F3AEA855232B7A4C00A5CAF3 /* List.c in Sources */,
 				F3A938D021E262A800BFDE93 /* ConcurrentIDGenerator.c in Sources */,
+				F35B1F352C31B5D8009325F0 /* ValidateMaximum.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
