@@ -27,6 +27,7 @@
 #import "Reflect.h"
 #import "Array.h"
 #import "ValidateMinimum.h"
+#import "ValidateMaximum.h"
 #import "ReflectedTypes.h"
 #import "TypeCallbacks.h"
 #import "CollectionEnumerator.h"
@@ -1058,7 +1059,7 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType Mappe
     CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 32);
     
     static const CCReflectInteger TestBool = CC_REFLECT_INTEGER(_Bool, CCReflectEndianNative);
-    CCReflectType Min = Min = &CC_REFLECT_VALIDATE_MINIMUM(type, minimum, CC_REFLECT_RESULT(&TestBool, (&(_Bool){ TRUE })), CC_REFLECT_RESULT(&TestBool, (&(_Bool){ FALSE })));
+    CCReflectType Min = &CC_REFLECT_VALIDATE_MINIMUM(type, minimum, CC_REFLECT_RESULT(&TestBool, (&(_Bool){ TRUE })), CC_REFLECT_RESULT(&TestBool, (&(_Bool){ FALSE })));
     
     for (size_t Loop = 0; passes[Loop]; Loop++)
     {
@@ -1079,564 +1080,1058 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType Mappe
     CCMemoryZoneDestroy(Zone);
 }
 
+-(void) assertMaximum: (CCReflectValue)maximum Passes: (void**)passes Fails: (void**)fails OfType: (CCReflectType)type
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 32);
+    
+    static const CCReflectInteger TestBool = CC_REFLECT_INTEGER(_Bool, CCReflectEndianNative);
+    CCReflectType Max = &CC_REFLECT_VALIDATE_MAXIMUM(type, maximum, CC_REFLECT_RESULT(&TestBool, (&(_Bool){ TRUE })), CC_REFLECT_RESULT(&TestBool, (&(_Bool){ FALSE })));
+    
+    for (size_t Loop = 0; passes[Loop]; Loop++)
+    {
+        CCReflectType BaseType = CCReflectValidate(Max, passes[Loop], Zone, CC_STD_ALLOCATOR);
+        
+        XCTAssertEqual(BaseType, &TestBool, @"should return base type");
+        XCTAssertTrue(*(_Bool*)passes[Loop], @"should validate the value correctly");
+    }
+    
+    for (size_t Loop = 0; fails[Loop]; Loop++)
+    {
+        CCReflectType BaseType = CCReflectValidate(Max, fails[Loop], Zone, CC_STD_ALLOCATOR);
+        
+        XCTAssertEqual(BaseType, &TestBool, @"should return base type");
+        XCTAssertFalse(*(_Bool*)fails[Loop], @"should validate the value correctly");
+    }
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
 -(void) testValidations
 {
-    CCReflectType MinType = &TestNativeU32;
+    CCReflectType LimitType = &TestNativeU32;
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
                  OfType: &TestNativeU32];
     
     
-#if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianLittle);
-#elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianBig);
-#endif
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0 }))
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 1 }))
+    
+#if CC_HARDWARE_ENDIAN_LITTLE
+    LimitType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianLittle);
+#elif CC_HARDWARE_ENDIAN_BIG
+    LimitType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianBig);
+#endif
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
                  OfType: &TestNativeU32];
     
     
-#if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianBig);
-#elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianLittle);
-#endif
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0 }))
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0x01000000 }))
+    
+#if CC_HARDWARE_ENDIAN_LITTLE
+    LimitType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianBig);
+#elif CC_HARDWARE_ENDIAN_BIG
+    LimitType = &CC_REFLECT_INTEGER(uint32_t, CCReflectEndianLittle);
+#endif
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x01000000 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0x10000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x10000 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0x000000ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x000000ff }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint32_t){ 0x010000ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x010000ff }))
                  Passes: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
                  OfType: &TestNativeU32];
     
     
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
     
-    MinType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianNative);
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x01000000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0 }))
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x10000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x000000ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x010000ff }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 1 }))
+    
+    
+    LimitType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianNative);
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0xff00 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff00 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0xff01 }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
-                 OfType: &TestNativeU32];
-
-    
-#if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianLittle);
-#elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianBig);
-#endif
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 1 }))
-                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 256 }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0xff00 }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0xff01 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff01 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
     
-#if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianBig);
-#elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianLittle);
-#endif
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0x0100 }))
-                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0x0001 }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0x00ff }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff00 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(uint16_t){ 0x01ff }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    
-    
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
-                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
-                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianLittle);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianBig);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff00 }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0xff00 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianBig);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(uint16_t, CCReflectEndianLittle);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x01000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x0100 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x010000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x0001 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x000000ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x00ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x01ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x1000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x0001 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint32_t){ 0x00ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(uint16_t){ 0x01ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x010000ff }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
-                 OfType: &TestNativeU32];
-    
-    
-    
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianNative, .sign = TRUE);
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
-                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
-                  Fails: (void*[]){ NULL }
-                 OfType: &TestNativeU32];
-    
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff00 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff01 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff00 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff01 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x0100 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x01000000 }))
                  Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x0001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000 }))
                  Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x00ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x000000ff }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &TestNativeU32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x01ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000ff }))
                  Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x01000000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x000000ff }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000ff }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianNative, .sign = TRUE);
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+#if CC_HARDWARE_ENDIAN_LITTLE
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+#elif CC_HARDWARE_ENDIAN_BIG
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+#endif
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    
+#if CC_HARDWARE_ENDIAN_LITTLE
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+#elif CC_HARDWARE_ENDIAN_BIG
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+#endif
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0100 }))
+                 Passes: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0001 }))
+                 Passes: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x00ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x01ff }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ NULL }
+                 OfType: &TestNativeU32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0100 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0001 }))
+                 Passes: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x00ff }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
+                 OfType: &TestNativeU32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x01ff }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(uint32_t){ 0 }, &(uint32_t){ 1 }, &(uint32_t){ 255 }, &(uint32_t){ 0x7f000000 }, &(uint32_t){ 0xff000000 }, &(uint32_t){ 0xff000001 }, NULL }
                  OfType: &TestNativeU32];
     
     
     
     static const CCReflectInteger NativeI32 = CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
     
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
                  OfType: &NativeI32];
     
     
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
                  OfType: &NativeI32];
     
     
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x01000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x01000000 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x010000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x000000ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x000000ff }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0x010000ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000ff }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
                  OfType: &NativeI32];
     
     
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
     
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianNative, .sign = TRUE);
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x01000000 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x000000ff }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 },  NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0x010000ff }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    
+    
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianNative, .sign = TRUE);
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff00 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff01 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 },  &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                  OfType: &NativeI32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff00 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0xff01 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 },  &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff00 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0xff01 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                  OfType: &NativeI32];
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianBig, .sign = TRUE);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int16_t, CCReflectEndianLittle, .sign = TRUE);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x0100 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0100 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x0001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0001 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x00ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x00ff }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &NativeI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int16_t){ 0x01ff }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x01ff }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &NativeI32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x100 }))
+                 Passes: (void*[]){ &(int32_t){ 0 },  &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x0001 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x00ff }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &NativeI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int16_t){ 0x01ff }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                  OfType: &NativeI32];
     
     
@@ -1647,31 +2142,57 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType Mappe
     static const CCReflectInteger AliasI32 = CC_REFLECT_INTEGER(int32_t, CCReflectEndianBig, .sign = TRUE);
 #endif
     
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &AliasI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &AliasI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                  OfType: &AliasI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &AliasI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
+                 OfType: &AliasI32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &AliasI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &AliasI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x7f000000 }, NULL }
+                 OfType: &AliasI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, &(int32_t){ 0xff000001 }, NULL }
+                 OfType: &AliasI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0xff000001 }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f000000 }, NULL }
                  OfType: &AliasI32];
     
     
@@ -1681,91 +2202,158 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType Mappe
     static const CCReflectInteger FlippedI32 = CC_REFLECT_INTEGER(int32_t, CCReflectEndianLittle, .sign = TRUE);
 #endif
     
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
                  OfType: &FlippedI32];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
                  Passes: (void*[]){ &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
                  OfType: &FlippedI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
                  Passes: (void*[]){ &(int32_t){ 0x0000007f }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
                  OfType: &FlippedI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &FlippedI32];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
                  Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, &(int32_t){ 0x010000ff }, NULL }
                   Fails: (void*[]){ &(int32_t){ 0x000000ff }, NULL }
+                 OfType: &FlippedI32];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, NULL }
+                 OfType: &FlippedI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, NULL }
+                 OfType: &FlippedI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0x0000007f }, NULL }
+                 OfType: &FlippedI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(int32_t){ 0x000000ff }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, &(int32_t){ 0x010000ff }, NULL }
+                 OfType: &FlippedI32];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ &(int32_t){ 0x000000ff }, &(int32_t){ 0x010000ff }, NULL }
+                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0x01000000 }, &(int32_t){ 0xff000000 }, &(int32_t){ 0x0000007f }, NULL }
                  OfType: &FlippedI32];
     
     
     
     static const CCReflectInteger NativeI16 = CC_REFLECT_INTEGER(int16_t, CCReflectEndianNative, .sign = TRUE);
     
-    MinType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
+    LimitType = &CC_REFLECT_INTEGER(int32_t, CCReflectEndianNative, .sign = TRUE);
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0 }))
-                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f00 }, NULL }
-                  Fails: (void*[]){ &(int32_t){ 0xff00 }, &(int32_t){ 0xff01 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
                  OfType: &NativeI16];
     
-     [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 1 }))
-                 Passes: (void*[]){ &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f00 }, NULL }
-                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 0xff00 }, &(int32_t){ 0xff01 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
                  OfType: &NativeI16];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 256 }))
-                 Passes: (void*[]){ &(int32_t){ 0x7f00 }, NULL }
-                  Fails: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0xff00 }, &(int32_t){ 0xff01 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int16_t){ 0x7f00 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
                  OfType: &NativeI16];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000000 }))
-                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f00 }, &(int32_t){ 0xff00 }, &(int32_t){ 0xff01 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &NativeI16];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xff000001 }))
-                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f00 }, &(int32_t){ 0xff00 }, &(int32_t){ 0xff01 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
                   Fails: (void*[]){ NULL }
                  OfType: &NativeI16];
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(int32_t){ 0xffffff01 }))
-                 Passes: (void*[]){ &(int32_t){ 0 }, &(int32_t){ 1 }, &(int32_t){ 255 }, &(int32_t){ 0x7f00 }, &(int32_t){ 0xff01 }, NULL }
-                  Fails: (void*[]){ &(int32_t){ 0xff00 }, NULL }
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xffffff01 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, &(int16_t){ 0xff01 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0xff00 }, NULL }
+                 OfType: &NativeI16];
+    
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, NULL }
+                 OfType: &NativeI16];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 1 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, NULL }
+                 OfType: &NativeI16];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 256 }))
+                 Passes: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0x7f00 }, NULL }
+                 OfType: &NativeI16];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000000 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                 OfType: &NativeI16];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xff000001 }))
+                 Passes: (void*[]){ NULL }
+                  Fails: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                 OfType: &NativeI16];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(int32_t){ 0xffffff01 }))
+                 Passes: (void*[]){ &(int16_t){ 0xff00 }, &(int16_t){ 0xff01 }, NULL }
+                  Fails: (void*[]){ &(int16_t){ 0 }, &(int16_t){ 1 }, &(int16_t){ 255 }, &(int16_t){ 0x7f00 }, NULL }
                  OfType: &NativeI16];
     
     
     
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_FLOAT(float, CCReflectEndianLittle);
+    LimitType = &CC_REFLECT_FLOAT(float, CCReflectEndianLittle);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_FLOAT(float, CCReflectEndianBig);
+    LimitType = &CC_REFLECT_FLOAT(float, CCReflectEndianBig);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(float){ 0.5f }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
                  Passes: (void*[]){ &(double){ 0.5 }, &(double){ 1.0 }, NULL }
                   Fails: (void*[]){ &(double){ -1.0 }, &(double){ 0.0 }, NULL }
                  OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
     
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
+                 Passes: (void*[]){ &(double){ 0.5 }, &(double){ -1.0 }, &(double){ 0.0 }, NULL }
+                  Fails: (void*[]){ &(double){ 1.0 }, NULL }
+                 OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
+    
 #if CC_HARDWARE_ENDIAN_LITTLE
-    MinType = &CC_REFLECT_FLOAT(float, CCReflectEndianBig);
+    LimitType = &CC_REFLECT_FLOAT(float, CCReflectEndianBig);
 #elif CC_HARDWARE_ENDIAN_BIG
-    MinType = &CC_REFLECT_FLOAT(float, CCReflectEndianLittle);
+    LimitType = &CC_REFLECT_FLOAT(float, CCReflectEndianLittle);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(MinType, (&(float){ 0.5f }))
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
                  Passes: (void*[]){ &(double){ 0.5 }, &(double){ 1.0 }, NULL }
                   Fails: (void*[]){ &(double){ -1.0 }, &(double){ 0.0 }, NULL }
+                 OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
+    
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
+                 Passes: (void*[]){ &(double){ 0.5 }, &(double){ -1.0 }, &(double){ 0.0 }, NULL }
+                  Fails: (void*[]){ &(double){ 1.0 }, NULL }
                  OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
 }
 
@@ -2400,7 +2988,7 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     CCHashMapDestroy(Map);
     
     CCReflectDeserializeBinary(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), &Map, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
-    CCReflectPrint(&CC_REFLECT_CCHashMap(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, 4, (CCHashMapKeyHasher)CCStringHasherForDictionary, CCStringComparatorForDictionary, CCHashMapSeparateChainingArray), &Map);
+    
     CCMemoryZoneRestore(Zone);
     
     Memory = CCMemoryZoneAllocate(Zone, 1024);
@@ -2484,7 +3072,7 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     CCDictionaryDestroy(Dictionary);
     
     CCReflectDeserializeBinary(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), &Dictionary, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
-    CCReflectPrint(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), &Dictionary);
+    
     CCMemoryZoneRestore(Zone);
     
     Memory = CCMemoryZoneAllocate(Zone, 1024);
