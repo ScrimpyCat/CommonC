@@ -87,7 +87,7 @@ void CCReflectTypeUnmapperUnmapDefaults(CCReflectType Type, CCReflectType Mapped
 #define CC_REFLECT_VALUE_IS_POINTER(value) *(void**)CC_REFLECT_MAP_DATA_ARG == value
 
 #define CC_REFLECT_VALUE_TO_POINTER(type) &CC_REFLECT(type) CC_REFLECT_VALUE_TO_POINTER_
-#define CC_REFLECT_VALUE_TO_POINTER_(value) , &(void*){ value }
+#define CC_REFLECT_VALUE_TO_POINTER_(value) , &(void*){ (void*)value }
 
 extern const CCReflectStruct5 CC_REFLECT(CCReflectOpaque);
 
@@ -255,6 +255,9 @@ typedef CCReflectType (*CCAllocatorTypeDataFieldTypeCallback)(CCAllocatorType Al
 
 extern CCAllocatorTypeDataFieldTypeCallback CCAllocatorTypeDataFieldType;
 
+
+#pragma mark - MemoryDestructorCallback
+
 extern const CCReflectStaticPointer CC_REFLECT(CCMemoryDestructorCallback);
 
 extern CCReflectTypeMapper CCMemoryDestructorCallbackMap;
@@ -263,9 +266,16 @@ extern CCReflectTypeUnmapper CCMemoryDestructorCallbackUnmap;
 void CCMemoryDestructorCallbackMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCMemoryDestructorCallbackUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
-#define CC_REFLECT_VALUE_IS_MEMORY_DESTRUCTOR_CALLBACK(value) *(CCMemoryDestructorCallback*)CC_REFLECT_MAP_DATA_ARG == value
 
-#define CC_REFLECT_VALUE_TO_MEMORY_DESTRUCTOR_CALLBACK(value) &CC_REFLECT(CCMemoryDestructorCallback), &value
+#pragma mark - CCComparator
+
+extern const CCReflectStaticPointer CC_REFLECT(CCComparator);
+
+extern CCReflectTypeMapper CCComparatorMap;
+extern CCReflectTypeUnmapper CCComparatorUnmap;
+
+void CCComparatorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCComparatorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
 #pragma mark - Pointer Types
@@ -557,6 +567,10 @@ extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, weak, dyn
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic));
 
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, retain, dynamic));
+
 
 #pragma mark - Collections
 
@@ -626,10 +640,6 @@ extern CCReflectTypeUnmapper CCCollectionElementDestructorUnmap;
 void CCCollectionElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCCollectionElementDestructorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
-#define CC_REFLECT_VALUE_IS_COLLECTION_ELEMENT_DESTRUCTOR(value) *(CCCollectionElementDestructor*)CC_REFLECT_MAP_DATA_ARG == value
-
-#define CC_REFLECT_VALUE_TO_COLLECTION_ELEMENT_DESTRUCTOR(value) &CC_REFLECT(CCCollectionElementDestructor), &value
-
 
 #pragma mark - Maps
 
@@ -652,6 +662,22 @@ typedef struct {
 void CCReflectCCHashMapMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectCCHashMapUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
+extern const CCReflectStaticPointer CC_REFLECT(CCHashMapKeyHasher);
+
+extern CCReflectTypeMapper CCHashMapKeyHasherMap;
+extern CCReflectTypeUnmapper CCHashMapKeyHasherUnmap;
+
+void CCHashMapKeyHasherMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCHashMapKeyHasherUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectStaticPointer CC_REFLECT(PTYPE(CCHashMapInterface, weak, static));
+
+extern CCReflectTypeMapper CCHashMapInterfaceMap;
+extern CCReflectTypeUnmapper CCHashMapInterfaceUnmap;
+
+void CCHashMapInterfaceMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCHashMapInterfaceUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
 
 #include <CommonC/Dictionary.h>
 
@@ -669,6 +695,26 @@ typedef struct {
 
 void CCReflectCCDictionaryMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectInteger CC_REFLECT(CCDictionaryHint);
+
+extern const CCReflectStaticPointer CC_REFLECT(CCDictionaryKeyHasher);
+
+extern CCReflectTypeMapper CCDictionaryKeyHasherMap;
+extern CCReflectTypeUnmapper CCDictionaryKeyHasherUnmap;
+
+void CCDictionaryKeyHasherMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCDictionaryKeyHasherUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectStaticPointer CC_REFLECT(CCDictionaryElementDestructor);
+
+extern CCReflectTypeMapper CCDictionaryElementDestructorMap;
+extern CCReflectTypeUnmapper CCDictionaryElementDestructorUnmap;
+
+void CCDictionaryElementDestructorMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+void CCDictionaryElementDestructorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+extern const CCReflectStruct4 CC_REFLECT(CCDictionaryCallbacks);
 
 
 #pragma mark - Queues
@@ -757,7 +803,7 @@ void CCReflectCCQueueUnmapper(CCReflectType Type, CCReflectType MappedType, cons
 #define CC_REFLECT_MAP_STATELESS_VALUES_WHEN(condition, ...) CC_SOFT_JOIN(else if, CC_MAP_WITH(CC_REFLECT_MAP_STATELESS_VALUE, condition, __VA_ARGS__))
 
 #define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER(args, index) CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER_ args
-#define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER_(name, type) type name;
+#define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER_(name, type) CC_TYPE_DECL(type) name;
 
 #define CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBERS(...) CC_MERGE_MAP(CC_REFLECT_STATEFUL_VALUE_DEFINE_MEMBER, __VA_ARGS__)
 
@@ -845,7 +891,7 @@ Handler(&CC_REFLECT_STRUCT(CC_REFLECT_STATEFUL_VALUE_STRUCT_NAME(type), \
 
 #define CC_REFLECT_STATEFUL_VALUE_GET_FIELD(args, index) CC_REFLECT_STATEFUL_VALUE_GET_FIELD_(index, CC_EXPAND args)
 #define CC_REFLECT_STATEFUL_VALUE_GET_FIELD_(...) CC_REFLECT_STATEFUL_VALUE_GET_FIELD__(__VA_ARGS__)
-#define CC_REFLECT_STATEFUL_VALUE_GET_FIELD__(index, name, type) *(type*)(CC_REFLECT_UNMAP_DATA_ARG + ((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[index + 1].offset)
+#define CC_REFLECT_STATEFUL_VALUE_GET_FIELD__(index, name, type) *(CC_TYPE_DECL(type)*)(CC_REFLECT_UNMAP_DATA_ARG + ((const CCReflectStruct*)CC_REFLECT_UNMAP_MAPPED_TYPE_ARG)->fields[index + 1].offset)
 
 /*!
  * @define CC_REFLECT_VALUE_TO_STRUCT
