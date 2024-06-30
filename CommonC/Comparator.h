@@ -69,4 +69,44 @@ static CC_FORCE_INLINE CCComparisonResult CCComparisonResultFlipOrder(CCComparis
     return -Order;
 }
 
+#pragma mark - Template Type
+
+#define CC_TYPE_CCComparator(...) CCComparator
+#define CC_TYPE_0_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_1_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_2_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_3_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_4_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_5_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_6_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_7_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_8_CCComparator CC_TYPE_CCComparator,
+#define CC_TYPE_9_CCComparator CC_TYPE_CCComparator,
+
+#define CC_PRESERVE_CC_TYPE_CCComparator CC_TYPE_CCComparator
+
+#define CC_TYPE_DECL_CCComparator(...) CCComparator, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_1_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_2_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_3_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_4_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_5_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_6_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_7_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_8_CCComparator CC_TYPE_DECL_CCComparator,
+#define CC_TYPE_DECL_9_CCComparator CC_TYPE_DECL_CCComparator,
+
+#define CC_MANGLE_TYPE_0_CCComparator CCComparator
+#define CC_MANGLE_TYPE_1_CCComparator CCComparator
+#define CC_MANGLE_TYPE_2_CCComparator CCComparator
+#define CC_MANGLE_TYPE_3_CCComparator CCComparator
+#define CC_MANGLE_TYPE_4_CCComparator CCComparator
+#define CC_MANGLE_TYPE_5_CCComparator CCComparator
+#define CC_MANGLE_TYPE_6_CCComparator CCComparator
+#define CC_MANGLE_TYPE_7_CCComparator CCComparator
+#define CC_MANGLE_TYPE_8_CCComparator CCComparator
+#define CC_MANGLE_TYPE_9_CCComparator CCComparator
+
+
 #endif
