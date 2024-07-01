@@ -2817,8 +2817,6 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     
     CCCollectionDestroy(DestCollection);
     
-    CCCollectionDestroy(DestCollection);
-    
     
     
     Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(int), NULL);
@@ -3087,33 +3085,33 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     
     
     Collection = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, sizeof(CCDictionary), CCDictionaryDestructorForCollection);
-
+    
     Dictionary = CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, sizeof(CCString), sizeof(int), &Callbacks);
-
+    
     CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("one") }, &(int){ 1 });
     CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("two") }, &(int){ 2 });
     CCDictionarySetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }, &(int){ 3 });
-
+    
     CCOrderedCollectionAppendElement(Collection, &Dictionary);
-
+    
     CCMemoryZoneSave(Zone);
-
+    
     CCReflectSerializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCDictionaryDestructorForCollection), &Collection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamWriter, Zone);
-
+    
     CCCollectionDestroy(Collection);
-
+    
     CCReflectDeserializeBinary(&CC_REFLECT_CCCollection(&CC_REFLECT_CCDictionary(&CC_REFLECT(CCString), &CC_REFLECT(int), CC_STD_ALLOCATOR, CCDictionaryHintSizeSmall, &Callbacks), CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintSizeSmall, CCDictionaryDestructorForCollection), &DestCollection, CCReflectEndianNative, 2, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
-
+    
     CCMemoryZoneRestore(Zone);
-
+    
     Memory = CCMemoryZoneAllocate(Zone, 1024);
     memset(Memory, 0, 1024);
     CCMemoryZoneDeallocate(Zone, 1024);
-
+    
     XCTAssertEqual(CCCollectionGetCount(DestCollection), 1, @"should deserialise the value correctly");
-
+    
     Dictionary = *(CCDictionary*)CCOrderedCollectionGetElementAtIndex(DestCollection, 0);
-
+    
     XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("one") }), 1, @"should deserialise the value correctly");
     XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("two") }), 2, @"should deserialise the value correctly");
     XCTAssertEqual(*(int*)CCDictionaryGetValue(Dictionary, &(CCString){ CC_STRING("three is a very very long string") }), 3, @"should deserialise the value correctly");
