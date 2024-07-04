@@ -36,6 +36,6 @@ typedef struct {
     CCReflectValue min;
 } CCReflectMinimumValidator;
 
-_Bool CCReflectValidateMinimum(CCReflectType Type, void *Data, CCReflectType Validator);
+_Bool CCReflectValidateMinimum(CCReflectType Type, const void *Data, CCReflectType Validator);
 
 #endif

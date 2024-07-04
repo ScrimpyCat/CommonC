@@ -36,7 +36,7 @@
 #error Unknown native endianness
 #endif
 
-_Bool CCReflectValidateMinimum(CCReflectType Type, void *Data, CCReflectType Validator)
+_Bool CCReflectValidateMinimum(CCReflectType Type, const void *Data, CCReflectType Validator)
 {
     CCReflectType ValueType = ((const CCReflectMinimumValidator*)Validator)->min.type;
     const void *Value = ((const CCReflectMinimumValidator*)Validator)->min.data;

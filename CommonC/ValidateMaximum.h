@@ -36,6 +36,6 @@ typedef struct {
     CCReflectValue max;
 } CCReflectMaximumValidator;
 
-_Bool CCReflectValidateMaximum(CCReflectType Type, void *Data, CCReflectType Validator);
+_Bool CCReflectValidateMaximum(CCReflectType Type, const void *Data, CCReflectType Validator);
 
 #endif

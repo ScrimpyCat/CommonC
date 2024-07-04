@@ -36,7 +36,7 @@
 #error Unknown native endianness
 #endif
 
-_Bool CCReflectValidateMaximum(CCReflectType Type, void *Data, CCReflectType Validator)
+_Bool CCReflectValidateMaximum(CCReflectType Type, const void *Data, CCReflectType Validator)
 {
     CCReflectType ValueType = ((const CCReflectMaximumValidator*)Validator)->max.type;
     const void *Value = ((const CCReflectMaximumValidator*)Validator)->max.data;

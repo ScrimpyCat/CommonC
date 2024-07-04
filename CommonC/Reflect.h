@@ -110,7 +110,7 @@ typedef struct {
     CCReflectEndian endian;
 } CCReflectFloat;
 
-typedef _Bool (*CCReflectValidation)(CCReflectType Type, void *Data, CCReflectType Validator);
+typedef _Bool (*CCReflectValidation)(CCReflectType Type, const void *Data, CCReflectType Validator);
 
 typedef struct {
     CCReflectType type;
