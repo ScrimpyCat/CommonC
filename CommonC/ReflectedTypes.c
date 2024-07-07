@@ -305,7 +305,19 @@ const CCReflectOpaque CC_REFLECT(CCString) = CC_REFLECT_OPAQUE(sizeof(CCString),
 
 static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
-    if (Intent == CCReflectMapIntentTransfer)
+    if (!*(CCString*)Data)
+    {
+        if (Handler == (CCReflectTypeHandler)CCReflectPrintHandler)
+        {
+            CCReflectPrintIndent(((CCReflectPrintHandlerArgs*)Args)->file, ((CCReflectPrintHandlerArgs*)Args)->indentation, ((CCReflectPrintHandlerArgs*)Args)->indentCount, ((CCReflectPrintHandlerArgs*)Args)->shouldIndent);
+            
+            fprintf(((CCReflectPrintHandlerArgs*)Args)->file, "(CCString)0");
+        }
+        
+        else Handler(&CC_REFLECT(uintptr_t), Data, Args);
+    }
+    
+    else if (Intent == CCReflectMapIntentTransfer)
     {
         Handler((CCStringIsTagged(*(CCString*)Data) ? (CCReflectType)&CC_REFLECT(uintptr_t) : (CCReflectType)&CC_REFLECT(PTYPE(void, weak, dynamic))), Data, Args);
     }
@@ -323,17 +335,9 @@ static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCR
     {
         CCReflectPrintIndent(((CCReflectPrintHandlerArgs*)Args)->file, ((CCReflectPrintHandlerArgs*)Args)->indentation, ((CCReflectPrintHandlerArgs*)Args)->indentCount, ((CCReflectPrintHandlerArgs*)Args)->shouldIndent);
         
-        if (*(CCString*)Data)
+        CC_STRING_TEMP_BUFFER(Buffer, *(CCString*)Data)
         {
-            CC_STRING_TEMP_BUFFER(Buffer, *(CCString*)Data)
-            {
-                fprintf(((CCReflectPrintHandlerArgs*)Args)->file, "\"%s\"", Buffer);
-            }
-        }
-        
-        else
-        {
-            fprintf(((CCReflectPrintHandlerArgs*)Args)->file, "(CCString)0");
+            fprintf(((CCReflectPrintHandlerArgs*)Args)->file, "\"%s\"", Buffer);
         }
     }
     
