@@ -231,6 +231,10 @@ void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedTy
 
 extern const CCReflectOpaque CC_REFLECT(CCString);
 
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, retain, dynamic));
+
 extern const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v8));
 extern const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v16));
 extern const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v32));
@@ -254,6 +258,10 @@ extern const CCReflectStruct2 CC_REFLECT(CCDebugAllocatorInfo);
 typedef CCReflectType (*CCAllocatorTypeDataFieldTypeCallback)(CCAllocatorType Allocator);
 
 extern CCAllocatorTypeDataFieldTypeCallback CCAllocatorTypeDataFieldType;
+
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic));
 
 
 #pragma mark - MemoryDestructorCallback
@@ -559,18 +567,6 @@ extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(ARRAY(char, v65536), weak,
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(ARRAY(char, v65536), transfer, dynamic));
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(ARRAY(char, v65536), retain, dynamic));
 
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, weak, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, transfer, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, retain, dynamic));
-
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic));
-
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, weak, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, transfer, dynamic));
-extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, retain, dynamic));
-
 
 #pragma mark - Collections
 
@@ -715,6 +711,10 @@ void CCDictionaryElementDestructorMapDefaults(CCReflectType Type, const void *Da
 void CCDictionaryElementDestructorUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 extern const CCReflectStruct4 CC_REFLECT(CCDictionaryCallbacks);
+
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCDictionaryCallbacks, retain, dynamic));
 
 
 #pragma mark - Queues
