@@ -2436,6 +2436,23 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     XCTAssertEqual(Ptr, NULL, @"should deserialize the value correctly");
     
     
+    Value = 0;
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(void), &Value, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    Value = 1;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(void), &Value, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(Value, 1, @"should deserialize the value correctly");
+    
+    
     char CString[] = "test";
     
     CCMemoryZoneSave(Zone);

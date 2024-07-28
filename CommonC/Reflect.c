@@ -2038,6 +2038,8 @@ void CCReflectDeserializeBinary(CCReflectType Type, void *Data, CCReflectEndian 
             
         case CCReflectTypeOpaque:
         {
+            if (Type == &CC_REFLECT(void)) return;
+            
             CCReflectType MappedType = CCReflectDeserializeBinaryType(Zone, SerializedEndianness, Stream, Read, CC_AUTORELEASE_ALLOCATOR(Zone));
             void *MappedData = CCMemoryZoneAllocate(Zone, CCReflectTypeSize(MappedType));
             CCReflectDeserializeBinary(MappedType, MappedData, SerializedEndianness, PreferVariableLength, Stream, Read, Zone, Allocator);
