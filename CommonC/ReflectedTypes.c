@@ -30,6 +30,23 @@
 #include "List.h"
 #include "Queue.h"
 
+static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void ValidationUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCCollectionElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCHashMapKeyHasherMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCHashMapKeyHasherUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCHashMapInterfaceMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCHashMapInterfaceUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCDictionaryKeyHasherMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCDictionaryKeyHasherUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+static void CCDictionaryElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCDictionaryElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
 const char *CCReflectTypeNameDefaults(CCReflectType Type)
 {
     switch (*(const CCReflectTypeID*)Type)
@@ -710,11 +727,6 @@ const CCReflectStruct3 CC_REFLECT(CCReflectEnumerable) = CC_REFLECT_STRUCT(CCRef
     (count, &CC_REFLECT(size_t))
 );
 
-static void MapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-static void UnmapFunctionMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-
 const CCReflectStaticPointer CC_REFLECT(CCReflectTypeMapper) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, MapFunctionMapper, MapFunctionUnmapper);
 const CCReflectStaticPointer CC_REFLECT(CCReflectTypeUnmapper) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, UnmapFunctionMapper, UnmapFunctionUnmapper);
 
@@ -734,7 +746,28 @@ static void MapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, co
 void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
 #define CC_REFLECT_STATELESS_REFLECT_TYPE_MAPPERS \
-    CCStringMapper
+    VoidTypeMapper, \
+    CCReflectTerminatedArrayMapper, \
+    CCStringMapper, \
+    AllocatorTypeMapper, \
+    CCMemoryDestructorCallbackMapper, \
+    CCComparatorMapper, \
+    ReflectTypeMapper, \
+    MapFunctionMapper, \
+    UnmapFunctionMapper, \
+    ValidationMapper, \
+    CCReflectCCArrayMapper, \
+    CCReflectCCLinkedListMapper, \
+    CCReflectCCListMapper, \
+    CCReflectCCCollectionMapper, \
+    CCCollectionElementDestructorMapper, \
+    CCReflectCCHashMapMapper, \
+    CCHashMapKeyHasherMapper, \
+    CCHashMapInterfaceMapper, \
+    CCReflectCCDictionaryMapper, \
+    CCDictionaryKeyHasherMapper, \
+    CCDictionaryElementDestructorMapper, \
+    CCReflectCCQueueMapper
     
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER, CC_REFLECT_STATELESS_REFLECT_TYPE_MAPPERS)
     else CCAssertLog(0, "Unknown map function");
@@ -763,7 +796,29 @@ static void UnmapFunctionUnmapper(CCReflectType Type, CCReflectType MappedType, 
 void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
 {
 #define CC_REFLECT_STATELESS_REFLECT_TYPE_UNMAPPERS \
-    CCStringUnmapper
+    VoidTypeUnmapper, \
+    CCReflectTerminatedArrayUnmapper, \
+    CCStringUnmapper, \
+    AllocatorTypeUnmapper, \
+    CCMemoryDestructorCallbackUnmapper, \
+    CCComparatorUnmapper, \
+    ReflectTypeUnmapper, \
+    MapFunctionUnmapper, \
+    UnmapFunctionUnmapper, \
+    ValidationUnmapper, \
+    ReflectTypeUnmapper, \
+    CCReflectCCArrayUnmapper, \
+    CCReflectCCLinkedListUnmapper, \
+    CCReflectCCListUnmapper, \
+    CCReflectCCCollectionUnmapper, \
+    CCCollectionElementDestructorUnmapper, \
+    CCReflectCCHashMapUnmapper, \
+    CCHashMapKeyHasherUnmapper, \
+    CCHashMapInterfaceUnmapper, \
+    CCReflectCCDictionaryUnmapper, \
+    CCDictionaryKeyHasherUnmapper, \
+    CCDictionaryElementDestructorUnmapper, \
+    CCReflectCCQueueUnmapper
     
     if CC_REFLECT_MAP_STATELESS_VALUES_WHEN(CC_REFLECT_VALUE_IS_POINTER, CC_REFLECT_STATELESS_REFLECT_TYPE_UNMAPPERS)
     else CCAssertLog(0, "Unknown unmapper function");
@@ -862,9 +917,6 @@ CCReflectTypeUnmapper CCReflectStaticPointerTypeDescriptorUnmap = CCReflectStati
 
 #include "ValidateMinimum.h"
 #include "ValidateMaximum.h"
-
-static void ValidationMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void ValidationUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(CCReflectValidation) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, ValidationMapper, ValidationUnmapper);
 
@@ -1192,9 +1244,6 @@ void CCReflectCCCollectionUnmapper(CCReflectType Type, CCReflectType MappedType,
 
 const CCReflectInteger CC_REFLECT(CCCollectionHint) = CC_REFLECT_SIGNED_INTEGER(int, CCReflectEndianNative);
 
-static void CCCollectionElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void CCCollectionElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-
 const CCReflectStaticPointer CC_REFLECT(CCCollectionElementDestructor) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCCollectionElementDestructorMapper, CCCollectionElementDestructorUnmapper);
 
 CCReflectTypeMapper CCCollectionElementDestructorMap = CCCollectionElementDestructorMapDefaults;
@@ -1297,9 +1346,6 @@ void CCReflectCCHashMapUnmapper(CCReflectType Type, CCReflectType MappedType, co
     }
 }
 
-static void CCHashMapKeyHasherMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void CCHashMapKeyHasherUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-
 const CCReflectStaticPointer CC_REFLECT(CCHashMapKeyHasher) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCHashMapKeyHasherMapper, CCHashMapKeyHasherUnmapper);
 
 CCReflectTypeMapper CCHashMapKeyHasherMap = CCHashMapKeyHasherMapDefaults;
@@ -1334,9 +1380,6 @@ void CCHashMapKeyHasherUnmapDefaults(CCReflectType Type, CCReflectType MappedTyp
     
     CCAssertLog(0, "Unknown hasher function");
 }
-
-static void CCHashMapInterfaceMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void CCHashMapInterfaceUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(PTYPE(CCHashMapInterface, weak, static)) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCHashMapInterfaceMapper, CCHashMapInterfaceUnmapper);
 
@@ -1427,9 +1470,6 @@ void CCReflectCCDictionaryUnmapper(CCReflectType Type, CCReflectType MappedType,
 
 const CCReflectInteger CC_REFLECT(CCDictionaryHint) = CC_REFLECT_SIGNED_INTEGER(int, CCReflectEndianNative);
 
-static void CCDictionaryKeyHasherMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void CCDictionaryKeyHasherUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
-
 const CCReflectStaticPointer CC_REFLECT(CCDictionaryKeyHasher) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCDictionaryKeyHasherMapper, CCDictionaryKeyHasherUnmapper);
 
 CCReflectTypeMapper CCDictionaryKeyHasherMap = CCDictionaryKeyHasherMapDefaults;
@@ -1464,9 +1504,6 @@ void CCDictionaryKeyHasherUnmapDefaults(CCReflectType Type, CCReflectType Mapped
     
     CCAssertLog(0, "Unknown hasher function");
 }
-
-static void CCDictionaryElementDestructorMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
-static void CCDictionaryElementDestructorUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 const CCReflectStaticPointer CC_REFLECT(CCDictionaryElementDestructor) = CC_REFLECT_STATIC_POINTER(&CC_REFLECT(void), CCReflectOwnershipWeak, CCDictionaryElementDestructorMapper, CCDictionaryElementDestructorUnmapper);
 
