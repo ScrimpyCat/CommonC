@@ -488,7 +488,7 @@ void CCMemoryDestructorCallbackMapDefaults(CCReflectType Type, const void *Data,
 
 void CCMemoryDestructorCallbackUnmapDefaults(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
 {
-    if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_POINTER(CCComparator), CC_REFLECT_STATELESS_MEMORY_DESTRUCTOR_CALLBACKS)
+    if CC_REFLECT_UNMAP_STATELESS_VALUES(CC_REFLECT_VALUE_TO_POINTER(CCMemoryDestructorCallback), CC_REFLECT_STATELESS_MEMORY_DESTRUCTOR_CALLBACKS)
     
     CCAssertLog(0, "Unknown destructor function");
 }
