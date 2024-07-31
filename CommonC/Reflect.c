@@ -1405,6 +1405,9 @@ static CC_NEW CCString CCReflectDeserializeBinaryStringValue(CCReflectEndian Sou
     return CCStringCreateWithSize(Allocator, CCStringEncodingUTF8 | CCStringHintFree, Buffer, Size);
 }
 
+uint8_t (*CCReflectSerializeBinaryTypeLookup)(CCReflectType Type);
+CCReflectType (*CCReflectDeserializeBinaryTypeLookup)(uint8_t Index, CCMemoryZone Zone);
+
 typedef struct {
     CCReflectEndian serializedEndianness;
     size_t preferVariableLength;
@@ -1420,6 +1423,84 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
     CCDictionarySetValue(Indexes, &Type, Index);
     
     (*Index)++;
+    
+    if (CCReflectSerializeBinaryTypeLookup)
+    {
+        _Static_assert((CCReflectTypePointer == 0) &&
+                       (CCReflectTypeInteger == 1) &&
+                       (CCReflectTypeFloat == 2) &&
+                       (CCReflectTypeStruct == 3) &&
+                       (CCReflectTypeOpaque == 4) &&
+                       (CCReflectTypeArray == 5) &&
+                       (CCReflectTypeValidator == 6) &&
+                       (CCReflectTypeEnumerable == 7), "Need to adjust lookup");
+        
+        uint8_t LookupID = CCReflectSerializeBinaryTypeLookup(Type);
+        
+        if (LookupID <= 127)
+        {
+            LookupID |= 0x80;
+            
+            Write(Stream, &LookupID, 1);
+            
+            return;
+        }
+        
+        else if (LookupID <= (127 + 8))
+        {
+            // Use spare bit from pointer type
+            LookupID = (LookupID - 128) | 8;
+            
+            Write(Stream, &LookupID, 1);
+            
+            return;
+        }
+        
+        else if (LookupID <= (127 + 8 + 12))
+        {
+            // Use spare bits from float type
+            LookupID -= 128 + 8;
+            
+            LookupID = (((LookupID + 4) / 4) << 2) + (LookupID % 4) | 0x20;
+            
+            Write(Stream, &LookupID, 1);
+            
+            return;
+        }
+        
+        else if (LookupID <= (127 + 8 + 12 + 2))
+        {
+            _Static_assert((CCReflectOwnershipWeak == 0) &&
+                           (CCReflectOwnershipTransfer == 1) &&
+                           (CCReflectOwnershipRetain == 2), "Need to adjust lookup");
+            
+            // Use unused pointer ownership configuration
+            LookupID -= 128 + 8 + 12;
+            
+            LookupID = (LookupID << 2) | 3;
+            
+            Write(Stream, &LookupID, 1);
+            
+            return;
+        }
+        
+        else if (LookupID <= (127 + 8 + 12 + 2 + 5))
+        {
+            _Static_assert((CCReflectEndianNative == 0) &&
+                           (CCReflectEndianBig == 1) &&
+                           (CCReflectEndianLittle == 2), "Need to adjust lookup");
+            
+            // Use unused endian configuration
+            LookupID -= 128 + 8 + 12 + 2;
+            
+            if (LookupID < 4) LookupID = (LookupID << 2) | 0x13;
+            else LookupID = 0x23;
+            
+            Write(Stream, &LookupID, 1);
+            
+            return;
+        }
+    }
     
     const uint8_t ID = *(const CCReflectTypeID*)Type << 4;
     
@@ -1478,7 +1559,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             break;
             
         case CCReflectTypeStruct:
-            // [  4:4  ][_:4][size:n][count:n][field:n]
+            // [  3:4  ][_:4][size:n][count:n][field:n]
             // field: [offset:n][type:n]
             
             Write(Stream, &ID, 1);
@@ -1505,7 +1586,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             break;
             
         case CCReflectTypeOpaque:
-            // [  5:4  ][_:4][typeSize:n][descriptor:n]
+            // [  4:4  ][_:4][typeSize:n][descriptor:n]
             Write(Stream, &ID, 1);
             CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectOpaque*)Type)->typeSize, sizeof(((const CCReflectOpaque*)Type)->typeSize), FALSE, Stream, Write);
             
@@ -1520,7 +1601,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             
         case CCReflectTypeArray:
         {
-            // [  6:4  ][_:4][count:n][type:n]
+            // [  5:4  ][_:4][count:n][type:n]
             Write(Stream, &ID, 1);
             CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectArray*)Type)->count, sizeof(((const CCReflectArray*)Type)->count), FALSE, Stream, Write);
             
@@ -1546,7 +1627,7 @@ static void CCReflectSerializeBinaryTypeData(CCReflectType Type, CCReflectEndian
             
         case CCReflectTypeEnumerable:
         {
-            // [  8:4  ][_:4][count:n][type:n]
+            // [  7:4  ][_:4][count:n][type:n]
             Write(Stream, &ID, 1);
             CCReflectSerializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &((const CCReflectEnumerable*)Type)->count, sizeof(((const CCReflectEnumerable*)Type)->count), TRUE, Stream, Write);
             
@@ -1594,6 +1675,81 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
 {
     uint8_t ID;
     Read(Stream, &ID, 1);
+    
+    if (CCReflectDeserializeBinaryTypeLookup)
+    {
+        if (ID & 0x80)
+        {
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup(ID ^ 0x80, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+        
+        else if ((ID >> 3) == 1)
+        {
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup((ID & 7) + 128, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+        
+        else if (((ID >> 4) == 2) && (ID & 0xc))
+        {
+            ID &= 0xf;
+            
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup((((ID >> 2) - 1) * 4) + (ID & 3) + 128 + 8, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+        
+        else if (((ID >> 4) == 0) && ((ID & 3) == 3))
+        {
+            ID = (ID >> 2) & 1;
+            
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup(ID + 128 + 8 + 12, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+        
+        else if (((ID >> 4) == 1) && ((ID & 3) == 3))
+        {
+            ID = (ID >> 2) & 3;
+            
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup(ID + 128 + 8 + 12 + 2, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+        
+        else if (((ID >> 4) == 2) && ((ID & 3) == 3))
+        {
+            CCReflectType Type = CCReflectDeserializeBinaryTypeLookup(128 + 8 + 12 + 2 + 4, Zone);
+            
+            CCAssertLog(Type, "Type must not be null");
+            
+            CCArrayAppendElement(Types, &Type);
+            
+            return Type;
+        }
+    }
     
     switch (ID >> 4)
     {
@@ -1674,7 +1830,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
         case CCReflectTypeStruct:
         {
-            // [  4:4  ][_:4][size:n][count:n][field:n]
+            // [  3:4  ][_:4][size:n][count:n][field:n]
             // field: [offset:n][type:n]
             
             size_t Size, Count;
@@ -1706,7 +1862,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
         case CCReflectTypeOpaque:
         {
-            // [  5:4  ][_:4][typeSize:n][descriptor:n]
+            // [  4:4  ][_:4][typeSize:n][descriptor:n]
             size_t TypeSize;
             CCReflectDeserializeBinaryVariableLengthIntegerValue(CCReflectEndianNative, &TypeSize, sizeof(TypeSize), FALSE, Stream, Read);
             
@@ -1732,7 +1888,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
         case CCReflectTypeArray:
         {
-            // [  6:4  ][_:4][count:n][type:n]
+            // [  5:4  ][_:4][count:n][type:n]
             CCReflectArray *Array = CCMemoryZoneAllocate(Zone, sizeof(CCReflectArray));
             
             CCArrayAppendElement(Types, &Array);
@@ -1755,7 +1911,7 @@ static CCReflectType CCReflectDeserializeBinaryTypeData(CCMemoryZone Zone, CCRef
             
         case CCReflectTypeEnumerable:
         {
-            // [  8:4  ][_:4][count:n][type:n]
+            // [  7:4  ][_:4][count:n][type:n]
             CCReflectEnumerable *Enumerable = CCMemoryZoneAllocate(Zone, sizeof(CCReflectArray));
             
             CCArrayAppendElement(Types, &Enumerable);

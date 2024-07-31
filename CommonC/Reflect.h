@@ -497,6 +497,23 @@ typedef void (*CCReflectStreamReader)(void *Stream, void *Data, size_t Size);
 typedef void (*CCReflectStreamWriter)(void *Stream, const void *Data, size_t Size);
 
 /*!
+ * @brief Override the lookup serializer for a given type.
+ * @description Types mapped to lower numbers will take precedence over ones mapped to higher numbers.
+ * @param Type The reflected type to get the lookup for.
+ * @return The lookup for the type or @b UINT8_MAX if there is none.
+ */
+extern uint8_t (*CCReflectSerializeBinaryTypeLookup)(CCReflectType Type);
+
+/*!
+ * @brief Override the lookup deserializer for a given type.
+ * @description The type mappings should correspond with those provided by @b CCReflectSerializeBinaryTypeLookup.
+ * @param Index The index of the type to lookup.
+ * @param Zone The memory zone to use for allocations.
+ * @return The type that is mapped to the given index.
+ */
+extern CCReflectType (*CCReflectDeserializeBinaryTypeLookup)(uint8_t Index, CCMemoryZone Zone);
+
+/*!
  * @brief Serialize the data as binary data.
  * @param Type The reflected type of the data to be serialized.
  * @param Data The data to be serialized.
