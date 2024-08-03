@@ -42,6 +42,26 @@
 
 const char *CCReflectTypeNameDefaults(CCReflectType Type);
 
+/*!
+ * @brief A lookup serializer for some common default types.
+ * @description This may be called from within your own lookup to make use of any remaining unmapped indices.
+ * @param Type The reflected type to get the lookup for.
+ * @param Offset The offset for the unmapped indices.
+ * @return The lookup for the type or @b UINT8_MAX if there is none.
+ */
+uint8_t CCReflectSerializeBinaryTypeLookupDefaults(CCReflectType Type, size_t Offset);
+
+/*!
+ * @brief A lookup deserializer for some common default types.
+ * @description This may be called from within your own lookup to make use of any remaining unmapped indices.
+ * @param Index The index of the type to lookup.
+ * @param Zone The memory zone to use for allocations.
+ * @param Offset The offset for the unmapped indices.
+ * @return The type that is mapped to the given index.
+ */
+CCReflectType CCReflectDeserializeBinaryTypeLookupDefaults(uint8_t Index, CCMemoryZone Zone, size_t Offset);
+
+
 #pragma mark - Reflected Types
 
 extern const CCReflectOpaque CC_REFLECT(CCReflectType);

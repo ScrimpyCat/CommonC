@@ -190,6 +190,157 @@ const char *CCReflectTypeNameDefaults(CCReflectType Type)
     return NULL;
 }
 
+uint8_t CCReflectSerializeBinaryTypeLookupDefaults(CCReflectType Type, size_t Offset)
+{
+    if (Offset < UINT8_MAX)
+    {
+        size_t Index = SIZE_MAX;
+        
+        switch (*(CCReflectTypeID*)Type)
+        {
+            case CCReflectTypeOpaque:
+                if (Type == &CC_REFLECT(CCReflectType)) Index = 0;
+                else if (Type == &CC_REFLECT(void)) Index = 1;
+                else if (Type == &CC_REFLECT(CCString)) Index = 2;
+                else if (Type == &CC_REFLECT(CCAllocatorType)) Index = 3;
+                break;
+                
+            case CCReflectTypeStruct:
+                if (Type == &CC_REFLECT(CCReflectOpaque)) Index = 4;
+                else if (Type == &CC_REFLECT(CCReflectInteger)) Index = 5;
+                else if (Type == &CC_REFLECT(CCReflectValidator)) Index = 6;
+                else if (Type == &CC_REFLECT(CCReflectPointer)) Index = 7;
+                else if (Type == &CC_REFLECT(CCReflectStruct)) Index = 8;
+                else if (Type == &CC_REFLECT(CCReflectStaticPointer)) Index = 9;
+                else if (Type == &CC_REFLECT(CCReflectDynamicPointer)) Index = 10;
+                else if (Type == &CC_REFLECT(CCReflectArray)) Index = 11;
+                else if (Type == &CC_REFLECT(CCReflectStructField)) Index = 12;
+                else if (Type == &CC_REFLECT(CCReflectFloat)) Index = 13;
+                else if (Type == &CC_REFLECT(CCReflectEnumerable)) Index = 14;
+                else if (Type == &CC_REFLECT(CCReflectValue)) Index = 15;
+                else if (Type == &CC_REFLECT(CCVector4D)) Index = 16;
+                else if (Type == &CC_REFLECT(CCColourRGBA)) Index = 17;
+                else if (Type == &CC_REFLECT(CCMatrix4)) Index = 18;
+                else if (Type == &CC_REFLECT(CCVector4Di)) Index = 19;
+                else if (Type == &CC_REFLECT(CCColourRGBAi)) Index = 20;
+                else if (Type == &CC_REFLECT(CCVector3D)) Index = 21;
+                else if (Type == &CC_REFLECT(CCColourRGB)) Index = 22;
+                else if (Type == &CC_REFLECT(CCMatrix3)) Index = 23;
+                else if (Type == &CC_REFLECT(CCVector3Di)) Index = 24;
+                else if (Type == &CC_REFLECT(CCColourRGBi)) Index = 25;
+                else if (Type == &CC_REFLECT(CCVector2D)) Index = 26;
+                else if (Type == &CC_REFLECT(CCRect)) Index = 27;
+                else if (Type == &CC_REFLECT(CCMatrix2)) Index = 28;
+                else if (Type == &CC_REFLECT(CCVector2Di)) Index = 29;
+                else if (Type == &CC_REFLECT(CCDictionaryCallbacks)) Index = 30;
+                else if (Type == &CC_REFLECT(CCDebugAllocatorInfo)) Index = 50;
+                break;
+                
+            case CCReflectTypePointer:
+                if (Type == &CC_REFLECT(CCReflectTypeMapper)) Index = 31;
+                else if (Type == &CC_REFLECT(CCReflectTypeUnmapper)) Index = 32;
+                else if (Type == &CC_REFLECT(CCReflectValidation)) Index = 33;
+                else if (Type == &CC_REFLECT(CCMemoryDestructorCallback)) Index = 34;
+                else if (Type == &CC_REFLECT(CCComparator)) Index = 35;
+                else if (Type == &CC_REFLECT(CCCollectionElementDestructor)) Index = 36;
+                else if (Type == &CC_REFLECT(CCDictionaryElementDestructor)) Index = 37;
+                else if (Type == &CC_REFLECT(CCDictionaryKeyHasher)) Index = 38;
+                else if (Type == &CC_REFLECT(PTYPE(CCDictionaryCallbacks, weak, dynamic))) Index = 39;
+                else if (Type == &CC_REFLECT(PTYPE(CCDictionaryCallbacks, transfer, dynamic))) Index = 40;
+                else if (Type == &CC_REFLECT(PTYPE(CCDictionaryCallbacks, retain, dynamic))) Index = 41;
+                else if (Type == &CC_REFLECT(CCHashMapKeyHasher)) Index = 42;
+                else if (Type == &CC_REFLECT(PTYPE(CCHashMapInterface, weak, static))) Index = 43;
+                else if (Type == &CC_REFLECT(PTYPE(CCString, weak, dynamic))) Index = 44;
+                else if (Type == &CC_REFLECT(PTYPE(CCString, transfer, dynamic))) Index = 45;
+                else if (Type == &CC_REFLECT(PTYPE(CCString, retain, dynamic))) Index = 46;
+                else if (Type == &CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic))) Index = 47;
+                else if (Type == &CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic))) Index = 48;
+                else if (Type == &CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic))) Index = 49;
+                break;
+                
+            default:
+                break;
+        }
+        
+        if (Index != SIZE_MAX)
+        {
+            Index += Offset;
+            
+            if (Index < UINT8_MAX) return Index;
+        }
+    }
+    
+    return UINT8_MAX;
+}
+
+static const CCReflectType CCReflectTypeLookups[] = {
+    &CC_REFLECT(CCReflectType),
+    &CC_REFLECT(void),
+    &CC_REFLECT(CCString),
+    &CC_REFLECT(CCAllocatorType),
+    &CC_REFLECT(CCReflectOpaque),
+    &CC_REFLECT(CCReflectInteger),
+    &CC_REFLECT(CCReflectValidator),
+    &CC_REFLECT(CCReflectPointer),
+    &CC_REFLECT(CCReflectStruct),
+    &CC_REFLECT(CCReflectStaticPointer),
+    &CC_REFLECT(CCReflectDynamicPointer),
+    &CC_REFLECT(CCReflectArray),
+    &CC_REFLECT(CCReflectStructField),
+    &CC_REFLECT(CCReflectFloat),
+    &CC_REFLECT(CCReflectEnumerable),
+    &CC_REFLECT(CCReflectValue),
+    &CC_REFLECT(CCVector4D),
+    &CC_REFLECT(CCColourRGBA),
+    &CC_REFLECT(CCMatrix4),
+    &CC_REFLECT(CCVector4Di),
+    &CC_REFLECT(CCColourRGBAi),
+    &CC_REFLECT(CCVector3D),
+    &CC_REFLECT(CCColourRGB),
+    &CC_REFLECT(CCMatrix3),
+    &CC_REFLECT(CCVector3Di),
+    &CC_REFLECT(CCColourRGBi),
+    &CC_REFLECT(CCVector2D),
+    &CC_REFLECT(CCRect),
+    &CC_REFLECT(CCMatrix2),
+    &CC_REFLECT(CCVector2Di),
+    &CC_REFLECT(CCDictionaryCallbacks),
+    &CC_REFLECT(CCReflectTypeMapper),
+    &CC_REFLECT(CCReflectTypeUnmapper),
+    &CC_REFLECT(CCReflectValidation),
+    &CC_REFLECT(CCMemoryDestructorCallback),
+    &CC_REFLECT(CCComparator),
+    &CC_REFLECT(CCCollectionElementDestructor),
+    &CC_REFLECT(CCDictionaryElementDestructor),
+    &CC_REFLECT(CCDictionaryKeyHasher),
+    &CC_REFLECT(PTYPE(CCDictionaryCallbacks, weak, dynamic)),
+    &CC_REFLECT(PTYPE(CCDictionaryCallbacks, transfer, dynamic)),
+    &CC_REFLECT(PTYPE(CCDictionaryCallbacks, retain, dynamic)),
+    &CC_REFLECT(CCHashMapKeyHasher),
+    &CC_REFLECT(PTYPE(CCHashMapInterface, weak, static)),
+    &CC_REFLECT(PTYPE(CCString, weak, dynamic)),
+    &CC_REFLECT(PTYPE(CCString, transfer, dynamic)),
+    &CC_REFLECT(PTYPE(CCString, retain, dynamic)),
+    &CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic)),
+    &CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic)),
+    &CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic)),
+    &CC_REFLECT(CCDebugAllocatorInfo)
+};
+
+CCReflectType CCReflectDeserializeBinaryTypeLookupDefaults(uint8_t Index, CCMemoryZone Zone, size_t Offset)
+{
+    if ((Offset < UINT8_MAX) && (Index < UINT8_MAX))
+    {
+        Index += Offset;
+        
+        CCAssertLog(Index < (sizeof(CCReflectTypeLookups) / sizeof(*CCReflectTypeLookups)), "Index exceeds lookups");
+        
+        return CCReflectTypeLookups[Index];
+    }
+    
+    return NULL;
+}
+
 #pragma mark - void
 
 static void VoidTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
