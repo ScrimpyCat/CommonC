@@ -41,9 +41,9 @@ static inline void CCSwap(void *Data, size_t Size)
 {
     for (size_t Loop = 0, Count = Size / 2; Loop < Count; Loop++)
     {
-        const uint8_t Temp = ((uint8_t*)&Data)[Loop];
-        ((uint8_t*)&Data)[Loop] = ((uint8_t*)&Data)[Size - Loop - 1];
-        ((uint8_t*)&Data)[Size - Loop - 1] = Temp;
+        const uint8_t Temp = ((uint8_t*)Data)[Loop];
+        ((uint8_t*)Data)[Loop] = ((uint8_t*)Data)[Size - Loop - 1];
+        ((uint8_t*)Data)[Size - Loop - 1] = Temp;
     }
 }
 
