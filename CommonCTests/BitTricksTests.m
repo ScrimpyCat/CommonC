@@ -138,6 +138,24 @@
     for (uint64_t Loop = 0, n = 1; Loop < 64; Loop++, n = (n << 1) | 1) TEST_SET_BIT_COUNT(n, Loop + 1);
 }
 
+-(void) testCCCountLowestUnsetBits
+{
+#define TEST_LOWEST_UNSET_BIT_COUNT(x, r) XCTAssertEqual(CCBitCountLowestUnset(x), (r), @"Test value: %" PRIu64 " should contain %" PRIu64 " lowest unset bits. Instead saying it contains: %" PRIu64, x, r, CCBitCountLowestUnset(x));
+    //0 set bits
+    TEST_LOWEST_UNSET_BIT_COUNT(UINT64_C(0), UINT64_C(64));
+    
+    //1 set bits
+    for (int Loop = 0; Loop < 64; Loop++) TEST_LOWEST_UNSET_BIT_COUNT(UINT64_C(1) << Loop, (uint64_t)Loop);
+    
+    //n set bits
+    for (uint64_t Loop = 0, n = 1; Loop < 64; Loop++, n = (n << 1) | 1)
+    {
+        TEST_LOWEST_UNSET_BIT_COUNT(n, UINT64_C(0));
+        TEST_LOWEST_UNSET_BIT_COUNT(n << 3, UINT64_C(3));
+        TEST_LOWEST_UNSET_BIT_COUNT(n << 15, UINT64_C(15));
+    }
+}
+
 -(void) testCCBitSet
 {
     XCTAssertEqual(CCBitSet(0), 0, @"Should set 0 bits");

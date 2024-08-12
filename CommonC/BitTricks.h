@@ -93,6 +93,13 @@ static CC_FORCE_INLINE uint64_t CCBitMaskForUnsetValue(uint64_t x) CC_CONSTANT_F
 static CC_FORCE_INLINE uint64_t CCBitCountSet(uint64_t x) CC_CONSTANT_FUNCTION;
 
 /*!
+ * @brief Sums the number of lowest unset bits.
+ * @example (00010110 -> 00000001, 00001000 -> 00000011)
+ * @return Sum of the lowest unset bits.
+ */
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitCountLowestUnset(uint64_t x);
+
+/*!
  * @brief Set n least significant bits
  * @return Set n bits.
  */
@@ -197,6 +204,17 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitCountSet(uint64_t x)
     x = (x * 0x0101010101010101) >> 56;
     
     return x;
+}
+
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitCountLowestUnset(uint64_t x)
+{
+    if (!x) return 64;
+    
+#if __has_builtin(__builtin_ctzll)
+    return __builtin_ctzll(x);
+#else
+    return CCBitCountSet(CCBitMaskForLowerPowerOf2(CCBitLowestSet(x)));
+#endif
 }
 
 //Set n least significant bits
