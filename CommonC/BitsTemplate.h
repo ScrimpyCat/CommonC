@@ -25,18 +25,21 @@
 
 #include <CommonC/Template.h>
 #include <CommonC/BitTricks.h>
+#include <CommonC/Swap.h>
 
 #define CCBitsGet_T(t) CC_TEMPLATE_REF(CCBitsGet, _Bool, t, size_t)
 #define CCBitsSet_T(t) CC_TEMPLATE_REF(CCBitsSet, void, t, size_t)
 #define CCBitsClear_T(t) CC_TEMPLATE_REF(CCBitsClear, void, t, size_t)
 #define CCBitsCount_T(t) CC_TEMPLATE_REF(CCBitsCount, size_t, t, size_t, size_t)
 #define CCBitsAny_T(t) CC_TEMPLATE_REF(CCBitsAny, _Bool, t, size_t, size_t)
+#define CCBitsMask_T(t) CC_TEMPLATE_REF(CCBitsMask, size_t, t, t, size_t, size_t, PTYPE(size_t *))
 
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsGet, (const T Set, const size_t Index));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsSet, (T Set, const size_t Index));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClear, (T Set, const size_t Index));
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsCount, (const T Set, const size_t Index, const size_t Count));
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsAny, (const T Set, const size_t Index, const size_t Count));
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsMask, (const T SetA, const T SetB, const size_t Index, const size_t Count, PTYPE(size_t *) Indexes));
 
 #pragma mark -
 
@@ -179,4 +182,111 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsAny, (const T Set, const size_t 
     }
     
     return FALSE;
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsMask, (const T SetA, const T SetB, const size_t Index, const size_t Count, PTYPE(size_t *) Indexes))
+{
+    size_t IndexCount = 0;
+    
+    const size_t Offset8 = (Index + 7) / 8;
+    const size_t IndexAdjustedCount = (8 - (Index % 8)) <= Count ? ((Index + Count) - (Offset8 * 8)) : 0;
+    const size_t Count64 = IndexAdjustedCount / 64;
+    const uint64_t * const SetA64 = (uint64_t*)(((uint8_t*)SetA) + Offset8);
+    const uint64_t * const SetB64 = (uint64_t*)(((uint8_t*)SetB) + Offset8);
+    
+    for (size_t Loop = 0; Loop < Count64; Loop++)
+    {
+        size_t BitBase = (Loop * 64) + (Offset8 * 8);
+        uint64_t Mask = SetA64[Loop] & SetB64[Loop];
+        
+#if CC_HARDWARE_ENDIAN_BIG
+        CCSwap(&Mask, sizeof(Mask));
+#endif
+        
+        while (Mask)
+        {
+            size_t BitIndex = CCBitCountLowestUnset(Mask);
+            Mask >>= BitIndex + 1;
+            
+            Indexes[IndexCount++] = BitIndex + BitBase;
+            
+            BitBase += BitIndex + 1;
+        }
+    }
+    
+    uint64_t RemainderA = 0, RemainderB = 0;
+    if (Index % 8)
+    {
+        uint8_t RemainderA8 = ((uint8_t*)SetA)[Offset8 - 1] & (0xff << (Index % 8)) & (Count < 8 ? ((1 << ((Index % 8) + Count)) - 1) : 0xff);
+        uint8_t RemainderB8 = ((uint8_t*)SetB)[Offset8 - 1] & (0xff << (Index % 8)) & (Count < 8 ? ((1 << ((Index % 8) + Count)) - 1) : 0xff);
+        
+        size_t BitBase = (Offset8 - 1) * 8;
+        uint64_t Mask = RemainderA8 & RemainderB8;
+        
+        while (Mask)
+        {
+            size_t BitIndex = CCBitCountLowestUnset(Mask);
+            Mask >>= BitIndex + 1;
+            
+            Indexes[IndexCount++] = BitIndex + BitBase;
+            
+            BitBase += BitIndex + 1;
+        }
+    }
+    
+    else if (Count < 8)
+    {
+        RemainderA = ((uint8_t*)SetA)[Offset8] & (0xff << (Index % 8)) & ((1 << ((Index % 8) + Count)) - 1);
+        RemainderB = ((uint8_t*)SetB)[Offset8] & (0xff << (Index % 8)) & ((1 << ((Index % 8) + Count)) - 1);
+    }
+    
+    const size_t Count8 = (IndexAdjustedCount / 8) - (Count64 * 8);
+    const uint8_t * const SetA8 = ((uint8_t*)SetA) + Offset8 + (Count64 * 8);
+    const uint8_t * const SetB8 = ((uint8_t*)SetB) + Offset8 + (Count64 * 8);
+    
+    for (size_t Loop = 0; Loop < Count8; Loop++)
+    {
+        RemainderA |= (uint64_t)SetA8[Loop] << (Loop * 8);
+        RemainderB |= (uint64_t)SetB8[Loop] << (Loop * 8);
+    }
+    
+    
+    if (IndexAdjustedCount % 8)
+    {
+        if (Index % 8)
+        {
+            if (Count8 == 7)
+            {
+                RemainderA |= (uint64_t)(SetA8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1)) << 56;
+                RemainderB |= (uint64_t)(SetB8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1)) << 56;
+            }
+            
+            else
+            {
+                RemainderA |= (uint64_t)(SetA8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1)) << (Count8 * 8);
+                RemainderB |= (uint64_t)(SetB8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1)) << (Count8 * 8);
+            }
+        }
+        
+        else
+        {
+            RemainderA |= SetA8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1);
+            RemainderB |= SetB8[Count8] & ((1 << (IndexAdjustedCount % 8)) - 1);
+        }
+    }
+    
+    size_t BitBase = (Offset8 * 8) + (Count64 * 64);
+    uint64_t Mask = RemainderA & RemainderB;
+    
+    while (Mask)
+    {
+        size_t BitIndex = CCBitCountLowestUnset(Mask);
+        Mask >>= BitIndex + 1;
+        
+        Indexes[IndexCount++] = BitIndex + BitBase;
+        
+        BitBase += BitIndex + 1;
+    }
+    
+    return IndexCount;
 }

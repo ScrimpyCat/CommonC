@@ -35,12 +35,14 @@
 #define CCBitsClear(set, index) CCBitsClear_Ref(set, index)(set, index)
 #define CCBitsCount(set, index, count) CCBitsCount_Ref(set, index, count)(set, index, count)
 #define CCBitsAny(set, index, count) CCBitsAny_Ref(set, index, count)(set, index, count)
+#define CCBitsMask(seta, setb, index, count, indexes) CCBitsMask_Ref(seta, setb, index, count, indexes)(seta, setb, index, count, indexes)
 
 #define CCBitsGet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsGet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsSet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsSet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsClear_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsClear_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsCount_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsCount_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsAny_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsAny_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
+#define CCBitsMask_Ref(seta, setb, index, count, indexes) CC_GENERIC((((typeof(seta)){0})), CCBitsMask_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 
 #define CC_BITS_T CC_GENERIC_INDEXED_TYPE_LIST(CC_BITS_T, CC_BITS_COUNT)
 
