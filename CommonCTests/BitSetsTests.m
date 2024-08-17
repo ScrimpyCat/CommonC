@@ -744,4 +744,690 @@ static size_t TestCount32(CCBits(uint32_t, 0) Bits, size_t Index, size_t Count)
     XCTAssertEqual(Indexes[13], 191, @"should get the correct indexes");
 }
 
+-(void) testNot
+{
+    CCBits(uint8_t, 193) Set;
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsNot(Set, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 2, 191);
+    
+    for (size_t Loop = 0; Loop < 2; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 2; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 2, 190);
+    
+    for (size_t Loop = 0; Loop < 2; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 2; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 186, 7);
+    
+    for (size_t Loop = 0; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 186, 3);
+    
+    for (size_t Loop = 0; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 1, 3);
+    
+    for (size_t Loop = 0; Loop < 1; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 1; Loop < 4; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 4; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set, 192, 1);
+    
+    for (size_t Loop = 0; Loop < 1; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 1; Loop < 4; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 4; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    
+    
+    CCBits(uint32_t, 193) Set32;
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsNot(Set32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 2, 191);
+    
+    for (size_t Loop = 0; Loop < 2; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 2; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 2, 190);
+    
+    for (size_t Loop = 0; Loop < 2; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 2; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 186, 7);
+    
+    for (size_t Loop = 0; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 186, 3);
+    
+    for (size_t Loop = 0; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 1, 3);
+    
+    for (size_t Loop = 0; Loop < 1; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 1; Loop < 4; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 4; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CCBitsNot(Set32, 192, 1);
+    
+    for (size_t Loop = 0; Loop < 1; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 1; Loop < 4; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 4; Loop < 186; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 186; Loop < 189; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 189; Loop < 192; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    for (size_t Loop = 192; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+}
+
+-(void) testOr
+{
+    CCBits(uint8_t, 193) a;
+    CCBits(uint8_t, 193) b;
+    CCBits(uint8_t, 193) Mask;
+    
+    CC_BITS_INIT_SET(Mask);
+    
+    CC_BITS_INIT_CLEAR(a);
+    CC_BITS_INIT_SET(b);
+    
+    CCBitsOr(a, b, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a);
+    CC_BITS_INIT_CLEAR(b);
+    
+    CCBitsSet(a, 1);
+    CCBitsSet(a, 4);
+    CCBitsSet(a, 84);
+    CCBitsSet(a, 103);
+    
+    CCBitsSet(b, 0);
+    CCBitsSet(b, 1);
+    CCBitsSet(b, 32);
+    CCBitsSet(b, 186);
+    CCBitsSet(b, 192);
+    
+    CCBitsOr(a, b, 0, 193);
+    size_t Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 8, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsOr(a, b, 1, 192);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsOr(a, b, 186, 7);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsOr(a, b, 192, 1);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsOr(a, b, 1, 4);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    
+    
+    CCBits(uint32_t, 193) a32;
+    CCBits(uint32_t, 193) b32;
+    CCBits(uint32_t, 193) Mask32;
+    
+    CC_BITS_INIT_SET(Mask32);
+    
+    CC_BITS_INIT_CLEAR(a32);
+    CC_BITS_INIT_SET(b32);
+    
+    CCBitsOr(a32, b32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a32);
+    CC_BITS_INIT_CLEAR(b32);
+    
+    CCBitsSet(a32, 1);
+    CCBitsSet(a32, 4);
+    CCBitsSet(a32, 84);
+    CCBitsSet(a32, 103);
+    
+    CCBitsSet(b32, 0);
+    CCBitsSet(b32, 1);
+    CCBitsSet(b32, 32);
+    CCBitsSet(b32, 186);
+    CCBitsSet(b32, 192);
+    
+    CCBitsOr(a32, b32, 0, 193);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 8, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsOr(a32, b32, 1, 192);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsOr(a32, b32, 186, 7);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsOr(a32, b32, 192, 1);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsOr(a32, b32, 1, 4);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+}
+
+-(void) testAnd
+{
+    CCBits(uint8_t, 193) a;
+    CCBits(uint8_t, 193) b;
+    CCBits(uint8_t, 193) Mask;
+    
+    CC_BITS_INIT_SET(Mask);
+    
+    CC_BITS_INIT_SET(a);
+    CC_BITS_INIT_SET(b);
+    
+    CCBitsAnd(a, b, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a);
+    CC_BITS_INIT_CLEAR(b);
+    
+    CCBitsSet(a, 1);
+    CCBitsSet(a, 4);
+    CCBitsSet(a, 84);
+    CCBitsSet(a, 192);
+    
+    CCBitsSet(b, 0);
+    CCBitsSet(b, 1);
+    CCBitsSet(b, 32);
+    CCBitsSet(b, 186);
+    CCBitsSet(b, 192);
+    
+    CCBitsAnd(a, b, 0, 193);
+    size_t Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a);
+    
+    CCBitsAnd(a, b, 1, 192);
+    Count = CCBitsMask(a, Mask, 1, 192, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a);
+    
+    CCBitsAnd(a, b, 186, 7);
+    Count = CCBitsMask(a, Mask, 186, 7, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a);
+    
+    CCBitsAnd(a, b, 192, 1);
+    Count = CCBitsMask(a, Mask, 192, 1, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a);
+    
+    CCBitsAnd(a, b, 1, 4);
+    Count = CCBitsMask(a, Mask, 1, 4, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    
+    
+    CCBits(uint32_t, 193) a32;
+    CCBits(uint32_t, 193) b32;
+    CCBits(uint32_t, 193) Mask32;
+    
+    CC_BITS_INIT_SET(Mask32);
+    
+    CC_BITS_INIT_SET(a32);
+    CC_BITS_INIT_SET(b32);
+    
+    CCBitsAnd(a32, b32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a32);
+    CC_BITS_INIT_CLEAR(b32);
+    
+    CCBitsSet(a32, 1);
+    CCBitsSet(a32, 4);
+    CCBitsSet(a32, 84);
+    CCBitsSet(a32, 192);
+    
+    CCBitsSet(b32, 0);
+    CCBitsSet(b32, 1);
+    CCBitsSet(b32, 32);
+    CCBitsSet(b32, 186);
+    CCBitsSet(b32, 192);
+    
+    CCBitsAnd(a32, b32, 0, 193);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a32);
+    
+    CCBitsAnd(a32, b32, 1, 192);
+    Count = CCBitsMask(a32, Mask32, 1, 192, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a32);
+    
+    CCBitsAnd(a32, b32, 186, 7);
+    Count = CCBitsMask(a32, Mask32, 186, 7, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a32);
+    
+    CCBitsAnd(a32, b32, 192, 1);
+    Count = CCBitsMask(a32, Mask32, 192, 1, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(a32);
+    
+    CCBitsAnd(a32, b32, 1, 4);
+    Count = CCBitsMask(a32, Mask32, 1, 4, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+}
+
+-(void) testXor
+{
+    CCBits(uint8_t, 193) a;
+    CCBits(uint8_t, 193) b;
+    CCBits(uint8_t, 193) Mask;
+    
+    CC_BITS_INIT_SET(Mask);
+    
+    CC_BITS_INIT_CLEAR(a);
+    CC_BITS_INIT_SET(b);
+    
+    CCBitsXor(a, b, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a);
+    CC_BITS_INIT_CLEAR(b);
+    
+    CCBitsSet(a, 1);
+    CCBitsSet(a, 4);
+    CCBitsSet(a, 84);
+    CCBitsSet(a, 103);
+    
+    CCBitsSet(b, 0);
+    CCBitsSet(b, 1);
+    CCBitsSet(b, 32);
+    CCBitsSet(b, 186);
+    CCBitsSet(b, 192);
+    
+    CCBitsXor(a, b, 0, 193);
+    size_t Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 7, @"should get the correct indexes");
+    XCTAssertEqual(CCBitsGet(a, 1), FALSE, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsXor(a, b, 1, 192);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsXor(a, b, 186, 7);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsXor(a, b, 192, 1);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a);
+    
+    CCBitsXor(a, b, 1, 4);
+    Count = CCBitsMask(a, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    
+    
+    CCBits(uint32_t, 193) a32;
+    CCBits(uint32_t, 193) b32;
+    CCBits(uint32_t, 193) Mask32;
+    
+    CC_BITS_INIT_SET(Mask32);
+    
+    CC_BITS_INIT_CLEAR(a32);
+    CC_BITS_INIT_SET(b32);
+    
+    CCBitsXor(a32, b32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(a32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(a32);
+    CC_BITS_INIT_CLEAR(b32);
+    
+    CCBitsSet(a32, 1);
+    CCBitsSet(a32, 4);
+    CCBitsSet(a32, 84);
+    CCBitsSet(a32, 103);
+    
+    CCBitsSet(b32, 0);
+    CCBitsSet(b32, 1);
+    CCBitsSet(b32, 32);
+    CCBitsSet(b32, 186);
+    CCBitsSet(b32, 192);
+    
+    CCBitsXor(a32, b32, 0, 193);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 7, @"should get the correct indexes");
+    XCTAssertEqual(CCBitsGet(a32, 1), FALSE, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsXor(a32, b32, 1, 192);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsXor(a32, b32, 186, 7);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 2, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsXor(a32, b32, 192, 1);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(a32);
+    
+    CCBitsXor(a32, b32, 1, 4);
+    Count = CCBitsMask(a32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+}
+
 @end
