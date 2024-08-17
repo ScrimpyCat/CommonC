@@ -30,6 +30,8 @@
 #define CCBitsGet_T(t) CC_TEMPLATE_REF(CCBitsGet, _Bool, t, size_t)
 #define CCBitsSet_T(t) CC_TEMPLATE_REF(CCBitsSet, void, t, size_t)
 #define CCBitsClear_T(t) CC_TEMPLATE_REF(CCBitsClear, void, t, size_t)
+#define CCBitsSetRange_T(t) CC_TEMPLATE_REF(CCBitsSetRange, void, t, size_t, size_t)
+#define CCBitsClearRange_T(t) CC_TEMPLATE_REF(CCBitsClearRange, void, t, size_t, size_t)
 #define CCBitsCount_T(t) CC_TEMPLATE_REF(CCBitsCount, size_t, t, size_t, size_t)
 #define CCBitsAny_T(t) CC_TEMPLATE_REF(CCBitsAny, _Bool, t, size_t, size_t)
 #define CCBitsMask_T(t) CC_TEMPLATE_REF(CCBitsMask, size_t, t, t, size_t, size_t, PTYPE(size_t *))
@@ -41,6 +43,8 @@
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsGet, (const T Set, const size_t Index));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsSet, (T Set, const size_t Index));
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClear, (T Set, const size_t Index));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsSetRange, (T Set, const size_t Index, const size_t Count));
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClearRange, (T Set, const size_t Index, const size_t Count));
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsCount, (const T Set, const size_t Index, const size_t Count));
 CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsAny, (const T Set, const size_t Index, const size_t Count));
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsMask, (const T SetA, const T SetB, const size_t Index, const size_t Count, PTYPE(size_t *) Indexes));
@@ -76,6 +80,100 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClear, (T Set, const size_t Index
 #else
     ((uint8_t*)Set)[Index / (sizeof(uint8_t) * 8)] &= ~(1 << (Index % (sizeof(uint8_t) * 8)));
 #endif
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsSetRange, (const T Set, const size_t Index, const size_t Count))
+{
+    const size_t Offset8 = (Index + 7) / 8;
+    const size_t IndexAdjustedCount = (8 - (Index % 8)) <= Count ? ((Index + Count) - (Offset8 * 8)) : 0;
+    const size_t Count64 = IndexAdjustedCount / 64;
+    uint64_t * const Set64 = (uint64_t*)(((uint8_t*)Set) + Offset8);
+    
+    for (size_t Loop = 0; Loop < Count64; Loop++)
+    {
+        Set64[Loop] = -1;
+    }
+    
+    if (Index % 8)
+    {
+        const uint8_t Byte = ((uint8_t*)Set)[Offset8 - 1];
+        const uint8_t Mask = (0xff << (Index % 8)) & (Count < 8 ? ((1 << ((Index % 8) + Count)) - 1) : 0xff);
+        uint8_t RemainderB8 = -1 & Mask;
+        
+        RemainderB8 |= Byte & ~Mask;
+        
+        ((uint8_t*)Set)[Offset8 - 1] = RemainderB8;
+    }
+    
+    else if (Count < 8)
+    {
+        const uint8_t Byte = ((uint8_t*)Set)[Offset8];
+        const uint8_t Mask = (0xff << (Index % 8)) & ((1 << ((Index % 8) + Count)) - 1);
+        uint8_t RemainderB8 = -1 & Mask;
+        
+        RemainderB8 |= Byte & ~Mask;
+        
+        ((uint8_t*)Set)[Offset8] = RemainderB8;
+    }
+    
+    const size_t Count8 = (IndexAdjustedCount / 8) - (Count64 * 8);
+    uint8_t * const Set8 = ((uint8_t*)Set) + Offset8 + (Count64 * 8);
+    
+    for (size_t Loop = 0; Loop < Count8; Loop++)
+    {
+        Set8[Loop] = -1;
+    }
+    
+    
+    if (IndexAdjustedCount % 8)
+    {
+        Set8[Count8] = -1;
+    }
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCBitsClearRange, (const T Set, const size_t Index, const size_t Count))
+{
+    const size_t Offset8 = (Index + 7) / 8;
+    const size_t IndexAdjustedCount = (8 - (Index % 8)) <= Count ? ((Index + Count) - (Offset8 * 8)) : 0;
+    const size_t Count64 = IndexAdjustedCount / 64;
+    uint64_t * const Set64 = (uint64_t*)(((uint8_t*)Set) + Offset8);
+    
+    for (size_t Loop = 0; Loop < Count64; Loop++)
+    {
+        Set64[Loop] = 0;
+    }
+    
+    if (Index % 8)
+    {
+        const uint8_t Byte = ((uint8_t*)Set)[Offset8 - 1];
+        const uint8_t Mask = (0xff << (Index % 8)) & (Count < 8 ? ((1 << ((Index % 8) + Count)) - 1) : 0xff);
+        uint8_t RemainderB8 = Byte & ~Mask;
+        
+        ((uint8_t*)Set)[Offset8 - 1] = RemainderB8;
+    }
+    
+    else if (Count < 8)
+    {
+        const uint8_t Byte = ((uint8_t*)Set)[Offset8];
+        const uint8_t Mask = (0xff << (Index % 8)) & ((1 << ((Index % 8) + Count)) - 1);
+        uint8_t RemainderB8 = Byte & ~Mask;
+        
+        ((uint8_t*)Set)[Offset8] = RemainderB8;
+    }
+    
+    const size_t Count8 = (IndexAdjustedCount / 8) - (Count64 * 8);
+    uint8_t * const Set8 = ((uint8_t*)Set) + Offset8 + (Count64 * 8);
+    
+    for (size_t Loop = 0; Loop < Count8; Loop++)
+    {
+        Set8[Loop] = 0;
+    }
+    
+    
+    if (IndexAdjustedCount % 8)
+    {
+        Set8[Count8] = 0;
+    }
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCBitsCount, (const T Set, const size_t Index, const size_t Count))

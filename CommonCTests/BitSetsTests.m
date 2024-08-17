@@ -744,6 +744,201 @@ static size_t TestCount32(CCBits(uint32_t, 0) Bits, size_t Index, size_t Count)
     XCTAssertEqual(Indexes[13], 191, @"should get the correct indexes");
 }
 
+-(void) testSetRange
+{
+    CCBits(uint8_t, 193) Set;
+    CCBits(uint8_t, 193) Mask;
+    
+    CC_BITS_INIT_SET(Mask);
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsSetRange(Set, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsSetRange(Set, 2, 191);
+    
+    size_t Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 191, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsSetRange(Set, 186, 7);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 7, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsSetRange(Set, 192, 1);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set);
+    
+    CCBitsSetRange(Set, 1, 4);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+    
+    
+    
+    CCBits(uint32_t, 193) Set32;
+    CCBits(uint32_t, 193) Mask32;
+    
+    CC_BITS_INIT_SET(Mask32);
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsSetRange(Set32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 1, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsSetRange(Set32, 2, 191);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 191, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsSetRange(Set32, 186, 7);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 7, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsSetRange(Set32, 192, 1);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_CLEAR(Set32);
+    
+    CCBitsSetRange(Set32, 1, 4);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 4, @"should get the correct indexes");
+}
+
+-(void) testClearRange
+{
+    CCBits(uint8_t, 193) Set;
+    CCBits(uint8_t, 193) Mask;
+    
+    CC_BITS_INIT_SET(Mask);
+    
+    CC_BITS_INIT_SET(Set);
+    
+    CCBitsClearRange(Set, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_SET(Set);
+    
+    CCBitsClearRange(Set, 2, 191);
+    
+    size_t Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 191, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set);
+    
+    CCBitsClearRange(Set, 186, 7);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 7, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set);
+    
+    CCBitsClearRange(Set, 192, 1);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set);
+    
+    CCBitsClearRange(Set, 1, 4);
+    
+    Count = CCBitsMask(Set, Mask, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 4, @"should get the correct indexes");
+    
+    
+    
+    CCBits(uint32_t, 193) Set32;
+    CCBits(uint32_t, 193) Mask32;
+    
+    CC_BITS_INIT_SET(Mask32);
+    
+    CC_BITS_INIT_SET(Set32);
+    
+    CCBitsClearRange(Set32, 0, 193);
+    
+    for (size_t Loop = 0; Loop < 193; Loop++)
+    {
+        XCTAssertEqual(CCBitsGet(Set32, Loop), 0, @"should get the correct indexes");
+    }
+    
+    CC_BITS_INIT_SET(Set32);
+    
+    CCBitsClearRange(Set32, 2, 191);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 191, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set32);
+    
+    CCBitsClearRange(Set32, 186, 7);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 7, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set32);
+    
+    CCBitsClearRange(Set32, 192, 1);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 1, @"should get the correct indexes");
+    
+    CC_BITS_INIT_SET(Set32);
+    
+    CCBitsClearRange(Set32, 1, 4);
+    
+    Count = CCBitsMask(Set32, Mask32, 0, 193, NULL);
+    
+    XCTAssertEqual(Count, 193 - 4, @"should get the correct indexes");
+}
+
+
 -(void) testNot
 {
     CCBits(uint8_t, 193) Set;
