@@ -37,6 +37,7 @@
 #import "HashMap.h"
 #import "HashMapSeparateChainingArray.h"
 #import "Dictionary.h"
+#import "Swap.h"
 
 @interface ReflectTests : XCTestCase
 
@@ -2346,12 +2347,15 @@ static void TestOpaqueEnumerableUnmapper(CCReflectType Type, CCReflectType Mappe
     LimitType = &CC_REFLECT_FLOAT(float, CCReflectEndianLittle);
 #endif
     
-    [self assertMinimum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
+    float Value = 0.5f;
+    CCSwap(&Value, sizeof(Value));
+    
+    [self assertMinimum: CC_REFLECT_VALUE(LimitType, &Value)
                  Passes: (void*[]){ &(double){ 0.5 }, &(double){ 1.0 }, NULL }
                   Fails: (void*[]){ &(double){ -1.0 }, &(double){ 0.0 }, NULL }
                  OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
     
-    [self assertMaximum: CC_REFLECT_VALUE(LimitType, (&(float){ 0.5f }))
+    [self assertMaximum: CC_REFLECT_VALUE(LimitType, &Value)
                  Passes: (void*[]){ &(double){ 0.5 }, &(double){ -1.0 }, &(double){ 0.0 }, NULL }
                   Fails: (void*[]){ &(double){ 1.0 }, NULL }
                  OfType: &CC_REFLECT_FLOAT(double, CCReflectEndianNative)];
@@ -2562,6 +2566,82 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertEqual(String, 0, @"should deserialise the value correctly");
+    
+    
+    CCBigInt BigInt = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSet(BigInt, 1746);
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntCompareEqual(BigInt, 1746), @"should deserialise the value correctly");
+    
+    CCBigIntDestroy(BigInt);
+    
+    
+    BigInt = NULL;
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = (CCBigInt)-1;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(BigInt, NULL, @"should deserialise the value correctly");
+    
+    
+    CCBigIntFast BigIntFast = CCBigIntFastCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntFastSet(&BigIntFast, 1746);
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntFastCompareEqual(BigIntFast, 1746), @"should deserialise the value correctly");
+    
+    CCBigIntFastDestroy(BigIntFast);
+    
+    
+    BigIntFast = NULL;
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigIntFast = (CCBigIntFast)-1;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertEqual(BigIntFast, NULL, @"should deserialise the value correctly");
     
     
     CCArray Array = CCArrayCreate(CC_STD_ALLOCATOR, sizeof(CCString), 4);

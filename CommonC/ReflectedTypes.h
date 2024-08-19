@@ -247,6 +247,23 @@ void CCReflectTerminatedArrayMapper(CCReflectType Type, const void *Data, void *
 void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 
 
+#pragma mark - Big Integers
+
+#include <CommonC/BigInt.h>
+#include <CommonC/BigIntFast.h>
+
+extern const CCReflectOpaque CC_REFLECT(CCBigInt);
+extern const CCReflectOpaque CC_REFLECT(CCBigIntFast);
+
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigInt, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigInt, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigInt, retain, dynamic));
+
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigIntFast, weak, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigIntFast, transfer, dynamic));
+extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigIntFast, retain, dynamic));
+
+
 #pragma mark - Strings
 
 extern const CCReflectOpaque CC_REFLECT(CCString);

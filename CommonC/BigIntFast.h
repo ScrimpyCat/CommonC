@@ -666,4 +666,43 @@ static inline void CCBigIntFastSubString(CCBigIntFast *Integer, CCString Value)
     else CCBigIntSub((CCBigInt)*Integer, Value);
 }
 
+#pragma mark -
+
+#define CC_TYPE_CCBigIntFast(...) CCBigIntFast
+#define CC_TYPE_0_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_1_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_2_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_3_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_4_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_5_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_6_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_7_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_8_CCBigIntFast CC_TYPE_CCBigIntFast,
+#define CC_TYPE_9_CCBigIntFast CC_TYPE_CCBigIntFast,
+
+#define CC_PRESERVE_CC_TYPE_CCBigIntFast CC_TYPE_CCBigIntFast
+
+#define CC_TYPE_DECL_CCBigIntFast(...) CCBigIntFast, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_1_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_2_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_3_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_4_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_5_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_6_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_7_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_8_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+#define CC_TYPE_DECL_9_CCBigIntFast CC_TYPE_DECL_CCBigIntFast,
+
+#define CC_MANGLE_TYPE_0_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_1_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_2_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_3_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_4_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_5_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_6_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_7_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_8_CCBigIntFast CCBigIntFast
+#define CC_MANGLE_TYPE_9_CCBigIntFast CCBigIntFast
+
 #endif

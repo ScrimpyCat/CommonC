@@ -274,4 +274,43 @@ static CC_FORCE_INLINE _Bool CCBigIntGetSign(CCBigInt Integer)
     return Integer->sign;
 }
 
+#pragma mark -
+
+#define CC_TYPE_CCBigInt(...) CCBigInt
+#define CC_TYPE_0_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_1_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_2_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_3_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_4_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_5_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_6_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_7_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_8_CCBigInt CC_TYPE_CCBigInt,
+#define CC_TYPE_9_CCBigInt CC_TYPE_CCBigInt,
+
+#define CC_PRESERVE_CC_TYPE_CCBigInt CC_TYPE_CCBigInt
+
+#define CC_TYPE_DECL_CCBigInt(...) CCBigInt, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_1_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_2_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_3_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_4_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_5_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_6_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_7_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_8_CCBigInt CC_TYPE_DECL_CCBigInt,
+#define CC_TYPE_DECL_9_CCBigInt CC_TYPE_DECL_CCBigInt,
+
+#define CC_MANGLE_TYPE_0_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_1_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_2_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_3_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_4_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_5_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_6_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_7_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_8_CCBigInt CCBigInt
+#define CC_MANGLE_TYPE_9_CCBigInt CCBigInt
+
 #endif

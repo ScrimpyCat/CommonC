@@ -154,6 +154,8 @@ const char *CCReflectTypeNameDefaults(CCReflectType Type)
             if (Type == &CC_REFLECT(CCReflectType)) return "CCReflectType";
             else if (Type == &CC_REFLECT(void)) return "void";
             else if (Type == &CC_REFLECT(CCString)) return "CCString";
+            else if (Type == &CC_REFLECT(CCBigInt)) return "CCBigInt";
+            else if (Type == &CC_REFLECT(CCBigIntFast)) return "CCBigIntFast";
             else if (Type == &CC_REFLECT(ARRAY(char, v8))) return "char[8]";
             else if (Type == &CC_REFLECT(ARRAY(char, v16))) return "char[16]";
             else if (Type == &CC_REFLECT(ARRAY(char, v32))) return "char[32]";
@@ -203,6 +205,8 @@ uint8_t CCReflectSerializeBinaryTypeLookupDefaults(CCReflectType Type, size_t Of
                 else if (Type == &CC_REFLECT(void)) Index = 1;
                 else if (Type == &CC_REFLECT(CCString)) Index = 2;
                 else if (Type == &CC_REFLECT(CCAllocatorType)) Index = 3;
+                else if (Type == &CC_REFLECT(CCBigInt)) Index = 51;
+                else if (Type == &CC_REFLECT(CCBigIntFast)) Index = 52;
                 break;
                 
             case CCReflectTypeStruct:
@@ -324,7 +328,9 @@ static const CCReflectType CCReflectTypeLookups[] = {
     &CC_REFLECT(PTYPE(CCAllocatorType, weak, dynamic)),
     &CC_REFLECT(PTYPE(CCAllocatorType, transfer, dynamic)),
     &CC_REFLECT(PTYPE(CCAllocatorType, retain, dynamic)),
-    &CC_REFLECT(CCDebugAllocatorInfo)
+    &CC_REFLECT(CCDebugAllocatorInfo),
+    &CC_REFLECT(CCBigInt),
+    &CC_REFLECT(CCBigIntFast)
 };
 
 CCReflectType CCReflectDeserializeBinaryTypeLookupDefaults(uint8_t Index, CCMemoryZone Zone, size_t Offset)
@@ -548,6 +554,114 @@ const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v1024)) = CC_REFLECT_TERMI
 const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v4096)) = CC_REFLECT_TERMINATED_ARRAY(&CC_REFLECT(char), &(char){ 0 }, sizeof(char) * 4096);
 const CCReflectTerminatedArray CC_REFLECT(ARRAY(char, v65536)) = CC_REFLECT_TERMINATED_ARRAY(&CC_REFLECT(char), &(char){ 0 }, sizeof(char) * 65536);
 
+#pragma mark - Big Integers
+
+static void CCBigIntMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCBigIntUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+static void CCBigIntFastMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
+static void CCBigIntFastUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
+
+const CCReflectOpaque CC_REFLECT(CCBigInt) = CC_REFLECT_OPAQUE(sizeof(CCBigInt), sizeof(CCReflectOpaque), CCBigIntMapper, CCBigIntUnmapper);
+const CCReflectOpaque CC_REFLECT(CCBigIntFast) = CC_REFLECT_OPAQUE(sizeof(CCBigIntFast), sizeof(CCReflectOpaque), CCBigIntFastMapper, CCBigIntFastUnmapper);
+
+void CCBigIntMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCBigInt Integer;
+    
+    if ((Intent == CCReflectMapIntentTransfer) || (Intent == CCReflectMapIntentShare) || (!(Integer = *(CCBigInt*)Data)))
+    {
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
+    }
+    
+    else
+    {
+        CCString String = CCBigIntGetString(Integer);
+        
+        Handler(&CC_REFLECT(CCString), &String, Args);
+        
+        CCStringDestroy(String);
+    }
+}
+
+void CCBigIntUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeOpaque)
+    {
+        if ((MappedType == &CC_REFLECT(CCString)) || ((((const CCReflectOpaque*)MappedType)->map == CCStringMapper) && (((const CCReflectOpaque*)MappedType)->unmap == CCStringUnmapper)))
+        {
+            CCBigInt Integer = CCBigIntCreate(Allocator);
+            
+            CCBigIntSet(Integer, *(CCString*)Data);
+            
+            Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Integer, Args);
+            
+            CCBigIntDestroy(Integer);
+        }
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+static void CCBigIntFastMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent)
+{
+    CCBigIntFast Integer;
+    
+    if (!(Integer = *(CCBigIntFast*)Data))
+    {
+        Handler(&CC_REFLECT(uintptr_t), Data, Args);
+    }
+    
+    else if (Intent == CCReflectMapIntentTransfer)
+    {
+        Handler((CCBigIntFastIsTaggedValue(*(CCBigIntFast*)Data) ? (CCReflectType)&CC_REFLECT(uintptr_t) : (CCReflectType)&CC_REFLECT(PTYPE(void, weak, dynamic))), Data, Args);
+    }
+    
+    else if ((Intent == CCReflectMapIntentShare) || (Intent == CCReflectMapIntentCopy))
+    {
+        CCBigIntFast Copy = CCBigIntFastCopy(Integer);
+        
+        Handler((CCBigIntFastIsTaggedValue(Copy) ? (CCReflectType)&CC_REFLECT(uintptr_t) : (CCReflectType)&CC_REFLECT(PTYPE(void, retain, dynamic))), &Copy, Args);
+        
+        CCBigIntFastDestroy(Copy);
+    }
+    
+    else
+    {
+        CCString String = CCBigIntFastGetString(Integer);
+        
+        Handler(&CC_REFLECT(CCString), &String, Args);
+        
+        CCStringDestroy(String);
+    }
+}
+
+void CCBigIntFastUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator)
+{
+    if (*(const CCReflectTypeID*)MappedType == CCReflectTypeOpaque)
+    {
+        if ((MappedType == &CC_REFLECT(CCString)) || ((((const CCReflectOpaque*)MappedType)->map == CCStringMapper) && (((const CCReflectOpaque*)MappedType)->unmap == CCStringUnmapper)))
+        {
+            CCBigIntFast Integer = CCBigIntFastCreate(Allocator);
+            
+            CCBigIntFastSet(&Integer, *(CCString*)Data);
+            
+            Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Integer, Args);
+            
+            CCBigIntFastDestroy(Integer);
+        }
+    }
+    
+    else
+    {
+        Handler(MappedType, Data, Args);
+    }
+}
+
+
 #pragma mark - CCAllocatorType
 
 static void AllocatorTypeMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
@@ -625,6 +739,8 @@ void CCMemoryDestructorCallbackMapDefaults(CCReflectType Type, const void *Data,
 {
 #define CC_REFLECT_STATELESS_MEMORY_DESTRUCTOR_CALLBACKS \
     CCStringDestroy, \
+    CCBigIntDestroy, \
+    CCBigIntFastDestroy, \
     CCArrayDestroy, \
     CCLinkedListDestroy, \
     CCListDestroy, \
@@ -776,6 +892,9 @@ REFLECT_DYNAMIC_POINTERS(ARRAY(char, v1024));
 REFLECT_DYNAMIC_POINTERS(ARRAY(char, v4096));
 REFLECT_DYNAMIC_POINTERS(ARRAY(char, v65536));
 
+REFLECT_DYNAMIC_POINTERS(CCBigInt, .destructor = (CCMemoryDestructorCallback)CCBigIntDestroy);
+REFLECT_DYNAMIC_POINTERS(CCBigIntFast, .destructor = (CCMemoryDestructorCallback)CCBigIntFastDestroy);
+
 REFLECT_DYNAMIC_POINTERS(CCString, .destructor = (CCMemoryDestructorCallback)CCStringDestroy);
 
 REFLECT_DYNAMIC_POINTERS(CCAllocatorType);
@@ -900,6 +1019,8 @@ void CCReflectTypeMapperMapDefaults(CCReflectType Type, const void *Data, void *
     VoidTypeMapper, \
     CCReflectTerminatedArrayMapper, \
     CCStringMapper, \
+    CCBigIntMapper, \
+    CCBigIntFastMapper, \
     AllocatorTypeMapper, \
     CCMemoryDestructorCallbackMapper, \
     CCComparatorMapper, \
@@ -950,6 +1071,8 @@ void CCReflectTypeUnmapperMapDefaults(CCReflectType Type, const void *Data, void
     VoidTypeUnmapper, \
     CCReflectTerminatedArrayUnmapper, \
     CCStringUnmapper, \
+    CCBigIntUnmapper, \
+    CCBigIntFastUnmapper, \
     AllocatorTypeUnmapper, \
     CCMemoryDestructorCallbackUnmapper, \
     CCComparatorUnmapper, \
@@ -1006,7 +1129,9 @@ void CCReflectOpaqueTypeDescriptorMapDefaults(CCReflectType Type, const void *Da
     void, \
     CCReflectType, \
     CCAllocatorType, \
-    CCString
+    CCString, \
+    CCBigInt, \
+    CCBigIntFast
     
 #define CC_REFLECT_STATEFUL_OPAQUE_TYPES \
     (CCArray, (elementType, CCReflectType), (allocator, CCAllocatorType), (chunkSize, size_t)), \
