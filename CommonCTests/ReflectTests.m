@@ -2589,6 +2589,69 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     CCBigIntDestroy(BigInt);
     
     
+    BigInt = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSet(BigInt, CC_STRING("0x10000000000000000"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntCompareEqual(BigInt, CC_STRING("0x10000000000000000")), @"should deserialise the value correctly");
+    
+    CCBigIntDestroy(BigInt);
+    
+    
+    BigInt = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSet(BigInt, CC_STRING("0x80000000000000000000000000000000"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntCompareEqual(BigInt, CC_STRING("0x80000000000000000000000000000000")), @"should deserialise the value correctly");
+    
+    CCBigIntDestroy(BigInt);
+    
+    
+    BigInt = CCBigIntCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntSet(BigInt, CC_STRING("-0x80000000000000000000000000000321"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigInt), &BigInt, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntCompareEqual(BigInt, CC_STRING("-0x80000000000000000000000000000321")), @"should deserialise the value correctly");
+    
+    CCBigIntDestroy(BigInt);
+    
+    
     BigInt = NULL;
     
     CCMemoryZoneSave(Zone);
@@ -2623,6 +2686,69 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     CCMemoryZoneDeallocate(Zone, 1024);
     
     XCTAssertTrue(CCBigIntFastCompareEqual(BigIntFast, 1746), @"should deserialise the value correctly");
+    
+    CCBigIntFastDestroy(BigIntFast);
+    
+    
+    BigIntFast = CCBigIntFastCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntFastSet(&BigIntFast, CC_STRING("0x10000000000000000"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntFastCompareEqual(BigIntFast, CC_STRING("0x10000000000000000")), @"should deserialise the value correctly");
+    
+    CCBigIntFastDestroy(BigIntFast);
+    
+    
+    BigIntFast = CCBigIntFastCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntFastSet(&BigIntFast, CC_STRING("0x80000000000000000000000000000000"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntFastCompareEqual(BigIntFast, CC_STRING("0x80000000000000000000000000000000")), @"should deserialise the value correctly");
+    
+    CCBigIntFastDestroy(BigIntFast);
+    
+    
+    BigIntFast = CCBigIntFastCreate(CC_STD_ALLOCATOR);
+    
+    CCBigIntFastSet(&BigIntFast, CC_STRING("-0x80000000000000000000000000000321"));
+    
+    CCMemoryZoneSave(Zone);
+    CCReflectSerializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
+    
+    BigInt = NULL;
+    
+    CCReflectDeserializeBinary(&CC_REFLECT(CCBigIntFast), &BigIntFast, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
+    CCMemoryZoneRestore(Zone);
+    
+    Memory = CCMemoryZoneAllocate(Zone, 1024);
+    memset(Memory, 0, 1024);
+    CCMemoryZoneDeallocate(Zone, 1024);
+    
+    XCTAssertTrue(CCBigIntFastCompareEqual(BigIntFast, CC_STRING("-0x80000000000000000000000000000321")), @"should deserialise the value correctly");
     
     CCBigIntFastDestroy(BigIntFast);
     

@@ -574,6 +574,29 @@ void CCBigIntMapper(CCReflectType Type, const void *Data, void *Args, CCReflectT
         Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), Data, Args);
     }
     
+    else if (Intent == CCReflectMapIntentSerialize)
+    {
+        const size_t Count = CCListGetCount(Integer->value);
+        uint64_t *Components = CCMemoryZoneAllocate(Zone, sizeof(uint64_t) * (Count + 1));
+        
+        CCEnumerable Enumerable;
+        CCListGetEnumerable(Integer->value, &Enumerable);
+        
+        size_t Loop = 0, Remainder = Integer->sign;
+        for (const uint64_t *Component = CCEnumerableGetCurrent(&Enumerable); Component; Component = CCEnumerableNext(&Enumerable))
+        {
+            Components[Loop++] = (*Component << 1) | Remainder;
+            Remainder = *Component >> 63;
+        }
+        
+        if (Remainder)
+        {
+            Components[Loop++] = Remainder;
+        }
+        
+        Handler(&CC_REFLECT_ARRAY(&CC_REFLECT(uint64_t), Loop), Components, Args);
+    }
+    
     else
     {
         CCString String = CCBigIntGetString(Integer);
@@ -598,6 +621,35 @@ void CCBigIntUnmapper(CCReflectType Type, CCReflectType MappedType, const void *
             
             CCBigIntDestroy(Integer);
         }
+    }
+    
+    else if (*(const CCReflectTypeID*)MappedType == CCReflectTypeArray)
+    {
+        CCBigInt Integer = CCBigIntCreate(Allocator);
+        
+        CCListRemoveAllElements(Integer->value);
+        
+        Integer->sign = ((const uint64_t*)Data)[0] & 1;
+        
+        uint64_t Component = ((const uint64_t*)Data)[0] >> 1;
+        
+        for (size_t Loop = 1, Count = ((const CCReflectArray*)MappedType)->count; Loop < Count; Loop++)
+        {
+            Component |= (((const uint64_t*)Data)[Loop] & 1) << 63;
+            
+            CCListAppendElement(Integer->value, &Component);
+            
+            Component = ((const uint64_t*)Data)[Loop] >> 1;
+        }
+        
+        if (Component)
+        {
+            CCListAppendElement(Integer->value, &Component);
+        }
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Integer, Args);
+        
+        CCBigIntDestroy(Integer);
     }
     
     else
@@ -629,6 +681,37 @@ static void CCBigIntFastMapper(CCReflectType Type, const void *Data, void *Args,
         CCBigIntFastDestroy(Copy);
     }
     
+    else if (Intent == CCReflectMapIntentSerialize)
+    {
+        if (CCBigIntFastIsTaggedValue(Integer))
+        {
+            Handler(&CC_REFLECT(uint64_t), &Integer, Args);
+        }
+        
+        else
+        {
+            const size_t Count = CCListGetCount(((CCBigInt)Integer)->value);
+            uint64_t *Components = CCMemoryZoneAllocate(Zone, sizeof(uint64_t) * (Count + 1));
+            
+            CCEnumerable Enumerable;
+            CCListGetEnumerable(((CCBigInt)Integer)->value, &Enumerable);
+            
+            size_t Loop = 0, Remainder = ((CCBigInt)Integer)->sign;
+            for (const uint64_t *Component = CCEnumerableGetCurrent(&Enumerable); Component; Component = CCEnumerableNext(&Enumerable))
+            {
+                Components[Loop++] = (*Component << 1) | Remainder;
+                Remainder = *Component >> 63;
+            }
+            
+            if (Remainder)
+            {
+                Components[Loop++] = Remainder;
+            }
+            
+            Handler(&CC_REFLECT_ARRAY(&CC_REFLECT(uint64_t), Loop), Components, Args);
+        }
+    }
+    
     else
     {
         CCString String = CCBigIntFastGetString(Integer);
@@ -653,6 +736,35 @@ void CCBigIntFastUnmapper(CCReflectType Type, CCReflectType MappedType, const vo
             
             CCBigIntFastDestroy(Integer);
         }
+    }
+    
+    else if (*(const CCReflectTypeID*)MappedType == CCReflectTypeArray)
+    {
+        CCBigInt Integer = CCBigIntCreate(Allocator);
+        
+        CCListRemoveAllElements(Integer->value);
+        
+        Integer->sign = ((const uint64_t*)Data)[0] & 1;
+        
+        uint64_t Component = ((const uint64_t*)Data)[0] >> 1;
+        
+        for (size_t Loop = 1, Count = ((const CCReflectArray*)MappedType)->count; Loop < Count; Loop++)
+        {
+            Component |= (((const uint64_t*)Data)[Loop] & 1) << 63;
+            
+            CCListAppendElement(Integer->value, &Component);
+            
+            Component = ((const uint64_t*)Data)[Loop] >> 1;
+        }
+        
+        if (Component)
+        {
+            CCListAppendElement(Integer->value, &Component);
+        }
+        
+        Handler(&CC_REFLECT(PTYPE(void, retain, dynamic)), &Integer, Args);
+        
+        CCBigIntDestroy(Integer);
     }
     
     else
