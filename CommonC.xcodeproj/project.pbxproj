@@ -336,6 +336,10 @@
 		F37A31E528F2FDF6007B4209 /* ConcurrentPoolTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37A31E828F325DE007B4209 /* ConcurrentPoolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */; };
+		F37A6E5A2C78C01500F97BC3 /* ReflectStream.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A6E582C78C01500F97BC3 /* ReflectStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A6E5B2C78C01500F97BC3 /* ReflectStream.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A6E582C78C01500F97BC3 /* ReflectStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37A6E5C2C78C01500F97BC3 /* ReflectStream.c in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E592C78C01500F97BC3 /* ReflectStream.c */; };
+		F37A6E5D2C78C01500F97BC3 /* ReflectStream.c in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E592C78C01500F97BC3 /* ReflectStream.c */; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -645,6 +649,8 @@
 		F37A31DE28F2FD66007B4209 /* ConcurrentPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentPool.h; sourceTree = "<group>"; };
 		F37A31E328F2FDEB007B4209 /* ConcurrentPoolTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentPoolTemplate.h; sourceTree = "<group>"; };
 		F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentPoolTests.m; sourceTree = "<group>"; };
+		F37A6E582C78C01500F97BC3 /* ReflectStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReflectStream.h; sourceTree = "<group>"; };
+		F37A6E592C78C01500F97BC3 /* ReflectStream.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ReflectStream.c; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -1480,6 +1486,8 @@
 				F3ED7E8A2B404C6D00E66F8C /* Reflect.c */,
 				F32E09172BB895CA00383480 /* ReflectedTypes.h */,
 				F32E091A2BB8969500383480 /* ReflectedTypes.c */,
+				F37A6E582C78C01500F97BC3 /* ReflectStream.h */,
+				F37A6E592C78C01500F97BC3 /* ReflectStream.c */,
 				F34397E52B8A236000AEF700 /* Validators */,
 			);
 			name = Reflection;
@@ -1583,6 +1591,7 @@
 				F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F3002B972B9C8A9000EFC5A0 /* Swap.h in Headers */,
+				F37A6E5B2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
 				F32E09192BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
@@ -1702,6 +1711,7 @@
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
 				F3002B962B9C8A9000EFC5A0 /* Swap.h in Headers */,
+				F37A6E5A2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
 				F32E09182BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
@@ -1899,6 +1909,7 @@
 				F328727A21E8818900B1A584 /* Queue.c in Sources */,
 				F328727B21E8818900B1A584 /* ConcurrentQueue.c in Sources */,
 				F328727C21E8818900B1A584 /* ConcurrentArray.c in Sources */,
+				F37A6E5D2C78C01500F97BC3 /* ReflectStream.c in Sources */,
 				F328727D21E8818900B1A584 /* ConcurrentIndexMap.c in Sources */,
 				F3AD4CDF2AA33BDD006C20E4 /* MemoryZone.c in Sources */,
 				F328727E21E8818900B1A584 /* DebugAllocator.c in Sources */,
@@ -1973,6 +1984,7 @@
 				F36F831F1D10A91B00193B08 /* TypeCallbacks.c in Sources */,
 				F362027917AC3FFD00153E85 /* CommonC.c in Sources */,
 				F31BEE95208276D200DD7F83 /* ConcurrentIndexMap.c in Sources */,
+				F37A6E5C2C78C01500F97BC3 /* ReflectStream.c in Sources */,
 				F3AD4CDD2AA33BCD006C20E4 /* MemoryZone.c in Sources */,
 				F3AE99771A7419D200212838 /* Array.c in Sources */,
 				F334273D1DB40512008CB998 /* Queue.c in Sources */,

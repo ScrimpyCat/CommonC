@@ -38,6 +38,7 @@
 #import "HashMapSeparateChainingArray.h"
 #import "Dictionary.h"
 #import "Swap.h"
+#import "ReflectStream.h"
 
 @interface ReflectTests : XCTestCase
 
@@ -3675,6 +3676,149 @@ static CCReflectType DeserializeBinaryTypeLookup(uint8_t Index, CCMemoryZone Zon
     
     CCReflectSerializeBinaryTypeLookup = NULL;
     CCReflectDeserializeBinaryTypeLookup = NULL;
+}
+
+-(void) testStreams
+{
+    CCReflectStreamRLE RLE = CC_REFLECT_STREAM_WRITE_RLE_ZERO_8(&(size_t){ 0 }, StreamWriter);
+    
+    CCReflectStreamRLEWriteContinue(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should write the data correctly");
+    
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData + 6, (uint8_t[]){ 0, 0, 1, 0 }, 4), @"should write the data correctly");
+    
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData + 10, (uint8_t[]){ 4, 1, 0 }, 3), @"should write the data correctly");
+    
+    CCReflectStreamRLEWriteContinue(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData + 13, (uint8_t[]){ 4, 1, 0, 0, 0, 0 }, 6), @"should write the data correctly");
+    
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData + 19, (uint8_t[]){ 0, 0, 1, 0 }, 4), @"should write the data correctly");
+    
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    XCTAssertTrue(!memcmp(StreamData + 23, (uint8_t[]){ 3 }, 1), @"should write the data correctly");
+    
+    CCBitsSet(RLE.repeat.mask, 1);
+    RLE.repeat.size = 2;
+    
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    
+    XCTAssertTrue(!memcmp(StreamData + 24, (uint8_t[]){ 0, 0, 0, 1, 0, 0, 0 }, 7), @"should write the data correctly");
+    
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    XCTAssertTrue(!memcmp(StreamData + 31, (uint8_t[]){ 3, 0 }, 2), @"should write the data correctly");
+    
+    
+    
+    RLE = CC_REFLECT_STREAM_READ_RLE_ZERO_8(&(size_t){ 0 }, StreamReader);
+    
+    uint8_t Data[270];
+    
+    memset(Data, 0xff, sizeof(Data));
+    
+    CCReflectStreamRLEReadContinue(&RLE, Data, 6);
+    
+    XCTAssertTrue(!memcmp(Data, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 6, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 6, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 12, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 12, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLEReadContinue(&RLE, Data + 18, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 18, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 24, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 24, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCBitsSet(RLE.repeat.mask, 1);
+    RLE.repeat.size = 2;
+    
+    CCReflectStreamRLERead(&RLE, Data + 30, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 30, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    XCTAssertEqual(RLE.repeat.count, 0, @"should not have any remaining unread bytes");
+    
+    
+    
+    RLE.into.stream = &(size_t){ 0 };
+    RLE.into.write = StreamWriter;
+    RLE.repeat.size = 1;
+    RLE.repeat.count = 0;
+    CC_BITS_INIT_CLEAR(RLE.repeat.mask);
+    CCBitsSet(RLE.repeat.mask, 5);
+    
+    for (size_t Loop = 0; Loop < 270; Loop++)
+    {
+        CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 5 }, 1);
+    }
+    
+    XCTAssertTrue(!memcmp(StreamData, (uint8_t[]){ 5, 0xff, 5 }, 3), @"should write the data correctly");
+    
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    XCTAssertTrue(!memcmp(StreamData, (uint8_t[]){ 5, 0xff, 5, 13 }, 4), @"should write the data correctly");
+    
+    RLE.into.stream = &(size_t){ 0 };
+    RLE.into.read = StreamReader;
+    RLE.repeat.count = 0;
+    
+    CCReflectStreamRLERead(&RLE, Data, 270);
+    
+    for (size_t Loop = 0; Loop < 270; Loop++)
+    {
+        XCTAssertEqual(Data[Loop], 5, @"should read the data correctly");
+    }
+    
+    XCTAssertEqual(RLE.repeat.count, 0, @"should not have any remaining unread bytes");
+    
+    
+    
+    RLE.into.stream = &(size_t){ 0 };
+    RLE.into.write = StreamWriter;
+    RLE.repeat.size = 2;
+    RLE.repeat.count = 0;
+    CC_BITS_INIT_CLEAR(RLE.repeat.mask);
+    CCBitsSet(RLE.repeat.mask, 6);
+    
+    for (size_t Loop = 0; Loop < 270; Loop++)
+    {
+        CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 6 }, 1);
+    }
+    
+    XCTAssertTrue(!memcmp(StreamData, (uint8_t[]){ 6 }, 1), @"should write the data correctly");
+    
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    XCTAssertTrue(!memcmp(StreamData, (uint8_t[]){ 6, 13, 1 }, 1), @"should write the data correctly");
+    
+    RLE.into.stream = &(size_t){ 0 };
+    RLE.into.read = StreamReader;
+    RLE.repeat.count = 0;
+    
+    CCReflectStreamRLERead(&RLE, Data, 270);
+    
+    for (size_t Loop = 0; Loop < 270; Loop++)
+    {
+        XCTAssertEqual(Data[Loop], 6, @"should read the data correctly");
+    }
+    
+    XCTAssertEqual(RLE.repeat.count, 0, @"should not have any remaining unread bytes");
 }
 
 @end

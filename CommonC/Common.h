@@ -132,6 +132,7 @@
 #include <CommonC/ConsecutiveIDGenerator.h>
 
 #include <CommonC/Reflect.h>
+#include <CommonC/ReflectStream.h>
 #include <CommonC/ReflectedTypes.h>
 #include <CommonC/ValidateMinimum.h>
 #include <CommonC/ValidateMaximum.h>
