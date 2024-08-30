@@ -166,9 +166,10 @@ FSPath FSPathCurrent(void);
 
 /*!
  * @brief Set the current path.
- * @param Path The path to set as the current path.
+ * @note The current path only applies to the thread that set it.
+ * @param Path The path to set as the current path. Or NULL to return back to the default path.
  */
-void FSPathSetCurrent(FSPath Path);
+void FSPathSetCurrent(FSPath CC_RETAIN(Path));
 
 /*!
  * @brief Get the number of components for the path.

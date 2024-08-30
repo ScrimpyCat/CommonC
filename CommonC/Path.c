@@ -219,27 +219,22 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
     return Components;
 }
 
-static _Atomic(FSPath) FSCurrentPath = ATOMIC_VAR_INIT(NULL); 
+static _Thread_local FSPath FSCurrentPath = NULL;
 
 FSPath FSPathCurrent(void)
 {
-    FSPath Path = atomic_load_explicit(&FSCurrentPath, memory_order_acquire);
+    if (CC_UNLIKELY(!FSCurrentPath)) FSCurrentPath = CCRetain(FSPathDefault());
     
-    if (!Path)
-    {
-        FSPath DefaultPath = FSPathDefault();
-        
-        if (atomic_compare_exchange_strong_explicit(&FSCurrentPath, &Path, DefaultPath, memory_order_relaxed, memory_order_acquire)) Path = DefaultPath;
-    }
-    
-    return Path;
+    return FSCurrentPath;
 }
 
 void FSPathSetCurrent(FSPath Path)
 {
     if (!Path) Path = FSPathDefault();
     
-    atomic_store_explicit(&FSCurrentPath, Path, memory_order_release);
+    if (CC_LIKELY(FSCurrentPath)) FSPathDestroy(FSCurrentPath);
+    
+    FSCurrentPath = CCRetain(Path);
 }
 
 //CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
