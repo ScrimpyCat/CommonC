@@ -35,6 +35,7 @@
 #include <string.h>
 #include <ctype.h>
 
+_Bool FSPathIsDefault(FSPath Path);
 
 static void FSPathClearPathStringCache(FSPath Path);
 
@@ -218,8 +219,32 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
     return Components;
 }
 
+static _Atomic(FSPath) FSCurrentPath = ATOMIC_VAR_INIT(NULL); 
+
+FSPath FSPathCurrent(void)
+{
+    FSPath Path = atomic_load_explicit(&FSCurrentPath, memory_order_acquire);
+    
+    if (!Path)
+    {
+        FSPath DefaultPath = FSPathDefault();
+        
+        if (atomic_compare_exchange_strong_explicit(&FSCurrentPath, &Path, DefaultPath, memory_order_relaxed, memory_order_acquire)) Path = DefaultPath;
+    }
+    
+    return Path;
+}
+
+void FSPathSetCurrent(FSPath Path)
+{
+    if (!Path) Path = FSPathDefault();
+    
+    atomic_store_explicit(&FSCurrentPath, Path, memory_order_release);
+}
+
 //CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool CompletePath);
-//FSPath FSPathCurrent(void);
+//FSPath FSPathDefault(void);
+//_Bool FSPathIsDefault(FSPath Path)
 //CC_NEW FSPath FSPathCreateAppData(const char *AppName);
 #if CC_PLATFORM_OS_X || CC_PLATFORM_IOS
 //SystemPath.m
@@ -233,7 +258,7 @@ CCOrderedCollection FSPathConvertPathToComponents(const char *Path, _Bool Comple
 
 static void FSPathDestructor(FSPath Path)
 {
-    CCAssertLog(Path != FSPathCurrent(), "Cannot mutate the current path");
+    CCAssertLog((Path != FSPathCurrent()) && (!FSPathIsDefault(Path)), "Cannot mutate the current path");
     
     CCCollectionDestroy(Path->components);
     FSPathClearPathStringCache(Path);
@@ -298,7 +323,7 @@ void FSPathDestroy(FSPath Path)
 
 static void FSPathMutated(FSPath Path)
 {
-    CCAssertLog(Path != FSPathCurrent(), "Cannot mutate the current path");
+    CCAssertLog((Path != FSPathCurrent()) && (!FSPathIsDefault(Path)), "Cannot mutate the current path");
     
     FSPathClearPathStringCache(Path);
 }

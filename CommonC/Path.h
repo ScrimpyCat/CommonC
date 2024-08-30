@@ -151,12 +151,24 @@ CC_NEW FSPath FSPathCopy(FSPath Path);
 void FSPathDestroy(FSPath CC_DESTROY(Path));
 
 /*!
+ * @brief Get the default path.
+ * @warning Must not mutate or destroy this path.
+ * @return A path representation of the default path.
+ */
+FSPath FSPathDefault(void);
+
+/*!
  * @brief Get the current path.
  * @warning Must not mutate or destroy this path.
  * @return A path representation of the current path.
  */
 FSPath FSPathCurrent(void);
-//void FSPathSetCurrent(FSPath Path);
+
+/*!
+ * @brief Set the current path.
+ * @param Path The path to set as the current path.
+ */
+void FSPathSetCurrent(FSPath Path);
 
 /*!
  * @brief Get the number of components for the path.
