@@ -3819,6 +3819,75 @@ static CCReflectType DeserializeBinaryTypeLookup(uint8_t Index, CCMemoryZone Zon
     }
     
     XCTAssertEqual(RLE.repeat.count, 0, @"should not have any remaining unread bytes");
+    
+    
+    
+    FSPath Path = FSPathCreate("//[MEMORY]/stream-data");
+    XCTAssertEqual(FSManagerCreate(Path, FALSE), FSOperationSuccess, @"should create the stream data file");
+    
+    FSHandle Handle;
+    XCTAssertEqual(FSHandleOpen(Path, FSHandleTypeWrite, &Handle), FSOperationSuccess, @"should open the stream data file for writing");
+    
+    CCReflectStreamFile StreamFile = CC_REFLECT_STREAM_FILE(Handle, TRUE);
+    RLE = CC_REFLECT_STREAM_WRITE_RLE_ZERO_8(&StreamFile, (CCReflectStreamWriter)CCReflectStreamFileWrite);
+    
+    CCReflectStreamRLEWriteContinue(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWriteContinue(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    CCBitsSet(RLE.repeat.mask, 1);
+    RLE.repeat.size = 2;
+    
+    CCReflectStreamRLEWrite(&RLE, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6);
+    CCReflectStreamRLEWriteFlush(&RLE);
+    
+    XCTAssertEqual(FSHandleClose(Handle), FSOperationSuccess, @"should close the stream data file");
+    
+    
+    
+    XCTAssertEqual(FSHandleOpen(Path, FSHandleTypeRead, &Handle), FSOperationSuccess, @"should open the stream data file for reading");
+    
+    StreamFile = CC_REFLECT_STREAM_FILE(Handle, TRUE);
+    RLE = CC_REFLECT_STREAM_READ_RLE_ZERO_8(&StreamFile, (CCReflectStreamReader)CCReflectStreamFileRead);
+    
+    memset(Data, 0xff, sizeof(Data));
+    
+    CCReflectStreamRLEReadContinue(&RLE, Data, 6);
+    
+    XCTAssertTrue(!memcmp(Data, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 6, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 6, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 12, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 12, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLEReadContinue(&RLE, Data + 18, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 18, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCReflectStreamRLERead(&RLE, Data + 24, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 24, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    CCBitsSet(RLE.repeat.mask, 1);
+    RLE.repeat.size = 2;
+    
+    CCReflectStreamRLERead(&RLE, Data + 30, 6);
+    
+    XCTAssertTrue(!memcmp(Data + 30, (uint8_t[]){ 0, 1, 0, 0, 0, 0 }, 6), @"should read the data correctly");
+    
+    XCTAssertEqual(RLE.repeat.count, 0, @"should not have any remaining unread bytes");
+    
+    XCTAssertEqual(FSHandleClose(Handle), FSOperationSuccess, @"should close the stream data file");
+    
+    XCTAssertEqual(FSManagerRemove(Path), FSOperationSuccess, @"should remove the stream data file");
+    FSPathDestroy(Path);
 }
 
 @end

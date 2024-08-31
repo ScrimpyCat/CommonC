@@ -29,6 +29,7 @@
 #include <CommonC/Base.h>
 #include <CommonC/BitSets.h>
 #include <CommonC/Reflect.h>
+#include <CommonC/FileHandle.h>
 
 typedef struct {
     void *stream;
@@ -37,6 +38,43 @@ typedef struct {
         CCReflectStreamWriter write;
     };
 } CCReflectStream;
+
+#pragma mark - File
+
+typedef struct {
+    FSHandle file;
+    FSOperation result;
+    struct {
+        size_t count;
+        _Bool log;
+    } failure;
+} CCReflectStreamFile;
+
+#define CC_REFLECT_STREAM_FILE(handle, logging)  (CCReflectStreamFile){ .file = handle, .result = 0, .failure = { .count = 0, .log = logging } }
+
+/*!
+ * @brief Read from a fle stream.
+ * @description The result field of the stream will be set to the result of the file read operation. If the operation fails the @b failure.count is incremented, and
+ *              will log the error if the @b failure.log is set to TRUE.
+ *
+ * @note Compatible as a @b CCReflectStreamReader.
+ * @param Stream The file handle.
+ * @param Data The output data.
+ * @param Size The size of the data to read.
+ */
+void CCReflectStreamFileRead(CCReflectStreamFile *Stream, void *Data, size_t Size);
+
+/*!
+ * @brief Write to a file stream.
+ * @description The result field of the stream will be set to the result of the file read operation. If the operation fails the @b failure.count is incremented, and
+ *              will log the error if the @b failure.log is set to TRUE.
+ *
+ * @note Compatible as a @b CCReflectStreamWriter.
+ * @param Stream The file handle.
+ * @param Data The input data.
+ * @param Size The size of the data.
+ */
+void CCReflectStreamFileWrite(CCReflectStreamFile *Stream, const void *Data, size_t Size);
 
 #pragma mark - RLE
 

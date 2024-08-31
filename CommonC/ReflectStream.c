@@ -27,6 +27,29 @@
 #include "Platform.h"
 #include "Swap.h"
 
+#pragma mark - File
+
+void CCReflectStreamFileRead(CCReflectStreamFile *Stream, void *Data, size_t Size)
+{
+    if ((Stream->result = FSHandleRead(Stream->file, &Size, Data, FSBehaviourUpdateOffset)) != FSOperationSuccess)
+    {
+        Stream->failure.count++;
+        
+        if (Stream->failure.log) CC_LOG_ERROR("File Error (%u): Failed to read (%zu bytes) from file stream: \"%s\"", Stream->result, Size, FSPathGetFullPathString(Stream->file->path));
+    }
+}
+
+void CCReflectStreamFileWrite(CCReflectStreamFile *Stream, const void *Data, size_t Size)
+{
+    if ((Stream->result = FSHandleWrite(Stream->file, Size, Data, FSBehaviourUpdateOffset)) != FSOperationSuccess)
+    {
+        Stream->failure.count++;
+        
+        if (Stream->failure.log) CC_LOG_ERROR("File Error (%u): Failed to write (%zu bytes) to file stream: \"%s\"", Stream->result, Size, FSPathGetFullPathString(Stream->file->path));
+    }
+}
+
+#pragma mark - RLE
 
 void CCReflectStreamRLEWriteFlush(CCReflectStreamRLE *Stream)
 {
