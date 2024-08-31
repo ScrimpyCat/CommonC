@@ -34,7 +34,7 @@
 #import "Assertion.h"
 #import "Path.h"
 #import "FileHandle.h"
-#import "FileSystem.h"
+#import "FileSystem_Private.h"
 #import "TypeCallbacks.h"
 
 
@@ -118,24 +118,25 @@ CCOrderedCollection FSPathConvertSystemPathToComponents(const char *Path, _Bool 
     }
 }
 
-FSPath FSPathCurrent(void)
+static struct {
+    CCAllocatorHeader header;
+    FSPathInfo info;
+} FSDefaultPath = {
+    .header = {
+        .allocator = CC_NULL_ALLOCATOR.allocator
+    },
+    .info = {
+        .components = NULL
+    }
+};
+
+static atomic_flag FSDefaultPathLock = ATOMIC_FLAG_INIT;
+
+FSPath FSPathDefault(void)
 {
-    /*
-     Potental issues with threading unless add locks around any FSCurrentPath usage. May be better to just
-     implement FSPathCreateFromCurrent()
-     */
-    static struct {
-        CCAllocatorHeader header;
-        FSPathInfo info;
-    } FSCurrentPath = {
-        .header = {
-            .allocator = CC_NULL_ALLOCATOR.allocator
-        },
-        .info = {
-            .components = NULL
-        }
-    };
-    if (!FSCurrentPath.info.components)
+    while (!atomic_flag_test_and_set_explicit(&FSDefaultPathLock, memory_order_acquire)) CC_SPIN_WAIT();
+    
+    if (!FSDefaultPath.info.components)
     {
         @autoreleasepool {
             NSString *CurrentPath = [NSFileManager defaultManager].currentDirectoryPath;
@@ -149,11 +150,20 @@ FSPath FSPathCurrent(void)
                 CCOrderedCollectionPrependElement(Components, &(FSPathComponent){ FSPathComponentCreate(FSPathComponentTypeVolume, [Volume UTF8String]) });
             }
             
-            FSCurrentPath.info.components = Components;
+            FSDefaultPath.info.components = Components;
         }
+        
+        FSPathGetFullPathString(&FSDefaultPath.info);
     }
+        
+    atomic_flag_clear_explicit(&FSDefaultPathLock, memory_order_release);
     
-    return &FSCurrentPath.info;
+    return &FSDefaultPath.info;
+}
+
+_Bool FSPathIsDefault(FSPath Path)
+{
+    return Path == &FSDefaultPath.info;
 }
 
 FSPath FSPathCreateAppData(const char *AppName)
@@ -218,6 +228,10 @@ _Bool FSManagerExists(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualExists(Path);
+#endif
+    
     @autoreleasepool {
         BOOL IsDir;
         _Bool Exists = [[NSFileManager defaultManager] fileExistsAtPath: FSPathSystemInternalRepresentation(Path).path isDirectory: &IsDir];
@@ -229,6 +243,10 @@ _Bool FSManagerExists(FSPath Path)
 FSAccess FSManagerGetAccessRights(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualGetAccessRights(Path);
+#endif
     
     @autoreleasepool {
         NSString *SystemPath = FSPathSystemInternalRepresentation(Path).path;
@@ -245,6 +263,10 @@ size_t FSManagerGetSize(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualGetSize(Path);
+#endif
+    
     @autoreleasepool {
         NSNumber *Size;
         if ([FSPathSystemInternalRepresentation(Path) getResourceValue: &Size forKey: NSURLFileSizeKey error: NULL]) return (size_t)Size.unsignedLongLongValue;
@@ -256,6 +278,10 @@ size_t FSManagerGetSize(FSPath Path)
 size_t FSManagerGetPreferredIOBlockSize(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualGetPreferredIOBlockSize(Path);
+#endif
     
     @autoreleasepool {
         NSNumber *Size;
@@ -324,6 +350,10 @@ CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingM
 {
     CCAssertLog(Path, "Path must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualGetContentsAtPath(Path, NamingMatches, MatchOptions);
+#endif
+    
     CCOrderedCollection List = NULL;
     
     @autoreleasepool {
@@ -336,6 +366,10 @@ CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingM
 FSOperation FSManagerCreate(FSPath Path, _Bool IntermediateDirectories)
 {
     CCAssertLog(Path, "Path must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualCreate(Path, IntermediateDirectories);
+#endif
     
     if (!FSManagerExists(Path))
     {
@@ -383,6 +417,10 @@ FSOperation FSManagerRemove(FSPath Path)
 {
     CCAssertLog(Path, "Path must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualRemove(Path);
+#endif
+    
     if (FSManagerExists(Path))
     {
         @autoreleasepool {
@@ -399,6 +437,10 @@ FSOperation FSManagerMove(FSPath Path, FSPath Destination)
 {
     CCAssertLog(Path, "Path must not be null");
     CCAssertLog(Destination, "Destination must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualMove(Path, Destination);
+#endif
     
     if (FSManagerExists(Path))
     {
@@ -418,6 +460,10 @@ FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
 {
     CCAssertLog(Path, "Path must not be null");
     CCAssertLog(Destination, "Destination must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSManagerVirtualCopy(Path, Destination);
+#endif
     
     if (FSManagerExists(Path))
     {
@@ -439,6 +485,10 @@ FSOperation FSHandleOpen(FSPath Path, FSHandleType Type, FSHandle *Handle)
 {
     CCAssertLog(Path, "Path must not be null");
     CCAssertLog(Handle, "Handle must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Path)) return FSHandleVirtualOpen(Path, Type, Handle);
+#endif
     
     if (FSManagerExists(Path))
     {
@@ -472,6 +522,10 @@ FSOperation FSHandleClose(FSHandle Handle)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualClose(Handle);
+#endif
+    
     if (!Handle->handle) return FSOperationFailure;
     
     FSPathDestroy(Handle->path);
@@ -490,6 +544,10 @@ FSOperation FSHandleSync(FSHandle Handle)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualSync(Handle);
+#endif
+    
     if (!Handle->handle) return FSOperationFailure;
     
     @autoreleasepool {
@@ -504,6 +562,10 @@ FSOperation FSHandleRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour
     CCAssertLog(Handle, "Handle must not be null");
     CCAssertLog(Count, "Count must not be null");
     CCAssertLog(Data, "Data must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualRead(Handle, Count, Data, Behaviour);
+#endif
     
     if ((!Handle->handle) || (Handle->type == FSHandleTypeWrite))
     {
@@ -552,6 +614,10 @@ FSOperation FSHandleWrite(FSHandle Handle, size_t Count, const void *Data, FSBeh
 {
     CCAssertLog(Handle, "Handle must not be null");
     CCAssertLog(Data, "Data must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualWrite(Handle, Count, Data, Behaviour);
+#endif
     
     if ((!Handle->handle) || (Handle->type == FSHandleTypeRead)) return FSOperationFailure;
     
@@ -632,6 +698,10 @@ FSOperation FSHandleRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualRemove(Handle, Count, Behaviour);
+#endif
+    
     if ((!Handle->handle) || (Handle->type != FSHandleTypeUpdate)) return FSOperationFailure;
     
     const size_t Offset = FSHandleGetOffset(Handle);
@@ -698,6 +768,10 @@ size_t FSHandleGetOffset(FSHandle Handle)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualGetOffset(Handle);
+#endif
+    
     if (Handle->handle)
     {
         @autoreleasepool {
@@ -712,6 +786,10 @@ FSOperation FSHandleSetOffset(FSHandle Handle, size_t Offset)
 {
     CCAssertLog(Handle, "Handle must not be null");
     
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return FSHandleVirtualSetOffset(Handle, Offset);
+#endif
+    
     if (!Handle->handle) return FSOperationFailure;
     
     @autoreleasepool {
@@ -725,6 +803,10 @@ FSOperation FSHandleSetOffset(FSHandle Handle, size_t Offset)
 int FSHandleGetFileDescriptor(FSHandle Handle)
 {
     CCAssertLog(Handle, "Handle must not be null");
+    
+#if FS_VIRTUAL
+    if (FSPathIsVirtual(Handle->path)) return -1;
+#endif
     
     if (Handle->handle)
     {

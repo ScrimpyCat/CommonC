@@ -30,6 +30,10 @@
 #include "Platform.h"
 #include "OrderedCollection.h"
 #include "CollectionEnumerator.h"
+#include "DictionaryEnumerator.h"
+#include "DictionaryHashMap.h"
+#include "HashMap.h"
+#include "HashMapSeparateChainingArray.h"
 #include "Assertion.h"
 #include "TypeCallbacks.h"
 #include "MemoryAllocation.h"
@@ -52,11 +56,6 @@
 #endif
 
 const char * FSVirtualVolume = "[MEMORY]";
-FSVirtualNode FSVirtualRoot = {
-    .isDir = TRUE,
-    .nodes = NULL
-};
-FSVirtualLock FSVirtualVolumeLock = ATOMIC_VAR_INIT(0);
 
 FSOperation FSManagerRename(FSPath Path, const char *Name)
 {
@@ -261,6 +260,7 @@ static void FSManagerAddContentsInPath(FSPath SystemPath, CCOrderedCollection *L
 CCOrderedCollection FSManagerGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions)
 {
     CCAssertLog(Path, "Path must not be null");
+    CCAssertLog(NamingMatches, "NamingMatches must not be null");
     
     CCOrderedCollection List = NULL;
     
@@ -474,27 +474,35 @@ FSOperation FSManagerCopy(FSPath Path, FSPath Destination)
 
 #endif
 
+#pragma mark - Virtual
+
 void FSVirtualFileDestructor(FSVirtualFile *File)
 {
     CCArrayDestroy(File->contents);
 }
 
-static void FSManagerVirtualNodeElementDestructor(CCDictionary Dictionary, FSVirtualNode *Element)
+static void FSManagerVirtualNodeElementDestructor(CCDictionary Dictionary, FSVirtualNode **Element)
 {
-    if (Element->isDir)
+    FSVirtualNode *Node = *Element;
+    
+    CCStringDestroy(Node->name);
+    
+    if (Node->isDir)
     {
-        CCDictionaryDestroy(Element->nodes);
+        CCDictionaryDestroy(Node->nodes);
     }
     
     else
     {
-        FSVirtualFileDestroy(Element->file);
+        FSVirtualFileDestroy(Node->file);
     }
+    
+    CCFree(Node);
 }
 
 static inline CCDictionary FSManagerVirtualCreateDir(void)
 {
-    return CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(FSVirtualNode), &(CCDictionaryCallbacks){
+    return CCDictionaryCreate(CC_STD_ALLOCATOR, CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(FSVirtualNode*), &(CCDictionaryCallbacks){
         .keyDestructor = CCStringDestructorForDictionary,
         .valueDestructor = (CCDictionaryElementDestructor)FSManagerVirtualNodeElementDestructor,
         .getHash = CCStringHasherForDictionary,
@@ -502,30 +510,20 @@ static inline CCDictionary FSManagerVirtualCreateDir(void)
     });
 }
 
-static void FSManagerVirtualInit(void)
-{
-    static atomic_flag Lock = ATOMIC_FLAG_INIT;
-    
-    while (!atomic_flag_test_and_set_explicit(&Lock, memory_order_acquire)) CC_SPIN_WAIT();
-    
-    if (!FSVirtualRoot.nodes)
-    {
-        FSVirtualRoot.nodes = FSManagerVirtualCreateDir();
-    }
-    
-    atomic_flag_clear_explicit(&Lock, memory_order_release);
-}
+FSVirtualNode FSVirtualRoot = {
+    .parent = NULL,
+    .name = 0,
+    .isDir = TRUE,
+    .nodes = CC_STATIC_DICTIONARY(CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(FSVirtualNode*), CCStringDestructorForDictionary, (CCDictionaryElementDestructor)FSManagerVirtualNodeElementDestructor, CCStringHasherForDictionary, CCStringComparatorForDictionary)
+};
 
-typedef enum {
-    FSVirtualNodeOperationNone,
-    FSVirtualNodeOperationCreate,
-    FSVirtualNodeOperationRemove
-} FSVirtualNodeOperation;
+FSVirtualLock FSVirtualVolumeLock = ATOMIC_VAR_INIT(0);
 
-static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[128], size_t *Level, FSVirtualNodeOperation Op, _Bool IntermediateDirectories)
+FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[128], size_t *Level, FSVirtualNodeOperation Op, _Bool IntermediateDirectories)
 {
-    if (!FSVirtualRoot.nodes) FSManagerVirtualInit();
+    CCAssertLog(*Level < 128, "Exceeds maximum directory depth");
     
+    FSVirtualNode FakeNode = { .isDir = TRUE };
     FSVirtualNode *Node = NULL;
     CCString File = 0;
     
@@ -543,54 +541,73 @@ static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[12
                 break;
                 
             case FSPathComponentTypeRelativeRoot:
-                Node = File ? NULL : FSManagerVirtualNodeOp(FSPathCurrent(), Dirs, Level, FSVirtualNodeOperationNone, FALSE);
+                Node = File ? NULL : FSManagerVirtualNodeOp(FSPathCurrent(), Dirs, Level, (Op == FSVirtualNodeOperationCreate ? FSVirtualNodeOperationCreate : FSVirtualNodeOperationNone), IntermediateDirectories);
                 break;
                 
             case FSPathComponentTypeDirectory:
                 if ((Node) && (Node->isDir))
                 {
-                    const _Bool Create = Op == FSVirtualNodeOperationCreate ? (Index == Count ? TRUE : IntermediateDirectories) : FALSE;
-                    
-                    CCString Key = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
-                    FSVirtualNode *Temp = CCDictionaryGetValue(Node->nodes, &Key);
-                    if ((!Temp) && (Create))
+                    if (Node != &FakeNode)
                     {
-                        CCDictionaryEntry Entry = CCDictionaryEntryForKey(Node->nodes, &Key);
-                        CCDictionarySetEntry(Node->nodes, Entry, &(FSVirtualNode){
-                            .isDir = TRUE,
-                            .nodes = FSManagerVirtualCreateDir()
-                        });
+                        CCString Key = CCStringCreate(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                        FSVirtualNode **Temp = CCDictionaryGetValue(Node->nodes, &Key);
                         
-                        Temp = CCDictionaryGetEntry(Node->nodes, Entry);
+                        if (Temp)
+                        {
+                            Node = *Temp;
+                            
+                            CCStringDestroy(Key);
+                        }
+                        
+                        else if ((Op == FSVirtualNodeOperationCreate) && ((Index == Count) || (IntermediateDirectories)))
+                        {
+                            FSVirtualNode *NewNode = CCMalloc(CC_STD_ALLOCATOR, sizeof(FSVirtualNode), NULL, CC_DEFAULT_ERROR_CALLBACK);
+                            
+                            *NewNode = (FSVirtualNode){
+                                .parent = Node,
+                                .name = CCStringCopy(Key),
+                                .mode = FSAccessReadable | FSAccessWritable | FSAccessExecutable | FSAccessDeletable,
+                                .isDir = TRUE,
+                                .nodes = FSManagerVirtualCreateDir()
+                            };
+                            
+                            CCDictionarySetValue(Node->nodes, &Key, &NewNode);
+                            
+                            Node = NewNode;
+                        }
+                        
+                        else
+                        {
+                            Node = &FakeNode;
+                            
+                            CCStringDestroy(Key);
+                        }
+                        
+                        if (!Node->isDir) Node = NULL;
                     }
-                    
-                    CCStringDestroy(Key);
-                    
-                    Node = Temp;
-                    
-                    if (!Node->isDir) Node = NULL;
                 }
                 
                 else Node = NULL;
                 break;
                 
             case FSPathComponentTypeRelativeParentDirectory:
-                Node = Dirs[--(*Level)];
+                *Level = (*Level > 2 ? *Level - 2 : 0);
+                Node = Dirs[*Level];
                 break;
                 
             case FSPathComponentTypeFile:
-                if ((Node) && (Node->isDir) && (!File))
+                if ((Node) && (Node->isDir) && (Node != &FakeNode) && (!File))
                 {
-                    File = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                    File = CCStringCreate(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingUTF8, FSPathComponentGetString(Component));
                 }
                 
                 else Node = NULL;
                 break;
                 
             case FSPathComponentTypeExtension:
-                if ((Node) && (Node->isDir))
+                if ((Node) && (Node->isDir) && (Node != &FakeNode))
                 {
-                    CCString Ext = File = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
+                    CCString Ext = CCStringCreate(CC_STD_ALLOCATOR, CCStringHintCopy | CCStringEncodingUTF8, FSPathComponentGetString(Component));
                     
                     if (File)
                     {
@@ -616,60 +633,60 @@ static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[12
         Index++;
     }
     
+    if (Node == &FakeNode) Node = NULL;
+    
     if (File)
     {
         if (Node)
         {
             if (Op == FSVirtualNodeOperationRemove)
             {
-                CCDictionaryRemoveValue(Node->nodes, &File);
-                Node = NULL;
+                if (Node->mode & FSAccessDeletable)
+                {
+                    CCDictionaryRemoveValue(Node->nodes, &File);
+                    
+                    Node = NULL;
+                }
+                
+                CCStringDestroy(File);
             }
             
             else
             {
-                Node = CCDictionaryGetValue(Node->nodes, &File);
+                FSVirtualNode **Temp = CCDictionaryGetValue(Node->nodes, &File);
                 
-                if ((!Node) && (Op == FSVirtualNodeOperationCreate))
+                if (Temp)
                 {
-                    CCDictionaryEntry Entry = CCDictionaryEntryForKey(Node->nodes, &File);
-                    CCDictionarySetEntry(Node->nodes, Entry, &(FSVirtualNode){
-                        .isDir = FALSE,
-                        .file = FSVirtualFileCreate()
-                    });
-                    
-                    Node = CCDictionaryGetEntry(Node->nodes, Entry);
+                    Node = *Temp;
                 }
+                
+                else if (Op == FSVirtualNodeOperationCreate)
+                {
+                    FSVirtualNode *NewNode = CCMalloc(CC_STD_ALLOCATOR, sizeof(FSVirtualNode), NULL, CC_DEFAULT_ERROR_CALLBACK);
+                    
+                    *NewNode = (FSVirtualNode){
+                        .parent = Node,
+                        .name = CCStringCopy(File),
+                        .isDir = FALSE,
+                        .mode = FSAccessReadable | FSAccessWritable | FSAccessDeletable,
+                        .file = FSVirtualFileCreate()
+                    };
+                    
+                    CCDictionarySetValue(Node->nodes, &File, &NewNode);
+                    
+                    Node = NewNode;
+                }
+                
+                else Node = FALSE;
             }
         }
         
-        CCStringDestroy(File);
+        else CCStringDestroy(File);
     }
     
-    else if ((Node) && (Op == FSVirtualNodeOperationRemove))
+    else if ((Node) && (Op == FSVirtualNodeOperationRemove) && (Node->mode & FSAccessDeletable))
     {
-        FSPathComponent Component = FSPathGetComponentAtIndex(Path, Count - 1);
-        switch (FSPathComponentGetType(Component))
-        {
-            case FSPathComponentTypeVolume:
-            case FSPathComponentTypeRoot:
-            case FSPathComponentTypeRelativeRoot:
-            case FSPathComponentTypeRelativeParentDirectory:
-                CCDictionaryDestroy(Dirs[*Level - 1]->nodes);
-                Dirs[*Level - 1]->nodes = FSManagerVirtualCreateDir();
-                break;
-                
-            case FSPathComponentTypeDirectory:
-            {
-                CCString Key = CCStringCreate(CC_STD_ALLOCATOR, (CCStringHint)CCStringEncodingUTF8, FSPathComponentGetString(Component));
-                CCDictionaryRemoveValue(Dirs[*Level - 1]->nodes, &Key);
-                CCStringDestroy(Key);
-                break;
-            }
-                
-            default:
-                break;
-        }
+        CCDictionaryRemoveValue(Node->parent->nodes, &Node->name);
         
         Node = NULL;
     }
@@ -677,7 +694,7 @@ static FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[12
     return Node;
 }
 
-static FSVirtualNode *FSManagerVirtualNode(FSPath Path)
+FSVirtualNode *FSManagerVirtualNode(FSPath Path)
 {
     return FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationNone, FALSE);
 }
@@ -728,6 +745,88 @@ size_t FSManagerVirtualGetPreferredIOBlockSize(FSPath Path)
     return 4096;
 }
 
+static void FSManagerVirtualAddContentsInPath(FSPath SystemPath, CCOrderedCollection *List, CCCollection NamingMatches, FSMatch MatchOptions)
+{
+    FSVirtualNode *Node = FSManagerVirtualNode(SystemPath);
+    
+    if (Node)
+    {
+        if (Node->isDir)
+        {
+            CC_DICTIONARY_FOREACH_KEY(CCString, Key, Node->nodes)
+            {
+                _Bool Match = TRUE;
+                FSPath Path = FSPathCopy(SystemPath);
+                
+                FSVirtualNode *Item = *(FSVirtualNode**)CCDictionaryGetValue(Node->nodes, &Key);
+                
+                CC_STRING_TEMP_BUFFER(Buffer, Key)
+                {
+                    if (Item->isDir)
+                    {
+                        FSPathAppendComponent(Path, FSPathComponentCreate(FSPathComponentTypeDirectory, Buffer));
+                    }
+                    
+                    else
+                    {
+                        FSPath File = FSPathCreate(Buffer);
+                        
+                        for (size_t Loop = 1, Count = FSPathGetComponentCount(File); Loop < Count; Loop++)
+                        {
+                            FSPathAppendComponent(Path, FSPathComponentCopy(FSPathGetComponentAtIndex(File, Loop)));
+                        }
+                        
+                        FSPathDestroy(File);
+                    }
+                    
+                }
+                
+                if (NamingMatches)
+                {
+                    CC_COLLECTION_FOREACH(FSPath, PathMatch, NamingMatches)
+                    {
+                        Match = FSPathMatch(Path, PathMatch, MatchOptions);
+                        
+                        if (Match) break;
+                    }
+                }
+                
+                _Bool DestroyPath = TRUE;
+                const _Bool IsDir = Item->isDir;
+                
+                if ((MatchOptions & FSMatchNameBlacklist) ? !Match : Match)
+                {
+                    if (!(IsDir * (MatchOptions & FSMatchSkipDirectory)) && !(!IsDir * (MatchOptions & FSMatchSkipFile)))
+                    {
+                        if (!*List) *List = CCCollectionCreate(CC_STD_ALLOCATOR, CCCollectionHintOrdered | CCCollectionHintHeavyEnumerating, sizeof(FSPath), FSPathDestructorForCollection);
+                        CCOrderedCollectionAppendElement(*List, &Path);
+                        
+                        DestroyPath = FALSE;
+                    }
+                }
+                
+                if ((MatchOptions & FSMatchSearchRecursively))
+                {
+                    if (IsDir) FSManagerVirtualAddContentsInPath(Path, List, NamingMatches, MatchOptions);
+                }
+                
+                if (DestroyPath) FSPathDestroy(Path);
+            }
+        }
+    }
+}
+
+CCOrderedCollection FSManagerVirtualGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions)
+{
+    CCOrderedCollection List = NULL;
+    
+    FSVirtualReadLock(&FSVirtualVolumeLock);
+    FSManagerVirtualAddContentsInPath(Path, &List, NamingMatches, MatchOptions);
+    FSVirtualReadUnlock(&FSVirtualVolumeLock);
+    
+    return List;
+}
+
 FSOperation FSManagerVirtualCreate(FSPath Path, _Bool IntermediateDirectories)
 {
     FSVirtualWriteLock(&FSVirtualVolumeLock);
@@ -740,10 +839,22 @@ FSOperation FSManagerVirtualCreate(FSPath Path, _Bool IntermediateDirectories)
 FSOperation FSManagerVirtualRemove(FSPath Path)
 {
     FSVirtualWriteLock(&FSVirtualVolumeLock);
-    FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationRemove, FALSE);
+    FSOperation Result = FSManagerVirtualNodeOp(Path, (FSVirtualNode*[128]){ &FSVirtualRoot }, &(size_t){ 1 }, FSVirtualNodeOperationRemove, FALSE) == NULL ? FSOperationSuccess : FSOperationFailure;
     FSVirtualWriteUnlock(&FSVirtualVolumeLock);
     
-    return FSOperationSuccess;
+    return Result;
+}
+
+FSOperation FSManagerVirtualMove(FSPath Path, FSPath Destination)
+{
+    FSOperation Result = FSManagerVirtualCopy(Path, Destination);
+    
+    if (Result == FSOperationSuccess)
+    {
+        Result = FSManagerVirtualRemove(Path);
+    }
+    
+    return Result;
 }
 
 FSOperation FSManagerVirtualCopy(FSPath Path, FSPath Destination)
@@ -761,33 +872,23 @@ FSOperation FSManagerVirtualCopy(FSPath Path, FSPath Destination)
                 CC_COLLECTION_FOREACH(FSPath, Child, Matches)
                 {
                     FSPath ChildDestination = FSPathCopy(Destination);
-                    const size_t Count = FSPathGetComponentCount(Path);
+                    const size_t ChildDestEnd = FSPathGetComponentCount(ChildDestination);
+                    size_t Count = FSPathGetComponentCount(Child);
                     
-                    FSPathComponent Component = FSPathGetComponentAtIndex(Path, Count - 1);
-                    FSPathAppendComponent(ChildDestination, FSPathComponentCopy(Component));
+                    FSPathComponent Component;
                     
-                    switch (FSPathComponentGetType(Component))
+                    do
                     {
-                        case FSPathComponentTypeFile:
-                        case FSPathComponentTypeExtension:
-                        {
-                            _Static_assert(FSPathComponentTypeFile == 6 &&
-                                           FSPathComponentTypeExtension == 7 &&
-                                           FSPathComponentTypeMask == 7, "Path component types have changed");
-                            
-                            for (size_t Loop = 2, ChildDestCount = FSPathGetComponentCount(ChildDestination); (Loop < Count) && ((Component = FSPathGetComponentAtIndex(Path, Count - Loop)) & 6); Loop++)
-                            {
-                                FSPathInsertComponentAtIndex(ChildDestination, FSPathComponentCopy(Component), ChildDestCount);
-                            }
-                            break;
-                        }
-                            
-                        default:
-                            break;
-                    }
+                        Component = FSPathGetComponentAtIndex(Child, --Count);
+                        FSPathInsertComponentAtIndex(ChildDestination, FSPathComponentCopy(Component), ChildDestEnd);
+                        
+                        _Static_assert(FSPathComponentTypeFile == 6 &&
+                                       FSPathComponentTypeExtension == 7 &&
+                                       FSPathComponentTypeMask == 7, "Path component types have changed");
+                    } while((Count) && ((Component & FSPathComponentTypeMask) >= FSPathComponentTypeExtension));
                     
-                    FSManagerVirtualCopy(Child, Destination);
-                    FSPathDestroy(Destination);
+                    FSManagerVirtualCopy(Child, ChildDestination);
+                    FSPathDestroy(ChildDestination);
                 }
                 
                 CCCollectionDestroy(Matches);

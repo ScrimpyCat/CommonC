@@ -25,6 +25,7 @@
 
 #define CC_QUICK_COMPILE
 #include "FileHandle.h"
+#include "FileSystem_Private.h"
 #include "Platform.h"
 #include "Assertion.h"
 #include "MemoryAllocation.h"
@@ -355,3 +356,226 @@ int FSHandleGetFileDescriptor(FSHandle Handle)
 #endif
 
 #endif
+
+#pragma mark - Virtual
+
+static void FSVirtualFileHandleDestructor(FSVirtualFileHandle *Handle)
+{
+    CCFree(Handle->file);
+}
+
+FSOperation FSHandleVirtualOpen(FSPath Path, FSHandleType Type, FSHandle *Handle)
+{
+    FSVirtualReadLock(&FSVirtualVolumeLock);
+    
+    FSVirtualNode *Node = FSManagerVirtualNode(Path);
+    
+    if (Node)
+    {
+        if ((Node->isDir) || (!Node->file))
+        {
+            FSVirtualReadUnlock(&FSVirtualVolumeLock);
+            
+            return FSOperationFailure;
+        }
+        
+        FSVirtualFile *File = Node->file;
+        CCRetain(File);
+        
+        FSVirtualReadUnlock(&FSVirtualVolumeLock);
+        
+        FSVirtualFileHandle *VirtualHandle;
+        CC_SAFE_Malloc(VirtualHandle, sizeof(FSVirtualFileHandle),
+                       CC_LOG_ERROR("Failed to open file handle due to memory allocation failure. Allocation size (%zu)", sizeof(FSVirtualFileHandle));
+                       CCFree(File);
+                       return FSOperationFailure;
+                       );
+        
+        *VirtualHandle = (FSVirtualFileHandle){
+            .file = File,
+            .offset = 0
+        };
+        
+        CCMemorySetDestructor(VirtualHandle, (CCMemoryDestructorCallback)FSVirtualFileHandleDestructor);
+        
+        CC_SAFE_Malloc(*Handle, sizeof(FSHandleInfo),
+                       CC_LOG_ERROR("Failed to open file handle due to memory allocation failure. Allocation size (%zu)", sizeof(FSHandleInfo));
+                       CCFree(VirtualHandle);
+                       return FSOperationFailure;
+                       );
+        
+        **Handle = (FSHandleInfo){
+            .type = Type,
+            .path = FSPathCopy(Path),
+            .handle = VirtualHandle
+        };
+        
+        return FSOperationSuccess;
+    }
+    
+    FSVirtualReadUnlock(&FSVirtualVolumeLock);
+    
+    return FSOperationPathNotExist;
+}
+
+FSOperation FSHandleVirtualClose(FSHandle Handle)
+{
+    if (!Handle->handle) return FSOperationFailure;
+    
+    FSPathDestroy(Handle->path);
+    
+    CCFree(Handle->handle);
+    
+    CC_SAFE_Free(Handle);
+    
+    return FSOperationSuccess;
+}
+
+FSOperation FSHandleVirtualSync(FSHandle Handle)
+{
+    if (!Handle->handle) return FSOperationFailure;
+    
+    return FSOperationSuccess;
+}
+
+FSOperation FSHandleVirtualRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour Behaviour)
+{
+    if ((!Handle->handle) || (Handle->type == FSHandleTypeWrite))
+    {
+        *Count = 0;
+        return FSOperationFailure;
+    }
+    
+    if (!*Count) return FSOperationSuccess;
+    
+    const size_t Offset = ((FSVirtualFileHandle*)Handle->handle)->offset;
+    
+    FSVirtualReadLock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    
+    CCArray Contents = ((FSVirtualFileHandle*)Handle->handle)->file->contents;
+    const size_t Size = CCArrayGetCount(Contents);
+    
+    if (Offset < Size)
+    {
+        size_t ReadSize = CCMin(Size - Offset, *Count);
+        
+        memcpy(Data, CCArrayGetData(Contents) + Offset, ReadSize);
+        
+        *Count = ReadSize;
+    }
+    
+    else *Count = 0;
+    
+    FSVirtualReadUnlock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    
+    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, Offset);
+    else if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourUpdateOffset) return FSHandleSetOffset(Handle, Offset + *Count);
+    
+    return FSOperationSuccess;
+}
+
+FSOperation FSHandleVirtualWrite(FSHandle Handle, size_t Count, const void *Data, FSBehaviour Behaviour)
+{
+    if ((!Handle->handle) || (Handle->type == FSHandleTypeRead)) return FSOperationFailure;
+    
+    if (!Count) return FSOperationSuccess;
+    
+    const size_t Offset = ((FSVirtualFileHandle*)Handle->handle)->offset;
+    
+    if ((Behaviour & FSWritingBehaviourDestructiveMask) == FSWritingBehaviourOverwrite)
+    {
+        FSVirtualWriteLock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+        
+        CCArray Contents = ((FSVirtualFileHandle*)Handle->handle)->file->contents;
+        const size_t Size = CCArrayGetCount(Contents);
+        
+        if (Offset >= Size)
+        {
+            const size_t Space = Offset - Size;
+            CCArrayAppendElements(Contents, NULL, Space + Count);
+            memset(CCArrayGetData(Contents) + Size, 0, Space);
+        }
+        
+        else if ((Offset + Count) >= Size)
+        {
+            CCArrayAppendElements(Contents, NULL, (Offset + Count) - Size);
+        }
+        
+        CCArrayReplaceElementsAtIndex(Contents, Offset, Data, Count);
+        
+        FSVirtualWriteUnlock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    }
+    
+    else if ((Behaviour & FSWritingBehaviourDestructiveMask) == FSWritingBehaviourInsert)
+    {
+        if (Handle->type != FSHandleTypeUpdate) return FSOperationFailure;
+        
+        FSVirtualWriteLock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+        
+        CCArray Contents = ((FSVirtualFileHandle*)Handle->handle)->file->contents;
+        const size_t Size = CCArrayGetCount(Contents);
+        
+        if (Offset >= Size)
+        {
+            const size_t Space = Offset - Size;
+            CCArrayAppendElements(Contents, NULL, Space + Count);
+            memset(CCArrayGetData(Contents) + Size, 0, Space);
+            
+            CCArrayAppendElements(Contents, Data, Count);
+        }
+        
+        CCArrayInsertElementsAtIndex(Contents, Offset, Data, Count);
+        
+        FSVirtualWriteUnlock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    }
+    
+    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, Offset);
+    else if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourUpdateOffset) return FSHandleSetOffset(Handle, Offset + Count);
+    
+    return FSOperationSuccess;
+}
+
+FSOperation FSHandleVirtualRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour)
+{
+    if ((!Handle->handle) || (Handle->type != FSHandleTypeUpdate)) return FSOperationFailure;
+    
+    const size_t Offset = ((FSVirtualFileHandle*)Handle->handle)->offset;
+    
+    FSVirtualWriteLock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    
+    CCArray Contents = ((FSVirtualFileHandle*)Handle->handle)->file->contents;
+    const size_t Size = CCArrayGetCount(Contents);
+    
+    if (Offset < Size)
+    {
+        size_t RemoveSize = CCMin(Size - Offset, Count);
+        
+        CCArrayRemoveElementsAtIndex(Contents, Offset, RemoveSize);
+    }
+    
+    FSVirtualWriteUnlock(&((FSVirtualFileHandle*)Handle->handle)->file->lock);
+    
+    if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourPreserveOffset) return FSHandleSetOffset(Handle, Offset);
+    else if ((Behaviour & FSBehaviourOffsettingMask) == FSBehaviourUpdateOffset) return FSHandleSetOffset(Handle, Offset + Count);
+    
+    return FSOperationSuccess;
+}
+
+size_t FSHandleVirtualGetOffset(FSHandle Handle)
+{
+    if (Handle->handle)
+    {
+        return ((FSVirtualFileHandle*)Handle->handle)->offset;
+    }
+    
+    return 0;
+}
+
+FSOperation FSHandleVirtualSetOffset(FSHandle Handle, size_t Offset)
+{
+    if (!Handle->handle) return FSOperationFailure;
+    
+    ((FSVirtualFileHandle*)Handle->handle)->offset = Offset;
+    
+    return FSOperationSuccess;
+}

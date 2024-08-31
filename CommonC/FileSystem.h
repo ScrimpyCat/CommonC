@@ -42,6 +42,21 @@ typedef CC_ENUM(FSOperation, uint8_t) {
     FSOperationPathNotExist
 };
 
+/*!
+ * @brief The name of the virtual in-memory volume.
+ * @description Use this in your @b FSPath to reference an in-memory file system.
+ *
+ *              The virtual volume name may be changed (i.e. if it collides with
+ *              a valid volume name on the system) by setting it to something
+ *              else, however this must be done while there's no paths.
+ *
+ *              The virtual volume can be safely accessed across multiple threads,
+ *              however if the same resource is being accessed it will block.
+ *
+ * @note This volume is not persisted.
+ */
+extern const char * FSVirtualVolume;
+
 
 /*!
  * @brief Check whether the path exists.

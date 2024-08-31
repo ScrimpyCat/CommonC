@@ -34,6 +34,10 @@
 #define T size_t
 #include "Extrema.h"
 
+#ifndef FS_VIRTUAL
+#define FS_VIRTUAL 1
+#endif
+
 typedef _Atomic(uint32_t) FSVirtualLock;
 
 // TODO: Convert this to a more optimal structure
@@ -42,11 +46,13 @@ typedef struct {
     FSVirtualLock lock;
 } FSVirtualFile;
 
-#define FS_VIRTUAL_FILE_WRITE_FLAG 0x80000000F
+#define FS_VIRTUAL_FILE_WRITE_FLAG 0x80000000
 
 CC_DICTIONARY_DECLARE(CCString, FSVirtualNode);
 
-typedef struct {
+typedef struct FSVirtualNode {
+    struct FSVirtualNode *parent;
+    CCString name;
     union {
         CCDictionary(CCString, FSVirtualNode) nodes;
         FSVirtualFile *file;
@@ -60,12 +66,39 @@ typedef struct {
     size_t offset;
 } FSVirtualFileHandle;
 
+typedef enum {
+    FSVirtualNodeOperationNone,
+    FSVirtualNodeOperationCreate,
+    FSVirtualNodeOperationRemove
+} FSVirtualNodeOperation;
+
 extern FSVirtualNode FSVirtualRoot;
 extern FSVirtualLock FSVirtualVolumeLock;
+
+_Bool FSManagerVirtualExists(FSPath Path);
+FSAccess FSManagerVirtualGetAccessRights(FSPath Path);
+size_t FSManagerVirtualGetSize(FSPath Path);
+size_t FSManagerVirtualGetPreferredIOBlockSize(FSPath Path);
+CCOrderedCollection FSManagerVirtualGetContentsAtPath(FSPath Path, CCCollection NamingMatches, FSMatch MatchOptions);
+FSOperation FSManagerVirtualCreate(FSPath Path, _Bool IntermediateDirectories);
+FSOperation FSManagerVirtualRemove(FSPath Path);
+FSOperation FSManagerVirtualMove(FSPath Path, FSPath Destination);
+FSOperation FSManagerVirtualCopy(FSPath Path, FSPath Destination);
+
+FSOperation FSHandleVirtualOpen(FSPath Path, FSHandleType Type, FSHandle *Handle);
+FSOperation FSHandleVirtualClose(FSHandle Handle);
+FSOperation FSHandleVirtualSync(FSHandle Handle);
+FSOperation FSHandleVirtualRead(FSHandle Handle, size_t *Count, void *Data, FSBehaviour Behaviour);
+FSOperation FSHandleVirtualWrite(FSHandle Handle, size_t Count, const void *Data, FSBehaviour Behaviour);
+FSOperation FSHandleVirtualRemove(FSHandle Handle, size_t Count, FSBehaviour Behaviour);
+size_t FSHandleVirtualGetOffset(FSHandle Handle);
+FSOperation FSHandleVirtualSetOffset(FSHandle Handle, size_t Offset);
 
 static CC_FORCE_INLINE _Bool FSPathIsVirtual(FSPath Path);
 
 void FSVirtualFileDestructor(FSVirtualFile *File);
+FSVirtualNode *FSManagerVirtualNodeOp(FSPath Path, FSVirtualNode *Dirs[128], size_t *Level, FSVirtualNodeOperation Op, _Bool IntermediateDirectories);
+FSVirtualNode *FSManagerVirtualNode(FSPath Path);
 
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock);
 static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock);
@@ -92,11 +125,12 @@ static CC_FORCE_INLINE _Bool FSPathIsVirtual(FSPath Path)
 
 static CC_FORCE_INLINE void FSVirtualReadLock(volatile FSVirtualLock *Lock)
 {
-    uint32_t Ref;
-    
-    do {
-        while ((Ref = atomic_load_explicit(Lock, memory_order_relaxed)) & FS_VIRTUAL_FILE_WRITE_FLAG) CC_SPIN_WAIT();
-    } while (!atomic_compare_exchange_weak_explicit(Lock, &Ref, Ref + 1, memory_order_acquire, memory_order_relaxed));
+    if (atomic_fetch_add_explicit(Lock, 1, memory_order_acquire) & FS_VIRTUAL_FILE_WRITE_FLAG)
+    {
+        while (atomic_load_explicit(Lock, memory_order_relaxed) & FS_VIRTUAL_FILE_WRITE_FLAG);
+        
+        atomic_thread_fence(memory_order_acquire);
+    }
 }
 
 static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock)
@@ -108,7 +142,7 @@ static CC_FORCE_INLINE void FSVirtualReadUnlock(volatile FSVirtualLock *Lock)
 
 static CC_FORCE_INLINE void FSVirtualWriteLock(volatile FSVirtualLock *Lock)
 {
-    while (!atomic_compare_exchange_weak_explicit(Lock, (&(uint32_t){ 0 }), FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_acquire, memory_order_relaxed));
+    while (!atomic_compare_exchange_weak_explicit(Lock, (&(uint32_t){ 0 }), FS_VIRTUAL_FILE_WRITE_FLAG, memory_order_acquire, memory_order_relaxed)) CC_SPIN_WAIT();
 }
 
 static CC_FORCE_INLINE void FSVirtualWriteUnlock(volatile FSVirtualLock *Lock)
