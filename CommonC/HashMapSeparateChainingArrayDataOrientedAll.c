@@ -33,13 +33,6 @@
 #include <string.h>
 
 
-typedef struct {
-    size_t count;
-    CCArray hashes;
-    CCArray keys;
-    CCArray values;
-} CCHashMapSeparateChainingArrayDataOrientedAllInternal;
-
 static void *CCHashMapSeparateChainingArrayDataOrientedAllConstructor(CCAllocatorType Allocator, size_t KeySize, size_t ValueSize, size_t BucketCount);
 static void CCHashMapSeparateChainingArrayDataOrientedAllDestructor(CCHashMapSeparateChainingArrayDataOrientedAllInternal *Internal);
 static size_t CCHashMapSeparateChainingArrayDataOrientedAllGetCount(CCHashMap Map);
@@ -81,8 +74,6 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface 
         .values = CCHashMapSeparateChainingArrayDataOrientedAllGetValues
     }
 };
-
-const CCHashMapInterface * const CCHashMapSeparateChainingArrayDataOrientedAll = &CCHashMapSeparateChainingArrayDataOrientedAllInterface;
 
 
 static CCHashMapEntry IndexToEntry(CCHashMap Map, size_t BucketIndex, size_t ItemIndex)

@@ -40,6 +40,8 @@
 
 #include <CommonC/DictionaryInterface.h>
 
-extern const CCDictionaryInterface * const CCDictionaryHashMap;
+extern const CCDictionaryInterface CCDictionaryHashMapInterface;
+
+#define CCDictionaryHashMap &CCDictionaryHashMapInterface
 
 #endif

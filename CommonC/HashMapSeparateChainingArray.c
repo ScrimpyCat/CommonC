@@ -33,11 +33,6 @@
 #include <string.h>
 
 
-typedef struct {
-    size_t count;
-    CCArray buckets;
-} CCHashMapSeparateChainingArrayInternal;
-
 static void *CCHashMapSeparateChainingArrayConstructor(CCAllocatorType Allocator, size_t KeySize, size_t ValueSize, size_t BucketCount);
 static void CCHashMapSeparateChainingArrayDestructor(CCHashMapSeparateChainingArrayInternal *Internal);
 static size_t CCHashMapSeparateChainingArrayGetCount(CCHashMap Map);
@@ -53,8 +48,8 @@ static void CCHashMapSeparateChainingArraySetValue(CCHashMap Map, const void *Ke
 static void CCHashMapSeparateChainingArrayRemoveValue(CCHashMap Map, const void *Key);
 static CCOrderedCollection CCHashMapSeparateChainingArrayGetKeys(CCHashMap Map);
 static CCOrderedCollection CCHashMapSeparateChainingArrayGetValues(CCHashMap Map);
-static void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
-static CCHashMapEntry CCHashMapSeparateChainingArrayEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type);
+void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
+CCHashMapEntry CCHashMapSeparateChainingArrayEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type);
 
 
 const CCHashMapInterface CCHashMapSeparateChainingArrayInterface = {
@@ -79,8 +74,6 @@ const CCHashMapInterface CCHashMapSeparateChainingArrayInterface = {
         .values = CCHashMapSeparateChainingArrayGetValues
     }
 };
-
-const CCHashMapInterface * const CCHashMapSeparateChainingArray = &CCHashMapSeparateChainingArrayInterface;
 
 
 static CCHashMapEntry IndexToEntry(CCHashMap Map, size_t BucketIndex, size_t ItemIndex)
@@ -611,7 +604,7 @@ static CCHashMapEntry GetPrevEntry(CCHashMap Map, CCHashMapEntry Entry)
     return 0;
 }
 
-static void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type)
+void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type)
 {
     void *(*GetElement)(CCHashMap, CCHashMapEntry) = Type == CCHashMapEnumeratorTypeKey ? CCHashMapSeparateChainingArrayGetKey : CCHashMapSeparateChainingArrayGetEntry;
     
@@ -646,7 +639,7 @@ static void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumerato
     return Enumerator->internal.ptr;
 }
 
-static CCHashMapEntry CCHashMapSeparateChainingArrayEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type)
+CCHashMapEntry CCHashMapSeparateChainingArrayEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type)
 {
     return Enumerator->internal.extra[0];
 }

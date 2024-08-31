@@ -119,6 +119,68 @@ CC_NEW CCDictionary CCDictionaryCreateWithImplementation(CCAllocatorType Allocat
  */
 void CCDictionaryDestroy(CCDictionary CC_DESTROY(Dictionary));
 
+/*!
+ * @define CC_STATIC_DICTIONARY
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCDictionary.
+ * @discussion If used globally the array will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param hint The hints for the intended usage of this dictionary.
+ * @param keySize The key size.
+ * @param valueSize The value size.
+ * @param keyDestructor The key destructor callback.
+ * @param valueDestructor The value destructor callback.
+ * @param hasher The key hashing function callback.
+ * @param comparator The key comparison function callback.
+ * @optional interface The interface to the internal implementatipon be used. If not provided it defaults to using
+ *           @b CCHashMapSeparateChainingArray.
+ *
+ * @optional internal The internal data for the interface.
+ */
+#define CC_STATIC_DICTIONARY(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator, ...) CC_DICTIONARY_CREATE(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator, ##__VA_ARGS__)
+
+/*!
+ * @define CC_CONST_DICTIONARY
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCArray.
+ * @discussion If used globally the array will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param hint The hints for the intended usage of this dictionary.
+ * @param keySize The key size.
+ * @param valueSize The value size.
+ * @param keyDestructor The key destructor callback.
+ * @param valueDestructor The value destructor callback.
+ * @param hasher The key hashing function callback.
+ * @param comparator The key comparison function callback.
+ * @param interface The interface to the internal implementatipon be used.
+ * @param internal The internal data for the interface.
+ */
+#define CC_CONST_DICTIONARY(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator, interface, internal) CC_DICTIONARY_CREATE(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator, interface, internal)
+
+#define CC_DICTIONARY_CREATE(...) CC_VA_CALL(CC_DICTIONARY_CREATE_, __VA_ARGS__)
+#define CC_DICTIONARY_CREATE_7(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator) CC_DICTIONARY_CREATE_(hint, keySize, valueSize, keyDestructor, valueDestructor, hasher, comparator, CCDictionaryHashMap, CC_HASH_MAP_CREATE(keySize, valueSize, hasher, comparator, (((hint) & CCDictionaryHintSizeMask) == CCDictionaryHintSizeSmall ? 3 : (((hint) & CCDictionaryHintSizeMask) == CCDictionaryHintSizeMedium ? 118 : (((hint) & CCDictionaryHintSizeMask) == CCDictionaryHintSizeLarge ? 1065 : 64))), CCHashMapSeparateChainingArray, CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_CREATE(0, NULL)))
+#define CC_DICTIONARY_CREATE_9(...) CC_DICTIONARY_CREATE_(__VA_ARGS__)
+#define CC_DICTIONARY_CREATE_(hint, keySize_, valueSize_, keyDestructor_, valueDestructor_, hasher, comparator, interface_, internal_, ...) \
+((CCDictionary)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCDictionaryInfo info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .interface = interface_, \
+        .allocator = CC_STD_ALLOCATOR, \
+        .keySize = keySize_, \
+        .valueSize = valueSize_, \
+        .callbacks = { \
+            .keyDestructor = keyDestructor_, \
+            .valueDestructor = valueDestructor_, \
+            .getHash = hasher, \
+            .compareKeys = comparator \
+        }, \
+        .internal = (void*)internal_ \
+    } \
+}.info)
+
 
 #pragma mark - Insertions/Deletions
 /*!

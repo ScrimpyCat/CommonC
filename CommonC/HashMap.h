@@ -111,6 +111,58 @@ CC_NEW CCHashMap CCHashMapCreate(CCAllocatorType Allocator, size_t KeySize, size
 void CCHashMapDestroy(CCHashMap CC_DESTROY(Map));
 
 /*!
+ * @define CC_STATIC_HASH_MAP
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCHashMap.
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param keySize The size of the keys.
+ * @param valueSize The size of the values.
+ * @param bucketCount The number of buckets to be allocated.
+ * @param hasher The key hashing function.
+ * @param comparator The key comparison function.
+ * @param bucketCount The number of buckets.
+ * @param interface The inferface to the internal implementation.
+ * @param internal The internal data for the interface.
+ */
+#define CC_STATIC_HASH_MAP(count, buckets) CC_HASH_MAP_CREATE(keySize, valueSize, hasher, comparator, bucketCount, interface, internal)
+
+/*!
+ * @define CC_CONST_HASH_MAP
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCHashMap.
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param keySize The size of the keys.
+ * @param valueSize The size of the values.
+ * @param bucketCount The number of buckets to be allocated.
+ * @param hasher The key hashing function.
+ * @param comparator The key comparison function.
+ * @param bucketCount The number of buckets.
+ * @param interface The inferface to the internal implementation.
+ * @param internal The internal data for the interface.
+ */
+#define CC_CONST_HASH_MAP(keySize, valueSize, hasher, comparator, bucketCount, interface, internal) CC_HASH_MAP_CREATE(keySize, valueSize, hasher, comparator, bucketCount, interface, internal, const)
+
+#define CC_HASH_MAP_CREATE(keySize_, valueSize_, hasher_, comparator_, bucketCount_, interface_, internal_, ...) \
+((CCHashMap)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCHashMapInfo info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .interface = interface_, \
+        .allocator = CC_STD_ALLOCATOR, \
+        .getHash = hasher_, \
+        .compareKeys = comparator_, \
+        .keySize = keySize_, \
+        .valueSize = valueSize_, \
+        .bucketCount = bucketCount_, \
+        .internal = (void*)internal_ \
+    } \
+}.info)
+
+/*!
  * @brief Rehash the hashmap.
  * @param Map The hashmap to be rehashed.
  * @param BucketCount The number of buckets to be allocated.

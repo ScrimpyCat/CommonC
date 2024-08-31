@@ -44,7 +44,61 @@
 #define CommonC_HashMapSeparateChainingArrayDataOrientedAll_h
 
 #include <CommonC/HashMapInterface.h>
+#include <CommonC/Array.h>
 
-extern const CCHashMapInterface * const CCHashMapSeparateChainingArrayDataOrientedAll;
+typedef struct {
+    size_t count;
+    CCArray(CCArray(uintmax_t)) hashes;
+    CCArray(CCArray) keys;
+    CCArray(CCArray) values;
+} CCHashMapSeparateChainingArrayDataOrientedAllInternal;
+
+extern const CCHashMapInterface CCHashMapSeparateChainingArrayDataOrientedAllInterface;
+
+#define CCHashMapSeparateChainingArrayDataOrientedAll &CCHashMapSeparateChainingArrayDataOrientedAllInterface
+
+/*!
+ * @define CC_STATIC_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCHashMapSeparateChainingArrayDataOrientedAll.
+ *           for a CCHashMap internal.
+ *
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param count The key/value count.
+ * @param hashes The array of array of hashes. May be NULL.
+ * @param keys The array of array of keys. May be NULL.
+ * @param values The array of array of values. May be NULL.
+ */
+#define CC_STATIC_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL(count, hashes, keys, values) CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL_CREATE(count, hashes, keys, values)
+
+/*!
+ * @define CC_CONST_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCHashMapSeparateChainingArrayDataOrientedAll.
+ *           for a CCHashMap internal.
+ *
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param count The key/value count.
+ * @param hashes The array of array of hashes. May be NULL.
+ * @param keys The array of array of keys. May be NULL.
+ * @param values The array of array of values. May be NULL.
+ */
+#define CC_CONST_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL(count, hashes, keys, values) CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL_CREATE(count, hashes, keys, values, const)
+
+#define CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_DATA_ORIENTED_ALL_CREATE(count_, hashes_, keys_, values_, __VA_ARGS__) \
+((CCHashMapSeparateChainingArrayDataOrientedAllInternal)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCHashMapSeparateChainingArrayDataOrientedAllInternal info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .count = count_, \
+        .hashes = hashes_, \
+        .keys = keys_, \
+        .values = values_ \
+    } \
+}.info)
 
 #endif

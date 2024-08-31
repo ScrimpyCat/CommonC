@@ -40,8 +40,10 @@ static void CCDictionaryHashMapRemoveValue(CCHashMap Internal, const void *Key, 
 static CCOrderedCollection CCDictionaryHashMapGetKeys(CCHashMap Internal, CCAllocatorType Allocator);
 static CCOrderedCollection CCDictionaryHashMapGetValues(CCHashMap Internal, CCAllocatorType Allocator);
 
+void *CCHashMapSeparateChainingArrayEnumerator(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorAction Action, CCHashMapEnumeratorType Type);
+CCHashMapEntry CCHashMapSeparateChainingArrayEnumeratorEntry(CCHashMap Map, CCEnumeratorState *Enumerator, CCHashMapEnumeratorType Type);
 
-CCDictionaryInterface CCDictionaryHashMapInterface = {
+const CCDictionaryInterface CCDictionaryHashMapInterface = {
     .hintWeight = CCDictionaryHashMapHintWeight,
     .create = CCDictionaryHashMapConstructor,
     .destroy = (CCDictionaryDestructorCallback)CCHashMapDestroy,
@@ -53,8 +55,8 @@ CCDictionaryInterface CCDictionaryHashMapInterface = {
     .getEntry = (CCDictionaryGetEntryCallback)CCHashMapGetEntry,
     .setEntry = (CCDictionarySetEntryCallback)CCDictionaryHashMapSetEntry,
     .removeEntry = (CCDictionaryRemoveEntryCallback)CCDictionaryHashMapRemoveEntry,
-    .enumerator = NULL,
-    .enumeratorReference = NULL,
+    .enumerator = (CCDictionaryEnumeratorCallback)CCHashMapSeparateChainingArrayEnumerator,
+    .enumeratorReference = (CCDictionaryEnumeratorEntryCallback)CCHashMapSeparateChainingArrayEnumeratorEntry,
     .optional = {
         .getValue = (CCDictionaryGetValueCallback)CCDictionaryHashMapGetValue,
         .setValue = (CCDictionarySetValueCallback)CCDictionaryHashMapSetValue,
@@ -63,8 +65,6 @@ CCDictionaryInterface CCDictionaryHashMapInterface = {
         .values = (CCDictionaryGetValuesCallback)CCDictionaryHashMapGetValues
     }
 };
-
-const CCDictionaryInterface * const CCDictionaryHashMap = &CCDictionaryHashMapInterface;
 
 
 //Values from http://planetmath.org/sites/default/files/texpdf/33327.pdf or http://planetmath.org/goodhashtableprimes and https://opensource.apple.com/source/CF/CF-1153.18/CFBasicHash.c
@@ -105,9 +105,6 @@ static void *CCDictionaryHashMapConstructor(CCAllocatorType Allocator, CCDiction
                    CCDictionaryEnumeratorTypeKey == CCHashMapEnumeratorTypeKey &&
                    CCDictionaryEnumeratorTypeValue == CCHashMapEnumeratorTypeValue, "Must match if we're doing a passthrough");
 #pragma clang diagnostic pop
-    
-    CCDictionaryHashMapInterface.enumerator = (CCDictionaryEnumeratorCallback)CCHashMapSeparateChainingArray->enumerator;
-    CCDictionaryHashMapInterface.enumeratorReference = (CCDictionaryEnumeratorEntryCallback)CCHashMapSeparateChainingArray->enumeratorReference;
     
     size_t BucketCount = 0;
     switch ((Hint & CCDictionaryHintSizeMask))

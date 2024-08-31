@@ -40,7 +40,53 @@
 #define CommonC_HashMapSeparateChainingArray_h
 
 #include <CommonC/HashMapInterface.h>
+#include <CommonC/Array.h>
 
-extern const CCHashMapInterface * const CCHashMapSeparateChainingArray;
+typedef struct {
+    size_t count;
+    CCArray(CCArray) buckets;
+} CCHashMapSeparateChainingArrayInternal;
+
+extern const CCHashMapInterface CCHashMapSeparateChainingArrayInterface;
+
+#define CCHashMapSeparateChainingArray &CCHashMapSeparateChainingArrayInterface
+
+/*!
+ * @define CC_STATIC_HASH_MAP_SEPARATE_CHAINING_ARRAY
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCHashMapSeparateChainingArray.
+ *           for a CCHashMap internal.
+ *
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param count The key/value count.
+ * @param buckets The array of array of hash, key, value. May be NULL.
+ */
+#define CC_STATIC_HASH_MAP_SEPARATE_CHAINING_ARRAY(count, buckets) CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_CREATE(count, buckets)
+
+/*!
+ * @define CC_CONST_HASH_MAP_SEPARATE_CHAINING_ARRAY
+ * @abstract Convenient macro to create a temporary constant (allocation free) @b CCHashMapSeparateChainingArray.
+ *           for a CCHashMap internal.
+ *
+ * @discussion If used globally it will last for the life of the program, however if used within a function
+ *             it will last for the entirety of the local scope.
+ *
+ * @param count The key/value count.
+ * @param buckets The array of array of hash, key, value. May be NULL.
+ */
+#define CC_CONST_HASH_MAP_SEPARATE_CHAINING_ARRAY(count, buckets) CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_CREATE(count, buckets, const)
+
+#define CC_HASH_MAP_SEPARATE_CHAINING_ARRAY_CREATE(count_, buckets_, ...) \
+((CCHashMapSeparateChainingArrayInternal*)&(__VA_ARGS__ struct { \
+    CCAllocatorHeader header; \
+    CCHashMapSeparateChainingArrayInternal info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .count = count_, \
+        .buckets = buckets_ \
+    } \
+}.info)
 
 #endif
