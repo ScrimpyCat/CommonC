@@ -223,6 +223,7 @@ func(__VA_ARGS__, CCMatrix3); \
 func(__VA_ARGS__, CCMatrix4); \
 func(__VA_ARGS__, CCVector); \
 func(__VA_ARGS__, CCAllocatorType); \
+func(__VA_ARGS__, CCArray_uintmax_t); \
 CC_CUSTOM_TYPES(func, __VA_ARGS__);
 
 #define CC_TYPE_PRESETS_(func, ...) \
@@ -303,6 +304,7 @@ func(__VA_ARGS__, CCMatrix3); \
 func(__VA_ARGS__, CCMatrix4); \
 func(__VA_ARGS__, CCVector); \
 func(__VA_ARGS__, CCAllocatorType); \
+func(__VA_ARGS__, CCArray_uintmax_t); \
 CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 
 #define CC_INC(n) CC_INC_##n
