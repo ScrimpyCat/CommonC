@@ -134,6 +134,12 @@ static atomic_flag FSDefaultPathLock = ATOMIC_FLAG_INIT;
 
 FSPath FSPathDefault(void)
 {
+    static _Atomic(FSPath) InitialisedPath = NULL;
+    
+    FSPath Path = atomic_load_explicit(&InitialisedPath, memory_order_acquire);
+    
+    if (CC_LIKELY(Path)) return Path;
+    
     while (!atomic_flag_test_and_set_explicit(&FSDefaultPathLock, memory_order_acquire)) CC_SPIN_WAIT();
     
     if (!FSDefaultPath.info.components)
@@ -154,6 +160,8 @@ FSPath FSPathDefault(void)
         }
         
         FSPathGetFullPathString(&FSDefaultPath.info);
+        
+        atomic_store_explicit(&InitialisedPath, &FSDefaultPath.info, memory_order_release);
     }
         
     atomic_flag_clear_explicit(&FSDefaultPathLock, memory_order_release);
