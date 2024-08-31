@@ -340,6 +340,10 @@
 		F37A6E5B2C78C01500F97BC3 /* ReflectStream.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A6E582C78C01500F97BC3 /* ReflectStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37A6E5C2C78C01500F97BC3 /* ReflectStream.c in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E592C78C01500F97BC3 /* ReflectStream.c */; };
 		F37A6E5D2C78C01500F97BC3 /* ReflectStream.c in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E592C78C01500F97BC3 /* ReflectStream.c */; };
+		F37A6E5F2C7A474000F97BC3 /* FileSystem_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A6E5E2C7A474000F97BC3 /* FileSystem_Private.h */; };
+		F37A6E602C7A474000F97BC3 /* FileSystem_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F37A6E5E2C7A474000F97BC3 /* FileSystem_Private.h */; };
+		F37A6E622C7C8CDD00F97BC3 /* VirtualFileSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E612C7C8CDD00F97BC3 /* VirtualFileSystemTests.m */; };
+		F37A6E662C83458200F97BC3 /* VirtualFileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37A6E652C83458100F97BC3 /* VirtualFileHandleTests.m */; };
 		F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFA9E1A78D1A80037ECB2 /* Comparator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -651,6 +655,11 @@
 		F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentPoolTests.m; sourceTree = "<group>"; };
 		F37A6E582C78C01500F97BC3 /* ReflectStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReflectStream.h; sourceTree = "<group>"; };
 		F37A6E592C78C01500F97BC3 /* ReflectStream.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ReflectStream.c; sourceTree = "<group>"; };
+		F37A6E5E2C7A474000F97BC3 /* FileSystem_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem_Private.h; sourceTree = "<group>"; };
+		F37A6E612C7C8CDD00F97BC3 /* VirtualFileSystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VirtualFileSystemTests.m; sourceTree = "<group>"; };
+		F37A6E632C7C8CF500F97BC3 /* FileSystemTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystemTests.h; sourceTree = "<group>"; };
+		F37A6E642C83449E00F97BC3 /* FileHandleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileHandleTests.h; sourceTree = "<group>"; };
+		F37A6E652C83458100F97BC3 /* VirtualFileHandleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VirtualFileHandleTests.m; sourceTree = "<group>"; };
 		F37AFA9C1A76D0F70037ECB2 /* Enumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerator.h; sourceTree = "<group>"; };
 		F37AFA9E1A78D1A80037ECB2 /* Comparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comparator.h; sourceTree = "<group>"; };
 		F37AFAA01A78EA940037ECB2 /* CollectionEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionEnumerator.h; sourceTree = "<group>"; };
@@ -1343,8 +1352,12 @@
 			children = (
 				F33AAE302B5C58F600448987 /* ReflectTests.m */,
 				F3897D5D1DD1E743008D6C1D /* PathTests.m */,
+				F37A6E642C83449E00F97BC3 /* FileHandleTests.h */,
 				F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */,
+				F37A6E652C83458100F97BC3 /* VirtualFileHandleTests.m */,
+				F37A6E632C7C8CF500F97BC3 /* FileSystemTests.h */,
 				F39778FC1DCA158E006E24B7 /* FileSystemTests.m */,
+				F37A6E612C7C8CDD00F97BC3 /* VirtualFileSystemTests.m */,
 				F3E7460A1DC6239800F1F268 /* TaskQueueTests.m */,
 				F3E878F01DC49FE100C34838 /* TaskTests.m */,
 				F33427491DB62A32008CB998 /* QueueTests.m */,
@@ -1453,6 +1466,7 @@
 		F3BD17C51C02E2D300B3849E /* File System */ = {
 			isa = PBXGroup;
 			children = (
+				F37A6E5E2C7A474000F97BC3 /* FileSystem_Private.h */,
 				F3BD17C21C02E15F00B3849E /* FileSystem.h */,
 				F3BD17C11C02E15F00B3849E /* FileSystem.c */,
 				F322F05B1C09550100BAA44E /* PathComponent.h */,
@@ -1535,6 +1549,7 @@
 				F30437DD1C62E14D00388C74 /* Vector2D.h in Headers */,
 				F30437C21C62E0B200388C74 /* DataInterface.h in Headers */,
 				F30437CE1C62E0EC00388C74 /* CollectionTypes.h in Headers */,
+				F37A6E602C7A474000F97BC3 /* FileSystem_Private.h in Headers */,
 				F30437D81C62E12700388C74 /* BitTricks.h in Headers */,
 				F30437ED1C62E1C800388C74 /* FileHandle.h in Headers */,
 				F30437DC1C62E14700388C74 /* Vector.h in Headers */,
@@ -1655,6 +1670,7 @@
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
 				F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */,
 				F37A31E028F2FD67007B4209 /* ConcurrentPool.h in Headers */,
+				F37A6E5F2C7A474000F97BC3 /* FileSystem_Private.h in Headers */,
 				F39C5F4D252315C300D80F0D /* Template.h in Headers */,
 				F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */,
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
@@ -2067,6 +2083,7 @@
 				F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */,
 				F33AAE312B5C58F600448987 /* ReflectTests.m in Sources */,
 				F3E3E099187A5AED00A38E72 /* Vector2DSSE3Tests.m in Sources */,
+				F37A6E662C83458200F97BC3 /* VirtualFileHandleTests.m in Sources */,
 				F3E3E097187A5AE300A38E72 /* Vector2DSSE2Tests.m in Sources */,
 				F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */,
 				F39400212341304B00EE826D /* EnumerableTests.m in Sources */,
@@ -2084,6 +2101,7 @@
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
 				F3BC6A2D18776CAE00934291 /* Vectorized2DSSE2Tests.m in Sources */,
+				F37A6E622C7C8CDD00F97BC3 /* VirtualFileSystemTests.m in Sources */,
 				F36D62FF1D13433700D3827A /* DictionaryTests.m in Sources */,
 				F3143AA11A8A8B19004EB810 /* CollectionListTests.m in Sources */,
 				F3BC6A241877637800934291 /* Vector3DTests.m in Sources */,

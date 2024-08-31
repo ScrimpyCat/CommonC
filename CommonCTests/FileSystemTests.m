@@ -23,15 +23,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
+#import "FileSystemTests.h"
 #import "FileSystem.h"
 #import "Path.h"
 #import "FileHandle.h"
 #import "TypeCallbacks.h"
-
-@interface FileSystemTests : XCTestCase
-
-@end
 
 @implementation FileSystemTests
 {
@@ -87,13 +83,67 @@
     XCTAssertTrue(FSManagerExists(File), @"File should exist");
     
     FSPathDestroy(File);
+    
+    
+    File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "foo"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Intermediate directories already exist");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathDestroy(File);
+    
+    
+    File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "456"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "789"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "next"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "bar"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Intermediate directories already exist");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathDestroy(File);
+    
+    
+    File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "foo"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathDestroy(File);
+    
+    
+    File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "bar"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathDestroy(File);
 }
 
 -(void) testRemoval
 {
-    FSPath File = FSPathCopy(testFolder);
-    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
-    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    FSPath Folder = FSPathCopy(testFolder);
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    
+    FSPath File = FSPathCopy(Folder);
     FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "test"));
     FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
     
@@ -105,7 +155,7 @@
     
     XCTAssertEqual(FSManagerRemove(File), FSOperationSuccess, @"Should remove the file");
     XCTAssertFalse(FSManagerExists(File), @"File should no longer exist");
-
+    XCTAssertTrue(FSManagerExists(Folder), @"Folder should exist");
     
     FSPathDestroy(File);
     
@@ -120,8 +170,59 @@
     
     XCTAssertEqual(FSManagerRemove(testFolder), FSOperationSuccess, @"Should remove all files/directories");
     XCTAssertFalse(FSManagerExists(File), @"File should no longer exist");
+    XCTAssertFalse(FSManagerExists(Folder), @"Folder should no longer exist");
+
+    XCTAssertNotEqual(FSManagerCreate(File, FALSE), FSOperationSuccess, @"Intermediate directories should not exist");
+    XCTAssertEqual(FSManagerCreate(File, TRUE), FSOperationSuccess, @"Should create file");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    
+    XCTAssertEqual(FSManagerRemove(Folder), FSOperationSuccess, @"Should remove all files/directories");
+    XCTAssertFalse(FSManagerExists(File), @"File should no longer exist");
     
     FSPathDestroy(File);
+    FSPathDestroy(Folder);
+    
+    
+    File = FSPathCopy(testFolder);
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeFile, "foo"));
+    FSPathAppendComponent(File, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(File, TRUE), FSOperationSuccess, @"Should create file");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    
+    FSPath OtherFile = FSPathCopy(testFolder);
+    FSPathAppendComponent(OtherFile, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(OtherFile, FSPathComponentCreate(FSPathComponentTypeFile, "bar"));
+    FSPathAppendComponent(OtherFile, FSPathComponentCreate(FSPathComponentTypeExtension, "txt"));
+    
+    XCTAssertEqual(FSManagerCreate(OtherFile, FALSE), FSOperationSuccess, @"Intermediate directories already exist");
+    XCTAssertTrue(FSManagerExists(OtherFile), @"File should exist");
+    
+    
+    Folder = FSPathCopy(testFolder);
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "example"));
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "123"));
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "456"));
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeDirectory, "789"));
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    
+    XCTAssertEqual(FSManagerRemove(Folder), FSOperationSuccess, @"Path should not exist");
+    XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    XCTAssertTrue(FSManagerExists(OtherFile), @"File should exist");
+    
+    FSPathAppendComponent(Folder, FSPathComponentCreate(FSPathComponentTypeRelativeParentDirectory, NULL));
+    
+    XCTAssertEqual(FSManagerRemove(Folder), FSOperationSuccess, @"Path should not exist");
+    XCTAssertFalse(FSManagerExists(File), @"File should exist");
+    XCTAssertTrue(FSManagerExists(OtherFile), @"File should exist");
+    
+    
+    FSPathDestroy(File);
+    FSPathDestroy(OtherFile);
 }
 
 -(void) testMoving
@@ -191,9 +292,11 @@
     
     XCTAssertEqual(FSManagerCreate(File, TRUE), FSOperationSuccess, @"Intermediate directories should be created as well");
     XCTAssertTrue(FSManagerExists(File), @"File should exist");
+    XCTAssertFalse(FSManagerExists(Destination), @"File should not exist");
     
     XCTAssertNotEqual(FSManagerCopy(File, Destination), FSOperationSuccess, @"Should not move file due to destination not existing");
     XCTAssertTrue(FSManagerExists(File), @"File should still exist");
+    XCTAssertFalse(FSManagerExists(Destination), @"File should not exist");
     
     FSPath Folder = FSPathCopy(Destination);
     FSPathRemoveComponentLast(Folder);
