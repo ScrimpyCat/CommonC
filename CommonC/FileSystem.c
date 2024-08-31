@@ -513,6 +513,7 @@ static inline CCDictionary FSManagerVirtualCreateDir(void)
 FSVirtualNode FSVirtualRoot = {
     .parent = NULL,
     .name = 0,
+    .mode = FSAccessReadable | FSAccessWritable | FSAccessExecutable | FSAccessDeletable,
     .isDir = TRUE,
     .nodes = CC_STATIC_DICTIONARY(CCDictionaryHintSizeMedium | CCDictionaryHintHeavyFinding | CCDictionaryHintHeavyInserting, sizeof(CCString), sizeof(FSVirtualNode*), CCStringDestructorForDictionary, (CCDictionaryElementDestructor)FSManagerVirtualNodeElementDestructor, CCStringHasherForDictionary, CCStringComparatorForDictionary)
 };
