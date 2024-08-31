@@ -29,54 +29,94 @@
 #include <CommonC/Collection.h>
 #include <CommonC/Dictionary.h>
 
+#include <CommonC/CCString.h>
+#include <CommonC/Data.h>
+#include <CommonC/Array.h>
+#include <CommonC/LinkedList.h>
+#include <CommonC/List.h>
+#include <CommonC/HashMap.h>
+#include <CommonC/Queue.h>
+#include <CommonC/PathComponent.h>
+#include <CommonC/Path.h>
+#include <CommonC/FileHandle.h>
+#include <CommonC/BigInt.h>
+#include <CommonC/BigIntFast.h>
+
+
+void CCGenericContainerElementDestructor(void *Container, void **Element);
+void CCStringContainerElementDestructor(void *Container, CCString *Element);
+void CCDataContainerElementDestructor(void *Container, CCData *Element);
+void CCArrayContainerElementDestructor(void *Container, CCArray *Element);
+void CCLinkedListContainerElementDestructor(void *Container, CCLinkedList *Element);
+void CCListContainerElementDestructor(void *Container, CCList *Element);
+void CCCollectionContainerElementDestructor(void *Container, CCCollection *Element);
+void CCHashMapContainerElementDestructor(void *Container, CCHashMap *Element);
+void CCDictionaryContainerElementDestructor(void *Container, CCDictionary *Element);
+void CCQueueContainerElementDestructor(void *Container, CCQueue *Element);
+void FSPathComponentContainerElementDestructor(void *Container, FSPathComponent *Element);
+void FSPathContainerElementDestructor(void *Container, FSPath *Element);
+void FSHandleContainerElementDestructor(void *Container, FSHandle *Element);
+void CCBigIntContainerElementDestructor(void *Container, CCBigInt *Element);
+void CCBigIntFastContainerElementDestructor(void *Container, CCBigIntFast *Element);
+
+uintmax_t CCStringHasher(CCString *Key);
+uintmax_t CCBigIntHasher(CCBigInt *Key);
+uintmax_t CCBigIntFastHasher(CCBigIntFast *Key);
+uintmax_t CCBigIntLowHasher(CCBigInt *Key);
+uintmax_t CCBigIntFastLowHasher(CCBigIntFast *Key);
+
+CCComparisonResult CCStringComparator(CCString *Left, CCString *Right);
+CCComparisonResult CCBigIntComparator(CCBigInt *Left, CCBigInt *Right);
+CCComparisonResult CCBigIntFastComparator(CCBigIntFast *Left, CCBigIntFast *Right);
+
 #pragma mark - Collection Callbacks
 
-extern const CCCollectionElementDestructor CCGenericDestructorForCollection;
-extern const CCCollectionElementDestructor CCStringDestructorForCollection;
-extern const CCCollectionElementDestructor CCDataDestructorForCollection;
-extern const CCCollectionElementDestructor CCArrayDestructorForCollection;
-extern const CCCollectionElementDestructor CCLinkedListDestructorForCollection;
-extern const CCCollectionElementDestructor CCListDestructorForCollection;
-extern const CCCollectionElementDestructor CCCollectionDestructorForCollection;
-extern const CCCollectionElementDestructor CCHashMapDestructorForCollection;
-extern const CCCollectionElementDestructor CCDictionaryDestructorForCollection;
-extern const CCCollectionElementDestructor CCQueueDestructorForCollection;
-extern const CCCollectionElementDestructor FSPathComponentDestructorForCollection;
-extern const CCCollectionElementDestructor FSPathDestructorForCollection;
-extern const CCCollectionElementDestructor FSHandleDestructorForCollection;
-extern const CCCollectionElementDestructor CCBigIntDestructorForCollection;
-extern const CCCollectionElementDestructor CCBigIntFastDestructorForCollection;
+#define CCGenericDestructorForCollection (CCCollectionElementDestructor)CCGenericContainerElementDestructor
+#define CCStringDestructorForCollection (CCCollectionElementDestructor)CCStringContainerElementDestructor
+#define CCDataDestructorForCollection (CCCollectionElementDestructor)CCDataContainerElementDestructor
+#define CCArrayDestructorForCollection (CCCollectionElementDestructor)CCArrayContainerElementDestructor
+#define CCLinkedListDestructorForCollection (CCCollectionElementDestructor)CCLinkedListContainerElementDestructor
+#define CCListDestructorForCollection (CCCollectionElementDestructor)CCListContainerElementDestructor
+#define CCCollectionDestructorForCollection (CCCollectionElementDestructor)CCCollectionContainerElementDestructor
+#define CCHashMapDestructorForCollection (CCCollectionElementDestructor)CCHashMapContainerElementDestructor
+#define CCDictionaryDestructorForCollection (CCCollectionElementDestructor)CCDictionaryContainerElementDestructor
+#define CCQueueDestructorForCollection (CCCollectionElementDestructor)CCQueueContainerElementDestructor
+#define FSPathComponentDestructorForCollection (CCCollectionElementDestructor)FSPathComponentContainerElementDestructor
+#define FSPathDestructorForCollection (CCCollectionElementDestructor)FSPathContainerElementDestructor
+#define FSHandleDestructorForCollection (CCCollectionElementDestructor)FSHandleContainerElementDestructor
+#define CCBigIntDestructorForCollection (CCCollectionElementDestructor)CCBigIntContainerElementDestructor
+#define CCBigIntFastDestructorForCollection (CCCollectionElementDestructor)CCBigIntFastContainerElementDestructor
 
-extern const CCComparator CCStringComparatorForCollection;
-extern const CCComparator CCBigIntComparatorForCollection;
-extern const CCComparator CCBigIntFastComparatorForCollection;
+#define CCStringComparatorForCollection (CCComparator)CCStringComparator
+#define CCBigIntComparatorForCollection (CCComparator)CCBigIntComparator
+#define CCBigIntFastComparatorForCollection (CCComparator)CCBigIntFastComparator
 
 #pragma mark - Dictionary Callbacks
 
-extern const CCDictionaryElementDestructor CCGenericDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCStringDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCDataDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCArrayDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCLinkedListDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCListDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCCollectionDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCHashMapDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCDictionaryDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCQueueDestructorForDictionary;
-extern const CCDictionaryElementDestructor FSPathComponentDestructorForDictionary;
-extern const CCDictionaryElementDestructor FSPathDestructorForDictionary;
-extern const CCDictionaryElementDestructor FSHandleDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCBigIntDestructorForDictionary;
-extern const CCDictionaryElementDestructor CCBigIntFastDestructorForDictionary;
+#define CCGenericDestructorForDictionary (CCDictionaryElementDestructor)CCGenericContainerElementDestructor
+#define CCStringDestructorForDictionary (CCDictionaryElementDestructor)CCStringContainerElementDestructor
+#define CCDataDestructorForDictionary (CCDictionaryElementDestructor)CCDataContainerElementDestructor
+#define CCArrayDestructorForDictionary (CCDictionaryElementDestructor)CCArrayContainerElementDestructor
+#define CCLinkedListDestructorForDictionary (CCDictionaryElementDestructor)CCLinkedListContainerElementDestructor
+#define CCListDestructorForDictionary (CCDictionaryElementDestructor)CCListContainerElementDestructor
+#define CCCollectionDestructorForDictionary (CCDictionaryElementDestructor)CCCollectionContainerElementDestructor
+#define CCHashMapDestructorForDictionary (CCDictionaryElementDestructor)CCHashMapContainerElementDestructor
+#define CCDictionaryDestructorForDictionary (CCDictionaryElementDestructor)CCDictionaryContainerElementDestructor
+#define CCQueueDestructorForDictionary (CCDictionaryElementDestructor)CCQueueContainerElementDestructor
+#define FSPathComponentDestructorForDictionary (CCDictionaryElementDestructor)FSPathComponentContainerElementDestructor
+#define FSPathDestructorForDictionary (CCDictionaryElementDestructor)FSPathContainerElementDestructor
+#define FSHandleDestructorForDictionary (CCDictionaryElementDestructor)FSHandleContainerElementDestructor
+#define CCBigIntDestructorForDictionary (CCDictionaryElementDestructor)CCBigIntContainerElementDestructor
+#define CCBigIntFastDestructorForDictionary (CCDictionaryElementDestructor)CCBigIntFastContainerElementDestructor
 
-extern const CCDictionaryKeyHasher CCStringHasherForDictionary;
-extern const CCDictionaryKeyHasher CCBigIntHasherForDictionary;
-extern const CCDictionaryKeyHasher CCBigIntFastHasherForDictionary;
-extern const CCDictionaryKeyHasher CCBigIntLowHasherForDictionary;
-extern const CCDictionaryKeyHasher CCBigIntFastLowHasherForDictionary;
+#define CCStringHasherForDictionary (CCDictionaryKeyHasher)CCStringHasher
+#define CCBigIntHasherForDictionary (CCDictionaryKeyHasher)CCBigIntHasher
+#define CCBigIntFastHasherForDictionary (CCDictionaryKeyHasher)CCBigIntFastHasher
+#define CCBigIntLowHasherForDictionary (CCDictionaryKeyHasher)CCBigIntLowHasher
+#define CCBigIntFastLowHasherForDictionary (CCDictionaryKeyHasher)CCBigIntFastLowHasher
 
-extern const CCComparator CCStringComparatorForDictionary;
-extern const CCComparator CCBigIntComparatorForDictionary;
-extern const CCComparator CCBigIntFastComparatorForDictionary;
+#define CCStringComparatorForDictionary (CCComparator)CCStringComparator
+#define CCBigIntComparatorForDictionary (CCComparator)CCBigIntComparator
+#define CCBigIntFastComparatorForDictionary (CCComparator)CCBigIntFastComparator
 
 #endif
