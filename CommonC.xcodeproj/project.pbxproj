@@ -358,6 +358,10 @@
 		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
 		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3897D5E1DD1E743008D6C1D /* PathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3897D5D1DD1E743008D6C1D /* PathTests.m */; };
+		F38E7ADB2CA1022600F44918 /* CircularEnumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E7AD92CA1022600F44918 /* CircularEnumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F38E7ADC2CA1022600F44918 /* CircularEnumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E7AD92CA1022600F44918 /* CircularEnumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F38E7ADD2CA1022600F44918 /* CircularEnumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */; };
+		F38E7ADE2CA1022600F44918 /* CircularEnumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */; };
 		F394001D2340E39B00EE826D /* Enumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F394001C2340E39B00EE826D /* Enumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F394001F23410ECC00EE826D /* Enumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F394001E23410ECC00EE826D /* Enumerable.c */; };
 		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
@@ -673,6 +677,8 @@
 		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
 		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3897D5D1DD1E743008D6C1D /* PathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathTests.m; sourceTree = "<group>"; };
+		F38E7AD92CA1022600F44918 /* CircularEnumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularEnumerable.h; sourceTree = "<group>"; };
+		F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CircularEnumerable.c; sourceTree = "<group>"; };
 		F394001C2340E39B00EE826D /* Enumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerable.h; sourceTree = "<group>"; };
 		F394001E23410ECC00EE826D /* Enumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Enumerable.c; sourceTree = "<group>"; };
 		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
@@ -1327,6 +1333,8 @@
 			children = (
 				F394001C2340E39B00EE826D /* Enumerable.h */,
 				F394001E23410ECC00EE826D /* Enumerable.c */,
+				F38E7AD92CA1022600F44918 /* CircularEnumerable.h */,
+				F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */,
 				F3ED7E882B404B5E00E66F8C /* Reflection */,
 				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
@@ -1621,6 +1629,7 @@
 				F30D804623A6979C0011A14D /* BigInt.h in Headers */,
 				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
 				F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */,
+				F38E7ADC2CA1022600F44918 /* CircularEnumerable.h in Headers */,
 				F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */,
 				F328727F21E881BC00B1A584 /* ConcurrentTree.h in Headers */,
 				F3364FC825C40D0E002B2378 /* Memory.h in Headers */,
@@ -1742,6 +1751,7 @@
 				F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */,
 				F3067B791C591AA800766814 /* Vector4D.h in Headers */,
 				F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */,
+				F38E7ADB2CA1022600F44918 /* CircularEnumerable.h in Headers */,
 				F318D9301C4DD829005AE64E /* Matrix4.h in Headers */,
 				F358D5FC1C0AA6C400FC10F1 /* FileHandle.h in Headers */,
 				F394001D2340E39B00EE826D /* Enumerable.h in Headers */,
@@ -1947,6 +1957,7 @@
 				F36F83061D0FE3BD00193B08 /* HashMapSeparateChainingArray.c in Sources */,
 				F32E091C2BB8969500383480 /* ReflectedTypes.c in Sources */,
 				F30437E31C62E18600388C74 /* File.c in Sources */,
+				F38E7ADE2CA1022600F44918 /* CircularEnumerable.c in Sources */,
 				F35767E823FDD4F900CEB76F /* Random.c in Sources */,
 				F30437E51C62E19B00388C74 /* ProcessInfo.c in Sources */,
 				F30437E71C62E1AE00388C74 /* FileSystem.c in Sources */,
@@ -2023,6 +2034,7 @@
 				F32E091B2BB8969500383480 /* ReflectedTypes.c in Sources */,
 				F3E746081DC6079400F1F268 /* TaskQueue.c in Sources */,
 				F3AE99331A6D0FFF00212838 /* LinkedList.c in Sources */,
+				F38E7ADD2CA1022600F44918 /* CircularEnumerable.c in Sources */,
 				F342052B1D1C43E900BE2E13 /* CollectionFastArray.c in Sources */,
 				F359D0291C1456D60028B86B /* Hash.c in Sources */,
 				F359D01E1C12B13E0028B86B /* Data.c in Sources */,

@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Enumerable.h"
+#import "CircularEnumerable.h"
 #import "Collection.h"
 
 @interface EnumerableTests : XCTestCase
@@ -68,6 +69,163 @@
     XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
     
     XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+}
+
+-(void) testCircularEnumerable
+{
+    int Data[] = { 1, 2, 3, 4, 5 };
+    CCEnumerable Enumerable = CCCircularEnumerableCreate(Data, sizeof(int), 5, 0, 5);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 3, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 4, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 3, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 2, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    
+    Data[0] = 5;
+    Data[1] = 1;
+    Data[2] = 2;
+    Data[3] = 3;
+    Data[4] = 4;
+    
+    Enumerable = CCCircularEnumerableCreate(Data, sizeof(int), 5, 1, 5);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 3, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 4, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 3, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 2, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    
+    Data[0] = 2;
+    Data[1] = 3;
+    Data[2] = 4;
+    Data[3] = 5;
+    Data[4] = 1;
+    
+    Enumerable = CCCircularEnumerableCreate(Data, sizeof(int), 5, 4, 5);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 3, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 4, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 2, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 1, @"Should be set to the head");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 3, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Should get the current value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 2, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 1, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 5, @"Should be set to the tail");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    
+    Data[0] = 1;
+    Data[1] = 2;
+    Data[2] = 3;
+    Data[3] = 4;
+    Data[4] = 5;
+    
+    Enumerable = CCCircularEnumerableCreate(Data, sizeof(int), 3, 3, 5);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 4, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 1, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Should get the current value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 4, @"Should be set to the head");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Should get the next value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetHead(&Enumerable), 4, @"Should be set to the head");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 1, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 5, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 4, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 4, @"Should get the current value");
+    XCTAssertEqual(CCEnumerablePrevious(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 1, @"Should be set to the tail");
+    XCTAssertEqual(*(int*)CCEnumerablePrevious(&Enumerable), 5, @"Should get the previous value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 1, @"Should get the next value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetTail(&Enumerable), 1, @"Should be set to the tail");
     XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Should be at the end");
 }
 

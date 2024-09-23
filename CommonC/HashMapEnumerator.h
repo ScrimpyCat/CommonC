@@ -199,6 +199,9 @@ static CC_FORCE_INLINE void *CCHashMapEnumeratorGetCurrent(CCEnumerator *Enumera
             
         case CCEnumeratorFormatBatch:
             return Enumerator->state.batch.count ? Enumerator->state.batch.ptr + (Enumerator->state.batch.index * Enumerator->state.batch.stride) : NULL;
+            
+        case CCEnumeratorFormatCircular:
+            return Enumerator->state.circular.count ? Enumerator->state.circular.ptr + ((Enumerator->state.circular.index % Enumerator->state.circular.max) * Enumerator->state.circular.stride) : NULL;
     }
     
     return NULL;
@@ -228,6 +231,11 @@ static CC_FORCE_INLINE void *CCHashMapEnumeratorNext(CCEnumerator *Enumerator)
             else if (Enumerator->state.batch.index + 1 < Enumerator->state.batch.count) return Enumerator->state.batch.ptr + (++Enumerator->state.batch.index * Enumerator->state.batch.stride);
             break;
             
+        case CCEnumeratorFormatCircular:
+            if (Enumerator->state.circular.count == 0) return NULL;
+            else if ((Enumerator->state.circular.index + 1) < (Enumerator->state.circular.count + Enumerator->state.circular.start)) return Enumerator->state.circular.ptr + ((++Enumerator->state.circular.index % Enumerator->state.circular.max) * Enumerator->state.circular.stride);
+            break;
+            
         default:
             break;
     }
@@ -247,6 +255,11 @@ static CC_FORCE_INLINE void *CCHashMapEnumeratorPrevious(CCEnumerator *Enumerato
         case CCEnumeratorFormatBatch:
             if (Enumerator->state.batch.count == 0) return NULL;
             else if (Enumerator->state.batch.index > 0) return Enumerator->state.batch.ptr + (--Enumerator->state.batch.index * Enumerator->state.batch.stride);
+            break;
+            
+        case CCEnumeratorFormatCircular:
+            if (Enumerator->state.circular.count == 0) return NULL;
+            else if (Enumerator->state.circular.index > Enumerator->state.circular.start) return Enumerator->state.circular.ptr + ((--Enumerator->state.circular.index % Enumerator->state.circular.max) * Enumerator->state.circular.stride);
             break;
             
         default:

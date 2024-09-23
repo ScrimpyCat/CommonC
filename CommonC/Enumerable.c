@@ -26,7 +26,7 @@
 #define CC_QUICK_COMPILE
 #include "Enumerable.h"
 
-static void *CCEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+void *CCEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
 {
     switch (Action)
     {
@@ -43,23 +43,4 @@ static void *CCEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Ac
     }
     
     return NULL;
-}
-
-CCEnumerable CCEnumerableCreate(void *Ptr, size_t Stride, size_t Count)
-{
-    return (CCEnumerable){
-        .handler = CCEnumerableHandler,
-        .enumerator = {
-            .ref = Ptr,
-            .state = {
-                .batch = {
-                    .ptr = Ptr,
-                    .count = Count,
-                    .stride = Stride,
-                    .index = 0
-                },
-                .type = CCEnumeratorFormatBatch
-            }
-        }
-    };
 }

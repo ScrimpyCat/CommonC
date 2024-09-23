@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, Stefan Johnson
+ *  Copyright (c) 2024, Stefan Johnson
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without modification,
@@ -23,48 +23,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CommonC_Enumerator_h
-#define CommonC_Enumerator_h
+#include "CircularEnumerable.h"
 
-#include <CommonC/Base.h>
-#include <CommonC/Extensions.h>
-
-typedef CC_EXTENSIBLE_FLAG_ENUM(CCEnumeratorFormat, uint32_t) {
-    CCEnumeratorFormatMask = 3,
-    CCEnumeratorFormatInternal = 0,
-    CCEnumeratorFormatFixedBatch,
-    CCEnumeratorFormatBatch,
-    CCEnumeratorFormatCircular
-};
-
-typedef struct {
-    union {
-        struct {
-            void *ptr;
-            uintptr_t extra[5];
-        } internal;
-        struct {
-            void *ptr[4];
-            size_t count, index;
-        } fixedBatch;
-        struct {
-            void *ptr;
-            size_t count, stride, index;
-            uintptr_t extra[2];
-        } batch;
-        struct {
-            void *ptr;
-            size_t count, stride, index;
-            size_t max, start;
-        } circular;
-    };
-    CCEnumeratorFormat type; //Bits not covered by CCEnumeratorFormatMask may be used to store extra information.
-} CCEnumeratorState;
-
-typedef struct {
-    void *ref;
-    uint32_t option;
-    CCEnumeratorState state;
-} CCEnumerator;
-
-#endif
+void *CCCircularEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action)
+{
+    switch (Action)
+    {
+        case CCEnumerableActionHead:
+            Enumerator->state.circular.index = Enumerator->state.circular.start;
+            return Enumerator->state.circular.count ? (Enumerator->state.circular.ptr + ((Enumerator->state.circular.index % Enumerator->state.circular.max) * Enumerator->state.circular.stride)) : NULL;
+            
+        case CCEnumerableActionTail:
+            Enumerator->state.circular.index = (Enumerator->state.circular.count - 1) + Enumerator->state.circular.start;
+            return Enumerator->state.circular.count ? (Enumerator->state.circular.ptr + ((Enumerator->state.circular.index % Enumerator->state.circular.max) * Enumerator->state.circular.stride)) : NULL;
+            
+        default:
+            break;
+    }
+    
+    return NULL;
+}

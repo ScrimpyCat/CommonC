@@ -71,7 +71,7 @@ typedef struct CCEnumerable {
  * @param Count The number of values.
  * @return The enumerable.
  */
-CCEnumerable CCEnumerableCreate(void *Ptr, size_t Stride, size_t Count);
+static CC_FORCE_INLINE CCEnumerable CCEnumerableCreate(void *Ptr, size_t Stride, size_t Count);
 
 /*!
  * @brief Get the current value in the enumerable.
@@ -115,7 +115,28 @@ static CC_FORCE_INLINE void *CCEnumerableNext(CCEnumerable *Enumerable);
 static CC_FORCE_INLINE void *CCEnumerablePrevious(CCEnumerable *Enumerable);
 
 
+void *CCEnumerableHandler(CCEnumerator *Enumerator, CCEnumerableAction Action);
+
 #pragma mark -
+
+static CC_FORCE_INLINE CCEnumerable CCEnumerableCreate(void *Ptr, size_t Stride, size_t Count)
+{
+    return (CCEnumerable){
+        .handler = CCEnumerableHandler,
+        .enumerator = {
+            .ref = Ptr,
+            .state = {
+                .batch = {
+                    .ptr = Ptr,
+                    .count = Count,
+                    .stride = Stride,
+                    .index = 0
+                },
+                .type = CCEnumeratorFormatBatch
+            }
+        }
+    };
+}
 
 static CC_FORCE_INLINE void *CCEnumerableGetCurrent(CCEnumerable *Enumerable)
 {
@@ -129,6 +150,9 @@ static CC_FORCE_INLINE void *CCEnumerableGetCurrent(CCEnumerable *Enumerable)
             
         case CCEnumeratorFormatBatch:
             return Enumerable->enumerator.state.batch.count ? Enumerable->enumerator.state.batch.ptr + (Enumerable->enumerator.state.batch.index * Enumerable->enumerator.state.batch.stride) : NULL;
+            
+        case CCEnumeratorFormatCircular:
+            return Enumerable->enumerator.state.circular.count ? Enumerable->enumerator.state.circular.ptr + ((Enumerable->enumerator.state.circular.index % Enumerable->enumerator.state.circular.max) * Enumerable->enumerator.state.circular.stride) : NULL;
     }
     
     return NULL;
@@ -158,6 +182,11 @@ static CC_FORCE_INLINE void *CCEnumerableNext(CCEnumerable *Enumerable)
             else if (Enumerable->enumerator.state.batch.index + 1 < Enumerable->enumerator.state.batch.count) return Enumerable->enumerator.state.batch.ptr + (++Enumerable->enumerator.state.batch.index * Enumerable->enumerator.state.batch.stride);
             break;
             
+        case CCEnumeratorFormatCircular:
+            if (Enumerable->enumerator.state.circular.count == 0) return NULL;
+            else if ((Enumerable->enumerator.state.circular.index + 1) < (Enumerable->enumerator.state.circular.count + Enumerable->enumerator.state.circular.start)) return Enumerable->enumerator.state.circular.ptr + ((++Enumerable->enumerator.state.circular.index % Enumerable->enumerator.state.circular.max) * Enumerable->enumerator.state.circular.stride);
+            break;
+            
         default:
             break;
     }
@@ -177,6 +206,11 @@ static CC_FORCE_INLINE void *CCEnumerablePrevious(CCEnumerable *Enumerable)
         case CCEnumeratorFormatBatch:
             if (Enumerable->enumerator.state.batch.count == 0) return NULL;
             else if (Enumerable->enumerator.state.batch.index > 0) return Enumerable->enumerator.state.batch.ptr + (--Enumerable->enumerator.state.batch.index * Enumerable->enumerator.state.batch.stride);
+            break;
+            
+        case CCEnumeratorFormatCircular:
+            if (Enumerable->enumerator.state.circular.count == 0) return NULL;
+            else if (Enumerable->enumerator.state.circular.index > Enumerable->enumerator.state.circular.start) return Enumerable->enumerator.state.circular.ptr + ((--Enumerable->enumerator.state.circular.index % Enumerable->enumerator.state.circular.max) * Enumerable->enumerator.state.circular.stride);
             break;
             
         default:
