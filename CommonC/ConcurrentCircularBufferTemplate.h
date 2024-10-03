@@ -42,8 +42,8 @@
 
 #define CCConcurrentCircularBufferGetEnumerable_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferGetEnumerable, void, PTYPE(t *), PTYPE(CCEnumerable *))
 #define CCConcurrentCircularBufferRelease_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferRelease, void, PTYPE(t *), PTYPE(CCEnumerable *))
-#define CCConcurrentCircularBufferAddItem_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItem, _Bool, PTYPE(t *), PTYPE(void *))
-#define CCConcurrentCircularBufferAddItems_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItems, size_t, PTYPE(t *), PTYPE(void *), size_t)
+#define CCConcurrentCircularBufferAddItem_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItem, _Bool, PTYPE(t *), const PTYPE(void *))
+#define CCConcurrentCircularBufferAddItems_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItems, size_t, PTYPE(t *), const PTYPE(void *), size_t)
 
 #undef CCConcurrentCircularBuffer
 
@@ -70,7 +70,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentCircularBufferRelease, (PTY
  * @return Whether the item was successfully addded (TRUE), or not (FALSE). If it was not, it means that the buffer is
  *         currently full.
  */
-CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PTYPE(T *) Buffer, PTYPE(void *) Item));
+CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PTYPE(T *) Buffer, const PTYPE(void *) Item));
 
 /*!
  * @brief Add items to the circular buffer.
@@ -79,7 +79,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PT
  * @param Count The number of items to be added.
  * @return The number of items successfully added. If some items were not added it means that the buffer is currently full.
  */
-CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferAddItems, (PTYPE(T *) Buffer, PTYPE(void *) Items, size_t Count));
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferAddItems, (PTYPE(T *) Buffer, const PTYPE(void *) Items, size_t Count));
 
 #pragma mark -
 
@@ -101,7 +101,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentCircularBufferRelease, (PTY
     atomic_store_explicit(&Buffer->head,  (Enumerable->enumerator.state.circular.start + Enumerable->enumerator.state.circular.count) % Tmax, memory_order_relaxed);
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PTYPE(T *) Buffer, PTYPE(void *) Item))
+CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PTYPE(T *) Buffer, const PTYPE(void *) Item))
 {
     const size_t Head = atomic_load_explicit(&Buffer->head, memory_order_relaxed);
     const size_t Tail = atomic_load_explicit(&Buffer->tail, memory_order_relaxed);
@@ -119,7 +119,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PT
     return FALSE;
 }
 
-CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferAddItems, (PTYPE(T *) Buffer, PTYPE(void *) Items, size_t Count))
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferAddItems, (PTYPE(T *) Buffer, const PTYPE(void *) Items, size_t Count))
 {
     const size_t Head = atomic_load_explicit(&Buffer->head, memory_order_relaxed);
     size_t Tail = atomic_load_explicit(&Buffer->tail, memory_order_relaxed);
