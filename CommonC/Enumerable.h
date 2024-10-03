@@ -220,5 +220,44 @@ static CC_FORCE_INLINE void *CCEnumerablePrevious(CCEnumerable *Enumerable)
     return Enumerable->handler(&Enumerable->enumerator, CCEnumerableActionPrevious);
 }
 
+#pragma mark - Template Type
+
+#define CC_TYPE_CCEnumerable(...) CCEnumerable
+#define CC_TYPE_0_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_1_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_2_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_3_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_4_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_5_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_6_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_7_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_8_CCEnumerable CC_TYPE_CCEnumerable,
+#define CC_TYPE_9_CCEnumerable CC_TYPE_CCEnumerable,
+
+#define CC_PRESERVE_CC_TYPE_CCEnumerable CC_TYPE_CCEnumerable
+
+#define CC_TYPE_DECL_CCEnumerable(...) CCEnumerable, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_1_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_2_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_3_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_4_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_5_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_6_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_7_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_8_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+#define CC_TYPE_DECL_9_CCEnumerable CC_TYPE_DECL_CCEnumerable,
+
+#define CC_MANGLE_TYPE_0_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_1_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_2_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_3_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_4_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_5_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_6_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_7_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_8_CCEnumerable CCEnumerable
+#define CC_MANGLE_TYPE_9_CCEnumerable CCEnumerable
+
 #endif
 
