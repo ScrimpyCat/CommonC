@@ -103,7 +103,7 @@ ARGV.each { |e|
                     self.upcase
                 end
             end
-        end 
+        end
     end
 }
 
@@ -141,7 +141,7 @@ end
 
 if params.count == 0
     if param_count == 1
-        params = [:T] 
+        params = [:T]
     else
         params = [:Tx, :Ty, :Tz, :Tw]
     end
@@ -246,8 +246,8 @@ params.each { |p|
 }
 
 params.each { |p|
-    max_imps.times { |i| 
-        puts "#define CC_TYPE_DECL_#{namespace}_#{p}#{i}(...) #{namespace}_#{p}#{i}, __VA_ARGS__" 
+    max_imps.times { |i|
+        puts "#define CC_TYPE_DECL_#{namespace}_#{p}#{i}(...) #{namespace}_#{p}#{i}, __VA_ARGS__"
     }
     max_imps.times { |i|
         max_types.times { |t|
@@ -300,8 +300,8 @@ puts "#undef CC_GENERIC_COUNT"
 
 params.each { |p|
     puts ""
-    max_imps.times { |i| 
-        puts "#define CC_TYPE_#{namespace}_#{p}#{i}(...) #{namespace}_#{p}#{i}" 
+    max_imps.times { |i|
+        puts "#define CC_TYPE_#{namespace}_#{p}#{i}(...) #{namespace}_#{p}#{i}"
     }
     max_imps.times { |i|
         max_types.times { |t|
