@@ -25,7 +25,7 @@
 
 /*
  A wait-free FIFO buffer implementation.
- Allows for single produer-single consumer access.
+ Allows for single producer-single consumer access.
  
  This is a low level interface and should only be used in specific use case.
  The buffer is a fixed size and will fail to add more items once full.

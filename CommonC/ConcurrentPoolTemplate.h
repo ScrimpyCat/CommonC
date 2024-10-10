@@ -25,7 +25,7 @@
 
 /*
  A lock-free (or wait-free when supporting mixed size atomics) FIFO pool implementation.
- Allows for single produer-many consumer access.
+ Allows for single producer-many consumer access.
  
  This is a low level interface and should only be used in specific use cases.
  The pool is fixed size and so the producer should only add more items to the pool once it knows consumers have popped enough items.
