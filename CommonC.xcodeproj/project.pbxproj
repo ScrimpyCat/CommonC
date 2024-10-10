@@ -402,6 +402,11 @@
 		F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B228E4207929E400550A6A /* ConcurrentTree.h */; };
 		F3B228E7207929E400550A6A /* ConcurrentTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B228E5207929E400550A6A /* ConcurrentTree.c */; };
 		F3B30AC01A8F9C9D0007FA7B /* OrderedCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */; };
+		F3BB38EF2CB71DC7004E65DE /* ConcurrentSwapBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BB38EE2CB71DC7004E65DE /* ConcurrentSwapBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BB38F02CB71DC7004E65DE /* ConcurrentSwapBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BB38EE2CB71DC7004E65DE /* ConcurrentSwapBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BB38F22CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BB38F12CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BB38F32CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BB38F12CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3BB38F52CB81BBB004E65DE /* ConcurrentSwapBufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BB38F42CB81BBB004E65DE /* ConcurrentSwapBufferTests.m */; };
 		F3BC6A1F1877030B00934291 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BC6A1E1877030B00934291 /* Vector3D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BC6A241877637800934291 /* Vector3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A231877637800934291 /* Vector3DTests.m */; };
 		F3BC6A2C18776CAE00934291 /* Vectorized2DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */; };
@@ -720,6 +725,9 @@
 		F3B228E5207929E400550A6A /* ConcurrentTree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentTree.c; sourceTree = "<group>"; };
 		F3B30ABF1A8F9C9D0007FA7B /* OrderedCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedCollectionTests.m; sourceTree = "<group>"; };
 		F3B30AC11A8F9CAB0007FA7B /* OrderedCollectionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderedCollectionTests.h; sourceTree = "<group>"; };
+		F3BB38EE2CB71DC7004E65DE /* ConcurrentSwapBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentSwapBuffer.h; sourceTree = "<group>"; };
+		F3BB38F12CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentSwapBufferTemplate.h; sourceTree = "<group>"; };
+		F3BB38F42CB81BBB004E65DE /* ConcurrentSwapBufferTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentSwapBufferTests.m; sourceTree = "<group>"; };
 		F3BC6A1E1877030B00934291 /* Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector3D.h; sourceTree = "<group>"; };
 		F3BC6A231877637800934291 /* Vector3DTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector3DTests.m; sourceTree = "<group>"; };
 		F3BC6A2518776CAE00934291 /* Vectorized2DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized2DAVXTests.m; sourceTree = "<group>"; };
@@ -888,6 +896,7 @@
 			children = (
 				F332AD161FACA58D0047C684 /* ConcurrentBuffer.h */,
 				F332AD151FACA58D0047C684 /* ConcurrentBuffer.c */,
+				F3BB38ED2CB71D96004E65DE /* ConcurrentSwapBuffer */,
 				F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */,
 				F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */,
 			);
@@ -1392,6 +1401,7 @@
 				F37979B02CAC3A1400CF5B87 /* ConcurrentCircularBufferTests.m */,
 				F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */,
 				F3236CB81FD8CAF700ACC970 /* ConcurrentBufferTests.m */,
+				F3BB38F42CB81BBB004E65DE /* ConcurrentSwapBufferTests.m */,
 				F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */,
 				F31BEE96208CB06700DD7F83 /* ConcurrentIndexMapTests.m */,
 				F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */,
@@ -1433,6 +1443,15 @@
 				F3B228E5207929E400550A6A /* ConcurrentTree.c */,
 			);
 			name = Tree;
+			sourceTree = "<group>";
+		};
+		F3BB38ED2CB71D96004E65DE /* ConcurrentSwapBuffer */ = {
+			isa = PBXGroup;
+			children = (
+				F3BB38EE2CB71DC7004E65DE /* ConcurrentSwapBuffer.h */,
+				F3BB38F12CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h */,
+			);
+			name = ConcurrentSwapBuffer;
 			sourceTree = "<group>";
 		};
 		F3BC6A201877631800934291 /* Vector2D */ = {
@@ -1562,6 +1581,7 @@
 				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
 				F3364FB725B232EA002B2378 /* Generic4.h in Headers */,
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
+				F3BB38F32CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */,
 				F3ED7E8D2B404D5400E66F8C /* Reflect.h in Headers */,
@@ -1645,6 +1665,7 @@
 				F342B5BD25CF5314004BD31E /* DataMemoryTemplate.h in Headers */,
 				F30D804323A6979C0011A14D /* ConcurrentIndexBuffer.h in Headers */,
 				F30D804423A6979C0011A14D /* DataContainer.h in Headers */,
+				F3BB38F02CB71DC7004E65DE /* ConcurrentSwapBuffer.h in Headers */,
 				F30D804523A6979C0011A14D /* List.h in Headers */,
 				F30D804623A6979C0011A14D /* BigInt.h in Headers */,
 				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
@@ -1686,6 +1707,7 @@
 				F353DD6E17B0239C00D1674C /* Types.h in Headers */,
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
 				F3364FB625B232E9002B2378 /* Generic4.h in Headers */,
+				F3BB38F22CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
@@ -1769,6 +1791,7 @@
 				F359D02A1C1456D60028B86B /* Hash.h in Headers */,
 				F342B5BC25CF5314004BD31E /* DataMemoryTemplate.h in Headers */,
 				F369C7D11C44D515006C3D96 /* CCString.h in Headers */,
+				F3BB38EF2CB71DC7004E65DE /* ConcurrentSwapBuffer.h in Headers */,
 				F369C7D51C462BB9006C3D96 /* CCStringEnumerator.h in Headers */,
 				F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */,
 				F3067B791C591AA800766814 /* Vector4D.h in Headers */,
@@ -2136,6 +2159,7 @@
 				F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */,
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
+				F3BB38F52CB81BBB004E65DE /* ConcurrentSwapBufferTests.m in Sources */,
 				F3BC6A2D18776CAE00934291 /* Vectorized2DSSE2Tests.m in Sources */,
 				F37A6E622C7C8CDD00F97BC3 /* VirtualFileSystemTests.m in Sources */,
 				F36D62FF1D13433700D3827A /* DictionaryTests.m in Sources */,
