@@ -266,6 +266,8 @@ extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCBigIntFast, retain, dyna
 
 #pragma mark - Strings
 
+extern const CCReflectInteger CC_REFLECT(CCChar);
+
 extern const CCReflectOpaque CC_REFLECT(CCString);
 
 extern const CCReflectDynamicPointer CC_REFLECT(PTYPE(CCString, weak, dynamic));

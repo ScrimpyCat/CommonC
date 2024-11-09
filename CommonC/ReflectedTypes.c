@@ -472,6 +472,8 @@ void CCReflectTerminatedArrayUnmapper(CCReflectType Type, CCReflectType MappedTy
 
 #pragma mark - Strings
 
+const CCReflectInteger CC_REFLECT(CCChar) = CC_REFLECT_UNSIGNED_FIXED_WIDTH_INTEGER(CCChar, CCReflectEndianNative);
+
 static void CCStringMapper(CCReflectType Type, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator, CCReflectMapIntent Intent);
 static void CCStringUnmapper(CCReflectType Type, CCReflectType MappedType, const void *Data, void *Args, CCReflectTypeHandler Handler, CCMemoryZone Zone, CCAllocatorType Allocator);
 

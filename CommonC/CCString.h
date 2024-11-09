@@ -436,6 +436,44 @@ static CC_FORCE_INLINE _Bool CCStringIsTagged(CCString String)
 
 #pragma mark -
 
+#define CC_TYPE_CCChar(...) CCChar
+#define CC_TYPE_0_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_1_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_2_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_3_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_4_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_5_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_6_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_7_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_8_CCChar CC_TYPE_CCChar,
+#define CC_TYPE_9_CCChar CC_TYPE_CCChar,
+
+#define CC_PRESERVE_CC_TYPE_CCChar CC_TYPE_CCChar
+
+#define CC_TYPE_DECL_CCChar(...) CCChar, __VA_ARGS__
+#define CC_TYPE_DECL_0_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_1_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_2_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_3_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_4_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_5_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_6_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_7_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_8_CCChar CC_TYPE_DECL_CCChar,
+#define CC_TYPE_DECL_9_CCChar CC_TYPE_DECL_CCChar,
+
+#define CC_MANGLE_TYPE_0_CCChar CCChar
+#define CC_MANGLE_TYPE_1_CCChar CCChar
+#define CC_MANGLE_TYPE_2_CCChar CCChar
+#define CC_MANGLE_TYPE_3_CCChar CCChar
+#define CC_MANGLE_TYPE_4_CCChar CCChar
+#define CC_MANGLE_TYPE_5_CCChar CCChar
+#define CC_MANGLE_TYPE_6_CCChar CCChar
+#define CC_MANGLE_TYPE_7_CCChar CCChar
+#define CC_MANGLE_TYPE_8_CCChar CCChar
+#define CC_MANGLE_TYPE_9_CCChar CCChar
+
+
 #define CC_TYPE_CCString(...) CCString
 #define CC_TYPE_0_CCString CC_TYPE_CCString,
 #define CC_TYPE_1_CCString CC_TYPE_CCString,
