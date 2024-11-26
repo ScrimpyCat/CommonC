@@ -139,6 +139,21 @@ String.class_eval do
     end
 end
 
+class Array
+    def join_open_braces
+        joined = []
+        self.each { |s|
+            if joined.last and joined.last.count('(') > joined.last.count(')')
+                joined[-1] << ', ' << s
+            else
+                joined << s
+            end
+        }
+
+        joined
+    end
+end
+
 if params.count == 0
     if param_count == 1
         params = [:T]
@@ -172,11 +187,11 @@ symbols.each { |s|
     args = s[/\(.*?\)/][1..-2].split(',').map { |a| a.strip }
     template = s[/(?<=CC_TEMPLATE_REF\()\w*/]
     t_def = templates.find { |t| t[/\W#{template}\W/] }
-    t_params = t_def.scan(/(?<=[\W\(])(#{params.join('|')})(?=[\W\)])/).flatten
-    t_types = s[/(?<=CC_TEMPLATE_REF\().*/].chop.split(',').drop(1).map { |t| t.strip }
+    t_params = t_def.scan(/(?<=[\W\(])(#{params.join('|')})(?=[\W\)])/).join_open_braces.flatten
+    t_types = s[/(?<=CC_TEMPLATE_REF\().*/].chop.split(',').join_open_braces.drop(1).map { |t| t.strip }
 
     if t_def[/\W#{template}\W*?[,\(\)]/][-1] != ')'
-        t_arg_names = t_def[/(?<=\W#{template})\W*.*/].chop[/(?<=\().*(?=\))/].scan(/(\w+(?=,)|\w+$)/).flatten
+        t_arg_names = t_def[/(?<=\W#{template})\W*.*/].chop[/(?<=\().*(?=\))/].split(',').join_open_braces.map { |t| t[/\w+$/] }
         gen_args = []
         formatters = []
 
@@ -185,15 +200,17 @@ symbols.each { |s|
             if i != nil
                 gen_args << t_arg_names[i]
                 formatters << t_types[i + 1].formatter
+            else
+                formatters << nil
             end
         }
 
         default_refs = defaults.map.with_index { |d, r|
             defs = Hash[d.map { |p| p.split('=') }]
-            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| "(#{formatters[i].call("#{defs[p].type_list || "#{namespace}_#{p}"}")})" }.join(', ')})"
+            "CC_RECURSIVE_#{r}_GENERIC((#{gen_args.map.with_index { |a, i| "((typeof(#{defs[params[i].to_s].decl || a.format})){0})" }.join(', ')}), #{macro}, CC_TYPE_DECL, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| formatters[i] && "(#{formatters[i].call("#{defs[p].type_list || "#{namespace}_#{p}"}")})" }.compact.join(', ')})"
         }
 
-        ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| "(#{formatters[i].call("#{namespace}_#{p}")})" }.join(', ')})"
+        ref = "#define #{template}_Ref(#{t_arg_names.map(&:format).join(', ')}) CC_GENERIC((#{gen_args.map { |a| "((typeof(#{a.format})){0})" }.join(', ')}), #{macro}, CC_GENERIC_MATCH, CC_GENERIC_ERROR, #{t_params.uniq.map.with_index { |p, i| formatters[i] && "(#{formatters[i].call("#{namespace}_#{p}")})" }.compact.join(', ')})"
         default_refs.each { |d| ref.gsub!('CC_GENERIC_ERROR', d) }
 
         sym_calls << "#define #{template}(#{t_arg_names.map(&:format).join(', ')}) #{template}_Ref(#{t_arg_names.map(&:format).join(', ')})(#{t_arg_names.map(&:format).join(', ')})"
