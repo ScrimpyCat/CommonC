@@ -1102,6 +1102,53 @@
 #define CC_TYPE_DECL_8_TYPE(...) CC_TYPE_DECL_TYPE_8, __VA_ARGS__,
 #define CC_TYPE_DECL_9_TYPE(...) CC_TYPE_DECL_TYPE_9, __VA_ARGS__,
 
+// MARK: Private Type
+#define CC_TYPE_PRIVATE(x, name, ...) PRIVATE(x, name)
+#define CC_TYPE_0_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_1_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_2_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_3_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_4_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_5_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_6_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_7_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_8_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+#define CC_TYPE_9_PRIVATE(...) CC_TYPE_PRIVATE, __VA_ARGS__,
+
+#define CC_PRESERVE_CC_TYPE_PRIVATE(x, name, ...) CC_TYPE_PRIVATE(x, name), __VA_ARGS__
+
+#define CC_TYPE_DECL_PRIVATE_0(x, name, ...) CC_TYPE_DECL_1(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_1(x, name, ...) CC_TYPE_DECL_2(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_2(x, name, ...) CC_TYPE_DECL_3(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_3(x, name, ...) CC_TYPE_DECL_4(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_4(x, name, ...) CC_TYPE_DECL_5(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_5(x, name, ...) CC_TYPE_DECL_6(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_6(x, name, ...) CC_TYPE_DECL_7(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_7(x, name, ...) CC_TYPE_DECL_8(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_8(x, name, ...) CC_TYPE_DECL_9(x), __VA_ARGS__
+#define CC_TYPE_DECL_PRIVATE_9(x, name, ...) CC_TYPE_DECL_10(x), __VA_ARGS__
+#define CC_TYPE_DECL_0_PRIVATE(...) CC_TYPE_DECL_PRIVATE_0, __VA_ARGS__,
+#define CC_TYPE_DECL_1_PRIVATE(...) CC_TYPE_DECL_PRIVATE_1, __VA_ARGS__,
+#define CC_TYPE_DECL_2_PRIVATE(...) CC_TYPE_DECL_PRIVATE_2, __VA_ARGS__,
+#define CC_TYPE_DECL_3_PRIVATE(...) CC_TYPE_DECL_PRIVATE_3, __VA_ARGS__,
+#define CC_TYPE_DECL_4_PRIVATE(...) CC_TYPE_DECL_PRIVATE_4, __VA_ARGS__,
+#define CC_TYPE_DECL_5_PRIVATE(...) CC_TYPE_DECL_PRIVATE_5, __VA_ARGS__,
+#define CC_TYPE_DECL_6_PRIVATE(...) CC_TYPE_DECL_PRIVATE_6, __VA_ARGS__,
+#define CC_TYPE_DECL_7_PRIVATE(...) CC_TYPE_DECL_PRIVATE_7, __VA_ARGS__,
+#define CC_TYPE_DECL_8_PRIVATE(...) CC_TYPE_DECL_PRIVATE_8, __VA_ARGS__,
+#define CC_TYPE_DECL_9_PRIVATE(...) CC_TYPE_DECL_PRIVATE_9, __VA_ARGS__,
+
+#define CC_MANGLE_TYPE_0_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_1_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_2_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_3_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_4_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_5_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_6_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_7_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_8_PRIVATE(x, name, ...) name
+#define CC_MANGLE_TYPE_9_PRIVATE(x, name, ...) name
+
 // MARK: Pointer type
 #define CC_TYPE_PTYPE(x, ...) PTYPE(x)
 #define CC_TYPE_0_PTYPE(...) CC_TYPE_PTYPE, __VA_ARGS__,
