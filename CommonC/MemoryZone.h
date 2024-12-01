@@ -61,6 +61,15 @@ typedef struct {
 typedef CCMemoryZoneHeader *CCMemoryZone;
 
 /*!
+ * @brief Get the thread local memory zone.
+ * @description The size of this memory zone is defined by @b CC_MEMORY_ZONE_LOCAL_SIZE which defaults to 4096 bytes. The local memory zone should only
+ *              be used for temporary allocations that won't be shared across threads.
+ *
+ * @return The thread local memory zone.
+ */
+CCMemoryZone CCMemoryZoneLocal(void);
+
+/*!
  * @brief Create a memory zone.
  * @param Allocator The allocator to be used for the allocation.
  * @param BlockSize The size of each block. If the block size is smaller than the size of CCMemoryZoneState, then it will be increased up to that size.

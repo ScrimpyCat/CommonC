@@ -28,6 +28,44 @@
 #include "Logging.h"
 #include "Maths.h"
 
+#ifndef CC_MEMORY_ZONE_LOCAL_SIZE
+#define CC_MEMORY_ZONE_LOCAL_SIZE 4096
+#endif
+
+#if __has_include(<threads.h>)
+#define CC_MEMORY_ZONE_LOCAL_USING_STDTHREADS 1
+#include <threads.h>
+#elif CC_PLATFORM_POSIX_COMPLIANT
+#define CC_MEMORY_ZONE_LOCAL_USING_PTHREADS 1
+#include <pthread.h>
+#else
+#error No thread support
+#endif
+
+static _Thread_local CCMemoryZone LocalZone;
+
+#if CC_MEMORY_ZONE_LOCAL_USING_PTHREADS
+static _Thread_local pthread_key_t LocalZoneKey;
+#elif CC_MEMORY_ZONE_LOCAL_USING_STDTHREADS
+static _Thread_local tss_t LocalZoneKey;
+#endif
+
+CCMemoryZone CCMemoryZoneLocal(void)
+{
+    if (!LocalZone)
+    {
+        LocalZone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, CC_MEMORY_ZONE_LOCAL_SIZE);
+        
+#if CC_MEMORY_ZONE_LOCAL_USING_PTHREADS
+        if (!pthread_key_create(&LocalZoneKey, CCFree)) pthread_setspecific(LocalZoneKey, LocalZone);
+#elif CC_MEMORY_ZONE_LOCAL_USING_STDTHREADS
+        if (tss_create(&LocalZoneKey, CCFree) == thrd_success) tss_set(LocalZoneKey, LocalZone);
+#endif
+    }
+    
+    return LocalZone;
+}
+
 static void CCMemoryZoneDestructor(CCMemoryZone Zone)
 {
     for (CCMemoryZoneBlock *Block = Zone->block.next, *NextBlock; Block; Block = NextBlock)
