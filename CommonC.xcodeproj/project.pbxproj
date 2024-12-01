@@ -208,6 +208,11 @@
 		F3364FC725C40A92002B2378 /* MemoryTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3364FC625C40A92002B2378 /* MemoryTemplateTests.m */; };
 		F3364FC825C40D0E002B2378 /* Memory.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FC225B4249D002B2378 /* Memory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3364FC925C40D16002B2378 /* MemoryTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3364FB825B33AF6002B2378 /* MemoryTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33A695D2CEF96E700E427AE /* ConcurrentSharedResource.h in Headers */ = {isa = PBXBuildFile; fileRef = F33A695B2CEF96E700E427AE /* ConcurrentSharedResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33A69602CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F33A695F2CEF970700E427AE /* ConcurrentSharedResourceTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33A69612CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F33A695F2CEF970700E427AE /* ConcurrentSharedResourceTemplate.h */; };
+		F33A69642CF6B97300E427AE /* ConcurrentSharedResource.h in Headers */ = {isa = PBXBuildFile; fileRef = F33A695B2CEF96E700E427AE /* ConcurrentSharedResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F33A69662CF6E66000E427AE /* ConcurrentSharedResourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33A69652CF6E66000E427AE /* ConcurrentSharedResourceTests.m */; };
 		F33AAE312B5C58F600448987 /* ReflectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AAE302B5C58F600448987 /* ReflectTests.m */; };
 		F341B74E29F29F6000CBA1EE /* BitsTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B74C29F29F6000CBA1EE /* BitsTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75029F2E46600CBA1EE /* Bits.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -556,6 +561,9 @@
 		F3364FB825B33AF6002B2378 /* MemoryTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryTemplate.h; sourceTree = "<group>"; };
 		F3364FC225B4249D002B2378 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
 		F3364FC625C40A92002B2378 /* MemoryTemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryTemplateTests.m; sourceTree = "<group>"; };
+		F33A695B2CEF96E700E427AE /* ConcurrentSharedResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentSharedResource.h; sourceTree = "<group>"; };
+		F33A695F2CEF970700E427AE /* ConcurrentSharedResourceTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentSharedResourceTemplate.h; sourceTree = "<group>"; };
+		F33A69652CF6E66000E427AE /* ConcurrentSharedResourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentSharedResourceTests.m; sourceTree = "<group>"; };
 		F33AAE302B5C58F600448987 /* ReflectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReflectTests.m; sourceTree = "<group>"; };
 		F341B74C29F29F6000CBA1EE /* BitsTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitsTemplate.h; sourceTree = "<group>"; };
 		F341B75029F2E46600CBA1EE /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
@@ -933,6 +941,15 @@
 				F342B5BB25CF5314004BD31E /* DataMemoryTemplate.h */,
 			);
 			name = Memory;
+			sourceTree = "<group>";
+		};
+		F33A695A2CEF96B500E427AE /* ConcurrentSharedResource */ = {
+			isa = PBXGroup;
+			children = (
+				F33A695B2CEF96E700E427AE /* ConcurrentSharedResource.h */,
+				F33A695F2CEF970700E427AE /* ConcurrentSharedResourceTemplate.h */,
+			);
+			name = ConcurrentSharedResource;
 			sourceTree = "<group>";
 		};
 		F341B74B29F29F3900CBA1EE /* Bits */ = {
@@ -1366,6 +1383,7 @@
 				F3A938CB21E2629500BFDE93 /* ID Generator */,
 				F3B228E3207929BF00550A6A /* Tree */,
 				F332AD141FACA55B0047C684 /* Buffer */,
+				F33A695A2CEF96B500E427AE /* ConcurrentSharedResource */,
 				F36F831E1D10A91B00193B08 /* TypeCallbacks.h */,
 				F36F831D1D10A91B00193B08 /* TypeCallbacks.c */,
 				F380180C1DC30D2F00343E07 /* Task */,
@@ -1397,6 +1415,7 @@
 				F3E878F01DC49FE100C34838 /* TaskTests.m */,
 				F33427491DB62A32008CB998 /* QueueTests.m */,
 				F334274B1DB6675F008CB998 /* ConcurrentQueueTests.m */,
+				F33A69652CF6E66000E427AE /* ConcurrentSharedResourceTests.m */,
 				F37A31E728F325DE007B4209 /* ConcurrentPoolTests.m */,
 				F37979B02CAC3A1400CF5B87 /* ConcurrentCircularBufferTests.m */,
 				F32AF65421DB88C60030206F /* ConsecutiveIDGeneratorTests.m */,
@@ -1603,6 +1622,7 @@
 				F30437DC1C62E14700388C74 /* Vector.h in Headers */,
 				F30437D91C62E13000388C74 /* Random.h in Headers */,
 				F30437EF1C62E1D600388C74 /* Types.h in Headers */,
+				F33A69642CF6B97300E427AE /* ConcurrentSharedResource.h in Headers */,
 				F30437E21C62E18000388C74 /* File.h in Headers */,
 				F30C84691D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */,
@@ -1646,6 +1666,7 @@
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
 				F34397E62B8A238E00AEF700 /* ValidateMinimum.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
+				F33A69612CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */,
 				F3364F7C25907712002B2378 /* Extrema.h in Headers */,
 				F3364FC925C40D16002B2378 /* MemoryTemplate.h in Headers */,
 				F30437C01C62E0AA00388C74 /* Data.h in Headers */,
@@ -1709,6 +1730,7 @@
 				F3364FB625B232E9002B2378 /* Generic4.h in Headers */,
 				F3BB38F22CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
+				F33A69602CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */,
 				F353DD7917B14F8E00D1674C /* File.h in Headers */,
 				F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */,
 				F3ED7E8B2B404C6D00E66F8C /* Reflect.h in Headers */,
@@ -1752,6 +1774,7 @@
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
 				F37C62772A7AD4C5003E4F73 /* Pragmas.h in Headers */,
 				F37AFAA31A78F0C90037ECB2 /* CollectionInterface.h in Headers */,
+				F33A695D2CEF96E700E427AE /* ConcurrentSharedResource.h in Headers */,
 				F341B74E29F29F6000CBA1EE /* BitsTemplate.h in Headers */,
 				F38018111DC30DE500343E07 /* Task.h in Headers */,
 				F37AFAA21A78F0C50037ECB2 /* CollectionEnumerator.h in Headers */,
@@ -2132,6 +2155,7 @@
 				F3067B7F1C591B1000766814 /* Vectorized4DSSETests.m in Sources */,
 				F3BC6A3A1877A84200934291 /* Vectorized3DSSSE3Tests.m in Sources */,
 				F3067B7D1C591B0200766814 /* Vectorized4DTests.m in Sources */,
+				F33A69662CF6E66000E427AE /* ConcurrentSharedResourceTests.m in Sources */,
 				F34205301D1CF0BE00BE2E13 /* CollectionFastArrayTests.m in Sources */,
 				F3BC6A3C1877A84F00934291 /* Vectorized3DSSE4_1Tests.m in Sources */,
 				F341B75829F2E71600CBA1EE /* BitSetsTests.m in Sources */,
