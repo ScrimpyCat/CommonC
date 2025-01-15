@@ -195,13 +195,15 @@ case CC_FLOAT_SIZE(sizeof(a), sizeof(b)): \
                     {
                         switch (CC_FLOAT_SIZE(SizeA, SizeB))
                         {
+#if DBL_MANT_DIG != LDBL_MANT_DIG
                             CC_FLOAT_COMPARE(long double, long double)
                             CC_FLOAT_COMPARE(long double, double)
                             CC_FLOAT_COMPARE(long double, float)
                             CC_FLOAT_COMPARE(double, long double)
+                            CC_FLOAT_COMPARE(float, long double)
+#endif
                             CC_FLOAT_COMPARE(double, double)
                             CC_FLOAT_COMPARE(double, float)
-                            CC_FLOAT_COMPARE(float, long double)
                             CC_FLOAT_COMPARE(float, double)
                             CC_FLOAT_COMPARE(float, float)
                         }
