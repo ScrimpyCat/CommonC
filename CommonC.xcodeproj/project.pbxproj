@@ -334,8 +334,8 @@
 		F36F83301D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F37329CB2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; };
-		F37329CC2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; };
+		F37329CB2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37329CC2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37329CE2D552D3B00A3DC98 /* DecimalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37329CD2D552D3B00A3DC98 /* DecimalTests.m */; };
 		F376C57424126F21004F27C4 /* RandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F376C57324126F21004F27C4 /* RandomTests.m */; };
 		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
