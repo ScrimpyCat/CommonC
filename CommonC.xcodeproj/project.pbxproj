@@ -334,6 +334,9 @@
 		F36F83301D10C1E300193B08 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F832C1D10C1E300193B08 /* Dictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F36F83311D12030100193B08 /* DictionaryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F37329CB2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; };
+		F37329CC2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; };
+		F37329CE2D552D3B00A3DC98 /* DecimalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37329CD2D552D3B00A3DC98 /* DecimalTests.m */; };
 		F376C57424126F21004F27C4 /* RandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F376C57324126F21004F27C4 /* RandomTests.m */; };
 		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37979AE2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F37979AD2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -670,6 +673,8 @@
 		F36F832B1D10C1E300193B08 /* Dictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Dictionary.c; sourceTree = "<group>"; };
 		F36F832C1D10C1E300193B08 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
 		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
+		F37329CA2D5524C900A3DC98 /* Decimal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Decimal.h; sourceTree = "<group>"; };
+		F37329CD2D552D3B00A3DC98 /* DecimalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DecimalTests.m; sourceTree = "<group>"; };
 		F376C57324126F21004F27C4 /* RandomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RandomTests.m; sourceTree = "<group>"; };
 		F378DAF5234C05D2000600CC /* ContainerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerTypes.h; sourceTree = "<group>"; };
 		F37979AD2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentCircularBuffer.h; sourceTree = "<group>"; };
@@ -1102,6 +1107,7 @@
 				F3AEA84E232B483B00A5CAF3 /* BigInt.h */,
 				F3AEA84F232B483B00A5CAF3 /* BigInt.c */,
 				F38515EC254DB830001C03C5 /* BigIntFast.h */,
+				F37329CA2D5524C900A3DC98 /* Decimal.h */,
 				F318D92C1C4DD77A005AE64E /* Matrices */,
 				F30529B418014B9C00B17CFD /* Vectors */,
 			);
@@ -1114,6 +1120,7 @@
 				F3300B12233A8B1C0068C378 /* BigIntTests.m */,
 				F353DD9217B6930600D1674C /* BitTricksTests.h */,
 				F353DD9317B6930600D1674C /* BitTricksTests.m */,
+				F37329CD2D552D3B00A3DC98 /* DecimalTests.m */,
 				F3A91A4A186BBAD400EF0B95 /* Vectors */,
 				F376C57324126F21004F27C4 /* RandomTests.m */,
 			);
@@ -1699,6 +1706,7 @@
 				F328728021E881BC00B1A584 /* ConcurrentArray.h in Headers */,
 				F30437CC1C62E0E200388C74 /* CollectionEnumerator.h in Headers */,
 				F30437F51C62E1FC00388C74 /* CustomFormatSpecifiers.h in Headers */,
+				F37329CC2D5524C900A3DC98 /* Decimal.h in Headers */,
 				F37A31E528F2FDF6007B4209 /* ConcurrentPoolTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1827,6 +1835,7 @@
 				F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */,
 				F353DD7717B0ED0000D1674C /* Logging_Private.h in Headers */,
 				F353DD8617B57AB100D1674C /* Assertion_Private.h in Headers */,
+				F37329CB2D5524C900A3DC98 /* Decimal.h in Headers */,
 				F332AD181FACA58D0047C684 /* ConcurrentBuffer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2214,6 +2223,7 @@
 				F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */,
 				F334274C1DB6675F008CB998 /* ConcurrentQueueTests.m in Sources */,
 				F32AF65521DB88C60030206F /* ConsecutiveIDGeneratorTests.m in Sources */,
+				F37329CE2D552D3B00A3DC98 /* DecimalTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
 				F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
