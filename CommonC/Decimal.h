@@ -30,27 +30,54 @@
 #include <CommonC/Extensions.h>
 
 typedef struct {
+    uint32_t coef;
+    int32_t exp;
+} CCDecimal32;
+
+typedef struct {
     uint64_t coef;
     int64_t exp;
-} CCDecimal;
+} CCDecimal64;
 
-static inline uint64_t CCDecimalMultiplyU64(uint64_t Value, CCDecimal Decimal)
+typedef CCDecimal64 CCDecimal;
+
+#define CCDecimalMultiplyU64(value, decimal) _Generic((decimal), CCDecimal32: CCDecimal32MultiplyU64, CCDecimal64: CCDecimal64MultiplyU64, default: CCDecimal64MultiplyU64)((value), (decimal))
+
+static inline uint64_t CCDecimal32MultiplyU64(uint64_t Value, CCDecimal32 Decimal);
+static inline uint64_t CCDecimal64MultiplyU64(uint64_t Value, CCDecimal64 Decimal);
+
+#pragma mark -
+
+static inline uint64_t CCDecimal32MultiplyU64(uint64_t Value, CCDecimal32 Decimal)
 {
     uint64_t Lo = (Value & 0xffffffff) * Decimal.coef;
     uint64_t Hi = (Value >> 32) * Decimal.coef;
     
     uint64_t Result;
     
-    if (Decimal.exp >= 0)
+    if ((Decimal.exp >= 20) && (Decimal.coef))
+    {
+        return UINT64_MAX;
+    }
+    
+    else if (Decimal.exp >= 0)
     {
         while (Decimal.exp--)
         {
             Lo *= 10;
             Hi *= 10;
+            
+            Hi += Lo >> 32;
+            Lo &= 0xffffffff;
         }
         
         if (Hi > 0xffffffff) Result = UINT64_MAX;
         else Result = Lo + (Hi << 32);
+    }
+    
+    else if ((Decimal.exp <= -29) && (Decimal.coef))
+    {
+        return 0;
     }
     
     else
@@ -69,7 +96,60 @@ static inline uint64_t CCDecimalMultiplyU64(uint64_t Value, CCDecimal Decimal)
             Hi /= 10;
         }
         
-        Result = Lo + Remainder + (Hi << 32) + Carry;
+        if (Hi > 0xffffffff) Result = UINT64_MAX;
+        else Result = Lo + Remainder + (Hi << 32) + Carry;
+    }
+    
+    return Result;
+}
+
+static inline uint64_t CCDecimal64MultiplyU64(uint64_t Value, CCDecimal64 Decimal)
+{
+    unsigned _BitInt(128) Lo = (unsigned _BitInt(128))(Value & 0xffffffff) * Decimal.coef;
+    unsigned _BitInt(128) Hi = (unsigned _BitInt(128))(Value >> 32) * Decimal.coef;
+    
+    uint64_t Result;
+    
+    if ((Decimal.exp >= 20) && (Decimal.coef))
+    {
+        return UINT64_MAX;
+    }
+    
+    else if (Decimal.exp >= 0)
+    {
+        while (Decimal.exp--)
+        {
+            Lo *= 10;
+            Hi *= 10;
+        }
+        
+        if ((Hi > 0xffffffff) || (Lo > UINT64_MAX)) Result = UINT64_MAX;
+        else Result = Lo + (Hi << 32);
+    }
+    
+    else if ((Decimal.exp <= -39) && (Decimal.coef))
+    {
+        return 0;
+    }
+    
+    else
+    {
+        uint64_t Remainder = 0, Carry = 0;
+        
+        while (Decimal.exp++)
+        {
+            Remainder += (Hi % 10) << 32;
+            
+            Carry = ((Remainder % 10) + (Lo % 10) + Carry) >= 10;
+            
+            Remainder /= 10;
+            
+            Lo /= 10;
+            Hi /= 10;
+        }
+        
+        if ((Hi > 0xffffffff) || (Lo > UINT64_MAX)) Result = UINT64_MAX;
+        else Result = Lo + Remainder + (Hi << 32) + Carry;
     }
     
     return Result;

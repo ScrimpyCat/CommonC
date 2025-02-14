@@ -35,563 +35,1162 @@
 {
     uint64_t Value = 0;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), 0, @"should be the correct result");
     
     
     Value = 1;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = 2;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = 10;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = 2147483648;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = 0xffffffff;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = UINT64_C(4294967296);
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), Value * 1000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), Value * 2000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), Value * 5000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), Value * 2500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), Value * 25000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), Value * 1250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), Value * 12500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), Value * 125000, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = UINT64_C(36063981391316016);
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
 
 
     Value = UINT64_C(36063981391316019);
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), Value * 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), Value * 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), Value * 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), Value * 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), Value * 200, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), Value * 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), Value * 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), Value * 500, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), Value * 25, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), Value * 250, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), Value * 125, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = UINT64_C(0xffffffff00000000) + (2147483648 >> 1);
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
     
     
     Value = UINT64_MAX;
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 0 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = 3 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -1 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -2 }), 0, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 0, .exp = -3 }), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 0 }), Value * 1, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -1 }), Value / 10, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -2 }), Value / 100, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 1, .exp = -3 }), Value / 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -1 }), Value / 5, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -2 }), Value / 50, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 2, .exp = -3 }), Value / 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -1 }), Value / 2, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -2 }), Value / 20, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 5, .exp = -3 }), Value / 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -1 }), (Value * 2) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -2 }), Value / 4, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 25, .exp = -3 }), Value / 40, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
     
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 0 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 1 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 2 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = 3 }), UINT64_MAX, @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -1 }), (Value * 12) + (Value / 2), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -2 }), Value + (Value / 4), @"should be the correct result");
-    XCTAssertEqual(CCDecimalMultiplyU64(Value, (CCDecimal){ .coef = 125, .exp = -3 }), Value / 8, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal){ .coef = UINT64_MAX, .exp = -2 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal){ .coef = UINT64_MAX, .exp = 2 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal){ .coef = UINT64_C(0x4000000000000000), .exp = -2 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal){ .coef = UINT64_C(0x4000000000000000), .exp = 2 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(1, ((CCDecimal){ .coef = 1, .exp = 20 })), UINT64_MAX, @"should catch overflow");
+    
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = 0 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = 1 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = 10 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = -19 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = -20 })), UINT64_C(3402823669209384634), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = -32 })), 3402823, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = -38 })), 3, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal){ .coef = UINT64_MAX, .exp = -39 })), 0, @"should be the correct result");
+    
+    
+    
+    
+    // 32
+    
+    Value = 0;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), 0, @"should be the correct result");
+    
+    
+    Value = 1;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = 2;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = 10;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = 2147483648;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = 0xffffffff;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = UINT64_C(4294967296);
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), Value * 1000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), Value * 2000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), Value * 5000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), Value * 2500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), Value * 25000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), Value * 1250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), Value * 12500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), Value * 125000, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = UINT64_C(36063981391316016);
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+
+
+    Value = UINT64_C(36063981391316019);
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), Value * 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), Value * 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), Value * 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), Value * 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), Value * 200, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), Value * 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), Value * 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), Value * 500, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), Value * 25, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), Value * 250, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), (Value * 2) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), Value * 125, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), (Value * 12) + (Value / 2), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), Value + (Value / 4), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = UINT64_C(0xffffffff00000000) + (2147483648 >> 1);
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    Value = UINT64_MAX;
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 0 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = 3 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -1 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -2 })), 0, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 0, .exp = -3 })), 0, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 0 })), Value * 1, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -1 })), Value / 10, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -2 })), Value / 100, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 1, .exp = -3 })), Value / 1000, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -1 })), Value / 5, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -2 })), Value / 50, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 2, .exp = -3 })), Value / 500, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -1 })), Value / 2, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -2 })), Value / 20, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 5, .exp = -3 })), Value / 200, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -2 })), Value / 4, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 25, .exp = -3 })), Value / 40, @"should be the correct result");
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 0 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = 3 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -1 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -2 })), UINT64_MAX, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(Value, ((CCDecimal32){ .coef = 125, .exp = -3 })), Value / 8, @"should be the correct result");
+    
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -2 })), UINT64_C(42949672950), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal32){ .coef = UINT32_MAX, .exp = 2 })), UINT64_C(429496729500000), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal32){ .coef = UINT32_C(0x40000000), .exp = -2 })), UINT64_C(10737418240), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(1000, ((CCDecimal32){ .coef = UINT32_C(0x40000000), .exp = 2 })), UINT64_C(107374182400000), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(1, ((CCDecimal32){ .coef = 1, .exp = 20 })), UINT64_MAX, @"should catch overflow");
+    
+    
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = 0 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = 1 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = 10 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -9 })), UINT64_MAX, @"should catch overflow");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -10 })), UINT64_C(7922816249581759351), @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -22 })), 7922816, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -28 })), 7, @"should be the correct result");
+    XCTAssertEqual(CCDecimalMultiplyU64(UINT64_MAX, ((CCDecimal32){ .coef = UINT32_MAX, .exp = -29 })), 0, @"should be the correct result");
 }
 
 @end
