@@ -60,6 +60,7 @@
 #include <CommonC/CustomFormatSpecifiers.h>
 #include <CommonC/CustomInputFilters.h>
 
+#include <CommonC/HardwareInfo.h>
 #include <CommonC/SystemInfo.h>
 #include <CommonC/ProcessInfo.h>
 

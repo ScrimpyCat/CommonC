@@ -337,6 +337,10 @@
 		F37329CB2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37329CC2D5524C900A3DC98 /* Decimal.h in Headers */ = {isa = PBXBuildFile; fileRef = F37329CA2D5524C900A3DC98 /* Decimal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37329CE2D552D3B00A3DC98 /* DecimalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F37329CD2D552D3B00A3DC98 /* DecimalTests.m */; };
+		F3732A6E2D61707C00A3DC98 /* HardwareInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F3732A6C2D61707C00A3DC98 /* HardwareInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3732A6F2D61707C00A3DC98 /* HardwareInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F3732A6C2D61707C00A3DC98 /* HardwareInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3732A702D61707C00A3DC98 /* HardwareInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F3732A6D2D61707C00A3DC98 /* HardwareInfo.c */; };
+		F3732A712D61707C00A3DC98 /* HardwareInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F3732A6D2D61707C00A3DC98 /* HardwareInfo.c */; };
 		F376C57424126F21004F27C4 /* RandomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F376C57324126F21004F27C4 /* RandomTests.m */; };
 		F378DAF6234C05D2000600CC /* ContainerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F378DAF5234C05D2000600CC /* ContainerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F37979AE2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F37979AD2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -675,6 +679,8 @@
 		F36F83311D12030100193B08 /* DictionaryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryInterface.h; sourceTree = "<group>"; };
 		F37329CA2D5524C900A3DC98 /* Decimal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Decimal.h; sourceTree = "<group>"; };
 		F37329CD2D552D3B00A3DC98 /* DecimalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DecimalTests.m; sourceTree = "<group>"; };
+		F3732A6C2D61707C00A3DC98 /* HardwareInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HardwareInfo.h; sourceTree = "<group>"; };
+		F3732A6D2D61707C00A3DC98 /* HardwareInfo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = HardwareInfo.c; sourceTree = "<group>"; };
 		F376C57324126F21004F27C4 /* RandomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RandomTests.m; sourceTree = "<group>"; };
 		F378DAF5234C05D2000600CC /* ContainerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerTypes.h; sourceTree = "<group>"; };
 		F37979AD2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentCircularBuffer.h; sourceTree = "<group>"; };
@@ -1069,6 +1075,8 @@
 			children = (
 				F3064008184BAA7B00122BE9 /* SystemInfo.h */,
 				F306400A184BAA8700122BE9 /* SystemInfo.c */,
+				F3732A6C2D61707C00A3DC98 /* HardwareInfo.h */,
+				F3732A6D2D61707C00A3DC98 /* HardwareInfo.c */,
 				F353DD7817B14F8E00D1674C /* File.h */,
 				F353DD7A17B14F9700D1674C /* File.c */,
 				F353DD7017B02C3500D1674C /* ProcessInfo.h */,
@@ -1665,6 +1673,7 @@
 				F36F83081D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */,
 				F30437DF1C62E15900388C74 /* Vector4D.h in Headers */,
+				F3732A6F2D61707C00A3DC98 /* HardwareInfo.h in Headers */,
 				F34219181D0C266500FDBC8A /* HashMap.h in Headers */,
 				F30437C81C62E0D000388C74 /* Array.h in Headers */,
 				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
@@ -1794,6 +1803,7 @@
 				F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
 				F3A938CF21E262A800BFDE93 /* ConcurrentIDGenerator.h in Headers */,
+				F3732A6E2D61707C00A3DC98 /* HardwareInfo.h in Headers */,
 				F3AEA850232B483B00A5CAF3 /* BigInt.h in Headers */,
 				F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
@@ -2060,6 +2070,7 @@
 				F30438001C62E24900388C74 /* DebugTypes.c in Sources */,
 				F30437C71C62E0CD00388C74 /* LinkedList.c in Sources */,
 				F30437D61C62E11800388C74 /* CollectionList.c in Sources */,
+				F3732A712D61707C00A3DC98 /* HardwareInfo.c in Sources */,
 				F30437EE1C62E1CD00388C74 /* FileHandle.c in Sources */,
 				F30C846E1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */,
 				F30437BB1C62E09000388C74 /* Hash.c in Sources */,
@@ -2107,6 +2118,7 @@
 				F332AD171FACA58D0047C684 /* ConcurrentBuffer.c in Sources */,
 				F3E2746520D5931900D6AFE1 /* DebugAllocator.c in Sources */,
 				F3143AA41A8A8FE8004EB810 /* OrderedCollection.c in Sources */,
+				F3732A702D61707C00A3DC98 /* HardwareInfo.c in Sources */,
 				F3AEA851232B483B00A5CAF3 /* BigInt.c in Sources */,
 				F394001F23410ECC00EE826D /* Enumerable.c in Sources */,
 				F32E091B2BB8969500383480 /* ReflectedTypes.c in Sources */,
