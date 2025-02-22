@@ -382,6 +382,7 @@
 		F394001D2340E39B00EE826D /* Enumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F394001C2340E39B00EE826D /* Enumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F394001F23410ECC00EE826D /* Enumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F394001E23410ECC00EE826D /* Enumerable.c */; };
 		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
+		F396A08C2D6A25A6004DC778 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F396A08B2D6A25A6004DC778 /* IOKit.framework */; };
 		F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FC1DCA158E006E24B7 /* FileSystemTests.m */; };
 		F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */; };
 		F39C5F4C2523158A00D80F0D /* TemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39C5F4B2523158A00D80F0D /* TemplateTests.m */; };
@@ -714,6 +715,7 @@
 		F394001C2340E39B00EE826D /* Enumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerable.h; sourceTree = "<group>"; };
 		F394001E23410ECC00EE826D /* Enumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Enumerable.c; sourceTree = "<group>"; };
 		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
+		F396A08B2D6A25A6004DC778 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		F39778FC1DCA158E006E24B7 /* FileSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemTests.m; sourceTree = "<group>"; };
 		F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandleTests.m; sourceTree = "<group>"; };
 		F39C5F4A25220CB500D80F0D /* Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
@@ -819,6 +821,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F30437941C62DEAA00388C74 /* Foundation.framework in Frameworks */,
+				F396A08C2D6A25A6004DC778 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1214,6 +1217,7 @@
 		F362026917AC3FFD00153E85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F396A08B2D6A25A6004DC778 /* IOKit.framework */,
 				F30437B31C62E06500388C74 /* Foundation.framework */,
 				F328728821E8864300B1A584 /* Foundation.framework */,
 				F3A91A4F186BC4B100EF0B95 /* XCTest.framework */,
