@@ -81,11 +81,15 @@ typedef struct {
 
 #include <CommonC/Generics.h>
 
+#define CCConcurrentCircularBufferGetLastIndex(buffer) CCConcurrentCircularBufferGetLastIndex_Ref(buffer)(buffer)
+#define CCConcurrentCircularBufferSetStartIndex(buffer, index) CCConcurrentCircularBufferSetStartIndex_Ref(buffer, index)(buffer, index)
 #define CCConcurrentCircularBufferGetEnumerable(buffer, enumerable) CCConcurrentCircularBufferGetEnumerable_Ref(buffer, enumerable)(buffer, enumerable)
 #define CCConcurrentCircularBufferRelease(buffer, enumerable) CCConcurrentCircularBufferRelease_Ref(buffer, enumerable)(buffer, enumerable)
 #define CCConcurrentCircularBufferAddItem(buffer, item) CCConcurrentCircularBufferAddItem_Ref(buffer, item)(buffer, item)
 #define CCConcurrentCircularBufferAddItems(buffer, items, count) CCConcurrentCircularBufferAddItems_Ref(buffer, items, count)(buffer, items, count)
 
+#define CCConcurrentCircularBufferGetLastIndex_Ref(buffer) CC_GENERIC((((typeof(buffer)){0})), CCConcurrentCircularBufferGetLastIndex_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_CIRCULAR_BUFFER_T)))
+#define CCConcurrentCircularBufferSetStartIndex_Ref(buffer, index) CC_GENERIC((((typeof(buffer)){0})), CCConcurrentCircularBufferGetStartIndex_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_CIRCULAR_BUFFER_T)))
 #define CCConcurrentCircularBufferGetEnumerable_Ref(buffer, enumerable) CC_GENERIC((((typeof(buffer)){0})), CCConcurrentCircularBufferGetEnumerable_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_CIRCULAR_BUFFER_T)))
 #define CCConcurrentCircularBufferRelease_Ref(buffer, enumerable) CC_GENERIC((((typeof(buffer)){0})), CCConcurrentCircularBufferRelease_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_CIRCULAR_BUFFER_T)))
 #define CCConcurrentCircularBufferAddItem_Ref(buffer, item) CC_GENERIC((((typeof(buffer)){0})), CCConcurrentCircularBufferAddItem_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_MAP_WITH(CC_GENERIC_FORMAT, *, CC_CONCURRENT_CIRCULAR_BUFFER_T)))

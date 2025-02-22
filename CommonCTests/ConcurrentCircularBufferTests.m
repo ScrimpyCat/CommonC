@@ -156,6 +156,34 @@
     
     CCConcurrentCircularBufferRelease(&BufferI6, &Enumerable);
     
+    size_t Index = CCConcurrentCircularBufferGetLastIndex(&BufferI6);
+    XCTAssertEqual(CCConcurrentCircularBufferAddItems(&BufferI6, Values, 3), 3, @"Should add all items");
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI6), (Index + 3) % 6, @"Should get the correct index");
+    
+    XCTAssertEqual(CCConcurrentCircularBufferAddItems(&BufferI6, Values + 3, 2), 2, @"Should add all items");
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI6), (Index + 5) % 6, @"Should get the correct index");
+    
+    CCConcurrentCircularBufferSetStartIndex(&BufferI6, Index + 2);
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI6), (Index + 5) % 6, @"Should get the correct index");
+    
+    CCConcurrentCircularBufferGetEnumerable(&BufferI6, &Enumerable);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 3, @"Enumerable should contain the correct value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 4, @"Enumerable should contain the correct value");
+    XCTAssertEqual(*(int*)CCEnumerableNext(&Enumerable), 5, @"Enumerable should contain the correct value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Enumerable should not contain anymore values");
+    
+    CCConcurrentCircularBufferSetStartIndex(&BufferI6, CCConcurrentCircularBufferGetLastIndex(&BufferI6));
+    CCConcurrentCircularBufferGetEnumerable(&BufferI6, &Enumerable);
+    
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable), NULL, @"Enumerable should not contain anymore values");
+    
+    XCTAssertTrue(CCConcurrentCircularBufferAddItem(&BufferI6, &(int){ 1 }), @"Should add the item");
+    CCConcurrentCircularBufferGetEnumerable(&BufferI6, &Enumerable);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Enumerable should not contain anymore values");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Enumerable should not contain anymore values");
+    
     
     
     CCConcurrentCircularBuffer(int, 3) BufferI3 = CC_CONCURRENT_CIRCULAR_BUFFER_INIT;
@@ -243,6 +271,32 @@
     XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Enumerable should not contain anymore values");
     
     CCConcurrentCircularBufferRelease(&BufferI3, &Enumerable);
+    
+    Index = CCConcurrentCircularBufferGetLastIndex(&BufferI3);
+    XCTAssertEqual(CCConcurrentCircularBufferAddItems(&BufferI3, Values, 1), 1, @"Should add all items");
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI3), (Index + 1) % 3, @"Should get the correct index");
+    
+    XCTAssertEqual(CCConcurrentCircularBufferAddItems(&BufferI3, Values + 1, 1), 1, @"Should add all items");
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI3), (Index + 2) % 3, @"Should get the correct index");
+    
+    CCConcurrentCircularBufferSetStartIndex(&BufferI3, Index + 1);
+    XCTAssertEqual(CCConcurrentCircularBufferGetLastIndex(&BufferI3), (Index + 2) % 3, @"Should get the correct index");
+    
+    CCConcurrentCircularBufferGetEnumerable(&BufferI3, &Enumerable);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 2, @"Enumerable should contain the correct value");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Enumerable should not contain anymore values");
+    
+    CCConcurrentCircularBufferSetStartIndex(&BufferI3, CCConcurrentCircularBufferGetLastIndex(&BufferI3));
+    CCConcurrentCircularBufferGetEnumerable(&BufferI3, &Enumerable);
+    
+    XCTAssertEqual(CCEnumerableGetCurrent(&Enumerable), NULL, @"Enumerable should not contain anymore values");
+    
+    XCTAssertTrue(CCConcurrentCircularBufferAddItem(&BufferI3, &(int){ 1 }), @"Should add the item");
+    CCConcurrentCircularBufferGetEnumerable(&BufferI3, &Enumerable);
+    
+    XCTAssertEqual(*(int*)CCEnumerableGetCurrent(&Enumerable), 1, @"Enumerable should not contain anymore values");
+    XCTAssertEqual(CCEnumerableNext(&Enumerable), NULL, @"Enumerable should not contain anymore values");
 }
 
 @end

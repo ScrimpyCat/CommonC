@@ -40,12 +40,28 @@
 
 #define CC_CONCURRENT_CIRCULAR_BUFFER_INIT { .head = ATOMIC_VAR_INIT(0), .tail = ATOMIC_VAR_INIT(0) }
 
+#define CCConcurrentCircularBufferGetLastIndex_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferGetLastIndex, size_t, PTYPE(t *))
+#define CCConcurrentCircularBufferGetStartIndex_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferSetStartIndex, void, PTYPE(t *), size_t)
 #define CCConcurrentCircularBufferGetEnumerable_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferGetEnumerable, void, PTYPE(t *), PTYPE(CCEnumerable *))
 #define CCConcurrentCircularBufferRelease_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferRelease, void, PTYPE(t *), PTYPE(CCEnumerable *))
 #define CCConcurrentCircularBufferAddItem_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItem, _Bool, PTYPE(t *), const PTYPE(void *))
 #define CCConcurrentCircularBufferAddItems_T(t) CC_TEMPLATE_REF(CCConcurrentCircularBufferAddItems, size_t, PTYPE(t *), const PTYPE(void *), size_t)
 
 #undef CCConcurrentCircularBuffer
+
+/*!
+ * @brief Get the index of the last item in the circular buffer.
+ * @param Buffer The concurrent circular buffer.
+ * @return The last index.
+ */
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferGetLastIndex, (PTYPE(T *) Buffer));
+
+/*!
+ * @brief Set the first index of the circular buffer.
+ * @param Buffer The concurrent circular buffer.
+ * @param Index The index to start from. Can use @b CCConcurrentCircularBufferGetLastIndex to advance to the end.
+ */
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentCircularBufferSetStartIndex, (PTYPE(T *) Buffer, size_t Index));
 
 /*!
  * @brief Get the item enumerable from the circular buffer.
@@ -82,6 +98,16 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCConcurrentCircularBufferAddItem, (PT
 CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferAddItems, (PTYPE(T *) Buffer, const PTYPE(void *) Items, size_t Count));
 
 #pragma mark -
+
+CC_TEMPLATE(static CC_FORCE_INLINE size_t, CCConcurrentCircularBufferGetLastIndex, (PTYPE(T *) Buffer))
+{
+    return atomic_load_explicit(&Buffer->tail, memory_order_relaxed);
+}
+
+CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentCircularBufferSetStartIndex, (PTYPE(T *) Buffer, size_t Index))
+{
+    atomic_store_explicit(&Buffer->head, Index % Tmax, memory_order_relaxed);
+}
 
 CC_TEMPLATE(static CC_FORCE_INLINE void, CCConcurrentCircularBufferGetEnumerable, (PTYPE(T *) Buffer, PTYPE(CCEnumerable *) Enumerable))
 {
