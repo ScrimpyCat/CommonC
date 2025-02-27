@@ -29,8 +29,9 @@
 #include <CommonC/Extensions.h>
 #include <CommonC/Allocator.h>
 #include <CommonC/Assertion.h>
+#include <CommonC/Alignment.h>
 
-typedef struct {
+typedef struct CCPoolAllocatorInfo {
     size_t blockSize;
     size_t count, max;
     void *pool;
@@ -38,7 +39,13 @@ typedef struct {
         size_t count;
         size_t *indexes;
     } available;
-} CCPoolAllocatorInfo, *CCPoolAllocator;
+} CCPoolAllocatorInfo;
+
+/*!
+ * @brief The pool allocator.
+ * @description Allows @b CCRetain.
+ */
+typedef struct CCPoolAllocatorInfo *CCPoolAllocator;
 
 typedef struct {
     CCPoolAllocator pool;
@@ -50,9 +57,67 @@ typedef struct {
     CCAllocatorHeader header;
 } CCPoolAllocatorHeader;
 
+/*!
+ * @define CC_POOL_ALLOCATOR_CREATE
+ * @abstract Convenient macro to create a temporary (allocation free) @b CCPoolAllocator.
+ * @discussion If used globally the pool allocator will last for the life of the program, however if used within
+ *             a function it will last for the entirety of the local scope.
+ *
+ * @param size The size of the allocations from the pool.
+ * @param align The alignment of the allocations from the pool.
+ * @param maximum The maximum number of allocations in the pool.
+ */
+#define CC_POOL_ALLOCATOR_CREATE(size, align, maximum) \
+((CCPoolAllocator)&(struct { \
+    CCAllocatorHeader header; \
+    CCPoolAllocatorInfo info; \
+}){ \
+    .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
+    .info = { \
+        .blockSize = CC_ALIGN(size, align), \
+        .count = 0, \
+        .max = maximum, \
+        .pool = (uint8_t*)&(struct { CCPoolAllocatorHeader header; _Alignas(align) uint8_t data[size]; }[maximum]){}[0].data - sizeof(CCPoolAllocatorHeader), \
+        .available = { \
+            .count = 0, \
+            .indexes = (size_t[maximum]){}, \
+        } \
+    } \
+}.info)
 
+
+/*!
+ * @brief Create a pool allocator.
+ * @param Allocator The allocator to be used for the pool itself.
+ * @param Size The size of the allocations from the pool.
+ * @param Alignment The alignment of the allocations from the pool.
+ * @param Max The maximum number of allocations in the pool.
+ * @return The pool allocator. Must be destroyed to free the memory.
+ */
+CC_NEW CCPoolAllocator CCPoolAllocatorCreate(CCAllocatorType Allocator, size_t Size, size_t Alignment, size_t Max);
+
+/*!
+ * @brief Destroy a pool allocator.
+ * @note It's safe to destroy all references to the pool allocator while still maintaining references to allocations
+ *       from the pool. The pool will only be destroyed once all allocations have also been freed.
+ *
+ * @param Pool The pool allocator to be destroyed.
+ */
+void CCPoolAllocatorDestroy(CCPoolAllocator CC_DESTROY(Pool));
+
+/*!
+ * @brief Get the pool index for the allocation.
+ * @param Ptr The allocation to get the index of.
+ * @return The index in the pool for the allocation.
+ */
 static CC_FORCE_INLINE size_t CCPoolAllocatorGetIndex(void *Ptr);
 
+/*!
+ * @brief Get the pointer to the allocation for a given index in the pool.
+ * @param Pool The pool allocator.
+ * @param Index The index in the pool to get the pointer to the allocation for. Note the the allocation must exist.
+ * @return A pointer to the allocation.
+ */
 static CC_FORCE_INLINE void *CCPoolAllocatorGetMemory(CCPoolAllocator Pool, size_t Index);
 
 #pragma mark -
