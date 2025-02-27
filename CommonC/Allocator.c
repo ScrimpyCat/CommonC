@@ -28,6 +28,7 @@
 #include "Assertion_Private.h"
 #include "CallbackAllocator.h"
 #include "DebugAllocator.h"
+#include "PoolAllocator.h"
 #include "Alignment.h"
 #include "MemoryZone.h"
 
@@ -408,12 +409,63 @@ static void AutoreleaseDeallocator(void *Ptr)
 }
 
 
+#pragma mark - Pool Allocator Implementation
+
+static void *PoolAllocator(CCPoolAllocator Pool, size_t Size)
+{
+    CCAssertLog(Pool, "Pool allocator must be provided");
+    
+    if (Size + sizeof(CCPoolAllocatorRef) > Pool->blockSize) return NULL;
+    
+    if (Pool->available.count)
+    {
+        CCPoolAllocatorHeader *Header = (CCPoolAllocatorHeader*)(Pool->pool + (Pool->blockSize * Pool->available.indexes[--Pool->available.count]));
+        
+        Header->ref.pool = CCRetain(Pool);
+        
+        return &Header->header;
+    }
+    
+    if (Pool->count == Pool->max) return NULL;
+    
+    const size_t Index = Pool->count++;
+    
+    CCPoolAllocatorHeader *Header = (CCPoolAllocatorHeader*)(Pool->pool + (Pool->blockSize * Index));
+    
+    Header->ref.index = Index;
+    Header->ref.pool = CCRetain(Pool);
+    
+    return &Header->header;
+}
+
+static void *PoolReallocator(CCPoolAllocator Pool, void *Ptr, size_t Size)
+{
+    CCPoolAllocatorHeader *Header = Ptr - sizeof(CCPoolAllocatorRef);
+    
+    if (Size + sizeof(CCPoolAllocatorRef) > Header->ref.pool->blockSize) return NULL;
+
+    return Ptr;
+}
+
+static void PoolDeallocator(void *Ptr)
+{
+    CCPoolAllocatorHeader *Header = Ptr - sizeof(CCPoolAllocatorRef);
+    CCPoolAllocator Pool = Header->ref.pool;
+    
+    Pool->available.indexes[Pool->available.count++] = Header->ref.index;
+    
+    Header->ref.pool = NULL;
+    
+    CCFree(Pool);
+}
+
+
 #pragma mark -
 
 #ifndef CC_ALLOCATORS_MAX
 #define CC_ALLOCATORS_MAX 20 //If more is needed just recompile.
 #endif
-_Static_assert(CC_ALLOCATORS_MAX >= 9, "Allocator max too small, must allow for the default allocators.");
+_Static_assert(CC_ALLOCATORS_MAX >= 10, "Allocator max too small, must allow for the default allocators.");
 
 
 
@@ -434,7 +486,8 @@ static struct {
         { .allocator = (CCAllocatorFunction)BoundsCheckAllocator, .reallocator = BoundsCheckReallocator, .deallocator = BoundsCheckDeallocator },
         { .allocator = (CCAllocatorFunction)DebugAllocator, .reallocator = (CCReallocatorFunction)DebugReallocator, .deallocator = DebugDeallocator },
         { .allocator = (CCAllocatorFunction)ZoneAllocator, .reallocator = (CCReallocatorFunction)ZoneReallocator, .deallocator = ZoneDeallocator },
-        { .allocator = (CCAllocatorFunction)AutoreleaseAllocator, .reallocator = (CCReallocatorFunction)AutoreleaseReallocator, .deallocator = AutoreleaseDeallocator }
+        { .allocator = (CCAllocatorFunction)AutoreleaseAllocator, .reallocator = (CCReallocatorFunction)AutoreleaseReallocator, .deallocator = AutoreleaseDeallocator },
+        { .allocator = (CCAllocatorFunction)PoolAllocator, .reallocator = (CCReallocatorFunction)PoolReallocator, .deallocator = PoolDeallocator }
     }
 };
 
@@ -453,7 +506,7 @@ void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunct
 
 void *CCMemoryAllocate(CCAllocatorType Type, size_t Size)
 {
-    const int Index = Type.allocator;
+    const int32_t Index = Type.allocator;
     if (Index < 0) return NULL;
     
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Index (%d) exceeds the number of allocators available (%d).", Index, CC_ALLOCATORS_MAX);
@@ -486,7 +539,7 @@ void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
 {
     if (!Ptr) return CCMemoryAllocate(Type, Size);
     
-    const int Index = ((CCAllocatorHeader*)Ptr)[-1].allocator;
+    const int32_t Index = ((CCAllocatorHeader*)Ptr)[-1].allocator;
     if (Index < 0) return NULL;
     
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
@@ -514,7 +567,7 @@ void *CCMemoryRetain(void *Ptr)
     
     CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
-    const int Index = Header->allocator;
+    const int32_t Index = Header->allocator;
     if (Index < 0) return Ptr;
     
 #if CC_ALLOCATOR_USING_STDATOMIC
@@ -534,7 +587,7 @@ int32_t CCMemoryRefCount(void *Ptr)
     
     CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
-    const int Index = Header->allocator;
+    const int32_t Index = Header->allocator;
     if (Index < 0) return INT32_MAX;
     
 #if CC_ALLOCATOR_USING_STDATOMIC
@@ -552,7 +605,7 @@ void CCMemoryDeallocate(void *Ptr)
     
     CCAllocatorHeader *Header = (CCAllocatorHeader*)Ptr - 1;
     
-    const int Index = Header->allocator;
+    const int32_t Index = Header->allocator;
     if (Index < 0) return;
     
 #if CC_ALLOCATOR_USING_STDATOMIC

@@ -383,6 +383,8 @@
 		F394001F23410ECC00EE826D /* Enumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F394001E23410ECC00EE826D /* Enumerable.c */; };
 		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
 		F396A08C2D6A25A6004DC778 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F396A08B2D6A25A6004DC778 /* IOKit.framework */; };
+		F396A0C82D70A440004DC778 /* PoolAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F396A0C62D70A440004DC778 /* PoolAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F396A0CA2D70B5C1004DC778 /* PoolAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F396A0C62D70A440004DC778 /* PoolAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FC1DCA158E006E24B7 /* FileSystemTests.m */; };
 		F39778FF1DCA5A2B006E24B7 /* FileHandleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */; };
 		F39C5F4C2523158A00D80F0D /* TemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39C5F4B2523158A00D80F0D /* TemplateTests.m */; };
@@ -716,6 +718,7 @@
 		F394001E23410ECC00EE826D /* Enumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Enumerable.c; sourceTree = "<group>"; };
 		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
 		F396A08B2D6A25A6004DC778 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		F396A0C62D70A440004DC778 /* PoolAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoolAllocator.h; sourceTree = "<group>"; };
 		F39778FC1DCA158E006E24B7 /* FileSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemTests.m; sourceTree = "<group>"; };
 		F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandleTests.m; sourceTree = "<group>"; };
 		F39C5F4A25220CB500D80F0D /* Template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
@@ -1308,6 +1311,7 @@
 			children = (
 				F353DD5517ADF3BC00D1674C /* Allocator.h */,
 				F353DD5717ADF3C600D1674C /* Allocator.c */,
+				F396A0C62D70A440004DC778 /* PoolAllocator.h */,
 				F3E2746220D5931900D6AFE1 /* DebugAllocator.h */,
 				F3E2746320D5931900D6AFE1 /* DebugAllocator.c */,
 				F3AE99371A6D613600212838 /* CallbackAllocator.h */,
@@ -1694,6 +1698,7 @@
 				F328728121E881D300B1A584 /* Base.h in Headers */,
 				F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
+				F396A0CA2D70B5C1004DC778 /* PoolAllocator.h in Headers */,
 				F3002B972B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F37A6E5B2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
@@ -1824,6 +1829,7 @@
 				F3364F7B25907712002B2378 /* Extrema.h in Headers */,
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
+				F396A0C82D70A440004DC778 /* PoolAllocator.h in Headers */,
 				F3002B962B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F37A6E5A2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,

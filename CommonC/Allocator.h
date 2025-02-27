@@ -32,7 +32,7 @@
 #include <CommonC/DebugAllocator.h>
 
 typedef struct CCAllocatorType {
-    int allocator; //the allocator to be used
+    int32_t allocator; //the allocator to be used
     void *data; //additional data to be passed to that allocator
 } CCAllocatorType;
 
@@ -46,6 +46,7 @@ typedef struct CCAllocatorType {
 #define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 6, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
 #define CC_ZONE_ALLOCATOR(zone) (CCAllocatorType){ .allocator = 7, .data = zone } // Uses memory zone
 #define CC_AUTORELEASE_ALLOCATOR(zone) (CCAllocatorType){ .allocator = 8, .data = zone } // Uses memory zone without retaining
+#define CC_POOL_ALLOCATOR(pool) (CCAllocatorType){ .allocator = 9, .data = pool } // Uses the memory pool
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
@@ -74,7 +75,7 @@ typedef void (*CCMemoryDestructorCallback)(void *Ptr);
 #endif
 
 typedef struct {
-    int allocator;
+    int32_t allocator;
 #if CC_ALLOCATOR_USING_STDATOMIC
     _Atomic(int32_t) refCount;
 #else
