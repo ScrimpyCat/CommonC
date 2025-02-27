@@ -53,7 +53,7 @@ typedef struct {
 
 static CC_FORCE_INLINE size_t CCPoolAllocatorGetIndex(void *Ptr);
 
-static CC_FORCE_INLINE void *CCPoolAllocatorGetPtr(CCPoolAllocator Pool, size_t Index);
+static CC_FORCE_INLINE void *CCPoolAllocatorGetMemory(CCPoolAllocator Pool, size_t Index);
 
 #pragma mark -
 
@@ -66,7 +66,7 @@ static CC_FORCE_INLINE size_t CCPoolAllocatorGetIndex(void *Ptr)
     return Header->ref.index;
 }
 
-static CC_FORCE_INLINE void *CCPoolAllocatorGetPtr(CCPoolAllocator Pool, size_t Index)
+static CC_FORCE_INLINE void *CCPoolAllocatorGetMemory(CCPoolAllocator Pool, size_t Index)
 {
     CCAssertLog(Pool, "Pool must not be null");
     CCAssertLog(Index < Pool->max, "Index must not exceed pool max");
