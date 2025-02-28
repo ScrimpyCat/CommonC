@@ -205,6 +205,26 @@
     CCFree(PtrA);
     CCFree(PtrB);
     CCFree(PtrC);
+    
+    
+    
+    Pool = CCPoolAllocatorCreate(CC_STD_ALLOCATOR, sizeof(int), 128, 4);
+    
+    PtrA = CCMalloc(CC_POOL_ALLOCATOR(Pool), sizeof(int), NULL, NULL);
+    PtrB = CCMalloc(CC_POOL_ALLOCATOR(Pool), sizeof(int), NULL, NULL);
+    PtrC = CCMalloc(CC_POOL_ALLOCATOR(Pool), sizeof(int), NULL, NULL);
+    
+    CCPoolAllocatorDestroy(Pool);
+    
+    XCTAssertEqual(CCMemoryRefCount(Pool), 3, @"allocations should hold references to the pool");
+    
+    XCTAssertEqual((uintptr_t)PtrA, CC_ALIGN((uintptr_t)PtrA, 128), @"allocated memory should be aligned");
+    XCTAssertEqual((uintptr_t)PtrB, CC_ALIGN((uintptr_t)PtrB, 128), @"allocated memory should be aligned");
+    XCTAssertEqual((uintptr_t)PtrC, CC_ALIGN((uintptr_t)PtrC, 128), @"allocated memory should be aligned");
+    
+    CCFree(PtrA);
+    CCFree(PtrB);
+    CCFree(PtrC);
 }
 
 @end
