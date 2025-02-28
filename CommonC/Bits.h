@@ -33,6 +33,7 @@
 #define CCBitsGet(set, index) CCBitsGet_Ref(set, index)(set, index)
 #define CCBitsSet(set, index) CCBitsSet_Ref(set, index)(set, index)
 #define CCBitsClear(set, index) CCBitsClear_Ref(set, index)(set, index)
+#define CCBitsAssign(set, index, value) CCBitsAssign_Ref(set, index, value)(set, index, value)
 #define CCBitsSetRange(set, index, count) CCBitsSetRange_Ref(set, index, count)(set, index, count)
 #define CCBitsClearRange(set, index, count) CCBitsClearRange_Ref(set, index, count)(set, index, count)
 #define CCBitsCount(set, index, count) CCBitsCount_Ref(set, index, count)(set, index, count)
@@ -42,10 +43,12 @@
 #define CCBitsOr(seta, setb, index, count) CCBitsOr_Ref(seta, setb, index, count)(seta, setb, index, count)
 #define CCBitsAnd(seta, setb, index, count) CCBitsAnd_Ref(seta, setb, index, count)(seta, setb, index, count)
 #define CCBitsXor(seta, setb, index, count) CCBitsXor_Ref(seta, setb, index, count)(seta, setb, index, count)
+#define CCBitsCopy(seta, setb, index, count) CCBitsCopy_Ref(seta, setb, index, count)(seta, setb, index, count)
 
 #define CCBitsGet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsGet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsSet_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsSet_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsClear_Ref(set, index) CC_GENERIC((((typeof(set)){0})), CCBitsClear_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
+#define CCBitsAssign_Ref(set, index, value) CC_GENERIC((((typeof(set)){0})), CCBitsAssign_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsSetRange_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsSetRange_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsClearRange_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsClearRange_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsCount_Ref(set, index, count) CC_GENERIC((((typeof(set)){0})), CCBitsCount_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
@@ -55,6 +58,7 @@
 #define CCBitsOr_Ref(seta, setb, index, count) CC_GENERIC((((typeof(seta)){0})), CCBitsOr_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsAnd_Ref(seta, setb, index, count) CC_GENERIC((((typeof(seta)){0})), CCBitsAnd_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 #define CCBitsXor_Ref(seta, setb, index, count) CC_GENERIC((((typeof(seta)){0})), CCBitsXor_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
+#define CCBitsCopy_Ref(seta, setb, index, count) CC_GENERIC((((typeof(seta)){0})), CCBitsCopy_T, CC_GENERIC_MATCH, CC_GENERIC_ERROR, (CC_BITS_T))
 
 #define CC_BITS_T CC_GENERIC_INDEXED_TYPE_LIST(CC_BITS_T, CC_BITS_COUNT)
 

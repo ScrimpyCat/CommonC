@@ -51,6 +51,13 @@
 #define CC_BITS_INIT_CLEAR(set) memset(set, 0, sizeof(set))
 
 /*!
+ * @define CC_BITS_COPY
+ * @brief Copies the entire array of bits from the src to dst.
+ * @warning This should only be used with the variables declared by @b CCBits.
+*/
+#define CC_BITS_COPY(dst, src) _Static_assert(sizeof(src) == sizeof(dst), "Src and Dst must be the same size"); memcpy(dst, src, sizeof(dst))
+
+/*!
  * @define CC_BITS_BLOCK_SIZE
  * @brief Get the size of one block (number of bits in a block) for the array of bits.
 */
