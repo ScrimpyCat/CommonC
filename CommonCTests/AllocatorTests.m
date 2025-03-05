@@ -57,12 +57,19 @@ static void DestructorFunction(void *Ptr)
 static const uint32_t TestAllocator = 19;
 @implementation AllocatorTests
 
--(void) setUp
++(void) setUp
 {
     [super setUp];
     
     // Set-up code here.
     CCAllocatorAdd(TestAllocator, AllocatorFunction, NULL, DeallocatorFunction);
+}
+
+-(void) setUp
+{
+    [super setUp];
+    
+    CalledA = NO; CalledD = NO; PassedData = NO; HeaderIntact = NO; CorrectPtr = NO; CalledDtor = NO;
 }
 
 -(void) tearDown
@@ -111,6 +118,30 @@ static const uint32_t TestAllocator = 19;
     }
     
     XCTAssertTrue(CalledDtor, @"Should call custom destructor");
+}
+
+-(void) testAllocationGroups
+{
+    CCAllocatorType GroupAllocator = CC_ALLOCATORS(((CCAllocatorType){ .allocator = TestAllocator, .data = &(int){ 0xdeadbeef } }), CC_STD_ALLOCATOR);
+    
+    int *PtrA = CCMemoryAllocate(GroupAllocator, sizeof(int));
+    
+    XCTAssertTrue(CalledA, @"CCAllocate should call the custom allocator.");
+    
+    int *PtrB = CCMemoryAllocate(GroupAllocator, sizeof(int));
+    int *PtrC = CCMemoryAllocate(GroupAllocator, sizeof(int));
+    
+    *PtrA = 1;
+    *PtrB = 2;
+    *PtrC = 3;
+    
+    XCTAssertEqual(*PtrA, 1, @"Should be a unique allocation");
+    XCTAssertEqual(*PtrB, 2, @"Should be a unique allocation");
+    XCTAssertEqual(*PtrC, 3, @"Should be a unique allocation");
+    
+    CCFree(PtrA);
+    CCFree(PtrB);
+    CCFree(PtrC);
 }
 
 @end

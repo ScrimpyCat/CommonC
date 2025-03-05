@@ -33,9 +33,17 @@
 
 typedef struct CCAllocatorType {
     int32_t allocator; //the allocator to be used
-    void *data; //additional data to be passed to that allocator
+    void *data; //additional data to be passed to that allocator. Must ensure the lifetime of that data extends past the lifetime of the allocation.
 } CCAllocatorType;
 
+typedef struct {
+    size_t current;
+    size_t count;
+    CCAllocatorType allocators[];
+} CCAllocatorGroup;
+
+
+#define CC_ALLOCATORS(...) (CCAllocatorType){ .allocator = -2, &(union { CCAllocatorGroup group; struct { size_t current; size_t count; CCAllocatorType allocators[CC_VA_ARG_COUNT(__VA_ARGS__)]; } internal; }){ .internal = { .current = 0, .count = CC_VA_ARG_COUNT(__VA_ARGS__), .allocators = { __VA_ARGS__ } } }.group } //Array of allocators to apply a unique one to each child allocation. The last allocator is used for all remaining allocations.
 #define CC_NULL_ALLOCATOR (CCAllocatorType){ .allocator = -1 } //No allocation
 #define CC_STATIC_ALLOCATOR (CCAllocatorType){ .allocator = 0 } //No allocation (requires static memory)
 #define CC_STD_ALLOCATOR (CCAllocatorType){ .allocator = 1 } //Uses stdlib

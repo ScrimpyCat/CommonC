@@ -507,7 +507,21 @@ void CCAllocatorAdd(int Index, CCAllocatorFunction Allocator, CCReallocatorFunct
 void *CCMemoryAllocate(CCAllocatorType Type, size_t Size)
 {
     const int32_t Index = Type.allocator;
-    if (Index < 0) return NULL;
+    if (Index < 0)
+    {
+        void *Ptr = NULL;
+        
+        if (Index == -2)
+        {
+            CCAllocatorGroup *Group = Type.data;
+            
+            Ptr = CCMemoryAllocate(Group->allocators[Group->current], Size);
+            
+            if (Group->current + 1 < Group->count) Group->current++;
+        }
+        
+        return Ptr;
+    }
     
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Index (%d) exceeds the number of allocators available (%d).", Index, CC_ALLOCATORS_MAX);
     const CCAllocatorFunction Allocator = Allocators.allocators[Index].allocator;
@@ -540,7 +554,21 @@ void *CCMemoryReallocate(CCAllocatorType Type, void *Ptr, size_t Size)
     if (!Ptr) return CCMemoryAllocate(Type, Size);
     
     const int32_t Index = ((CCAllocatorHeader*)Ptr)[-1].allocator;
-    if (Index < 0) return NULL;
+    if (Index < 0)
+    {
+        void *Ptr = NULL;
+        
+        if (Index == -2)
+        {
+            CCAllocatorGroup *Group = Type.data;
+            
+            Ptr = CCMemoryAllocate(Group->allocators[Group->current], Size);
+            
+            if (Group->current + 1 < Group->count) Group->current++;
+        }
+        
+        return Ptr;
+    }
     
     CCAssertLog(Index < CC_ALLOCATORS_MAX, "Memory has been modified outside of its bounds.");
     const CCReallocatorFunction Reallocator = Allocators.allocators[Index].reallocator;
