@@ -74,7 +74,7 @@ typedef struct {
 }){ \
     .header = CC_ALLOCATOR_HEADER_INIT(CC_NULL_ALLOCATOR.allocator), \
     .info = { \
-        .blockSize = CC_ALIGN(size, align), \
+        .blockSize = CC_ALIGN(size + sizeof(CCPoolAllocatorHeader), align), \
         .count = 0, \
         .max = maximum, \
         .pool = (uint8_t*)&(struct { CCPoolAllocatorHeader header; _Alignas(align) uint8_t data[size]; }[maximum]){}[0].data - sizeof(CCPoolAllocatorHeader), \
