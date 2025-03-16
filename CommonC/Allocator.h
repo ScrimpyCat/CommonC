@@ -43,18 +43,18 @@ typedef struct {
 } CCAllocatorGroup;
 
 
-#define CC_ALLOCATORS(...) (CCAllocatorType){ .allocator = -2, &(union { CCAllocatorGroup group; struct { size_t current; size_t count; CCAllocatorType allocators[CC_VA_ARG_COUNT(__VA_ARGS__)]; } internal; }){ .internal = { .current = 0, .count = CC_VA_ARG_COUNT(__VA_ARGS__), .allocators = { __VA_ARGS__ } } }.group } //Array of allocators to apply a unique one to each child allocation. The last allocator is used for all remaining allocations.
-#define CC_NULL_ALLOCATOR (CCAllocatorType){ .allocator = -1 } //No allocation
-#define CC_STATIC_ALLOCATOR (CCAllocatorType){ .allocator = 0 } //No allocation (requires static memory)
-#define CC_STD_ALLOCATOR (CCAllocatorType){ .allocator = 1 } //Uses stdlib
-#define CC_CUSTOM_ALLOCATOR(alloc, realloc, dealloc) (CCAllocatorType){ .allocator = 2, .data = (void*[3]){ alloc, realloc, dealloc } }
-#define CC_CALLBACK_ALLOCATOR(callback) (CCAllocatorType){ .allocator = 3, .data = callback } //Uses stdlib
-#define CC_ALIGNED_ALLOCATOR(alignment) (CCAllocatorType){ .allocator = 4, .data = &(size_t){ alignment } } //Uses stdlib
-#define CC_BOUNDS_CHECK_ALLOCATOR (CCAllocatorType){ .allocator = 5 } //Uses stdlib
-#define CC_DEBUG_ALLOCATOR (CCAllocatorType){ .allocator = 6, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } } //Uses stdlib
-#define CC_ZONE_ALLOCATOR(zone) (CCAllocatorType){ .allocator = 7, .data = zone } // Uses memory zone
-#define CC_AUTORELEASE_ALLOCATOR(zone) (CCAllocatorType){ .allocator = 8, .data = zone } // Uses memory zone without retaining
-#define CC_POOL_ALLOCATOR(pool) (CCAllocatorType){ .allocator = 9, .data = pool } // Uses the memory pool
+#define CC_ALLOCATORS(...) ((CCAllocatorType){ .allocator = -2, &(union { CCAllocatorGroup group; struct { size_t current; size_t count; CCAllocatorType allocators[CC_VA_ARG_COUNT(__VA_ARGS__)]; } internal; }){ .internal = { .current = 0, .count = CC_VA_ARG_COUNT(__VA_ARGS__), .allocators = { __VA_ARGS__ } } }.group }) //Array of allocators to apply a unique one to each child allocation. The last allocator is used for all remaining allocations.
+#define CC_NULL_ALLOCATOR ((CCAllocatorType){ .allocator = -1 }) //No allocation
+#define CC_STATIC_ALLOCATOR ((CCAllocatorType){ .allocator = 0 }) //No allocation (requires static memory)
+#define CC_STD_ALLOCATOR ((CCAllocatorType){ .allocator = 1 }) //Uses stdlib
+#define CC_CUSTOM_ALLOCATOR(alloc, realloc, dealloc) ((CCAllocatorType){ .allocator = 2, .data = (void*[3]){ alloc, realloc, dealloc } })
+#define CC_CALLBACK_ALLOCATOR(callback) ((CCAllocatorType){ .allocator = 3, .data = callback }) //Uses stdlib
+#define CC_ALIGNED_ALLOCATOR(alignment) ((CCAllocatorType){ .allocator = 4, .data = &(size_t){ alignment } }) //Uses stdlib
+#define CC_BOUNDS_CHECK_ALLOCATOR ((CCAllocatorType){ .allocator = 5 }) //Uses stdlib
+#define CC_DEBUG_ALLOCATOR ((CCAllocatorType){ .allocator = 6, .data = &(CCDebugAllocatorInfo){ .line = __LINE__, .file = __FILE__ } }) //Uses stdlib
+#define CC_ZONE_ALLOCATOR(zone) ((CCAllocatorType){ .allocator = 7, .data = zone }) // Uses memory zone
+#define CC_AUTORELEASE_ALLOCATOR(zone) ((CCAllocatorType){ .allocator = 8, .data = zone }) // Uses memory zone without retaining
+#define CC_POOL_ALLOCATOR(pool) ((CCAllocatorType){ .allocator = 9, .data = pool }) // Uses the memory pool
 
 typedef void *(*CCAllocatorFunction)(void *Data, size_t Size); //Additional data to be passed to the allocator (data from CCAllocatorType data member)
 typedef void *(*CCReallocatorFunction)(void *Data, void *Ptr, size_t Size);
