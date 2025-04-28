@@ -42,6 +42,7 @@
 #include <float.h>
 #include <stdbool.h>
 #include <stdatomic.h>
+#include <stdalign.h>
 
 #ifndef TRUE
 #define TRUE true

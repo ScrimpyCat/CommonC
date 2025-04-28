@@ -289,7 +289,7 @@ static void *ZoneAllocator(CCMemoryZone Zone, size_t Size)
     const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
     CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
     
-    void *Head = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *Head = CCMemoryZoneAlignedAllocate(Zone, Size + sizeof(CCZoneMemoryHeader), alignof(max_align_t));
     
     ((CCZoneMemoryHeader*)Head)->zone = CCRetain(Zone);
     ((CCZoneMemoryHeader*)Head)->size = Size;
@@ -328,7 +328,7 @@ static void *ZoneReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
         }
     }
     
-    void *NewHead = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *NewHead = CCMemoryZoneAlignedAllocate(Zone, Size + sizeof(CCZoneMemoryHeader), alignof(max_align_t));
     void *NewPtr = NewHead + sizeof(CCZoneMemoryHeader);
     
     memcpy(NewPtr, Ptr, Size);
@@ -354,7 +354,7 @@ static void *AutoreleaseAllocator(CCMemoryZone Zone, size_t Size)
     const size_t BlockSize = CCMemoryZoneGetBlockSize(Zone);
     CCAssertLog((Size + sizeof(CCZoneMemoryHeader)) < BlockSize, "Allocation size (%zu) must be less than memory zone block size (%zu)", Size + sizeof(CCZoneMemoryHeader), BlockSize);
     
-    void *Head = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *Head = CCMemoryZoneAlignedAllocate(Zone, Size + sizeof(CCZoneMemoryHeader), alignof(max_align_t));
     
     ((CCZoneMemoryHeader*)Head)->zone = Zone;
     ((CCZoneMemoryHeader*)Head)->size = Size;
@@ -393,7 +393,7 @@ static void *AutoreleaseReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
         }
     }
     
-    void *NewHead = CCMemoryZoneAllocate(Zone, Size + sizeof(CCZoneMemoryHeader));
+    void *NewHead = CCMemoryZoneAlignedAllocate(Zone, Size + sizeof(CCZoneMemoryHeader), alignof(max_align_t));
     void *NewPtr = NewHead + sizeof(CCZoneMemoryHeader);
     
     memcpy(NewPtr, Ptr, Size);

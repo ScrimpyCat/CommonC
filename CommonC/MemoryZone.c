@@ -27,6 +27,7 @@
 #include "MemoryAllocation.h"
 #include "Logging.h"
 #include "Maths.h"
+#include "Alignment.h"
 
 #ifndef CC_MEMORY_ZONE_LOCAL_SIZE
 #define CC_MEMORY_ZONE_LOCAL_SIZE 4096
@@ -105,6 +106,24 @@ void CCMemoryZoneDestroy(CCMemoryZone Zone)
     CCAssertLog(Zone, "Zone must not be null");
     
     CCFree(Zone);
+}
+
+void *CCMemoryZoneAlignedAllocate(CCMemoryZone Zone, size_t Size, size_t Alignment)
+{
+    CCAssertLog(Zone, "Zone must not be null");
+    CCAssertLog(Size, "Size must not be zero");
+    CCAssertLog(Size <= (Size + Alignment), "Alignment must not cause Size to overflow");
+    
+    CCMemoryZoneBlock *Block = Zone->block.last;
+    
+    const ptrdiff_t Offset = (ptrdiff_t)Block->data + Block->offset;
+    ptrdiff_t Pad = CC_ALIGN(Offset, Alignment) - Offset;
+    
+    if (Pad > (Zone->blockSize - Block->offset)) Pad = Alignment;
+    
+    void *Ptr = CCMemoryZoneAllocate(Zone, Size + Pad);
+    
+    return (void*)CC_ALIGN((ptrdiff_t)Ptr, Alignment);
 }
 
 void *CCMemoryZoneAllocate(CCMemoryZone Zone, size_t Size)

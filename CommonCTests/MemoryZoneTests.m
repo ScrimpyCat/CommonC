@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MemoryZone.h"
+#import "Alignment.h"
 
 @interface MemoryZoneTests : XCTestCase
 
@@ -794,6 +795,23 @@
     
     XCTAssertEqual(CCEnumerableNext(&Enumerable2_Inf), x15, @"Should get the correct pointer");
     XCTAssertEqual(CCEnumerableNext(&Enumerable6_Inf), x15, @"Should get the correct pointer");
+    
+    CCMemoryZoneDestroy(Zone);
+}
+
+-(void) testAlignment
+{
+    CCMemoryZone Zone = CCMemoryZoneCreate(CC_STD_ALLOCATOR, 128 + sizeof(uint64_t));
+    
+    uintptr_t Ptr = (uintptr_t)CCMemoryZoneAlignedAllocate(Zone, sizeof(uint64_t), 128);
+    
+    XCTAssertEqual(Ptr, CC_ALIGN(Ptr, 128), @"Should be aligned");
+    
+    Ptr = (uintptr_t)CCMemoryZoneAlignedAllocate(Zone, sizeof(uint64_t), 128);
+    
+    XCTAssertEqual(Ptr, CC_ALIGN(Ptr, 128), @"Should be aligned");
+    
+    CCMemoryZoneDeallocate(Zone, sizeof(uint64_t));
     
     CCMemoryZoneDestroy(Zone);
 }

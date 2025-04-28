@@ -85,6 +85,15 @@ CC_NEW CCMemoryZone CCMemoryZoneCreate(CCAllocatorType Allocator, size_t BlockSi
 void CCMemoryZoneDestroy(CCMemoryZone CC_DESTROY(Zone));
 
 /*!
+ * @brief Allocate some memory from the memory zone with the provided alignment.
+ * @param Zone The memory zone to suballocate in.
+ * @param Size The size of the allocation. The size must be smaller than the block size.
+ * @param Alignment The alignment for the allocation.
+ * @return A pointer to the memory, or NULL on failure.
+ */
+void *CCMemoryZoneAlignedAllocate(CCMemoryZone Zone, size_t Size, size_t Alignment);
+
+/*!
  * @brief Allocate some memory from the memory zone.
  * @param Zone The memory zone to suballocate in.
  * @param Size The size of the allocation. The size must be smaller than the block size.
