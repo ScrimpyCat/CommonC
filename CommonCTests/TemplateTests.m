@@ -208,16 +208,26 @@
     
     XCTAssertEqualObjects(MANGLE(float), @"F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(double), @"F64", @"should have correct value");
+#if DBL_MANT_DIG == LDBL_MANT_DIG
+    XCTAssertEqualObjects(MANGLE(long double), @"F64", @"should have correct value");
+#else
     XCTAssertEqualObjects(MANGLE(long double), @"F80", @"should have correct value");
+#endif
     XCTAssertEqualObjects(MANGLE(FPTYPE(float(*)(int a, float b))), @"fp2F32_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(float(*)(void))(*)(int a, float b))), @"fp2fp1F32_V_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(FPTYPE(float(*)(void))(*)(void))(*)(int a, float b))), @"fp2fp1fp1F32_V_V_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(double(*)(int a, float b))), @"fp2F64_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(double(*)(void))(*)(int a, float b))), @"fp2fp1F64_V_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(FPTYPE(double(*)(void))(*)(void))(*)(int a, float b))), @"fp2fp1fp1F64_V_V_I32_F32", @"should have correct value");
+#if DBL_MANT_DIG == LDBL_MANT_DIG
+    XCTAssertEqualObjects(MANGLE(FPTYPE(long double(*)(int a, float b))), @"fp2F64_I32_F32", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(long double(*)(void))(*)(int a, float b))), @"fp2fp1F64_V_I32_F32", @"should have correct value");
+    XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(FPTYPE(long double(*)(void))(*)(void))(*)(int a, float b))), @"fp2fp1fp1F64_V_V_I32_F32", @"should have correct value");
+#else
     XCTAssertEqualObjects(MANGLE(FPTYPE(long double(*)(int a, float b))), @"fp2F80_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(long double(*)(void))(*)(int a, float b))), @"fp2fp1F80_V_I32_F32", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(FPTYPE(FPTYPE(FPTYPE(long double(*)(void))(*)(void))(*)(int a, float b))), @"fp2fp1fp1F80_V_V_I32_F32", @"should have correct value");
+#endif
     
     XCTAssertEqualObjects(MANGLE(int8_t), @"I8", @"should have correct value");
     XCTAssertEqualObjects(MANGLE(uint8_t), @"U8", @"should have correct value");
