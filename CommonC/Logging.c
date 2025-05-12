@@ -86,10 +86,16 @@
 #include <Block.h>
 #endif
 
-#if CC_PLATFORM_IOS
+#if CC_PLATFORM_APPLE
+#if CC_HARDWARE_ARCH_ARM || CC_HARDWARE_ARCH_ARM_64
 #define CC_VA_LIST_IS_POINTER 0 //need to get it ourselves
-#elif CC_PLATFORM_OS_X
+#elif CC_HARDWARE_ARCH_X86 || CC_HARDWARE_ARCH_X86_64
 #define CC_VA_LIST_IS_POINTER 1 //implicit
+#else
+#error Missing architecture
+#endif
+#else
+#error Missing platform
 #endif
 
 
