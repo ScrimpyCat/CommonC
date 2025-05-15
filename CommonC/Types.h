@@ -106,6 +106,10 @@ typedef struct {
     CCVector2D position, size;
 } CCRect;
 
+typedef struct {
+    CCVector2Di position, size;
+} CCRecti;
+
 typedef union {
     struct {
         CCVector2D x;
