@@ -34,11 +34,11 @@
 #include <math.h>
 
 
-#define CCVector4DMake(x, y, z, w) (CCVector4D){ (x), (y), (z), (w) }
+#define CCVector4DMake(x, y, z, w) ((CCVector4D){ (x), (y), (z), (w) })
 #define CCVector4DFill(x) CCVector4DMake(x, x, x, x)
 #define CCVector4DZero CCVector4DFill(0.0f)
 
-#define CCVector4DiMake(x, y, z, w) (CCVector4Di){ (x), (y), (z), (w) }
+#define CCVector4DiMake(x, y, z, w) ((CCVector4Di){ (x), (y), (z), (w) })
 #define CCVector4DiFill(x) CCVector4DiMake(x, x, x, x)
 #define CCVector4DiZero CCVector4DiFill(0)
 
