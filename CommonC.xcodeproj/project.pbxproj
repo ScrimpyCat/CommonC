@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -292,6 +292,19 @@
 		F35B1F372C31B5E8009325F0 /* ValidateMaximum.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */; };
 		F35B1F382C31B5ED009325F0 /* ValidateMaximum.h in Headers */ = {isa = PBXBuildFile; fileRef = F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F35B1F392C31B5FB009325F0 /* Reflect.c in Sources */ = {isa = PBXBuildFile; fileRef = F3ED7E8A2B404C6D00E66F8C /* Reflect.c */; };
+		F36057162DD901D60045C2BD /* RangeTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057152DD901D60045C2BD /* RangeTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36057172DD901D60045C2BD /* RangeTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057152DD901D60045C2BD /* RangeTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360571A2DD902870045C2BD /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057192DD902870045C2BD /* Range.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360571B2DD902870045C2BD /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057192DD902870045C2BD /* Range.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360571D2DD9069C0045C2BD /* RangeBaseTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F360571C2DD9069C0045C2BD /* RangeBaseTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360571E2DD9069C0045C2BD /* RangeBaseTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F360571C2DD9069C0045C2BD /* RangeBaseTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36057222DD90BD80045C2BD /* RangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F36057212DD90BD80045C2BD /* RangeTests.m */; };
+		F36057272DD9369F0045C2BD /* RangeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057262DD9369F0045C2BD /* RangeBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F36057282DD9369F0045C2BD /* RangeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = F36057262DD9369F0045C2BD /* RangeBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360572B2DDA42E30045C2BD /* Numeric.h in Headers */ = {isa = PBXBuildFile; fileRef = F360572A2DDA42E30045C2BD /* Numeric.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360572C2DDA42E30045C2BD /* Numeric.h in Headers */ = {isa = PBXBuildFile; fileRef = F360572A2DDA42E30045C2BD /* Numeric.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360572E2DDA42F20045C2BD /* NumericTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F360572D2DDA42F20045C2BD /* NumericTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F360572F2DDA42F20045C2BD /* NumericTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F360572D2DDA42F20045C2BD /* NumericTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F362027517AC3FFD00153E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F362027317AC3FFD00153E85 /* InfoPlist.strings */; };
 		F362027917AC3FFD00153E85 /* CommonC.c in Sources */ = {isa = PBXBuildFile; fileRef = F362027817AC3FFD00153E85 /* CommonC.c */; };
 		F362028217AC3FFD00153E85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F362026A17AC3FFD00153E85 /* Cocoa.framework */; };
@@ -645,6 +658,13 @@
 		F35AF324209A24BC00D174DD /* ConcurrentGarbageCollectorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentGarbageCollectorTests.m; sourceTree = "<group>"; };
 		F35B1F322C31B5D8009325F0 /* ValidateMaximum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValidateMaximum.h; sourceTree = "<group>"; };
 		F35B1F332C31B5D8009325F0 /* ValidateMaximum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ValidateMaximum.c; sourceTree = "<group>"; };
+		F36057152DD901D60045C2BD /* RangeTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RangeTemplate.h; sourceTree = "<group>"; };
+		F36057192DD902870045C2BD /* Range.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		F360571C2DD9069C0045C2BD /* RangeBaseTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RangeBaseTemplate.h; sourceTree = "<group>"; };
+		F36057212DD90BD80045C2BD /* RangeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RangeTests.m; sourceTree = "<group>"; };
+		F36057262DD9369F0045C2BD /* RangeBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RangeBase.h; sourceTree = "<group>"; };
+		F360572A2DDA42E30045C2BD /* Numeric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Numeric.h; sourceTree = "<group>"; };
+		F360572D2DDA42F20045C2BD /* NumericTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NumericTemplate.h; sourceTree = "<group>"; };
 		F362026717AC3FFD00153E85 /* CommonC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommonC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F362026A17AC3FFD00153E85 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F362026D17AC3FFD00153E85 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1078,6 +1098,8 @@
 			isa = PBXGroup;
 			children = (
 				F353DD6D17B0239C00D1674C /* Types.h */,
+				F36057292DDA42BD0045C2BD /* Numeric */,
+				F36057182DD902770045C2BD /* Range */,
 			);
 			name = Types;
 			sourceTree = "<group>";
@@ -1200,6 +1222,34 @@
 			name = "Data Implementations";
 			sourceTree = "<group>";
 		};
+		F36057182DD902770045C2BD /* Range */ = {
+			isa = PBXGroup;
+			children = (
+				F36057192DD902870045C2BD /* Range.h */,
+				F36057262DD9369F0045C2BD /* RangeBase.h */,
+				F36057152DD901D60045C2BD /* RangeTemplate.h */,
+				F360571C2DD9069C0045C2BD /* RangeBaseTemplate.h */,
+			);
+			name = Range;
+			sourceTree = "<group>";
+		};
+		F36057202DD90BA90045C2BD /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				F36057212DD90BD80045C2BD /* RangeTests.m */,
+			);
+			name = Types;
+			sourceTree = "<group>";
+		};
+		F36057292DDA42BD0045C2BD /* Numeric */ = {
+			isa = PBXGroup;
+			children = (
+				F360572A2DDA42E30045C2BD /* Numeric.h */,
+				F360572D2DDA42F20045C2BD /* NumericTemplate.h */,
+			);
+			name = Numeric;
+			sourceTree = "<group>";
+		};
 		F362025D17AC3FFD00153E85 = {
 			isa = PBXGroup;
 			children = (
@@ -1295,6 +1345,7 @@
 				F353DD8717B586ED00D1674C /* System */,
 				F353DD5217ADEE5A00D1674C /* Debug */,
 				F353DD5417ADEE6F00D1674C /* Memory */,
+				F36057202DD90BA90045C2BD /* Types */,
 				F362028717AC3FFD00153E85 /* Supporting Files */,
 				F3FDAB62243C91AB00DEB68B /* EnumTests.m */,
 				F3C5335328CEA9F900038DCA /* CompileTimeSortTests.m */,
@@ -1618,6 +1669,7 @@
 				F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
 				F3364F7F25949B94002B2378 /* ExtremaTemplate.h in Headers */,
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
+				F36057272DD9369F0045C2BD /* RangeBase.h in Headers */,
 				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
 				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
@@ -1630,6 +1682,7 @@
 				F30437CD1C62E0E600388C74 /* CollectionInterface.h in Headers */,
 				F3364FB725B232EA002B2378 /* Generic4.h in Headers */,
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
+				F360572F2DDA42F20045C2BD /* NumericTemplate.h in Headers */,
 				F3BB38F32CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */,
@@ -1663,6 +1716,7 @@
 				F30437B81C62E07F00388C74 /* Hacks.h in Headers */,
 				F30437F91C62E21100388C74 /* Allocator.h in Headers */,
 				F39C5F4E252315C400D80F0D /* Template.h in Headers */,
+				F36057172DD901D60045C2BD /* RangeTemplate.h in Headers */,
 				F341B75D29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75429F2E6C800CBA1EE /* Bits.h in Headers */,
 				F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
@@ -1684,6 +1738,7 @@
 				F30437C41C62E0BD00388C74 /* DataBuffer.h in Headers */,
 				F30437B21C62E02C00388C74 /* Common.h in Headers */,
 				F30437BA1C62E08A00388C74 /* Hash.h in Headers */,
+				F360571D2DD9069C0045C2BD /* RangeBaseTemplate.h in Headers */,
 				F30437E61C62E1A900388C74 /* FileSystem.h in Headers */,
 				F36F83081D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
 				F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */,
@@ -1706,6 +1761,7 @@
 				F37A31E628F2FE00007B4209 /* ConcurrentPool.h in Headers */,
 				F328728421E881D300B1A584 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F396A0CA2D70B5C1004DC778 /* PoolAllocator.h in Headers */,
+				F360571A2DD902870045C2BD /* Range.h in Headers */,
 				F3002B972B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F37A6E5B2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F328728221E881D300B1A584 /* ConsecutiveIDGenerator.h in Headers */,
@@ -1723,6 +1779,7 @@
 				F30D804623A6979C0011A14D /* BigInt.h in Headers */,
 				F328728721E881D300B1A584 /* DebugAllocator.h in Headers */,
 				F328728521E881D300B1A584 /* ConcurrentBuffer.h in Headers */,
+				F360572C2DDA42E30045C2BD /* Numeric.h in Headers */,
 				F38E7ADC2CA1022600F44918 /* CircularEnumerable.h in Headers */,
 				F328728321E881D300B1A584 /* ConcurrentIDGenerator.h in Headers */,
 				F37979AF2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h in Headers */,
@@ -1749,6 +1806,7 @@
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
 				F3364F7E25949B94002B2378 /* ExtremaTemplate.h in Headers */,
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
+				F36057282DD9369F0045C2BD /* RangeBase.h in Headers */,
 				F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
 				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
@@ -1761,6 +1819,7 @@
 				F353DD6E17B0239C00D1674C /* Types.h in Headers */,
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
 				F3364FB625B232E9002B2378 /* Generic4.h in Headers */,
+				F360572E2DDA42F20045C2BD /* NumericTemplate.h in Headers */,
 				F3BB38F22CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F33A69602CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */,
@@ -1794,6 +1853,7 @@
 				F342191D1D0C47A400FDBC8A /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
 				F3AE99321A6D0FFF00212838 /* LinkedList.h in Headers */,
 				F3364F812595D320002B2378 /* Generic1.h in Headers */,
+				F36057162DD901D60045C2BD /* RangeTemplate.h in Headers */,
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
 				F341B75C29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */,
@@ -1815,6 +1875,7 @@
 				F37AFAA51A78F21A0037ECB2 /* CollectionTypes.h in Headers */,
 				F312A0431DB83E0E0003BB24 /* ConcurrentGarbageCollector.h in Headers */,
 				F3143AA51A8A9019004EB810 /* OrderedCollection.h in Headers */,
+				F360571E2DD9069C0045C2BD /* RangeBaseTemplate.h in Headers */,
 				F36F82F91D0FB56000193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F31BEE94208276D200DD7F83 /* ConcurrentIndexMap.h in Headers */,
 				F30C846F1D1330B500EFF5F2 /* DictionaryHashMap.h in Headers */,
@@ -1837,6 +1898,7 @@
 				F36F832F1D10C1E300193B08 /* Dictionary.h in Headers */,
 				F3B228E6207929E400550A6A /* ConcurrentTree.h in Headers */,
 				F396A0C82D70A440004DC778 /* PoolAllocator.h in Headers */,
+				F360571B2DD902870045C2BD /* Range.h in Headers */,
 				F3002B962B9C8A9000EFC5A0 /* Swap.h in Headers */,
 				F37A6E5A2C78C01500F97BC3 /* ReflectStream.h in Headers */,
 				F359D0211C12B13E0028B86B /* DataTypes.h in Headers */,
@@ -1854,6 +1916,7 @@
 				F318D92E1C4DD7CB005AE64E /* Matrix.h in Headers */,
 				F3067B791C591AA800766814 /* Vector4D.h in Headers */,
 				F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */,
+				F360572B2DDA42E30045C2BD /* Numeric.h in Headers */,
 				F38E7ADB2CA1022600F44918 /* CircularEnumerable.h in Headers */,
 				F318D9301C4DD829005AE64E /* Matrix4.h in Headers */,
 				F37979AE2CAC32D700CF5B87 /* ConcurrentCircularBuffer.h in Headers */,
@@ -2200,6 +2263,7 @@
 				F3BC6A3C1877A84F00934291 /* Vectorized3DSSE4_1Tests.m in Sources */,
 				F341B75829F2E71600CBA1EE /* BitSetsTests.m in Sources */,
 				F3067B7B1C591AF300766814 /* Vector4DTests.m in Sources */,
+				F36057222DD90BD80045C2BD /* RangeTests.m in Sources */,
 				F3BC6A361877A82700934291 /* Vectorized3DSSE2Tests.m in Sources */,
 				F37A31E828F325DE007B4209 /* ConcurrentPoolTests.m in Sources */,
 				F3FDAB63243C91AB00DEB68B /* EnumTests.m in Sources */,
