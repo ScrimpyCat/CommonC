@@ -35,17 +35,34 @@ CC_TEMPLATE(static CC_FORCE_INLINE T, CCClamp, (const T Val, const T Min, const 
 
 #pragma mark -
 
+#ifndef CC_MIN
+#define CC_MIN(a, b) (CCNumericLessThan(a, b) ? (a) : (b))
+#endif
+
+#ifndef CC_MAX
+#define CC_MAX(a, b) (CCNumericGreaterThan(a, b) ? (a) : (b))
+#endif
+
+#ifndef CC_CLAMP
+#define CC_CLAMP(val, min, max) CCMin_T(T)(CCMax_T(T)(val, min), max)
+#endif
+
+
 CC_TEMPLATE(static CC_FORCE_INLINE T, CCMin, (const T a, const T b))
 {
-    return a < b ? a : b;
+    return CC_MIN(a, b);
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE T, CCMax, (const T a, const T b))
 {
-    return a > b ? a : b;
+    return CC_MAX(a, b);
 }
 
 CC_TEMPLATE(static CC_FORCE_INLINE T, CCClamp, (const T Val, const T Min, const T Max))
 {
-    return CCMin_T(T)(CCMax_T(T)(Val, Min), Max);
+    return CC_CLAMP(Val, Min, Max);
 }
+
+#undef CC_MIN
+#undef CC_MAX
+#undef CC_CLAMP
