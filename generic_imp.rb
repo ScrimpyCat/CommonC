@@ -2,6 +2,7 @@ param_count = 1
 max_imps = 20
 max_types = 10
 include_header = true
+always_preserve_type = false
 params = []
 symbols = []
 templates = []
@@ -65,6 +66,10 @@ ARGV.each { |e|
             include_header = false
         when '-eh'
             include_header = false
+        when '--always-preserve'
+            always_preserve_type = true
+        when '-ap'
+            always_preserve_type = true
         when '--param'
             input = :param
         when '-p'
@@ -328,7 +333,7 @@ params.each { |p|
 }
 
 mappings = mappings.map { |m| m.split('=').first }.select { |m| not m[/^(#{params.join('|')})$/] }
-if mappings.count > 0
+if mappings.count > 0 and not always_preserve_type
     puts ""
     puts "#ifndef CC_GENERIC_PRESERVE_TYPE"
     mappings.each { |m| puts "#undef #{m}" }
