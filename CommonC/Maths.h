@@ -37,6 +37,54 @@
 #endif
 
 #define T float
+#include <CommonC/Numeric.h>
+
+#define T double
+#include <CommonC/Numeric.h>
+
+#define T int8_t
+#include <CommonC/Numeric.h>
+
+#define T int16_t
+#include <CommonC/Numeric.h>
+
+#define T int32_t
+#include <CommonC/Numeric.h>
+
+#define T int64_t
+#include <CommonC/Numeric.h>
+
+#define T uint8_t
+#include <CommonC/Numeric.h>
+
+#define T uint16_t
+#include <CommonC/Numeric.h>
+
+#define T uint32_t
+#include <CommonC/Numeric.h>
+
+#define T uint64_t
+#include <CommonC/Numeric.h>
+
+#define T size_t
+#include <CommonC/Numeric.h>
+
+#define T ptrdiff_t
+#include <CommonC/Numeric.h>
+
+#define T intptr_t
+#include <CommonC/Numeric.h>
+
+#define T uintptr_t
+#include <CommonC/Numeric.h>
+
+#define T intmax_t
+#include <CommonC/Numeric.h>
+
+#define T uintmax_t
+#include <CommonC/Numeric.h>
+
+#define T float
 #include <CommonC/Extrema.h>
 
 #define T double
