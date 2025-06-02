@@ -32,6 +32,9 @@
 #include "Dictionary.h"
 
 #define T size_t
+#include "Numeric.h"
+
+#define T size_t
 #include "Extrema.h"
 
 #ifndef FS_VIRTUAL
