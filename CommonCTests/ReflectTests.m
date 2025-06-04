@@ -2416,8 +2416,6 @@ void MemoryDestructorCallbackUnmaps(CCReflectType Type, CCReflectType MappedType
     
     CCMemoryZoneSave(Zone);
     CCReflectSerializeBinary(&CC_REFLECT_DYNAMIC_POINTER(&CC_REFLECT(int), CCReflectOwnershipWeak, .allocator = CC_NULL_ALLOCATOR, .destructor = CustomDestructor), &(int*){ &Value }, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamWriter, Zone);
-    CCFree(PtrValue);
-    
     CCReflectDeserializeBinary(&CC_REFLECT_DYNAMIC_POINTER(&CC_REFLECT(int), CCReflectOwnershipWeak, .allocator = CC_NULL_ALLOCATOR, .destructor = CustomDestructor), &PtrValue, CCReflectEndianNative, SIZE_MAX, &(size_t){ 0 }, StreamReader, Zone, CC_STD_ALLOCATOR);
     CCMemoryZoneRestore(Zone);
     
