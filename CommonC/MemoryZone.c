@@ -119,7 +119,7 @@ void *CCMemoryZoneAlignedAllocate(CCMemoryZone Zone, size_t Size, size_t Alignme
     const ptrdiff_t Offset = (ptrdiff_t)Block->data + Block->offset;
     ptrdiff_t Pad = CC_ALIGN(Offset, Alignment) - Offset;
     
-    if (Pad > (Zone->blockSize - Block->offset)) Pad = Alignment;
+    if ((Size + Pad) > (Zone->blockSize - Block->offset)) Pad = Alignment;
     
     void *Ptr = CCMemoryZoneAllocate(Zone, Size + Pad);
     
