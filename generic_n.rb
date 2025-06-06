@@ -45,13 +45,13 @@ ARGV.each { |e|
             input = :param
         when '-p'
             input = :param
-        end 
+        end
     end
 }
 
 if params.count == 0
     if param_count == 1
-        params = [:T] 
+        params = [:T]
     else
         params = [:Tx, :Ty, :Tz, :Tw]
     end
@@ -65,8 +65,8 @@ if include_header
 end
 
 params.each { |p|
-    max_imps.times { |i| 
-        puts "#define CC_TYPE_CC_GENERIC_#{p}#{i}(...) CC_GENERIC_#{p}(#{i})" 
+    max_imps.times { |i|
+        puts "#define CC_TYPE_CC_GENERIC_#{p}#{i}(...) CC_GENERIC_#{p}(#{i})"
     }
     max_imps.times { |i|
         max_types.times { |t|
@@ -84,8 +84,8 @@ params.each { |p|
 }
 
 params.each { |p|
-    max_imps.times { |i| 
-        puts "#define CC_TYPE_DECL_CC_GENERIC_#{p}#{i}(...) CC_GENERIC_#{p}(#{i}), __VA_ARGS__" 
+    max_imps.times { |i|
+        puts "#define CC_TYPE_DECL_CC_GENERIC_#{p}#{i}(...) CC_GENERIC_#{p}(#{i}), __VA_ARGS__"
     }
     max_imps.times { |i|
         max_types.times { |t|
@@ -135,4 +135,8 @@ puts "#ifndef CC_GENERIC_PRESERVE_TYPE"
 params.each { |p|
     puts "#undef #{p}"
 }
+puts "#endif"
+puts ""
+puts "#ifndef CC_GENERIC_PRESERVE_HEADER"
+puts "#undef CC_GENERIC_TEMPLATE"
 puts "#endif"
