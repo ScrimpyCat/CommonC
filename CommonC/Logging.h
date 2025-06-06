@@ -178,25 +178,25 @@ typedef size_t (^CCLogMessageFilterBlock)(const CCLogData *LogData, const CCLogM
 
 typedef struct {
     struct {
-        int flags : 1;
-        int width : 1;
-        int precision : 1;
-        int length : 1;
+        unsigned int flags : 1;
+        unsigned int width : 1;
+        unsigned int precision : 1;
+        unsigned int length : 1;
     } options;
     struct {
-        int leftJustified : 1;
-        int showPlusSign : 1;
-        int spacePrefixed : 1; //ignore if showPlusSign
-        int altForm : 1;
-        int padWithZeros : 1;
+        unsigned int leftJustified : 1;
+        unsigned int showPlusSign : 1;
+        unsigned int spacePrefixed : 1; //ignore if showPlusSign
+        unsigned int altForm : 1;
+        unsigned int padWithZeros : 1;
     } flags;
     struct {
         int value;
-        int valueInArgs : 1;
+        unsigned int valueInArgs : 1;
     } width;
     struct {
         int value;
-        int valueInArgs : 1;
+        unsigned int valueInArgs : 1;
     } precision;
     int length; //either 0, 'hh, 'h, 'l', 'll, 'j', 'z', 't', 'L'
 } CCFormatSpecifierInfo;
