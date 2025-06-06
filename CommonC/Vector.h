@@ -84,4 +84,55 @@
 #define CC_CLAMP CCVector4Clamp
 #include <CommonC/Extrema.h>
 
+#define T CCVector2Di
+#define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y)
+#define CC_NUMERIC_LESS_THAN(a, b) ((a).x < (b).x) && ((a).y < (b).y)
+#define CC_NUMERIC_GREATER_THAN(a, b) ((a).x > (b).x) && ((a).y > (b).y)
+#define CC_NUMERIC_LESS_THAN_EQUAL(a, b) ((a).x <= (b).x) && ((a).y <= (b).y)
+#define CC_NUMERIC_GREATER_THAN_EQUAL(a, b) ((a).x >= (b).x) && ((a).y >= (b).y)
+#define CC_NUMERIC_ADD(a, b) CCVector2DiMake((a).x + (b).x, (a).y + (b).y)
+#define CC_NUMERIC_SUB(a, b) CCVector2DiMake((a).x - (b).x, (a).y - (b).y)
+#define CC_NUMERIC_MUL(a, b) CCVector2DiMake((a).x * (b).x, (a).y * (b).y)
+#define CC_NUMERIC_DIV(a, b) CCVector2DiMake((a).x / (b).x, (a).y / (b).y)
+#include <CommonC/Numeric.h>
+
+#define T CCVector2Di
+#define CC_MIN(a, b) CCVector2DiMake((a).x < (b).x ? (a).x : (b).x, (a).y < (b).y ? (a).y : (b).y)
+#define CC_MAX(a, b) CCVector2DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y)
+#include <CommonC/Extrema.h>
+
+#define T CCVector3Di
+#define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y) && ((a).z == (b).z)
+#define CC_NUMERIC_LESS_THAN(a, b) ((a).x < (b).x) && ((a).y < (b).y) && ((a).z < (b).z)
+#define CC_NUMERIC_GREATER_THAN(a, b) ((a).x > (b).x) && ((a).y > (b).y) && ((a).z > (b).z)
+#define CC_NUMERIC_LESS_THAN_EQUAL(a, b) ((a).x <= (b).x) && ((a).y <= (b).y) && ((a).z <= (b).z)
+#define CC_NUMERIC_GREATER_THAN_EQUAL(a, b) ((a).x >= (b).x) && ((a).y >= (b).y) && ((a).z >= (b).z)
+#define CC_NUMERIC_ADD(a, b) CCVector3DiMake((a).x + (b).x, (a).y + (b).y, (a).z + (b).z)
+#define CC_NUMERIC_SUB(a, b) CCVector3DiMake((a).x - (b).x, (a).y - (b).y, (a).z - (b).z)
+#define CC_NUMERIC_MUL(a, b) CCVector3DiMake((a).x * (b).x, (a).y * (b).y, (a).z * (b).z)
+#define CC_NUMERIC_DIV(a, b) CCVector3DiMake((a).x / (b).x, (a).y / (b).y, (a).z / (b).z)
+#include <CommonC/Numeric.h>
+
+#define T CCVector3Di
+#define CC_MIN(a, b) CCVector3DiMake((a).x < (b).x ? (a).x : (b).x, (a).y < (b).y ? (a).y : (b).y, (a).z < (b).z ? (a).z : (b).z)
+#define CC_MAX(a, b) CCVector3DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y, (a).z > (b).z ? (a).z : (b).z)
+#include <CommonC/Extrema.h>
+
+#define T CCVector4Di
+#define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y) && ((a).z == (b).z) && ((a).w == (b).w)
+#define CC_NUMERIC_LESS_THAN(a, b) ((a).x < (b).x) && ((a).y < (b).y) && ((a).z < (b).z) && ((a).w < (b).w)
+#define CC_NUMERIC_GREATER_THAN(a, b) ((a).x > (b).x) && ((a).y > (b).y) && ((a).z > (b).z) && ((a).w > (b).w)
+#define CC_NUMERIC_LESS_THAN_EQUAL(a, b) ((a).x <= (b).x) && ((a).y <= (b).y) && ((a).z <= (b).z) && ((a).w <= (b).w)
+#define CC_NUMERIC_GREATER_THAN_EQUAL(a, b) ((a).x >= (b).x) && ((a).y >= (b).y) && ((a).z >= (b).z) && ((a).w >= (b).w)
+#define CC_NUMERIC_ADD(a, b) CCVector4DiMake((a).x + (b).x, (a).y + (b).y, (a).z + (b).z, (a).w + (b).w)
+#define CC_NUMERIC_SUB(a, b) CCVector4DiMake((a).x - (b).x, (a).y - (b).y, (a).z - (b).z, (a).w - (b).w)
+#define CC_NUMERIC_MUL(a, b) CCVector4DiMake((a).x * (b).x, (a).y * (b).y, (a).z * (b).z, (a).w * (b).w)
+#define CC_NUMERIC_DIV(a, b) CCVector4DiMake((a).x / (b).x, (a).y / (b).y, (a).z / (b).z, (a).w / (b).w)
+#include <CommonC/Numeric.h>
+
+#define T CCVector4Di
+#define CC_MIN(a, b) CCVector4DiMake((a).x < (b).x ? (a).x : (b).x, (a).y < (b).y ? (a).y : (b).y, (a).z < (b).z ? (a).z : (b).z, (a).w < (b).w ? (a).w : (b).w)
+#define CC_MAX(a, b) CCVector4DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y, (a).z > (b).z ? (a).z : (b).z, (a).w > (b).w ? (a).w : (b).w)
+#include <CommonC/Extrema.h>
+
 #endif
