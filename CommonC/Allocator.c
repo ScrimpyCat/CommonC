@@ -343,7 +343,9 @@ static void *ZoneReallocator(CCMemoryZone Zone, void *Ptr, size_t Size)
 
 static void ZoneDeallocator(void *Ptr)
 {
-    CCMemoryZoneDestroy(((CCZoneMemoryHeader*)Ptr)[-1].zone);
+    CCZoneMemoryHeader *Header = Ptr - sizeof(CCZoneMemoryHeader);
+    
+    CCMemoryZoneDestroy(Header->zone);
 }
 
 
