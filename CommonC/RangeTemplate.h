@@ -86,4 +86,13 @@ CC_TEMPLATE(static CC_FORCE_INLINE T, CCRangeGetIntersection, (const T RangeA, c
     return CCRangeMake(Start, CC_RANGE_VALUE_SUB(CC_RANGE_VALUE_MIN(CC_RANGE_VALUE_ADD(RangeA.start, RangeA.length), CC_RANGE_VALUE_ADD(RangeB.start, RangeB.length)), Start));
 }
 
+#undef CC_RANGE_VALUE_LESS_THAN
+#undef CC_RANGE_VALUE_GREATER_THAN
+#undef CC_RANGE_VALUE_LESS_THAN_EQUAL
+#undef CC_RANGE_VALUE_GREATER_THAN_EQUAL
+#undef CC_RANGE_VALUE_ADD
+#undef CC_RANGE_VALUE_SUB
+#undef CC_RANGE_VALUE_MAX
+#undef CC_RANGE_VALUE_MIN
+
 #define CCRange(type) CC_RANGE(type)
