@@ -24,15 +24,13 @@
  */
 
 #import <XCTest/XCTest.h>
+#import "Maths.h"
 #import "Vector.h"
 
 #define Ttype int
 #include <CommonC/Range.h>
 
 #define Ttype float
-#include <CommonC/Range.h>
-
-#define Ttype CCVector2D
 #include <CommonC/Range.h>
 
 @interface RangeTests : XCTestCase

@@ -48,6 +48,9 @@
 #define CC_CLAMP CCVector2Clamp
 #include <CommonC/Extrema.h>
 
+#define Ttype CCVector2D
+#include <CommonC/Range.h>
+
 #define T CCVector3D
 #define CC_NUMERIC_EQUAL CCVector3Equal
 #define CC_NUMERIC_LESS_THAN CCVector3LessThan
@@ -65,6 +68,9 @@
 #define CC_MAX CCVector3Max
 #define CC_CLAMP CCVector3Clamp
 #include <CommonC/Extrema.h>
+
+#define Ttype CCVector3D
+#include <CommonC/Range.h>
 
 #define T CCVector4D
 #define CC_NUMERIC_EQUAL CCVector4Equal
@@ -84,6 +90,9 @@
 #define CC_CLAMP CCVector4Clamp
 #include <CommonC/Extrema.h>
 
+#define Ttype CCVector4D
+#include <CommonC/Range.h>
+
 #define T CCVector2Di
 #define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y)
 #define CC_NUMERIC_LESS_THAN(a, b) ((a).x < (b).x) && ((a).y < (b).y)
@@ -100,6 +109,9 @@
 #define CC_MIN(a, b) CCVector2DiMake((a).x < (b).x ? (a).x : (b).x, (a).y < (b).y ? (a).y : (b).y)
 #define CC_MAX(a, b) CCVector2DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y)
 #include <CommonC/Extrema.h>
+
+#define Ttype CCVector2Di
+#include <CommonC/Range.h>
 
 #define T CCVector3Di
 #define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y) && ((a).z == (b).z)
@@ -118,6 +130,9 @@
 #define CC_MAX(a, b) CCVector3DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y, (a).z > (b).z ? (a).z : (b).z)
 #include <CommonC/Extrema.h>
 
+#define Ttype CCVector3Di
+#include <CommonC/Range.h>
+
 #define T CCVector4Di
 #define CC_NUMERIC_EQUAL(a, b) ((a).x == (b).x) && ((a).y == (b).y) && ((a).z == (b).z) && ((a).w == (b).w)
 #define CC_NUMERIC_LESS_THAN(a, b) ((a).x < (b).x) && ((a).y < (b).y) && ((a).z < (b).z) && ((a).w < (b).w)
@@ -134,5 +149,8 @@
 #define CC_MIN(a, b) CCVector4DiMake((a).x < (b).x ? (a).x : (b).x, (a).y < (b).y ? (a).y : (b).y, (a).z < (b).z ? (a).z : (b).z, (a).w < (b).w ? (a).w : (b).w)
 #define CC_MAX(a, b) CCVector4DiMake((a).x > (b).x ? (a).x : (b).x, (a).y > (b).y ? (a).y : (b).y, (a).z > (b).z ? (a).z : (b).z, (a).w > (b).w ? (a).w : (b).w)
 #include <CommonC/Extrema.h>
+
+#define Ttype CCVector4Di
+#include <CommonC/Range.h>
 
 #endif
