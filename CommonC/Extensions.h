@@ -104,6 +104,10 @@
 #define CC_UNLIKELY(e) __builtin_expect(!!(e), 0)
 #endif
 
+#if __has_builtin(__builtin_unreachable)
+#define CC_UNREACHABLE() __builtin_unreachable()
+#endif
+
 #if __has_attribute(packed)
 #define CC_PACKED __attribute__((packed))
 #endif
@@ -162,6 +166,10 @@
 
 #ifndef CC_UNLIKELY
 #define CC_UNLIKELY(e) (!!(e) == 0)
+#endif
+
+#ifndef CC_UNREACHABLE
+#define CC_UNREACHABLE()
 #endif
 
 #ifndef CC_PACKED
