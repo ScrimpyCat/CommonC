@@ -108,6 +108,10 @@
 #define CC_UNREACHABLE() __builtin_unreachable()
 #endif
 
+#if __has_attribute(no_profile_instrument_function)
+#define CC_NO_PROFILE __attribute__((no_profile_instrument_function))
+#endif
+
 #if __has_attribute(packed)
 #define CC_PACKED __attribute__((packed))
 #endif
@@ -170,6 +174,10 @@
 
 #ifndef CC_UNREACHABLE
 #define CC_UNREACHABLE()
+#endif
+
+#ifndef CC_NO_PROFILE
+#define CC_NO_PROFILE
 #endif
 
 #ifndef CC_PACKED
