@@ -31,6 +31,7 @@
 #include <CommonC/Platform.h>
 #include <CommonC/Assertion.h>
 #include <CommonC/Maths.h>
+#include <CommonC/BitTricks.h>
 
 #if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
 #include <arm_neon.h>
@@ -825,23 +826,476 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCeil_f32x2(const CCSimd_f32x2 a);
 
 #pragma mark Horizontal Add
 
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [36, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit signed integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal add to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal add to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the horizontal add to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the horizontal add to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the horizontal add to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the horizontal add to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdHadd_s8x8(const CCSimd_s8x8 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2, 3, 4].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [10, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit signed integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal add to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal add to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdHadd_s16x4(const CCSimd_s16x4 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [3, undefined]
+ * @param a A 2 element vector of 32-bit signed integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdHadd_s32x2(const CCSimd_s32x2 a, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [36, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit unsigned integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal add to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal add to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the horizontal add to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the horizontal add to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the horizontal add to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the horizontal add to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdHadd_u8x8(const CCSimd_u8x8 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2, 3, 4].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [10, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit unsigned integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal add to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal add to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdHadd_u16x4(const CCSimd_u16x4 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [3, undefined]
+ * @param a A 2 element vector of 32-bit unsigned integers to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHadd_u32x2(const CCSimd_u32x2 a, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Horizontally add the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [1.5, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [4, undefined]
+ * @param a A 2 element vector of 32-bit floats to horizontally add.
+ * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal add to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally added vector elements.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHadd_f32x2(const CCSimd_f32x2 a, uint8_t v0, uint8_t v1);
+
+
+#pragma mark Horizontal Subtract
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [36, 2, 3, 4, 5, 6, 7, 8].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [1, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit signed integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal subtract to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal subtract to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the horizontal subtract to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the horizontal subtract to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the horizontal subtract to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the horizontal subtract to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdHsub_s8x8(const CCSimd_s8x8 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [10, 2, 3, 4].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [1, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit signed integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal subtract to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal subtract to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdHsub_s16x4(const CCSimd_s16x4 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [3, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [1, undefined]
+ * @param a A 2 element vector of 32-bit signed integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdHsub_s32x2(const CCSimd_s32x2 a, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [36, 2, 3, 4, 5, 6, 7, 8].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [1, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit unsigned integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal subtract to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal subtract to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the horizontal subtract to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the horizontal subtract to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the horizontal subtract to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the horizontal subtract to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdHsub_u8x8(const CCSimd_u8x8 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [10, 2, 3, 4].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [1, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit unsigned integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the horizontal subtract to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the horizontal subtract to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdHsub_u16x4(const CCSimd_u16x4 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [3, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [1, undefined]
+ * @param a A 2 element vector of 32-bit unsigned integers to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHsub_u32x2(const CCSimd_u32x2 a, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Horizontally subtract the elements of a vector.
+ * @description Can selectively decide which elements are the sum of which other elements.
+ * @example [4, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [1.5, undefined]
+ * @param a A 2 element vector of 32-bit floats to horizontally subtract.
+ * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the horizontal subtract to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The horizontally subtracted vector elements.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHsub_f32x2(const CCSimd_f32x2 a, uint8_t v0, uint8_t v1);
 
 
 #pragma mark Dot Product
 
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[2, 2, 2, 2, 2, 2, 2, 2].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [72, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit signed integers to use for the dot product.
+ * @param b An 8 element vector of 8-bit signed integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the dot product to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the dot product to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the dot product to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the dot product to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the dot product to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the dot product to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdDot_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2, 3, 4]x[2, 2, 2, 2].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [20, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit signed integers to use for the dot product.
+ * @param b A 4 element vector of 16-bit signed integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the dot product to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the dot product to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdDot_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2]x[2, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [6, undefined]
+ * @param a A 2 element vector of 32-bit signed integers to use for the dot product.
+ * @param b A 2 element vector of 32-bit signed integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdDot_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[2, 2, 2, 2, 2, 2, 2, 2].(CC_SIMD_LANE_MASK(0, 1, 2, 3, 4, 5, 6, 7), 0, 0, 0, 0, 0, 0, 0) -> [72, undefined, undefined, undefined, undefined, undefined, undefined, undefined]
+ * @param a An 8 element vector of 8-bit unsigned integers to use for the dot product.
+ * @param b An 8 element vector of 8-bit unsigned integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the dot product to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the dot product to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v4 The lane mask to indicate the dot product to store in [4]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v5 The lane mask to indicate the dot product to store in [5]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v6 The lane mask to indicate the dot product to store in [6]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v7 The lane mask to indicate the dot product to store in [7]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdDot_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2, 3, 4]x[2, 2, 2, 2].(CC_SIMD_LANE_MASK(0, 1, 2, 3), 0, 0, 0) -> [20, undefined, undefined, undefined]
+ * @param a A 4 element vector of 16-bit unsigned integers to use for the dot product.
+ * @param b A 4 element vector of 16-bit unsigned integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v2 The lane mask to indicate the dot product to store in [2]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v3 The lane mask to indicate the dot product to store in [3]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdDot_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1, 2]x[2, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [6, undefined]
+ * @param a A 2 element vector of 32-bit unsigned integers to use for the dot product.
+ * @param b A 2 element vector of 32-bit unsigned integers to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdDot_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b, uint8_t v0, uint8_t v1);
+
+/*!
+ * @brief Calculate the dot product of elements from vector @b a and @b b.
+ * @description Can selectively decide which elements are used to calculate the dot product.
+ * @example [1.5, 2.5]x[2, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [8, undefined]
+ * @param a A 2 element vector of 32-bit floats to use for the dot product.
+ * @param b A 2 element vector of 32-bit floats to use for the dot product.
+ * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @param v1 The lane mask to indicate the dot product to store in [1]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
+ *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
+ *
+ * @return The resulting vector elements of the dot product.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdDot_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b, uint8_t v0, uint8_t v1);
 
 
@@ -1951,6 +2405,104 @@ CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
     return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
 }
 CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_HSUB_MASK(x0, x1) ((x1) << 2) | (x0)
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
+{ \
+    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
+    \
+    switch (CC_SIMD_HSUB_MASK(v0, v1)) \
+    { \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), 0): \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(1)): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): \
+        case 0: return a; \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1); \
+            \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0)): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), 0): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0); \
+            \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+            \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), 0): return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0), CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1)); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+#undef CC_SIMD_HSUB_MASK
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
+{ \
+    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
+    \
+    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
+    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
+    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
+    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
+    \
+    v0 >>= AdjustV0; \
+    v1 >>= AdjustV1; \
+    v2 >>= AdjustV2; \
+    v3 >>= AdjustV3; \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1))) | ((v0 << 4) & 16), (CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1))) | ((v1 << 4) & 16), (CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1))) | ((v2 << 4) & 16), (CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1))) | ((v3 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1))) | ((v0 << 3) & 16), (CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1))) | ((v1 << 3) & 16), (CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1))) | ((v2 << 3) & 16), (CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1))) | ((v3 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1))) | ((v0 << 2) & 16), (CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1))) | ((v1 << 2) & 16), (CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1))) | ((v2 << 2) & 16), (CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1))) | ((v3 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1))) | ((v0 << 1) & 16), (CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1))) | ((v1 << 1) & 16), (CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1))) | ((v2 << 1) & 16), (CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1))) | ((v3 << 1) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
+{ \
+    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
+    \
+    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
+    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
+    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
+    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
+    const uint8_t AdjustV4 = CCBitCountLowestUnset(v4); \
+    const uint8_t AdjustV5 = CCBitCountLowestUnset(v5); \
+    const uint8_t AdjustV6 = CCBitCountLowestUnset(v6); \
+    const uint8_t AdjustV7 = CCBitCountLowestUnset(v7); \
+    \
+    v0 >>= AdjustV0; \
+    v1 >>= AdjustV1; \
+    v2 >>= AdjustV2; \
+    v3 >>= AdjustV3; \
+    v4 >>= AdjustV4; \
+    v5 >>= AdjustV5; \
+    v6 >>= AdjustV6; \
+    v7 >>= AdjustV7; \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1)) | ((v0 << 4) & 16), CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1)) | ((v1 << 4) & 16), CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1)) | ((v2 << 4) & 16), CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1)) | ((v3 << 4) & 16), CC_SIMD_A0 + (AdjustV4 * ((v4 >> 0) & 1)) | ((v4 << 4) & 16), CC_SIMD_A0 + (AdjustV5 * ((v5 >> 0) & 1)) | ((v5 << 4) & 16), CC_SIMD_A0 + (AdjustV6 * ((v6 >> 0) & 1)) | ((v6 << 4) & 16), CC_SIMD_A0 + (AdjustV7 * ((v7 >> 0) & 1)) | ((v7 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1)) | ((v0 << 3) & 16), CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1)) | ((v1 << 3) & 16), CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1)) | ((v2 << 3) & 16), CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1)) | ((v3 << 3) & 16), CC_SIMD_A1 + (AdjustV4 * ((v4 >> 1) & 1)) | ((v4 << 3) & 16), CC_SIMD_A1 + (AdjustV5 * ((v5 >> 1) & 1)) | ((v5 << 3) & 16), CC_SIMD_A1 + (AdjustV6 * ((v6 >> 1) & 1)) | ((v6 << 3) & 16), CC_SIMD_A1 + (AdjustV7 * ((v7 >> 1) & 1)) | ((v7 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1)) | ((v0 << 2) & 16), CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1)) | ((v1 << 2) & 16), CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1)) | ((v2 << 2) & 16), CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1)) | ((v3 << 2) & 16), CC_SIMD_A2 + (AdjustV4 * ((v4 >> 2) & 1)) | ((v4 << 2) & 16), CC_SIMD_A2 + (AdjustV5 * ((v5 >> 2) & 1)) | ((v5 << 2) & 16), CC_SIMD_A2 + (AdjustV6 * ((v6 >> 2) & 1)) | ((v6 << 2) & 16), CC_SIMD_A2 + (AdjustV7 * ((v7 >> 2) & 1)) | ((v7 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1)) | ((v0 << 1) & 16), CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1)) | ((v1 << 1) & 16), CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1)) | ((v2 << 1) & 16), CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1)) | ((v3 << 1) & 16), CC_SIMD_A3 + (AdjustV4 * ((v4 >> 3) & 1)) | ((v4 << 1) & 16), CC_SIMD_A3 + (AdjustV5 * ((v5 >> 3) & 1)) | ((v5 << 1) & 16), CC_SIMD_A3 + (AdjustV6 * ((v6 >> 3) & 1)) | ((v6 << 1) & 16), CC_SIMD_A3 + (AdjustV7 * ((v7 >> 3) & 1)) | ((v7 << 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L4 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A4 + (AdjustV0 * ((v0 >> 4) & 1)) | ((v0 << 0) & 16), CC_SIMD_A4 + (AdjustV1 * ((v1 >> 4) & 1)) | ((v1 << 0) & 16), CC_SIMD_A4 + (AdjustV2 * ((v2 >> 4) & 1)) | ((v2 << 0) & 16), CC_SIMD_A4 + (AdjustV3 * ((v3 >> 4) & 1)) | ((v3 << 0) & 16), CC_SIMD_A4 + (AdjustV4 * ((v4 >> 4) & 1)) | ((v4 << 0) & 16), CC_SIMD_A4 + (AdjustV5 * ((v5 >> 4) & 1)) | ((v5 << 0) & 16), CC_SIMD_A4 + (AdjustV6 * ((v6 >> 4) & 1)) | ((v6 << 0) & 16), CC_SIMD_A4 + (AdjustV7 * ((v7 >> 4) & 1)) | ((v7 << 0) & 16)); \
+    const CC_SIMD_TYPE(base, count) L5 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A5 + (AdjustV0 * ((v0 >> 5) & 1)) | ((v0 >> 1) & 16), CC_SIMD_A5 + (AdjustV1 * ((v1 >> 5) & 1)) | ((v1 >> 1) & 16), CC_SIMD_A5 + (AdjustV2 * ((v2 >> 5) & 1)) | ((v2 >> 1) & 16), CC_SIMD_A5 + (AdjustV3 * ((v3 >> 5) & 1)) | ((v3 >> 1) & 16), CC_SIMD_A5 + (AdjustV4 * ((v4 >> 5) & 1)) | ((v4 >> 1) & 16), CC_SIMD_A5 + (AdjustV5 * ((v5 >> 5) & 1)) | ((v5 >> 1) & 16), CC_SIMD_A5 + (AdjustV6 * ((v6 >> 5) & 1)) | ((v6 >> 1) & 16), CC_SIMD_A5 + (AdjustV7 * ((v7 >> 5) & 1)) | ((v7 >> 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L6 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A6 + (AdjustV0 * ((v0 >> 6) & 1)) | ((v0 >> 2) & 16), CC_SIMD_A6 + (AdjustV1 * ((v1 >> 6) & 1)) | ((v1 >> 2) & 16), CC_SIMD_A6 + (AdjustV2 * ((v2 >> 6) & 1)) | ((v2 >> 2) & 16), CC_SIMD_A6 + (AdjustV3 * ((v3 >> 6) & 1)) | ((v3 >> 2) & 16), CC_SIMD_A6 + (AdjustV4 * ((v4 >> 6) & 1)) | ((v4 >> 2) & 16), CC_SIMD_A6 + (AdjustV5 * ((v5 >> 6) & 1)) | ((v5 >> 2) & 16), CC_SIMD_A6 + (AdjustV6 * ((v6 >> 6) & 1)) | ((v6 >> 2) & 16), CC_SIMD_A6 + (AdjustV7 * ((v7 >> 6) & 1)) | ((v7 >> 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L7 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A7 + (AdjustV0 * ((v0 >> 7) & 1)) | ((v0 >> 3) & 16), CC_SIMD_A7 + (AdjustV1 * ((v1 >> 7) & 1)) | ((v1 >> 3) & 16), CC_SIMD_A7 + (AdjustV2 * ((v2 >> 7) & 1)) | ((v2 >> 3) & 16), CC_SIMD_A7 + (AdjustV3 * ((v3 >> 7) & 1)) | ((v3 >> 3) & 16), CC_SIMD_A7 + (AdjustV4 * ((v4 >> 7) & 1)) | ((v4 >> 3) & 16), CC_SIMD_A7 + (AdjustV5 * ((v5 >> 7) & 1)) | ((v5 >> 3) & 16), CC_SIMD_A7 + (AdjustV6 * ((v6 >> 7) & 1)) | ((v6 >> 3) & 16), CC_SIMD_A7 + (AdjustV7 * ((v7 >> 7) & 1)) | ((v7 >> 3) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_DOT_MASK(x0, x1) ((x1) << 2) | (x0)

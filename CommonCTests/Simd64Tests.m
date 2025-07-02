@@ -261,14 +261,6 @@
 
 -(void) testMaskedArithmetic
 {
-    /*
-     l = for v0 <- -1..0,v1 <- -1..1,v2 <- -1..2,v3 <- -1..3,v4 <- -1..4,v5 <- -1..5,v6 <- -1..6,v7 <- 0..7, do: [v0,v1,v2,v3,v4,v5,v6,v7] |> Enum.filter(&(&1 != -1)) |> Enum.uniq |> Enum.sort
-     l |> Enum.uniq |> Enum.sort(&((Enum.max(&1) <= Enum.max(&2)))) |> Enum.each(&(IO.puts "CC_SIMD_LANE_MASK(#{Enum.join(&1, ", ")}),"))
-     
-     x = ["0","CC_SIMD_LANE_MASK(0)","CC_SIMD_LANE_MASK(1)","CC_SIMD_LANE_MASK(0, 1)"]
-     for v0<-x, v1<-x, do: IO.puts "CC_SIMD_DOT_MASK(#{v0}, #{v1})"
-     */
-    
     const uint8_t Masks[256] = {
         0,
         CC_SIMD_LANE_MASK(0),
@@ -604,7 +596,6 @@
                                                            (Masks[V2] & (1 << 6) ? A_s8[6] : 0) +
                                                            (Masks[V2] & (1 << 7) ? A_s8[7] : 0),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
-                                            
                                         }
                                         
                                         if (Masks[V3])
@@ -678,125 +669,256 @@
                                         }
                                         
                                         
+                                        CCSimdStore_s8x8(Result, CCSimdHsub_s8x8(VecA_s8x8, Masks[V0], Masks[V1], Masks[V2], Masks[V3], Masks[V4], Masks[V5], Masks[V6], Masks[V7]));
+                                        
+                                        if (Masks[V0])
+                                        {
+                                            XCTAssertEqual(Result[0], -(
+                                                               (Masks[V0] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V0] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V0] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V0] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V0] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V0] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V0] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V0] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V0]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V1])
+                                        {
+                                            XCTAssertEqual(Result[1], -(
+                                                               (Masks[V1] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V1] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V1] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V1] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V1] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V1] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V1] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V1] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V1]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V2])
+                                        {
+                                            XCTAssertEqual(Result[2], -(
+                                                               (Masks[V2] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V2] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V2] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V2] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V2] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V2] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V2] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V2] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V2]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V2])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V3])
+                                        {
+                                            XCTAssertEqual(Result[3], -(
+                                                               (Masks[V3] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V3] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V3] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V3] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V3] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V3] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V3] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V3] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V3]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V3])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V4])
+                                        {
+                                            XCTAssertEqual(Result[4], -(
+                                                               (Masks[V4] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V4] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V4] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V4] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V4] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V4] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V4] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V4] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V4]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V4])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V5])
+                                        {
+                                            XCTAssertEqual(Result[5], -(
+                                                               (Masks[V5] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V5] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V5] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V5] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V5] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V5] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V5] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V5] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V5]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V5])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V6])
+                                        {
+                                            XCTAssertEqual(Result[6], -(
+                                                               (Masks[V6] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V6] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V6] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V6] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V6] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V6] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V6] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V6] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V6]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V6])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V7])
+                                        {
+                                            XCTAssertEqual(Result[7], -(
+                                                               (Masks[V7] & (1 << 0) ? A_s8[0] : 0) +
+                                                               (Masks[V7] & (1 << 1) ? A_s8[1] : 0) +
+                                                               (Masks[V7] & (1 << 2) ? A_s8[2] : 0) +
+                                                               (Masks[V7] & (1 << 3) ? A_s8[3] : 0) +
+                                                               (Masks[V7] & (1 << 4) ? A_s8[4] : 0) +
+                                                               (Masks[V7] & (1 << 5) ? A_s8[5] : 0) +
+                                                               (Masks[V7] & (1 << 6) ? A_s8[6] : 0) +
+                                                               (Masks[V7] & (1 << 7) ? A_s8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V7]) < 8 ? A_s8[CCBitCountLowestUnset(Masks[V7])] : 0) * 2)
+                                                            ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        
                                         CCSimdStore_s8x8(Result, CCSimdDot_s8x8(VecA_s8x8, VecB_s8x8, Masks[V0], Masks[V1], Masks[V2], Masks[V3], Masks[V4], Masks[V5], Masks[V6], Masks[V7]));
                                         
                                         if (Masks[V0])
                                         {
                                             XCTAssertEqual(Result[0], (int8_t)(
-                                                                               (Masks[V0] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V0] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V0] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V0] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V0] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V0] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V0] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V0] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V0] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V0] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V0] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V0] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V0] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V0] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V0] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V0] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V1])
                                         {
                                             XCTAssertEqual(Result[1], (int8_t)(
-                                                                               (Masks[V1] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V1] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V1] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V1] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V1] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V1] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V1] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V1] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V1] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V1] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V1] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V1] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V1] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V1] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V1] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V1] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V2])
                                         {
                                             XCTAssertEqual(Result[2], (int8_t)(
-                                                                               (Masks[V2] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V2] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V2] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V2] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V2] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V2] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V2] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V2] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V2] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V2] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V2] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V2] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V2] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V2] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V2] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V2] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V3])
                                         {
                                             XCTAssertEqual(Result[3], (int8_t)(
-                                                                               (Masks[V3] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V3] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V3] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V3] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V3] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V3] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V3] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V3] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V3] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V3] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V3] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V3] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V3] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V3] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V3] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V3] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V4])
                                         {
                                             XCTAssertEqual(Result[4], (int8_t)(
-                                                                               (Masks[V4] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V4] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V4] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V4] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V4] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V4] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V4] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V4] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V4] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V4] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V4] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V4] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V4] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V4] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V4] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V4] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V5])
                                         {
                                             XCTAssertEqual(Result[5], (int8_t)(
-                                                                               (Masks[V5] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V5] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V5] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V5] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V5] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V5] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V5] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V5] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V5] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V5] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V5] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V5] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V5] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V5] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V5] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V5] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V6])
                                         {
                                             XCTAssertEqual(Result[6], (int8_t)(
-                                                                               (Masks[V6] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V6] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V6] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V6] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V6] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V6] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V6] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V6] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V6] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V6] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V6] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V6] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V6] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V6] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V6] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V6] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V7])
                                         {
                                             XCTAssertEqual(Result[7], (int8_t)(
-                                                                               (Masks[V7] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
-                                                                               (Masks[V7] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
-                                                                               (Masks[V7] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
-                                                                               (Masks[V7] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
-                                                                               (Masks[V7] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
-                                                                               (Masks[V7] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
-                                                                               (Masks[V7] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
-                                                                               (Masks[V7] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
-                                                                               ),
+                                                               (Masks[V7] & (1 << 0) ? (A_s8[0] * B_s8[0]) : 0) +
+                                                               (Masks[V7] & (1 << 1) ? (A_s8[1] * B_s8[1]) : 0) +
+                                                               (Masks[V7] & (1 << 2) ? (A_s8[2] * B_s8[2]) : 0) +
+                                                               (Masks[V7] & (1 << 3) ? (A_s8[3] * B_s8[3]) : 0) +
+                                                               (Masks[V7] & (1 << 4) ? (A_s8[4] * B_s8[4]) : 0) +
+                                                               (Masks[V7] & (1 << 5) ? (A_s8[5] * B_s8[5]) : 0) +
+                                                               (Masks[V7] & (1 << 6) ? (A_s8[6] * B_s8[6]) : 0) +
+                                                               (Masks[V7] & (1 << 7) ? (A_s8[7] * B_s8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                     }
@@ -885,7 +1007,6 @@
                                                            (Masks[V2] & (1 << 6) ? A_u8[6] : 0) +
                                                            (Masks[V2] & (1 << 7) ? A_u8[7] : 0),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
-                                            
                                         }
                                         
                                         if (Masks[V3])
@@ -959,125 +1080,256 @@
                                         }
                                         
                                         
+                                        CCSimdStore_u8x8(Result, CCSimdHsub_u8x8(VecA_u8x8, Masks[V0], Masks[V1], Masks[V2], Masks[V3], Masks[V4], Masks[V5], Masks[V6], Masks[V7]));
+                                        
+                                        if (Masks[V0])
+                                        {
+                                            XCTAssertEqual(Result[0], (uint8_t)-(
+                                                               (Masks[V0] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V0] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V0] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V0] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V0] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V0] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V0] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V0] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V0]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V1])
+                                        {
+                                            XCTAssertEqual(Result[1], (uint8_t)-(
+                                                               (Masks[V1] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V1] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V1] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V1] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V1] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V1] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V1] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V1] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V1]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V2])
+                                        {
+                                            XCTAssertEqual(Result[2], (uint8_t)-(
+                                                               (Masks[V2] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V2] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V2] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V2] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V2] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V2] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V2] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V2] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V2]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V2])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V3])
+                                        {
+                                            XCTAssertEqual(Result[3], (uint8_t)-(
+                                                               (Masks[V3] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V3] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V3] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V3] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V3] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V3] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V3] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V3] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V3]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V3])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V4])
+                                        {
+                                            XCTAssertEqual(Result[4], (uint8_t)-(
+                                                               (Masks[V4] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V4] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V4] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V4] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V4] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V4] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V4] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V4] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V4]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V4])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V5])
+                                        {
+                                            XCTAssertEqual(Result[5], (uint8_t)-(
+                                                               (Masks[V5] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V5] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V5] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V5] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V5] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V5] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V5] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V5] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V5]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V5])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V6])
+                                        {
+                                            XCTAssertEqual(Result[6], (uint8_t)-(
+                                                               (Masks[V6] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V6] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V6] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V6] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V6] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V6] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V6] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V6] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V6]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V6])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        if (Masks[V7])
+                                        {
+                                            XCTAssertEqual(Result[7], (uint8_t)-(
+                                                               (Masks[V7] & (1 << 0) ? A_u8[0] : 0) +
+                                                               (Masks[V7] & (1 << 1) ? A_u8[1] : 0) +
+                                                               (Masks[V7] & (1 << 2) ? A_u8[2] : 0) +
+                                                               (Masks[V7] & (1 << 3) ? A_u8[3] : 0) +
+                                                               (Masks[V7] & (1 << 4) ? A_u8[4] : 0) +
+                                                               (Masks[V7] & (1 << 5) ? A_u8[5] : 0) +
+                                                               (Masks[V7] & (1 << 6) ? A_u8[6] : 0) +
+                                                               (Masks[V7] & (1 << 7) ? A_u8[7] : 0) +
+                                                               -((CCBitCountLowestUnset(Masks[V7]) < 8 ? A_u8[CCBitCountLowestUnset(Masks[V7])] : 0) * 2)
+                                                           ),
+                                                           @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
+                                        }
+                                        
+                                        
                                         CCSimdStore_u8x8(Result, CCSimdDot_u8x8(VecA_u8x8, VecB_u8x8, Masks[V0], Masks[V1], Masks[V2], Masks[V3], Masks[V4], Masks[V5], Masks[V6], Masks[V7]));
                                         
                                         if (Masks[V0])
                                         {
                                             XCTAssertEqual(Result[0], (uint8_t)(
-                                                                                (Masks[V0] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V0] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V0] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V0] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V0] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V0] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V0] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V0] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V0] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V0] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V0] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V0] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V0] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V0] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V0] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V0] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V1])
                                         {
                                             XCTAssertEqual(Result[1], (uint8_t)(
-                                                                                (Masks[V1] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V1] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V1] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V1] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V1] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V1] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V1] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V1] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V1] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V1] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V1] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V1] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V1] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V1] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V1] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V1] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V2])
                                         {
                                             XCTAssertEqual(Result[2], (uint8_t)(
-                                                                                (Masks[V2] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V2] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V2] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V2] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V2] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V2] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V2] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V2] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V2] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V2] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V2] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V2] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V2] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V2] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V2] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V2] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V3])
                                         {
                                             XCTAssertEqual(Result[3], (uint8_t)(
-                                                                                (Masks[V3] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V3] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V3] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V3] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V3] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V3] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V3] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V3] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V3] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V3] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V3] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V3] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V3] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V3] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V3] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V3] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V4])
                                         {
                                             XCTAssertEqual(Result[4], (uint8_t)(
-                                                                                (Masks[V4] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V4] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V4] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V4] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V4] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V4] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V4] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V4] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V4] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V4] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V4] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V4] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V4] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V4] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V4] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V4] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V5])
                                         {
                                             XCTAssertEqual(Result[5], (uint8_t)(
-                                                                                (Masks[V5] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V5] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V5] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V5] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V5] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V5] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V5] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V5] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V5] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V5] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V5] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V5] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V5] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V5] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V5] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V5] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V6])
                                         {
                                             XCTAssertEqual(Result[6], (uint8_t)(
-                                                                                (Masks[V6] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V6] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V6] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V6] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V6] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V6] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V6] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V6] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V6] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V6] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V6] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V6] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V6] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V6] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V6] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V6] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                         
                                         if (Masks[V7])
                                         {
                                             XCTAssertEqual(Result[7], (uint8_t)(
-                                                                                (Masks[V7] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
-                                                                                (Masks[V7] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
-                                                                                (Masks[V7] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
-                                                                                (Masks[V7] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
-                                                                                (Masks[V7] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
-                                                                                (Masks[V7] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
-                                                                                (Masks[V7] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
-                                                                                (Masks[V7] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
-                                                                                ),
+                                                               (Masks[V7] & (1 << 0) ? (A_u8[0] * B_u8[0]) : 0) +
+                                                               (Masks[V7] & (1 << 1) ? (A_u8[1] * B_u8[1]) : 0) +
+                                                               (Masks[V7] & (1 << 2) ? (A_u8[2] * B_u8[2]) : 0) +
+                                                               (Masks[V7] & (1 << 3) ? (A_u8[3] * B_u8[3]) : 0) +
+                                                               (Masks[V7] & (1 << 4) ? (A_u8[4] * B_u8[4]) : 0) +
+                                                               (Masks[V7] & (1 << 5) ? (A_u8[5] * B_u8[5]) : 0) +
+                                                               (Masks[V7] & (1 << 6) ? (A_u8[6] * B_u8[6]) : 0) +
+                                                               (Masks[V7] & (1 << 7) ? (A_u8[7] * B_u8[7]) : 0)
+                                                           ),
                                                            @"should contain the correct value (%zu %zu %zu %zu %zu %zu %zu %zu)", V0, V1, V2, V3, V4, V5, V6, V7);
                                         }
                                     }
@@ -1144,6 +1396,57 @@
                                        (Masks[V3] & (1 << 1) ? A_s16[1] : 0) +
                                        (Masks[V3] & (1 << 2) ? A_s16[2] : 0) +
                                        (Masks[V3] & (1 << 3) ? A_s16[3] : 0),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+                    
+                    
+                    CCSimdStore_s16x4(Result, CCSimdHsub_s16x4(VecA_s16x4, Masks[V0], Masks[V1], Masks[V2], Masks[V3]));
+                    
+                    if (Masks[V0])
+                    {
+                        XCTAssertEqual(Result[0], -(
+                                           (Masks[V0] & (1 << 0) ? A_s16[0] : 0) +
+                                           (Masks[V0] & (1 << 1) ? A_s16[1] : 0) +
+                                           (Masks[V0] & (1 << 2) ? A_s16[2] : 0) +
+                                           (Masks[V0] & (1 << 3) ? A_s16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V0]) < 4 ? A_s16[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+                    
+                    if (Masks[V1])
+                    {
+                        XCTAssertEqual(Result[1], -(
+                                           (Masks[V1] & (1 << 0) ? A_s16[0] : 0) +
+                                           (Masks[V1] & (1 << 1) ? A_s16[1] : 0) +
+                                           (Masks[V1] & (1 << 2) ? A_s16[2] : 0) +
+                                           (Masks[V1] & (1 << 3) ? A_s16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V1]) < 4 ? A_s16[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+                    
+                    if (Masks[V2])
+                    {
+                        XCTAssertEqual(Result[2], -(
+                                           (Masks[V2] & (1 << 0) ? A_s16[0] : 0) +
+                                           (Masks[V2] & (1 << 1) ? A_s16[1] : 0) +
+                                           (Masks[V2] & (1 << 2) ? A_s16[2] : 0) +
+                                           (Masks[V2] & (1 << 3) ? A_s16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V2]) < 4 ? A_s16[CCBitCountLowestUnset(Masks[V2])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+                    
+                    if (Masks[V3])
+                    {
+                        XCTAssertEqual(Result[3], -(
+                                           (Masks[V3] & (1 << 0) ? A_s16[0] : 0) +
+                                           (Masks[V3] & (1 << 1) ? A_s16[1] : 0) +
+                                           (Masks[V3] & (1 << 2) ? A_s16[2] : 0) +
+                                           (Masks[V3] & (1 << 3) ? A_s16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V3]) < 4 ? A_s16[CCBitCountLowestUnset(Masks[V3])] : 0) * 2)
+                                       ),
                                        @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
                     }
                     
@@ -1252,6 +1555,57 @@
                     }
                     
                     
+                    CCSimdStore_u16x4(Result, CCSimdHsub_u16x4(VecA_u16x4, Masks[V0], Masks[V1], Masks[V2], Masks[V3]));
+
+                    if (Masks[V0])
+                    {
+                        XCTAssertEqual(Result[0], (uint16_t)-(
+                                           (Masks[V0] & (1 << 0) ? A_u16[0] : 0) +
+                                           (Masks[V0] & (1 << 1) ? A_u16[1] : 0) +
+                                           (Masks[V0] & (1 << 2) ? A_u16[2] : 0) +
+                                           (Masks[V0] & (1 << 3) ? A_u16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V0]) < 4 ? A_u16[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+
+                    if (Masks[V1])
+                    {
+                        XCTAssertEqual(Result[1], (uint16_t)-(
+                                           (Masks[V1] & (1 << 0) ? A_u16[0] : 0) +
+                                           (Masks[V1] & (1 << 1) ? A_u16[1] : 0) +
+                                           (Masks[V1] & (1 << 2) ? A_u16[2] : 0) +
+                                           (Masks[V1] & (1 << 3) ? A_u16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V1]) < 4 ? A_u16[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+
+                    if (Masks[V2])
+                    {
+                        XCTAssertEqual(Result[2], (uint16_t)-(
+                                           (Masks[V2] & (1 << 0) ? A_u16[0] : 0) +
+                                           (Masks[V2] & (1 << 1) ? A_u16[1] : 0) +
+                                           (Masks[V2] & (1 << 2) ? A_u16[2] : 0) +
+                                           (Masks[V2] & (1 << 3) ? A_u16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V2]) < 4 ? A_u16[CCBitCountLowestUnset(Masks[V2])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+
+                    if (Masks[V3])
+                    {
+                        XCTAssertEqual(Result[3], (uint16_t)-(
+                                           (Masks[V3] & (1 << 0) ? A_u16[0] : 0) +
+                                           (Masks[V3] & (1 << 1) ? A_u16[1] : 0) +
+                                           (Masks[V3] & (1 << 2) ? A_u16[2] : 0) +
+                                           (Masks[V3] & (1 << 3) ? A_u16[3] : 0) +
+                                           -((CCBitCountLowestUnset(Masks[V3]) < 4 ? A_u16[CCBitCountLowestUnset(Masks[V3])] : 0) * 2)
+                                       ),
+                                       @"should contain the correct value (%zu %zu %zu %zu)", V0, V1, V2, V3);
+                    }
+                    
+                    
                     CCSimdStore_u16x4(Result, CCSimdDot_u16x4(VecA_u16x4, VecB_u16x4, Masks[V0], Masks[V1], Masks[V2], Masks[V3]));
                     
                     if (Masks[V0])
@@ -1328,6 +1682,29 @@
             }
             
             
+            CCSimdStore_s32x2(Result, CCSimdHsub_s32x2(VecA_s32x2, Masks[V0], Masks[V1]));
+                        
+            if (Masks[V0])
+            {
+                XCTAssertEqual(Result[0], -(
+                                   (Masks[V0] & (1 << 0) ? A_s32[0] : 0) +
+                                   (Masks[V0] & (1 << 1) ? A_s32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V0]) < 4 ? A_s32[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                               ),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+
+            if (Masks[V1])
+            {
+                XCTAssertEqual(Result[1], -(
+                                   (Masks[V1] & (1 << 0) ? A_s32[0] : 0) +
+                                   (Masks[V1] & (1 << 1) ? A_s32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V1]) < 4 ? A_s32[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                               ),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+            
+            
             CCSimdStore_s32x2(Result, CCSimdDot_s32x2(VecA_s32x2, VecB_s32x2, Masks[V0], Masks[V1]));
             
             if (Masks[V0])
@@ -1378,6 +1755,29 @@
             }
             
             
+            CCSimdStore_u32x2(Result, CCSimdHsub_u32x2(VecA_u32x2, Masks[V0], Masks[V1]));
+                        
+            if (Masks[V0])
+            {
+                XCTAssertEqual(Result[0], -(
+                                   (Masks[V0] & (1 << 0) ? A_u32[0] : 0) +
+                                   (Masks[V0] & (1 << 1) ? A_u32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V0]) < 4 ? A_u32[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                               ),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+
+            if (Masks[V1])
+            {
+                XCTAssertEqual(Result[1], -(
+                                   (Masks[V1] & (1 << 0) ? A_u32[0] : 0) +
+                                   (Masks[V1] & (1 << 1) ? A_u32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V1]) < 4 ? A_u32[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                               ),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+            
+            
             CCSimdStore_u32x2(Result, CCSimdDot_u32x2(VecA_u32x2, VecB_u32x2, Masks[V0], Masks[V1]));
             
             if (Masks[V0])
@@ -1424,6 +1824,29 @@
                 XCTAssertEqual(Result[1],
                                (Masks[V1] & (1 << 0) ? A_f32[0] : 0) +
                                (Masks[V1] & (1 << 1) ? A_f32[1] : 0),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+            
+            
+            CCSimdStore_f32x2(Result, CCSimdHsub_f32x2(VecA_f32x2, Masks[V0], Masks[V1]));
+                        
+            if (Masks[V0])
+            {
+                XCTAssertEqual(Result[0], -(
+                                   (Masks[V0] & (1 << 0) ? A_f32[0] : 0) +
+                                   (Masks[V0] & (1 << 1) ? A_f32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V0]) < 4 ? A_f32[CCBitCountLowestUnset(Masks[V0])] : 0) * 2)
+                               ),
+                               @"should contain the correct value (%zu %zu)", V0, V1);
+            }
+
+            if (Masks[V1])
+            {
+                XCTAssertEqual(Result[1], -(
+                                   (Masks[V1] & (1 << 0) ? A_f32[0] : 0) +
+                                   (Masks[V1] & (1 << 1) ? A_f32[1] : 0) +
+                                   -((CCBitCountLowestUnset(Masks[V1]) < 4 ? A_f32[CCBitCountLowestUnset(Masks[V1])] : 0) * 2)
+                               ),
                                @"should contain the correct value (%zu %zu)", V0, V1);
             }
             
