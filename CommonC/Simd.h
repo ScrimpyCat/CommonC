@@ -1,0 +1,158 @@
+/*
+ *  Copyright (c) 2025, Stefan Johnson
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without modification,
+ *  are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice, this list
+ *     of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright notice, this
+ *     list of conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#ifndef CommonC_Simd_h
+#define CommonC_Simd_h
+
+#define CC_SIMD_KIND(base) CC_SIMD_KIND_##base
+
+#define CC_SIMD_KIND_s8 s
+#define CC_SIMD_KIND_s16 s
+#define CC_SIMD_KIND_s32 s
+#define CC_SIMD_KIND_s64 s
+#define CC_SIMD_KIND_u8 u
+#define CC_SIMD_KIND_u16 u
+#define CC_SIMD_KIND_u32 u
+#define CC_SIMD_KIND_u64 u
+#define CC_SIMD_KIND_f32 f
+#define CC_SIMD_KIND_f64 f
+
+#define CC_SIMD_SIGNED(base) CC_SIMD_SIGNED_##base
+
+#define CC_SIMD_SIGNED_s8 s8
+#define CC_SIMD_SIGNED_s16 s16
+#define CC_SIMD_SIGNED_s32 s32
+#define CC_SIMD_SIGNED_s64 s64
+#define CC_SIMD_SIGNED_u8 s8
+#define CC_SIMD_SIGNED_u16 s16
+#define CC_SIMD_SIGNED_u32 s32
+#define CC_SIMD_SIGNED_u64 s64
+#define CC_SIMD_SIGNED_f32 f32
+#define CC_SIMD_SIGNED_f64 f64
+
+#define CC_SIMD_UNSIGNED(base) CC_SIMD_UNSIGNED_##base
+
+#define CC_SIMD_UNSIGNED_s8 u8
+#define CC_SIMD_UNSIGNED_s16 u16
+#define CC_SIMD_UNSIGNED_s32 u32
+#define CC_SIMD_UNSIGNED_s64 u64
+#define CC_SIMD_UNSIGNED_u8 u8
+#define CC_SIMD_UNSIGNED_u16 u16
+#define CC_SIMD_UNSIGNED_u32 u32
+#define CC_SIMD_UNSIGNED_u64 u64
+#define CC_SIMD_UNSIGNED_f32 f32
+#define CC_SIMD_UNSIGNED_f64 f64
+
+#define CC_SIMD_BASE_TYPE(base) CC_SIMD_BASE_TYPE_##base
+
+#define CC_SIMD_BASE_TYPE_s8 int8_t
+#define CC_SIMD_BASE_TYPE_s16 int16_t
+#define CC_SIMD_BASE_TYPE_s32 int32_t
+#define CC_SIMD_BASE_TYPE_s64 int64_t
+#define CC_SIMD_BASE_TYPE_u8 uint8_t
+#define CC_SIMD_BASE_TYPE_u16 uint16_t
+#define CC_SIMD_BASE_TYPE_u32 uint32_t
+#define CC_SIMD_BASE_TYPE_u64 uint64_t
+#define CC_SIMD_BASE_TYPE_f32 float
+#define CC_SIMD_BASE_TYPE_f64 double
+
+#define CC_SIMD_NAME(name, base, count) name##_##base##x##count
+
+#define CC_SIMD_TYPE(base, count) CC_SIMD_NAME(CCSimd, base, count)
+
+#define CC_SIMD_RETURN_TYPE_IGNORE(base, count)
+
+#define CC_SIMD_RETURN_TYPE(type) type CC_SIMD_RETURN_TYPE_IGNORE
+
+#define CC_SIMD_RETURN_TYPE_BASE(base, count) CC_SIMD_BASE_TYPE(base)
+
+#define CC_SIMD_RETURN_TYPE_SIMD(base, count) CC_SIMD_TYPE(base, count)
+
+#define CC_SIMD_DECL(name, ret, ...) CC_SOFT_JOIN(, CC_MAP_WITH(CC_SIMD_DECL_FUN, (name, ret), __VA_ARGS__))
+
+#define CC_SIMD_DECL_FUN(type, n, args) CC_SIMD_DECL_FUN_(CC_EXPAND type, CC_EXPAND args)
+#define CC_SIMD_DECL_FUN_(...) CC_SIMD_DECL_FUN__(__VA_ARGS__)
+#define CC_SIMD_DECL_FUN__(base, count, name, ret) CC_SIMD_DECL_FUN___(base, count, CC_SIMD_KIND(base), name, ret)
+#define CC_SIMD_DECL_FUN___(base, count, kind, name, ret) static CC_FORCE_INLINE CC_NO_PROFILE ret(base, count) CC_SIMD_NAME(name, base, count)CC_SIMD_IMPL(base, count, kind)
+
+#define CC_SIMD_LANE_0 0
+#define CC_SIMD_LANE_1 1
+#define CC_SIMD_LANE_2 2
+#define CC_SIMD_LANE_3 3
+#define CC_SIMD_LANE_4 4
+#define CC_SIMD_LANE_5 5
+#define CC_SIMD_LANE_6 6
+#define CC_SIMD_LANE_7 7
+#define CC_SIMD_LANE_8 8
+#define CC_SIMD_LANE_9 9
+#define CC_SIMD_LANE_10 10
+#define CC_SIMD_LANE_11 11
+#define CC_SIMD_LANE_12 12
+#define CC_SIMD_LANE_13 13
+#define CC_SIMD_LANE_14 14
+#define CC_SIMD_LANE_15 15
+
+#define CC_SIMD_LANE_MASK(...) (CC_SOFT_JOIN(|, 0, CC_MAP(CC_SIMD_LANE_MASK_INDEX, __VA_ARGS__)))
+
+#define CC_SIMD_LANE_MASK_INDEX(x, ...) (1 << (x))
+
+#define CC_SIMD_A0 CC_SIMD_LANE_0
+#define CC_SIMD_A1 CC_SIMD_LANE_1
+#define CC_SIMD_A2 CC_SIMD_LANE_2
+#define CC_SIMD_A3 CC_SIMD_LANE_3
+#define CC_SIMD_A4 CC_SIMD_LANE_4
+#define CC_SIMD_A5 CC_SIMD_LANE_5
+#define CC_SIMD_A6 CC_SIMD_LANE_6
+#define CC_SIMD_A7 CC_SIMD_LANE_7
+#define CC_SIMD_A8 CC_SIMD_LANE_8
+#define CC_SIMD_A9 CC_SIMD_LANE_9
+#define CC_SIMD_A10 CC_SIMD_LANE_10
+#define CC_SIMD_A11 CC_SIMD_LANE_11
+#define CC_SIMD_A12 CC_SIMD_LANE_12
+#define CC_SIMD_A13 CC_SIMD_LANE_13
+#define CC_SIMD_A14 CC_SIMD_LANE_14
+#define CC_SIMD_A15 CC_SIMD_LANE_15
+
+#define CC_SIMD_B0 CC_SIMD_LANE_0 | (1 << 4)
+#define CC_SIMD_B1 CC_SIMD_LANE_1 | (1 << 4)
+#define CC_SIMD_B2 CC_SIMD_LANE_2 | (1 << 4)
+#define CC_SIMD_B3 CC_SIMD_LANE_3 | (1 << 4)
+#define CC_SIMD_B4 CC_SIMD_LANE_4 | (1 << 4)
+#define CC_SIMD_B5 CC_SIMD_LANE_5 | (1 << 4)
+#define CC_SIMD_B6 CC_SIMD_LANE_6 | (1 << 4)
+#define CC_SIMD_B7 CC_SIMD_LANE_7 | (1 << 4)
+#define CC_SIMD_B8 CC_SIMD_LANE_8 | (1 << 4)
+#define CC_SIMD_B9 CC_SIMD_LANE_9 | (1 << 4)
+#define CC_SIMD_B10 CC_SIMD_LANE_10 | (1 << 4)
+#define CC_SIMD_B11 CC_SIMD_LANE_11 | (1 << 4)
+#define CC_SIMD_B12 CC_SIMD_LANE_12 | (1 << 4)
+#define CC_SIMD_B13 CC_SIMD_LANE_13 | (1 << 4)
+#define CC_SIMD_B14 CC_SIMD_LANE_14 | (1 << 4)
+#define CC_SIMD_B15 CC_SIMD_LANE_15 | (1 << 4)
+
+#include <CommonC/Simd64.h>
+//#include <CommonC/Simd128.h>
+
+#endif
