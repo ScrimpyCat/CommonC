@@ -33,6 +33,33 @@
 
 @implementation Simd64Tests
 
+-(void) testTrigonometry
+{
+#define DEGREES_TO_RADIANS(x) ((x) * M_PI / 180.0f)
+    
+    for (size_t Loop = 0; Loop < 72; Loop += 2)
+    {
+        const float Values[2] = { DEGREES_TO_RADIANS(Loop * 15), DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdSin_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], sinf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[1]), Result[1]);
+    }
+    
+    for (size_t Loop = 0; Loop < 72; Loop += 2)
+    {
+        const float Values[2] = { -DEGREES_TO_RADIANS(Loop * 15), -DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdSin_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], sinf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[1]), Result[1]);
+    }
+}
+
 -(void) testArithmetic
 {
     int32_t Result_s32[2];
