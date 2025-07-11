@@ -152,6 +152,16 @@
 #define CC_SIMD_B14 CC_SIMD_LANE_14 | (1 << 4)
 #define CC_SIMD_B15 CC_SIMD_LANE_15 | (1 << 4)
 
+/*!
+ * @define CC_SIMD_TRIG_ACCURACY
+ * @brief Define this to select which trigonometry implementations are used. A higher value
+ *        selects slower but more accurate implementations. The default is 0, prioritising
+ *        speed above all else.
+ */
+#ifndef CC_SIMD_TRIG_ACCURACY
+#define CC_SIMD_TRIG_ACCURACY 0
+#endif
+
 #include <CommonC/Simd64.h>
 //#include <CommonC/Simd128.h>
 

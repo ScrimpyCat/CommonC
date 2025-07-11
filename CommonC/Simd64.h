@@ -2037,6 +2037,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
 
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a)
 {
+#if CC_SIMD_TRIG_ACCURACY == 0
     const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
     const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(M_PI * M_PI);
     
@@ -2047,6 +2048,23 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 
     Value = CCSimdDiv_f32x2(CCSimdNegMadd_f32x2(M, Value, PiSqr), CCSimdAdd_f32x2(PiSqr, Value));
     
     return Value;
+#elif CC_SIMD_TRIG_ACCURACY >= 1
+    // More accurate but requires more gpr use
+    
+    // https://math.stackexchange.com/questions/976462/a-1400-years-old-approximation-to-the-sine-function-by-mahabhaskariya-of-bhaskar/4763600#4763600
+    // (9): 0.99940323+𝑥^2(−0.49558085+0.036791683𝑥^2)
+    
+    const CCSimd_f32x2 X = CCSimdFill_f32x2(0.99940323f);
+    const CCSimd_f32x2 Y = CCSimdFill_f32x2(-0.49558085f);
+    const CCSimd_f32x2 Z = CCSimdFill_f32x2(0.036791683f);
+    
+    CCSimd_f32x2 Value = a;
+    
+    Value = CCSimdMul_f32x2(Value, Value);
+    Value = CCSimdMadd_f32x2(Value, CCSimdMadd_f32x2(Value, Z, Y), X);
+    
+    return Value;
+#endif
 }
 
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a)
