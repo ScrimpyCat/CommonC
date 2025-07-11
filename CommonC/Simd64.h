@@ -1684,11 +1684,32 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdClamp_f32x2(const CCSimd_f32x2 a, cons
 #pragma mark Sine
 
 /*!
- * @brief Sine each radian element of the vector.
+ * @brief Compute the sine of each radian element in the vector.
  * @param a A 2 element vector of 32-bit floats to be sined.
  * @return The sined vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Compute the sine of each positive radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be sined.
+ * @return The sined vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Compute the sine of each -pi to pi (-180° to 180°) radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be sined.
+ * @return The sined vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Compute the sine of each 0 to pi (0° to 180°) radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be sined.
+ * @return The sined vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a);
 
 
 #pragma mark - Reordering
@@ -1989,13 +2010,55 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 
 #pragma mark -
 
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
+    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * M_PI * M_PI);
+    
+    CCSimd_f32x2 Value = a;
+    
+    // Bhāskara I's sine approximation
+    Value = CCSimdMul_f32x2(M, CCSimdMul_f32x2(Value, CCSimdSub_f32x2(Pi, Value)));
+    Value = CCSimdDiv_f32x2(CCSimdMul_f32x2(M, Value), CCSimdSub_f32x2(PiSqr5, Value));
+    
+    return Value;
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    
+    CCSimd_f32x2 Value = a;
+    
+    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
+    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
+    
+    Value = CCSimdMod_f32x2(Value, Pi);
+    
+    Value = CCSimdPosPiRadSin_f32x2(Value);
+        
+    return CCSimdMul_f32x2(Value, Sign);
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a)
+{
+    CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
+    
+    CCSimd_u32x2 Sign = vshl_n_u32(vshr_n_u32(vreinterpret_u32_f32(a), 31), 31);
+    
+    Value = CCSimdPosPiRadSin_f32x2(Value);
+    
+    return vreinterpret_f32_u32(veor_u32(vreinterpret_u32_f32(Value), Sign));
+}
+
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
 {
     const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
     const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
     const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
-    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
-    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * M_PI * M_PI);
     
     CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
     
@@ -2005,9 +2068,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
     
     Value = CCSimdMod_f32x2(Value, Pi);
     
-    // Bhāskara I's sine approximation
-    Value = CCSimdMul_f32x2(M, CCSimdMul_f32x2(Value, CCSimdSub_f32x2(Pi, Value)));
-    Value = CCSimdDiv_f32x2(CCSimdMul_f32x2(M, Value), CCSimdSub_f32x2(PiSqr5, Value));
+    Value = CCSimdPosPiRadSin_f32x2(Value);
     
     return CCSimdMul_f32x2(Value, Sign);
 }
