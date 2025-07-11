@@ -102,6 +102,30 @@
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], sinf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[1]), Result[1]);
     }
+    
+    
+    
+    for (size_t Loop = 0; Loop < 6; Loop += 2)
+    {
+        const float Values[2] = { DEGREES_TO_RADIANS(Loop * 15), DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdHalfPiRadCos_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], cosf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], cosf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[1]), Result[1]);
+    }
+    
+    for (size_t Loop = 0; Loop < 6; Loop += 2)
+    {
+        const float Values[2] = { -DEGREES_TO_RADIANS(Loop * 15), -DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdHalfPiRadCos_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], cosf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], cosf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[1]), Result[1]);
+    }
 }
 
 -(void) testArithmetic

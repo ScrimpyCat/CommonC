@@ -1712,6 +1712,16 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a);
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a);
 
 
+#pragma mark Cosine
+
+/*!
+ * @brief Compute the cosine of each -pi/2 to pi/2 (-90° to 90°) radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be cosined.
+ * @return The cosined vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark - Reordering
 #pragma mark Swizzle
 
@@ -2021,6 +2031,20 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
     // Bhāskara I's sine approximation
     Value = CCSimdMul_f32x2(M, CCSimdMul_f32x2(Value, CCSimdSub_f32x2(Pi, Value)));
     Value = CCSimdDiv_f32x2(CCSimdMul_f32x2(M, Value), CCSimdSub_f32x2(PiSqr5, Value));
+    
+    return Value;
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
+    const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(M_PI * M_PI);
+    
+    CCSimd_f32x2 Value = a;
+    
+    // Bhāskara I's cosine approximation
+    Value = CCSimdMul_f32x2(Value, Value);
+    Value = CCSimdDiv_f32x2(CCSimdNegMadd_f32x2(M, Value, PiSqr), CCSimdAdd_f32x2(PiSqr, Value));
     
     return Value;
 }
