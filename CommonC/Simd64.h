@@ -1721,6 +1721,13 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a);
 
+/*!
+ * @brief Compute the cosine of each radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be cosined.
+ * @return The cosined vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a);
+
 
 #pragma mark - Reordering
 #pragma mark Swizzle
@@ -2113,6 +2120,23 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
     Value = CCSimdPosPiRadSin_f32x2(Value);
     
     return CCSimdMul_f32x2(Value, Sign);
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 Two = CCSimdFill_f32x2(2.0f);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    
+    CCSimd_f32x2 Value = CCSimdAdd_f32x2(a, HalfPi);
+    
+    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdMod_f32x2(CCSimdDiv_f32x2(Value, Pi), Two));
+    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
+    
+    Value = CCSimdSub_f32x2(CCSimdMod_f32x2(Value, Pi), HalfPi);
+    
+    return CCSimdMul_f32x2(CCSimdHalfPiRadCos_f32x2(Value), Sign);
 }
 
 #define CC_SIMD_64_2_ELEMENT_INTEGER_TYPES \
