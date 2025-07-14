@@ -1681,6 +1681,23 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdClamp_u32x2(const CCSimd_u32x2 a, cons
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdClamp_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 min, const CCSimd_f32x2 max);
 
 
+#pragma mark Square Root
+
+/*!
+ * @brief Compute the square root of each element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be squared.
+ * @return The squared vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSqrt_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Compute the reciprocal square root of each element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be inversely squared.
+ * @return The inverse square vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvSqrt_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark Sine
 
 /*!
@@ -2746,6 +2763,14 @@ CC_SIMD_DECL(CCSimdMax, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) min, const CC_SIMD_TYPE(base, count) max){ return CC_SIMD_NAME(CCSimdMin, base, count)(CC_SIMD_NAME(CCSimdMax, base, count)(a, min), max); }
 CC_SIMD_DECL(CCSimdClamp, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vsqrt_##base(a); }
+CC_SIMD_DECL(CCSimdSqrt, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vrsqrte_##base(a); }
+CC_SIMD_DECL(CCSimdInvSqrt, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
