@@ -126,6 +126,463 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSetSequence_u32x2(const CCSimd_u32x2 a
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSetSequence_f32x2(const CCSimd_f32x2 a, float v, _Bool v0, _Bool v1);
 
 
+#pragma mark - Bitwise Operations
+#pragma mark Not
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNot_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1, 1, 1] -> [-2, -2, -2, -2]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNot_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1] -> [-2, -2]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNot_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNot_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1, 1, 1] -> [-2, -2, -2, -2]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNot_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief NOT all elements of @b a.
+ * @example [1, 1] -> [-2, -2]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the bitwise NOT.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNot_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark And
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAnd_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] & [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAnd_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1] & [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAnd_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAnd_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] & [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAnd_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief AND all elements of @b a and @b b.
+ * @example [1, 1] & [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAnd_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Or
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [3, 3, 3, 3, 3, 3, 3, 3]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdOr_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] | [2, 2, 2, 2] -> [3, 3, 3, 3]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdOr_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1] | [2, 2] -> [3, 3]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdOr_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [3, 3, 3, 3, 3, 3, 3, 3]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdOr_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] | [2, 2, 2, 2] -> [3, 3, 3, 3]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdOr_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief OR all elements of @b a and @b b.
+ * @example [1, 1] | [2, 2] -> [3, 3]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdOr_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Xor
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] ^ [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdXor_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] ^ [3, 3, 3, 3] -> [2, 2, 2, 2]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdXor_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1] ^ [3, 3] -> [2, 2]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdXor_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] ^ [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdXor_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1, 1, 1] ^ [3, 3, 3, 3] -> [2, 2, 2, 2]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdXor_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief XOR all elements of @b a and @b b.
+ * @example [1, 1] ^ [3, 3] -> [2, 2]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the XOR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdXor_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Shift Left
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] << [3, 3, 3, 3, 3, 3, 3, 3] -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdShiftLeft_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1, 1, 1] << [3, 3, 3, 3] -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdShiftLeft_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1] << [3, 3] -> [8, 8]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdShiftLeft_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] << [3, 3, 3, 3, 3, 3, 3, 3] -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdShiftLeft_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1, 1, 1] << [3, 3, 3, 3] -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftLeft_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Left shift all elements of @b a by @b b.
+ * @example [1, 1] << [3, 3] -> [8, 8]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftLeft_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Shift Left N
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] << 3 -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdShiftLeftN_s8x8(const CCSimd_s8x8 a, const uint8_t n);
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1, 1, 1] << 3 -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdShiftLeftN_s16x4(const CCSimd_s16x4 a, const uint8_t n);
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1] << 3 -> [8, 8]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdShiftLeftN_s32x2(const CCSimd_s32x2 a, const uint8_t n);
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] << 3 -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdShiftLeftN_u8x8(const CCSimd_u8x8 a, const uint8_t n);
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1, 1, 1] << 3 -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftLeftN_u16x4(const CCSimd_u16x4 a, const uint8_t n);
+
+/*!
+ * @brief Left shift all elements of @b a by @b n.
+ * @example [1, 1] << 3 -> [8, 8]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftLeftN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
+#pragma mark Shift Right
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b b.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] >> [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdShiftRight_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b b.
+ * @example [8, 8, 8, 8] >> [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdShiftRight_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b b.
+ * @example [8, 8] >> [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdShiftRight_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Right shift all elements of @b a by @b b.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] >> [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdShiftRight_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Right shift all elements of @b a by @b b.
+ * @example [8, 8, 8, 8] >> [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftRight_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Right shift all elements of @b a by @b b.
+ * @example [8, 8] >> [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRight_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Shift Right N
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b n.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] >> 3 -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdShiftRightN_s8x8(const CCSimd_s8x8 a, const uint8_t n);
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b n.
+ * @example [8, 8, 8, 8] >> 3 -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdShiftRightN_s16x4(const CCSimd_s16x4 a, const uint8_t n);
+
+/*!
+ * @brief Right arithmetic shift all elements of @b a by @b n.
+ * @example [8, 8] >> 3 -> [1, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdShiftRightN_s32x2(const CCSimd_s32x2 a, const uint8_t n);
+
+/*!
+ * @brief Right shift all elements of @b a by @b n.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] >> 3 -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdShiftRightN_u8x8(const CCSimd_u8x8 a, const uint8_t n);
+
+/*!
+ * @brief Right shift all elements of @b a by @b n.
+ * @example [8, 8, 8, 8] >> 3 -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftRightN_u16x4(const CCSimd_u16x4 a, const uint8_t n);
+
+/*!
+ * @brief Right shift all elements of @b a by @b n.
+ * @example [8, 8] >> 3 -> [1, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param n The number of bits to shift the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
 #pragma mark - Maths
 #pragma mark Add
 
@@ -2388,6 +2845,208 @@ CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_T
     return Result; \
 }
 CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vmvn_##base(a); }
+CC_SIMD_DECL(CCSimdNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vand_##base(a, b); }
+CC_SIMD_DECL(CCSimdAnd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vorr_##base(a, b); }
+CC_SIMD_DECL(CCSimdOr, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return veor_##base(a, b); }
+CC_SIMD_DECL(CCSimdXor, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vshl_##base(a, b); }
+CC_SIMD_DECL(CCSimdShiftLeft, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshl_n_##base(a, 1); \
+        case 2: return vshl_n_##base(a, 2); \
+        case 3: return vshl_n_##base(a, 3); \
+        case 4: return vshl_n_##base(a, 4); \
+        case 5: return vshl_n_##base(a, 5); \
+        case 6: return vshl_n_##base(a, 6); \
+        case 7: return vshl_n_##base(a, 7); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftLeftN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshl_n_##base(a, 1); \
+        case 2: return vshl_n_##base(a, 2); \
+        case 3: return vshl_n_##base(a, 3); \
+        case 4: return vshl_n_##base(a, 4); \
+        case 5: return vshl_n_##base(a, 5); \
+        case 6: return vshl_n_##base(a, 6); \
+        case 7: return vshl_n_##base(a, 7); \
+        case 8: return vshl_n_##base(a, 8); \
+        case 9: return vshl_n_##base(a, 9); \
+        case 10: return vshl_n_##base(a, 10); \
+        case 11: return vshl_n_##base(a, 11); \
+        case 12: return vshl_n_##base(a, 12); \
+        case 13: return vshl_n_##base(a, 13); \
+        case 14: return vshl_n_##base(a, 14); \
+        case 15: return vshl_n_##base(a, 15); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftLeftN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshl_n_##base(a, 1); \
+        case 2: return vshl_n_##base(a, 2); \
+        case 3: return vshl_n_##base(a, 3); \
+        case 4: return vshl_n_##base(a, 4); \
+        case 5: return vshl_n_##base(a, 5); \
+        case 6: return vshl_n_##base(a, 6); \
+        case 7: return vshl_n_##base(a, 7); \
+        case 8: return vshl_n_##base(a, 8); \
+        case 9: return vshl_n_##base(a, 9); \
+        case 10: return vshl_n_##base(a, 10); \
+        case 11: return vshl_n_##base(a, 11); \
+        case 12: return vshl_n_##base(a, 12); \
+        case 13: return vshl_n_##base(a, 13); \
+        case 14: return vshl_n_##base(a, 14); \
+        case 15: return vshl_n_##base(a, 15); \
+        case 16: return vshl_n_##base(a, 16); \
+        case 17: return vshl_n_##base(a, 17); \
+        case 18: return vshl_n_##base(a, 18); \
+        case 19: return vshl_n_##base(a, 19); \
+        case 20: return vshl_n_##base(a, 20); \
+        case 21: return vshl_n_##base(a, 21); \
+        case 22: return vshl_n_##base(a, 22); \
+        case 23: return vshl_n_##base(a, 23); \
+        case 24: return vshl_n_##base(a, 24); \
+        case 25: return vshl_n_##base(a, 25); \
+        case 26: return vshl_n_##base(a, 26); \
+        case 27: return vshl_n_##base(a, 27); \
+        case 28: return vshl_n_##base(a, 28); \
+        case 29: return vshl_n_##base(a, 29); \
+        case 30: return vshl_n_##base(a, 30); \
+        case 31: return vshl_n_##base(a, 31); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftLeftN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vshl_##base(a, CC_SIMD_NAME(CCSimdNeg, base, count)(b)); }
+CC_SIMD_DECL(CCSimdShiftRight, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshr_n_##base(a, 1); \
+        case 2: return vshr_n_##base(a, 2); \
+        case 3: return vshr_n_##base(a, 3); \
+        case 4: return vshr_n_##base(a, 4); \
+        case 5: return vshr_n_##base(a, 5); \
+        case 6: return vshr_n_##base(a, 6); \
+        case 7: return vshr_n_##base(a, 7); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshr_n_##base(a, 1); \
+        case 2: return vshr_n_##base(a, 2); \
+        case 3: return vshr_n_##base(a, 3); \
+        case 4: return vshr_n_##base(a, 4); \
+        case 5: return vshr_n_##base(a, 5); \
+        case 6: return vshr_n_##base(a, 6); \
+        case 7: return vshr_n_##base(a, 7); \
+        case 8: return vshr_n_##base(a, 8); \
+        case 9: return vshr_n_##base(a, 9); \
+        case 10: return vshr_n_##base(a, 10); \
+        case 11: return vshr_n_##base(a, 11); \
+        case 12: return vshr_n_##base(a, 12); \
+        case 13: return vshr_n_##base(a, 13); \
+        case 14: return vshr_n_##base(a, 14); \
+        case 15: return vshr_n_##base(a, 15); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    switch (n) \
+    { \
+        case 0: return a; \
+        case 1: return vshr_n_##base(a, 1); \
+        case 2: return vshr_n_##base(a, 2); \
+        case 3: return vshr_n_##base(a, 3); \
+        case 4: return vshr_n_##base(a, 4); \
+        case 5: return vshr_n_##base(a, 5); \
+        case 6: return vshr_n_##base(a, 6); \
+        case 7: return vshr_n_##base(a, 7); \
+        case 8: return vshr_n_##base(a, 8); \
+        case 9: return vshr_n_##base(a, 9); \
+        case 10: return vshr_n_##base(a, 10); \
+        case 11: return vshr_n_##base(a, 11); \
+        case 12: return vshr_n_##base(a, 12); \
+        case 13: return vshr_n_##base(a, 13); \
+        case 14: return vshr_n_##base(a, 14); \
+        case 15: return vshr_n_##base(a, 15); \
+        case 16: return vshr_n_##base(a, 16); \
+        case 17: return vshr_n_##base(a, 17); \
+        case 18: return vshr_n_##base(a, 18); \
+        case 19: return vshr_n_##base(a, 19); \
+        case 20: return vshr_n_##base(a, 20); \
+        case 21: return vshr_n_##base(a, 21); \
+        case 22: return vshr_n_##base(a, 22); \
+        case 23: return vshr_n_##base(a, 23); \
+        case 24: return vshr_n_##base(a, 24); \
+        case 25: return vshr_n_##base(a, 25); \
+        case 26: return vshr_n_##base(a, 26); \
+        case 27: return vshr_n_##base(a, 27); \
+        case 28: return vshr_n_##base(a, 28); \
+        case 29: return vshr_n_##base(a, 29); \
+        case 30: return vshr_n_##base(a, 30); \
+        case 31: return vshr_n_##base(a, 31); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vadd_##base(a, b); }
