@@ -65,6 +65,41 @@
 #define CC_SIMD_UNSIGNED_f32 f32
 #define CC_SIMD_UNSIGNED_f64 f64
 
+#define CC_SIMD_TO(base, type) CC_SIMD_TO_##type##_##base
+
+#define CC_SIMD_TO_s_s8 s8
+#define CC_SIMD_TO_s_s16 s16
+#define CC_SIMD_TO_s_s32 s32
+#define CC_SIMD_TO_s_s64 s64
+#define CC_SIMD_TO_s_u8 s8
+#define CC_SIMD_TO_s_u16 s16
+#define CC_SIMD_TO_s_u32 s32
+#define CC_SIMD_TO_s_u64 s64
+#define CC_SIMD_TO_s_f32 s32
+#define CC_SIMD_TO_s_f64 s64
+
+#define CC_SIMD_TO_u_s8 u8
+#define CC_SIMD_TO_u_s16 u16
+#define CC_SIMD_TO_u_s32 u32
+#define CC_SIMD_TO_u_s64 u64
+#define CC_SIMD_TO_u_u8 u8
+#define CC_SIMD_TO_u_u16 u16
+#define CC_SIMD_TO_u_u32 u32
+#define CC_SIMD_TO_u_u64 u64
+#define CC_SIMD_TO_u_f32 u32
+#define CC_SIMD_TO_u_f64 u64
+
+#define CC_SIMD_TO_f_s8 f8
+#define CC_SIMD_TO_f_s16 f16
+#define CC_SIMD_TO_f_s32 f32
+#define CC_SIMD_TO_f_s64 f64
+#define CC_SIMD_TO_f_u8 f8
+#define CC_SIMD_TO_f_u16 f16
+#define CC_SIMD_TO_f_u32 f32
+#define CC_SIMD_TO_f_u64 f64
+#define CC_SIMD_TO_f_f32 f32
+#define CC_SIMD_TO_f_f64 f64
+
 #define CC_SIMD_BASE_TYPE(base) CC_SIMD_BASE_TYPE_##base
 
 #define CC_SIMD_BASE_TYPE_s8 int8_t
@@ -78,7 +113,8 @@
 #define CC_SIMD_BASE_TYPE_f32 float
 #define CC_SIMD_BASE_TYPE_f64 double
 
-#define CC_SIMD_NAME(name, base, count) name##_##base##x##count
+#define CC_SIMD_NAME(name, base, count) CC_SIMD_NAME_(name, base, count)
+#define CC_SIMD_NAME_(name, base, count) name##_##base##x##count
 
 #define CC_SIMD_TYPE(base, count) CC_SIMD_NAME(CCSimd, base, count)
 
@@ -89,6 +125,12 @@
 #define CC_SIMD_RETURN_TYPE_BASE(base, count) CC_SIMD_BASE_TYPE(base)
 
 #define CC_SIMD_RETURN_TYPE_SIMD(base, count) CC_SIMD_TYPE(base, count)
+
+#define CC_SIMD_RETURN_TYPE_SIMD_TO(type) CC_SIMD_RETURN_TYPE_SIMD_TO_##type
+
+#define CC_SIMD_RETURN_TYPE_SIMD_TO_s(base, count) CC_SIMD_RETURN_TYPE_SIMD(CC_SIMD_TO(base, s), count)
+#define CC_SIMD_RETURN_TYPE_SIMD_TO_u(base, count) CC_SIMD_RETURN_TYPE_SIMD(CC_SIMD_TO(base, u), count)
+#define CC_SIMD_RETURN_TYPE_SIMD_TO_f(base, count) CC_SIMD_RETURN_TYPE_SIMD(CC_SIMD_TO(base, f), count)
 
 #define CC_SIMD_DECL(name, ret, ...) CC_SOFT_JOIN(, CC_MAP_WITH(CC_SIMD_DECL_FUN, (name, ret), __VA_ARGS__))
 
@@ -153,13 +195,23 @@
 #define CC_SIMD_B15 CC_SIMD_LANE_15 | (1 << 4)
 
 /*!
+ * @define CC_SIMD_MATH_ACCURACY
+ * @brief Define this to select which maths implementations are used. A higher value
+ *        selects slower but more accurate implementations. The default is 0, prioritising
+ *        speed above all else.
+ */
+#ifndef CC_SIMD_MATH_ACCURACY
+#define CC_SIMD_MATH_ACCURACY 100
+#endif
+
+/*!
  * @define CC_SIMD_TRIG_ACCURACY
  * @brief Define this to select which trigonometry implementations are used. A higher value
  *        selects slower but more accurate implementations. The default is 0, prioritising
  *        speed above all else.
  */
 #ifndef CC_SIMD_TRIG_ACCURACY
-#define CC_SIMD_TRIG_ACCURACY 0
+#define CC_SIMD_TRIG_ACCURACY CC_SIMD_MATH_ACCURACY
 #endif
 
 #include <CommonC/Simd64.h>

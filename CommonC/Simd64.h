@@ -126,6 +126,475 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSetSequence_u32x2(const CCSimd_u32x2 a
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSetSequence_f32x2(const CCSimd_f32x2 a, float v, _Bool v0, _Bool v1);
 
 
+#pragma mark - Types
+#pragma mark Reinterpret
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Reinterpret the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The reinterpreted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
+
+
+#pragma mark Cast
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Cast_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Cast_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Cast_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 4 element vector of 16-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Cast_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit signed integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Cast_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Cast_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Cast_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 4 element vector of 16-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Cast_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit unsigned integers.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Cast the vector @b a.
+ * @param a An 2 element vector of 32-bit floats.
+ * @return The Casted vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark - Bitwise Operations
 #pragma mark Not
 
@@ -581,6 +1050,799 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftRightN_u16x4(const CCSimd_u16x4 a
  * @return The vector representing the shifted result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
+#pragma mark - Comparisons
+#pragma mark Equal
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] == [0, 2, 0, 4, 0, 6, 0, 8] -> [0, 1, 0, 1, 0, 1, 0, 1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, 1, 0, 1]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7, 8] == [0, 8] -> [0, 1]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] == [0, 2, 0, 4, 0, 6, 0, 8] -> [0, 1, 0, 1, 0, 1, 0, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, 1, 0, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7, 8] == [0, 8] -> [0, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7.5, 8.5] == [0.0, 8.5] -> [0.0, 1.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Equal
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] == [0, 2, 0, 4, 0, 6, 0, 8] -> [0, -1, 0, -1, 0, -1, 0, -1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, -1, 0, -1]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7, 8] == [0, 8] -> [0, -1]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] == [0, 2, 0, 4, 0, 6, 0, 8] -> [0, -1, 0, -1, 0, -1, 0, -1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, -1, 0, -1]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7, 8] == [0, 8] -> [0, -1]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are equal to @b b.
+ * @example [7.5, 8.5] == [0.0, 8.5] -> [0, -1]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Not Equal
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareNotEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareNotEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7, 8] != [0, 8] -> [1. 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareNotEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareNotEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareNotEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7, 8] != [0, 8] -> [1. 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareNotEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7.5, 8.5] != [0.0, 8.5] -> [1.0, 0.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareNotEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Not Equal
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareNotEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareNotEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7, 8] != [0, 8] -> [1. 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareNotEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareNotEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareNotEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7, 8] != [0, 8] -> [1. 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareNotEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are not equal to @b b.
+ * @example [7.5, 8.5] != [0.0, 8.5] -> [-1, 0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareNotEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Less Than
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareLessThan_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareLessThan_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7, 8] < [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareLessThan_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareLessThan_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareLessThan_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7, 8] < [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareLessThan_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7.5, 8.5] < [10.0, 8.5] -> [1.0, 0.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareLessThan_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Less Than
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareLessThan_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareLessThan_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7, 8] < [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareLessThan_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareLessThan_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareLessThan_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7, 8] < [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThan_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than @b b.
+ * @example [7.5, 8.5] < [10.0, 8.5] -> [-1, 0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThan_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Less Than Or Equal
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareLessThanEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareLessThanEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareLessThanEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareLessThanEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareLessThanEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareLessThanEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7.5, 8.5] <= [10.0, 8.5] -> [1.0, 1.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareLessThanEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Less Than Or Equal
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareLessThanEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareLessThanEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareLessThanEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareLessThanEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareLessThanEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThanEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are less than or equal to @b b.
+ * @example [7.5, 8.5] <= [10.0, 8.5] -> [-1, -1]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThanEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Greater Than
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareGreaterThan_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareGreaterThan_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7, 8] > [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareGreaterThan_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareGreaterThan_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareGreaterThan_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7, 8] > [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareGreaterThan_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7.5, 8.5] > [0.0, 8.5] -> [1.0, 0.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareGreaterThan_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Greater Than
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareGreaterThan_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareGreaterThan_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7, 8] > [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareGreaterThan_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareGreaterThan_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareGreaterThan_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7, 8] > [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThan_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than @b b.
+ * @example [7.5, 8.5] > [0.0, 8.5] -> [-1, 0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThan_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Greater Than Or Equal
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareGreaterThanEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareGreaterThanEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareGreaterThanEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareGreaterThanEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareGreaterThanEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareGreaterThanEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7.5, 8.5] >= [0.0, 8.5] -> [1.0, 1.0]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareGreaterThanEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
+
+
+#pragma mark Masked Greater Than Or Equal
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers to compare.
+ * @param b An 8 element vector of 8-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareGreaterThanEqual_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit signed integers to compare.
+ * @param b A 4 element vector of 16-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareGreaterThanEqual_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit signed integers to compare.
+ * @param b A 2 element vector of 32-bit signed integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareGreaterThanEqual_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers to compare.
+ * @param b An 8 element vector of 8-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareGreaterThanEqual_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @param a A 4 element vector of 16-bit unsigned integers to compare.
+ * @param b A 4 element vector of 16-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareGreaterThanEqual_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers to compare.
+ * @param b A 2 element vector of 32-bit unsigned integers to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThanEqual_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+/*!
+ * @brief Compare if all elements of @b a are greater than or equal to @b b.
+ * @example [7.5, 8.5] >= [0.0, 8.5] -> [-1, -1]
+ * @param a A 2 element vector of 32-bit floats to compare.
+ * @param b A 2 element vector of 32-bit floats to compare.
+ * @return The vector with the result of the comparison.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThanEqual_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b);
 
 
 #pragma mark - Maths
@@ -2155,6 +3417,86 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSqrt_f32x2(const CCSimd_f32x2 a);
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvSqrt_f32x2(const CCSimd_f32x2 a);
 
 
+#pragma mark Power
+
+/*!
+ * @brief Compute value of each element in the vector @b Base raised by vector @b Exponent.
+ * @param Base A 2 element vector of 32-bit floats to raised.
+ * @param Exponent A 2 element vector of 32-bit floats to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent);
+
+
+#pragma mark 2 Power
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 8 element vector of 8-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdPow2_s8x8(const CCSimd_s8x8 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 4 element vector of 16-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdPow2_s16x4(const CCSimd_s16x4 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 2 element vector of 32-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdPow2_s32x2(const CCSimd_s32x2 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 8 element vector of 8-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdPow2_u8x8(const CCSimd_u8x8 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 4 element vector of 16-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdPow2_u16x4(const CCSimd_u16x4 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 2 element vector of 32-bit unsigned integers to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdPow2_u32x2(const CCSimd_u32x2 Exponent);
+
+/*!
+ * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
+ * @param Exponent A 2 element vector of 32-bit floats to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent);
+
+
+#pragma mark Exponent
+
+/*!
+ * @brief Computes e^n (Euler's number 2.7182818..) for each element raised by vector @b a.
+ * @param a A 2 element vector of 32-bit floats to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Computes 2^n for each element raised by vector @b a.
+ * @param a A 2 element vector of 32-bit floats to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark Sine
 
 /*!
@@ -2570,11 +3912,11 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a)
 {
     CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
     
-    CCSimd_u32x2 Sign = vshl_n_u32(vshr_n_u32(vreinterpret_u32_f32(a), 31), 31);
+    CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31);
     
     Value = CCSimdPosPiRadSin_f32x2(Value);
     
-    return vreinterpret_f32_u32(veor_u32(vreinterpret_u32_f32(Value), Sign));
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Value), Sign));
 }
 
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
@@ -2587,7 +3929,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
     
     CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
     Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
-    Sign = vreinterpret_f32_u32(veor_u32(vreinterpret_u32_f32(Sign), vshl_n_u32(vshr_n_u32(vreinterpret_u32_f32(a), 31), 31)));
+    Sign = CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Sign), CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31)));
     
     Value = CCSimdMod_f32x2(Value, Pi);
     
@@ -2611,6 +3953,109 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
     Value = CCSimdSub_f32x2(CCSimdMod_f32x2(Value, Pi), HalfPi);
     
     return CCSimdMul_f32x2(CCSimdHalfPiRadCos_f32x2(Value), Sign);
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent);
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent)
+{
+    const CCSimd_s32x2 ExpBase = CCSimdFill_s32x2(0x7f);
+    
+    return CCSimd_f32x2_Reinterpret_s32x2(CCSimdShiftLeftN_s32x2(CCSimdAdd_s32x2(CCSimd_s32x2_Cast_f32x2(Exponent), ExpBase), 23));
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
+{
+#if CC_SIMD_MATH_ACCURACY < 4
+    // Taylor series approximation
+    const CCSimd_f32x2 x0 = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 x1 = a;
+    const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
+    const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
+    const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
+#if CC_SIMD_MATH_ACCURACY >= 1
+    const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
+    const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
+#if CC_SIMD_MATH_ACCURACY >= 2
+    const CCSimd_f32x2 x7 = CCSimdMul_f32x2(x3, x4);
+    const CCSimd_f32x2 x8 = CCSimdMul_f32x2(x4, x4);
+    const CCSimd_f32x2 x9 = CCSimdMul_f32x2(x4, x5);
+    const CCSimd_f32x2 x10 = CCSimdMul_f32x2(x5, x5);
+#if CC_SIMD_MATH_ACCURACY >= 3
+    const CCSimd_f32x2 x11 = CCSimdMul_f32x2(x5, x6);
+    const CCSimd_f32x2 x12 = CCSimdMul_f32x2(x6, x6);
+    const CCSimd_f32x2 x13 = CCSimdMul_f32x2(x6, x7);
+    const CCSimd_f32x2 x14 = CCSimdMul_f32x2(x7, x7);
+#endif
+#endif
+#endif
+    
+    CCSimd_f32x2 Result = CCSimdAdd_f32x2(x0, x1);
+    Result = CCSimdMadd_f32x2(x2, CCSimdFill_f32x2(1.0f / 2.0f), Result);
+    Result = CCSimdMadd_f32x2(x3, CCSimdFill_f32x2(1.0f / 6.0f), Result);
+    Result = CCSimdMadd_f32x2(x4, CCSimdFill_f32x2(1.0f / 24.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 1
+    Result = CCSimdMadd_f32x2(x5, CCSimdFill_f32x2(1.0f / 120.0f), Result);
+    Result = CCSimdMadd_f32x2(x6, CCSimdFill_f32x2(1.0f / 720.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 2
+    Result = CCSimdMadd_f32x2(x7, CCSimdFill_f32x2(1.0f / 5040.0f), Result);
+    Result = CCSimdMadd_f32x2(x8, CCSimdFill_f32x2(1.0f / 40320.0f), Result);
+    Result = CCSimdMadd_f32x2(x9, CCSimdFill_f32x2(1.0f / 362880.0f), Result);
+    Result = CCSimdMadd_f32x2(x10, CCSimdFill_f32x2(1.0f / 3628800.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 3
+    Result = CCSimdMadd_f32x2(x11, CCSimdFill_f32x2(1.0f / 39916800.0f), Result);
+    Result = CCSimdMadd_f32x2(x12, CCSimdFill_f32x2(1.0f / 479001600.0f), Result);
+    Result = CCSimdMadd_f32x2(x13, CCSimdFill_f32x2(1.0f / 6227020800.0f), Result);
+    Result = CCSimdMadd_f32x2(x14, CCSimdFill_f32x2(1.0f / 87178291200.0f), Result);
+#endif
+#endif
+#endif
+    
+    return Result;
+#else
+    // Based off Julien Pommier's SIMD adaptation of Cephes: http://gruntthepeon.free.fr/ssemath/
+    const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 Half = CCSimdFill_f32x2(0.5f);
+    const CCSimd_f32x2 Min = CCSimdFill_f32x2(-88.3762626647949f);
+    const CCSimd_f32x2 Max = CCSimdNeg_f32x2(Min);
+    const CCSimd_f32x2 Log2e = CCSimdFill_f32x2(1.44269504088896341f);
+    
+    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(0.693359375f);
+    const CCSimd_f32x2 C2 = CCSimdFill_f32x2(-2.12194440e-4f);
+    
+    const CCSimd_f32x2 P0 = CCSimdFill_f32x2(1.9875691500e-4f);
+    const CCSimd_f32x2 P1 = CCSimdFill_f32x2(1.3981999507e-3f);
+    const CCSimd_f32x2 P2 = CCSimdFill_f32x2(8.3334519073e-3f);
+    const CCSimd_f32x2 P3 = CCSimdFill_f32x2(4.1665795894e-2f);
+    const CCSimd_f32x2 P4 = CCSimdFill_f32x2(1.6666665459e-1f);
+    const CCSimd_f32x2 P5 = CCSimdFill_f32x2(5.0000001201e-1f);
+    
+    CCSimd_f32x2 x = CCSimdClamp_f32x2(a, Min, Max);
+    CCSimd_f32x2 Px = CCSimdFloor_f32x2(CCSimdMadd_f32x2(x, Log2e, Half));
+    
+    x = CCSimdNegMadd_f32x2(Px, C1, x);
+    x = CCSimdNegMadd_f32x2(Px, C2, x);
+    
+    CCSimd_f32x2 xx = CCSimdMul_f32x2(x, x);
+    
+    CCSimd_f32x2 Result = P0;
+    Result = CCSimdMadd_f32x2(Result, x, P1);
+    Result = CCSimdMadd_f32x2(Result, x, P2);
+    Result = CCSimdMadd_f32x2(Result, x, P3);
+    Result = CCSimdMadd_f32x2(Result, x, P4);
+    Result = CCSimdMadd_f32x2(Result, x, P5);
+    Result = CCSimdMadd_f32x2(Result, xx, x);
+    Result = CCSimdAdd_f32x2(Result, One);
+    
+    return CCSimdMul_f32x2(Result, CCSimdPow2_f32x2(Px));
+#endif
+}
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_s32x2 ExpBase = CCSimdFill_s32x2(0x7f);
+    
+    return CCSimd_f32x2_Reinterpret_s32x2(CCSimdShiftLeftN_s32x2(CCSimdAdd_s32x2(CCSimd_s32x2_Cast_f32x2(a), ExpBase), 23));
 }
 
 #define CC_SIMD_64_2_ELEMENT_INTEGER_TYPES \
@@ -2847,6 +4292,90 @@ CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_T
 CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
+#define vreinterpret_s8_s8(x) (x)
+#define vreinterpret_s16_s16(x) (x)
+#define vreinterpret_s32_s32(x) (x)
+#define vreinterpret_u8_u8(x) (x)
+#define vreinterpret_u16_u16(x) (x)
+#define vreinterpret_u32_u32(x) (x)
+#define vreinterpret_f32_f32(x) (x)
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_s8_##base(a); }
+CC_SIMD_DECL(CCSimd_s8x8_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_s8x8), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_s16_##base(a); }
+CC_SIMD_DECL(CCSimd_s16x4_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_s16x4), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_s32_##base(a); }
+CC_SIMD_DECL(CCSimd_s32x2_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_s32x2), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_u8_##base(a); }
+CC_SIMD_DECL(CCSimd_u8x8_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_u8x8), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_u16_##base(a); }
+CC_SIMD_DECL(CCSimd_u16x4_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_u16x4), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_u32_##base(a); }
+CC_SIMD_DECL(CCSimd_u32x2_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_u32x2), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_f32_##base(a); }
+CC_SIMD_DECL(CCSimd_f32x2_Reinterpret, CC_SIMD_RETURN_TYPE(CCSimd_f32x2), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define vcvt_s8_s8(x) (x)
+#define vcvt_s8_u8(x) (x)
+#define vcvt_u8_s8(x) (x)
+#define vcvt_s16_s16(x) (x)
+#define vcvt_s16_u16(x) (x)
+#define vcvt_u16_s16(x) (x)
+#define vcvt_s32_s32(x) (x)
+#define vcvt_s32_u32(x) (x)
+#define vcvt_u32_s32(x) (x)
+#define vcvt_u8_u8(x) (x)
+#define vcvt_u8_s8(x) (x)
+#define vcvt_s8_u8(x) (x)
+#define vcvt_u16_u16(x) (x)
+#define vcvt_u16_s16(x) (x)
+#define vcvt_s16_u16(x) (x)
+#define vcvt_u32_u32(x) (x)
+#define vcvt_u32_s32(x) (x)
+#define vcvt_s32_u32(x) (x)
+#define vcvt_f32_f32(x) (x)
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_s8_##base(a); }
+CC_SIMD_DECL(CCSimd_s8x8_Cast, CC_SIMD_RETURN_TYPE(CCSimd_s8x8), CC_SIMD_64_8_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_s16_##base(a); }
+CC_SIMD_DECL(CCSimd_s16x4_Cast, CC_SIMD_RETURN_TYPE(CCSimd_s16x4), CC_SIMD_64_4_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_s32_##base(a); }
+CC_SIMD_DECL(CCSimd_s32x2_Cast, CC_SIMD_RETURN_TYPE(CCSimd_s32x2), CC_SIMD_64_2_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_u8_##base(a); }
+CC_SIMD_DECL(CCSimd_u8x8_Cast, CC_SIMD_RETURN_TYPE(CCSimd_u8x8), CC_SIMD_64_8_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_u16_##base(a); }
+CC_SIMD_DECL(CCSimd_u16x4_Cast, CC_SIMD_RETURN_TYPE(CCSimd_u16x4), CC_SIMD_64_4_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_u32_##base(a); }
+CC_SIMD_DECL(CCSimd_u32x2_Cast, CC_SIMD_RETURN_TYPE(CCSimd_u32x2), CC_SIMD_64_2_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vcvt_f32_##base(a); }
+CC_SIMD_DECL(CCSimd_f32x2_Cast, CC_SIMD_RETURN_TYPE(CCSimd_f32x2), CC_SIMD_64_2_ELEMENT_TYPES)
+#undef CC_SIMD_IMPL
+
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vmvn_##base(a); }
 CC_SIMD_DECL(CCSimdNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
@@ -3047,6 +4576,102 @@ CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_I
     CC_UNREACHABLE(); \
 }
 CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vceq_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vceq_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vclt_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vclt_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcle_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcle_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcgt_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcgt_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcge_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vcge_##base(a, b); }
+CC_SIMD_DECL(CCSimdMaskCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vadd_##base(a, b); }
