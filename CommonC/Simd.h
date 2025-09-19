@@ -26,6 +26,20 @@
 #ifndef CommonC_Simd_h
 #define CommonC_Simd_h
 
+#define CC_SIMD_BITS(base) CC_SIMD_BITS_##base
+
+#define CC_SIMD_BITS_s8 8
+#define CC_SIMD_BITS_s16 16
+#define CC_SIMD_BITS_s32 32
+#define CC_SIMD_BITS_s64 64
+#define CC_SIMD_BITS_u8 8
+#define CC_SIMD_BITS_u16 16
+#define CC_SIMD_BITS_u32 32
+#define CC_SIMD_BITS_u64 64
+#define CC_SIMD_BITS_f32 32
+#define CC_SIMD_BITS_f64 64
+
+
 #define CC_SIMD_KIND(base) CC_SIMD_KIND_##base
 
 #define CC_SIMD_KIND_s8 s

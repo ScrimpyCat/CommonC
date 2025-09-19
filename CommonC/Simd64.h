@@ -710,6 +710,63 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAnd_u16x4(const CCSimd_u16x4 a, const 
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAnd_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
 
 
+#pragma mark And Not
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAndNot_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1] & [3, 3, 3, 3] -> [2, 2, 2, 2]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAndNot_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1] & [3, 3] -> [2, 2]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAndNot_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAndNot_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1] & [3, 3, 3, 3] -> [2, 2, 2, 2]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAndNot_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief AND all elements of NOT @b a and @b b.
+ * @example ~[1, 1] & [3, 3] -> [2, 2]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the AND'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAndNot_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
 #pragma mark Or
 
 /*!
@@ -765,6 +822,63 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdOr_u16x4(const CCSimd_u16x4 a, const C
  * @return The vector representing the OR'd result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdOr_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Or Not
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-1, -1, -1, -1, -1, -1, -1, -1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdOrNot_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-1, -1, -1, -1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdOrNot_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1] | [2, 2] -> [-1, -1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdOrNot_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-1, -1, -1, -1, -1, -1, -1, -1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdOrNot_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-1, -1, -1, -1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdOrNot_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief OR all elements of NOT @b a and @b b.
+ * @example ~[1, 1] | [2, 2] -> [-1, -1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the OR'd result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdOrNot_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
 
 
 #pragma mark Xor
@@ -1050,6 +1164,529 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftRightN_u16x4(const CCSimd_u16x4 a
  * @return The vector representing the shifted result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
+#pragma mark - Bit Maths
+#pragma mark Lowest Unset Bits
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdLowestUnset_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdLowestUnset_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLowestUnset_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdLowestUnset_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdLowestUnset_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Finds lowest unset bit of all elements of @b a.
+ * @example [1, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the lowest unset bit.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLowestUnset_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Lowest Set Bits
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdLowestSet_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdLowestSet_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLowestSet_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdLowestSet_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdLowestSet_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Finds lowest set bit of all elements of @b a.
+ * @example [1, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the lowest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLowestSet_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Highest Set Bits
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdHighestSet_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1, 3, 1] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdHighestSet_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1] -> [2, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdHighestSet_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdHighestSet_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1, 3, 1] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdHighestSet_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Finds highest set bit of all elements of @b a.
+ * @example [3, 1] -> [2, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the highest set bit.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHighestSet_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Next Power of 2
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNextPow2_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1, 3, 1] -> [4, 1, 4, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNextPow2_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1] -> [4, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNextPow2_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNextPow2_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1, 3, 1] -> [4, 1, 4, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNextPow2_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Finds the minimum power of 2 that can hold each element of @b a.
+ * @example [3, 1] -> [4, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the next power of 2.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNextPow2_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Mask Value
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMask_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1, 2, 1] -> [3, 1, 3, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMask_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1] -> [3, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMask_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMask_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1, 2, 1] -> [3, 1, 3, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMask_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Creates a mask for the entire values range for each element of @b a.
+ * @example [2, 1] -> [3, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMask_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Mask Lower Power of 2
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskLowerPow2_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2, 4, 2] -> [3, 1, 3, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskLowerPow2_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2] -> [3, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskLowerPow2_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskLowerPow2_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2, 4, 2] -> [3, 1, 3, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskLowerPow2_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
+ * @example [4, 2] -> [3, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskLowerPow2_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Mask Highest Unset Value
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskHighestUnset_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2, 1, 2] -> [-2, -4, -2, -4]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskHighestUnset_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2] -> [-2, -4]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskHighestUnset_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskHighestUnset_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2, 1, 2] -> [-2, -4, -2, -4]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskHighestUnset_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Creates a mask for the entire range of unset bits after the highest set bit for
+ *        each element of @b a.
+ *
+ * @example [1, 2] -> [-2, -4]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the mask.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskHighestUnset_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Count Trailing Zero Bits
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [0, 1, 0, 2, 0, 1, 0, 3]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCountLowestUnset_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4] -> [0, 1, 0, 2]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCountLowestUnset_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2] -> [0, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCountLowestUnset_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [0, 1, 0, 2, 0, 1, 0, 3]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCountLowestUnset_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4] -> [0, 1, 0, 2]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCountLowestUnset_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Count the trailing zero bits of all elements of @b a.
+ * @example [1, 2] -> [0, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the number of trailing zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCountLowestUnset_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Count Leading Zero Bits
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [31, 30, 30, 29, 29, 29, 29, 28]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCountHighestUnset_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4] -> [31, 30, 30, 29]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCountHighestUnset_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2] -> [31, 30]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCountHighestUnset_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [31, 30, 30, 29, 29, 29, 29, 28]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCountHighestUnset_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2, 3, 4] -> [31, 30, 30, 29]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCountHighestUnset_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Count the leading zero bits of all elements of @b a.
+ * @example [1, 2] -> [31, 30]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the number of leading zero bits.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCountHighestUnset_u32x2(const CCSimd_u32x2 a);
+
+
+#pragma mark Count Set Bits
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2, 3, 2, 3, 2, 3, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCountSet_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2, 3, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCountSet_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCountSet_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2, 3, 2, 3, 2, 3, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCountSet_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2, 3, 2] -> [2, 1, 2, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCountSet_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Count the set bits of all elements of @b a.
+ * @example [3, 2] -> [2, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the number of set bits.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCountSet_u32x2(const CCSimd_u32x2 a);
 
 
 #pragma mark - Comparisons
@@ -3843,220 +4480,25 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 
 #pragma mark -
 
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a)
-{
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
-    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
-    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * M_PI * M_PI);
-    
-    CCSimd_f32x2 Value = a;
-    
-    // Bhāskara I's sine approximation
-    Value = CCSimdMul_f32x2(M, CCSimdMul_f32x2(Value, CCSimdSub_f32x2(Pi, Value)));
-    Value = CCSimdDiv_f32x2(CCSimdMul_f32x2(M, Value), CCSimdSub_f32x2(PiSqr5, Value));
-    
-    return Value;
-}
+#undef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
+#undef CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
+#undef CC_SIMD_MISSING_CCSimdPosSin_f32x2
+#undef CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
+#undef CC_SIMD_MISSING_CCSimdSin_f32x2
+#undef CC_SIMD_MISSING_CCSimdCos_f32x2
+#undef CC_SIMD_MISSING_CCSimdPow2_f32x2
+#undef CC_SIMD_MISSING_CCSimdExp_f32x2
+#undef CC_SIMD_MISSING_CCSimdExp2_f32x2
 
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a)
-{
-#if CC_SIMD_TRIG_ACCURACY == 0
-    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
-    const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(M_PI * M_PI);
-    
-    CCSimd_f32x2 Value = a;
-    
-    // Bhāskara I's cosine approximation
-    Value = CCSimdMul_f32x2(Value, Value);
-    Value = CCSimdDiv_f32x2(CCSimdNegMadd_f32x2(M, Value, PiSqr), CCSimdAdd_f32x2(PiSqr, Value));
-    
-    return Value;
-#elif CC_SIMD_TRIG_ACCURACY >= 1
-    // More accurate but requires more gpr use
-    
-    // https://math.stackexchange.com/questions/976462/a-1400-years-old-approximation-to-the-sine-function-by-mahabhaskariya-of-bhaskar/4763600#4763600
-    // (9): 0.99940323+𝑥^2(−0.49558085+0.036791683𝑥^2)
-    
-    const CCSimd_f32x2 X = CCSimdFill_f32x2(0.99940323f);
-    const CCSimd_f32x2 Y = CCSimdFill_f32x2(-0.49558085f);
-    const CCSimd_f32x2 Z = CCSimdFill_f32x2(0.036791683f);
-    
-    CCSimd_f32x2 Value = a;
-    
-    Value = CCSimdMul_f32x2(Value, Value);
-    Value = CCSimdMadd_f32x2(Value, CCSimdMadd_f32x2(Value, Z, Y), X);
-    
-    return Value;
-#endif
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a)
-{
-    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
-    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
-    
-    CCSimd_f32x2 Value = a;
-    
-    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
-    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
-    
-    Value = CCSimdMod_f32x2(Value, Pi);
-    
-    Value = CCSimdPosPiRadSin_f32x2(Value);
-        
-    return CCSimdMul_f32x2(Value, Sign);
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a)
-{
-    CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
-    
-    CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31);
-    
-    Value = CCSimdPosPiRadSin_f32x2(Value);
-    
-    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Value), Sign));
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
-{
-    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
-    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
-    
-    CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
-    
-    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
-    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
-    Sign = CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Sign), CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31)));
-    
-    Value = CCSimdMod_f32x2(Value, Pi);
-    
-    Value = CCSimdPosPiRadSin_f32x2(Value);
-    
-    return CCSimdMul_f32x2(Value, Sign);
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
-{
-    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
-    const CCSimd_f32x2 Two = CCSimdFill_f32x2(2.0f);
-    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
-    
-    CCSimd_f32x2 Value = CCSimdAdd_f32x2(a, HalfPi);
-    
-    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdMod_f32x2(CCSimdDiv_f32x2(Value, Pi), Two));
-    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
-    
-    Value = CCSimdSub_f32x2(CCSimdMod_f32x2(Value, Pi), HalfPi);
-    
-    return CCSimdMul_f32x2(CCSimdHalfPiRadCos_f32x2(Value), Sign);
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent);
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent)
-{
-    const CCSimd_s32x2 ExpBase = CCSimdFill_s32x2(0x7f);
-    
-    return CCSimd_f32x2_Reinterpret_s32x2(CCSimdShiftLeftN_s32x2(CCSimdAdd_s32x2(CCSimd_s32x2_Cast_f32x2(Exponent), ExpBase), 23));
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
-{
-#if CC_SIMD_MATH_ACCURACY < 4
-    // Taylor series approximation
-    const CCSimd_f32x2 x0 = CCSimdFill_f32x2(1.0f);
-    const CCSimd_f32x2 x1 = a;
-    const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
-    const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
-    const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
-#if CC_SIMD_MATH_ACCURACY >= 1
-    const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
-    const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
-#if CC_SIMD_MATH_ACCURACY >= 2
-    const CCSimd_f32x2 x7 = CCSimdMul_f32x2(x3, x4);
-    const CCSimd_f32x2 x8 = CCSimdMul_f32x2(x4, x4);
-    const CCSimd_f32x2 x9 = CCSimdMul_f32x2(x4, x5);
-    const CCSimd_f32x2 x10 = CCSimdMul_f32x2(x5, x5);
-#if CC_SIMD_MATH_ACCURACY >= 3
-    const CCSimd_f32x2 x11 = CCSimdMul_f32x2(x5, x6);
-    const CCSimd_f32x2 x12 = CCSimdMul_f32x2(x6, x6);
-    const CCSimd_f32x2 x13 = CCSimdMul_f32x2(x6, x7);
-    const CCSimd_f32x2 x14 = CCSimdMul_f32x2(x7, x7);
-#endif
-#endif
-#endif
-    
-    CCSimd_f32x2 Result = CCSimdAdd_f32x2(x0, x1);
-    Result = CCSimdMadd_f32x2(x2, CCSimdFill_f32x2(1.0f / 2.0f), Result);
-    Result = CCSimdMadd_f32x2(x3, CCSimdFill_f32x2(1.0f / 6.0f), Result);
-    Result = CCSimdMadd_f32x2(x4, CCSimdFill_f32x2(1.0f / 24.0f), Result);
-#if CC_SIMD_MATH_ACCURACY >= 1
-    Result = CCSimdMadd_f32x2(x5, CCSimdFill_f32x2(1.0f / 120.0f), Result);
-    Result = CCSimdMadd_f32x2(x6, CCSimdFill_f32x2(1.0f / 720.0f), Result);
-#if CC_SIMD_MATH_ACCURACY >= 2
-    Result = CCSimdMadd_f32x2(x7, CCSimdFill_f32x2(1.0f / 5040.0f), Result);
-    Result = CCSimdMadd_f32x2(x8, CCSimdFill_f32x2(1.0f / 40320.0f), Result);
-    Result = CCSimdMadd_f32x2(x9, CCSimdFill_f32x2(1.0f / 362880.0f), Result);
-    Result = CCSimdMadd_f32x2(x10, CCSimdFill_f32x2(1.0f / 3628800.0f), Result);
-#if CC_SIMD_MATH_ACCURACY >= 3
-    Result = CCSimdMadd_f32x2(x11, CCSimdFill_f32x2(1.0f / 39916800.0f), Result);
-    Result = CCSimdMadd_f32x2(x12, CCSimdFill_f32x2(1.0f / 479001600.0f), Result);
-    Result = CCSimdMadd_f32x2(x13, CCSimdFill_f32x2(1.0f / 6227020800.0f), Result);
-    Result = CCSimdMadd_f32x2(x14, CCSimdFill_f32x2(1.0f / 87178291200.0f), Result);
-#endif
-#endif
-#endif
-    
-    return Result;
-#else
-    // Based off Julien Pommier's SIMD adaptation of Cephes: http://gruntthepeon.free.fr/ssemath/
-    const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
-    const CCSimd_f32x2 Half = CCSimdFill_f32x2(0.5f);
-    const CCSimd_f32x2 Min = CCSimdFill_f32x2(-88.3762626647949f);
-    const CCSimd_f32x2 Max = CCSimdNeg_f32x2(Min);
-    const CCSimd_f32x2 Log2e = CCSimdFill_f32x2(1.44269504088896341f);
-    
-    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(0.693359375f);
-    const CCSimd_f32x2 C2 = CCSimdFill_f32x2(-2.12194440e-4f);
-    
-    const CCSimd_f32x2 P0 = CCSimdFill_f32x2(1.9875691500e-4f);
-    const CCSimd_f32x2 P1 = CCSimdFill_f32x2(1.3981999507e-3f);
-    const CCSimd_f32x2 P2 = CCSimdFill_f32x2(8.3334519073e-3f);
-    const CCSimd_f32x2 P3 = CCSimdFill_f32x2(4.1665795894e-2f);
-    const CCSimd_f32x2 P4 = CCSimdFill_f32x2(1.6666665459e-1f);
-    const CCSimd_f32x2 P5 = CCSimdFill_f32x2(5.0000001201e-1f);
-    
-    CCSimd_f32x2 x = CCSimdClamp_f32x2(a, Min, Max);
-    CCSimd_f32x2 Px = CCSimdFloor_f32x2(CCSimdMadd_f32x2(x, Log2e, Half));
-    
-    x = CCSimdNegMadd_f32x2(Px, C1, x);
-    x = CCSimdNegMadd_f32x2(Px, C2, x);
-    
-    CCSimd_f32x2 xx = CCSimdMul_f32x2(x, x);
-    
-    CCSimd_f32x2 Result = P0;
-    Result = CCSimdMadd_f32x2(Result, x, P1);
-    Result = CCSimdMadd_f32x2(Result, x, P2);
-    Result = CCSimdMadd_f32x2(Result, x, P3);
-    Result = CCSimdMadd_f32x2(Result, x, P4);
-    Result = CCSimdMadd_f32x2(Result, x, P5);
-    Result = CCSimdMadd_f32x2(Result, xx, x);
-    Result = CCSimdAdd_f32x2(Result, One);
-    
-    return CCSimdMul_f32x2(Result, CCSimdPow2_f32x2(Px));
-#endif
-}
-
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a)
-{
-    const CCSimd_s32x2 ExpBase = CCSimdFill_s32x2(0x7f);
-    
-    return CCSimd_f32x2_Reinterpret_s32x2(CCSimdShiftLeftN_s32x2(CCSimdAdd_s32x2(CCSimd_s32x2_Cast_f32x2(a), ExpBase), 23));
-}
+#define CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
+#define CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
+#define CC_SIMD_MISSING_CCSimdPosSin_f32x2
+#define CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
+#define CC_SIMD_MISSING_CCSimdSin_f32x2
+#define CC_SIMD_MISSING_CCSimdCos_f32x2
+#define CC_SIMD_MISSING_CCSimdPow2_f32x2
+#define CC_SIMD_MISSING_CCSimdExp_f32x2
+#define CC_SIMD_MISSING_CCSimdExp2_f32x2
 
 #define CC_SIMD_64_2_ELEMENT_INTEGER_TYPES \
 (s32, 2), \
@@ -4384,8 +4826,16 @@ CC_SIMD_DECL(CCSimdNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 CC_SIMD_DECL(CCSimdAnd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), b); }
+CC_SIMD_DECL(CCSimdAndNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vorr_##base(a, b); }
 CC_SIMD_DECL(CCSimdOr, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vorn_##base(a, b); }
+CC_SIMD_DECL(CCSimdOrNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return veor_##base(a, b); }
@@ -4576,6 +5026,161 @@ CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_I
     CC_UNREACHABLE(); \
 }
 CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(1))); }
+CC_SIMD_DECL(CCSimdLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(a, CC_SIMD_NAME(CCSimdNeg, base, count)(a)); }
+CC_SIMD_DECL(CCSimdLowestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) MSB = CC_SIMD_NAME(CCSimdFill, base, count)((UINT64_C(1) << (CC_SIMD_BITS(base) - 1))); \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(a, MSB), MSB); \
+    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdShiftLeftN, base, count)(CC_SIMD_NAME(CCSimdHighestSet, base, count)(a), 1)); \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(Mask, Result); \
+}
+CC_SIMD_DECL(CCSimdMask, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()); \
+    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(a)); \
+    \
+    return CC_SIMD_NAME(CCSimdAnd, base, count)(Mask, Result); \
+}
+CC_SIMD_DECL(CCSimdMaskLowerPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_MAX >> (64 - CC_SIMD_BITS(base))), CC_SIMD_NAME(CCSimdMask, base, count)(a)); \
+}
+CC_SIMD_DECL(CCSimdMaskHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) AllZero = CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdCompareEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()), CC_SIMD_NAME(CCSimdFill, base, count)(CC_SIMD_BITS(base))); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdCountSet, base, count)(CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdLowestSet, base, count)(a))), AllZero); \
+}
+CC_SIMD_DECL(CCSimdCountLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vclz_##base(a); }
+CC_SIMD_DECL(CCSimdCountHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask55 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x5555555555555555) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask33 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x3333333333333333) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask0f = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0f0f0f0f0f0f0f0f) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask01 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0101010101010101) >> (64 - CC_SIMD_BITS(base))); \
+    \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdSub, base, count)(Result, CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1), Mask55)); \
+    Result = CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(Result, Mask33), CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2), Mask33)); \
+    Result = CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)), Mask0f); \
+    Result = CC_SIMD_NAME(CCSimdShiftRightN, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(Result, Mask01), CC_SIMD_BITS(base) - 8); \
+    \
+    return Result; \
+}
+CC_SIMD_DECL(CCSimdCountSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
@@ -5666,6 +6271,272 @@ CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
 CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
+    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * M_PI * M_PI);
+    
+    CCSimd_f32x2 Value = a;
+    
+    // Bhāskara I's sine approximation
+    Value = CCSimdMul_f32x2(M, CCSimdMul_f32x2(Value, CCSimdSub_f32x2(Pi, Value)));
+    Value = CCSimdDiv_f32x2(CCSimdMul_f32x2(M, Value), CCSimdSub_f32x2(PiSqr5, Value));
+    
+    return Value;
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a)
+{
+#if CC_SIMD_TRIG_ACCURACY == 0
+    const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
+    const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(M_PI * M_PI);
+    
+    CCSimd_f32x2 Value = a;
+    
+    // Bhāskara I's cosine approximation
+    Value = CCSimdMul_f32x2(Value, Value);
+    Value = CCSimdDiv_f32x2(CCSimdNegMadd_f32x2(M, Value, PiSqr), CCSimdAdd_f32x2(PiSqr, Value));
+    
+    return Value;
+#elif CC_SIMD_TRIG_ACCURACY >= 1
+    // More accurate but requires more gpr use
+    
+    // https://math.stackexchange.com/questions/976462/a-1400-years-old-approximation-to-the-sine-function-by-mahabhaskariya-of-bhaskar/4763600#4763600
+    // (9): 0.99940323+𝑥^2(−0.49558085+0.036791683𝑥^2)
+    
+    const CCSimd_f32x2 X = CCSimdFill_f32x2(0.99940323f);
+    const CCSimd_f32x2 Y = CCSimdFill_f32x2(-0.49558085f);
+    const CCSimd_f32x2 Z = CCSimdFill_f32x2(0.036791683f);
+    
+    CCSimd_f32x2 Value = a;
+    
+    Value = CCSimdMul_f32x2(Value, Value);
+    Value = CCSimdMadd_f32x2(Value, CCSimdMadd_f32x2(Value, Z, Y), X);
+    
+    return Value;
+#endif
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdPosSin_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    
+    CCSimd_f32x2 Value = a;
+    
+    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
+    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
+    
+    Value = CCSimdMod_f32x2(Value, Pi);
+    
+    Value = CCSimdPosPiRadSin_f32x2(Value);
+        
+    return CCSimdMul_f32x2(Value, Sign);
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a)
+{
+    CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
+    
+    CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31);
+    
+    Value = CCSimdPosPiRadSin_f32x2(Value);
+    
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Value), Sign));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdSin_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    
+    CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
+    
+    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdDiv_f32x2(CCSimdMod_f32x2(Value, Pi2), Pi));
+    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
+    Sign = CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(CCSimd_u32x2_Reinterpret_f32x2(Sign), CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), 31), 31)));
+    
+    Value = CCSimdMod_f32x2(Value, Pi);
+    
+    Value = CCSimdPosPiRadSin_f32x2(Value);
+    
+    return CCSimdMul_f32x2(Value, Sign);
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCos_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 Two = CCSimdFill_f32x2(2.0f);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    
+    CCSimd_f32x2 Value = CCSimdAdd_f32x2(a, HalfPi);
+    
+    CCSimd_f32x2 Sign = CCSimdFloor_f32x2(CCSimdMod_f32x2(CCSimdDiv_f32x2(Value, Pi), Two));
+    Sign = CCSimdSub_f32x2(CCSimdNeg_f32x2(CCSimdAdd_f32x2(Sign, Sign)), NegOne);
+    
+    Value = CCSimdSub_f32x2(CCSimdMod_f32x2(Value, Pi), HalfPi);
+    
+    return CCSimdMul_f32x2(CCSimdHalfPiRadCos_f32x2(Value), Sign);
+}
+#endif
+
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent);
+
+#ifdef CC_SIMD_MISSING_CCSimdPow2_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent)
+{
+    const CCSimd_s32x2 ExpBase = CCSimdFill_s32x2(0x7f);
+    
+    return CCSimd_f32x2_Reinterpret_s32x2(CCSimdShiftLeftN_s32x2(CCSimdAdd_s32x2(CCSimd_s32x2_Cast_f32x2(Exponent), ExpBase), 23));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdExp_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
+{
+#if CC_SIMD_MATH_ACCURACY < 4
+    // Taylor series approximation
+    const CCSimd_f32x2 x0 = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 x1 = a;
+    const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
+    const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
+    const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
+#if CC_SIMD_MATH_ACCURACY >= 1
+    const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
+    const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
+#if CC_SIMD_MATH_ACCURACY >= 2
+    const CCSimd_f32x2 x7 = CCSimdMul_f32x2(x3, x4);
+    const CCSimd_f32x2 x8 = CCSimdMul_f32x2(x4, x4);
+    const CCSimd_f32x2 x9 = CCSimdMul_f32x2(x4, x5);
+    const CCSimd_f32x2 x10 = CCSimdMul_f32x2(x5, x5);
+#if CC_SIMD_MATH_ACCURACY >= 3
+    const CCSimd_f32x2 x11 = CCSimdMul_f32x2(x5, x6);
+    const CCSimd_f32x2 x12 = CCSimdMul_f32x2(x6, x6);
+    const CCSimd_f32x2 x13 = CCSimdMul_f32x2(x6, x7);
+    const CCSimd_f32x2 x14 = CCSimdMul_f32x2(x7, x7);
+#endif
+#endif
+#endif
+    
+    CCSimd_f32x2 Result = CCSimdAdd_f32x2(x0, x1);
+    Result = CCSimdMadd_f32x2(x2, CCSimdFill_f32x2(1.0f / 2.0f), Result);
+    Result = CCSimdMadd_f32x2(x3, CCSimdFill_f32x2(1.0f / 6.0f), Result);
+    Result = CCSimdMadd_f32x2(x4, CCSimdFill_f32x2(1.0f / 24.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 1
+    Result = CCSimdMadd_f32x2(x5, CCSimdFill_f32x2(1.0f / 120.0f), Result);
+    Result = CCSimdMadd_f32x2(x6, CCSimdFill_f32x2(1.0f / 720.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 2
+    Result = CCSimdMadd_f32x2(x7, CCSimdFill_f32x2(1.0f / 5040.0f), Result);
+    Result = CCSimdMadd_f32x2(x8, CCSimdFill_f32x2(1.0f / 40320.0f), Result);
+    Result = CCSimdMadd_f32x2(x9, CCSimdFill_f32x2(1.0f / 362880.0f), Result);
+    Result = CCSimdMadd_f32x2(x10, CCSimdFill_f32x2(1.0f / 3628800.0f), Result);
+#if CC_SIMD_MATH_ACCURACY >= 3
+    Result = CCSimdMadd_f32x2(x11, CCSimdFill_f32x2(1.0f / 39916800.0f), Result);
+    Result = CCSimdMadd_f32x2(x12, CCSimdFill_f32x2(1.0f / 479001600.0f), Result);
+    Result = CCSimdMadd_f32x2(x13, CCSimdFill_f32x2(1.0f / 6227020800.0f), Result);
+    Result = CCSimdMadd_f32x2(x14, CCSimdFill_f32x2(1.0f / 87178291200.0f), Result);
+#endif
+#endif
+#endif
+    
+    return Result;
+#else
+    // Based off Julien Pommier's SIMD adaptation of Cephes: http://gruntthepeon.free.fr/ssemath/
+    const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 Half = CCSimdFill_f32x2(0.5f);
+    const CCSimd_f32x2 Min = CCSimdFill_f32x2(-88.3762626647949f);
+    const CCSimd_f32x2 Max = CCSimdNeg_f32x2(Min);
+    const CCSimd_f32x2 Log2e = CCSimdFill_f32x2(1.44269504088896341f);
+    
+    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(0.693359375f);
+    const CCSimd_f32x2 C2 = CCSimdFill_f32x2(-2.12194440e-4f);
+    
+    const CCSimd_f32x2 P0 = CCSimdFill_f32x2(1.9875691500e-4f);
+    const CCSimd_f32x2 P1 = CCSimdFill_f32x2(1.3981999507e-3f);
+    const CCSimd_f32x2 P2 = CCSimdFill_f32x2(8.3334519073e-3f);
+    const CCSimd_f32x2 P3 = CCSimdFill_f32x2(4.1665795894e-2f);
+    const CCSimd_f32x2 P4 = CCSimdFill_f32x2(1.6666665459e-1f);
+    const CCSimd_f32x2 P5 = CCSimdFill_f32x2(5.0000001201e-1f);
+    
+    CCSimd_f32x2 x = CCSimdClamp_f32x2(a, Min, Max);
+    CCSimd_f32x2 Px = CCSimdFloor_f32x2(CCSimdMadd_f32x2(x, Log2e, Half));
+    
+    x = CCSimdNegMadd_f32x2(Px, C1, x);
+    x = CCSimdNegMadd_f32x2(Px, C2, x);
+    
+    CCSimd_f32x2 xx = CCSimdMul_f32x2(x, x);
+    
+    CCSimd_f32x2 Result = P0;
+    Result = CCSimdMadd_f32x2(Result, x, P1);
+    Result = CCSimdMadd_f32x2(Result, x, P2);
+    Result = CCSimdMadd_f32x2(Result, x, P3);
+    Result = CCSimdMadd_f32x2(Result, x, P4);
+    Result = CCSimdMadd_f32x2(Result, x, P5);
+    Result = CCSimdMadd_f32x2(Result, xx, x);
+    Result = CCSimdAdd_f32x2(Result, One);
+    
+    return CCSimdMul_f32x2(Result, CCSimdPow2_f32x2(Px));
+#endif
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdExp2_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a)
+{
+#if CC_SIMD_MATH_ACCURACY < 2
+    // Based off Hao Hao Tan's 3rd-order polynomial approximation: https://gudgud96.github.io/2024/01/02/exp-2/
+    const CCSimd_f32x2 C0 = CCSimdFill_f32x2(0.05700169f);
+    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(0.24858144f);
+    const CCSimd_f32x2 C2 = CCSimdFill_f32x2(0.69282515f);
+    const CCSimd_f32x2 C3 = CCSimdFill_f32x2(0.99916080f);
+    
+    const CCSimd_f32x2 Fractional = CCSimdSub_f32x2(a, CCSimdRoundZero_f32x2(a));
+    
+    CCSimd_f32x2 Result = Fractional;
+    Result = CCSimdMadd_f32x2(Result, C0, C1);
+    Result = CCSimdMadd_f32x2(Result, Fractional, C2);
+    Result = CCSimdMadd_f32x2(Result, Fractional, C3);
+    
+    return CCSimdMul_f32x2(Result, CCSimdPow2_f32x2(a));
+#else
+    // Based off Paul Mineiro's fastpow2 from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
+    const CCSimd_f32x2 Zero = CCSimdZero_f32x2();
+    const CCSimd_f32x2 Min = CCSimdFill_f32x2(-126.0f);
+    const CCSimd_f32x2 C127 = CCSimdFill_f32x2(121.2740575f);
+    const CCSimd_f32x2 C27 = CCSimdFill_f32x2(27.7280233f);
+    const CCSimd_f32x2 C4 = CCSimdFill_f32x2(4.84252568f);
+    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(1.49012907f);
+    const CCSimd_f32x2 Base = CCSimdFill_f32x2(0x800000);
+    
+    const CCSimd_f32x2 Offset = CCSimdCompareLessThan_f32x2(a, Zero);
+    
+    const CCSimd_f32x2 Mask = CCSimdMaskCompareLessThan_f32x2(a, Min);
+    const CCSimd_f32x2 Clip = CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAndNot_u32x2(Mask, CCSimd_u32x2_Reinterpret_f32x2(a)), CCSimdAnd_u32x2(Mask, CCSimd_u32x2_Reinterpret_f32x2(Min))));
+    
+    const CCSimd_f32x2 Z = CCSimdSub_f32x2(CCSimdAdd_f32x2(Clip, Offset), CCSimdRoundZero_f32x2(Clip));
+    
+    CCSimd_f32x2 Result = CCSimdNegMadd_f32x2(C1, Z, CCSimdAdd_f32x2(CCSimdAdd_f32x2(Clip, C127), CCSimdDiv_f32x2(C27, CCSimdSub_f32x2(C4, Z))));
+    
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimd_u32x2_Cast_f32x2(CCSimdMul_f32x2(Base, Result)));
+#endif
+}
 #endif
 
 #endif
