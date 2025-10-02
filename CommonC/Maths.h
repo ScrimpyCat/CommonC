@@ -84,6 +84,10 @@
 #define T uintmax_t
 #include <CommonC/Numeric.h>
 
+#define CC_EXTREMA_PRESERVE_IMPS
+#define CC_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define CC_MAX(a, b) ((a) > (b) ? (a) : (b))
+
 #define T float
 #include <CommonC/Extrema.h>
 
@@ -129,6 +133,7 @@
 #define T intmax_t
 #include <CommonC/Extrema.h>
 
+#undef CC_EXTREMA_PRESERVE_IMPS
 #define T uintmax_t
 #include <CommonC/Extrema.h>
 
