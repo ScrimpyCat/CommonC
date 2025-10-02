@@ -63,6 +63,8 @@ CC_TEMPLATE(static CC_FORCE_INLINE T, CCClamp, (const T Val, const T Min, const 
     return CC_CLAMP(Val, Min, Max);
 }
 
+#ifndef CC_EXTREMA_PRESERVE_IMPS
 #undef CC_MIN
 #undef CC_MAX
 #undef CC_CLAMP
+#endif
