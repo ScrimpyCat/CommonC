@@ -4480,6 +4480,35 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 
 #pragma mark -
 
+#undef CC_SIMD_MISSING_CCSimdZero
+#undef CC_SIMD_MISSING_CCSimdSetSequence
+#undef CC_SIMD_MISSING_CCSimdAndNot
+#undef CC_SIMD_MISSING_CCSimdLowestUnset
+#undef CC_SIMD_MISSING_CCSimdLowestSet
+#undef CC_SIMD_MISSING_CCSimdHighestSet
+#undef CC_SIMD_MISSING_CCSimdNextPow2
+#undef CC_SIMD_MISSING_CCSimdMask
+#undef CC_SIMD_MISSING_CCSimdMaskLowerPow2
+#undef CC_SIMD_MISSING_CCSimdMaskHighestUnset
+#undef CC_SIMD_MISSING_CCSimdCountLowestUnset
+#undef CC_SIMD_MISSING_CCSimdCountSet
+#undef CC_SIMD_MISSING_CCSimdCompareEqual
+#undef CC_SIMD_MISSING_CCSimdCompareNotEqual
+#undef CC_SIMD_MISSING_CCSimdCompareLessThan
+#undef CC_SIMD_MISSING_CCSimdCompareLessThanEqual
+#undef CC_SIMD_MISSING_CCSimdCompareGreaterThan
+#undef CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual
+#undef CC_SIMD_MISSING_CCSimdMaskCompareNotEqual
+#undef CC_SIMD_MISSING_CCSimdMadd
+#undef CC_SIMD_MISSING_CCSimdNegMadd
+#undef CC_SIMD_MISSING_CCSimdMsub
+#undef CC_SIMD_MISSING_CCSimdNegMsub
+#undef CC_SIMD_MISSING_CCSimdMod
+#undef CC_SIMD_MISSING_CCSimdHadd
+#undef CC_SIMD_MISSING_CCSimdHsub
+#undef CC_SIMD_MISSING_CCSimdDot
+#undef CC_SIMD_MISSING_CCSimdClamp
+
 #undef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
 #undef CC_SIMD_MISSING_CCSimdPosSin_f32x2
@@ -4489,6 +4518,35 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdPow2_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp2_f32x2
+
+#define CC_SIMD_MISSING_CCSimdZero CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdSetSequence CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdAndNot CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdLowestUnset CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdLowestSet CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdHighestSet CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdNextPow2 CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdMask CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdMaskLowerPow2 CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdMaskHighestUnset CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdCountLowestUnset CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdCountSet CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareEqual CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareNotEqual CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareLessThan CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareLessThanEqual CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareGreaterThan CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdMaskCompareNotEqual CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdMadd CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdNegMadd CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdMsub CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdNegMsub CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdMod CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdHadd CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdHsub CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdDot CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdClamp CC_SIMD_64_TYPES
 
 #define CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
 #define CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
@@ -4550,10 +4608,6 @@ CC_SIMD_64_2_ELEMENT_INTEGER_TYPES
 CC_SIMD_64_2_ELEMENT_FLOAT_TYPES
 
 #if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
-
-#define CC_SIMD_IMPL(base, count, kind) (void){ return CC_SIMD_NAME(CCSimdFill, base, count)(0); }
-CC_SIMD_DECL(CCSimdZero, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
-#undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_BASE_TYPE(base) v){ return vdup_n_##base(v); }
 CC_SIMD_DECL(CCSimdFill, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
@@ -4673,67 +4727,6 @@ CC_SIMD_DECL(CCSimdSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
 CC_SIMD_DECL(CCSimdSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1) \
-{ \
-    switch ((v1 << 1) | v0) \
-    { \
-        case 0: return a; \
-        case 1: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 0, v); \
-        case 2: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 1, v); \
-        case 3: return CC_SIMD_NAME(CCSimdFill, base, count)(v); \
-    } \
-    \
-    CC_UNREACHABLE(); \
-}
-CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-// FIXME: some interleaves are causing gpr use
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1, _Bool v2, _Bool v3) \
-{ \
-    switch ((v3 << 3) | (v2 << 2) | (v1 << 1) | v0) \
-    { \
-        case 0: return a; \
-        case 1: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 0, v); \
-        case 2: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 1, v); \
-        case 3: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 0, 0); \
-        case 4: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 2, v); \
-        case 5: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 1, 0); \
-        case 6: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 1, 0); \
-        case 7: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 1, 0); \
-        case 8: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 3, v); \
-        case 9: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 0, 1); \
-        case 10: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 0, 1); \
-        case 11: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 0, 1); \
-        case 12: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 0, 1, 1); \
-        case 13: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 1, 1); \
-        case 14: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 1, 1); \
-        case 15: return CC_SIMD_NAME(CCSimdFill, base, count)(v); \
-    } \
-    \
-    CC_UNREACHABLE(); \
-}
-CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1, _Bool v2, _Bool v3, _Bool v4, _Bool v5, _Bool v6, _Bool v7) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    if (v0) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 0, v); \
-    if (v1) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 1, v); \
-    if (v2) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 2, v); \
-    if (v3) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 3, v); \
-    if (v4) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 4, v); \
-    if (v5) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 5, v); \
-    if (v6) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 6, v); \
-    if (v7) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 7, v); \
-    \
-    return Result; \
-}
-CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
 #define vreinterpret_s8_s8(x) (x)
 #define vreinterpret_s16_s16(x) (x)
 #define vreinterpret_s32_s32(x) (x)
@@ -4824,10 +4817,6 @@ CC_SIMD_DECL(CCSimdNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vand_##base(a, b); }
 CC_SIMD_DECL(CCSimdAnd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), b); }
-CC_SIMD_DECL(CCSimdAndNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vorr_##base(a, b); }
@@ -5028,207 +5017,8 @@ CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_I
 CC_SIMD_DECL(CCSimdShiftRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(1))); }
-CC_SIMD_DECL(CCSimdLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(a, CC_SIMD_NAME(CCSimdNeg, base, count)(a)); }
-CC_SIMD_DECL(CCSimdLowestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    \
-    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-}
-CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
-    \
-    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-}
-CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-}
-CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
-    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
-}
-CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
-    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
-}
-CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
-    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
-    \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
-    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
-}
-CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) MSB = CC_SIMD_NAME(CCSimdFill, base, count)((UINT64_C(1) << (CC_SIMD_BITS(base) - 1))); \
-    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(a, MSB), MSB); \
-    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdShiftLeftN, base, count)(CC_SIMD_NAME(CCSimdHighestSet, base, count)(a), 1)); \
-    \
-    return CC_SIMD_NAME(CCSimdOr, base, count)(Mask, Result); \
-}
-CC_SIMD_DECL(CCSimdMask, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()); \
-    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(a)); \
-    \
-    return CC_SIMD_NAME(CCSimdAnd, base, count)(Mask, Result); \
-}
-CC_SIMD_DECL(CCSimdMaskLowerPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    return CC_SIMD_NAME(CCSimdXor, base, count)(CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_MAX >> (64 - CC_SIMD_BITS(base))), CC_SIMD_NAME(CCSimdMask, base, count)(a)); \
-}
-CC_SIMD_DECL(CCSimdMaskHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) AllZero = CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdCompareEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()), CC_SIMD_NAME(CCSimdFill, base, count)(CC_SIMD_BITS(base))); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdCountSet, base, count)(CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdLowestSet, base, count)(a))), AllZero); \
-}
-CC_SIMD_DECL(CCSimdCountLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vclz_##base(a); }
 CC_SIMD_DECL(CCSimdCountHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
-{ \
-    const CC_SIMD_TYPE(base, count) Mask55 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x5555555555555555) >> (64 - CC_SIMD_BITS(base))); \
-    const CC_SIMD_TYPE(base, count) Mask33 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x3333333333333333) >> (64 - CC_SIMD_BITS(base))); \
-    const CC_SIMD_TYPE(base, count) Mask0f = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0f0f0f0f0f0f0f0f) >> (64 - CC_SIMD_BITS(base))); \
-    const CC_SIMD_TYPE(base, count) Mask01 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0101010101010101) >> (64 - CC_SIMD_BITS(base))); \
-    \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = CC_SIMD_NAME(CCSimdSub, base, count)(Result, CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1), Mask55)); \
-    Result = CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(Result, Mask33), CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2), Mask33)); \
-    Result = CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)), Mask0f); \
-    Result = CC_SIMD_NAME(CCSimdShiftRightN, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(Result, Mask01), CC_SIMD_BITS(base) - 8); \
-    \
-    return Result; \
-}
-CC_SIMD_DECL(CCSimdCountSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vceq_##base(a, b); }
@@ -5237,14 +5027,6 @@ CC_SIMD_DECL(CCSimdMaskCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGE
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vceq_##base(a, b); }
 CC_SIMD_DECL(CCSimdMaskCompareEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
-CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vclt_##base(a, b); }
@@ -5289,38 +5071,6 @@ CC_SIMD_DECL(CCSimdSub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vmul_##base(a, b); }
 CC_SIMD_DECL(CCSimdMul, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
-CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(c, a, b); }
-CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
-CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(c, a, b); }
-CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
-CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
-CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
-CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
-CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
 #if CC_SIMD_COMPATIBILITY
@@ -5373,16 +5123,6 @@ CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_T
 CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
-#if CC_SIMD_COMPATIBILITY
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdDiv, base, count)(a, b), b)); }
-CC_SIMD_DECL(CCSimdMod, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_INTEGER_TYPES)
-#undef CC_SIMD_IMPL
-#endif
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdFloor, base, count)(CC_SIMD_NAME(CCSimdDiv, base, count)(a, b)), b)); }
-CC_SIMD_DECL(CCSimdMod, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vrnda_##base(a); }
 CC_SIMD_DECL(CCSimdRoundNearestAway, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
@@ -5401,225 +5141,6 @@ CC_SIMD_DECL(CCSimdFloor, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vrndp_##base(a); }
 CC_SIMD_DECL(CCSimdCeil, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_HADD_MASK(x0, x1) ((x1) << 2) | (x0)
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
-{ \
-    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
-    \
-    switch (CC_SIMD_HADD_MASK(v0, v1)) \
-    { \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), 0): \
-        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(1)): \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): \
-        case 0: return a; \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0); \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1); \
-            \
-        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(0)): \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), 0): \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0); \
-            \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 0, 1); \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 0, 1); \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
-            \
-        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(0, 1)): \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), 0): \
-        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)); \
-    } \
-    \
-    CC_UNREACHABLE(); \
-}
-CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-#undef CC_SIMD_HADD_MASK
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
-{ \
-    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
-    \
-    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
-    \
-    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 | ((v0 << 4) & 16), CC_SIMD_A0 | ((v1 << 4) & 16), CC_SIMD_A0 | ((v2 << 4) & 16), CC_SIMD_A0 | ((v3 << 4) & 16)); \
-    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 | ((v0 << 3) & 16), CC_SIMD_A1 | ((v1 << 3) & 16), CC_SIMD_A1 | ((v2 << 3) & 16), CC_SIMD_A1 | ((v3 << 3) & 16)); \
-    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 | ((v0 << 2) & 16), CC_SIMD_A2 | ((v1 << 2) & 16), CC_SIMD_A2 | ((v2 << 2) & 16), CC_SIMD_A2 | ((v3 << 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 | ((v0 << 1) & 16), CC_SIMD_A3 | ((v1 << 1) & 16), CC_SIMD_A3 | ((v2 << 1) & 16), CC_SIMD_A3 | ((v3 << 1) & 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)); \
-}
-CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
-{ \
-    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
-    \
-    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
-    \
-    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 | ((v0 << 4) & 16), CC_SIMD_A0 | ((v1 << 4) & 16), CC_SIMD_A0 | ((v2 << 4) & 16), CC_SIMD_A0 | ((v3 << 4) & 16), CC_SIMD_A0 | ((v4 << 4) & 16), CC_SIMD_A0 | ((v5 << 4) & 16), CC_SIMD_A0 | ((v6 << 4) & 16), CC_SIMD_A0 | ((v7 << 4) & 16)); \
-    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 | ((v0 << 3) & 16), CC_SIMD_A1 | ((v1 << 3) & 16), CC_SIMD_A1 | ((v2 << 3) & 16), CC_SIMD_A1 | ((v3 << 3) & 16), CC_SIMD_A1 | ((v4 << 3) & 16), CC_SIMD_A1 | ((v5 << 3) & 16), CC_SIMD_A1 | ((v6 << 3) & 16), CC_SIMD_A1 | ((v7 << 3) & 16)); \
-    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 | ((v0 << 2) & 16), CC_SIMD_A2 | ((v1 << 2) & 16), CC_SIMD_A2 | ((v2 << 2) & 16), CC_SIMD_A2 | ((v3 << 2) & 16), CC_SIMD_A2 | ((v4 << 2) & 16), CC_SIMD_A2 | ((v5 << 2) & 16), CC_SIMD_A2 | ((v6 << 2) & 16), CC_SIMD_A2 | ((v7 << 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 | ((v0 << 1) & 16), CC_SIMD_A3 | ((v1 << 1) & 16), CC_SIMD_A3 | ((v2 << 1) & 16), CC_SIMD_A3 | ((v3 << 1) & 16), CC_SIMD_A3 | ((v4 << 1) & 16), CC_SIMD_A3 | ((v5 << 1) & 16), CC_SIMD_A3 | ((v6 << 1) & 16), CC_SIMD_A3 | ((v7 << 1) & 16)); \
-    const CC_SIMD_TYPE(base, count) L4 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A4 | ((v0 << 0) & 16), CC_SIMD_A4 | ((v1 << 0) & 16), CC_SIMD_A4 | ((v2 << 0) & 16), CC_SIMD_A4 | ((v3 << 0) & 16), CC_SIMD_A4 | ((v4 << 0) & 16), CC_SIMD_A4 | ((v5 << 0) & 16), CC_SIMD_A4 | ((v6 << 0) & 16), CC_SIMD_A4 | ((v7 << 0) & 16)); \
-    const CC_SIMD_TYPE(base, count) L5 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A5 | ((v0 >> 1) & 16), CC_SIMD_A5 | ((v1 >> 1) & 16), CC_SIMD_A5 | ((v2 >> 1) & 16), CC_SIMD_A5 | ((v3 >> 1) & 16), CC_SIMD_A5 | ((v4 >> 1) & 16), CC_SIMD_A5 | ((v5 >> 1) & 16), CC_SIMD_A5 | ((v6 >> 1) & 16), CC_SIMD_A5 | ((v7 >> 1) & 16)); \
-    const CC_SIMD_TYPE(base, count) L6 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A6 | ((v0 >> 2) & 16), CC_SIMD_A6 | ((v1 >> 2) & 16), CC_SIMD_A6 | ((v2 >> 2) & 16), CC_SIMD_A6 | ((v3 >> 2) & 16), CC_SIMD_A6 | ((v4 >> 2) & 16), CC_SIMD_A6 | ((v5 >> 2) & 16), CC_SIMD_A6 | ((v6 >> 2) & 16), CC_SIMD_A6 | ((v7 >> 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L7 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A7 | ((v0 >> 3) & 16), CC_SIMD_A7 | ((v1 >> 3) & 16), CC_SIMD_A7 | ((v2 >> 3) & 16), CC_SIMD_A7 | ((v3 >> 3) & 16), CC_SIMD_A7 | ((v4 >> 3) & 16), CC_SIMD_A7 | ((v5 >> 3) & 16), CC_SIMD_A7 | ((v6 >> 3) & 16), CC_SIMD_A7 | ((v7 >> 3) & 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
-}
-CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_HSUB_MASK(x0, x1) ((x1) << 2) | (x0)
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
-{ \
-    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
-    \
-    switch (CC_SIMD_HSUB_MASK(v0, v1)) \
-    { \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), 0): \
-        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(1)): \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): \
-        case 0: return a; \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1); \
-            \
-        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0)): \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), 0): \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0); \
-            \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
-            \
-        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), 0): return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)); \
-        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0), CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1)); \
-    } \
-    \
-    CC_UNREACHABLE(); \
-}
-CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-#undef CC_SIMD_HSUB_MASK
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
-{ \
-    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
-    \
-    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
-    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
-    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
-    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
-    \
-    v0 >>= AdjustV0; \
-    v1 >>= AdjustV1; \
-    v2 >>= AdjustV2; \
-    v3 >>= AdjustV3; \
-    \
-    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
-    \
-    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1))) | ((v0 << 4) & 16), (CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1))) | ((v1 << 4) & 16), (CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1))) | ((v2 << 4) & 16), (CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1))) | ((v3 << 4) & 16)); \
-    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1))) | ((v0 << 3) & 16), (CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1))) | ((v1 << 3) & 16), (CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1))) | ((v2 << 3) & 16), (CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1))) | ((v3 << 3) & 16)); \
-    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1))) | ((v0 << 2) & 16), (CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1))) | ((v1 << 2) & 16), (CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1))) | ((v2 << 2) & 16), (CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1))) | ((v3 << 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1))) | ((v0 << 1) & 16), (CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1))) | ((v1 << 1) & 16), (CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1))) | ((v2 << 1) & 16), (CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1))) | ((v3 << 1) & 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)); \
-}
-CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
-{ \
-    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
-    \
-    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
-    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
-    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
-    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
-    const uint8_t AdjustV4 = CCBitCountLowestUnset(v4); \
-    const uint8_t AdjustV5 = CCBitCountLowestUnset(v5); \
-    const uint8_t AdjustV6 = CCBitCountLowestUnset(v6); \
-    const uint8_t AdjustV7 = CCBitCountLowestUnset(v7); \
-    \
-    v0 >>= AdjustV0; \
-    v1 >>= AdjustV1; \
-    v2 >>= AdjustV2; \
-    v3 >>= AdjustV3; \
-    v4 >>= AdjustV4; \
-    v5 >>= AdjustV5; \
-    v6 >>= AdjustV6; \
-    v7 >>= AdjustV7; \
-    \
-    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
-    \
-    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1)) | ((v0 << 4) & 16), CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1)) | ((v1 << 4) & 16), CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1)) | ((v2 << 4) & 16), CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1)) | ((v3 << 4) & 16), CC_SIMD_A0 + (AdjustV4 * ((v4 >> 0) & 1)) | ((v4 << 4) & 16), CC_SIMD_A0 + (AdjustV5 * ((v5 >> 0) & 1)) | ((v5 << 4) & 16), CC_SIMD_A0 + (AdjustV6 * ((v6 >> 0) & 1)) | ((v6 << 4) & 16), CC_SIMD_A0 + (AdjustV7 * ((v7 >> 0) & 1)) | ((v7 << 4) & 16)); \
-    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1)) | ((v0 << 3) & 16), CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1)) | ((v1 << 3) & 16), CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1)) | ((v2 << 3) & 16), CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1)) | ((v3 << 3) & 16), CC_SIMD_A1 + (AdjustV4 * ((v4 >> 1) & 1)) | ((v4 << 3) & 16), CC_SIMD_A1 + (AdjustV5 * ((v5 >> 1) & 1)) | ((v5 << 3) & 16), CC_SIMD_A1 + (AdjustV6 * ((v6 >> 1) & 1)) | ((v6 << 3) & 16), CC_SIMD_A1 + (AdjustV7 * ((v7 >> 1) & 1)) | ((v7 << 3) & 16)); \
-    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1)) | ((v0 << 2) & 16), CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1)) | ((v1 << 2) & 16), CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1)) | ((v2 << 2) & 16), CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1)) | ((v3 << 2) & 16), CC_SIMD_A2 + (AdjustV4 * ((v4 >> 2) & 1)) | ((v4 << 2) & 16), CC_SIMD_A2 + (AdjustV5 * ((v5 >> 2) & 1)) | ((v5 << 2) & 16), CC_SIMD_A2 + (AdjustV6 * ((v6 >> 2) & 1)) | ((v6 << 2) & 16), CC_SIMD_A2 + (AdjustV7 * ((v7 >> 2) & 1)) | ((v7 << 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1)) | ((v0 << 1) & 16), CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1)) | ((v1 << 1) & 16), CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1)) | ((v2 << 1) & 16), CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1)) | ((v3 << 1) & 16), CC_SIMD_A3 + (AdjustV4 * ((v4 >> 3) & 1)) | ((v4 << 1) & 16), CC_SIMD_A3 + (AdjustV5 * ((v5 >> 3) & 1)) | ((v5 << 1) & 16), CC_SIMD_A3 + (AdjustV6 * ((v6 >> 3) & 1)) | ((v6 << 1) & 16), CC_SIMD_A3 + (AdjustV7 * ((v7 >> 3) & 1)) | ((v7 << 1) & 16)); \
-    const CC_SIMD_TYPE(base, count) L4 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A4 + (AdjustV0 * ((v0 >> 4) & 1)) | ((v0 << 0) & 16), CC_SIMD_A4 + (AdjustV1 * ((v1 >> 4) & 1)) | ((v1 << 0) & 16), CC_SIMD_A4 + (AdjustV2 * ((v2 >> 4) & 1)) | ((v2 << 0) & 16), CC_SIMD_A4 + (AdjustV3 * ((v3 >> 4) & 1)) | ((v3 << 0) & 16), CC_SIMD_A4 + (AdjustV4 * ((v4 >> 4) & 1)) | ((v4 << 0) & 16), CC_SIMD_A4 + (AdjustV5 * ((v5 >> 4) & 1)) | ((v5 << 0) & 16), CC_SIMD_A4 + (AdjustV6 * ((v6 >> 4) & 1)) | ((v6 << 0) & 16), CC_SIMD_A4 + (AdjustV7 * ((v7 >> 4) & 1)) | ((v7 << 0) & 16)); \
-    const CC_SIMD_TYPE(base, count) L5 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A5 + (AdjustV0 * ((v0 >> 5) & 1)) | ((v0 >> 1) & 16), CC_SIMD_A5 + (AdjustV1 * ((v1 >> 5) & 1)) | ((v1 >> 1) & 16), CC_SIMD_A5 + (AdjustV2 * ((v2 >> 5) & 1)) | ((v2 >> 1) & 16), CC_SIMD_A5 + (AdjustV3 * ((v3 >> 5) & 1)) | ((v3 >> 1) & 16), CC_SIMD_A5 + (AdjustV4 * ((v4 >> 5) & 1)) | ((v4 >> 1) & 16), CC_SIMD_A5 + (AdjustV5 * ((v5 >> 5) & 1)) | ((v5 >> 1) & 16), CC_SIMD_A5 + (AdjustV6 * ((v6 >> 5) & 1)) | ((v6 >> 1) & 16), CC_SIMD_A5 + (AdjustV7 * ((v7 >> 5) & 1)) | ((v7 >> 1) & 16)); \
-    const CC_SIMD_TYPE(base, count) L6 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A6 + (AdjustV0 * ((v0 >> 6) & 1)) | ((v0 >> 2) & 16), CC_SIMD_A6 + (AdjustV1 * ((v1 >> 6) & 1)) | ((v1 >> 2) & 16), CC_SIMD_A6 + (AdjustV2 * ((v2 >> 6) & 1)) | ((v2 >> 2) & 16), CC_SIMD_A6 + (AdjustV3 * ((v3 >> 6) & 1)) | ((v3 >> 2) & 16), CC_SIMD_A6 + (AdjustV4 * ((v4 >> 6) & 1)) | ((v4 >> 2) & 16), CC_SIMD_A6 + (AdjustV5 * ((v5 >> 6) & 1)) | ((v5 >> 2) & 16), CC_SIMD_A6 + (AdjustV6 * ((v6 >> 6) & 1)) | ((v6 >> 2) & 16), CC_SIMD_A6 + (AdjustV7 * ((v7 >> 6) & 1)) | ((v7 >> 2) & 16)); \
-    const CC_SIMD_TYPE(base, count) L7 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A7 + (AdjustV0 * ((v0 >> 7) & 1)) | ((v0 >> 3) & 16), CC_SIMD_A7 + (AdjustV1 * ((v1 >> 7) & 1)) | ((v1 >> 3) & 16), CC_SIMD_A7 + (AdjustV2 * ((v2 >> 7) & 1)) | ((v2 >> 3) & 16), CC_SIMD_A7 + (AdjustV3 * ((v3 >> 7) & 1)) | ((v3 >> 3) & 16), CC_SIMD_A7 + (AdjustV4 * ((v4 >> 7) & 1)) | ((v4 >> 3) & 16), CC_SIMD_A7 + (AdjustV5 * ((v5 >> 7) & 1)) | ((v5 >> 3) & 16), CC_SIMD_A7 + (AdjustV6 * ((v6 >> 7) & 1)) | ((v6 >> 3) & 16), CC_SIMD_A7 + (AdjustV7 * ((v7 >> 7) & 1)) | ((v7 >> 3) & 16)); \
-    \
-    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
-}
-CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_DOT_MASK(x0, x1) ((x1) << 2) | (x0)
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1) \
-{ \
-    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
-    \
-    switch (CC_SIMD_DOT_MASK(v0, v1)) \
-    { \
-        case 0: return a; \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 0, 0); \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 1, 1); \
-        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(1)): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), 0): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdMul, base, count)(a, b); \
-        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(0)): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), 0): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 1, 0); \
-            \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)); \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)); \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)); \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)); \
-            \
-        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(0, 1)): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), 0): \
-        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)); \
-    } \
-    \
-    CC_UNREACHABLE(); \
-}
-CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-#undef CC_SIMD_DOT_MASK
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
-{ \
-    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
-    \
-    return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), v0, v1, v2, v3); \
-}
-CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
-{ \
-    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
-    \
-    return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), v0, v1, v2, v3, v4, v5, v6, v7); \
-}
-CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vaddv_##base(a); }
@@ -5648,10 +5169,6 @@ CC_SIMD_DECL(CCSimdMin, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vmax_##base(a, b); }
 CC_SIMD_DECL(CCSimdMax, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) min, const CC_SIMD_TYPE(base, count) max){ return CC_SIMD_NAME(CCSimdMin, base, count)(CC_SIMD_NAME(CCSimdMax, base, count)(a, min), max); }
-CC_SIMD_DECL(CCSimdClamp, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vsqrt_##base(a); }
@@ -6271,6 +5788,603 @@ CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
 CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
+#endif
+
+#pragma mark - Fallback Implementations
+
+#ifdef CC_SIMD_MISSING_CCSimdZero
+#define CC_SIMD_IMPL(base, count, kind) (void){ return CC_SIMD_NAME(CCSimdFill, base, count)(0); }
+CC_SIMD_DECL(CCSimdZero, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdZero)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdSetSequence
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1) \
+{ \
+    switch ((v1 << 1) | v0) \
+    { \
+        case 0: return a; \
+        case 1: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 0, v); \
+        case 2: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 1, v); \
+        case 3: return CC_SIMD_NAME(CCSimdFill, base, count)(v); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdSetSequence))
+#undef CC_SIMD_IMPL
+
+// FIXME: some interleaves are causing gpr use
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1, _Bool v2, _Bool v3) \
+{ \
+    switch ((v3 << 3) | (v2 << 2) | (v1 << 1) | v0) \
+    { \
+        case 0: return a; \
+        case 1: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 0, v); \
+        case 2: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 1, v); \
+        case 3: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 0, 0); \
+        case 4: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 2, v); \
+        case 5: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 1, 0); \
+        case 6: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 1, 0); \
+        case 7: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 1, 0); \
+        case 8: return CC_SIMD_NAME(CCSimdSet, base, count)(a, 3, v); \
+        case 9: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 0, 1); \
+        case 10: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 0, 1); \
+        case 11: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 1, 0, 1); \
+        case 12: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 0, 1, 1); \
+        case 13: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 1, 0, 1, 1); \
+        case 14: return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(v), 0, 1, 1, 1); \
+        case 15: return CC_SIMD_NAME(CCSimdFill, base, count)(v); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdSetSequence))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, CC_SIMD_BASE_TYPE(base) v, _Bool v0, _Bool v1, _Bool v2, _Bool v3, _Bool v4, _Bool v5, _Bool v6, _Bool v7) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    if (v0) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 0, v); \
+    if (v1) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 1, v); \
+    if (v2) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 2, v); \
+    if (v3) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 3, v); \
+    if (v4) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 4, v); \
+    if (v5) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 5, v); \
+    if (v6) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 6, v); \
+    if (v7) Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, 7, v); \
+    \
+    return Result; \
+}
+CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdSetSequence))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdAndNot
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), b); }
+CC_SIMD_DECL(CCSimdAndNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdAndNot)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdLowestUnset
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdFill, base, count)(1))); }
+CC_SIMD_DECL(CCSimdLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdLowestUnset)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdLowestSet
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return CC_SIMD_NAME(CCSimdAnd, base, count)(a, CC_SIMD_NAME(CCSimdNeg, base, count)(a)); }
+CC_SIMD_DECL(CCSimdLowestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdLowestSet)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdHighestSet
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdHighestSet))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdHighestSet))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+}
+CC_SIMD_DECL(CCSimdHighestSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdHighestSet))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdNextPow2
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNextPow2))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNextPow2))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) One = CC_SIMD_NAME(CCSimdFill, base, count)(1); \
+    CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdSub, base, count)(a, One); \
+    \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 8)); \
+    Result = CC_SIMD_NAME(CCSimdOr, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(Result, One); \
+}
+CC_SIMD_DECL(CCSimdNextPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNextPow2))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMask
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) MSB = CC_SIMD_NAME(CCSimdFill, base, count)((UINT64_C(1) << (CC_SIMD_BITS(base) - 1))); \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(a, MSB), MSB); \
+    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdShiftLeftN, base, count)(CC_SIMD_NAME(CCSimdHighestSet, base, count)(a), 1)); \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(Mask, Result); \
+}
+CC_SIMD_DECL(CCSimdMask, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdMask)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMaskLowerPow2
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()); \
+    const CC_SIMD_TYPE(base, count) Result = CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(a)); \
+    \
+    return CC_SIMD_NAME(CCSimdAnd, base, count)(Mask, Result); \
+}
+CC_SIMD_DECL(CCSimdMaskLowerPow2, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdMaskLowerPow2)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMaskHighestUnset
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    return CC_SIMD_NAME(CCSimdXor, base, count)(CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_MAX >> (64 - CC_SIMD_BITS(base))), CC_SIMD_NAME(CCSimdMask, base, count)(a)); \
+}
+CC_SIMD_DECL(CCSimdMaskHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdMaskHighestUnset)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCountLowestUnset
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) AllZero = CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdCompareEqual, base, count)(a, CC_SIMD_NAME(CCSimdZero, base, count)()), CC_SIMD_NAME(CCSimdFill, base, count)(CC_SIMD_BITS(base))); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdCountSet, base, count)(CC_SIMD_NAME(CCSimdMaskLowerPow2, base, count)(CC_SIMD_NAME(CCSimdLowestSet, base, count)(a))), AllZero); \
+}
+CC_SIMD_DECL(CCSimdCountLowestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdCountLowestUnset)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCountSet
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask55 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x5555555555555555) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask33 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x3333333333333333) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask0f = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0f0f0f0f0f0f0f0f) >> (64 - CC_SIMD_BITS(base))); \
+    const CC_SIMD_TYPE(base, count) Mask01 = CC_SIMD_NAME(CCSimdFill, base, count)(UINT64_C(0x0101010101010101) >> (64 - CC_SIMD_BITS(base))); \
+    \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    Result = CC_SIMD_NAME(CCSimdSub, base, count)(Result, CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 1), Mask55)); \
+    Result = CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAnd, base, count)(Result, Mask33), CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 2), Mask33)); \
+    Result = CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(Result, CC_SIMD_NAME(CCSimdShiftRightN, base, count)(Result, 4)), Mask0f); \
+    Result = CC_SIMD_NAME(CCSimdShiftRightN, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(Result, Mask01), CC_SIMD_BITS(base) - 8); \
+    \
+    return Result; \
+}
+CC_SIMD_DECL(CCSimdCountSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdCountSet)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareEqual
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareNotEqual
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareLessThan
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareLessThanEqual
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareGreaterThan
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b), 25), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMaskCompareNotEqual
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, base, count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMaskCompareNotEqual))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdNot, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b)); }
+CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMaskCompareNotEqual))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMadd
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
+CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMadd))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(c, a, b); }
+CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMadd))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdNegMadd
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
+CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNegMadd))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(c, a, b); }
+CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdNegMadd))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMsub
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
+CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMsub))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
+CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMsub))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdNegMsub
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
+CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNegMsub))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
+CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdNegMsub))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdMod
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdDiv, base, count)(a, b), b)); }
+CC_SIMD_DECL(CCSimdMod, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMod))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdMul, base, count)(CC_SIMD_NAME(CCSimdFloor, base, count)(CC_SIMD_NAME(CCSimdDiv, base, count)(a, b)), b)); }
+CC_SIMD_DECL(CCSimdMod, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMod))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdHadd
+#define CC_SIMD_HADD_MASK(x0, x1) ((x1) << 2) | (x0)
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
+{ \
+    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
+    \
+    switch (CC_SIMD_HADD_MASK(v0, v1)) \
+    { \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), 0): \
+        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(1)): \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): \
+        case 0: return a; \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0); \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1); \
+            \
+        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(0)): \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), 0): \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0); \
+            \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 0, 1); \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 0, 1); \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+            \
+        case CC_SIMD_HADD_MASK(0, CC_SIMD_LANE_MASK(0, 1)): \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), 0): \
+        case CC_SIMD_HADD_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdAdd, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHadd))
+#undef CC_SIMD_IMPL
+#undef CC_SIMD_HADD_MASK
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
+{ \
+    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 | ((v0 << 4) & 16), CC_SIMD_A0 | ((v1 << 4) & 16), CC_SIMD_A0 | ((v2 << 4) & 16), CC_SIMD_A0 | ((v3 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 | ((v0 << 3) & 16), CC_SIMD_A1 | ((v1 << 3) & 16), CC_SIMD_A1 | ((v2 << 3) & 16), CC_SIMD_A1 | ((v3 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 | ((v0 << 2) & 16), CC_SIMD_A2 | ((v1 << 2) & 16), CC_SIMD_A2 | ((v2 << 2) & 16), CC_SIMD_A2 | ((v3 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 | ((v0 << 1) & 16), CC_SIMD_A3 | ((v1 << 1) & 16), CC_SIMD_A3 | ((v2 << 1) & 16), CC_SIMD_A3 | ((v3 << 1) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)); \
+}
+CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHadd))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
+{ \
+    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 | ((v0 << 4) & 16), CC_SIMD_A0 | ((v1 << 4) & 16), CC_SIMD_A0 | ((v2 << 4) & 16), CC_SIMD_A0 | ((v3 << 4) & 16), CC_SIMD_A0 | ((v4 << 4) & 16), CC_SIMD_A0 | ((v5 << 4) & 16), CC_SIMD_A0 | ((v6 << 4) & 16), CC_SIMD_A0 | ((v7 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 | ((v0 << 3) & 16), CC_SIMD_A1 | ((v1 << 3) & 16), CC_SIMD_A1 | ((v2 << 3) & 16), CC_SIMD_A1 | ((v3 << 3) & 16), CC_SIMD_A1 | ((v4 << 3) & 16), CC_SIMD_A1 | ((v5 << 3) & 16), CC_SIMD_A1 | ((v6 << 3) & 16), CC_SIMD_A1 | ((v7 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 | ((v0 << 2) & 16), CC_SIMD_A2 | ((v1 << 2) & 16), CC_SIMD_A2 | ((v2 << 2) & 16), CC_SIMD_A2 | ((v3 << 2) & 16), CC_SIMD_A2 | ((v4 << 2) & 16), CC_SIMD_A2 | ((v5 << 2) & 16), CC_SIMD_A2 | ((v6 << 2) & 16), CC_SIMD_A2 | ((v7 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 | ((v0 << 1) & 16), CC_SIMD_A3 | ((v1 << 1) & 16), CC_SIMD_A3 | ((v2 << 1) & 16), CC_SIMD_A3 | ((v3 << 1) & 16), CC_SIMD_A3 | ((v4 << 1) & 16), CC_SIMD_A3 | ((v5 << 1) & 16), CC_SIMD_A3 | ((v6 << 1) & 16), CC_SIMD_A3 | ((v7 << 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L4 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A4 | ((v0 << 0) & 16), CC_SIMD_A4 | ((v1 << 0) & 16), CC_SIMD_A4 | ((v2 << 0) & 16), CC_SIMD_A4 | ((v3 << 0) & 16), CC_SIMD_A4 | ((v4 << 0) & 16), CC_SIMD_A4 | ((v5 << 0) & 16), CC_SIMD_A4 | ((v6 << 0) & 16), CC_SIMD_A4 | ((v7 << 0) & 16)); \
+    const CC_SIMD_TYPE(base, count) L5 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A5 | ((v0 >> 1) & 16), CC_SIMD_A5 | ((v1 >> 1) & 16), CC_SIMD_A5 | ((v2 >> 1) & 16), CC_SIMD_A5 | ((v3 >> 1) & 16), CC_SIMD_A5 | ((v4 >> 1) & 16), CC_SIMD_A5 | ((v5 >> 1) & 16), CC_SIMD_A5 | ((v6 >> 1) & 16), CC_SIMD_A5 | ((v7 >> 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L6 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A6 | ((v0 >> 2) & 16), CC_SIMD_A6 | ((v1 >> 2) & 16), CC_SIMD_A6 | ((v2 >> 2) & 16), CC_SIMD_A6 | ((v3 >> 2) & 16), CC_SIMD_A6 | ((v4 >> 2) & 16), CC_SIMD_A6 | ((v5 >> 2) & 16), CC_SIMD_A6 | ((v6 >> 2) & 16), CC_SIMD_A6 | ((v7 >> 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L7 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A7 | ((v0 >> 3) & 16), CC_SIMD_A7 | ((v1 >> 3) & 16), CC_SIMD_A7 | ((v2 >> 3) & 16), CC_SIMD_A7 | ((v3 >> 3) & 16), CC_SIMD_A7 | ((v4 >> 3) & 16), CC_SIMD_A7 | ((v5 >> 3) & 16), CC_SIMD_A7 | ((v6 >> 3) & 16), CC_SIMD_A7 | ((v7 >> 3) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
+}
+CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHadd))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdHsub
+#define CC_SIMD_HSUB_MASK(x0, x1) ((x1) << 2) | (x0)
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1) \
+{ \
+    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
+    \
+    switch (CC_SIMD_HSUB_MASK(v0, v1)) \
+    { \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), 0): \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(1)): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): \
+        case 0: return a; \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1); \
+            \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0)): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), 0): \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0); \
+            \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a), 0, 1); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdInterleave, base, count)(a, CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)), 1, 0); \
+            \
+        case CC_SIMD_HSUB_MASK(0, CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0), a); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), 0): return CC_SIMD_NAME(CCSimdSub, base, count)(a, CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 0)); \
+        case CC_SIMD_HSUB_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 0, 0), CC_SIMD_NAME(CCSimdSwizzle, base, count)(a, 1, 1)); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHsub))
+#undef CC_SIMD_IMPL
+#undef CC_SIMD_HSUB_MASK
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
+{ \
+    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
+    \
+    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
+    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
+    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
+    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
+    \
+    v0 >>= AdjustV0; \
+    v1 >>= AdjustV1; \
+    v2 >>= AdjustV2; \
+    v3 >>= AdjustV3; \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1))) | ((v0 << 4) & 16), (CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1))) | ((v1 << 4) & 16), (CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1))) | ((v2 << 4) & 16), (CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1))) | ((v3 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1))) | ((v0 << 3) & 16), (CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1))) | ((v1 << 3) & 16), (CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1))) | ((v2 << 3) & 16), (CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1))) | ((v3 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1))) | ((v0 << 2) & 16), (CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1))) | ((v1 << 2) & 16), (CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1))) | ((v2 << 2) & 16), (CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1))) | ((v3 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, (CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1))) | ((v0 << 1) & 16), (CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1))) | ((v1 << 1) & 16), (CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1))) | ((v2 << 1) & 16), (CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1))) | ((v3 << 1) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHsub))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
+{ \
+    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
+    \
+    const uint8_t AdjustV0 = CCBitCountLowestUnset(v0); \
+    const uint8_t AdjustV1 = CCBitCountLowestUnset(v1); \
+    const uint8_t AdjustV2 = CCBitCountLowestUnset(v2); \
+    const uint8_t AdjustV3 = CCBitCountLowestUnset(v3); \
+    const uint8_t AdjustV4 = CCBitCountLowestUnset(v4); \
+    const uint8_t AdjustV5 = CCBitCountLowestUnset(v5); \
+    const uint8_t AdjustV6 = CCBitCountLowestUnset(v6); \
+    const uint8_t AdjustV7 = CCBitCountLowestUnset(v7); \
+    \
+    v0 >>= AdjustV0; \
+    v1 >>= AdjustV1; \
+    v2 >>= AdjustV2; \
+    v3 >>= AdjustV3; \
+    v4 >>= AdjustV4; \
+    v5 >>= AdjustV5; \
+    v6 >>= AdjustV6; \
+    v7 >>= AdjustV7; \
+    \
+    const CC_SIMD_TYPE(base, count) Zero = CC_SIMD_NAME(CCSimdZero, base, count)(); \
+    \
+    const CC_SIMD_TYPE(base, count) L0 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A0 + (AdjustV0 * ((v0 >> 0) & 1)) | ((v0 << 4) & 16), CC_SIMD_A0 + (AdjustV1 * ((v1 >> 0) & 1)) | ((v1 << 4) & 16), CC_SIMD_A0 + (AdjustV2 * ((v2 >> 0) & 1)) | ((v2 << 4) & 16), CC_SIMD_A0 + (AdjustV3 * ((v3 >> 0) & 1)) | ((v3 << 4) & 16), CC_SIMD_A0 + (AdjustV4 * ((v4 >> 0) & 1)) | ((v4 << 4) & 16), CC_SIMD_A0 + (AdjustV5 * ((v5 >> 0) & 1)) | ((v5 << 4) & 16), CC_SIMD_A0 + (AdjustV6 * ((v6 >> 0) & 1)) | ((v6 << 4) & 16), CC_SIMD_A0 + (AdjustV7 * ((v7 >> 0) & 1)) | ((v7 << 4) & 16)); \
+    const CC_SIMD_TYPE(base, count) L1 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A1 + (AdjustV0 * ((v0 >> 1) & 1)) | ((v0 << 3) & 16), CC_SIMD_A1 + (AdjustV1 * ((v1 >> 1) & 1)) | ((v1 << 3) & 16), CC_SIMD_A1 + (AdjustV2 * ((v2 >> 1) & 1)) | ((v2 << 3) & 16), CC_SIMD_A1 + (AdjustV3 * ((v3 >> 1) & 1)) | ((v3 << 3) & 16), CC_SIMD_A1 + (AdjustV4 * ((v4 >> 1) & 1)) | ((v4 << 3) & 16), CC_SIMD_A1 + (AdjustV5 * ((v5 >> 1) & 1)) | ((v5 << 3) & 16), CC_SIMD_A1 + (AdjustV6 * ((v6 >> 1) & 1)) | ((v6 << 3) & 16), CC_SIMD_A1 + (AdjustV7 * ((v7 >> 1) & 1)) | ((v7 << 3) & 16)); \
+    const CC_SIMD_TYPE(base, count) L2 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A2 + (AdjustV0 * ((v0 >> 2) & 1)) | ((v0 << 2) & 16), CC_SIMD_A2 + (AdjustV1 * ((v1 >> 2) & 1)) | ((v1 << 2) & 16), CC_SIMD_A2 + (AdjustV2 * ((v2 >> 2) & 1)) | ((v2 << 2) & 16), CC_SIMD_A2 + (AdjustV3 * ((v3 >> 2) & 1)) | ((v3 << 2) & 16), CC_SIMD_A2 + (AdjustV4 * ((v4 >> 2) & 1)) | ((v4 << 2) & 16), CC_SIMD_A2 + (AdjustV5 * ((v5 >> 2) & 1)) | ((v5 << 2) & 16), CC_SIMD_A2 + (AdjustV6 * ((v6 >> 2) & 1)) | ((v6 << 2) & 16), CC_SIMD_A2 + (AdjustV7 * ((v7 >> 2) & 1)) | ((v7 << 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L3 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A3 + (AdjustV0 * ((v0 >> 3) & 1)) | ((v0 << 1) & 16), CC_SIMD_A3 + (AdjustV1 * ((v1 >> 3) & 1)) | ((v1 << 1) & 16), CC_SIMD_A3 + (AdjustV2 * ((v2 >> 3) & 1)) | ((v2 << 1) & 16), CC_SIMD_A3 + (AdjustV3 * ((v3 >> 3) & 1)) | ((v3 << 1) & 16), CC_SIMD_A3 + (AdjustV4 * ((v4 >> 3) & 1)) | ((v4 << 1) & 16), CC_SIMD_A3 + (AdjustV5 * ((v5 >> 3) & 1)) | ((v5 << 1) & 16), CC_SIMD_A3 + (AdjustV6 * ((v6 >> 3) & 1)) | ((v6 << 1) & 16), CC_SIMD_A3 + (AdjustV7 * ((v7 >> 3) & 1)) | ((v7 << 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L4 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A4 + (AdjustV0 * ((v0 >> 4) & 1)) | ((v0 << 0) & 16), CC_SIMD_A4 + (AdjustV1 * ((v1 >> 4) & 1)) | ((v1 << 0) & 16), CC_SIMD_A4 + (AdjustV2 * ((v2 >> 4) & 1)) | ((v2 << 0) & 16), CC_SIMD_A4 + (AdjustV3 * ((v3 >> 4) & 1)) | ((v3 << 0) & 16), CC_SIMD_A4 + (AdjustV4 * ((v4 >> 4) & 1)) | ((v4 << 0) & 16), CC_SIMD_A4 + (AdjustV5 * ((v5 >> 4) & 1)) | ((v5 << 0) & 16), CC_SIMD_A4 + (AdjustV6 * ((v6 >> 4) & 1)) | ((v6 << 0) & 16), CC_SIMD_A4 + (AdjustV7 * ((v7 >> 4) & 1)) | ((v7 << 0) & 16)); \
+    const CC_SIMD_TYPE(base, count) L5 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A5 + (AdjustV0 * ((v0 >> 5) & 1)) | ((v0 >> 1) & 16), CC_SIMD_A5 + (AdjustV1 * ((v1 >> 5) & 1)) | ((v1 >> 1) & 16), CC_SIMD_A5 + (AdjustV2 * ((v2 >> 5) & 1)) | ((v2 >> 1) & 16), CC_SIMD_A5 + (AdjustV3 * ((v3 >> 5) & 1)) | ((v3 >> 1) & 16), CC_SIMD_A5 + (AdjustV4 * ((v4 >> 5) & 1)) | ((v4 >> 1) & 16), CC_SIMD_A5 + (AdjustV5 * ((v5 >> 5) & 1)) | ((v5 >> 1) & 16), CC_SIMD_A5 + (AdjustV6 * ((v6 >> 5) & 1)) | ((v6 >> 1) & 16), CC_SIMD_A5 + (AdjustV7 * ((v7 >> 5) & 1)) | ((v7 >> 1) & 16)); \
+    const CC_SIMD_TYPE(base, count) L6 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A6 + (AdjustV0 * ((v0 >> 6) & 1)) | ((v0 >> 2) & 16), CC_SIMD_A6 + (AdjustV1 * ((v1 >> 6) & 1)) | ((v1 >> 2) & 16), CC_SIMD_A6 + (AdjustV2 * ((v2 >> 6) & 1)) | ((v2 >> 2) & 16), CC_SIMD_A6 + (AdjustV3 * ((v3 >> 6) & 1)) | ((v3 >> 2) & 16), CC_SIMD_A6 + (AdjustV4 * ((v4 >> 6) & 1)) | ((v4 >> 2) & 16), CC_SIMD_A6 + (AdjustV5 * ((v5 >> 6) & 1)) | ((v5 >> 2) & 16), CC_SIMD_A6 + (AdjustV6 * ((v6 >> 6) & 1)) | ((v6 >> 2) & 16), CC_SIMD_A6 + (AdjustV7 * ((v7 >> 6) & 1)) | ((v7 >> 2) & 16)); \
+    const CC_SIMD_TYPE(base, count) L7 = CC_SIMD_NAME(CCSimdMerge, base, count)(Zero, a, CC_SIMD_A7 + (AdjustV0 * ((v0 >> 7) & 1)) | ((v0 >> 3) & 16), CC_SIMD_A7 + (AdjustV1 * ((v1 >> 7) & 1)) | ((v1 >> 3) & 16), CC_SIMD_A7 + (AdjustV2 * ((v2 >> 7) & 1)) | ((v2 >> 3) & 16), CC_SIMD_A7 + (AdjustV3 * ((v3 >> 7) & 1)) | ((v3 >> 3) & 16), CC_SIMD_A7 + (AdjustV4 * ((v4 >> 7) & 1)) | ((v4 >> 3) & 16), CC_SIMD_A7 + (AdjustV5 * ((v5 >> 7) & 1)) | ((v5 >> 3) & 16), CC_SIMD_A7 + (AdjustV6 * ((v6 >> 7) & 1)) | ((v6 >> 3) & 16), CC_SIMD_A7 + (AdjustV7 * ((v7 >> 7) & 1)) | ((v7 >> 3) & 16)); \
+    \
+    return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdSub, base, count)(L0, L1), CC_SIMD_NAME(CCSimdAdd, base, count)(L2, L3)), CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdAdd, base, count)(L4, L5), CC_SIMD_NAME(CCSimdAdd, base, count)(L6, L7))); \
+}
+CC_SIMD_DECL(CCSimdHsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdHsub))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdDot
+#define CC_SIMD_DOT_MASK(x0, x1) ((x1) << 2) | (x0)
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1) \
+{ \
+    CCAssertLog((v0 <= 3) && (v1 <= 3), "Index masks must not exceed lane count"); \
+    \
+    switch (CC_SIMD_DOT_MASK(v0, v1)) \
+    { \
+        case 0: return a; \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 0, 0); \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 1, 1); \
+        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(1)): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), 0): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdMul, base, count)(a, b); \
+        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(0)): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), 0): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdSwizzle, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), 1, 0); \
+            \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0), CC_SIMD_LANE_MASK(0, 1)); \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(1), CC_SIMD_LANE_MASK(0, 1)); \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0)); \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(1)); \
+            \
+        case CC_SIMD_DOT_MASK(0, CC_SIMD_LANE_MASK(0, 1)): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), 0): \
+        case CC_SIMD_DOT_MASK(CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)): return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), CC_SIMD_LANE_MASK(0, 1), CC_SIMD_LANE_MASK(0, 1)); \
+    } \
+    \
+    CC_UNREACHABLE(); \
+}
+CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_2_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdDot))
+#undef CC_SIMD_IMPL
+#undef CC_SIMD_DOT_MASK
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3) \
+{ \
+    CCAssertLog((v0 <= 15) && (v1 <= 15) && (v2 <= 15) && (v3 <= 15), "Index masks must not exceed lane count"); \
+    \
+    return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), v0, v1, v2, v3); \
+}
+CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_4_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdDot))
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7) \
+{ \
+    CCAssertLog((v0 <= 255) && (v1 <= 255) && (v2 <= 255) && (v3 <= 255) && (v4 <= 255) && (v5 <= 255) && (v6 <= 255) && (v7 <= 255), "Index masks must not exceed lane count"); \
+    \
+    return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), v0, v1, v2, v3, v4, v5, v6, v7); \
+}
+CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_8_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdDot))
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdClamp
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) min, const CC_SIMD_TYPE(base, count) max){ return CC_SIMD_NAME(CCSimdMin, base, count)(CC_SIMD_NAME(CCSimdMax, base, count)(a, min), max); }
+CC_SIMD_DECL(CCSimdClamp, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdClamp)
+#undef CC_SIMD_IMPL
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
