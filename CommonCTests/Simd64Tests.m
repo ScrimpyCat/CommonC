@@ -1430,6 +1430,1464 @@
     }
 }
 
+-(void) testBitMaths
+{
+    for (size_t Loop = 0; Loop < 7; Loop++)
+    {
+        const int8_t Values[8] = { 1 << Loop, (1 << Loop) + 1, (1 << Loop) + 3, (1 << Loop) + 240, (1 << Loop) + 5, (1 << Loop) + 6, (1 << Loop) + 7, (1 << Loop) + 9 };
+        int8_t Result[8];
+        
+        CCSimdStore_s8x8(Result, CCSimdLowestUnset_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestUnset(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestUnset(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitLowestUnset(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitLowestUnset(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitLowestUnset(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitLowestUnset(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdLowestSet_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestSet(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitLowestSet(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitLowestSet(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitLowestSet(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitLowestSet(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdHighestSet_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], (int8_t)CCBitHighestSet(*(uint8_t*)&Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdNextPow2_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], (int8_t)(CCBitNextPowerOf2(Values[0]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int8_t)(CCBitNextPowerOf2(Values[1]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (int8_t)(CCBitNextPowerOf2(Values[2]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (int8_t)(CCBitNextPowerOf2(Values[3]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[4], (int8_t)(CCBitNextPowerOf2(Values[4]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[5], (int8_t)(CCBitNextPowerOf2(Values[5]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[6], (int8_t)(CCBitNextPowerOf2(Values[6]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[7], (int8_t)(CCBitNextPowerOf2(Values[7]) & UINT8_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdMask_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForValue(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForValue(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitMaskForValue(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitMaskForValue(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitMaskForValue(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitMaskForValue(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdMaskLowerPow2_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdMaskHighestUnset_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[0]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[1], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[1]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[2], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[2]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[3], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[3]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[4], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[4]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[5], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[5]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[6], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[6]) & UINT8_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[7], *(int8_t*)&(uint8_t){ CCBitMaskForUnsetValue(Values[7]) & UINT8_MAX }, @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdCountLowestUnset_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[2], Values[2] ? CCBitCountLowestUnset(Values[2]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[3], Values[3] ? CCBitCountLowestUnset(Values[3]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[4], Values[4] ? CCBitCountLowestUnset(Values[4]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[5], Values[5] ? CCBitCountLowestUnset(Values[5]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[6], Values[6] ? CCBitCountLowestUnset(Values[6]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[7], Values[7] ? CCBitCountLowestUnset(Values[7]) : 8, @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdCountHighestUnset_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(CCBitMaskForUnsetValue(Values[2]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(CCBitMaskForUnsetValue(Values[3]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitCountSet(CCBitMaskForUnsetValue(Values[4]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitCountSet(CCBitMaskForUnsetValue(Values[5]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitCountSet(CCBitMaskForUnsetValue(Values[6]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitCountSet(CCBitMaskForUnsetValue(Values[7]) & UINT8_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s8x8(Result, CCSimdCountSet_s8x8(CCSimdLoad_s8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(*(uint8_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(*(uint8_t*)&Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(*(uint8_t*)&Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(*(uint8_t*)&Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitCountSet(*(uint8_t*)&Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitCountSet(*(uint8_t*)&Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitCountSet(*(uint8_t*)&Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitCountSet(*(uint8_t*)&Values[7]), @"should contain the correct value");
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 7; Loop++)
+    {
+        const uint8_t Values[8] = { 1 << Loop, (1 << Loop) + 1, (1 << Loop) + 3, (1 << Loop) + 240, (1 << Loop) + 5, (1 << Loop) + 6, (1 << Loop) + 7, (1 << Loop) + 9 };
+        uint8_t Result[8];
+        
+        CCSimdStore_u8x8(Result, CCSimdLowestUnset_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestUnset(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestUnset(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitLowestUnset(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitLowestUnset(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitLowestUnset(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitLowestUnset(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdLowestSet_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestSet(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitLowestSet(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitLowestSet(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitLowestSet(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitLowestSet(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdHighestSet_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitHighestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitHighestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitHighestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitHighestSet(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitHighestSet(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitHighestSet(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitHighestSet(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitHighestSet(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdNextPow2_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitNextPowerOf2(Values[0]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitNextPowerOf2(Values[1]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitNextPowerOf2(Values[2]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitNextPowerOf2(Values[3]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitNextPowerOf2(Values[4]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitNextPowerOf2(Values[5]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitNextPowerOf2(Values[6]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitNextPowerOf2(Values[7]) & UINT8_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdMask_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForValue(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForValue(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitMaskForValue(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitMaskForValue(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitMaskForValue(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitMaskForValue(Values[7]), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdMaskLowerPow2_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdMaskHighestUnset_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForUnsetValue(Values[0]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForUnsetValue(Values[1]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForUnsetValue(Values[2]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForUnsetValue(Values[3]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitMaskForUnsetValue(Values[4]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitMaskForUnsetValue(Values[5]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitMaskForUnsetValue(Values[6]) & UINT8_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitMaskForUnsetValue(Values[7]) & UINT8_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdCountLowestUnset_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[2], Values[2] ? CCBitCountLowestUnset(Values[2]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[3], Values[3] ? CCBitCountLowestUnset(Values[3]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[4], Values[4] ? CCBitCountLowestUnset(Values[4]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[5], Values[5] ? CCBitCountLowestUnset(Values[5]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[6], Values[6] ? CCBitCountLowestUnset(Values[6]) : 8, @"should contain the correct value");
+        XCTAssertEqual(Result[7], Values[7] ? CCBitCountLowestUnset(Values[7]) : 8, @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdCountHighestUnset_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(CCBitMaskForUnsetValue(Values[2]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(CCBitMaskForUnsetValue(Values[3]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitCountSet(CCBitMaskForUnsetValue(Values[4]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitCountSet(CCBitMaskForUnsetValue(Values[5]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitCountSet(CCBitMaskForUnsetValue(Values[6]) & UINT8_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitCountSet(CCBitMaskForUnsetValue(Values[7]) & UINT8_MAX), @"should contain the correct value");
+        
+        CCSimdStore_u8x8(Result, CCSimdCountSet_u8x8(CCSimdLoad_u8x8(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(Values[3]), @"should contain the correct value");
+        XCTAssertEqual(Result[4], CCBitCountSet(Values[4]), @"should contain the correct value");
+        XCTAssertEqual(Result[5], CCBitCountSet(Values[5]), @"should contain the correct value");
+        XCTAssertEqual(Result[6], CCBitCountSet(Values[6]), @"should contain the correct value");
+        XCTAssertEqual(Result[7], CCBitCountSet(Values[7]), @"should contain the correct value");
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 15; Loop++)
+    {
+        const int16_t Values[4] = { 1 << Loop, (1 << Loop) + 1, (1 << Loop) + 3, (1 << Loop) + 240 };
+        int16_t Result[4];
+        
+        CCSimdStore_s16x4(Result, CCSimdLowestUnset_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestUnset(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestUnset(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdLowestSet_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestSet(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdHighestSet_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], (int16_t)CCBitHighestSet(*(uint16_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int16_t)CCBitHighestSet(*(uint16_t*)&Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (int16_t)CCBitHighestSet(*(uint16_t*)&Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (int16_t)CCBitHighestSet(*(uint16_t*)&Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdNextPow2_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], (int16_t)(CCBitNextPowerOf2(Values[0]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int16_t)(CCBitNextPowerOf2(Values[1]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (int16_t)(CCBitNextPowerOf2(Values[2]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (int16_t)(CCBitNextPowerOf2(Values[3]) & UINT16_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdMask_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForValue(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForValue(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdMaskLowerPow2_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdMaskHighestUnset_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], *(int16_t*)&(uint16_t){ CCBitMaskForUnsetValue(Values[0]) & UINT16_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[1], *(int16_t*)&(uint16_t){ CCBitMaskForUnsetValue(Values[1]) & UINT16_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[2], *(int16_t*)&(uint16_t){ CCBitMaskForUnsetValue(Values[2]) & UINT16_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[3], *(int16_t*)&(uint16_t){ CCBitMaskForUnsetValue(Values[3]) & UINT16_MAX }, @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdCountLowestUnset_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[2], Values[2] ? CCBitCountLowestUnset(Values[2]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[3], Values[3] ? CCBitCountLowestUnset(Values[3]) : 16, @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdCountHighestUnset_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(CCBitMaskForUnsetValue(Values[2]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(CCBitMaskForUnsetValue(Values[3]) & UINT16_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s16x4(Result, CCSimdCountSet_s16x4(CCSimdLoad_s16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(*(uint16_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(*(uint16_t*)&Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(*(uint16_t*)&Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(*(uint16_t*)&Values[3]), @"should contain the correct value");
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 15; Loop++)
+    {
+        const uint16_t Values[4] = { 1 << Loop, (1 << Loop) + 1, (1 << Loop) + 3, (1 << Loop) + 240 };
+        uint16_t Result[4];
+        
+        CCSimdStore_u16x4(Result, CCSimdLowestUnset_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestUnset(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestUnset(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdLowestSet_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitLowestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitLowestSet(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdHighestSet_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitHighestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitHighestSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitHighestSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitHighestSet(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdNextPow2_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitNextPowerOf2(Values[0]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitNextPowerOf2(Values[1]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitNextPowerOf2(Values[2]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitNextPowerOf2(Values[3]) & UINT16_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdMask_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForValue(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForValue(Values[3]), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdMaskLowerPow2_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdMaskHighestUnset_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForUnsetValue(Values[0]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForUnsetValue(Values[1]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitMaskForUnsetValue(Values[2]) & UINT16_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitMaskForUnsetValue(Values[3]) & UINT16_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdCountLowestUnset_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[2], Values[2] ? CCBitCountLowestUnset(Values[2]) : 16, @"should contain the correct value");
+        XCTAssertEqual(Result[3], Values[3] ? CCBitCountLowestUnset(Values[3]) : 16, @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdCountHighestUnset_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(CCBitMaskForUnsetValue(Values[2]) & UINT16_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(CCBitMaskForUnsetValue(Values[3]) & UINT16_MAX), @"should contain the correct value");
+        
+        CCSimdStore_u16x4(Result, CCSimdCountSet_u16x4(CCSimdLoad_u16x4(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(Values[1]), @"should contain the correct value");
+        XCTAssertEqual(Result[2], CCBitCountSet(Values[2]), @"should contain the correct value");
+        XCTAssertEqual(Result[3], CCBitCountSet(Values[3]), @"should contain the correct value");
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 31; Loop++)
+    {
+        const int32_t Values[2] = { 1 << Loop, (1 << Loop) + 1 };
+        int32_t Result[2];
+        
+        CCSimdStore_s32x2(Result, CCSimdLowestUnset_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdLowestSet_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdHighestSet_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], (int32_t)CCBitHighestSet(*(uint32_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int32_t)CCBitHighestSet(*(uint32_t*)&Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdNextPow2_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], (int32_t)(CCBitNextPowerOf2(Values[0]) & UINT32_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (int32_t)(CCBitNextPowerOf2(Values[1]) & UINT32_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdMask_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdMaskLowerPow2_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdMaskHighestUnset_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], *(int32_t*)&(uint32_t){ CCBitMaskForUnsetValue(Values[0]) & UINT32_MAX }, @"should contain the correct value");
+        XCTAssertEqual(Result[1], *(int32_t*)&(uint32_t){ CCBitMaskForUnsetValue(Values[1]) & UINT32_MAX }, @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdCountLowestUnset_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 32, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 32, @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdCountHighestUnset_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT32_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT32_MAX), @"should contain the correct value");
+        
+        CCSimdStore_s32x2(Result, CCSimdCountSet_s32x2(CCSimdLoad_s32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(*(uint32_t*)&Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(*(uint32_t*)&Values[1]), @"should contain the correct value");
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 31; Loop++)
+    {
+        const uint32_t Values[2] = { 1 << Loop, (1 << Loop) + 1 };
+        uint32_t Result[2];
+        
+        CCSimdStore_u32x2(Result, CCSimdLowestUnset_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestUnset(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestUnset(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdLowestSet_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitLowestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitLowestSet(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdHighestSet_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitHighestSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitHighestSet(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdNextPow2_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitNextPowerOf2(Values[0]) & UINT32_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitNextPowerOf2(Values[1]) & UINT32_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdMask_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForValue(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForValue(Values[1]), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdMaskLowerPow2_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForLowerPowerOf2(Values[0]), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdMaskHighestUnset_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitMaskForUnsetValue(Values[0]) & UINT32_MAX, @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitMaskForUnsetValue(Values[1]) & UINT32_MAX, @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdCountLowestUnset_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], Values[0] ? CCBitCountLowestUnset(Values[0]) : 32, @"should contain the correct value");
+        XCTAssertEqual(Result[1], Values[1] ? CCBitCountLowestUnset(Values[1]) : 32, @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdCountHighestUnset_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(CCBitMaskForUnsetValue(Values[0]) & UINT32_MAX), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(CCBitMaskForUnsetValue(Values[1]) & UINT32_MAX), @"should contain the correct value");
+        
+        CCSimdStore_u32x2(Result, CCSimdCountSet_u32x2(CCSimdLoad_u32x2(Values)));
+        XCTAssertEqual(Result[0], CCBitCountSet(Values[0]), @"should contain the correct value");
+        XCTAssertEqual(Result[1], CCBitCountSet(Values[1]), @"should contain the correct value");
+    }
+}
+
+-(void) testComparisons
+{
+    int8_t Result_s8[8];
+    const CCSimd_s8x8 VecA_s8x8 = CCSimdLoad_s8x8((int8_t[8]){ 0, 1, 0, 1, 0, 1, 0, 1 });
+    const CCSimd_s8x8 VecB_s8x8 = CCSimdLoad_s8x8((int8_t[8]){ 0, -1, 0, -1, 0, -1, 0, -1 });
+    const CCSimd_s8x8 VecC_s8x8 = CCSimdLoad_s8x8((int8_t[8]){ 1, 1, 1, 1, 1, 1, 1, 1 });
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareEqual_s8x8(VecA_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareNotEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareNotEqual_s8x8(VecA_s8x8, VecC_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareEqual_s8x8(VecB_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareEqual_s8x8(VecC_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareNotEqual_s8x8(VecB_s8x8, VecC_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareNotEqual_s8x8(VecC_s8x8, VecB_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareEqual_s8x8(VecA_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareEqual_s8x8(VecB_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareEqual_s8x8(VecC_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareNotEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareNotEqual_s8x8(VecA_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareNotEqual_s8x8(VecB_s8x8, VecC_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareNotEqual_s8x8(VecC_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareLessThan_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareLessThanEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareGreaterThan_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdMaskCompareGreaterThanEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual((uint8_t)Result_s8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual((uint8_t)Result_s8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareLessThan_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareLessThanEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareGreaterThan_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdCompareGreaterThanEqual_s8x8(VecA_s8x8, VecB_s8x8));
+    XCTAssertEqual(Result_s8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 1, @"should contain the correct value");
+    
+    
+    uint8_t Result_u8[8];
+    const CCSimd_u8x8 VecA_u8x8 = CCSimdLoad_u8x8((uint8_t[8]){ 0, 1, 0, 1, 0, 1, 0, 1 });
+    const CCSimd_u8x8 VecB_u8x8 = CCSimdLoad_u8x8((uint8_t[8]){ 0, -1, 0, -1, 0, -1, 0, -1 });
+    const CCSimd_u8x8 VecC_u8x8 = CCSimdLoad_u8x8((uint8_t[8]){ 1, 1, 1, 1, 1, 1, 1, 1 });
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareEqual_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareNotEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareNotEqual_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareEqual_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareEqual_u8x8(VecC_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareNotEqual_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareNotEqual_u8x8(VecC_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareEqual_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareEqual_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareEqual_u8x8(VecC_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareNotEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareNotEqual_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareNotEqual_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareNotEqual_u8x8(VecC_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareLessThan_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareLessThanEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0xff, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareGreaterThan_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdMaskCompareGreaterThanEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0xff, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareLessThan_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareLessThanEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareGreaterThan_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdCompareGreaterThanEqual_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 0, @"should contain the correct value");
+    
+    
+    int16_t Result_s16[4];
+    const CCSimd_s16x4 VecA_s16x4 = CCSimdLoad_s16x4((int16_t[4]){ 0, 1, 0, 1 });
+    const CCSimd_s16x4 VecB_s16x4 = CCSimdLoad_s16x4((int16_t[4]){ 0, -1, 0, -1 });
+    const CCSimd_s16x4 VecC_s16x4 = CCSimdLoad_s16x4((int16_t[4]){ 1, 1, 1, 1 });
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareEqual_s16x4(VecA_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareNotEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareNotEqual_s16x4(VecA_s16x4, VecC_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareEqual_s16x4(VecB_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareEqual_s16x4(VecC_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareNotEqual_s16x4(VecB_s16x4, VecC_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareNotEqual_s16x4(VecC_s16x4, VecB_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareEqual_s16x4(VecA_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareEqual_s16x4(VecB_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareEqual_s16x4(VecC_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareNotEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareNotEqual_s16x4(VecA_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareNotEqual_s16x4(VecB_s16x4, VecC_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareNotEqual_s16x4(VecC_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareLessThan_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareLessThanEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareGreaterThan_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdMaskCompareGreaterThanEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual((uint16_t)Result_s16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual((uint16_t)Result_s16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareLessThan_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareLessThanEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareGreaterThan_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdCompareGreaterThanEqual_s16x4(VecA_s16x4, VecB_s16x4));
+    XCTAssertEqual(Result_s16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 1, @"should contain the correct value");
+    
+    
+    uint16_t Result_u16[4];
+    const CCSimd_u16x4 VecA_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 0, 1, 0, 1 });
+    const CCSimd_u16x4 VecB_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 0, -1, 0, -1 });
+    const CCSimd_u16x4 VecC_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 1, 1, 1, 1 });
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareEqual_u16x4(VecA_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareNotEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareNotEqual_u16x4(VecA_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareEqual_u16x4(VecB_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareEqual_u16x4(VecC_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareNotEqual_u16x4(VecB_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareNotEqual_u16x4(VecC_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareEqual_u16x4(VecA_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareEqual_u16x4(VecB_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareEqual_u16x4(VecC_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareNotEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareNotEqual_u16x4(VecA_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareNotEqual_u16x4(VecB_u16x4, VecC_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareNotEqual_u16x4(VecC_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareLessThan_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareLessThanEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0xffff, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareGreaterThan_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdMaskCompareGreaterThanEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0xffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareLessThan_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareLessThanEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 1, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareGreaterThan_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdCompareGreaterThanEqual_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0, @"should contain the correct value");
+    
+    
+    int32_t Result_s32[2];
+    const CCSimd_s32x2 VecA_s32x2 = CCSimdLoad_s32x2((int32_t[2]){ 0, 1 });
+    const CCSimd_s32x2 VecB_s32x2 = CCSimdLoad_s32x2((int32_t[2]){ 0, -1 });
+    const CCSimd_s32x2 VecC_s32x2 = CCSimdLoad_s32x2((int32_t[2]){ 1, 1 });
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareEqual_s32x2(VecA_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareNotEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareNotEqual_s32x2(VecA_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareEqual_s32x2(VecB_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareEqual_s32x2(VecC_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareNotEqual_s32x2(VecB_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareNotEqual_s32x2(VecC_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareEqual_s32x2(VecA_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareEqual_s32x2(VecB_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareEqual_s32x2(VecC_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareNotEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareNotEqual_s32x2(VecA_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareNotEqual_s32x2(VecB_s32x2, VecC_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareNotEqual_s32x2(VecC_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareLessThan_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareLessThanEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareGreaterThan_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdMaskCompareGreaterThanEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareLessThan_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareLessThanEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareGreaterThan_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdCompareGreaterThanEqual_s32x2(VecA_s32x2, VecB_s32x2));
+    XCTAssertEqual(Result_s32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    
+    uint32_t Result_u32[2];
+    const CCSimd_u32x2 VecA_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 0, 1 });
+    const CCSimd_u32x2 VecB_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 0, -1 });
+    const CCSimd_u32x2 VecC_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 1, 1 });
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_u32x2(VecA_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareNotEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareNotEqual_u32x2(VecA_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_u32x2(VecB_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_u32x2(VecC_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareNotEqual_u32x2(VecB_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareNotEqual_u32x2(VecC_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareEqual_u32x2(VecA_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareEqual_u32x2(VecB_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareEqual_u32x2(VecC_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareNotEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareNotEqual_u32x2(VecA_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareNotEqual_u32x2(VecB_u32x2, VecC_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareNotEqual_u32x2(VecC_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareLessThan_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareLessThanEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareGreaterThan_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareGreaterThanEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareLessThan_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareLessThanEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareGreaterThan_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdCompareGreaterThanEqual_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    
+    float Result_f32[2];
+    const CCSimd_f32x2 VecA_f32x2 = CCSimdLoad_f32x2((float[2]){ 0, 1.0f });
+    const CCSimd_f32x2 VecB_f32x2 = CCSimdLoad_f32x2((float[2]){ 0, -1.0f });
+    const CCSimd_f32x2 VecC_f32x2 = CCSimdLoad_f32x2((float[2]){ 1.0f, 1.0f });
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_f32x2(VecA_f32x2, VecB_f32x2));
+    XCTAssertEqual(Result_u32[0], 0xffffffff, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_f32x2(VecA_f32x2, VecC_f32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0xffffffff, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_f32x2(VecB_f32x2, VecC_f32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdMaskCompareEqual_f32x2(VecC_f32x2, VecB_f32x2));
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdCompareEqual_f32x2(VecA_f32x2, VecB_f32x2));
+    XCTAssertEqual(Result_f32[0], 1.0f, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdCompareEqual_f32x2(VecA_f32x2, VecC_f32x2));
+    XCTAssertEqual(Result_f32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 1.0f, @"should contain the correct value");
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdCompareEqual_f32x2(VecB_f32x2, VecC_f32x2));
+    XCTAssertEqual(Result_f32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 0, @"should contain the correct value");
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdCompareEqual_f32x2(VecC_f32x2, VecB_f32x2));
+    XCTAssertEqual(Result_f32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 0, @"should contain the correct value");
+}
+
 -(void) testArithmetic
 {
     int32_t Result_s32[2];
