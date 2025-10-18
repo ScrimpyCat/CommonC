@@ -141,12 +141,7 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitLowestSet(uint64_t x)
 //Finds highest set bit (00010110 -> 00010000, 00001000 -> 00001000)
 static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitHighestSet(uint64_t x)
 {
-    x |= x >> 1;
-    x |= x >> 2;
-    x |= x >> 4;
-    x |= x >> 8;
-    x |= x >> 16;
-    x |= x >> 32;
+    x = CCBitMaskForValue(x);
     
     return x ^ (x >> 1);
 }
@@ -154,7 +149,12 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitHighestSet(uint64_t x)
 //Finds the minimum power of 2 value that can hold x (00010110 -> 00100000, 00001000 -> 00001000)
 static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitNextPowerOf2(uint64_t x)
 {
-    x--;
+    return CCBitMaskForValue(x - 1) + 1;
+}
+
+//Creates a mask for the entire values range (00010110 -> 00011111, 00001000 -> 00001111)
+static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitMaskForValue(uint64_t x)
+{
     x |= x >> 1;
     x |= x >> 2;
     x |= x >> 4;
@@ -162,13 +162,7 @@ static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitNextPowerOf2(uint64_t 
     x |= x >> 16;
     x |= x >> 32;
     
-    return x + 1;
-}
-
-//Creates a mask for the entire values range (00010110 -> 00011111, 00001000 -> 00001111)
-static CC_FORCE_INLINE CC_CONSTANT_FUNCTION uint64_t CCBitMaskForValue(uint64_t x)
-{
-    return x & 0x8000000000000000? UINT64_MAX : CCBitMaskForLowerPowerOf2(CCBitHighestSet(x) << 1);
+    return x;
 }
 
 //Masks the lower bits of a power of 2 value (00010110 -> NA, 00001000 -> 00000111)
