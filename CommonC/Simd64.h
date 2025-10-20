@@ -45,7 +45,49 @@ typedef uint16x4_t CCSimd_u16x4;
 typedef uint32x2_t CCSimd_u32x2;
 
 typedef float32x2_t CCSimd_f32x2;
+
+#define CC_SIMD_INTERNAL_POLY_VALUE(name, i) name.val[i]
+
+#define CC_SIMD_INTERNAL_POLY_TYPE(base, count, poly) CC_SIMD_INTERNAL_POLY_TYPE_(CC_SIMD_INTERNAL_POLY_TYPE_##base, count, poly)
+#define CC_SIMD_INTERNAL_POLY_TYPE_(base, count, poly) CC_SIMD_INTERNAL_POLY_TYPE__(base, count, poly)
+#define CC_SIMD_INTERNAL_POLY_TYPE__(base, count, poly) base##x##count##x##poly##_t
+
+#define CC_SIMD_INTERNAL_POLY_TYPE_s8 int8
+#define CC_SIMD_INTERNAL_POLY_TYPE_s16 int16
+#define CC_SIMD_INTERNAL_POLY_TYPE_s32 int32
+#define CC_SIMD_INTERNAL_POLY_TYPE_s64 int64
+#define CC_SIMD_INTERNAL_POLY_TYPE_u8 uint8
+#define CC_SIMD_INTERNAL_POLY_TYPE_u16 uint16
+#define CC_SIMD_INTERNAL_POLY_TYPE_u32 uint32
+#define CC_SIMD_INTERNAL_POLY_TYPE_u64 uint64
+#define CC_SIMD_INTERNAL_POLY_TYPE_f32 float32
+#define CC_SIMD_INTERNAL_POLY_TYPE_f64 double64
 #endif
+
+
+typedef struct { CCSimd_s8x8 v[2]; } CCSimd_s8x8x2;
+typedef struct { CCSimd_s8x8 v[3]; } CCSimd_s8x8x3;
+typedef struct { CCSimd_s8x8 v[4]; } CCSimd_s8x8x4;
+typedef struct { CCSimd_s16x4 v[2]; } CCSimd_s16x4x2;
+typedef struct { CCSimd_s16x4 v[3]; } CCSimd_s16x4x3;
+typedef struct { CCSimd_s16x4 v[4]; } CCSimd_s16x4x4;
+typedef struct { CCSimd_s32x2 v[2]; } CCSimd_s32x2x2;
+typedef struct { CCSimd_s32x2 v[3]; } CCSimd_s32x2x3;
+typedef struct { CCSimd_s32x2 v[4]; } CCSimd_s32x2x4;
+
+typedef struct { CCSimd_u8x8 v[2]; } CCSimd_u8x8x2;
+typedef struct { CCSimd_u8x8 v[3]; } CCSimd_u8x8x3;
+typedef struct { CCSimd_u8x8 v[4]; } CCSimd_u8x8x4;
+typedef struct { CCSimd_u16x4 v[2]; } CCSimd_u16x4x2;
+typedef struct { CCSimd_u16x4 v[3]; } CCSimd_u16x4x3;
+typedef struct { CCSimd_u16x4 v[4]; } CCSimd_u16x4x4;
+typedef struct { CCSimd_u32x2 v[2]; } CCSimd_u32x2x2;
+typedef struct { CCSimd_u32x2 v[3]; } CCSimd_u32x2x3;
+typedef struct { CCSimd_u32x2 v[4]; } CCSimd_u32x2x4;
+
+typedef struct { CCSimd_f32x2 v[2]; } CCSimd_f32x2x2;
+typedef struct { CCSimd_f32x2 v[3]; } CCSimd_f32x2x3;
+typedef struct { CCSimd_f32x2 v[4]; } CCSimd_f32x2x4;
 
 
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdZero_s8x8(void);
@@ -91,7 +133,72 @@ static CC_FORCE_INLINE void CCSimdStore_u32x2(uint32_t dst[2], const CCSimd_u32x
 
 static CC_FORCE_INLINE void CCSimdStore_f32x2(float dst[2], const CCSimd_f32x2 src);
 
-// TODO: interleaved loads and stores
+
+static CC_FORCE_INLINE CCSimd_s8x8x2 CCSimdInterleaveLoad_s8x8x2(const int8_t v[16]);
+static CC_FORCE_INLINE CCSimd_s16x4x2 CCSimdInterleaveLoad_s16x4x2(const int16_t v[8]);
+static CC_FORCE_INLINE CCSimd_s32x2x2 CCSimdInterleaveLoad_s32x2x2(const int32_t v[4]);
+
+static CC_FORCE_INLINE CCSimd_u8x8x2 CCSimdInterleaveLoad_u8x8x2(const uint8_t v[16]);
+static CC_FORCE_INLINE CCSimd_u16x4x2 CCSimdInterleaveLoad_u16x4x2(const uint16_t v[8]);
+static CC_FORCE_INLINE CCSimd_u32x2x2 CCSimdInterleaveLoad_u32x2x2(const uint32_t v[4]);
+
+static CC_FORCE_INLINE CCSimd_f32x2x2 CCSimdInterleaveLoad_f32x2x2(const float v[4]);
+
+
+static CC_FORCE_INLINE CCSimd_s8x8x3 CCSimdInterleaveLoad_s8x8x3(const int8_t v[24]);
+static CC_FORCE_INLINE CCSimd_s16x4x3 CCSimdInterleaveLoad_s16x4x3(const int16_t v[12]);
+static CC_FORCE_INLINE CCSimd_s32x2x3 CCSimdInterleaveLoad_s32x2x3(const int32_t v[6]);
+
+static CC_FORCE_INLINE CCSimd_u8x8x3 CCSimdInterleaveLoad_u8x8x3(const uint8_t v[24]);
+static CC_FORCE_INLINE CCSimd_u16x4x3 CCSimdInterleaveLoad_u16x4x3(const uint16_t v[12]);
+static CC_FORCE_INLINE CCSimd_u32x2x3 CCSimdInterleaveLoad_u32x2x3(const uint32_t v[6]);
+
+static CC_FORCE_INLINE CCSimd_f32x2x3 CCSimdInterleaveLoad_f32x2x3(const float v[6]);
+
+
+static CC_FORCE_INLINE CCSimd_s8x8x4 CCSimdInterleaveLoad_s8x8x4(const int8_t v[32]);
+static CC_FORCE_INLINE CCSimd_s16x4x4 CCSimdInterleaveLoad_s16x4x4(const int16_t v[16]);
+static CC_FORCE_INLINE CCSimd_s32x2x4 CCSimdInterleaveLoad_s32x2x4(const int32_t v[8]);
+
+static CC_FORCE_INLINE CCSimd_u8x8x4 CCSimdInterleaveLoad_u8x8x4(const uint8_t v[32]);
+static CC_FORCE_INLINE CCSimd_u16x4x4 CCSimdInterleaveLoad_u16x4x4(const uint16_t v[16]);
+static CC_FORCE_INLINE CCSimd_u32x2x4 CCSimdInterleaveLoad_u32x2x4(const uint32_t v[8]);
+
+static CC_FORCE_INLINE CCSimd_f32x2x4 CCSimdInterleaveLoad_f32x2x4(const float v[8]);
+
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x2(int8_t dst[16], const CCSimd_s8x8x2 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x2(int16_t dst[8], const CCSimd_s16x4x2 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x2(int32_t dst[4], const CCSimd_s32x2x2 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x2(uint8_t dst[16], const CCSimd_u8x8x2 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x2(uint16_t dst[8], const CCSimd_u16x4x2 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x2(uint32_t dst[4], const CCSimd_u32x2x2 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x2(float dst[4], const CCSimd_f32x2x2 src);
+
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x3(int8_t dst[24], const CCSimd_s8x8x3 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x3(int16_t dst[12], const CCSimd_s16x4x3 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x3(int32_t dst[6], const CCSimd_s32x2x3 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x3(uint8_t dst[24], const CCSimd_u8x8x3 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x3(uint16_t dst[12], const CCSimd_u16x4x3 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x3(uint32_t dst[6], const CCSimd_u32x2x3 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x3(float dst[6], const CCSimd_f32x2x3 src);
+
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x4(int8_t dst[32], const CCSimd_s8x8x4 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x4(int16_t dst[16], const CCSimd_s16x4x4 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x4(int32_t dst[8], const CCSimd_s32x2x4 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x4(uint8_t dst[32], const CCSimd_u8x8x4 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x4(uint16_t dst[16], const CCSimd_u16x4x4 src);
+static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x4(uint32_t dst[8], const CCSimd_u32x2x4 src);
+
+static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x4(float dst[8], const CCSimd_f32x2x4 src);
+
 
 static CC_FORCE_INLINE int8_t CCSimdGet_s8x8(const CCSimd_s8x8 a, uint8_t index);
 static CC_FORCE_INLINE int16_t CCSimdGet_s16x4(const CCSimd_s16x4 a, uint8_t index);
@@ -4619,6 +4726,25 @@ CC_SIMD_DECL(CCSimdLoad, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 
 #define CC_SIMD_IMPL(base, count, kind) (CC_SIMD_BASE_TYPE(base) dst[count], const CC_SIMD_TYPE(base, count) src){ vst1_##base(dst, src); }
 CC_SIMD_DECL(CCSimdStore, CC_SIMD_RETURN_TYPE(void), CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, n, kind) (const CC_SIMD_BASE_TYPE(base) src[count * n]) \
+{ \
+    CC_SIMD_INTERNAL_POLY_TYPE(base, count, n) Result = vld##n##_##base((void*)src); \
+    return ((CC_SIMD_POLY_TYPE(base, count, n)){ .v = { CC_REPEAT(0, n, CC_SIMD_INTERNAL_POLY_VALUE, Result) } }); \
+}
+CC_SIMD_POLY_DECL(CCSimdInterleaveLoad, 2, CC_SIMD_RETURN_TYPE_SIMD_POLY, CC_SIMD_64_TYPES)
+CC_SIMD_POLY_DECL(CCSimdInterleaveLoad, 3, CC_SIMD_RETURN_TYPE_SIMD_POLY, CC_SIMD_64_TYPES)
+CC_SIMD_POLY_DECL(CCSimdInterleaveLoad, 4, CC_SIMD_RETURN_TYPE_SIMD_POLY, CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
+#define CC_SIMD_IMPL(base, count, n, kind) (CC_SIMD_BASE_TYPE(base) dst[count * n], const CC_SIMD_POLY_TYPE(base, count, n) src) \
+{ \
+    vst##n##_##base((void*)dst, ((CC_SIMD_INTERNAL_POLY_TYPE(base, count, n)){ .val = { CC_REPEAT(0, n, CC_SIMD_POLY_VALUE, src) } })); \
+}
+CC_SIMD_POLY_DECL(CCSimdInterleaveStore, 2, CC_SIMD_RETURN_TYPE(void), CC_SIMD_64_TYPES)
+CC_SIMD_POLY_DECL(CCSimdInterleaveStore, 3, CC_SIMD_RETURN_TYPE(void), CC_SIMD_64_TYPES)
+CC_SIMD_POLY_DECL(CCSimdInterleaveStore, 4, CC_SIMD_RETURN_TYPE(void), CC_SIMD_64_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t index) \

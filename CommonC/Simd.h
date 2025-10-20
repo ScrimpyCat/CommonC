@@ -130,15 +130,22 @@
 #define CC_SIMD_NAME(name, base, count) CC_SIMD_NAME_(name, base, count)
 #define CC_SIMD_NAME_(name, base, count) name##_##base##x##count
 
+#define CC_SIMD_POLY_NAME(name, base, count, n) CC_SIMD_POLY_NAME_(name, base, count, n)
+#define CC_SIMD_POLY_NAME_(name, base, count, n) name##_##base##x##count##x##n
+
 #define CC_SIMD_TYPE(base, count) CC_SIMD_NAME(CCSimd, base, count)
 
-#define CC_SIMD_RETURN_TYPE_IGNORE(base, count)
+#define CC_SIMD_POLY_TYPE(base, count, n) CC_SIMD_POLY_NAME(CCSimd, base, count, n)
+
+#define CC_SIMD_RETURN_TYPE_IGNORE(base, count, ...)
 
 #define CC_SIMD_RETURN_TYPE(type) type CC_SIMD_RETURN_TYPE_IGNORE
 
-#define CC_SIMD_RETURN_TYPE_BASE(base, count) CC_SIMD_BASE_TYPE(base)
+#define CC_SIMD_RETURN_TYPE_BASE(base, count, ...) CC_SIMD_BASE_TYPE(base)
 
-#define CC_SIMD_RETURN_TYPE_SIMD(base, count) CC_SIMD_TYPE(base, count)
+#define CC_SIMD_RETURN_TYPE_SIMD(base, count, ...) CC_SIMD_TYPE(base, count)
+
+#define CC_SIMD_RETURN_TYPE_SIMD_POLY(base, count, n) CC_SIMD_POLY_TYPE(base, count, n)
 
 #define CC_SIMD_RETURN_TYPE_SIMD_TO(type) CC_SIMD_RETURN_TYPE_SIMD_TO_##type
 
@@ -152,6 +159,15 @@
 #define CC_SIMD_DECL_FUN_(...) CC_SIMD_DECL_FUN__(__VA_ARGS__)
 #define CC_SIMD_DECL_FUN__(base, count, name, ret) CC_SIMD_DECL_FUN___(base, count, CC_SIMD_KIND(base), name, ret)
 #define CC_SIMD_DECL_FUN___(base, count, kind, name, ret) static CC_FORCE_INLINE CC_NO_PROFILE ret(base, count) CC_SIMD_NAME(name, base, count)CC_SIMD_IMPL(base, count, kind)
+
+#define CC_SIMD_POLY_DECL(name, n, ret, ...) CC_SOFT_JOIN(, CC_MAP_WITH(CC_SIMD_POLY_DECL_FUN, (name, n, ret), __VA_ARGS__))
+
+#define CC_SIMD_POLY_DECL_FUN(type, n, args) CC_SIMD_POLY_DECL_FUN_(CC_EXPAND type, CC_EXPAND args)
+#define CC_SIMD_POLY_DECL_FUN_(...) CC_SIMD_POLY_DECL_FUN__(__VA_ARGS__)
+#define CC_SIMD_POLY_DECL_FUN__(base, count, name, n, ret) CC_SIMD_POLY_DECL_FUN___(base, count, CC_SIMD_KIND(base), name, n, ret)
+#define CC_SIMD_POLY_DECL_FUN___(base, count, kind, name, n, ret) static CC_FORCE_INLINE CC_NO_PROFILE ret(base, count, n) CC_SIMD_POLY_NAME(name, base, count, n)CC_SIMD_IMPL(base, count, n, kind)
+
+#define CC_SIMD_POLY_VALUE(name, i) name.v[i]
 
 #define CC_SIMD_LANE_0 0
 #define CC_SIMD_LANE_1 1
