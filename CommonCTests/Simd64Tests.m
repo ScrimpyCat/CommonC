@@ -33,6 +33,941 @@
 
 @implementation Simd64Tests
 
+-(void) testLoadStore
+{
+    int8_t Result_s8[8];
+    CCSimd_s8x8 Vec_s8x8 = CCSimdLoad_s8x8((int8_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    CCSimdStore_s8x8(Result_s8, Vec_s8x8);
+    XCTAssertEqual(Result_s8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 4, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 7, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 1), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 2), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 3), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 4), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 5), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 6), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 7), 7, @"should contain the correct value");
+    
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 0, 8);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 1, 9);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 2, 10);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 3, 11);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 4, 12);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 5, 13);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 6, 14);
+    Vec_s8x8 = CCSimdSet_s8x8(Vec_s8x8, 7, 15);
+    
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 1), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 3), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 4), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 5), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 6), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Vec_s8x8, 7), 15, @"should contain the correct value");
+    
+    CCSimd_s8x8x2 Poly_s8x8x2 = CCSimdInterleaveLoad_s8x8x2((int8_t[16]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+    
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 2), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 3), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 4), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 5), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 6), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[0], 7), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 2), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 3), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 4), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 5), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 6), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x2.v[1], 7), 15, @"should contain the correct value");
+    
+    Poly_s8x8x2.v[0] = CCSimdLoad_s8x8((int8_t[8]){ 10, 12, 14, 16, 18, 20, 22, 24 });
+    Poly_s8x8x2.v[1] = CCSimdLoad_s8x8((int8_t[8]){ 11, 13, 15, 17, 19, 21, 23, 25 });
+    int8_t Result2_s8[16];
+    
+    CCSimdInterleaveStore_s8x8x2(Result2_s8, Poly_s8x8x2);
+    XCTAssertEqual(Result2_s8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result2_s8[15], 25, @"should contain the correct value");
+    
+    CCSimd_s8x8x3 Poly_s8x8x3 = CCSimdInterleaveLoad_s8x8x3((int8_t[24]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 });
+    
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 2), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 3), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 4), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 5), 15, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 6), 18, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[0], 7), 21, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 2), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 3), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 4), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 5), 16, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 6), 19, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[1], 7), 22, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 3), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 4), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 5), 17, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 6), 20, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x3.v[2], 7), 23, @"should contain the correct value");
+    
+    Poly_s8x8x3.v[0] = CCSimdLoad_s8x8((int8_t[8]){ 10, 13, 16, 19, 22, 25, 28, 31 });
+    Poly_s8x8x3.v[1] = CCSimdLoad_s8x8((int8_t[8]){ 11, 14, 17, 20, 23, 26, 29, 32 });
+    Poly_s8x8x3.v[2] = CCSimdLoad_s8x8((int8_t[8]){ 12, 15, 18, 21, 24, 27, 30, 33 });
+    int8_t Result3_s8[24];
+    
+    CCSimdInterleaveStore_s8x8x3(Result3_s8, Poly_s8x8x3);
+    XCTAssertEqual(Result3_s8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[15], 25, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[16], 26, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[17], 27, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[18], 28, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[19], 29, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[20], 30, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[21], 31, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[22], 32, @"should contain the correct value");
+    XCTAssertEqual(Result3_s8[23], 33, @"should contain the correct value");
+    
+    CCSimd_s8x8x4 Poly_s8x8x4 = CCSimdInterleaveLoad_s8x8x4((int8_t[32]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 });
+    
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 3), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 4), 16, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 5), 20, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 6), 24, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[0], 7), 28, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 2), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 3), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 4), 17, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 5), 21, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 6), 25, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[1], 7), 29, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 3), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 4), 18, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 5), 22, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 6), 26, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[2], 7), 30, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 1), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 2), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 3), 15, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 4), 19, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 5), 23, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 6), 27, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s8x8(Poly_s8x8x4.v[3], 7), 31, @"should contain the correct value");
+    
+    Poly_s8x8x4.v[0] = CCSimdLoad_s8x8((int8_t[8]){ 10, 14, 18, 22, 26, 30, 34, 38 });
+    Poly_s8x8x4.v[1] = CCSimdLoad_s8x8((int8_t[8]){ 11, 15, 19, 23, 27, 31, 35, 39 });
+    Poly_s8x8x4.v[2] = CCSimdLoad_s8x8((int8_t[8]){ 12, 16, 20, 24, 28, 32, 36, 40 });
+    Poly_s8x8x4.v[3] = CCSimdLoad_s8x8((int8_t[8]){ 13, 17, 21, 25, 29, 33, 37, 41 });
+    int8_t Result4_s8[32];
+    
+    CCSimdInterleaveStore_s8x8x4(Result4_s8, Poly_s8x8x4);
+    XCTAssertEqual(Result4_s8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[15], 25, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[16], 26, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[17], 27, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[18], 28, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[19], 29, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[20], 30, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[21], 31, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[22], 32, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[23], 33, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[24], 34, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[25], 35, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[26], 36, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[27], 37, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[28], 38, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[29], 39, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[30], 40, @"should contain the correct value");
+    XCTAssertEqual(Result4_s8[31], 41, @"should contain the correct value");
+    
+    
+    uint8_t Result_u8[8];
+    CCSimd_u8x8 Vec_u8x8 = CCSimdLoad_u8x8((uint8_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    CCSimdStore_u8x8(Result_u8, Vec_u8x8);
+    XCTAssertEqual(Result_u8[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 4, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 7, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 1), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 2), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 3), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 4), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 5), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 6), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 7), 7, @"should contain the correct value");
+    
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 0, 8);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 1, 9);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 2, 10);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 3, 11);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 4, 12);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 5, 13);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 6, 14);
+    Vec_u8x8 = CCSimdSet_u8x8(Vec_u8x8, 7, 15);
+    
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 1), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 3), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 4), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 5), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 6), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Vec_u8x8, 7), 15, @"should contain the correct value");
+    
+    CCSimd_u8x8x2 Poly_u8x8x2 = CCSimdInterleaveLoad_u8x8x2((uint8_t[16]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+    
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 2), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 3), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 4), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 5), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 6), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[0], 7), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 2), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 3), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 4), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 5), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 6), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x2.v[1], 7), 15, @"should contain the correct value");
+    
+    Poly_u8x8x2.v[0] = CCSimdLoad_u8x8((uint8_t[8]){ 10, 12, 14, 16, 18, 20, 22, 24 });
+    Poly_u8x8x2.v[1] = CCSimdLoad_u8x8((uint8_t[8]){ 11, 13, 15, 17, 19, 21, 23, 25 });
+    uint8_t Result2_u8[16];
+    
+    CCSimdInterleaveStore_u8x8x2(Result2_u8, Poly_u8x8x2);
+    XCTAssertEqual(Result2_u8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result2_u8[15], 25, @"should contain the correct value");
+    
+    CCSimd_u8x8x3 Poly_u8x8x3 = CCSimdInterleaveLoad_u8x8x3((uint8_t[24]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 });
+    
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 2), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 3), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 4), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 5), 15, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 6), 18, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[0], 7), 21, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 2), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 3), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 4), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 5), 16, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 6), 19, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[1], 7), 22, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 3), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 4), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 5), 17, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 6), 20, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x3.v[2], 7), 23, @"should contain the correct value");
+    
+    Poly_u8x8x3.v[0] = CCSimdLoad_u8x8((uint8_t[8]){ 10, 13, 16, 19, 22, 25, 28, 31 });
+    Poly_u8x8x3.v[1] = CCSimdLoad_u8x8((uint8_t[8]){ 11, 14, 17, 20, 23, 26, 29, 32 });
+    Poly_u8x8x3.v[2] = CCSimdLoad_u8x8((uint8_t[8]){ 12, 15, 18, 21, 24, 27, 30, 33 });
+    uint8_t Result3_u8[24];
+    
+    CCSimdInterleaveStore_u8x8x3(Result3_u8, Poly_u8x8x3);
+    XCTAssertEqual(Result3_u8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[15], 25, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[16], 26, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[17], 27, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[18], 28, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[19], 29, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[20], 30, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[21], 31, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[22], 32, @"should contain the correct value");
+    XCTAssertEqual(Result3_u8[23], 33, @"should contain the correct value");
+    
+    CCSimd_u8x8x4 Poly_u8x8x4 = CCSimdInterleaveLoad_u8x8x4((uint8_t[32]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 });
+    
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 3), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 4), 16, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 5), 20, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 6), 24, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[0], 7), 28, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 2), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 3), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 4), 17, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 5), 21, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 6), 25, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[1], 7), 29, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 3), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 4), 18, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 5), 22, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 6), 26, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[2], 7), 30, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 1), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 2), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 3), 15, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 4), 19, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 5), 23, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 6), 27, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u8x8(Poly_u8x8x4.v[3], 7), 31, @"should contain the correct value");
+    
+    Poly_u8x8x4.v[0] = CCSimdLoad_u8x8((uint8_t[8]){ 10, 14, 18, 22, 26, 30, 34, 38 });
+    Poly_u8x8x4.v[1] = CCSimdLoad_u8x8((uint8_t[8]){ 11, 15, 19, 23, 27, 31, 35, 39 });
+    Poly_u8x8x4.v[2] = CCSimdLoad_u8x8((uint8_t[8]){ 12, 16, 20, 24, 28, 32, 36, 40 });
+    Poly_u8x8x4.v[3] = CCSimdLoad_u8x8((uint8_t[8]){ 13, 17, 21, 25, 29, 33, 37, 41 });
+    uint8_t Result4_u8[32];
+    
+    CCSimdInterleaveStore_u8x8x4(Result4_u8, Poly_u8x8x4);
+    XCTAssertEqual(Result4_u8[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[15], 25, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[16], 26, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[17], 27, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[18], 28, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[19], 29, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[20], 30, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[21], 31, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[22], 32, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[23], 33, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[24], 34, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[25], 35, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[26], 36, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[27], 37, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[28], 38, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[29], 39, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[30], 40, @"should contain the correct value");
+    XCTAssertEqual(Result4_u8[31], 41, @"should contain the correct value");
+    
+    
+    int16_t Result_s16[4];
+    CCSimd_s16x4 Vec_s16x4 = CCSimdLoad_s16x4((int16_t[4]){ 0, 1, 2, 3 });
+    
+    CCSimdStore_s16x4(Result_s16, Vec_s16x4);
+    XCTAssertEqual(Result_s16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 3, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 1), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 2), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 3), 3, @"should contain the correct value");
+    
+    Vec_s16x4 = CCSimdSet_s16x4(Vec_s16x4, 0, 8);
+    Vec_s16x4 = CCSimdSet_s16x4(Vec_s16x4, 1, 9);
+    Vec_s16x4 = CCSimdSet_s16x4(Vec_s16x4, 2, 10);
+    Vec_s16x4 = CCSimdSet_s16x4(Vec_s16x4, 3, 11);
+    
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 1), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Vec_s16x4, 3), 11, @"should contain the correct value");
+    
+    CCSimd_s16x4x2 Poly_s16x4x2 = CCSimdInterleaveLoad_s16x4x2((int16_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[0], 2), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[0], 3), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[1], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[1], 2), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x2.v[1], 3), 7, @"should contain the correct value");
+    
+    Poly_s16x4x2.v[0] = CCSimdLoad_s16x4((int16_t[4]){ 10, 12, 14, 16 });
+    Poly_s16x4x2.v[1] = CCSimdLoad_s16x4((int16_t[4]){ 11, 13, 15, 17 });
+    int16_t Result2_s16[8];
+    
+    CCSimdInterleaveStore_s16x4x2(Result2_s16, Poly_s16x4x2);
+    XCTAssertEqual(Result2_s16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result2_s16[7], 17, @"should contain the correct value");
+    
+    CCSimd_s16x4x3 Poly_s16x4x3 = CCSimdInterleaveLoad_s16x4x3((int16_t[12]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 });
+    
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[0], 2), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[0], 3), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[1], 2), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[1], 3), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[2], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[2], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x3.v[2], 3), 11, @"should contain the correct value");
+    
+    Poly_s16x4x3.v[0] = CCSimdLoad_s16x4((int16_t[4]){ 10, 13, 16, 19 });
+    Poly_s16x4x3.v[1] = CCSimdLoad_s16x4((int16_t[4]){ 11, 14, 17, 20 });
+    Poly_s16x4x3.v[2] = CCSimdLoad_s16x4((int16_t[4]){ 12, 15, 18, 21 });
+    int16_t Result3_s16[12];
+    
+    CCSimdInterleaveStore_s16x4x3(Result3_s16, Poly_s16x4x3);
+    XCTAssertEqual(Result3_s16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result3_s16[11], 21, @"should contain the correct value");
+    
+    CCSimd_s16x4x4 Poly_s16x4x4 = CCSimdInterleaveLoad_s16x4x4((int16_t[16]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+    
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[0], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[0], 3), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[1], 2), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[1], 3), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[2], 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[2], 3), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[3], 1), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[3], 2), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s16x4(Poly_s16x4x4.v[3], 3), 15, @"should contain the correct value");
+    
+    Poly_s16x4x4.v[0] = CCSimdLoad_s16x4((int16_t[4]){ 10, 14, 18, 22 });
+    Poly_s16x4x4.v[1] = CCSimdLoad_s16x4((int16_t[4]){ 11, 15, 19, 23 });
+    Poly_s16x4x4.v[2] = CCSimdLoad_s16x4((int16_t[4]){ 12, 16, 20, 24 });
+    Poly_s16x4x4.v[3] = CCSimdLoad_s16x4((int16_t[4]){ 13, 17, 21, 25 });
+    int16_t Result4_s16[16];
+    
+    CCSimdInterleaveStore_s16x4x4(Result4_s16, Poly_s16x4x4);
+    XCTAssertEqual(Result4_s16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result4_s16[15], 25, @"should contain the correct value");
+    
+    
+    uint16_t Result_u16[4];
+    CCSimd_u16x4 Vec_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 0, 1, 2, 3 });
+    
+    CCSimdStore_u16x4(Result_u16, Vec_u16x4);
+    XCTAssertEqual(Result_u16[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 3, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 1), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 2), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 3), 3, @"should contain the correct value");
+    
+    Vec_u16x4 = CCSimdSet_u16x4(Vec_u16x4, 0, 8);
+    Vec_u16x4 = CCSimdSet_u16x4(Vec_u16x4, 1, 9);
+    Vec_u16x4 = CCSimdSet_u16x4(Vec_u16x4, 2, 10);
+    Vec_u16x4 = CCSimdSet_u16x4(Vec_u16x4, 3, 11);
+    
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 1), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Vec_u16x4, 3), 11, @"should contain the correct value");
+    
+    CCSimd_u16x4x2 Poly_u16x4x2 = CCSimdInterleaveLoad_u16x4x2((uint16_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[0], 2), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[0], 3), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[1], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[1], 2), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x2.v[1], 3), 7, @"should contain the correct value");
+    
+    Poly_u16x4x2.v[0] = CCSimdLoad_u16x4((uint16_t[4]){ 10, 12, 14, 16 });
+    Poly_u16x4x2.v[1] = CCSimdLoad_u16x4((uint16_t[4]){ 11, 13, 15, 17 });
+    uint16_t Result2_u16[8];
+    
+    CCSimdInterleaveStore_u16x4x2(Result2_u16, Poly_u16x4x2);
+    XCTAssertEqual(Result2_u16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result2_u16[7], 17, @"should contain the correct value");
+    
+    CCSimd_u16x4x3 Poly_u16x4x3 = CCSimdInterleaveLoad_u16x4x3((uint16_t[12]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 });
+    
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[0], 2), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[0], 3), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[1], 2), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[1], 3), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[2], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[2], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x3.v[2], 3), 11, @"should contain the correct value");
+    
+    Poly_u16x4x3.v[0] = CCSimdLoad_u16x4((uint16_t[4]){ 10, 13, 16, 19 });
+    Poly_u16x4x3.v[1] = CCSimdLoad_u16x4((uint16_t[4]){ 11, 14, 17, 20 });
+    Poly_u16x4x3.v[2] = CCSimdLoad_u16x4((uint16_t[4]){ 12, 15, 18, 21 });
+    uint16_t Result3_u16[12];
+    
+    CCSimdInterleaveStore_u16x4x3(Result3_u16, Poly_u16x4x3);
+    XCTAssertEqual(Result3_u16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result3_u16[11], 21, @"should contain the correct value");
+    
+    CCSimd_u16x4x4 Poly_u16x4x4 = CCSimdInterleaveLoad_u16x4x4((uint16_t[16]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+    
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[0], 2), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[0], 3), 12, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[1], 2), 9, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[1], 3), 13, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[2], 2), 10, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[2], 3), 14, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[3], 1), 7, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[3], 2), 11, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u16x4(Poly_u16x4x4.v[3], 3), 15, @"should contain the correct value");
+    
+    Poly_u16x4x4.v[0] = CCSimdLoad_u16x4((uint16_t[4]){ 10, 14, 18, 22 });
+    Poly_u16x4x4.v[1] = CCSimdLoad_u16x4((uint16_t[4]){ 11, 15, 19, 23 });
+    Poly_u16x4x4.v[2] = CCSimdLoad_u16x4((uint16_t[4]){ 12, 16, 20, 24 });
+    Poly_u16x4x4.v[3] = CCSimdLoad_u16x4((uint16_t[4]){ 13, 17, 21, 25 });
+    uint16_t Result4_u16[16];
+    
+    CCSimdInterleaveStore_u16x4x4(Result4_u16, Poly_u16x4x4);
+    XCTAssertEqual(Result4_u16[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[7], 17, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[8], 18, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[9], 19, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[10], 20, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[11], 21, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[12], 22, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[13], 23, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[14], 24, @"should contain the correct value");
+    XCTAssertEqual(Result4_u16[15], 25, @"should contain the correct value");
+    
+    
+    int32_t Result_s32[2];
+    CCSimd_s32x2 Vec_s32x2 = CCSimdLoad_s32x2((int32_t[2]){ 0, 1 });
+    
+    CCSimdStore_s32x2(Result_s32, Vec_s32x2);
+    XCTAssertEqual(Result_s32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 1, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_s32x2(Vec_s32x2, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Vec_s32x2, 1), 1, @"should contain the correct value");
+    
+    Vec_s32x2 = CCSimdSet_s32x2(Vec_s32x2, 0, 8);
+    Vec_s32x2 = CCSimdSet_s32x2(Vec_s32x2, 1, 9);
+    
+    XCTAssertEqual(CCSimdGet_s32x2(Vec_s32x2, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Vec_s32x2, 1), 9, @"should contain the correct value");
+    
+    CCSimd_s32x2x2 Poly_s32x2x2 = CCSimdInterleaveLoad_s32x2x2((int32_t[4]){ 0, 1, 2, 3 });
+    
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x2.v[1], 1), 3, @"should contain the correct value");
+    
+    Poly_s32x2x2.v[0] = CCSimdLoad_s32x2((int32_t[2]){ 10, 12 });
+    Poly_s32x2x2.v[1] = CCSimdLoad_s32x2((int32_t[2]){ 11, 13 });
+    int32_t Result2_s32[4];
+    
+    CCSimdInterleaveStore_s32x2x2(Result2_s32, Poly_s32x2x2);
+    XCTAssertEqual(Result2_s32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_s32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_s32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_s32[3], 13, @"should contain the correct value");
+    
+    CCSimd_s32x2x3 Poly_s32x2x3 = CCSimdInterleaveLoad_s32x2x3((int32_t[6]){ 0, 1, 2, 3, 4, 5 });
+    
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x3.v[2], 1), 5, @"should contain the correct value");
+    
+    Poly_s32x2x3.v[0] = CCSimdLoad_s32x2((int32_t[2]){ 10, 13 });
+    Poly_s32x2x3.v[1] = CCSimdLoad_s32x2((int32_t[2]){ 11, 14 });
+    Poly_s32x2x3.v[2] = CCSimdLoad_s32x2((int32_t[2]){ 12, 15 });
+    int32_t Result3_s32[6];
+    
+    CCSimdInterleaveStore_s32x2x3(Result3_s32, Poly_s32x2x3);
+    XCTAssertEqual(Result3_s32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_s32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_s32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_s32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_s32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_s32[5], 15, @"should contain the correct value");
+    
+    CCSimd_s32x2x4 Poly_s32x2x4 = CCSimdInterleaveLoad_s32x2x4((int32_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_s32x2(Poly_s32x2x4.v[3], 1), 7, @"should contain the correct value");
+    
+    Poly_s32x2x4.v[0] = CCSimdLoad_s32x2((int32_t[2]){ 10, 14 });
+    Poly_s32x2x4.v[1] = CCSimdLoad_s32x2((int32_t[2]){ 11, 15 });
+    Poly_s32x2x4.v[2] = CCSimdLoad_s32x2((int32_t[2]){ 12, 16 });
+    Poly_s32x2x4.v[3] = CCSimdLoad_s32x2((int32_t[2]){ 13, 17 });
+    int32_t Result4_s32[8];
+    
+    CCSimdInterleaveStore_s32x2x4(Result4_s32, Poly_s32x2x4);
+    XCTAssertEqual(Result4_s32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_s32[7], 17, @"should contain the correct value");
+    
+    
+    uint32_t Result_u32[2];
+    CCSimd_u32x2 Vec_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 0, 1 });
+    
+    CCSimdStore_u32x2(Result_u32, Vec_u32x2);
+    XCTAssertEqual(Result_u32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_u32x2(Vec_u32x2, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Vec_u32x2, 1), 1, @"should contain the correct value");
+    
+    Vec_u32x2 = CCSimdSet_u32x2(Vec_u32x2, 0, 8);
+    Vec_u32x2 = CCSimdSet_u32x2(Vec_u32x2, 1, 9);
+    
+    XCTAssertEqual(CCSimdGet_u32x2(Vec_u32x2, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Vec_u32x2, 1), 9, @"should contain the correct value");
+    
+    CCSimd_u32x2x2 Poly_u32x2x2 = CCSimdInterleaveLoad_u32x2x2((uint32_t[4]){ 0, 1, 2, 3 });
+    
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x2.v[1], 1), 3, @"should contain the correct value");
+    
+    Poly_u32x2x2.v[0] = CCSimdLoad_u32x2((uint32_t[2]){ 10, 12 });
+    Poly_u32x2x2.v[1] = CCSimdLoad_u32x2((uint32_t[2]){ 11, 13 });
+    uint32_t Result2_u32[4];
+    
+    CCSimdInterleaveStore_u32x2x2(Result2_u32, Poly_u32x2x2);
+    XCTAssertEqual(Result2_u32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_u32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_u32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_u32[3], 13, @"should contain the correct value");
+    
+    CCSimd_u32x2x3 Poly_u32x2x3 = CCSimdInterleaveLoad_u32x2x3((uint32_t[6]){ 0, 1, 2, 3, 4, 5 });
+    
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x3.v[2], 1), 5, @"should contain the correct value");
+    
+    Poly_u32x2x3.v[0] = CCSimdLoad_u32x2((uint32_t[2]){ 10, 13 });
+    Poly_u32x2x3.v[1] = CCSimdLoad_u32x2((uint32_t[2]){ 11, 14 });
+    Poly_u32x2x3.v[2] = CCSimdLoad_u32x2((uint32_t[2]){ 12, 15 });
+    uint32_t Result3_u32[6];
+    
+    CCSimdInterleaveStore_u32x2x3(Result3_u32, Poly_u32x2x3);
+    XCTAssertEqual(Result3_u32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_u32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_u32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_u32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_u32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_u32[5], 15, @"should contain the correct value");
+    
+    CCSimd_u32x2x4 Poly_u32x2x4 = CCSimdInterleaveLoad_u32x2x4((uint32_t[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_u32x2(Poly_u32x2x4.v[3], 1), 7, @"should contain the correct value");
+    
+    Poly_u32x2x4.v[0] = CCSimdLoad_u32x2((uint32_t[2]){ 10, 14 });
+    Poly_u32x2x4.v[1] = CCSimdLoad_u32x2((uint32_t[2]){ 11, 15 });
+    Poly_u32x2x4.v[2] = CCSimdLoad_u32x2((uint32_t[2]){ 12, 16 });
+    Poly_u32x2x4.v[3] = CCSimdLoad_u32x2((uint32_t[2]){ 13, 17 });
+    uint32_t Result4_u32[8];
+    
+    CCSimdInterleaveStore_u32x2x4(Result4_u32, Poly_u32x2x4);
+    XCTAssertEqual(Result4_u32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_u32[7], 17, @"should contain the correct value");
+    
+    
+    float Result_f32[2];
+    CCSimd_f32x2 Vec_f32x2 = CCSimdLoad_f32x2((float[2]){ 0, 1 });
+    
+    CCSimdStore_f32x2(Result_f32, Vec_f32x2);
+    XCTAssertEqual(Result_f32[0], 0, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 1, @"should contain the correct value");
+    
+    XCTAssertEqual(CCSimdGet_f32x2(Vec_f32x2, 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Vec_f32x2, 1), 1, @"should contain the correct value");
+    
+    Vec_f32x2 = CCSimdSet_f32x2(Vec_f32x2, 0, 8);
+    Vec_f32x2 = CCSimdSet_f32x2(Vec_f32x2, 1, 9);
+    
+    XCTAssertEqual(CCSimdGet_f32x2(Vec_f32x2, 0), 8, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Vec_f32x2, 1), 9, @"should contain the correct value");
+    
+    CCSimd_f32x2x2 Poly_f32x2x2 = CCSimdInterleaveLoad_f32x2x2((float[4]){ 0, 1, 2, 3 });
+    
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x2.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x2.v[0], 1), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x2.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x2.v[1], 1), 3, @"should contain the correct value");
+    
+    Poly_f32x2x2.v[0] = CCSimdLoad_f32x2((float[2]){ 10, 12 });
+    Poly_f32x2x2.v[1] = CCSimdLoad_f32x2((float[2]){ 11, 13 });
+    float Result2_f32[4];
+    
+    CCSimdInterleaveStore_f32x2x2(Result2_f32, Poly_f32x2x2);
+    XCTAssertEqual(Result2_f32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result2_f32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result2_f32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result2_f32[3], 13, @"should contain the correct value");
+    
+    CCSimd_f32x2x3 Poly_f32x2x3 = CCSimdInterleaveLoad_f32x2x3((float[6]){ 0, 1, 2, 3, 4, 5 });
+    
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[0], 1), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[1], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x3.v[2], 1), 5, @"should contain the correct value");
+    
+    Poly_f32x2x3.v[0] = CCSimdLoad_f32x2((float[2]){ 10, 13 });
+    Poly_f32x2x3.v[1] = CCSimdLoad_f32x2((float[2]){ 11, 14 });
+    Poly_f32x2x3.v[2] = CCSimdLoad_f32x2((float[2]){ 12, 15 });
+    float Result3_f32[6];
+    
+    CCSimdInterleaveStore_f32x2x3(Result3_f32, Poly_f32x2x3);
+    XCTAssertEqual(Result3_f32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result3_f32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result3_f32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result3_f32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result3_f32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result3_f32[5], 15, @"should contain the correct value");
+    
+    CCSimd_f32x2x4 Poly_f32x2x4 = CCSimdInterleaveLoad_f32x2x4((float[8]){ 0, 1, 2, 3, 4, 5, 6, 7 });
+    
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[0], 0), 0, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[0], 1), 4, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[1], 0), 1, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[1], 1), 5, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[2], 0), 2, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[2], 1), 6, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[3], 0), 3, @"should contain the correct value");
+    XCTAssertEqual(CCSimdGet_f32x2(Poly_f32x2x4.v[3], 1), 7, @"should contain the correct value");
+    
+    Poly_f32x2x4.v[0] = CCSimdLoad_f32x2((float[2]){ 10, 14 });
+    Poly_f32x2x4.v[1] = CCSimdLoad_f32x2((float[2]){ 11, 15 });
+    Poly_f32x2x4.v[2] = CCSimdLoad_f32x2((float[2]){ 12, 16 });
+    Poly_f32x2x4.v[3] = CCSimdLoad_f32x2((float[2]){ 13, 17 });
+    float Result4_f32[8];
+    
+    CCSimdInterleaveStore_f32x2x4(Result4_f32, Poly_f32x2x4);
+    XCTAssertEqual(Result4_f32[0], 10, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[1], 11, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[2], 12, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[4], 14, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[5], 15, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[6], 16, @"should contain the correct value");
+    XCTAssertEqual(Result4_f32[7], 17, @"should contain the correct value");
+}
+
 -(void) testTrigonometry
 {
 #define DEGREES_TO_RADIANS(x) ((x) * M_PI / 180.0f)
