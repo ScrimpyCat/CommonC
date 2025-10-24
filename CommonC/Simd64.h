@@ -90,146 +90,825 @@ typedef struct { CCSimd_f32x2 v[3]; } CCSimd_f32x2x3;
 typedef struct { CCSimd_f32x2 v[4]; } CCSimd_f32x2x4;
 
 
+#pragma mark - Setting and Getting
+#pragma mark Zero
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdZero_s8x8(void);
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdZero_s16x4(void);
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdZero_s32x2(void);
 
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdZero_u8x8(void);
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdZero_u16x4(void);
+
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdZero_u32x2(void);
 
+/*!
+ * @brief Initialise a vector with all zeroes.
+ * @return The vector filled with zeroes.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdZero_f32x2(void);
 
 
+#pragma mark Fill
+
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdFill_s8x8(const int8_t v);
+
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdFill_s16x4(const int16_t v);
+
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdFill_s32x2(const int32_t v);
 
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdFill_u8x8(const uint8_t v);
+
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdFill_u16x4(const uint16_t v);
+
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdFill_u32x2(const uint32_t v);
 
+/*!
+ * @brief Initialise a vector all elements set to @b v.
+ * @param v The value to fill the vector with.
+ * @return The filled vector.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdFill_f32x2(const float v);
 
 
+#pragma mark Load
+
+/*!
+ * @brief Load a vector from memory.
+ * @param v The data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdLoad_s8x8(const int8_t v[8]);
+
+/*!
+ * @brief Load a vector from memory.
+ * @param v The data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdLoad_s16x4(const int16_t v[4]);
+
+/*!
+ * @brief Load a vector from memory.
+ * @param v A pointer to the data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLoad_s32x2(const int32_t v[2]);
 
+/*!
+ * @brief Load a vector from memory.
+ * @param v A pointer to the data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdLoad_u8x8(const uint8_t v[8]);
+
+/*!
+ * @brief Load a vector from memory.
+ * @param v A pointer to the data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdLoad_u16x4(const uint16_t v[4]);
+
+/*!
+ * @brief Load a vector from memory.
+ * @param v A pointer to the data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLoad_u32x2(const uint32_t v[2]);
 
+/*!
+ * @brief Load a vector from memory.
+ * @param v A pointer to the data to load into a vector.
+ * @return The vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLoad_f32x2(const float v[2]);
 
 
+#pragma mark Store
+
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src An 8 element vector of 8-bit signed integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_s8x8(int8_t dst[8], const CCSimd_s8x8 src);
+
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src A 4 element vector of 16-bit signed integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_s16x4(int16_t dst[4], const CCSimd_s16x4 src);
+
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src A 2 element vector of 32-bit signed integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_s32x2(int32_t dst[2], const CCSimd_s32x2 src);
 
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src An 8 element vector of 8-bit unsigned integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_u8x8(uint8_t dst[8], const CCSimd_u8x8 src);
+
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src A 4 element vector of 16-bit unsigned integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_u16x4(uint16_t dst[4], const CCSimd_u16x4 src);
+
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src A 2 element vector of 32-bit unsigned integers to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_u32x2(uint32_t dst[2], const CCSimd_u32x2 src);
 
+/*!
+ * @brief Store a vector to memory.
+ * @param dst A pointer to where the vector data should be stored.
+ * @param src A 2 element vector of 32-bit floats to store.
+ */
 static CC_FORCE_INLINE void CCSimdStore_f32x2(float dst[2], const CCSimd_f32x2 src);
 
 
+#pragma mark Interleaved Loads
+#pragma mark 2 Vector Interleaved Load
+
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8x2 CCSimdInterleaveLoad_s8x8x2(const int8_t v[16]);
+
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4x2 CCSimdInterleaveLoad_s16x4x2(const int16_t v[8]);
+
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2x2 CCSimdInterleaveLoad_s32x2x2(const int32_t v[4]);
 
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8x2 CCSimdInterleaveLoad_u8x8x2(const uint8_t v[16]);
+
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4x2 CCSimdInterleaveLoad_u16x4x2(const uint16_t v[8]);
+
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2x2 CCSimdInterleaveLoad_u32x2x2(const uint32_t v[4]);
 
+/*!
+ * @brief Load 2 vectors from interleaved memory.
+ * @param v The interleaved data to load into 2 vectors. Every [(index % 2) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 2) + 1] element will be loaded
+ *          into poly vector[1].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2x2 CCSimdInterleaveLoad_f32x2x2(const float v[4]);
 
 
+#pragma mark 3 Vector Interleaved Load
+
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8x3 CCSimdInterleaveLoad_s8x8x3(const int8_t v[24]);
+
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4x3 CCSimdInterleaveLoad_s16x4x3(const int16_t v[12]);
+
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2x3 CCSimdInterleaveLoad_s32x2x3(const int32_t v[6]);
 
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8x3 CCSimdInterleaveLoad_u8x8x3(const uint8_t v[24]);
+
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4x3 CCSimdInterleaveLoad_u16x4x3(const uint16_t v[12]);
+
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2x3 CCSimdInterleaveLoad_u32x2x3(const uint32_t v[6]);
 
+/*!
+ * @brief Load 3 vectors from interleaved memory.
+ * @param v The interleaved data to load into 3 vectors. Every [(index % 3) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 3) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 3) + 2] element will be loaded into poly
+ *          vector[2].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2x3 CCSimdInterleaveLoad_f32x2x3(const float v[6]);
 
 
+#pragma mark 4 Vector Interleaved Load
+
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8x4 CCSimdInterleaveLoad_s8x8x4(const int8_t v[32]);
+
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4x4 CCSimdInterleaveLoad_s16x4x4(const int16_t v[16]);
+
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2x4 CCSimdInterleaveLoad_s32x2x4(const int32_t v[8]);
 
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8x4 CCSimdInterleaveLoad_u8x8x4(const uint8_t v[32]);
+
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4x4 CCSimdInterleaveLoad_u16x4x4(const uint16_t v[16]);
+
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2x4 CCSimdInterleaveLoad_u32x2x4(const uint32_t v[8]);
 
+/*!
+ * @brief Load 4 vectors from interleaved memory.
+ * @param v The interleaved data to load into 4 vectors. Every [(index % 4) + 0] element will
+ *          be loaded into poly vector[0], every [(index % 4) + 1] element will be loaded
+ *          into poly vector[1], every [(index % 4) + 2] element will be loaded into poly
+ *          vector[2], every [(index % 4) + 3] element will be loaded into poly vector[3].
+ *
+ * @return The poly vector with the loaded data.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2x4 CCSimdInterleaveLoad_f32x2x4(const float v[8]);
 
 
+#pragma mark Interleaved Stores
+#pragma mark 2 Vector Interleaved Store
+
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x2(int8_t dst[16], const CCSimd_s8x8x2 src);
+
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x2(int16_t dst[8], const CCSimd_s16x4x2 src);
+
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit signed integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x2(int32_t dst[4], const CCSimd_s32x2x2 src);
 
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit unsigned integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x2(uint8_t dst[16], const CCSimd_u8x8x2 src);
+
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit unsigned integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x2(uint16_t dst[8], const CCSimd_u16x4x2 src);
+
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit unsigned integers to store. Every poly
+ *            vector[index % 2] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x2(uint32_t dst[4], const CCSimd_u32x2x2 src);
 
+/*!
+ * @brief Store 2 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit floats to store. Every poly  vector[index % 2]
+ *            will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x2(float dst[4], const CCSimd_f32x2x2 src);
 
 
+#pragma mark 3 Vector Interleaved Store
+
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x3(int8_t dst[24], const CCSimd_s8x8x3 src);
+
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x3(int16_t dst[12], const CCSimd_s16x4x3 src);
+
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit signed integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x3(int32_t dst[6], const CCSimd_s32x2x3 src);
 
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit unsigned integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x3(uint8_t dst[24], const CCSimd_u8x8x3 src);
+
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit unsigned integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x3(uint16_t dst[12], const CCSimd_u16x4x3 src);
+
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit unsigned integers to store. Every poly
+ *            vector[index % 3] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x3(uint32_t dst[6], const CCSimd_u32x2x3 src);
 
+/*!
+ * @brief Store 3 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit floats to store. Every poly vector[index % 3]
+ *            will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x3(float dst[6], const CCSimd_f32x2x3 src);
 
 
+#pragma mark 3 Vector Interleaved Store
+
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x4(int8_t dst[32], const CCSimd_s8x8x4 src);
+
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x4(int16_t dst[16], const CCSimd_s16x4x4 src);
+
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit signed integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x4(int32_t dst[8], const CCSimd_s32x2x4 src);
 
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x4(uint8_t dst[32], const CCSimd_u8x8x4 src);
+
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x4(uint16_t dst[16], const CCSimd_u16x4x4 src);
+
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit unsigned integers to store. Every poly
+ *            vector[index % 4] will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x4(uint32_t dst[8], const CCSimd_u32x2x4 src);
 
+/*!
+ * @brief Store 4 vectors by interleaving them into memory.
+ * @param dst A pointer to where the interleaved vector data should be stored.
+ * @param src Two 2 element vectors of 32-bit floats to store. Every poly vector[index % 4]
+ *            will be stored at [index].
+ */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x4(float dst[8], const CCSimd_f32x2x4 src);
 
 
+#pragma mark Get Element
+
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 8 element vector of 8-bit signed integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE int8_t CCSimdGet_s8x8(const CCSimd_s8x8 a, uint8_t index);
+
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 4 element vector of 16-bit signed integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE int16_t CCSimdGet_s16x4(const CCSimd_s16x4 a, uint8_t index);
+
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit signed integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE int32_t CCSimdGet_s32x2(const CCSimd_s32x2 a, uint8_t index);
 
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 8 element vector of 8-bit unsigned integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE uint8_t CCSimdGet_u8x8(const CCSimd_u8x8 a, uint8_t index);
+
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 4 element vector of 16-bit unsigned integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE uint16_t CCSimdGet_u16x4(const CCSimd_u16x4 a, uint8_t index);
+
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit unsigned integers.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE uint32_t CCSimdGet_u32x2(const CCSimd_u32x2 a, uint8_t index);
 
+/*!
+ * @brief Get the element at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit floats.
+ * @param index The index of the element to get.
+ * @return The element.
+ */
 static CC_FORCE_INLINE float CCSimdGet_f32x2(const CCSimd_f32x2 a, uint8_t index);
 
 
+#pragma mark Set Element
+
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 8 element vector of 8-bit signed integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdSet_s8x8(const CCSimd_s8x8 a, uint8_t index, int8_t v);
+
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 4 element vector of 16-bit signed integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdSet_s16x4(const CCSimd_s16x4 a, uint8_t index, int16_t v);
+
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit signed integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdSet_s32x2(const CCSimd_s32x2 a, uint8_t index, int32_t v);
 
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 8 element vector of 8-bit unsigned integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdSet_u8x8(const CCSimd_u8x8 a, uint8_t index, uint8_t v);
+
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 4 element vector of 16-bit unsigned integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdSet_u16x4(const CCSimd_u16x4 a, uint8_t index, uint16_t v);
+
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit unsigned integers.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSet_u32x2(const CCSimd_u32x2 a, uint8_t index, uint32_t v);
 
+/*!
+ * @brief Set the element to @b v at @b index in vector @b a.
+ * @param a The 2 element vector of 32-bit floats.
+ * @param index The index of the element to set.
+ * @param v The value to set the element to.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSet_f32x2(const CCSimd_f32x2 a, uint8_t index, float v);
 
 
+#pragma mark Set Sequence
+
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 8 element vector of 8-bit signed integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @param v2 Whether the element should be set (1) or not (0).
+ * @param v3 Whether the element should be set (1) or not (0).
+ * @param v4 Whether the element should be set (1) or not (0).
+ * @param v5 Whether the element should be set (1) or not (0).
+ * @param v6 Whether the element should be set (1) or not (0).
+ * @param v7 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdSetSequence_s8x8(const CCSimd_s8x8 a, int8_t v, _Bool v0, _Bool v1, _Bool v2, _Bool v3, _Bool v4, _Bool v5, _Bool v6, _Bool v7);
+
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 4 element vector of 16-bit signed integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @param v2 Whether the element should be set (1) or not (0).
+ * @param v3 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdSetSequence_s16x4(const CCSimd_s16x4 a, int16_t v, _Bool v0, _Bool v1, _Bool v2, _Bool v3);
+
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 2 element vector of 32-bit signed integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdSetSequence_s32x2(const CCSimd_s32x2 a, int32_t v, _Bool v0, _Bool v1);
 
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 8 element vector of 8-bit unsigned integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @param v2 Whether the element should be set (1) or not (0).
+ * @param v3 Whether the element should be set (1) or not (0).
+ * @param v4 Whether the element should be set (1) or not (0).
+ * @param v5 Whether the element should be set (1) or not (0).
+ * @param v6 Whether the element should be set (1) or not (0).
+ * @param v7 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdSetSequence_u8x8(const CCSimd_u8x8 a, uint8_t v, _Bool v0, _Bool v1, _Bool v2, _Bool v3, _Bool v4, _Bool v5, _Bool v6, _Bool v7);
+
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 4 element vector of 16-bit unsigned integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @param v2 Whether the element should be set (1) or not (0).
+ * @param v3 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdSetSequence_u16x4(const CCSimd_u16x4 a, uint16_t v, _Bool v0, _Bool v1, _Bool v2, _Bool v3);
+
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 2 element vector of 32-bit unsigned integers.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSetSequence_u32x2(const CCSimd_u32x2 a, uint32_t v, _Bool v0, _Bool v1);
 
+/*!
+ * @brief Set the elements specified to @b v in vector @b a.
+ * @param a The 2 element vector of 32-bit floats.
+ * @param v The value to set the elements to.
+ * @param v0 Whether the element should be set (1) or not (0).
+ * @param v1 Whether the element should be set (1) or not (0).
+ * @return The set vector.
+ */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSetSequence_f32x2(const CCSimd_f32x2 a, float v, _Bool v0, _Bool v1);
 
 
