@@ -6018,100 +6018,100 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES
         case 8: return vtrn1_##base(a, vdup_lane_##base(a, 0)); \
         case 9: return vtrn1_##base(a, vzip1_##base(a, a)); \
         case 10: return vtrn1_##base(a, a); /* vext_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 2), 2); */ \
-        case 11: return vset_lane_##base(vget_lane_##base(a, 0), a, 1); \
-        case 12: return vset_lane_##base(vget_lane_##base(a, 3), vdup_lane_##base(a, 0), 2); \
-        case 13: return vset_lane_##base(vget_lane_##base(a, 3), vzip1_##base(a, a), 2); \
-        case 14: return vset_lane_##base(vget_lane_##base(a, 0), vrev32_##base(a), 0); \
+        case 11: return vcopy_lane_##base(a, 1, a, 0); \
+        case 12: return vcopy_lane_##base(vdup_lane_##base(a, 0), 2, a, 3); \
+        case 13: return vcopy_lane_##base(vzip1_##base(a, a), 2, a, 3); \
+        case 14: return vcopy_lane_##base(vrev32_##base(a), 0, a, 0); \
         case 15: return vext_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 3), 2); \
         case 16: return vzip2_##base(vdup_lane_##base(a, 0), vrev64_##base(a)); \
         case 17: return vreinterpret_##base##_##kind##32(vdup_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0)); /* vreinterpret_##base##_##kind##32(vzip1_##kind##32(vreinterpret_##kind##32_##base(a), vreinterpret_##kind##32_##base(a))); // vtrn1_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 1)); */ \
-        case 18: return vset_lane_##base(vget_lane_##base(a, 1), vuzp1_##base(a, a), 1); \
-        case 19: return vset_lane_##base(vget_lane_##base(a, 0), a, 2); /* vtrn2_##base(vdup_lane_##base(a, 0), a); // vext_##base(vrev64_##base(a), vrev32_##base(a), 3); */ \
+        case 18: return vcopy_lane_##base(vuzp1_##base(a, a), 1, a, 1); \
+        case 19: return vcopy_lane_##base(a, 2, a, 0); /* vtrn2_##base(vdup_lane_##base(a, 0), a); // vext_##base(vrev64_##base(a), vrev32_##base(a), 3); */ \
         case 20: return vzip1_##base(a, vrev32_##base(a)); \
         case 21: return vzip1_##base(a, vdup_lane_##base(a, 1)); /* vset_lane_##base(vget_lane_##base(a, 1), vzip1_##base(a, a), 1); */ \
         case 22: return vzip1_##base(a, vext_##base(a, a, 1)); \
-        case 23: return vset_lane_##base(vget_lane_##base(a, 1), a, 2); \
-        case 24: return vset_lane_##base(vget_lane_##base(a, 0), a, 3); \
-        case 25: return vset_lane_##base(vget_lane_##base(a, 1), a, 3); /* vtrn1_##base(a, vdup_lane_##base(a, 1)); */ \
-        case 26: return vset_lane_##base(vget_lane_##base(a, 2), a, 3); \
+        case 23: return vcopy_lane_##base(a, 2, a, 1); \
+        case 24: return vcopy_lane_##base(a, 3, a, 0); \
+        case 25: return vcopy_lane_##base(a, 3, a, 1); /* vtrn1_##base(a, vdup_lane_##base(a, 1)); */ \
+        case 26: return vcopy_lane_##base(a, 3, a, 2); \
         case 27: return a; \
-        case 28: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0), vreinterpret_##kind##32_##base(vext_##base(a, a, 1)), 0)); \
-        case 29: return vset_lane_##base(vget_lane_##base(a, 3), vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0), vreinterpret_##kind##32_##base(a), 1)), 2); \
-        case 30: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0), vreinterpret_##kind##32_##base(vrev32_##base(a)), 0)); \
-        case 31: return vset_lane_##base(vget_lane_##base(a, 3), a, 2); \
+        case 28: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vext_##base(a, a, 1)), 0, vreinterpret_##kind##32_##base(a), 0)); \
+        case 29: return vcopy_lane_##base(vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1, vreinterpret_##kind##32_##base(a), 0)), 2, a, 3); \
+        case 30: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vrev32_##base(a)), 0, vreinterpret_##kind##32_##base(a), 0)); \
+        case 31: return vcopy_lane_##base(a, 2, a, 3); \
         case 32: return vuzp1_##base(a, vdup_lane_##base(a, 0)); \
-        case 33: return vset_lane_##base(vget_lane_##base(a, 1), vuzp1_##base(a, a), 3); \
+        case 33: return vcopy_lane_##base(vuzp1_##base(a, a), 3, a, 1); \
         case 34: return vuzp1_##base(a, a); \
         case 35: return vzip2_##base(vdup_lane_##base(a, 0), a); \
-        case 36: return vset_lane_##base(vget_lane_##base(a, 0), vrev64_##base(a), 0); \
+        case 36: return vcopy_lane_##base(vrev64_##base(a), 0, a, 0); \
         case 37: return vuzp1_##base(a, vdup_lane_##base(a, 1)); \
         case 38: return vzip1_##base(a, vdup_lane_##base(a, 2)); \
         case 39: return vuzp2_##base(vrev32_##base(a), a); /* vuzp1_##base(a, vrev32_##base(a)); */ \
         case 40: return vuzp1_##base(a, vext_##base(a, a, 2)); /* vuzp2_##base(vrev32_##base(a), vrev64_##base(a)); */ \
-        case 41: return vset_lane_##base(vget_lane_##base(a, 1), vset_lane_##base(vget_lane_##base(a, 2), a, 1), 3); \
+        case 41: return vcopy_lane_##base(vcopy_lane_##base(a, 1, a, 2), 3, a, 1); \
         case 42: return vuzp1_##base(a, vdup_lane_##base(a, 2)); /* vtrn1_##base(a, vdup_lane_##base(a, 2)); */ \
-        case 43: return vset_lane_##base(vget_lane_##base(a, 2), a, 1); \
-        case 44: return vset_lane_##base(vget_lane_##base(a, 0), vext_##base(a, a, 1), 0); \
+        case 43: return vcopy_lane_##base(a, 1, a, 2); \
+        case 44: return vcopy_lane_##base(vext_##base(a, a, 1), 0, a, 0); \
         case 45: return vuzp1_##base(a, vrev64_##base(a)); \
-        case 46: return vset_lane_##base(vget_lane_##base(a, 3), vuzp1_##base(a, a), 2); \
+        case 46: return vcopy_lane_##base(vuzp1_##base(a, a), 2, a, 3); \
         case 47: return vuzp1_##base(a, vdup_lane_##base(a, 3)); \
-        case 48: return vset_lane_##base(vget_lane_##base(a, 3), vdup_lane_##base(a, 0), 1); \
+        case 48: return vcopy_lane_##base(vdup_lane_##base(a, 0), 1, a, 3); \
         case 49: return vtrn1_##base(vdup_lane_##base(a, 0), vrev64_##base(a)); \
         case 50: return vzip1_##base(vdup_lane_##base(a, 0), vrev64_##base(a)); \
         case 51: return vtrn1_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 3)); /* vtrn2_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 3)); */ \
         case 52: return vzip1_##base(a, vext_##base(a, a, 3)); \
-        case 53: return vset_lane_##base(vget_lane_##base(a, 3), vzip1_##base(a, a), 1); \
+        case 53: return vcopy_lane_##base(vzip1_##base(a, a), 1, a, 3); \
         case 54: return vzip1_##base(a, vrev64_##base(a)); \
         case 55: return vzip1_##base(a, vdup_lane_##base(a, 3)); \
         case 56: return vext_##base(vrev32_##base(a), a, 1); \
         case 57: return vext_##base(vrev64_##base(a), vrev64_##base(a), 3); /* vtrn1_##base(a, vrev64_##base(a)); // vext_##base(vrev32_##base(a), vrev32_##base(a), 1); */ \
-        case 58: return vset_lane_##base(vget_lane_##base(a, 3), vtrn1_##base(a, a), 1); \
-        case 59: return vset_lane_##base(vget_lane_##base(a, 3), a, 1); /* vtrn1_##base(a, vdup_lane_##base(a, 3)); // vext_##base(vrev32_##base(a), vrev64_##base(a), 1); */ \
+        case 58: return vcopy_lane_##base(vtrn1_##base(a, a), 1, a, 3); \
+        case 59: return vcopy_lane_##base(a, 1, a, 3); /* vtrn1_##base(a, vdup_lane_##base(a, 3)); // vext_##base(vrev32_##base(a), vrev64_##base(a), 1); */ \
         case 60: return vzip1_##base(vzip1_##base(a, vext_##base(a, a, 3)), vext_##base(a, a, 3)); \
         case 61: return vuzp1_##base(vuzp1_##base(a, vext_##base(a, a, 3)), vext_##base(a, a, 3)); \
         case 62: return vzip2_##base(vext_##base(vrev32_##base(a), vrev32_##base(a), 3), vrev32_##base(a)); \
         case 63: return vext_##base(vdup_lane_##base(a, 0), vdup_lane_##base(a, 3), 3); \
         case 64: return vzip2_##base(vrev64_##base(a), vdup_lane_##base(a, 0)); /* vzip1_##base(vrev32_##base(a), vdup_lane_##base(a, 0)); */ \
         case 65: return vzip1_##base(vrev32_##base(a), a); /* vext_##base(vrev64_##base(a), a, 2); */ \
-        case 66: return vset_lane_##base(vget_lane_##base(a, 0), vrev32_##base(a), 2); \
+        case 66: return vcopy_lane_##base(vrev32_##base(a), 2, a, 0); \
         case 67: return vext_##base(vzip1_##base(a, vext_##base(a, a, 3)), vzip1_##base(a, vext_##base(a, a, 3)), 2); \
         case 68: return vext_##base(vrev64_##base(a), vrev32_##base(a), 2); /* vtrn1_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 0)); */ \
         case 69: return vzip1_##base(vdup_lane_##base(a, 1), a); \
         case 70: return vext_##base(vdup_lane_##base(a, 1), a, 3); /* vtrn1_##base(vdup_lane_##base(a, 1), a); */ \
-        case 71: return vset_lane_##base(vget_lane_##base(a, 0), vuzp2_##base(a, a), 1); \
+        case 71: return vcopy_lane_##base(vuzp2_##base(a, a), 1, a, 0); \
         case 72: return vrev32_##base(vuzp1_##base(vzip1_##base(a, a), a)); /* vext_##base(vuzp1_##base(a, vzip1_##base(a, a)), vuzp1_##base(a, vzip1_##base(a, a)), 3); */ \
         case 73: return vzip1_##base(vext_##base(a, a, 1), a); \
-        case 74: return vset_lane_##base(vget_lane_##base(a, 2), vrev32_##base(a), 2); \
-        case 75: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1), vreinterpret_##kind##32_##base(vrev32_##base(a)), 1)); \
+        case 74: return vcopy_lane_##base(vrev32_##base(a), 2, a, 2); \
+        case 75: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vrev32_##base(a)), 1, vreinterpret_##kind##32_##base(a), 1)); \
         case 76: return vtrn2_##base(a, vdup_lane_##base(a, 0)); /* vtrn1_##base(vrev32_##base(a), vdup_lane_##base(a, 0)); */ \
-        case 77: return vset_lane_##base(vget_lane_##base(a, 1), vrev32_##base(a), 3); \
+        case 77: return vcopy_lane_##base(vrev32_##base(a), 3, a, 1); \
         case 78: return vext_##base(vrev64_##base(a), vrev64_##base(a), 2); /* vtrn1_##base(vrev32_##base(a), a); */ \
-        case 79: return vset_lane_##base(vget_lane_##base(a, 3), vrev32_##base(a), 3); \
+        case 79: return vcopy_lane_##base(vrev32_##base(a), 3, a, 3); \
         case 80: return vzip2_##base(vrev64_##base(a), vrev64_##base(a)); \
         case 81: return vext_##base(vdup_lane_##base(a, 1), a, 2); /* vzip2_##base(vrev64_##base(a), vdup_lane_##base(a, 1)); // vzip1_##base(vrev32_##base(a), vdup_lane_##base(a, 1)); */ \
         case 82: return vuzp1_##base(vdup_lane_##base(a, 1), a); \
-        case 83: return vset_lane_##base(vget_lane_##base(a, 0), vtrn2_##base(a, a), 2); \
+        case 83: return vcopy_lane_##base(vtrn2_##base(a, a), 2, a, 0); \
         case 84: return vext_##base(vdup_lane_##base(a, 1), a, 1); /* vzip2_##base(vdup_lane_##base(a, 1), vrev64_##base(a)); */ \
         case 85: return vdup_lane_##base(a, 1); \
         case 86: return vext_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 2), 1); \
         case 87: return vuzp2_##base(vdup_lane_##base(a, 1), a); /* vtrn2_##base(vdup_lane_##base(a, 1), a); */ \
-        case 88: return vset_lane_##base(vget_lane_##base(a, 0), vset_lane_##base(vget_lane_##base(a, 1), a, 0), 3); \
-        case 89: return vset_lane_##base(vget_lane_##base(a, 2), vdup_lane_##base(a, 1), 2); \
+        case 88: return vcopy_lane_##base(vcopy_lane_##base(a, 0, a, 1), 3, a, 0); \
+        case 89: return vcopy_lane_##base(vdup_lane_##base(a, 1), 2, a, 2); \
         case 90: return vext_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 2), 2); \
-        case 91: return vset_lane_##base(vget_lane_##base(a, 1), a, 0); \
-        case 92: return vset_lane_##base(vget_lane_##base(a, 1), vext_##base(a, a, 1), 1); \
+        case 91: return vcopy_lane_##base(a, 0, a, 1); \
+        case 92: return vcopy_lane_##base(vext_##base(a, a, 1), 1, a, 1); \
         case 93: return vtrn2_##base(a, vdup_lane_##base(a, 1)); /* vtrn1_##base(vrev32_##base(a), vdup_lane_##base(a, 1)); */ \
-        case 94: return vset_lane_##base(vget_lane_##base(a, 1), vrev32_##base(a), 1); \
+        case 94: return vcopy_lane_##base(vrev32_##base(a), 1, a, 1); \
         case 95: return vtrn2_##base(a, a); /* vext_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 3), 2); */ \
-        case 96: return vset_lane_##base(vget_lane_##base(a, 0), vext_##base(a, a, 1), 2); \
-        case 97: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0), vreinterpret_##kind##32_##base(vext_##base(a, a, 1)), 1)); \
+        case 96: return vcopy_lane_##base(vext_##base(a, a, 1), 2, a, 0); \
+        case 97: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vext_##base(a, a, 1)), 1, vreinterpret_##kind##32_##base(a), 0)); \
         case 98: return vzip2_##base(vrev64_##base(a), vdup_lane_##base(a, 2)); /* vzip1_##base(vrev32_##base(a), vdup_lane_##base(a, 2)); */ \
         case 99: return vzip2_##base(vrev64_##base(a), a); \
         case 100: return vtrn2_##base(vdup_lane_##base(a, 1), vrev64_##base(a)); \
-        case 101: return vset_lane_##base(vget_lane_##base(a, 2), vdup_lane_##base(a, 1), 1); \
+        case 101: return vcopy_lane_##base(vdup_lane_##base(a, 1), 1, a, 2); \
         case 102: return vtrn1_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 2)); \
         case 103: return vzip2_##base(vdup_lane_##base(a, 1), a); \
-        case 104: return vset_lane_##base(vget_lane_##base(a, 2), vext_##base(a, a, 1), 2); \
+        case 104: return vcopy_lane_##base(vext_##base(a, a, 1), 2, a, 2); \
         case 105: return vzip1_##base(vext_##base(a, a, 1), vrev32_##base(vext_##base(a, a, 1))); \
         case 106: return vext_##base(vdup_lane_##base(a, 1), vdup_lane_##base(a, 2), 3); \
         case 107: return vzip2_##base(vext_##base(a, a, 3), a); \
@@ -6120,23 +6120,23 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES
         case 110: return vext_##base(a, vdup_lane_##base(a, 2), 1); /* vtrn2_##base(a, vdup_lane_##base(a, 2)); */ \
         case 111: return vext_##base(a, vdup_lane_##base(a, 3), 1); /* vext_##base(a, vrev64_##base(a), 1); */ \
         case 112: return vuzp2_##base(a, vdup_lane_##base(a, 0)); \
-        case 113: return vset_lane_##base(vget_lane_##base(a, 1), vext_##base(a, a, 2), 0); \
+        case 113: return vcopy_lane_##base(vext_##base(a, a, 2), 0, a, 1); \
         case 114: return vuzp1_##base(vrev32_##base(a), a); /* vuzp2_##base(a, vrev32_##base(a)); */ \
         case 115: return vzip2_##base(vrev64_##base(a), vdup_lane_##base(a, 3)); /* vzip1_##base(vrev32_##base(a), vdup_lane_##base(a, 3)); */ \
-        case 116: return vset_lane_##base(vget_lane_##base(a, 0), vuzp2_##base(a, a), 3); \
+        case 116: return vcopy_lane_##base(vuzp2_##base(a, a), 3, a, 0); \
         case 117: return vuzp2_##base(a, vdup_lane_##base(a, 1)); \
         case 118: return vzip1_##base(vdup_lane_##base(a, 1), vrev64_##base(a)); \
         case 119: return vuzp2_##base(a, a); \
         case 120: return vuzp2_##base(a, vrev64_##base(a)); \
         case 121: return vuzp2_##base(a, vuzp1_##base(a, vdup_lane_##base(a, 1))); \
         case 122: return vuzp2_##base(a, vdup_lane_##base(a, 2)); \
-        case 123: return vset_lane_##base(vget_lane_##base(a, 2), vuzp2_##base(a, a), 2); \
-        case 124: return vset_lane_##base(vget_lane_##base(a, 3), vext_##base(a, a, 1), 1); \
+        case 123: return vcopy_lane_##base(vuzp2_##base(a, a), 2, a, 2); \
+        case 124: return vcopy_lane_##base(vext_##base(a, a, 1), 1, a, 3); \
         case 125: return vuzp2_##base(a, vext_##base(a, a, 2)); /* vuzp1_##base(vrev32_##base(a), vrev64_##base(a)); */ \
-        case 126: return vset_lane_##base(vget_lane_##base(a, 3), vrev32_##base(a), 1); \
+        case 126: return vcopy_lane_##base(vrev32_##base(a), 1, a, 3); \
         case 127: return vuzp2_##base(a, vdup_lane_##base(a, 3)); /* vtrn2_##base(a, vdup_lane_##base(a, 3)); */ \
         case 128: return vuzp2_##base(vrev64_##base(a), vdup_lane_##base(a, 0)); /* vext_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 0), 3); */ \
-        case 129: return vset_lane_##base(vget_lane_##base(a, 0), vext_##base(a, a, 2), 1); \
+        case 129: return vcopy_lane_##base(vext_##base(a, a, 2), 1, a, 0); \
         case 130: return vuzp1_##base(vext_##base(a, a, 2), a); /* vuzp2_##base(vrev64_##base(a), vrev32_##base(a)); */ \
         case 131: return vuzp2_##base(vext_##base(a, a, 1), vuzp2_##base(vext_##base(a, a, 1), a)); \
         case 132: return vrev64_##base(vuzp1_##base(vzip1_##base(a, a), a)); /* vext_##base(vuzp1_##base(a, vzip1_##base(a, a)), vuzp1_##base(a, vzip1_##base(a, a)), 1); */ \
@@ -6146,7 +6146,7 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES
         case 136: return vuzp2_##base(vrev64_##base(a), vrev64_##base(a)); /* vtrn1_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 0)); */ \
         case 137: return vzip1_##base(vdup_lane_##base(a, 2), a); \
         case 138: return vtrn1_##base(vdup_lane_##base(a, 2), a); /* vuzp2_##base(vrev64_##base(a), vdup_lane_##base(a, 2)); */ \
-        case 139: return vset_lane_##base(vget_lane_##base(a, 0), vset_lane_##base(vget_lane_##base(a, 2), a, 0), 1); \
+        case 139: return vcopy_lane_##base(vcopy_lane_##base(a, 0, a, 2), 1, a, 0); \
         case 140: return vzip2_##base(a, vdup_lane_##base(a, 0)); \
         case 141: return vzip1_##base(vext_##base(a, a, 2), a); \
         case 142: return vtrn1_##base(vzip2_##base(a, a), a); \
@@ -6158,88 +6158,88 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES
         case 148: return vzip2_##base(vext_##base(vrev64_##base(a), vrev64_##base(a), 3), vrev64_##base(a)); \
         case 149: return vext_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 1), 3); \
         case 150: return vzip1_##base(vrev32_##base(vext_##base(a, a, 1)), vext_##base(a, a, 1)); \
-        case 151: return vset_lane_##base(vget_lane_##base(a, 1), vset_lane_##base(vget_lane_##base(a, 2), a, 0), 2); \
+        case 151: return vcopy_lane_##base(vcopy_lane_##base(a, 0, a, 2), 2, a, 1); \
         case 152: return vzip2_##base(vdup_lane_##base(a, 2), vrev64_##base(a)); \
         case 153: return vtrn1_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 1)); \
-        case 154: return vset_lane_##base(vget_lane_##base(a, 1), vdup_lane_##base(a, 2), 1); \
-        case 155: return vset_lane_##base(vget_lane_##base(a, 2), a, 0); /* vtrn2_##base(vdup_lane_##base(a, 2), a); */ \
+        case 154: return vcopy_lane_##base(vdup_lane_##base(a, 2), 1, a, 1); \
+        case 155: return vcopy_lane_##base(a, 0, a, 2); /* vtrn2_##base(vdup_lane_##base(a, 2), a); */ \
         case 156: return vzip2_##base(a, vrev64_##base(a)); \
         case 157: return vzip2_##base(a, vdup_lane_##base(a, 1)); \
         case 158: return vzip2_##base(a, vext_##base(a, a, 3)); \
-        case 159: return vset_lane_##base(vget_lane_##base(a, 1), vzip2_##base(a, a), 1); \
+        case 159: return vcopy_lane_##base(vzip2_##base(a, a), 1, a, 1); \
         case 160: return vext_##base(vtrn1_##base(a, a), vtrn1_##base(a, a), 2); /* vext_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 0), 2); */ \
         case 161: return vext_##base(vdup_lane_##base(a, 2), a, 2); \
         case 162: return vuzp1_##base(vdup_lane_##base(a, 2), a); \
-        case 163: return vset_lane_##base(vget_lane_##base(a, 0), vzip2_##base(a, a), 2); \
-        case 164: return vset_lane_##base(vget_lane_##base(a, 2), vrev64_##base(a), 0); \
+        case 163: return vcopy_lane_##base(vzip2_##base(a, a), 2, a, 0); \
+        case 164: return vcopy_lane_##base(vrev64_##base(a), 0, a, 2); \
         case 165: return vext_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 1), 2); \
-        case 166: return vset_lane_##base(vget_lane_##base(a, 1), vdup_lane_##base(a, 2), 2); \
+        case 166: return vcopy_lane_##base(vdup_lane_##base(a, 2), 2, a, 1); \
         case 167: return vuzp2_##base(vdup_lane_##base(a, 2), a); \
         case 168: return vext_##base(vdup_lane_##base(a, 2), a, 1); \
         case 169: return vext_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 1), 1); \
         case 170: return vdup_lane_##base(a, 2); \
         case 171: return vzip2_##base(vdup_lane_##base(a, 2), a); \
-        case 172: return vset_lane_##base(vget_lane_##base(a, 2), vext_##base(a, a, 1), 0); \
-        case 173: return vset_lane_##base(vget_lane_##base(a, 1), vzip2_##base(a, a), 3); \
+        case 172: return vcopy_lane_##base(vext_##base(a, a, 1), 0, a, 2); \
+        case 173: return vcopy_lane_##base(vzip2_##base(a, a), 3, a, 1); \
         case 174: return vzip2_##base(a, vdup_lane_##base(a, 2)); \
         case 175: return vzip2_##base(a, a); \
         case 176: return vext_##base(a, vdup_lane_##base(a, 0), 2); \
         case 177: return vext_##base(a, a, 2); /* vreinterpret_##base##_##kind##32(vrev64_##kind##32(vreinterpret_##kind##32_##base(a))) */ \
-        case 178: return vset_lane_##base(vget_lane_##base(a, 2), vext_##base(a, a, 2), 3); \
+        case 178: return vcopy_lane_##base(vext_##base(a, a, 2), 3, a, 2); \
         case 179: return vtrn2_##base(vrev64_##base(a), vdup_lane_##base(a, 3)); \
         case 180: return vext_##base(a, vrev32_##base(a), 2); \
         case 181: return vext_##base(a, vdup_lane_##base(a, 1), 2); \
-        case 182: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1), vreinterpret_##kind##32_##base(vext_##base(a, a, 3)), 0)); \
-        case 183: return vset_lane_##base(vget_lane_##base(a, 2), vuzp2_##base(a, a), 0); \
-        case 184: return vset_lane_##base(vget_lane_##base(a, 0), vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1), vreinterpret_##kind##32_##base(a), 0)), 3); \
+        case 182: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vext_##base(a, a, 3)), 0, vreinterpret_##kind##32_##base(a), 1)); \
+        case 183: return vcopy_lane_##base(vuzp2_##base(a, a), 0, a, 2); \
+        case 184: return vcopy_lane_##base(vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0, vreinterpret_##kind##32_##base(a), 1)), 3, a, 0); \
         case 185: return vext_##base(vrev32_##base(a), vrev64_##base(a), 3); /* vtrn1_##base(vdup_lane_##base(a, 2), vrev64_##base(a)); */ \
         case 186: return vext_##base(a, vdup_lane_##base(a, 2), 2); /* vzip1_##base(vdup_lane_##base(a, 2), vrev64_##base(a)); */ \
         case 187: return vreinterpret_##base##_##kind##32(vdup_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1)); /* vreinterpret_##base##_##kind##32(vzip2_##kind##32(vreinterpret_##kind##32_##base(a), vreinterpret_##kind##32_##base(a))); // vtrn1_##base(vdup_lane_##base(a, 2), vdup_lane_##base(a, 3)); */ \
         case 188: return vzip2_##base(a, vext_##base(a, a, 1)); \
-        case 189: return vset_lane_##base(vget_lane_##base(a, 3), vext_##base(a, a, 2), 2); \
+        case 189: return vcopy_lane_##base(vext_##base(a, a, 2), 2, a, 3); \
         case 190: return vext_##base(a, vrev64_##base(a), 2); /* vzip2_##base(a, vrev32_##base(a)); */ \
         case 191: return vext_##base(a, vdup_lane_##base(a, 3), 2); /* vzip2_##base(a, vdup_lane_##base(a, 3)); */ \
         case 192: return vext_##base(a, vdup_lane_##base(a, 0), 3); \
         case 193: return vzip1_##base(vext_##base(a, a, 3), a); \
-        case 194: return vset_lane_##base(vget_lane_##base(a, 0), vext_##base(a, a, 3), 2); \
+        case 194: return vcopy_lane_##base(vext_##base(a, a, 3), 2, a, 0); \
         case 195: return vzip1_##base(vext_##base(a, a, 3), vzip1_##base(a, vext_##base(a, a, 3))); \
         case 196: return vtrn1_##base(vrev64_##base(a), vdup_lane_##base(a, 0)); \
-        case 197: return vset_lane_##base(vget_lane_##base(a, 3), vzip1_##base(a, a), 0); \
+        case 197: return vcopy_lane_##base(vzip1_##base(a, a), 0, a, 3); \
         case 198: return vext_##base(a, a, 3); \
-        case 199: return vset_lane_##base(vget_lane_##base(a, 3), vext_##base(a, a, 3), 3); \
+        case 199: return vcopy_lane_##base(vext_##base(a, a, 3), 3, a, 3); \
         case 200: return vzip1_##base(vrev64_##base(a), vdup_lane_##base(a, 0)); \
         case 201: return vzip1_##base(vrev64_##base(a), a); \
-        case 202: return vset_lane_##base(vget_lane_##base(a, 2), vext_##base(a, a, 3), 2); \
-        case 203: return vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1), vreinterpret_##kind##32_##base(vext_##base(a, a, 3)), 1)); \
+        case 202: return vcopy_lane_##base(vext_##base(a, a, 3), 2, a, 2); \
+        case 203: return vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(vext_##base(a, a, 3)), 1, vreinterpret_##kind##32_##base(a), 1)); \
         case 204: return vtrn1_##base(vdup_lane_##base(a, 3), vdup_lane_##base(a, 0)); \
         case 205: return vzip1_##base(vdup_lane_##base(a, 3), a); \
         case 206: return vtrn1_##base(vdup_lane_##base(a, 3), a); \
-        case 207: return vset_lane_##base(vget_lane_##base(a, 0), vdup_lane_##base(a, 3), 1); \
+        case 207: return vcopy_lane_##base(vdup_lane_##base(a, 3), 1, a, 0); \
         case 208: return vuzp1_##base(vrev64_##base(a), vdup_lane_##base(a, 0)); \
-        case 209: return vset_lane_##base(vget_lane_##base(a, 3), vreinterpret_##base##_##kind##32(vset_lane_##kind##32(vget_lane_##kind##32(vreinterpret_##kind##32_##base(a), 0), vreinterpret_##kind##32_##base(a), 1)), 0); \
+        case 209: return vcopy_lane_##base(vreinterpret_##base##_##kind##32(vcopy_lane_##kind##32(vreinterpret_##kind##32_##base(a), 1, vreinterpret_##kind##32_##base(a), 0)), 0, a, 3); \
         case 210: return vuzp1_##base(vrev64_##base(a), a); \
         case 211: return vext_##base(a, vrev32_##base(a), 3); \
-        case 212: return vset_lane_##base(vget_lane_##base(a, 1), vrev64_##base(a), 1); \
+        case 212: return vcopy_lane_##base(vrev64_##base(a), 1, a, 1); \
         case 213: return vext_##base(a, vdup_lane_##base(a, 1), 3); /* vuzp1_##base(vrev64_##base(a), vdup_lane_##base(a, 1)); */ \
-        case 214: return vset_lane_##base(vget_lane_##base(a, 1), vext_##base(a, a, 3), 1); \
+        case 214: return vcopy_lane_##base(vext_##base(a, a, 3), 1, a, 1); \
         case 215: return vuzp2_##base(vext_##base(a, a, 2), a); /* vuzp1_##base(vrev64_##base(a), vrev32_##base(a)); */ \
         case 216: return vzip2_##base(vrev32_##base(a), vrev64_##base(a)); \
         case 217: return vzip1_##base(vrev64_##base(a), vdup_lane_##base(a, 1)); \
         case 218: return vuzp1_##base(vrev64_##base(a), vdup_lane_##base(a, 2)); \
-        case 219: return vset_lane_##base(vget_lane_##base(a, 3), a, 0); \
+        case 219: return vcopy_lane_##base(a, 0, a, 3); \
         case 220: return vzip2_##base(vdup_lane_##base(a, 3), vrev64_##base(a)); \
         case 221: return vuzp1_##base(vrev64_##base(a), vrev64_##base(a)); /* vtrn1_##base(vdup_lane_##base(a, 3), vdup_lane_##base(a, 1)); */ \
         case 222: return vrev64_##base(vuzp2_##base(vzip2_##base(a, a), a)); /* vext_##base(vuzp2_##base(a, vzip2_##base(a, a)), vuzp2_##base(a, vzip2_##base(a, a)), 3); */ \
         case 223: return vtrn2_##base(vdup_lane_##base(a, 3), a); /* vuzp1_##base(vrev64_##base(a), vdup_lane_##base(a, 3)); // vtrn1_##base(vdup_lane_##base(a, 3), vrev32_##base(a)); */ \
-        case 224: return vset_lane_##base(vget_lane_##base(a, 0), vrev64_##base(a), 2); \
+        case 224: return vcopy_lane_##base(vrev64_##base(a), 2, a, 0); \
         case 225: return vext_##base(vrev32_##base(a), a, 2); \
-        case 226: return vset_lane_##base(vget_lane_##base(a, 3), vuzp1_##base(a, a), 0); \
+        case 226: return vcopy_lane_##base(vuzp1_##base(a, a), 0, a, 3); \
         case 227: return vzip2_##base(vext_##base(a, a, 1), a); \
         case 228: return vrev64_##base(a); \
-        case 229: return vset_lane_##base(vget_lane_##base(a, 1), vrev64_##base(a), 3); \
+        case 229: return vcopy_lane_##base(vrev64_##base(a), 3, a, 1); \
         case 230: return vtrn1_##base(vrev64_##base(a), vdup_lane_##base(a, 2)); \
-        case 231: return vset_lane_##base(vget_lane_##base(a, 3), vrev64_##base(a), 3); \
-        case 232: return vset_lane_##base(vget_lane_##base(a, 2), vrev64_##base(a), 2); \
+        case 231: return vcopy_lane_##base(vrev64_##base(a), 3, a, 3); \
+        case 232: return vcopy_lane_##base(vrev64_##base(a), 2, a, 2); \
         case 233: return vext_##base(a, vuzp2_##base(vuzp1_##base(a, a), a), 3); \
         case 234: return vext_##base(a, vdup_lane_##base(a, 2), 3); /* return vzip1_##base(vrev64_##base(a), vdup_lane_##base(a, 2)); */ \
         case 235: return vzip2_##base(vrev32_##base(a), a); \
@@ -6250,10 +6250,10 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TYPES
         case 240: return vext_##base(vdup_lane_##base(a, 3), vdup_lane_##base(a, 0), 2); \
         case 241: return vext_##base(vdup_lane_##base(a, 3), a, 2); \
         case 242: return vuzp1_##base(vdup_lane_##base(a, 3), a); \
-        case 243: return vset_lane_##base(vget_lane_##base(a, 0), vdup_lane_##base(a, 3), 2); \
-        case 244: return vset_lane_##base(vget_lane_##base(a, 3), vrev64_##base(a), 1); \
+        case 243: return vcopy_lane_##base(vdup_lane_##base(a, 3), 2, a, 0); \
+        case 244: return vcopy_lane_##base(vrev64_##base(a), 1, a, 3); \
         case 245: return vext_##base(vtrn2_##base(a, a), vtrn2_##base(a, a), 2); \
-        case 246: return vset_lane_##base(vget_lane_##base(a, 3), vext_##base(a, a, 3), 1); \
+        case 246: return vcopy_lane_##base(vext_##base(a, a, 3), 1, a, 3); \
         case 247: return vuzp2_##base(vdup_lane_##base(a, 3), a); \
         case 248: return vzip2_##base(vrev32_##base(a), vext_##base(a, a, 1)); \
         case 249: return vext_##base(a, vrev64_##base(a), 3); \
@@ -6287,8 +6287,8 @@ CC_SIMD_DECL(CCSimdSwizzle, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES
     switch ((v0 << 1) | v1) \
     { \
         case 0: return a; \
-        case 1: return vset_lane_##base(vget_lane_##base(b, 1), a, 1); \
-        case 2: /*return vset_lane_##base(vget_lane_##base(b, 0), a, 0); */ return vcopy_lane_##base(a, 0, b, 0); \
+        case 1: return vcopy_lane_##base(a, 1, b, 1); \
+        case 2: return vcopy_lane_##base(a, 0, b, 0); \
         case 3: return b; \
     } \
     \
@@ -6305,20 +6305,20 @@ CC_SIMD_DECL(CCSimdInterleave, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_TY
     switch ((v0 << 3) | (v1 << 2) | (v2 << 1) | v3) \
     { \
         case 0: return a; \
-        case 1: return vset_lane_##base(vget_lane_##base(b, 3), a, 3); \
-        case 2: return vset_lane_##base(vget_lane_##base(b, 2), a, 2); \
+        case 1: return vcopy_lane_##base(a, 3, b, 3); \
+        case 2: return vcopy_lane_##base(a, 2, b, 2); \
         case 3: return vreinterpret_##base##_##kind##32(CC_SIMD_NAME(CCSimdInterleave, kind##32, 2)(vreinterpret_##kind##32_##base(a), vreinterpret_##kind##32_##base(b), 0, 1)); \
-        case 4: return vset_lane_##base(vget_lane_##base(b, 1), a, 1); \
+        case 4: return vcopy_lane_##base(a, 1, b, 1); \
         case 5: return vtrn2_##base(vrev32_##base(a), b); \
-        case 6: return vset_lane_##base(vget_lane_##base(a, 3), vset_lane_##base(vget_lane_##base(a, 0), b, 0), 3); \
-        case 7: return vset_lane_##base(vget_lane_##base(a, 0), b, 0); \
-        case 8: return vset_lane_##base(vget_lane_##base(b, 0), a, 0); \
-        case 9: return vset_lane_##base(vget_lane_##base(b, 3), vset_lane_##base(vget_lane_##base(b, 0), a, 0), 3); \
+        case 6: return vcopy_lane_##base(vcopy_lane_##base(b, 0, a, 0), 3, a, 3); \
+        case 7: return vcopy_lane_##base(b, 0, a, 0); \
+        case 8: return vcopy_lane_##base(a, 0, b, 0); \
+        case 9: return vcopy_lane_##base(vcopy_lane_##base(a, 0, b, 0), 3, b, 3); \
         case 10: return vtrn2_##base(vrev32_##base(b), a); \
-        case 11: return vset_lane_##base(vget_lane_##base(a, 1), b, 1); \
+        case 11: return vcopy_lane_##base(b, 1, a, 1); \
         case 12: return vreinterpret_##base##_##kind##32(CC_SIMD_NAME(CCSimdInterleave, kind##32, 2)(vreinterpret_##kind##32_##base(a), vreinterpret_##kind##32_##base(b), 1, 0)); \
-        case 13: return vset_lane_##base(vget_lane_##base(a, 2), b, 2); \
-        case 14: return vset_lane_##base(vget_lane_##base(a, 3), b, 3); \
+        case 13: return vcopy_lane_##base(b, 2, a, 2); \
+        case 14: return vcopy_lane_##base(b, 3, a, 3); \
         case 15: return b; \
     } \
     \
@@ -6335,14 +6335,14 @@ CC_SIMD_DECL(CCSimdInterleave, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TY
     switch ((v0 << 7) | (v1 << 6) | (v2 << 5) | (v3 << 4) | (v4 << 3) | (v5 << 2) | (v6 << 1) | v7) \
     { \
         case 0: return a; \
-        case 1: return vset_lane_##base(vget_lane_##base(b, 7), a, 7); \
-        case 2: return vset_lane_##base(vget_lane_##base(b, 6), a, 6); \
-        case 4: return vset_lane_##base(vget_lane_##base(b, 5), a, 5); \
-        case 8: return vset_lane_##base(vget_lane_##base(b, 4), a, 4); \
-        case 16: return vset_lane_##base(vget_lane_##base(b, 3), a, 3); \
-        case 32: return vset_lane_##base(vget_lane_##base(b, 2), a, 2); \
-        case 64: return vset_lane_##base(vget_lane_##base(b, 1), a, 1); \
-        case 128: return vset_lane_##base(vget_lane_##base(b, 0), a, 0); \
+        case 1: return vcopy_lane_##base(a, 7, b, 7); \
+        case 2: return vcopy_lane_##base(a, 6, b, 6); \
+        case 4: return vcopy_lane_##base(a, 5, b, 5); \
+        case 8: return vcopy_lane_##base(a, 4, b, 4); \
+        case 16: return vcopy_lane_##base(a, 3, b, 3); \
+        case 32: return vcopy_lane_##base(a, 2, b, 2); \
+        case 64: return vcopy_lane_##base(a, 1, b, 1); \
+        case 128: return vcopy_lane_##base(a, 0, b, 0); \
         case 255: return b; \
             \
         case 3: return vreinterpret_##base##_##kind##16(CC_SIMD_NAME(CCSimdInterleave, kind##16, 4)(vreinterpret_##kind##16_##base(a), vreinterpret_##kind##16_##base(b), 0, 0, 0, 1)); \
@@ -6363,14 +6363,14 @@ CC_SIMD_DECL(CCSimdInterleave, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TY
     \
     CC_SIMD_TYPE(base, count) Result = a; \
     \
-    if (v0) Result = vset_lane_##base(vget_lane_##base(b, 0), Result, 0); \
-    if (v1) Result = vset_lane_##base(vget_lane_##base(b, 1), Result, 1); \
-    if (v2) Result = vset_lane_##base(vget_lane_##base(b, 2), Result, 2); \
-    if (v3) Result = vset_lane_##base(vget_lane_##base(b, 3), Result, 3); \
-    if (v4) Result = vset_lane_##base(vget_lane_##base(b, 4), Result, 4); \
-    if (v5) Result = vset_lane_##base(vget_lane_##base(b, 5), Result, 5); \
-    if (v6) Result = vset_lane_##base(vget_lane_##base(b, 6), Result, 6); \
-    if (v7) Result = vset_lane_##base(vget_lane_##base(b, 7), Result, 7); \
+    if (v0) Result = vcopy_lane_##base(Result, 0, b, 0); \
+    if (v1) Result = vcopy_lane_##base(Result, 1, b, 1); \
+    if (v2) Result = vcopy_lane_##base(Result, 2, b, 2); \
+    if (v3) Result = vcopy_lane_##base(Result, 3, b, 3); \
+    if (v4) Result = vcopy_lane_##base(Result, 4, b, 4); \
+    if (v5) Result = vcopy_lane_##base(Result, 5, b, 5); \
+    if (v6) Result = vcopy_lane_##base(Result, 6, b, 6); \
+    if (v7) Result = vcopy_lane_##base(Result, 7, b, 7); \
     \
     return Result; \
 }
