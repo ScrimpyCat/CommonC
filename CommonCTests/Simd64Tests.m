@@ -1674,6 +1674,126 @@
     XCTAssertEqual(Result_u8[6], 1, @"should contain the correct value");
     XCTAssertEqual(Result_u8[7], 1, @"should contain the correct value");
     
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeft_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 176, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 24, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 104, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 28, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 60, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 128, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 17, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeft_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 65, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 194, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 193, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 195, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 8, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 17, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeft_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 64, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 128, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 128, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 129, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 4, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeftN_u8x8(VecA_u8x8, 6));
+    XCTAssertEqual(Result_u8[0], 130, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 194, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 67, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 131, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 195, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 4, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 68, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeftN_u8x8(VecB_u8x8, 12));
+    XCTAssertEqual(Result_u8[0], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 64, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 64, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateLeftN_u8x8(VecC_u8x8, 8));
+    XCTAssertEqual(Result_u8[0], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 7, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 8, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 7, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 8, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRight_u8x8(VecA_u8x8, VecB_u8x8));
+    XCTAssertEqual(Result_u8[0], 130, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 176, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 161, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 7, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 195, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 17, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRight_u8x8(VecA_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 80, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 44, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 24, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 13, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 112, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 60, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 17, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRight_u8x8(VecB_u8x8, VecC_u8x8));
+    XCTAssertEqual(Result_u8[0], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 8, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 8, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 4, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRightN_u8x8(VecA_u8x8, 6));
+    XCTAssertEqual(Result_u8[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 44, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 52, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 56, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 60, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 64, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 68, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRightN_u8x8(VecB_u8x8, 12));
+    XCTAssertEqual(Result_u8[0], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 64, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 64, @"should contain the correct value");
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdRotateRightN_u8x8(VecC_u8x8, 8));
+    XCTAssertEqual(Result_u8[0], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 7, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 8, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[4], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[5], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[6], 7, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[7], 8, @"should contain the correct value");
+    
     for (size_t Loop = 0; Loop < 8; Loop++)
     {
         const uint8_t Values[8] = { 1, 0xfe, 0x84, 0x42, 0xc0, 0x40, 0x7f, 0xbc };
@@ -1706,6 +1826,40 @@
         XCTAssertEqual(Result[5], Values[5] >> Loop, @"should contain the correct value");
         XCTAssertEqual(Result[6], Values[6] >> Loop, @"should contain the correct value");
         XCTAssertEqual(Result[7], Values[7] >> Loop, @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint8_t Values[8] = { 1, 0xfe, 0x84, 0x42, 0xc0, 0x40, 0x7f, 0xbc };
+        uint8_t Result[8];
+        
+        CCSimdStore_u8x8(Result, CCSimdRotateLeftN_u8x8(CCSimdLoad_u8x8(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (uint8_t)(Values[0] << Loop) | (Values[0] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (uint8_t)(Values[1] << Loop) | (Values[1] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (uint8_t)(Values[2] << Loop) | (Values[2] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (uint8_t)(Values[3] << Loop) | (Values[3] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[4], (uint8_t)(Values[4] << Loop) | (Values[4] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[5], (uint8_t)(Values[5] << Loop) | (Values[5] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[6], (uint8_t)(Values[6] << Loop) | (Values[6] >> (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[7], (uint8_t)(Values[7] << Loop) | (Values[7] >> (-Loop & 7)), @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint8_t Values[8] = { 1, 0xfe, 0x84, 0x42, 0xc0, 0x40, 0x7f, 0xbc };
+        uint8_t Result[8];
+        
+        CCSimdStore_u8x8(Result, CCSimdRotateRightN_u8x8(CCSimdLoad_u8x8(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (Values[0] >> Loop) | (uint8_t)(Values[0] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (Values[1] >> Loop) | (uint8_t)(Values[1] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (Values[2] >> Loop) | (uint8_t)(Values[2] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (Values[3] >> Loop) | (uint8_t)(Values[3] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[4], (Values[4] >> Loop) | (uint8_t)(Values[4] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[5], (Values[5] >> Loop) | (uint8_t)(Values[5] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[6], (Values[6] >> Loop) | (uint8_t)(Values[6] << (-Loop & 7)), @"should contain the correct value");
+        XCTAssertEqual(Result[7], (Values[7] >> Loop) | (uint8_t)(Values[7] << (-Loop & 7)), @"should contain the correct value");
     }
     
     
@@ -2072,6 +2226,80 @@
     XCTAssertEqual(Result_u16[2], 3, @"should contain the correct value");
     XCTAssertEqual(Result_u16[3], 3, @"should contain the correct value");
     
+    const CCSimd_u16x4 VecE_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 13, 14, 15, 16 });
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeft_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 176, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 24, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 104, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeft_u16x4(VecA_u16x4, VecE_u16x4));
+    XCTAssertEqual(Result_u16[0], 16385, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 49154, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 13, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeft_u16x4(VecB_u16x4, VecE_u16x4));
+    XCTAssertEqual(Result_u16[0], 16384, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 32768, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 3, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeftN_u16x4(VecA_u16x4, 14));
+    XCTAssertEqual(Result_u16[0], 32770, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 49154, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 3, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 16387, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeftN_u16x4(VecB_u16x4, 20));
+    XCTAssertEqual(Result_u16[0], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 64, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 48, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateLeftN_u16x4(VecE_u16x4, 16));
+    XCTAssertEqual(Result_u16[0], 13, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 14, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 15, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 16, "should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRight_u16x4(VecA_u16x4, VecB_u16x4));
+    XCTAssertEqual(Result_u16[0], 32770, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 45056, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 6, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 40961, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRight_u16x4(VecA_u16x4, VecE_u16x4));
+    XCTAssertEqual(Result_u16[0], 80, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 44, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 24, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 13, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRight_u16x4(VecB_u16x4, VecE_u16x4));
+    XCTAssertEqual(Result_u16[0], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 16, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 2, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 3, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRightN_u16x4(VecA_u16x4, 14));
+    XCTAssertEqual(Result_u16[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 44, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 48, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 52, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRightN_u16x4(VecB_u16x4, 20));
+    XCTAssertEqual(Result_u16[0], 8192, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 16384, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 4096, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 12288, @"should contain the correct value");
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdRotateRightN_u16x4(VecE_u16x4, 16));
+    XCTAssertEqual(Result_u16[0], 13, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 14, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 15, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 16, @"should contain the correct value");
+    
     for (size_t Loop = 0; Loop < 16; Loop++)
     {
         const uint16_t Values[4] = { 1, 0xfffe, 0x8842, 0x842 };
@@ -2096,6 +2324,32 @@
         XCTAssertEqual(Result[1], Values[1] >> Loop, @"should contain the correct value");
         XCTAssertEqual(Result[2], Values[2] >> Loop, @"should contain the correct value");
         XCTAssertEqual(Result[3], Values[3] >> Loop, @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint16_t Values[4] = { 1, 0xfffe, 0x8842, 0x842 };
+        uint16_t Result[4];
+        
+        CCSimdStore_u16x4(Result, CCSimdRotateLeftN_u16x4(CCSimdLoad_u16x4(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (uint16_t)(Values[0] << Loop) | (Values[0] >> (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (uint16_t)(Values[1] << Loop) | (Values[1] >> (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (uint16_t)(Values[2] << Loop) | (Values[2] >> (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (uint16_t)(Values[3] << Loop) | (Values[3] >> (-Loop & 15)), @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint16_t Values[4] = { 1, 0xfffe, 0x8842, 0x842 };
+        uint16_t Result[4];
+        
+        CCSimdStore_u16x4(Result, CCSimdRotateRightN_u16x4(CCSimdLoad_u16x4(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (Values[0] >> Loop) | (uint16_t)(Values[0] << (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (Values[1] >> Loop) | (uint16_t)(Values[1] << (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[2], (Values[2] >> Loop) | (uint16_t)(Values[2] << (-Loop & 15)), @"should contain the correct value");
+        XCTAssertEqual(Result[3], (Values[3] >> Loop) | (uint16_t)(Values[3] << (-Loop & 15)), @"should contain the correct value");
     }
     
     
@@ -2342,6 +2596,56 @@
     XCTAssertEqual(Result_u32[0], 262142, @"should contain the correct value");
     XCTAssertEqual(Result_u32[1], 262141, @"should contain the correct value");
     
+    const CCSimd_u32x2 VecE_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 31, 32 });
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeft_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 176, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeft_u32x2(VecA_u32x2, VecE_u32x2));
+    XCTAssertEqual(Result_u32[0], 5, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 11, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeft_u32x2(VecB_u32x2, VecE_u32x2));
+    XCTAssertEqual(Result_u32[0], 1, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 4, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeftN_u32x2(VecA_u32x2, 30));
+    XCTAssertEqual(Result_u32[0], 2147483650, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 3221225474, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeftN_u32x2(VecB_u32x2, 36));
+    XCTAssertEqual(Result_u32[0], 32, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 64, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateLeftN_u32x2(VecE_u32x2, 32));
+    XCTAssertEqual(Result_u32[0], 31, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 32, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRight_u32x2(VecA_u32x2, VecB_u32x2));
+    XCTAssertEqual(Result_u32[0], 2147483650, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 2952790016, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRight_u32x2(VecA_u32x2, VecE_u32x2));
+    XCTAssertEqual(Result_u32[0], 20, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 11, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRight_u32x2(VecB_u32x2, VecE_u32x2));
+    XCTAssertEqual(Result_u32[0], 4, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 4, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRightN_u32x2(VecA_u32x2, 30));
+    XCTAssertEqual(Result_u32[0], 40, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 44, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRightN_u32x2(VecB_u32x2, 36));
+    XCTAssertEqual(Result_u32[0], 536870912, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 1073741824, @"should contain the correct value");
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdRotateRightN_u32x2(VecE_u32x2, 32));
+    XCTAssertEqual(Result_u32[0], 31, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 32, @"should contain the correct value");
+    
     for (size_t Loop = 0; Loop < 32; Loop++)
     {
         const uint32_t Values[2] = { 1, 0xfffffffe };
@@ -2362,6 +2666,28 @@
         
         XCTAssertEqual(Result[0], Values[0] >> Loop, @"should contain the correct value");
         XCTAssertEqual(Result[1], Values[1] >> Loop, @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint32_t Values[4] = { 1, 0xfffffffe };
+        uint32_t Result[4];
+        
+        CCSimdStore_u32x2(Result, CCSimdRotateLeftN_u32x2(CCSimdLoad_u32x2(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (uint32_t)(Values[0] << Loop) | (Values[0] >> (-Loop & 31)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (uint32_t)(Values[1] << Loop) | (Values[1] >> (-Loop & 31)), @"should contain the correct value");
+    }
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        const uint32_t Values[4] = { 1, 0xfffffffe };
+        uint32_t Result[4];
+        
+        CCSimdStore_u32x2(Result, CCSimdRotateRightN_u32x2(CCSimdLoad_u32x2(Values), Loop));
+        
+        XCTAssertEqual(Result[0], (Values[0] >> Loop) | (uint32_t)(Values[0] << (-Loop & 31)), @"should contain the correct value");
+        XCTAssertEqual(Result[1], (Values[1] >> Loop) | (uint32_t)(Values[1] << (-Loop & 31)), @"should contain the correct value");
     }
 }
 

@@ -1952,6 +1952,126 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdShiftRightN_u16x4(const CCSimd_u16x4 a
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
 
 
+#pragma mark Rotate Left
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] rol [3, 3, 3, 3, 3, 3, 3, 3] -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateLeft_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1, 1, 1] rol [3, 3, 3, 3] -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateLeft_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1] rol [3, 3] -> [8, 8]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateLeft_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Rotate Left N
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] rol 3 -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateLeftN_u8x8(const CCSimd_u8x8 a, const uint8_t n);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1, 1, 1] rol 3 -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateLeftN_u16x4(const CCSimd_u16x4 a, const uint8_t n);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1] rol 3 -> [8, 8]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the shifted result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateLeftN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
+#pragma mark Rotate Right
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] ror [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param b An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateRight_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8, 8, 8] ror [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param b A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateRight_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8] ror [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param b A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateRight_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
+
+
+#pragma mark Rotate Right N
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] ror 3 -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateRightN_u8x8(const CCSimd_u8x8 a, const uint8_t n);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8, 8, 8] ror 3 -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateRightN_u16x4(const CCSimd_u16x4 a, const uint8_t n);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8] ror 3 -> [1, 1]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param n The number of bits to roate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
+
+
 #pragma mark - Bit Maths
 #pragma mark Lowest Unset Bits
 
@@ -5269,6 +5389,10 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdZero
 #undef CC_SIMD_MISSING_CCSimdSetSequence
 #undef CC_SIMD_MISSING_CCSimdAndNot
+#undef CC_SIMD_MISSING_CCSimdRotateLeft
+#undef CC_SIMD_MISSING_CCSimdRotateLeftN
+#undef CC_SIMD_MISSING_CCSimdRotateRight
+#undef CC_SIMD_MISSING_CCSimdRotateRightN
 #undef CC_SIMD_MISSING_CCSimdLowestUnset
 #undef CC_SIMD_MISSING_CCSimdLowestSet
 #undef CC_SIMD_MISSING_CCSimdHighestSet
@@ -5308,6 +5432,10 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdZero CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdSetSequence CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdAndNot CC_SIMD_64_INTEGER_TYPES
+#define CC_SIMD_MISSING_CCSimdRotateLeft CC_SIMD_64_UNSIGNED_TYPES
+#define CC_SIMD_MISSING_CCSimdRotateLeftN CC_SIMD_64_UNSIGNED_TYPES
+#define CC_SIMD_MISSING_CCSimdRotateRight CC_SIMD_64_UNSIGNED_TYPES
+#define CC_SIMD_MISSING_CCSimdRotateRightN CC_SIMD_64_UNSIGNED_TYPES
 #define CC_SIMD_MISSING_CCSimdLowestUnset CC_SIMD_64_INTEGER_TYPES
 #define CC_SIMD_MISSING_CCSimdLowestSet CC_SIMD_64_INTEGER_TYPES
 #define CC_SIMD_MISSING_CCSimdHighestSet CC_SIMD_64_INTEGER_TYPES
@@ -6669,6 +6797,50 @@ CC_SIMD_DECL(CCSimdSetSequence, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((C
 #ifdef CC_SIMD_MISSING_CCSimdAndNot
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNot, base, count)(a), b); }
 CC_SIMD_DECL(CCSimdAndNot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdAndNot)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdRotateLeft
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdFill, base, count)(CC_SIMD_BITS(base) - 1); \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(CC_SIMD_NAME(CCSimdShiftLeft, base, count)(a, CC_SIMD_NAME(CCSimdAnd, base, count)(b, Mask)), CC_SIMD_NAME(CCSimdShiftRight, base, count)(a, CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(b), Mask))); \
+}
+CC_SIMD_DECL(CCSimdRotateLeft, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdRotateLeft)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdRotateLeftN
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    const uint8_t Mask = CC_SIMD_BITS(base) - 1; \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(CC_SIMD_NAME(CCSimdShiftLeftN, base, count)(a, n & Mask), CC_SIMD_NAME(CCSimdShiftRightN, base, count)(a, -n & Mask)); \
+}
+CC_SIMD_DECL(CCSimdRotateLeftN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdRotateLeftN)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdRotateRight
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
+{ \
+    const CC_SIMD_TYPE(base, count) Mask = CC_SIMD_NAME(CCSimdFill, base, count)(CC_SIMD_BITS(base) - 1); \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(CC_SIMD_NAME(CCSimdShiftRight, base, count)(a, CC_SIMD_NAME(CCSimdAnd, base, count)(b, Mask)), CC_SIMD_NAME(CCSimdShiftLeft, base, count)(a, CC_SIMD_NAME(CCSimdAnd, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(b), Mask))); \
+}
+CC_SIMD_DECL(CCSimdRotateRight, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdRotateRight)
+#undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdRotateRightN
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const uint8_t n) \
+{ \
+    const uint8_t Mask = CC_SIMD_BITS(base) - 1; \
+    \
+    return CC_SIMD_NAME(CCSimdOr, base, count)(CC_SIMD_NAME(CCSimdShiftRightN, base, count)(a, n & Mask), CC_SIMD_NAME(CCSimdShiftLeftN, base, count)(a, -n & Mask)); \
+}
+CC_SIMD_DECL(CCSimdRotateRightN, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdRotateRightN)
 #undef CC_SIMD_IMPL
 #endif
 
