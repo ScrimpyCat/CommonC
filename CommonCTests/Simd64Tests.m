@@ -4149,6 +4149,115 @@
     XCTAssertEqual(Result_f32[1], 0, @"should contain the correct value");
 }
 
+-(void) testMathFunctions
+{
+    const float Values[2] = { -2.0f, -5.0f };
+    float Result[2];
+    
+    CCSimdStore_f32x2(Result, CCSimdExp_f32x2(CCSimdLoad_f32x2(Values)));
+    
+    XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], expf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", expf(Values[0]), Result[0]);
+    XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], expf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", expf(Values[1]), Result[1]);
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdExp_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], expf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", expf(Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], expf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", expf(Values[1]), Result[1]);
+    }
+    
+    
+    CCSimdStore_f32x2(Result, CCSimdExp2_f32x2(CCSimdLoad_f32x2(Values)));
+    
+    XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], exp2f(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", exp2f(Values[0]), Result[0]);
+    XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], exp2f(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", exp2f(Values[1]), Result[1]);
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdExp2_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], exp2f(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", exp2f(Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], exp2f(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", exp2f(Values[1]), Result[1]);
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdLog_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], logf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", logf(Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], logf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", logf(Values[1]), Result[1]);
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdLog2_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], log2f(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", log2f(Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], log2f(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", log2f(Values[1]), Result[1]);
+    }
+    
+    
+    CCSimdStore_f32x2(Result, CCSimdPow_f32x2(CCSimdFill_f32x2(2.0f), CCSimdLoad_f32x2(Values)));
+    
+    XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], powf(2.0f, Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[0]), Result[0]);
+    XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], powf(2.0f, Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[1]), Result[1]);
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdPow_f32x2(CCSimdFill_f32x2(2.0f), CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], powf(2.0f, Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], powf(2.0f, Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[1]), Result[1]);
+    }
+    
+    
+    CCSimdStore_f32x2(Result, CCSimdPow_f32x2(CCSimdFill_f32x2(5.5f), CCSimdLoad_f32x2(Values)));
+    
+    XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], powf(5.5f, Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(5.5f, Values[0]), Result[0]);
+    XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], powf(5.5f, Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(5.5f, Values[1]), Result[1]);
+    
+    for (size_t Loop = 0; Loop < 42; Loop += 2)
+    {
+        const float Values[2] = { 0.000000000001f * powf(2.0f, Loop), 0.0000000000015f * powf(2.0f, Loop) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdPow_f32x2(CCSimdFill_f32x2(5.5f), CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], powf(5.5f, Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(5.5f, Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], powf(5.5f, Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(5.5f, Values[1]), Result[1]);
+    }
+    
+    
+    for (size_t Loop = 0; Loop < 44; Loop += 2)
+    {
+        const float Values[2] = { Loop, Loop + 1 };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdPow2_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        XCTAssertTrue((isinf(Result[0]) && isinf(Values[0])) || CCFloatEqualAbsolute(Result[0], powf(2.0f, Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[0]), Result[0]);
+        XCTAssertTrue((isinf(Result[1]) && isinf(Values[1])) || CCFloatEqualAbsolute(Result[1], powf(2.0f, Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", powf(2.0f, Values[1]), Result[1]);
+    }
+}
+
 -(void) testArithmetic
 {
     int32_t Result_s32[2];
