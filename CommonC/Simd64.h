@@ -5040,6 +5040,23 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a);
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a);
 
 
+#pragma mark Logarithm
+
+/*!
+ * @brief Computes base e logarithm for each element in vector @b a.
+ * @param a A 2 element vector of 32-bit floats to log.
+ * @return The log vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Computes base 2 logarithm for each element in vector @b a.
+ * @param a A 2 element vector of 32-bit floats to raise.
+ * @return The raised vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog2_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark Sine
 
 /*!
