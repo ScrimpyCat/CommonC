@@ -5425,6 +5425,9 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdCos_f32x2
+#undef CC_SIMD_MISSING_CCSimdLog2_f32x2
+#undef CC_SIMD_MISSING_CCSimdLog_f32x2
+#undef CC_SIMD_MISSING_CCSimdPow_f32x2
 #undef CC_SIMD_MISSING_CCSimdPow2_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp2_f32x2
@@ -5468,6 +5471,9 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
 #define CC_SIMD_MISSING_CCSimdSin_f32x2
 #define CC_SIMD_MISSING_CCSimdCos_f32x2
+#define CC_SIMD_MISSING_CCSimdLog2_f32x2
+#define CC_SIMD_MISSING_CCSimdLog_f32x2
+#define CC_SIMD_MISSING_CCSimdPow_f32x2
 #define CC_SIMD_MISSING_CCSimdPow2_f32x2
 #define CC_SIMD_MISSING_CCSimdExp_f32x2
 #define CC_SIMD_MISSING_CCSimdExp2_f32x2
@@ -7453,7 +7459,38 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
 }
 #endif
 
-static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent);
+#ifdef CC_SIMD_MISSING_CCSimdLog2_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog2_f32x2(const CCSimd_f32x2 a)
+{
+    // Based off Paul Mineiro's fastlog2 from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
+    const CCSimd_f32x2 C0 = CCSimdFill_f32x2(1.1920928955078125e-7f);
+    const CCSimd_f32x2 C1 = CCSimdFill_f32x2(124.22551499f);
+    const CCSimd_f32x2 C2 = CCSimdFill_f32x2(1.498030302f);
+    const CCSimd_f32x2 C3 = CCSimdFill_f32x2(1.72587999f);
+    const CCSimd_f32x2 C4 = CCSimdFill_f32x2(0.3520887068f);
+    const CCSimd_u32x2 U = CCSimdOr_u32x2(CCSimdAnd_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a), CCSimdFill_u32x2(0x7fffff)), CCSimdFill_u32x2(0x3f000000));
+    CCSimd_f32x2 Result = CCSimd_f32x2_Cast_u32x2(CCSimd_u32x2_Reinterpret_f32x2(a));
+    
+    Result = CCSimdMul_f32x2(Result, C0);
+    
+    return CCSimdSub_f32x2(CCSimdSub_f32x2(CCSimdSub_f32x2(Result, C1), CCSimdMul_f32x2(C2, CCSimd_f32x2_Reinterpret_u32x2(U))), CCSimdDiv_f32x2(C3, CCSimdAdd_f32x2(C4, CCSimd_f32x2_Reinterpret_u32x2(U))));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdLog_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog_f32x2(const CCSimd_f32x2 a)
+{
+    // Based off Paul Mineiro's fastlog from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
+    return CCSimdMul_f32x2(CCSimdFill_f32x2(0.69314718f), CCSimdLog2_f32x2(a));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdPow_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, const CCSimd_f32x2 Exponent)
+{
+    return CCSimdExp_f32x2(CCSimdMul_f32x2(Exponent, CCSimdLog_f32x2(Base)));
+}
+#endif
 
 #ifdef CC_SIMD_MISSING_CCSimdPow2_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent)
