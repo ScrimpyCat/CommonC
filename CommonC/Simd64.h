@@ -4947,17 +4947,34 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdClamp_f32x2(const CCSimd_f32x2 a, cons
 
 /*!
  * @brief Compute the square root of each element in the vector.
- * @param a A 2 element vector of 32-bit floats to be squared.
- * @return The squared vector.
+ * @param a A 2 element vector of 32-bit floats to get the square root of.
+ * @return The square root vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSqrt_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the reciprocal square root of each element in the vector.
- * @param a A 2 element vector of 32-bit floats to be inversely squared.
- * @return The inverse square vector.
+ * @param a A 2 element vector of 32-bit floats to get the inverse square root of.
+ * @return The inverse square root vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvSqrt_f32x2(const CCSimd_f32x2 a);
+
+
+#pragma mark Cube Root
+
+/*!
+ * @brief Compute the cube root of each element in the vector.
+ * @param a A 2 element vector of 32-bit floats to get the cube root of.
+ * @return The cube root vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCbrt_f32x2(const CCSimd_f32x2 a);
+
+/*!
+ * @brief Compute the reciprocal cube root of each element in the vector.
+ * @param a A 2 element vector of 32-bit floats to get the inverse cube root of.
+ * @return The inverse cube root vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvCbrt_f32x2(const CCSimd_f32x2 a);
 
 
 #pragma mark Power
@@ -5448,6 +5465,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdPow2_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp_f32x2
 #undef CC_SIMD_MISSING_CCSimdExp2_f32x2
+#undef CC_SIMD_MISSING_CCSimdCbrt_f32x2
+#undef CC_SIMD_MISSING_CCSimdInvCbrt_f32x2
 
 #define CC_SIMD_MISSING_CCSimdZero CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdSetSequence CC_SIMD_64_TYPES
@@ -5494,6 +5513,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdPow2_f32x2
 #define CC_SIMD_MISSING_CCSimdExp_f32x2
 #define CC_SIMD_MISSING_CCSimdExp2_f32x2
+#define CC_SIMD_MISSING_CCSimdCbrt_f32x2
+#define CC_SIMD_MISSING_CCSimdInvCbrt_f32x2
 
 #define CC_SIMD_64_2_ELEMENT_INTEGER_TYPES \
 (s32, 2), \
@@ -7646,6 +7667,20 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a)
     
     return CCSimd_f32x2_Reinterpret_u32x2(CCSimd_u32x2_Cast_f32x2(CCSimdMul_f32x2(Base, Result)));
 #endif
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCbrt_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCbrt_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdPow_f32x2(a, CCSimdFill_f32x2(1.0f / 3.0f));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdInvCbrt_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvCbrt_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdDiv_f32x2(CCSimdFill_f32x2(1.0f), CCSimdCbrt_f32x2(a));
 }
 #endif
 

@@ -4447,6 +4447,14 @@
     XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[0], 1.0f / sqrtf(10.0f), 0.01f), @"should contain the correct value");
     XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[1], 1.0f / sqrtf(11.0f), 0.01f), @"should contain the correct value");
     
+    CCSimdStore_f32x2(Result_f32, CCSimdCbrt_f32x2(VecA_f32x2));
+    XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[0], cbrtf(10.0f), 0.01f), @"should contain the correct value");
+    XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[1], cbrtf(11.0f), 0.01f), @"should contain the correct value");
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdInvCbrt_f32x2(VecA_f32x2));
+    XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[0], 1.0f / cbrtf(10.0f), 0.01f), @"should contain the correct value");
+    XCTAssertTrue(CCFloatEqualAbsolute(Result_f32[1], 1.0f / cbrtf(11.0f), 0.01f), @"should contain the correct value");
+    
     const CCSimd_f32x2 VecPos_f32x2 = CCSimdLoad_f32x2((float[2]){ 10.5f, 11.5f });
     
     CCSimdStore_f32x2(Result_f32, CCSimdRoundNearestAway_f32x2(VecPos_f32x2));
