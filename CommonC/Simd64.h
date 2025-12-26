@@ -5132,6 +5132,36 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a);
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a);
 
 
+#pragma mark Cosecant
+
+/*!
+ * @brief Compute the cosecant (reciprocal sine) of each radian element in the vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The cosecant vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCsc_f32x2(const CCSimd_f32x2 a);
+
+
+#pragma mark Secant
+
+/*!
+ * @brief Compute the secant (reciprocal cosine) of each radian element in the vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The secant vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSec_f32x2(const CCSimd_f32x2 a);
+
+
+#pragma mark Cotangent
+
+/*!
+ * @brief Compute the cotangent (reciprocal tangent) of each radian element in the vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The cotangent vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCot_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark - Reordering
 #pragma mark Swizzle
 
@@ -5470,6 +5500,9 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdCos_f32x2
 #undef CC_SIMD_MISSING_CCSimdTan_f32x2
+#undef CC_SIMD_MISSING_CCSimdCsc_f32x2
+#undef CC_SIMD_MISSING_CCSimdSec_f32x2
+#undef CC_SIMD_MISSING_CCSimdCot_f32x2
 #undef CC_SIMD_MISSING_CCSimdLog2_f32x2
 #undef CC_SIMD_MISSING_CCSimdLog_f32x2
 #undef CC_SIMD_MISSING_CCSimdPow_f32x2
@@ -5519,6 +5552,9 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdSin_f32x2
 #define CC_SIMD_MISSING_CCSimdCos_f32x2
 #define CC_SIMD_MISSING_CCSimdTan_f32x2
+#define CC_SIMD_MISSING_CCSimdCsc_f32x2
+#define CC_SIMD_MISSING_CCSimdSec_f32x2
+#define CC_SIMD_MISSING_CCSimdCot_f32x2
 #define CC_SIMD_MISSING_CCSimdLog2_f32x2
 #define CC_SIMD_MISSING_CCSimdLog_f32x2
 #define CC_SIMD_MISSING_CCSimdPow_f32x2
@@ -7513,6 +7549,27 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a)
 {
     return CCSimdDiv_f32x2(CCSimdSin_f32x2(a), CCSimdCos_f32x2(a));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCsc_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCsc_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdDiv_f32x2(CCSimdFill_f32x2(1.0f), CCSimdSin_f32x2(a));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdSec_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSec_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdDiv_f32x2(CCSimdFill_f32x2(1.0f), CCSimdCos_f32x2(a));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdCot_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCot_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdDiv_f32x2(CCSimdFill_f32x2(1.0f), CCSimdTan_f32x2(a));
 }
 #endif
 

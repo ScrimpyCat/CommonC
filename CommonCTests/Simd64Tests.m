@@ -1111,6 +1111,44 @@
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], tanf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], tanf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[1]), Result[1]);
     }
+    
+    
+    
+    
+    for (size_t Loop = 0; Loop < 72; Loop += 2)
+    {
+        const float Values[2] = { DEGREES_TO_RADIANS(Loop * 15), DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdCsc_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        if (Loop % 12) XCTAssertTrue(CCFloatEqualAbsolute(Result[0], 1.0f / sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / sinf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], 1.0f / sinf(Values[1]), 0.025f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / sinf(Values[1]), Result[1]);
+    }
+    
+    for (size_t Loop = 0; Loop < 72; Loop += 2)
+    {
+        const float Values[2] = { DEGREES_TO_RADIANS(Loop * 15), DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        CCSimdStore_f32x2(Result, CCSimdSec_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        if ((Loop + 6) % 12) XCTAssertTrue(CCFloatEqualAbsolute(Result[0], 1.0f / cosf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / cosf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], 1.0f / cosf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / cosf(Values[1]), Result[1]);
+    }
+    
+    for (size_t Loop = 0; Loop < 72; Loop += 2)
+    {
+        const float Values[2] = { DEGREES_TO_RADIANS(Loop * 15), DEGREES_TO_RADIANS(Loop * 15 + 15) };
+        float Result[2];
+        
+        if (fabsf(sinf(Values[0])) == 1.0f) continue;
+        
+        CCSimdStore_f32x2(Result, CCSimdCot_f32x2(CCSimdLoad_f32x2(Values)));
+        
+        if (Loop % 12) XCTAssertTrue(CCFloatEqualAbsolute(Result[0], 1.0f / tanf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / tanf(Values[0]), Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], 1.0f / tanf(Values[1]), 0.025f), @"should contain the correct value (approx: %f) instead got: %f", 1.0f / tanf(Values[1]), Result[1]);
+    }
 }
 
 -(void) testBitwiseOperations
