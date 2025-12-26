@@ -5487,6 +5487,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdNegMadd
 #undef CC_SIMD_MISSING_CCSimdMsub
 #undef CC_SIMD_MISSING_CCSimdNegMsub
+#undef CC_SIMD_MISSING_CCSimdDiv
 #undef CC_SIMD_MISSING_CCSimdMod
 #undef CC_SIMD_MISSING_CCSimdHadd
 #undef CC_SIMD_MISSING_CCSimdHsub
@@ -5539,6 +5540,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdNegMadd CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdMsub CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdNegMsub CC_SIMD_64_TYPES
+#define CC_SIMD_MISSING_CCSimdDiv CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdMod CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdHadd CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdHsub CC_SIMD_64_TYPES
@@ -6098,55 +6100,40 @@ CC_SIMD_DECL(CCSimdSub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 CC_SIMD_DECL(CCSimdMul, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 #undef CC_SIMD_IMPL
 
-#if CC_SIMD_COMPATIBILITY
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = vset_lane_##base(vget_lane_##base(a, 0) / vget_lane_##base(b, 0), Result, 0); \
-    Result = vset_lane_##base(vget_lane_##base(a, 1) / vget_lane_##base(b, 1), Result, 1); \
-    \
-    return Result; \
-}
-CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_2_ELEMENT_INTEGER_TYPES)
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(c, a, b); }
+CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = vset_lane_##base(vget_lane_##base(a, 0) / vget_lane_##base(b, 0), Result, 0); \
-    Result = vset_lane_##base(vget_lane_##base(a, 1) / vget_lane_##base(b, 1), Result, 1); \
-    Result = vset_lane_##base(vget_lane_##base(a, 2) / vget_lane_##base(b, 2), Result, 2); \
-    Result = vset_lane_##base(vget_lane_##base(a, 3) / vget_lane_##base(b, 3), Result, 3); \
-    \
-    return Result; \
-}
-CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_MISSING_CCSimdMadd
+#define CC_SIMD_MISSING_CCSimdMadd CC_SIMD_64_INTEGER_TYPES
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(c, a, b); }
+CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
-{ \
-    CC_SIMD_TYPE(base, count) Result = a; \
-    \
-    Result = vset_lane_##base(vget_lane_##base(a, 0) / vget_lane_##base(b, 0), Result, 0); \
-    Result = vset_lane_##base(vget_lane_##base(a, 1) / vget_lane_##base(b, 1), Result, 1); \
-    Result = vset_lane_##base(vget_lane_##base(a, 2) / vget_lane_##base(b, 2), Result, 2); \
-    Result = vset_lane_##base(vget_lane_##base(a, 3) / vget_lane_##base(b, 3), Result, 3); \
-    Result = vset_lane_##base(vget_lane_##base(a, 4) / vget_lane_##base(b, 4), Result, 4); \
-    Result = vset_lane_##base(vget_lane_##base(a, 5) / vget_lane_##base(b, 5), Result, 5); \
-    Result = vset_lane_##base(vget_lane_##base(a, 6) / vget_lane_##base(b, 6), Result, 6); \
-    Result = vset_lane_##base(vget_lane_##base(a, 7) / vget_lane_##base(b, 7), Result, 7); \
-    \
-    return Result; \
-}
-CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_INTEGER_TYPES)
+#undef CC_SIMD_MISSING_CCSimdNegMadd
+#define CC_SIMD_MISSING_CCSimdNegMadd CC_SIMD_64_INTEGER_TYPES
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
+CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
-#endif
+
+#undef CC_SIMD_MISSING_CCSimdMsub
+#define CC_SIMD_MISSING_CCSimdMsub CC_SIMD_64_INTEGER_TYPES
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
+CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
+#undef CC_SIMD_IMPL
+
+#undef CC_SIMD_MISSING_CCSimdNegMsub
+#define CC_SIMD_MISSING_CCSimdNegMsub CC_SIMD_64_INTEGER_TYPES
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vdiv_##base(a, b); }
 CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
 #undef CC_SIMD_IMPL
+
+#undef CC_SIMD_MISSING_CCSimdDiv
+#define CC_SIMD_MISSING_CCSimdDiv CC_SIMD_64_INTEGER_TYPES
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vrnda_##base(a); }
 CC_SIMD_DECL(CCSimdRoundNearestAway, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_FLOAT_TYPES)
@@ -7142,42 +7129,44 @@ CC_SIMD_DECL(CCSimdMaskCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD_TO(u), CC_SIMD_
 
 #ifdef CC_SIMD_MISSING_CCSimdMadd
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
-CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMadd))
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(c, a, b); }
-CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMadd))
+CC_SIMD_DECL(CCSimdMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdMadd)
 #undef CC_SIMD_IMPL
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdNegMadd
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdAdd, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
-CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNegMadd))
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(c, a, b); }
-CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdNegMadd))
+CC_SIMD_DECL(CCSimdNegMadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdNegMadd)
 #undef CC_SIMD_IMPL
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdMsub
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), c); }
-CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdMsub))
-#undef CC_SIMD_IMPL
-
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfma_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
-CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdMsub))
+CC_SIMD_DECL(CCSimdMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdMsub)
 #undef CC_SIMD_IMPL
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdNegMsub
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return CC_SIMD_NAME(CCSimdSub, base, count)(CC_SIMD_NAME(CCSimdNeg, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b)), c); }
-CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdNegMsub))
+CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdNegMsub)
 #undef CC_SIMD_IMPL
+#endif
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, const CC_SIMD_TYPE(base, count) c){ return vfms_##base(CC_SIMD_NAME(CCSimdNeg, base, count)(c), a, b); }
-CC_SIMD_DECL(CCSimdNegMsub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_64_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdNegMsub))
+#ifdef CC_SIMD_MISSING_CCSimdDiv
+#if CC_SIMD_COMPATIBILITY
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
+{ \
+    CC_SIMD_TYPE(base, count) Result = a; \
+    \
+    for (size_t Loop = 0; Loop < count; Loop++) \
+    { \
+        Result = CC_SIMD_NAME(CCSimdSet, base, count)(Result, Loop, CC_SIMD_NAME(CCSimdGet, base, count)(a, Loop) / CC_SIMD_NAME(CCSimdGet, base, count)(b, Loop)); \
+    } \
+    \
+    return Result; \
+}
+CC_SIMD_DECL(CCSimdDiv, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdDiv)
 #undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdMod
