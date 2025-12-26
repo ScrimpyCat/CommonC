@@ -5078,29 +5078,29 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog2_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the sine of each radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be sined.
- * @return The sined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The sine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the sine of each positive radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be sined.
- * @return The sined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The sine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the sine of each -pi to pi (-180° to 180°) radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be sined.
- * @return The sined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The sine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the sine of each 0 to pi (0° to 180°) radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be sined.
- * @return The sined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The sine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a);
 
@@ -5109,17 +5109,27 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
 
 /*!
  * @brief Compute the cosine of each -pi/2 to pi/2 (-90° to 90°) radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be cosined.
- * @return The cosined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The cosine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the cosine of each radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be cosined.
- * @return The cosined vector.
+ * @param a A 2 element vector of 32-bit float radians.
+ * @return The cosine vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a);
+
+
+#pragma mark Tangent
+
+/*!
+ * @brief Compute the tangent of each radian element in the vector.
+ * @param a A 2 element vector of 32-bit floats to be tanned.
+ * @return The tangent vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a);
 
 
 #pragma mark - Reordering
@@ -5459,6 +5469,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdSin_f32x2
 #undef CC_SIMD_MISSING_CCSimdCos_f32x2
+#undef CC_SIMD_MISSING_CCSimdTan_f32x2
 #undef CC_SIMD_MISSING_CCSimdLog2_f32x2
 #undef CC_SIMD_MISSING_CCSimdLog_f32x2
 #undef CC_SIMD_MISSING_CCSimdPow_f32x2
@@ -5507,6 +5518,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
 #define CC_SIMD_MISSING_CCSimdSin_f32x2
 #define CC_SIMD_MISSING_CCSimdCos_f32x2
+#define CC_SIMD_MISSING_CCSimdTan_f32x2
 #define CC_SIMD_MISSING_CCSimdLog2_f32x2
 #define CC_SIMD_MISSING_CCSimdLog_f32x2
 #define CC_SIMD_MISSING_CCSimdPow_f32x2
@@ -7494,6 +7506,13 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
     Value = CCSimdSub_f32x2(CCSimdMod_f32x2(Value, Pi), HalfPi);
     
     return CCSimdMul_f32x2(CCSimdHalfPiRadCos_f32x2(Value), Sign);
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdTan_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a)
+{
+    return CCSimdDiv_f32x2(CCSimdSin_f32x2(a), CCSimdCos_f32x2(a));
 }
 #endif
 
