@@ -576,7 +576,7 @@
  *        speed above all else.
  */
 #ifndef CC_SIMD_MATH_ACCURACY
-#define CC_SIMD_MATH_ACCURACY 100
+#define CC_SIMD_MATH_ACCURACY 0
 #endif
 
 /*!
@@ -587,6 +587,16 @@
  */
 #ifndef CC_SIMD_TRIG_ACCURACY
 #define CC_SIMD_TRIG_ACCURACY CC_SIMD_MATH_ACCURACY
+#endif
+
+/*!
+ * @define CC_SIMD_COMPATIBILITY
+ * @brief Define this to select whether to include fallback scalar implementations for when
+ *        there isn't a SIMD equivalent. The default is 0, scalar implementations will not be
+ *        used.
+ */
+#ifndef CC_SIMD_COMPATIBILITY
+#define CC_SIMD_COMPATIBILITY 0
 #endif
 
 #include <CommonC/Simd64.h>
