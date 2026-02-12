@@ -7546,7 +7546,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
 {
     const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
     
-#if CC_SIMD_MATH_ACCURACY < 2
+#if CC_SIMD_TRIG_ACCURACY < 2
     // Based off 4.4.45 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
     const CCSimd_f32x2 a0 = CCSimdFill_f32x2(1.5707288f);
     const CCSimd_f32x2 a1 = CCSimdFill_f32x2(-0.2121144f);
@@ -7567,7 +7567,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
     const CCSimd_f32x2 x1 = a;
     const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
     const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
-#if CC_SIMD_MATH_ACCURACY >= 2
+#if CC_SIMD_TRIG_ACCURACY >= 2
     const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
     const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
     const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
@@ -7578,7 +7578,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
     Result = CCSimdMadd_f32x2(a1, x1, Result);
     Result = CCSimdMadd_f32x2(a2, x2, Result);
     Result = CCSimdMadd_f32x2(a3, x3, Result);
-#if CC_SIMD_MATH_ACCURACY >= 2
+#if CC_SIMD_TRIG_ACCURACY >= 2
     Result = CCSimdMadd_f32x2(a4, x4, Result);
     Result = CCSimdMadd_f32x2(a5, x5, Result);
     Result = CCSimdMadd_f32x2(a6, x6, Result);
