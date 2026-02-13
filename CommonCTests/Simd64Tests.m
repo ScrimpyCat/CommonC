@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 
+#define CC_SIMD_MATH_ACCURACY 100
 #define CC_SIMD_COMPATIBILITY 1
 #import "Simd.h"
 
@@ -981,6 +982,13 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], sinf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { asinf(CCClamp(Result[0], 0.0f, 1.0f)), asinf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        
+        CCSimdStore_f32x2(Result, CCSimdArcSin_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     for (size_t Loop = 0; Loop < 72; Loop += 2)
@@ -992,6 +1000,12 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], sinf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], sinf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", sinf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { asinf(CCClamp(Result[0], 0.0f, 1.0f)), asinf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        CCSimdStore_f32x2(Result, CCSimdArcSin_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     for (size_t Loop = 0; Loop < 12; Loop += 2)
@@ -1049,6 +1063,13 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], cosf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], cosf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { acosf(CCClamp(Result[0], 0.0f, 1.0f)), acosf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        
+        CCSimdStore_f32x2(Result, CCSimdArcCos_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     for (size_t Loop = 0; Loop < 72; Loop += 2)
@@ -1060,6 +1081,13 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], cosf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], cosf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", cosf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { acosf(CCClamp(Result[0], 0.0f, 1.0f)), acosf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        
+        CCSimdStore_f32x2(Result, CCSimdArcCos_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     for (size_t Loop = 0; Loop < 6; Loop += 2)
@@ -1097,6 +1125,13 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], tanf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], tanf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { atanf(CCClamp(Result[0], 0.0f, 1.0f)), atanf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        
+        CCSimdStore_f32x2(Result, CCSimdArcTan_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     for (size_t Loop = 0; Loop < 72; Loop += 2)
@@ -1110,6 +1145,13 @@
         
         XCTAssertTrue(CCFloatEqualAbsolute(Result[0], tanf(Values[0]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[0]), Result[0]);
         XCTAssertTrue(CCFloatEqualAbsolute(Result[1], tanf(Values[1]), 0.01f), @"should contain the correct value (approx: %f) instead got: %f", tanf(Values[1]), Result[1]);
+        
+        const float Expected[2] = { atanf(CCClamp(Result[0], 0.0f, 1.0f)), atanf(CCClamp(Result[1], 0.0f, 1.0f)) };
+        
+        CCSimdStore_f32x2(Result, CCSimdArcTan_f32x2(CCSimdClamp_f32x2(CCSimdLoad_f32x2(Result), CCSimdZero_f32x2(), CCSimdFill_f32x2(1.0f))));
+        
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[0], Expected[0], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[0], Result[0]);
+        XCTAssertTrue(CCFloatEqualAbsolute(Result[1], Expected[1], 0.01f), @"should contain the correct value (approx: %f) instead got: %f", Expected[1], Result[1]);
     }
     
     
