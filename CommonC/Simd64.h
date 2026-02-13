@@ -5145,6 +5145,13 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcCos_f32x2(const CCSimd_f32x2 a);
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a);
 
 /*!
+ * @brief Compute the arc tangent of each -tan(pi/4) to tan(pi/4) (-1 to 1) element in the vector.
+ * @param a A 2 element vector of 32-bit float.
+ * @return The arc tangent vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdQtrPiArcTan_f32x2(const CCSimd_f32x2 a);
+
+/*!
  * @brief Compute the arc tangent of each element in the vector.
  * @param a A 2 element vector of 32-bit float.
  * @return The arc tangent vector.
@@ -5523,6 +5530,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdCos_f32x2
 #undef CC_SIMD_MISSING_CCSimdArcCos_f32x2
 #undef CC_SIMD_MISSING_CCSimdTan_f32x2
+#undef CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
 #undef CC_SIMD_MISSING_CCSimdArcTan_f32x2
 #undef CC_SIMD_MISSING_CCSimdCsc_f32x2
 #undef CC_SIMD_MISSING_CCSimdSec_f32x2
@@ -5579,6 +5587,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdCos_f32x2
 #define CC_SIMD_MISSING_CCSimdArcCos_f32x2
 #define CC_SIMD_MISSING_CCSimdTan_f32x2
+#define CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
 #define CC_SIMD_MISSING_CCSimdArcTan_f32x2
 #define CC_SIMD_MISSING_CCSimdCsc_f32x2
 #define CC_SIMD_MISSING_CCSimdSec_f32x2
@@ -7439,9 +7448,9 @@ CC_SIMD_DECL(CCSimdClamp, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdClamp)
 #ifdef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a)
 {
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(CC_PI);
     const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
-    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * M_PI * M_PI);
+    const CCSimd_f32x2 PiSqr5 = CCSimdFill_f32x2(5.0f * CC_PI * CC_PI);
     
     CCSimd_f32x2 Value = a;
     
@@ -7458,7 +7467,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 
 {
 #if CC_SIMD_TRIG_ACCURACY == 0
     const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
-    const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(M_PI * M_PI);
+    const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(CC_PI * CC_PI);
     
     CCSimd_f32x2 Value = a;
     
@@ -7490,8 +7499,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 
 #ifdef CC_SIMD_MISSING_CCSimdPosSin_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosSin_f32x2(const CCSimd_f32x2 a)
 {
-    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(CC_PI * 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(CC_PI);
     const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
     
     CCSimd_f32x2 Value = a;
@@ -7523,8 +7532,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPiRadSin_f32x2(const CCSimd_f32x2 a)
 #ifdef CC_SIMD_MISSING_CCSimdSin_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
 {
-    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(M_PI * 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 Pi2 = CCSimdFill_f32x2(CC_PI * 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(CC_PI);
     const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
     
     CCSimd_f32x2 Value = CCSimdAbs_f32x2(a);
@@ -7544,7 +7553,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSin_f32x2(const CCSimd_f32x2 a)
 #ifdef CC_SIMD_MISSING_CCSimdArcSin_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
 {
-    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
     
 #if CC_SIMD_TRIG_ACCURACY < 2
     // Based off 4.4.45 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
@@ -7594,8 +7603,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
 #ifdef CC_SIMD_MISSING_CCSimdCos_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
 {
-    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(M_PI / 2.0f);
-    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(M_PI);
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(CC_PI);
     const CCSimd_f32x2 Two = CCSimdFill_f32x2(2.0f);
     const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
     
@@ -7610,10 +7619,73 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCos_f32x2(const CCSimd_f32x2 a)
 }
 #endif
 
+#ifdef CC_SIMD_MISSING_CCSimdArcCos_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcCos_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
+   
+    return CCSimdSub_f32x2(HalfPi, CCSimdArcSin_f32x2(a));
+}
+#endif
+
 #ifdef CC_SIMD_MISSING_CCSimdTan_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a)
 {
     return CCSimdDiv_f32x2(CCSimdSin_f32x2(a), CCSimdCos_f32x2(a));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdQtrPiArcTan_f32x2(const CCSimd_f32x2 a)
+{
+#if CC_SIMD_TRIG_ACCURACY < 2
+    // Based off 4.4.48 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
+    const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 C28 = CCSimdFill_f32x2(0.28f);
+    
+    return CCSimdDiv_f32x2(a, CCSimdMadd_f32x2(CCSimdMul_f32x2(a, a), C28, One));
+#else
+    // Based off 4.4.47 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
+    const CCSimd_f32x2 a1 = CCSimdFill_f32x2(0.9998660f);
+    const CCSimd_f32x2 a3 = CCSimdFill_f32x2(-0.3302995f);
+    const CCSimd_f32x2 a5 = CCSimdFill_f32x2(0.1801410f);
+    const CCSimd_f32x2 a7 = CCSimdFill_f32x2(-0.0851330f);
+    const CCSimd_f32x2 a9 = CCSimdFill_f32x2(0.0208351f);
+    
+    const CCSimd_f32x2 x1 = a;
+    const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
+    const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
+    const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
+    const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
+    const CCSimd_f32x2 x7 = CCSimdMul_f32x2(x3, x4);
+    const CCSimd_f32x2 x9 = CCSimdMul_f32x2(x4, x5);
+    
+    CCSimd_f32x2 Result = CCSimdMul_f32x2(a1, x1);
+    Result = CCSimdMadd_f32x2(a3, x3, Result);
+    Result = CCSimdMadd_f32x2(a5, x5, Result);
+    Result = CCSimdMadd_f32x2(a7, x7, Result);
+    Result = CCSimdMadd_f32x2(a9, x9, Result);
+    
+    return Result;
+#endif
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdArcTan_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcTan_f32x2(const CCSimd_f32x2 a)
+{
+    const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
+    const CCSimd_f32x2 NegOne = CCSimdFill_f32x2(-1.0f);
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
+    
+    const CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdMaskCompareLessThan_f32x2(a, NegOne), 31);
+    const CCSimd_u32x2 BoundsMask = CCSimdMaskCompareLessThanEqual_f32x2(CCSimd_f32x2_Reinterpret_u32x2(CCSimdXor_u32x2(Sign, CCSimd_u32x2_Reinterpret_f32x2(a))), One);
+    
+    CCSimd_f32x2 Bounds = CCSimd_f32x2_Reinterpret_u32x2(CCSimdAndNot_u32x2(BoundsMask, CCSimdOr_u32x2(Sign, CCSimd_u32x2_Reinterpret_f32x2(HalfPi))));
+    
+    const CCSimd_f32x2 Radians = CCSimdQtrPiArcTan_f32x2(CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAnd_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(a)), CCSimdAndNot_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(CCSimdDiv_f32x2(One, a))))));
+    
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAnd_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(Radians)), CCSimdAndNot_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(CCSimdSub_f32x2(Bounds, Radians)))));
 }
 #endif
 
