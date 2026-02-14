@@ -5158,6 +5158,18 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdQtrPiArcTan_f32x2(const CCSimd_f32x2 a
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcTan_f32x2(const CCSimd_f32x2 a);
 
+/*!
+ * @brief Compute the arc tangent of y / x of each element in the vector.
+ * @note When @b CC_SIMD_ARCTAN2_PRINCIPAL is defined the range (-pi, pi] is used, otherwise the default
+ *       uses [-pi, pi]. By default when x and y are 0 the result is undefined, if @b CC_SIMD_ARCTAN2_UNDEFINED_AS_ZERO
+ *       is defined 0.0 is returned, or @b CC_SIMD_ARCTAN2_UNDEFINED can be defined to the desired return value.
+ *
+ * @param y A 2 element vector of 32-bit float.
+ * @param x A 2 element vector of 32-bit float.
+ * @return The arc tangent vector of y / x.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcTan2_f32x2(const CCSimd_f32x2 y, const CCSimd_f32x2 x);
+
 
 #pragma mark Cosecant
 
@@ -5532,6 +5544,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdTan_f32x2
 #undef CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
 #undef CC_SIMD_MISSING_CCSimdArcTan_f32x2
+#undef CC_SIMD_MISSING_CCSimdArcTan2_f32x2
 #undef CC_SIMD_MISSING_CCSimdCsc_f32x2
 #undef CC_SIMD_MISSING_CCSimdSec_f32x2
 #undef CC_SIMD_MISSING_CCSimdCot_f32x2
@@ -5589,6 +5602,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #define CC_SIMD_MISSING_CCSimdTan_f32x2
 #define CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
 #define CC_SIMD_MISSING_CCSimdArcTan_f32x2
+#define CC_SIMD_MISSING_CCSimdArcTan2_f32x2
 #define CC_SIMD_MISSING_CCSimdCsc_f32x2
 #define CC_SIMD_MISSING_CCSimdSec_f32x2
 #define CC_SIMD_MISSING_CCSimdCot_f32x2
@@ -7686,6 +7700,42 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcTan_f32x2(const CCSimd_f32x2 a)
     const CCSimd_f32x2 Radians = CCSimdQtrPiArcTan_f32x2(CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAnd_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(a)), CCSimdAndNot_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(CCSimdDiv_f32x2(One, a))))));
     
     return CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAnd_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(Radians)), CCSimdAndNot_u32x2(BoundsMask, CCSimd_u32x2_Reinterpret_f32x2(CCSimdSub_f32x2(Bounds, Radians)))));
+}
+#endif
+
+#ifdef CC_SIMD_MISSING_CCSimdArcTan2_f32x2
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcTan2_f32x2(const CCSimd_f32x2 y, const CCSimd_f32x2 x)
+{
+    const CCSimd_f32x2 Zero = CCSimdZero_f32x2();
+    const CCSimd_f32x2 Pi = CCSimdFill_f32x2(CC_PI);
+    const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
+    
+    const CCSimd_u32x2 MaskX = CCSimdMaskCompareNotEqual_f32x2(x, Zero);
+    const CCSimd_u32x2 MaskY = CCSimdMaskCompareLessThanEqual_f32x2(x, Zero);
+#ifdef CC_SIMD_ARCTAN2_PRINCIPAL // (-pi, pi]
+    const CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdMaskCompareLessThan_f32x2(y, Zero), 31);
+#else // [-pi, pi]
+    const CCSimd_u32x2 Sign = CCSimdShiftLeftN_u32x2(CCSimdShiftRightN_u32x2(CCSimd_u32x2_Reinterpret_f32x2(y), 31), 31);
+#endif
+#if defined(CC_SIMD_ARCTAN2_UNDEFINED_AS_ZERO) || defined(CC_SIMD_ARCTAN2_UNDEFINED)
+    const CCSimd_u32x2 IsZero = CCSimdOr_u32x2(MaskX, CCSimdMaskCompareNotEqual_f32x2(y, Zero));
+#endif
+#ifdef CC_SIMD_ARCTAN2_UNDEFINED
+    const CCSimd_f32x2 Undefined = CCSimdFill_f32x2(CC_SIMD_ARCTAN2_UNDEFINED);
+#endif
+        
+    const CCSimd_f32x2 ResultYX = CCSimd_f32x2_Reinterpret_u32x2(CCSimdAnd_u32x2(CCSimd_u32x2_Reinterpret_f32x2(CCSimdArcTan_f32x2(CCSimdDiv_f32x2(y, x))), MaskX));
+    const CCSimd_f32x2 ResultPi = CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(Sign, CCSimdOr_u32x2(CCSimdAndNot_u32x2(MaskX, CCSimd_u32x2_Reinterpret_f32x2(HalfPi)), CCSimdAnd_u32x2(CCSimdAnd_u32x2(MaskX, CCSimd_u32x2_Reinterpret_f32x2(Pi)), MaskY))));
+    
+    CCSimd_f32x2 Result = CCSimdAdd_f32x2(ResultYX, ResultPi);
+    
+#ifdef CC_SIMD_ARCTAN2_UNDEFINED_AS_ZERO
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdAnd_u32x2(IsZero, CCSimd_u32x2_Reinterpret_f32x2(Result)));
+#elif defined(CC_SIMD_ARCTAN2_UNDEFINED)
+    return CCSimd_f32x2_Reinterpret_u32x2(CCSimdOr_u32x2(CCSimdAnd_u32x2(IsZero, CCSimd_u32x2_Reinterpret_f32x2(Result)), CCSimdAndNot_u32x2(IsZero, CCSimd_u32x2_Reinterpret_f32x2(Undefined))));
+#else
+    return Result;
+#endif
 }
 #endif
 
