@@ -582,8 +582,7 @@
 /*!
  * @define CC_SIMD_TRIG_ACCURACY
  * @brief Define this to select which trigonometry implementations are used. A higher value
- *        selects slower but more accurate implementations. The default is 0, prioritising
- *        speed above all else.
+ *        selects slower but more accurate implementations. The default is @b CC_SIMD_MATH_ACCURACY.
  */
 #ifndef CC_SIMD_TRIG_ACCURACY
 #define CC_SIMD_TRIG_ACCURACY CC_SIMD_MATH_ACCURACY
@@ -597,6 +596,26 @@
  */
 #ifndef CC_SIMD_COMPATIBILITY
 #define CC_SIMD_COMPATIBILITY 0
+#endif
+
+#ifndef CC_SIMD_EXP_ACCURACY
+#define CC_SIMD_EXP_ACCURACY CC_SIMD_MATH_ACCURACY
+#endif
+
+#ifndef CC_SIMD_EXP2_ACCURACY
+#define CC_SIMD_EXP2_ACCURACY CC_SIMD_MATH_ACCURACY
+#endif
+
+#ifndef CC_SIMD_HALF_PI_RAD_COS_ACCURACY
+#define CC_SIMD_HALF_PI_RAD_COS_ACCURACY CC_SIMD_TRIG_ACCURACY
+#endif
+
+#ifndef CC_SIMD_ARCSIN_ACCURACY
+#define CC_SIMD_ARCSIN_ACCURACY CC_SIMD_TRIG_ACCURACY
+#endif
+
+#ifndef CC_SIMD_QTR_PI_ARCTAN_ACCURACY
+#define CC_SIMD_QTR_PI_ARCTAN_ACCURACY CC_SIMD_TRIG_ACCURACY
 #endif
 
 #include <CommonC/Simd64.h>

@@ -7479,7 +7479,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
 #ifdef CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 a)
 {
-#if CC_SIMD_TRIG_ACCURACY == 0
+#if CC_SIMD_HALF_PI_RAD_COS_ACCURACY == 0
     const CCSimd_f32x2 M = CCSimdFill_f32x2(4.0f);
     const CCSimd_f32x2 PiSqr = CCSimdFill_f32x2(CC_PI * CC_PI);
     
@@ -7490,7 +7490,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdHalfPiRadCos_f32x2(const CCSimd_f32x2 
     Value = CCSimdDiv_f32x2(CCSimdNegMadd_f32x2(M, Value, PiSqr), CCSimdAdd_f32x2(PiSqr, Value));
     
     return Value;
-#elif CC_SIMD_TRIG_ACCURACY >= 1
+#elif CC_SIMD_HALF_PI_RAD_COS_ACCURACY >= 1
     // More accurate but requires more gpr use
     
     // https://math.stackexchange.com/questions/976462/a-1400-years-old-approximation-to-the-sine-function-by-mahabhaskariya-of-bhaskar/4763600#4763600
@@ -7569,7 +7569,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
 {
     const CCSimd_f32x2 HalfPi = CCSimdFill_f32x2(CC_PI / 2.0f);
     
-#if CC_SIMD_TRIG_ACCURACY < 2
+#if CC_SIMD_ARCSIN_ACCURACY < 2
     // Based off 4.4.45 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
     const CCSimd_f32x2 a0 = CCSimdFill_f32x2(1.5707288f);
     const CCSimd_f32x2 a1 = CCSimdFill_f32x2(-0.2121144f);
@@ -7590,7 +7590,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
     const CCSimd_f32x2 x1 = a;
     const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
     const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
-#if CC_SIMD_TRIG_ACCURACY >= 2
+#if CC_SIMD_ARCSIN_ACCURACY >= 2
     const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
     const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
     const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
@@ -7601,7 +7601,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a)
     Result = CCSimdMadd_f32x2(a1, x1, Result);
     Result = CCSimdMadd_f32x2(a2, x2, Result);
     Result = CCSimdMadd_f32x2(a3, x3, Result);
-#if CC_SIMD_TRIG_ACCURACY >= 2
+#if CC_SIMD_ARCSIN_ACCURACY >= 2
     Result = CCSimdMadd_f32x2(a4, x4, Result);
     Result = CCSimdMadd_f32x2(a5, x5, Result);
     Result = CCSimdMadd_f32x2(a6, x6, Result);
@@ -7652,7 +7652,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a)
 #ifdef CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdQtrPiArcTan_f32x2(const CCSimd_f32x2 a)
 {
-#if CC_SIMD_TRIG_ACCURACY < 2
+#if CC_SIMD_QTR_PI_ARCTAN_ACCURACY < 2
     // Based off 4.4.48 from Handbook of Mathematical Functions by Milton Abramowitz and Irene Stegun
     const CCSimd_f32x2 One = CCSimdFill_f32x2(1.0f);
     const CCSimd_f32x2 C28 = CCSimdFill_f32x2(0.28f);
@@ -7805,20 +7805,20 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow2_f32x2(const CCSimd_f32x2 Exponent
 #ifdef CC_SIMD_MISSING_CCSimdExp_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
 {
-#if CC_SIMD_MATH_ACCURACY < 4
+#if CC_SIMD_EXP_ACCURACY < 4
     // Taylor series approximation
     const CCSimd_f32x2 x0 = CCSimdFill_f32x2(1.0f);
     const CCSimd_f32x2 x1 = a;
     const CCSimd_f32x2 x2 = CCSimdMul_f32x2(x1, x1);
     const CCSimd_f32x2 x3 = CCSimdMul_f32x2(x1, x2);
     
-#if CC_SIMD_MATH_ACCURACY >= 1
+#if CC_SIMD_EXP_ACCURACY >= 1
     const CCSimd_f32x2 x4 = CCSimdMul_f32x2(x2, x2);
     const CCSimd_f32x2 x5 = CCSimdMul_f32x2(x2, x3);
-#if CC_SIMD_MATH_ACCURACY >= 2
+#if CC_SIMD_EXP_ACCURACY >= 2
     const CCSimd_f32x2 x6 = CCSimdMul_f32x2(x3, x3);
     const CCSimd_f32x2 x7 = CCSimdMul_f32x2(x3, x4);
-#if CC_SIMD_MATH_ACCURACY >= 3
+#if CC_SIMD_EXP_ACCURACY >= 3
     const CCSimd_f32x2 x8 = CCSimdMul_f32x2(x4, x4);
     const CCSimd_f32x2 x9 = CCSimdMul_f32x2(x4, x5);
 #endif
@@ -7829,13 +7829,13 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
     Result = CCSimdMadd_f32x2(x2, CCSimdFill_f32x2(1.0f / 2.0f), Result);
     Result = CCSimdMadd_f32x2(x3, CCSimdFill_f32x2(1.0f / 6.0f), Result);
     
-#if CC_SIMD_MATH_ACCURACY >= 1
+#if CC_SIMD_EXP_ACCURACY >= 1
     Result = CCSimdMadd_f32x2(x4, CCSimdFill_f32x2(1.0f / 24.0f), Result);
     Result = CCSimdMadd_f32x2(x5, CCSimdFill_f32x2(1.0f / 120.0f), Result);
-#if CC_SIMD_MATH_ACCURACY >= 2
+#if CC_SIMD_EXP_ACCURACY >= 2
     Result = CCSimdMadd_f32x2(x6, CCSimdFill_f32x2(1.0f / 720.0f), Result);
     Result = CCSimdMadd_f32x2(x7, CCSimdFill_f32x2(1.0f / 5040.0f), Result);
-#if CC_SIMD_MATH_ACCURACY >= 3
+#if CC_SIMD_EXP_ACCURACY >= 3
     Result = CCSimdMadd_f32x2(x8, CCSimdFill_f32x2(1.0f / 40320.0f), Result);
     Result = CCSimdMadd_f32x2(x9, CCSimdFill_f32x2(1.0f / 362880.0f), Result);
 #endif
@@ -7886,7 +7886,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp_f32x2(const CCSimd_f32x2 a)
 #ifdef CC_SIMD_MISSING_CCSimdExp2_f32x2
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdExp2_f32x2(const CCSimd_f32x2 a)
 {
-#if CC_SIMD_MATH_ACCURACY < 2
+#if CC_SIMD_EXP2_ACCURACY < 2
     // Based off Hao Hao Tan's 3rd-order polynomial approximation: https://gudgud96.github.io/2024/01/02/exp-2/
     const CCSimd_f32x2 C0 = CCSimdFill_f32x2(0.05700169f);
     const CCSimd_f32x2 C1 = CCSimdFill_f32x2(0.24858144f);
