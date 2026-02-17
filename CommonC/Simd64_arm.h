@@ -31,8 +31,6 @@
 #include <CommonC/Assertion.h>
 
 
-#if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
-
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_BASE_TYPE(base) v){ return vdup_n_##base(v); }
 CC_SIMD_DECL(CCSimdFill, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
 #undef CC_SIMD_IMPL
@@ -1215,7 +1213,5 @@ CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
 }
 CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
-
-#endif
 
 #endif
