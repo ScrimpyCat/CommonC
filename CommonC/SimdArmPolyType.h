@@ -23,21 +23,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CommonC_Simd64Types_arm_h
-#define CommonC_Simd64Types_arm_h
+#ifndef CommonC_SimdArmPolyType_h
+#define CommonC_SimdArmPolyType_h
 
-#include <arm_neon.h>
+#define CC_SIMD_INTERNAL_POLY_VALUE(name, i) name.val[i]
 
-typedef int8x8_t CCSimd_s8x8;
-typedef int16x4_t CCSimd_s16x4;
-typedef int32x2_t CCSimd_s32x2;
+#define CC_SIMD_INTERNAL_POLY_TYPE(base, count, poly) CC_SIMD_INTERNAL_POLY_TYPE_(CC_SIMD_INTERNAL_POLY_TYPE_##base, count, poly)
+#define CC_SIMD_INTERNAL_POLY_TYPE_(base, count, poly) CC_SIMD_INTERNAL_POLY_TYPE__(base, count, poly)
+#define CC_SIMD_INTERNAL_POLY_TYPE__(base, count, poly) base##x##count##x##poly##_t
 
-typedef uint8x8_t CCSimd_u8x8;
-typedef uint16x4_t CCSimd_u16x4;
-typedef uint32x2_t CCSimd_u32x2;
-
-typedef float32x2_t CCSimd_f32x2;
-
-#include <CommonC/SimdArmPolyType.h>
+#define CC_SIMD_INTERNAL_POLY_TYPE_s8 int8
+#define CC_SIMD_INTERNAL_POLY_TYPE_s16 int16
+#define CC_SIMD_INTERNAL_POLY_TYPE_s32 int32
+#define CC_SIMD_INTERNAL_POLY_TYPE_s64 int64
+#define CC_SIMD_INTERNAL_POLY_TYPE_u8 uint8
+#define CC_SIMD_INTERNAL_POLY_TYPE_u16 uint16
+#define CC_SIMD_INTERNAL_POLY_TYPE_u32 uint32
+#define CC_SIMD_INTERNAL_POLY_TYPE_u64 uint64
+#define CC_SIMD_INTERNAL_POLY_TYPE_f32 float32
+#define CC_SIMD_INTERNAL_POLY_TYPE_f64 double64
 
 #endif
