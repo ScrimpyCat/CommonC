@@ -83,7 +83,6 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdZero_s16x4(void);
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdZero_s32x2(void);
 
-
 /*!
  * @brief Initialise a vector with all zeroes.
  * @return The vector filled with zeroes.
@@ -179,35 +178,35 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdLoad_s16x4(const int16_t v[4]);
 
 /*!
  * @brief Load a vector from memory.
- * @param v A pointer to the data to load into a vector.
+ * @param v The data to load into a vector.
  * @return The vector with the loaded data.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLoad_s32x2(const int32_t v[2]);
 
 /*!
  * @brief Load a vector from memory.
- * @param v A pointer to the data to load into a vector.
+ * @param v The data to load into a vector.
  * @return The vector with the loaded data.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdLoad_u8x8(const uint8_t v[8]);
 
 /*!
  * @brief Load a vector from memory.
- * @param v A pointer to the data to load into a vector.
+ * @param v The data to load into a vector.
  * @return The vector with the loaded data.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdLoad_u16x4(const uint16_t v[4]);
 
 /*!
  * @brief Load a vector from memory.
- * @param v A pointer to the data to load into a vector.
+ * @param v The data to load into a vector.
  * @return The vector with the loaded data.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLoad_u32x2(const uint32_t v[2]);
 
 /*!
  * @brief Load a vector from memory.
- * @param v A pointer to the data to load into a vector.
+ * @param v The data to load into a vector.
  * @return The vector with the loaded data.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLoad_f32x2(const float v[2]);
@@ -553,8 +552,8 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x2(uint32_t dst[4], const
 /*!
  * @brief Store 2 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit floats to store. Every poly  vector[index % 2]
- *            will be stored at [index].
+ * @param src Two 2 element vectors of 32-bit floats to store. Every poly
+ *            vector[index % 2] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x2(float dst[4], const CCSimd_f32x2x2 src);
 
@@ -564,7 +563,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x2(float dst[4], const CC
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ * @param src Three 8 element vectors of 8-bit signed integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x3(int8_t dst[24], const CCSimd_s8x8x3 src);
@@ -572,7 +571,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x3(int8_t dst[24], const C
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ * @param src Three 4 element vectors of 16-bit signed integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x3(int16_t dst[12], const CCSimd_s16x4x3 src);
@@ -580,7 +579,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x3(int16_t dst[12], const
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit signed integers to store. Every poly
+ * @param src Three 2 element vectors of 32-bit signed integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x3(int32_t dst[6], const CCSimd_s32x2x3 src);
@@ -588,7 +587,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x3(int32_t dst[6], const 
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 8 element vectors of 8-bit unsigned integers to store. Every poly
+ * @param src Three 8 element vectors of 8-bit unsigned integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x3(uint8_t dst[24], const CCSimd_u8x8x3 src);
@@ -596,7 +595,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x3(uint8_t dst[24], const 
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 4 element vectors of 16-bit unsigned integers to store. Every poly
+ * @param src Three 4 element vectors of 16-bit unsigned integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x3(uint16_t dst[12], const CCSimd_u16x4x3 src);
@@ -604,7 +603,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x3(uint16_t dst[12], cons
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit unsigned integers to store. Every poly
+ * @param src Three 2 element vectors of 32-bit unsigned integers to store. Every poly
  *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x3(uint32_t dst[6], const CCSimd_u32x2x3 src);
@@ -612,18 +611,18 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x3(uint32_t dst[6], const
 /*!
  * @brief Store 3 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit floats to store. Every poly vector[index % 3]
- *            will be stored at [index].
+ * @param src Three 2 element vectors of 32-bit floats to store. Every poly
+ *            vector[index % 3] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x3(float dst[6], const CCSimd_f32x2x3 src);
 
 
-#pragma mark 3 Vector Interleaved Store
+#pragma mark 4 Vector Interleaved Store
 
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ * @param src Four 8 element vectors of 8-bit signed integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x4(int8_t dst[32], const CCSimd_s8x8x4 src);
@@ -631,7 +630,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s8x8x4(int8_t dst[32], const C
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ * @param src Four 4 element vectors of 16-bit signed integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x4(int16_t dst[16], const CCSimd_s16x4x4 src);
@@ -639,7 +638,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s16x4x4(int16_t dst[16], const
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit signed integers to store. Every poly
+ * @param src Four 2 element vectors of 32-bit signed integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x4(int32_t dst[8], const CCSimd_s32x2x4 src);
@@ -647,7 +646,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_s32x2x4(int32_t dst[8], const 
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 8 element vectors of 8-bit signed integers to store. Every poly
+ * @param src Four 8 element vectors of 8-bit unsigned integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x4(uint8_t dst[32], const CCSimd_u8x8x4 src);
@@ -655,7 +654,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u8x8x4(uint8_t dst[32], const 
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 4 element vectors of 16-bit signed integers to store. Every poly
+ * @param src Four 4 element vectors of 16-bit unsigned integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x4(uint16_t dst[16], const CCSimd_u16x4x4 src);
@@ -663,7 +662,7 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u16x4x4(uint16_t dst[16], cons
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit unsigned integers to store. Every poly
+ * @param src Four 2 element vectors of 32-bit unsigned integers to store. Every poly
  *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x4(uint32_t dst[8], const CCSimd_u32x2x4 src);
@@ -671,8 +670,8 @@ static CC_FORCE_INLINE void CCSimdInterleaveStore_u32x2x4(uint32_t dst[8], const
 /*!
  * @brief Store 4 vectors by interleaving them into memory.
  * @param dst A pointer to where the interleaved vector data should be stored.
- * @param src Two 2 element vectors of 32-bit floats to store. Every poly vector[index % 4]
- *            will be stored at [index].
+ * @param src Four 2 element vectors of 32-bit floats to store. Every poly
+ *            vector[index % 4] will be stored at [index].
  */
 static CC_FORCE_INLINE void CCSimdInterleaveStore_f32x2x4(float dst[8], const CCSimd_f32x2x4 src);
 
@@ -938,98 +937,98 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s8x8(const CCSimd_s
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_s32x2(const CCSimd_s32x2 a);
@@ -1085,147 +1084,147 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u8x8(const CCSimd_u
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Reinterpret the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats.
  * @return The reinterpreted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_f32x2(const CCSimd_f32x2 a);
@@ -1236,119 +1235,119 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Reinterpret_f32x2(const CCSimd_
 /*!
  * @brief Cast the vector @b a.
  * @param a An 8 element vector of 8-bit signed integers.
- * @return The Casted vector.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Cast_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief Cast the vector @b a.
  * @param a An 8 element vector of 8-bit signed integers.
- * @return The Casted vector.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Cast_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
- * @return The Casted vector.
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Cast_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 4 element vector of 16-bit signed integers.
- * @return The Casted vector.
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Cast_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit signed integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
  * @param a An 8 element vector of 8-bit unsigned integers.
- * @return The Casted vector.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimd_s8x8_Cast_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief Cast the vector @b a.
  * @param a An 8 element vector of 8-bit unsigned integers.
- * @return The Casted vector.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimd_u8x8_Cast_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
- * @return The Casted vector.
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimd_s16x4_Cast_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 4 element vector of 16-bit unsigned integers.
- * @return The Casted vector.
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimd_u16x4_Cast_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit unsigned integers.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit floats.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimd_s32x2_Cast_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit floats.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimd_u32x2_Cast_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Cast the vector @b a.
- * @param a An 2 element vector of 32-bit floats.
- * @return The Casted vector.
+ * @param a A 2 element vector of 32-bit floats.
+ * @return The casted vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_f32x2(const CCSimd_f32x2 a);
 
@@ -1358,7 +1357,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimd_f32x2_Cast_f32x2(const CCSimd_f32x2 a
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
  * @param a An 8 element vector of 8-bit signed integers.
  * @param b An 8 element vector of 8-bit signed integers.
  * @return The vector representing the bitwise NOT.
@@ -1367,7 +1366,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNot_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1, 1, 1] -> [-2, -2, -2, -2]
+ * @example ~[1, 1, 1, 1] -> [-2, -2, -2, -2]
  * @param a A 4 element vector of 16-bit signed integers.
  * @param b A 4 element vector of 16-bit signed integers.
  * @return The vector representing the bitwise NOT.
@@ -1376,7 +1375,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNot_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1] -> [-2, -2]
+ * @example ~[1, 1] -> [-2, -2]
  * @param a A 2 element vector of 32-bit signed integers.
  * @param b A 2 element vector of 32-bit signed integers.
  * @return The vector representing the bitwise NOT.
@@ -1385,7 +1384,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNot_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] -> [-2, -2, -2, -2, -2, -2, -2, -2]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param b An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the bitwise NOT.
@@ -1394,7 +1393,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNot_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1, 1, 1] -> [-2, -2, -2, -2]
+ * @example ~[1, 1, 1, 1] -> [-2, -2, -2, -2]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @param b A 4 element vector of 16-bit unsigned integers.
  * @return The vector representing the bitwise NOT.
@@ -1403,7 +1402,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNot_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief NOT all elements of @b a.
- * @example [1, 1] -> [-2, -2]
+ * @example ~[1, 1] -> [-2, -2]
  * @param a A 2 element vector of 32-bit unsigned integers.
  * @param b A 2 element vector of 32-bit unsigned integers.
  * @return The vector representing the bitwise NOT.
@@ -1475,7 +1474,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAnd_u32x2(const CCSimd_u32x2 a, const 
  * @example ~[1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
  * @param a An 8 element vector of 8-bit signed integers.
  * @param b An 8 element vector of 8-bit signed integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAndNot_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
 
@@ -1484,7 +1483,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAndNot_s8x8(const CCSimd_s8x8 a, const 
  * @example ~[1, 1, 1, 1] & [3, 3, 3, 3] -> [2, 2, 2, 2]
  * @param a A 4 element vector of 16-bit signed integers.
  * @param b A 4 element vector of 16-bit signed integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAndNot_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
 
@@ -1493,7 +1492,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAndNot_s16x4(const CCSimd_s16x4 a, con
  * @example ~[1, 1] & [3, 3] -> [2, 2]
  * @param a A 2 element vector of 32-bit signed integers.
  * @param b A 2 element vector of 32-bit signed integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAndNot_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
 
@@ -1502,7 +1501,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAndNot_s32x2(const CCSimd_s32x2 a, con
  * @example ~[1, 1, 1, 1, 1, 1, 1, 1] & [3, 3, 3, 3, 3, 3, 3, 3] -> [2, 2, 2, 2, 2, 2, 2, 2]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param b An 8 element vector of 8-bit unsigned integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAndNot_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
 
@@ -1511,7 +1510,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAndNot_u8x8(const CCSimd_u8x8 a, const 
  * @example ~[1, 1, 1, 1] & [3, 3, 3, 3] -> [2, 2, 2, 2]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @param b A 4 element vector of 16-bit unsigned integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAndNot_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
 
@@ -1520,7 +1519,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAndNot_u16x4(const CCSimd_u16x4 a, con
  * @example ~[1, 1] & [3, 3] -> [2, 2]
  * @param a A 2 element vector of 32-bit unsigned integers.
  * @param b A 2 element vector of 32-bit unsigned integers.
- * @return The vector representing the AND'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAndNot_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
 
@@ -1586,55 +1585,55 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdOr_u32x2(const CCSimd_u32x2 a, const C
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-1, -1, -1, -1, -1, -1, -1, -1]
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-2, -2, -2, -2, -2, -2, -2, -2]
  * @param a An 8 element vector of 8-bit signed integers.
  * @param b An 8 element vector of 8-bit signed integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdOrNot_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-1, -1, -1, -1]
+ * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-2, -2, -2, -2]
  * @param a A 4 element vector of 16-bit signed integers.
  * @param b A 4 element vector of 16-bit signed integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdOrNot_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1] | [2, 2] -> [-1, -1]
+ * @example ~[1, 1] | [2, 2] -> [-2, -2]
  * @param a A 2 element vector of 32-bit signed integers.
  * @param b A 2 element vector of 32-bit signed integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdOrNot_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-1, -1, -1, -1, -1, -1, -1, -1]
+ * @example ~[1, 1, 1, 1, 1, 1, 1, 1] | [2, 2, 2, 2, 2, 2, 2, 2] -> [-2, -2, -2, -2, -2, -2, -2, -2]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param b An 8 element vector of 8-bit unsigned integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdOrNot_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b);
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-1, -1, -1, -1]
+ * @example ~[1, 1, 1, 1] | [2, 2, 2, 2] -> [-2, -2, -2, -2]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @param b A 4 element vector of 16-bit unsigned integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdOrNot_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b);
 
 /*!
  * @brief OR all elements of NOT @b a and @b b.
- * @example ~[1, 1] | [2, 2] -> [-1, -1]
+ * @example ~[1, 1] | [2, 2] -> [-2, -2]
  * @param a A 2 element vector of 32-bit unsigned integers.
  * @param b A 2 element vector of 32-bit unsigned integers.
- * @return The vector representing the OR'd result.
+ * @return The vector representing the result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdOrNot_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
 
@@ -1929,6 +1928,33 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdShiftRightN_u32x2(const CCSimd_u32x2 a
 /*!
  * @brief Left rotate all elements of @b a by @b b.
  * @example [1, 1, 1, 1, 1, 1, 1, 1] rol [3, 3, 3, 3, 3, 3, 3, 3] -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdRotateLeft_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1, 1, 1] rol [3, 3, 3, 3] -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdRotateLeft_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1] rol [3, 3] -> [8, 8]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdRotateLeft_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b b.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] rol [3, 3, 3, 3, 3, 3, 3, 3] -> [8, 8, 8, 8, 8, 8, 8, 8]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param b An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the rotated result.
@@ -1959,9 +1985,36 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateLeft_u32x2(const CCSimd_u32x2 a,
 /*!
  * @brief Left rotate all elements of @b a by @b n.
  * @example [1, 1, 1, 1, 1, 1, 1, 1] rol 3 -> [8, 8, 8, 8, 8, 8, 8, 8]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdRotateLeftN_s8x8(const CCSimd_s8x8 a, const uint8_t n);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1, 1, 1] rol 3 -> [8, 8, 8, 8]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdRotateLeftN_s16x4(const CCSimd_s16x4 a, const uint8_t n);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1] rol 3 -> [8, 8]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdRotateLeftN_s32x2(const CCSimd_s32x2 a, const uint8_t n);
+
+/*!
+ * @brief Left rotate all elements of @b a by @b n.
+ * @example [1, 1, 1, 1, 1, 1, 1, 1] rol 3 -> [8, 8, 8, 8, 8, 8, 8, 8]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param n The number of bits to rotate the vector elements by.
- * @return The vector representing the shifted result.
+ * @return The vector representing the rotated result.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateLeftN_u8x8(const CCSimd_u8x8 a, const uint8_t n);
 
@@ -1970,7 +2023,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdRotateLeftN_u8x8(const CCSimd_u8x8 a, c
  * @example [1, 1, 1, 1] rol 3 -> [8, 8, 8, 8]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @param n The number of bits to rotate the vector elements by.
- * @return The vector representing the shifted result.
+ * @return The vector representing the rotated result.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateLeftN_u16x4(const CCSimd_u16x4 a, const uint8_t n);
 
@@ -1979,12 +2032,39 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateLeftN_u16x4(const CCSimd_u16x4 a
  * @example [1, 1] rol 3 -> [8, 8]
  * @param a A 2 element vector of 32-bit unsigned integers.
  * @param n The number of bits to rotate the vector elements by.
- * @return The vector representing the shifted result.
+ * @return The vector representing the rotated result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateLeftN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
 
 
 #pragma mark Rotate Right
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] ror [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param b An 8 element vector of 8-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdRotateRight_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8, 8, 8] ror [3, 3, 3, 3] -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param b A 4 element vector of 16-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdRotateRight_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b b.
+ * @example [8, 8] ror [3, 3] -> [1, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param b A 2 element vector of 32-bit signed integers.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdRotateRight_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b);
 
 /*!
  * @brief Right rotate all elements of @b a by @b b.
@@ -2019,6 +2099,33 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateRight_u32x2(const CCSimd_u32x2 a
 /*!
  * @brief Right rotate all elements of @b a by @b n.
  * @example [8, 8, 8, 8, 8, 8, 8, 8] ror 3 -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdRotateRightN_s8x8(const CCSimd_s8x8 a, const uint8_t n);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8, 8, 8] ror 3 -> [1, 1, 1, 1]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdRotateRightN_s16x4(const CCSimd_s16x4 a, const uint8_t n);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8] ror 3 -> [1, 1]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @param n The number of bits to rotate the vector elements by.
+ * @return The vector representing the rotated result.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdRotateRightN_s32x2(const CCSimd_s32x2 a, const uint8_t n);
+
+/*!
+ * @brief Right rotate all elements of @b a by @b n.
+ * @example [8, 8, 8, 8, 8, 8, 8, 8] ror 3 -> [1, 1, 1, 1, 1, 1, 1, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @param n The number of bits to rotate the vector elements by.
  * @return The vector representing the rotated result.
@@ -2038,7 +2145,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdRotateRightN_u16x4(const CCSimd_u16x4 
  * @brief Right rotate all elements of @b a by @b n.
  * @example [8, 8] ror 3 -> [1, 1]
  * @param a A 2 element vector of 32-bit unsigned integers.
- * @param n The number of bits to roate the vector elements by.
+ * @param n The number of bits to rotate the vector elements by.
  * @return The vector representing the rotated result.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateRightN_u32x2(const CCSimd_u32x2 a, const uint8_t n);
@@ -2049,7 +2156,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdRotateRightN_u32x2(const CCSimd_u32x2 
 
 /*!
  * @brief Finds lowest unset bit of all elements of @b a.
- * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [1, 2, 1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the lowest unset bit.
  */
@@ -2073,7 +2180,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLowestUnset_s32x2(const CCSimd_s32x2 a
 
 /*!
  * @brief Finds lowest unset bit of all elements of @b a.
- * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [1, 2, 1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the lowest unset bit.
  */
@@ -2100,7 +2207,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLowestUnset_u32x2(const CCSimd_u32x2 a
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [5, 6, 5, 6, 5, 6, 5, 6] -> [1, 2, 1, 2, 1, 2, 1, 2]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2108,7 +2215,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdLowestSet_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @example [5, 6, 5, 6] -> [1, 2, 1, 2]
  * @param a A 4 element vector of 16-bit signed integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2116,7 +2223,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdLowestSet_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2] -> [2, 1]
+ * @example [5, 6] -> [1, 2]
  * @param a A 2 element vector of 32-bit signed integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2124,7 +2231,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdLowestSet_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2, 1, 2, 1, 2] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [5, 6, 5, 6, 5, 6, 5, 6] -> [1, 2, 1, 2, 1, 2, 1, 2]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2132,7 +2239,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdLowestSet_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2, 1, 2] -> [2, 1, 2, 1]
+ * @example [5, 6, 5, 6] -> [1, 2, 1, 2]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2140,7 +2247,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdLowestSet_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Finds lowest set bit of all elements of @b a.
- * @example [1, 2] -> [2, 1]
+ * @example [5, 6] -> [1, 2]
  * @param a A 2 element vector of 32-bit unsigned integers.
  * @return The vector representing the lowest set bit.
  */
@@ -2151,7 +2258,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdLowestSet_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Finds highest set bit of all elements of @b a.
- * @example [3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [3, 1, 3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the highest set bit.
  */
@@ -2175,7 +2282,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdHighestSet_s32x2(const CCSimd_s32x2 a)
 
 /*!
  * @brief Finds highest set bit of all elements of @b a.
- * @example [3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
+ * @example [3, 1, 3, 1, 3, 1, 3, 1] -> [2, 1, 2, 1, 2, 1, 2, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the highest set bit.
  */
@@ -2202,7 +2309,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHighestSet_u32x2(const CCSimd_u32x2 a)
 
 /*!
  * @brief Finds the minimum power of 2 that can hold each element of @b a.
- * @example [3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
+ * @example [3, 1, 3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the next power of 2.
  */
@@ -2226,7 +2333,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNextPow2_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Finds the minimum power of 2 that can hold each element of @b a.
- * @example [3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
+ * @example [3, 1, 3, 1, 3, 1, 3, 1] -> [4, 1, 4, 1, 4, 1, 4, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the next power of 2.
  */
@@ -2253,7 +2360,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNextPow2_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Creates a mask for the entire values range for each element of @b a.
- * @example [2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @example [2, 1, 2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the mask.
  */
@@ -2277,7 +2384,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMask_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Creates a mask for the entire values range for each element of @b a.
- * @example [2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @example [2, 1, 2, 1, 2, 1, 2, 1] -> [3, 1, 3, 1, 3, 1, 3, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the mask.
  */
@@ -2304,7 +2411,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMask_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
- * @example [4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @example [4, 2, 4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the mask.
  */
@@ -2328,7 +2435,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskLowerPow2_s32x2(const CCSimd_s32x2
 
 /*!
  * @brief Creates a mask for lower bits of a power of 2 value for each element of @b a.
- * @example [4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
+ * @example [4, 2, 4, 2, 4, 2, 4, 2] -> [3, 1, 3, 1, 3, 1, 3, 1]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the mask.
  */
@@ -2357,7 +2464,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskLowerPow2_u32x2(const CCSimd_u32x2
  * @brief Creates a mask for the entire range of unset bits after the highest set bit for
  *        each element of @b a.
  *
- * @example [1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
+ * @example [1, 2, 1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the mask.
  */
@@ -2387,7 +2494,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskHighestUnset_s32x2(const CCSimd_s3
  * @brief Creates a mask for the entire range of unset bits after the highest set bit for
  *        each element of @b a.
  *
- * @example [1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
+ * @example [1, 2, 1, 2, 1, 2, 1, 2] -> [-2, -4, -2, -4, -2, -4, -2, -4]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the mask.
  */
@@ -2469,7 +2576,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCountLowestUnset_u32x2(const CCSimd_u3
 
 /*!
  * @brief Count the leading zero bits of all elements of @b a.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [31, 30, 30, 29, 29, 29, 29, 28]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [7, 6, 6, 5, 5, 5, 5, 4]
  * @param a An 8 element vector of 8-bit signed integers.
  * @return The vector representing the number of leading zero bits.
  */
@@ -2477,7 +2584,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCountHighestUnset_s8x8(const CCSimd_s8x
 
 /*!
  * @brief Count the leading zero bits of all elements of @b a.
- * @example [1, 2, 3, 4] -> [31, 30, 30, 29]
+ * @example [1, 2, 3, 4] -> [15, 14, 14, 13]
  * @param a A 4 element vector of 16-bit signed integers.
  * @return The vector representing the number of leading zero bits.
  */
@@ -2493,7 +2600,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCountHighestUnset_s32x2(const CCSimd_s
 
 /*!
  * @brief Count the leading zero bits of all elements of @b a.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [31, 30, 30, 29, 29, 29, 29, 28]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] -> [7, 6, 6, 5, 5, 5, 5, 4]
  * @param a An 8 element vector of 8-bit unsigned integers.
  * @return The vector representing the number of leading zero bits.
  */
@@ -2501,7 +2608,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCountHighestUnset_u8x8(const CCSimd_u8x
 
 /*!
  * @brief Count the leading zero bits of all elements of @b a.
- * @example [1, 2, 3, 4] -> [31, 30, 30, 29]
+ * @example [1, 2, 3, 4] -> [15, 14, 14, 13]
  * @param a A 4 element vector of 16-bit unsigned integers.
  * @return The vector representing the number of leading zero bits.
  */
@@ -2581,7 +2688,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareEqual_s8x8(const CCSimd_s8x8 a, 
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, 1, 0, 1]
+ * @example [1, 2, 3, 4] == [0, 2, 0, 4] -> [0, 1, 0, 1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2590,7 +2697,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareEqual_s16x4(const CCSimd_s16x4 
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7, 8] == [0, 8] -> [0, 1]
+ * @example [1, 2] == [0, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2608,7 +2715,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareEqual_u8x8(const CCSimd_u8x8 a, 
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, 1, 0, 1]
+ * @example [1, 2, 3, 4] == [0, 2, 0, 4] -> [0, 1, 0, 1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2617,7 +2724,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareEqual_u16x4(const CCSimd_u16x4 
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7, 8] == [0, 8] -> [0, 1]
+ * @example [1, 2] == [0, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2626,7 +2733,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareEqual_u32x2(const CCSimd_u32x2 
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7.5, 8.5] == [0.0, 8.5] -> [0.0, 1.0]
+ * @example [1.5, 2.5] == [0, 2.5] -> [0, 1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2647,7 +2754,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareEqual_s8x8(const CCSimd_s8x8
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, -1, 0, -1]
+ * @example [1, 2, 3, 4] == [0, 2, 0, 4] -> [0, -1, 0, -1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2656,7 +2763,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareEqual_s16x4(const CCSimd_s1
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7, 8] == [0, 8] -> [0, -1]
+ * @example [1, 2] == [0, 2] -> [0, -1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2674,7 +2781,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareEqual_u8x8(const CCSimd_u8x8
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [5, 6, 7, 8] == [0, 6, 0, 8] -> [0, -1, 0, -1]
+ * @example [1, 2, 3, 4] == [0, 2, 0, 4] -> [0, -1, 0, -1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2683,7 +2790,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareEqual_u16x4(const CCSimd_u1
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7, 8] == [0, 8] -> [0, -1]
+ * @example [1, 2] == [0, 2] -> [0, -1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2692,7 +2799,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareEqual_u32x2(const CCSimd_u3
 
 /*!
  * @brief Compare if all elements of @b a are equal to @b b.
- * @example [7.5, 8.5] == [0.0, 8.5] -> [0, -1]
+ * @example [1.5, 2.5] == [0, 2.5] -> [0, -1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2713,7 +2820,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareNotEqual_s8x8(const CCSimd_s8x8 
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] != [0, 2, 0, 4] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2722,7 +2829,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareNotEqual_s16x4(const CCSimd_s16
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7, 8] != [0, 8] -> [1. 0]
+ * @example [1, 2] != [0, 2] -> [1, 0]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2740,7 +2847,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareNotEqual_u8x8(const CCSimd_u8x8 
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] != [0, 2, 0, 4] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2749,7 +2856,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareNotEqual_u16x4(const CCSimd_u16
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7, 8] != [0, 8] -> [1. 0]
+ * @example [1, 2] != [0, 2] -> [1, 0]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2758,7 +2865,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareNotEqual_u32x2(const CCSimd_u32
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7.5, 8.5] != [0.0, 8.5] -> [1.0, 0.0]
+ * @example [1.5, 2.5] != [0, 2.5] -> [1, 0]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2770,7 +2877,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareNotEqual_f32x2(const CCSimd_f32
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, 0, -1, 0, -1, 0, -1, 0]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2779,7 +2886,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareNotEqual_s8x8(const CCSimd_s
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] != [0, 2, 0, 4] -> [-1, 0, -1, 0]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2788,7 +2895,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareNotEqual_s16x4(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7, 8] != [0, 8] -> [1. 0]
+ * @example [1, 2] != [0, 2] -> [-1, 0]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2797,7 +2904,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareNotEqual_s32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] != [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, 0, -1, 0, -1, 0, -1, 0]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2806,7 +2913,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareNotEqual_u8x8(const CCSimd_u
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [5, 6, 7, 8] != [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] != [0, 2, 0, 4] -> [-1, 0, -1, 0]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2815,7 +2922,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareNotEqual_u16x4(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7, 8] != [0, 8] -> [1. 0]
+ * @example [1, 2] != [0, 2] -> [-1, 0]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2824,7 +2931,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareNotEqual_u32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are not equal to @b b.
- * @example [7.5, 8.5] != [0.0, 8.5] -> [-1, 0]
+ * @example [1.5, 2.5] != [0, 2.5] -> [-1, 0]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2836,7 +2943,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareNotEqual_f32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] < [0, 2, 4, 6, 8, 10, 12, 14] -> [0, 1, 1, 1, 1, 1, 1, 1]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2845,7 +2952,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareLessThan_s8x8(const CCSimd_s8x8 
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] < [0, 2, 4, 6] -> [0, 1, 1, 1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2854,7 +2961,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareLessThan_s16x4(const CCSimd_s16
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7, 8] < [10, 8] -> [1, 0]
+ * @example [0, 1] < [0, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2863,7 +2970,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareLessThan_s32x2(const CCSimd_s32
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] < [0, 2, 4, 6, 8, 10, 12, 14] -> [0, 1, 1, 1, 1, 1, 1, 1]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2872,7 +2979,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareLessThan_u8x8(const CCSimd_u8x8 
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] < [0, 2, 4, 6] -> [0, 1, 1, 1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2881,7 +2988,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareLessThan_u16x4(const CCSimd_u16
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7, 8] < [10, 8] -> [1, 0]
+ * @example [0, 1] < [0, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2890,7 +2997,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareLessThan_u32x2(const CCSimd_u32
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7.5, 8.5] < [10.0, 8.5] -> [1.0, 0.0]
+ * @example [0.5, 1.5] < [0.5, 2.5] -> [0, 1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2902,7 +3009,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareLessThan_f32x2(const CCSimd_f32
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] < [0, 2, 4, 6, 8, 10, 12, 14] -> [0, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2911,7 +3018,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareLessThan_s8x8(const CCSimd_s
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] < [0, 2, 4, 6] -> [0, -1, -1, -1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2920,7 +3027,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareLessThan_s16x4(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7, 8] < [10, 8] -> [1, 0]
+ * @example [0, 1] < [0, 2] -> [0, -1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2929,7 +3036,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareLessThan_s32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] < [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] < [0, 2, 4, 6, 8, 10, 12, 14] -> [0, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2938,7 +3045,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareLessThan_u8x8(const CCSimd_u
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [5, 6, 7, 8] < [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] < [0, 2, 4, 6] -> [0, -1, -1, -1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2947,7 +3054,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareLessThan_u16x4(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7, 8] < [10, 8] -> [1, 0]
+ * @example [0, 1] < [0, 2] -> [0, -1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -2956,7 +3063,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThan_u32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than @b b.
- * @example [7.5, 8.5] < [10.0, 8.5] -> [-1, 0]
+ * @example [0.5, 1.5] < [0.5, 2.5] -> [0, -1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -2968,7 +3075,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThan_f32x2(const CCSimd
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] <= [0, 2, 4, 6, 8, 10, 12, 14] -> [1, 1, 1, 1, 1, 1, 1, 1]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2977,7 +3084,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareLessThanEqual_s8x8(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] <= [0, 2, 4, 6] -> [1, 1, 1, 1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2986,7 +3093,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareLessThanEqual_s16x4(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @example [0, 1] <= [0, 2] -> [1, 1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -2995,7 +3102,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdCompareLessThanEqual_s32x2(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] <= [0, 2, 4, 6, 8, 10, 12, 14] -> [1, 1, 1, 1, 1, 1, 1, 1]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3004,7 +3111,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareLessThanEqual_u8x8(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] <= [0, 2, 4, 6] -> [1, 1, 1, 1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3013,7 +3120,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareLessThanEqual_u16x4(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @example [0, 1] <= [0, 2] -> [1, 1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3022,7 +3129,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareLessThanEqual_u32x2(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7.5, 8.5] <= [10.0, 8.5] -> [1.0, 1.0]
+ * @example [0.5, 1.5] <= [0.5, 2.5] -> [1, 1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3034,7 +3141,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareLessThanEqual_f32x2(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] <= [0, 2, 4, 6, 8, 10, 12, 14] -> [-1, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3043,7 +3150,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareLessThanEqual_s8x8(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] <= [0, 2, 4, 6] -> [-1, -1, -1, -1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3052,7 +3159,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareLessThanEqual_s16x4(const C
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @example [0, 1] <= [0, 2] -> [-1, -1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3061,7 +3168,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareLessThanEqual_s32x2(const C
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] <= [10, 2, 10, 4, 10, 6, 10, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [0, 1, 2, 3, 4, 5, 6, 7] <= [0, 2, 4, 6, 8, 10, 12, 14] -> [-1, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3070,7 +3177,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareLessThanEqual_u8x8(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [5, 6, 7, 8] <= [10, 6, 10, 8] -> [1, 0, 1, 0]
+ * @example [0, 1, 2, 3] <= [0, 2, 4, 6] -> [-1, -1, -1, -1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3079,7 +3186,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareLessThanEqual_u16x4(const C
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7, 8] <= [10, 8] -> [1, 0]
+ * @example [0, 1] <= [0, 2] -> [-1, -1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3088,7 +3195,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareLessThanEqual_u32x2(const C
 
 /*!
  * @brief Compare if all elements of @b a are less than or equal to @b b.
- * @example [7.5, 8.5] <= [10.0, 8.5] -> [-1, -1]
+ * @example [0.5, 1.5] <= [0.5, 2.5] -> [-1, -1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3109,7 +3216,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareGreaterThan_s8x8(const CCSimd_s8
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] > [0, 2, 0, 4] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3118,7 +3225,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareGreaterThan_s16x4(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7, 8] > [0, 8] -> [1, 0]
+ * @example [1, 2] > [0, 2] -> [1, 0]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3136,7 +3243,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareGreaterThan_u8x8(const CCSimd_u8
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] > [0, 2, 0, 4] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3145,7 +3252,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareGreaterThan_u16x4(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7, 8] > [0, 8] -> [1, 0]
+ * @example [1, 2] > [0, 2] -> [1, 0]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3154,7 +3261,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareGreaterThan_u32x2(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7.5, 8.5] > [0.0, 8.5] -> [1.0, 0.0]
+ * @example [1.5, 2.5] > [0, 2.5] -> [1, 0]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3166,7 +3273,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareGreaterThan_f32x2(const CCSimd_
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, 0, -1, 0, -1, 0, -1, 0]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3175,7 +3282,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareGreaterThan_s8x8(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] > [0, 2, 0, 4] -> [-1, 0, -1, 0]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3184,7 +3291,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareGreaterThan_s16x4(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7, 8] > [0, 8] -> [1, 0]
+ * @example [1, 2] > [0, 2] -> [-1, 0]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3193,7 +3300,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareGreaterThan_s32x2(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 0, 1, 0, 1, 0, 1, 0]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] > [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, 0, -1, 0, -1, 0, -1, 0]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3202,7 +3309,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareGreaterThan_u8x8(const CCSim
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [5, 6, 7, 8] > [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] > [0, 2, 0, 4] -> [-1, 0, -1, 0]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3211,7 +3318,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareGreaterThan_u16x4(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7, 8] > [0, 8] -> [1, 0]
+ * @example [1, 2] > [0, 2] -> [-1, 0]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3220,7 +3327,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThan_u32x2(const CCS
 
 /*!
  * @brief Compare if all elements of @b a are greater than @b b.
- * @example [7.5, 8.5] > [0.0, 8.5] -> [-1, 0]
+ * @example [1.5, 2.5] > [0, 2.5] -> [-1, 0]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3241,7 +3348,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdCompareGreaterThanEqual_s8x8(const CCSi
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] >= [0, 2, 0, 4] -> [1, 1, 1, 1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3250,7 +3357,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdCompareGreaterThanEqual_s16x4(const CC
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @example [1, 2] >= [0, 2] -> [1, 1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3268,7 +3375,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdCompareGreaterThanEqual_u8x8(const CCSi
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] >= [0, 2, 0, 4] -> [1, 1, 1, 1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3277,7 +3384,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdCompareGreaterThanEqual_u16x4(const CC
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @example [1, 2] >= [0, 2] -> [1, 1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3286,7 +3393,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdCompareGreaterThanEqual_u32x2(const CC
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7.5, 8.5] >= [0.0, 8.5] -> [1.0, 1.0]
+ * @example [1.5, 2.5] >= [0, 2.5] -> [1, 1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3298,7 +3405,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCompareGreaterThanEqual_f32x2(const CC
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit signed integers to compare.
  * @param b An 8 element vector of 8-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3307,7 +3414,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMaskCompareGreaterThanEqual_s8x8(const 
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] >= [0, 2, 0, 4] -> [-1, -1, -1, -1]
  * @param a A 4 element vector of 16-bit signed integers to compare.
  * @param b A 4 element vector of 16-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3316,7 +3423,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMaskCompareGreaterThanEqual_s16x4(cons
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @example [1, 2] >= [0, 2] -> [-1, -1]
  * @param a A 2 element vector of 32-bit signed integers to compare.
  * @param b A 2 element vector of 32-bit signed integers to compare.
  * @return The vector with the result of the comparison.
@@ -3325,7 +3432,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMaskCompareGreaterThanEqual_s32x2(cons
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [1, 1, 1, 1, 1, 1, 1, 1]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] >= [0, 2, 0, 4, 0, 6, 0, 8] -> [-1, -1, -1, -1, -1, -1, -1, -1]
  * @param a An 8 element vector of 8-bit unsigned integers to compare.
  * @param b An 8 element vector of 8-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3334,7 +3441,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMaskCompareGreaterThanEqual_u8x8(const 
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [5, 6, 7, 8] >= [0, 6, 0, 8] -> [1, 0, 1, 0]
+ * @example [1, 2, 3, 4] >= [0, 2, 0, 4] -> [-1, -1, -1, -1]
  * @param a A 4 element vector of 16-bit unsigned integers to compare.
  * @param b A 4 element vector of 16-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3343,7 +3450,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMaskCompareGreaterThanEqual_u16x4(cons
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7, 8] >= [0, 8] -> [1, 0]
+ * @example [1, 2] >= [0, 2] -> [-1, -1]
  * @param a A 2 element vector of 32-bit unsigned integers to compare.
  * @param b A 2 element vector of 32-bit unsigned integers to compare.
  * @return The vector with the result of the comparison.
@@ -3352,7 +3459,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThanEqual_u32x2(cons
 
 /*!
  * @brief Compare if all elements of @b a are greater than or equal to @b b.
- * @example [7.5, 8.5] >= [0.0, 8.5] -> [-1, -1]
+ * @example [1.5, 2.5] >= [0, 2.5] -> [-1, -1]
  * @param a A 2 element vector of 32-bit floats to compare.
  * @param b A 2 element vector of 32-bit floats to compare.
  * @return The vector with the result of the comparison.
@@ -3365,7 +3472,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMaskCompareGreaterThanEqual_f32x2(cons
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] + [0, 0, 1, 1, 1, 2, 2, 2] -> [1, 2, 4, 5, 6, 8, 9, 10]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] + [0, 1, 1, 2, 2, 3, 3, 4] -> [1, 3, 4, 6, 7, 9, 10, 12]
  * @param a An 8 element vector of 8-bit signed integers as the addend.
  * @param b An 8 element vector of 8-bit signed integers as the addend.
  * @return The vector representing the sum.
@@ -3374,7 +3481,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAdd_s8x8(const CCSimd_s8x8 a, const CCS
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [5, 6, 7, 8] + [1, 2, 2, 2] -> [6, 8, 9, 10]
+ * @example [1, 2, 3, 4] + [0, 1, 1, 2] -> [1, 3, 4, 6]
  * @param a A 4 element vector of 16-bit signed integers as the addend.
  * @param b A 4 element vector of 16-bit signed integers as the addend.
  * @return The vector representing the sum.
@@ -3383,7 +3490,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAdd_s16x4(const CCSimd_s16x4 a, const 
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [7, 8] + [2, 2] -> [9, 10]
+ * @example [1, 2] + [0, 1] -> [1, 3]
  * @param a A 2 element vector of 32-bit signed integers as the addend.
  * @param b A 2 element vector of 32-bit signed integers as the addend.
  * @return The vector representing the sum.
@@ -3392,7 +3499,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAdd_s32x2(const CCSimd_s32x2 a, const 
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] + [0, 0, 1, 1, 1, 2, 2, 2] -> [1, 2, 4, 5, 6, 8, 9, 10]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] + [0, 1, 1, 2, 2, 3, 3, 4] -> [1, 3, 4, 6, 7, 9, 10, 12]
  * @param a An 8 element vector of 8-bit unsigned integers as the addend.
  * @param b An 8 element vector of 8-bit unsigned integers as the addend.
  * @return The vector representing the sum.
@@ -3401,7 +3508,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAdd_u8x8(const CCSimd_u8x8 a, const CCS
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [5, 6, 7, 8] + [1, 2, 2, 2] -> [6, 8, 9, 10]
+ * @example [1, 2, 3, 4] + [0, 1, 1, 2] -> [1, 3, 4, 6]
  * @param a A 4 element vector of 16-bit unsigned integers as the addend.
  * @param b A 4 element vector of 16-bit unsigned integers as the addend.
  * @return The vector representing the sum.
@@ -3410,7 +3517,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAdd_u16x4(const CCSimd_u16x4 a, const 
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [7, 8] + [2, 2] -> [9, 10]
+ * @example [1, 2] + [0, 1] -> [1, 3]
  * @param a A 2 element vector of 32-bit unsigned integers as the addend.
  * @param b A 2 element vector of 32-bit unsigned integers as the addend.
  * @return The vector representing the sum.
@@ -3419,7 +3526,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAdd_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Add all elements of @b a and @b b.
- * @example [7.5, 8.5] + [2, 2] -> [9.5, 10.5]
+ * @example [1.5, 2.5] + [0.0, 1.0] -> [1.5, 3.5]
  * @param a A 2 element vector of 32-bit floats as the addend.
  * @param b A 2 element vector of 32-bit floats as the addend.
  * @return The vector representing the sum.
@@ -3431,7 +3538,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdAdd_f32x2(const CCSimd_f32x2 a, const 
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] - [0, 0, 1, 1, 1, 2, 2, 2] -> [1, 2, 2, 3, 4, 4, 5, 6]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] - [0, 1, 1, 2, 2, 3, 3, 4] -> [1, 1, 2, 2, 3, 3, 4, 4]
  * @param a An 8 element vector of 8-bit signed integers as the minuend.
  * @param b An 8 element vector of 8-bit signed integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3440,7 +3547,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdSub_s8x8(const CCSimd_s8x8 a, const CCS
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [5, 6, 7, 8] - [1, 2, 2, 2] -> [4, 4, 5, 6]
+ * @example [1, 2, 3, 4] - [0, 1, 1, 2] -> [1, 1, 2, 2]
  * @param a A 4 element vector of 16-bit signed integers as the minuend.
  * @param b A 4 element vector of 16-bit signed integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3449,7 +3556,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdSub_s16x4(const CCSimd_s16x4 a, const 
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [7, 8] - [2, 2] -> [5, 6]
+ * @example [1, 2] - [0, 1] -> [1, 1]
  * @param a A 2 element vector of 32-bit signed integers as the minuend.
  * @param b A 2 element vector of 32-bit signed integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3458,7 +3565,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdSub_s32x2(const CCSimd_s32x2 a, const 
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] - [0, 0, 1, 1, 1, 2, 2, 2] -> [1, 2, 2, 3, 4, 4, 5, 6]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] - [0, 1, 1, 2, 2, 3, 3, 4] -> [1, 1, 2, 2, 3, 3, 4, 4]
  * @param a An 8 element vector of 8-bit unsigned integers as the minuend.
  * @param b An 8 element vector of 8-bit unsigned integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3467,7 +3574,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdSub_u8x8(const CCSimd_u8x8 a, const CCS
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [5, 6, 7, 8] - [1, 2, 2, 2] -> [4, 4, 5, 6]
+ * @example [1, 2, 3, 4] - [0, 1, 1, 2] -> [1, 1, 2, 2]
  * @param a A 4 element vector of 16-bit unsigned integers as the minuend.
  * @param b A 4 element vector of 16-bit unsigned integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3476,7 +3583,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdSub_u16x4(const CCSimd_u16x4 a, const 
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [7, 8] - [2, 2] -> [5, 6]
+ * @example [1, 2] - [0, 1] -> [1, 1]
  * @param a A 2 element vector of 32-bit unsigned integers as the minuend.
  * @param b A 2 element vector of 32-bit unsigned integers as the subtrahend.
  * @return The vector representing the difference.
@@ -3485,7 +3592,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSub_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Subtract all elements of @b b from @b a.
- * @example [7.5, 8.5] - [2, 2] -> [5.5, 6.5]
+ * @example [1.5, 2.5] - [0.0, 1.0] -> [1.5, 1.5]
  * @param a A 2 element vector of 32-bit floats as the minuend.
  * @param b A 2 element vector of 32-bit floats as the subtrahend.
  * @return The vector representing the difference.
@@ -3497,7 +3604,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSub_f32x2(const CCSimd_f32x2 a, const 
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2] -> [0, 0, 3, 4, 5, 12, 14, 16]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] * [0, 1, 2, 3, 4, 5, 6, 7] -> [0, 2, 6, 12, 20, 30, 42, 56]
  * @param a An 8 element vector of 8-bit signed integers as the multiplier.
  * @param b An 8 element vector of 8-bit signed integers as the multiplicand.
  * @return The vector representing the product.
@@ -3506,7 +3613,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMul_s8x8(const CCSimd_s8x8 a, const CCS
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [5, 6, 7, 8] * [1, 2, 2, 2] -> [5, 12, 14, 16]
+ * @example [1, 2, 3, 4] * [0, 1, 2, 3] -> [0, 2, 6, 12]
  * @param a A 4 element vector of 16-bit signed integers as the multiplier.
  * @param b A 4 element vector of 16-bit signed integers as the multiplicand.
  * @return The vector representing the product.
@@ -3515,7 +3622,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMul_s16x4(const CCSimd_s16x4 a, const 
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [7, 8] * [2, 2] -> [14, 16]
+ * @example [1, 2] * [0, 1] -> [0, 2]
  * @param a A 2 element vector of 32-bit signed integers as the multiplier.
  * @param b A 2 element vector of 32-bit signed integers as the multiplicand.
  * @return The vector representing the product.
@@ -3524,7 +3631,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMul_s32x2(const CCSimd_s32x2 a, const 
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2] -> [0, 0, 3, 4, 5, 12, 14, 16]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] * [0, 1, 2, 3, 4, 5, 6, 7] -> [0, 2, 6, 12, 20, 30, 42, 56]
  * @param a An 8 element vector of 8-bit unsigned integers as the multiplier.
  * @param b An 8 element vector of 8-bit unsigned integers as the multiplicand.
  * @return The vector representing the product.
@@ -3533,7 +3640,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMul_u8x8(const CCSimd_u8x8 a, const CCS
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [5, 6, 7, 8] * [1, 2, 2, 2] -> [5, 12, 14, 16]
+ * @example [1, 2, 3, 4] * [0, 1, 2, 3] -> [0, 2, 6, 12]
  * @param a A 4 element vector of 16-bit unsigned integers as the multiplier.
  * @param b A 4 element vector of 16-bit unsigned integers as the multiplicand.
  * @return The vector representing the product.
@@ -3542,7 +3649,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMul_u16x4(const CCSimd_u16x4 a, const 
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [7, 8] * [2, 2] -> [14, 16]
+ * @example [1, 2] * [0, 1] -> [0, 2]
  * @param a A 2 element vector of 32-bit unsigned integers as the multiplier.
  * @param b A 2 element vector of 32-bit unsigned integers as the multiplicand.
  * @return The vector representing the product.
@@ -3551,7 +3658,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMul_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Multiply all elements of @b a by @b b.
- * @example [7.5, 8.5] * [2, 2] -> [15, 17]
+ * @example [1.5, 2.5] * [0.0, 1.0] -> [0.0, 2.5]
  * @param a A 2 element vector of 32-bit floats as the multiplier.
  * @param b A 2 element vector of 32-bit floats as the multiplicand.
  * @return The vector representing the product.
@@ -3564,7 +3671,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMul_f32x2(const CCSimd_f32x2 a, const 
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, 4, 5, 6, 13, 15, 17]
+ * @example ([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 3, 5, 7, 9, 11, 13, 15]
  * @param a An 8 element vector of 8-bit signed integers to multiply.
  * @param b An 8 element vector of 8-bit signed integers to multiply.
  * @param c An 8 element vector of 8-bit signed integers to add.
@@ -3575,7 +3682,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMadd_s8x8(const CCSimd_s8x8 a, const CC
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([5, 6, 7, 8] * [1, 2, 2, 2]) + [1, 1, 1, 1] -> [6, 13, 15, 17]
+ * @example ([0, 1, 2, 3] * [2, 2, 2, 2]) + [1, 1, 1, 1] -> [1, 3, 5, 7]
  * @param a A 4 element vector of 16-bit signed integers to multiply.
  * @param b A 4 element vector of 16-bit signed integers to multiply.
  * @param c A 4 element vector of 16-bit signed integers to add.
@@ -3586,7 +3693,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMadd_s16x4(const CCSimd_s16x4 a, const
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([7, 8] * [2, 2]) + [1, 1] -> [15, 17]
+ * @example ([0, 1] * [2, 2]) + [1, 1] -> [1, 3]
  * @param a A 2 element vector of 32-bit signed integers to multiply.
  * @param b A 2 element vector of 32-bit signed integers to multiply.
  * @param c A 2 element vector of 32-bit signed integers to add.
@@ -3597,7 +3704,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMadd_s32x2(const CCSimd_s32x2 a, const
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, 4, 5, 6, 13, 15, 17]
+ * @example ([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 3, 5, 7, 9, 11, 13, 15]
  * @param a An 8 element vector of 8-bit unsigned integers to multiply.
  * @param b An 8 element vector of 8-bit unsigned integers to multiply.
  * @param c An 8 element vector of 8-bit unsigned integers to add.
@@ -3608,7 +3715,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMadd_u8x8(const CCSimd_u8x8 a, const CC
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([5, 6, 7, 8] * [1, 2, 2, 2]) + [1, 1, 1, 1] -> [6, 13, 15, 17]
+ * @example ([0, 1, 2, 3] * [2, 2, 2, 2]) + [1, 1, 1, 1] -> [1, 3, 5, 7]
  * @param a A 4 element vector of 16-bit unsigned integers to multiply.
  * @param b A 4 element vector of 16-bit unsigned integers to multiply.
  * @param c A 4 element vector of 16-bit unsigned integers to add.
@@ -3619,7 +3726,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMadd_u16x4(const CCSimd_u16x4 a, const
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([7, 8] * [2, 2]) + [1, 1] -> [15, 17]
+ * @example ([0, 1] * [2, 2]) + [1, 1] -> [1, 3]
  * @param a A 2 element vector of 32-bit unsigned integers to multiply.
  * @param b A 2 element vector of 32-bit unsigned integers to multiply.
  * @param c A 2 element vector of 32-bit unsigned integers to add.
@@ -3630,7 +3737,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMadd_u32x2(const CCSimd_u32x2 a, const
 /*!
  * @brief Multiply all elements of @b a by @b b and add all elements of @b c.
  * @description (a * b) + c
- * @example ([7.5, 8.5] * [2, 2]) + [1, 1] -> [16, 18]
+ * @example ([0.5, 1.5] * [2.0, 2.0]) + [1.0, 1.0] -> [2.0, 4.0]
  * @param a A 2 element vector of 32-bit floats to multiply.
  * @param b A 2 element vector of 32-bit floats to multiply.
  * @param c A 2 element vector of 32-bit floats to add.
@@ -3644,7 +3751,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMadd_f32x2(const CCSimd_f32x2 a, const
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, -2, -3, -4, -11, -13, -15]
+ * @example -([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, -1, -3, -5, -7, -9, -11, -13]
  * @param a An 8 element vector of 8-bit signed integers to multiply.
  * @param b An 8 element vector of 8-bit signed integers to multiply.
  * @param c An 8 element vector of 8-bit signed integers to add.
@@ -3655,7 +3762,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNegMadd_s8x8(const CCSimd_s8x8 a, const
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([5, 6, 7, 8] * [1, 2, 2, 2]) + [1, 1, 1, 1] -> [-4, -11, -13, -15]
+ * @example -([0, 1, 2, 3] * [2, 2, 2, 2]) + [1, 1, 1, 1] -> [1, -1, -3, -5]
  * @param a A 4 element vector of 16-bit signed integers to multiply.
  * @param b A 4 element vector of 16-bit signed integers to multiply.
  * @param c A 4 element vector of 16-bit signed integers to add.
@@ -3666,7 +3773,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNegMadd_s16x4(const CCSimd_s16x4 a, co
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([7, 8] * [2, 2]) + [1, 1] -> [-13, -15]
+ * @example -([0, 1] * [2, 2]) + [1, 1] -> [1, -1]
  * @param a A 2 element vector of 32-bit signed integers to multiply.
  * @param b A 2 element vector of 32-bit signed integers to multiply.
  * @param c A 2 element vector of 32-bit signed integers to add.
@@ -3677,7 +3784,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNegMadd_s32x2(const CCSimd_s32x2 a, co
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, -2, -3, -4, -11, -13, -15]
+ * @example -([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) + [1, 1, 1, 1, 1, 1, 1, 1] -> [1, -1, -3, -5, -7, -9, -11, -13]
  * @param a An 8 element vector of 8-bit unsigned integers to multiply.
  * @param b An 8 element vector of 8-bit unsigned integers to multiply.
  * @param c An 8 element vector of 8-bit unsigned integers to add.
@@ -3688,7 +3795,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNegMadd_u8x8(const CCSimd_u8x8 a, const
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([5, 6, 7, 8] * [1, 2, 2, 2]) + [1, 1, 1, 1] -> [-4, -11, -13, -15]
+ * @example -([0, 1, 2, 3] * [2, 2, 2, 2]) + [1, 1, 1, 1] -> [1, -1, -3, -5]
  * @param a A 4 element vector of 16-bit unsigned integers to multiply.
  * @param b A 4 element vector of 16-bit unsigned integers to multiply.
  * @param c A 4 element vector of 16-bit unsigned integers to add.
@@ -3699,7 +3806,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNegMadd_u16x4(const CCSimd_u16x4 a, co
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([7, 8] * [2, 2]) + [1, 1] -> [-13, -15]
+ * @example -([0, 1] * [2, 2]) + [1, 1] -> [1, -1]
  * @param a A 2 element vector of 32-bit unsigned integers to multiply.
  * @param b A 2 element vector of 32-bit unsigned integers to multiply.
  * @param c A 2 element vector of 32-bit unsigned integers to add.
@@ -3710,7 +3817,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNegMadd_u32x2(const CCSimd_u32x2 a, co
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and add all elements of @b c.
  * @description -(a * b) + c
- * @example -([7.5, 8.5] * [2, 2]) + [1, 1] -> [-14, -16]
+ * @example -([0.5, 1.5] * [2.0, 2.0]) + [1.0, 1.0] -> [0.0, -2.0]
  * @param a A 2 element vector of 32-bit floats to multiply.
  * @param b A 2 element vector of 32-bit floats to multiply.
  * @param c A 2 element vector of 32-bit floats to add.
@@ -3722,79 +3829,79 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdNegMadd_f32x2(const CCSimd_f32x2 a, co
 #pragma mark Multiply and Sub
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, -1, 2, 3, 4, 11, 13, 15]
+ * @example ([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, 1, 3, 5, 7, 9, 11, 13]
  * @param a An 8 element vector of 8-bit signed integers to multiply.
  * @param b An 8 element vector of 8-bit signed integers to multiply.
- * @param c An 8 element vector of 8-bit signed integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c An 8 element vector of 8-bit signed integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMsub_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b, const CCSimd_s8x8 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([5, 6, 7, 8] * [1, 2, 2, 2]) - [1, 1, 1, 1] -> [4, 11, 13, 15]
+ * @example ([0, 1, 2, 3] * [2, 2, 2, 2]) - [1, 1, 1, 1] -> [-1, 1, 3, 5]
  * @param a A 4 element vector of 16-bit signed integers to multiply.
  * @param b A 4 element vector of 16-bit signed integers to multiply.
- * @param c A 4 element vector of 16-bit signed integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c A 4 element vector of 16-bit signed integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMsub_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b, const CCSimd_s16x4 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([7, 8] * [2, 2]) - [1, 1] -> [13, 15]
+ * @example ([0, 1] * [2, 2]) - [1, 1] -> [-1, 1]
  * @param a A 2 element vector of 32-bit signed integers to multiply.
  * @param b A 2 element vector of 32-bit signed integers to multiply.
- * @param c A 2 element vector of 32-bit signed integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c A 2 element vector of 32-bit signed integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMsub_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b, const CCSimd_s32x2 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, -1, 2, 3, 4, 11, 13, 15]
+ * @example ([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, 1, 3, 5, 7, 9, 11, 13]
  * @param a An 8 element vector of 8-bit unsigned integers to multiply.
  * @param b An 8 element vector of 8-bit unsigned integers to multiply.
- * @param c An 8 element vector of 8-bit unsigned integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c An 8 element vector of 8-bit unsigned integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMsub_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b, const CCSimd_u8x8 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([5, 6, 7, 8] * [1, 2, 2, 2]) - [1, 1, 1, 1] -> [4, 11, 13, 15]
+ * @example ([0, 1, 2, 3] * [2, 2, 2, 2]) - [1, 1, 1, 1] -> [-1, 1, 3, 5]
  * @param a A 4 element vector of 16-bit unsigned integers to multiply.
  * @param b A 4 element vector of 16-bit unsigned integers to multiply.
- * @param c A 4 element vector of 16-bit unsigned integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c A 4 element vector of 16-bit unsigned integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMsub_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b, const CCSimd_u16x4 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([7, 8] * [2, 2]) - [1, 1] -> [13, 15]
+ * @example ([0, 1] * [2, 2]) - [1, 1] -> [-1, 1]
  * @param a A 2 element vector of 32-bit unsigned integers to multiply.
  * @param b A 2 element vector of 32-bit unsigned integers to multiply.
- * @param c A 2 element vector of 32-bit unsigned integers to sub.
- * @return The vector representing the multiply and sub.
+ * @param c A 2 element vector of 32-bit unsigned integers to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMsub_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b, const CCSimd_u32x2 c);
 
 /*!
- * @brief Multiply all elements of @b a by @b b and sub all elements of @b c.
+ * @brief Multiply all elements of @b a by @b b and subtract all elements of @b c.
  * @description (a * b) - c
- * @example ([7.5, 8.5] * [2, 2]) - [1, 1] -> [14, 16]
+ * @example ([0.5, 1.5] * [2.0, 2.0]) - [1.0, 1.0] -> [0.0, 2.0]
  * @param a A 2 element vector of 32-bit floats to multiply.
  * @param b A 2 element vector of 32-bit floats to multiply.
- * @param c A 2 element vector of 32-bit floats to sub.
- * @return The vector representing the multiply and sub.
+ * @param c A 2 element vector of 32-bit floats to subtract.
+ * @return The vector representing the multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMsub_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b, const CCSimd_f32x2 c);
 
@@ -3804,77 +3911,77 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMsub_f32x2(const CCSimd_f32x2 a, const
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, -4, -5, -6, -13, -15, -17]
+ * @example -([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, -3, -5, -7, -9, -11, -13, -15]
  * @param a An 8 element vector of 8-bit signed integers to multiply.
  * @param b An 8 element vector of 8-bit signed integers to multiply.
- * @param c An 8 element vector of 8-bit signed integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c An 8 element vector of 8-bit signed integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNegMsub_s8x8(const CCSimd_s8x8 a, const CCSimd_s8x8 b, const CCSimd_s8x8 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([5, 6, 7, 8] * [1, 2, 2, 2]) - [1, 1, 1, 1] -> [-6, -13, -15, -17]
+ * @example -([0, 1, 2, 3] * [2, 2, 2, 2]) - [1, 1, 1, 1] -> [-1, -3, -5, -7]
  * @param a A 4 element vector of 16-bit signed integers to multiply.
  * @param b A 4 element vector of 16-bit signed integers to multiply.
- * @param c A 4 element vector of 16-bit signed integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c A 4 element vector of 16-bit signed integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNegMsub_s16x4(const CCSimd_s16x4 a, const CCSimd_s16x4 b, const CCSimd_s16x4 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([7, 8] * [2, 2]) - [1, 1] -> [-15, -17]
+ * @example -([0, 1] * [2, 2]) - [1, 1] -> [-1, -3]
  * @param a A 2 element vector of 32-bit signed integers to multiply.
  * @param b A 2 element vector of 32-bit signed integers to multiply.
- * @param c A 2 element vector of 32-bit signed integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c A 2 element vector of 32-bit signed integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNegMsub_s32x2(const CCSimd_s32x2 a, const CCSimd_s32x2 b, const CCSimd_s32x2 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([1, 2, 3, 4, 5, 6, 7, 8] * [0, 0, 1, 1, 1, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [1, 1, -4, -5, -6, -13, -15, -17]
+ * @example -([0, 1, 2, 3, 4, 5, 6, 7] * [2, 2, 2, 2, 2, 2, 2, 2]) - [1, 1, 1, 1, 1, 1, 1, 1] -> [-1, -3, -5, -7, -9, -11, -13, -15]
  * @param a An 8 element vector of 8-bit unsigned integers to multiply.
  * @param b An 8 element vector of 8-bit unsigned integers to multiply.
- * @param c An 8 element vector of 8-bit unsigned integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c An 8 element vector of 8-bit unsigned integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNegMsub_u8x8(const CCSimd_u8x8 a, const CCSimd_u8x8 b, const CCSimd_u8x8 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([5, 6, 7, 8] * [1, 2, 2, 2]) - [1, 1, 1, 1] -> [-6, -13, -15, -17]
+ * @example -([0, 1, 2, 3] * [2, 2, 2, 2]) - [1, 1, 1, 1] -> [-1, -3, -5, -7]
  * @param a A 4 element vector of 16-bit unsigned integers to multiply.
  * @param b A 4 element vector of 16-bit unsigned integers to multiply.
- * @param c A 4 element vector of 16-bit unsigned integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c A 4 element vector of 16-bit unsigned integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNegMsub_u16x4(const CCSimd_u16x4 a, const CCSimd_u16x4 b, const CCSimd_u16x4 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([7, 8] * [2, 2]) - [1, 1] -> [-15, -17]
+ * @example -([0, 1] * [2, 2]) - [1, 1] -> [-1, -3]
  * @param a A 2 element vector of 32-bit unsigned integers to multiply.
  * @param b A 2 element vector of 32-bit unsigned integers to multiply.
- * @param c A 2 element vector of 32-bit unsigned integers to sub.
- * @return The vector representing the negated multiply and sub.
+ * @param c A 2 element vector of 32-bit unsigned integers to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNegMsub_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b, const CCSimd_u32x2 c);
 
 /*!
  * @brief Multiply and negate all elements of @b a by @b b and sub all elements of @b c.
  * @description -(a * b) - c
- * @example -([7.5, 8.5] * [2, 2]) - [1, 1] -> [-16, -18]
+ * @example -([0.5, 1.5] * [2.0, 2.0]) - [1.0, 1.0] -> [-2.0, -4.0]
  * @param a A 2 element vector of 32-bit floats to multiply.
  * @param b A 2 element vector of 32-bit floats to multiply.
- * @param c A 2 element vector of 32-bit floats to add.
- * @return The vector representing the negated multiply and sub.
+ * @param c A 2 element vector of 32-bit floats to subtract.
+ * @return The vector representing the negated multiply and subtract.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdNegMsub_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b, const CCSimd_f32x2 c);
 
@@ -3883,7 +3990,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdNegMsub_f32x2(const CCSimd_f32x2 a, co
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] / [3, 3, 3, 3, 3, 3, 3, 3] -> [0, 0, 1, 1, 1, 2, 2, 2]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] / [2, 2, 2, 2, 2, 2, 2, 2] -> [0, 1, 1, 2, 2, 3, 3, 4]
  * @param a An 8 element vector of 8-bit signed integers as the dividend.
  * @param b An 8 element vector of 8-bit signed integers as the divisor.
  * @return The vector representing the quotient.
@@ -3892,7 +3999,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdDiv_s8x8(const CCSimd_s8x8 a, const CCS
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [5, 6, 7, 8] / [3, 3, 3, 3] -> [1, 2, 2, 2]
+ * @example [1, 2, 3, 4] / [2, 2, 2, 2] -> [0, 1, 1, 2]
  * @param a A 4 element vector of 16-bit signed integers as the dividend.
  * @param b A 4 element vector of 16-bit signed integers as the divisor.
  * @return The vector representing the quotient.
@@ -3901,7 +4008,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdDiv_s16x4(const CCSimd_s16x4 a, const 
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [7, 8] / [3, 3] -> [2, 2]
+ * @example [1, 2] / [2, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit signed integers as the dividend.
  * @param b A 2 element vector of 32-bit signed integers as the divisor.
  * @return The vector representing the quotient.
@@ -3910,7 +4017,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdDiv_s32x2(const CCSimd_s32x2 a, const 
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] / [3, 3, 3, 3, 3, 3, 3, 3] -> [0, 0, 1, 1, 1, 2, 2, 2]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] / [2, 2, 2, 2, 2, 2, 2, 2] -> [0, 1, 1, 2, 2, 3, 3, 4]
  * @param a An 8 element vector of 8-bit unsigned integers as the dividend.
  * @param b An 8 element vector of 8-bit unsigned integers as the divisor.
  * @return The vector representing the quotient.
@@ -3919,7 +4026,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdDiv_u8x8(const CCSimd_u8x8 a, const CCS
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [5, 6, 7, 8] / [3, 3, 3, 3] -> [1, 2, 2, 2]
+ * @example [1, 2, 3, 4] / [2, 2, 2, 2] -> [0, 1, 1, 2]
  * @param a A 4 element vector of 16-bit unsigned integers as the dividend.
  * @param b A 4 element vector of 16-bit unsigned integers as the divisor.
  * @return The vector representing the quotient.
@@ -3928,7 +4035,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdDiv_u16x4(const CCSimd_u16x4 a, const 
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [7, 8] / [3, 3] -> [2, 2]
+ * @example [1, 2] / [2, 2] -> [0, 1]
  * @param a A 2 element vector of 32-bit unsigned integers as the dividend.
  * @param b A 2 element vector of 32-bit unsigned integers as the divisor.
  * @return The vector representing the quotient.
@@ -3937,7 +4044,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdDiv_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Divide all elements of @b a by @b b.
- * @example [7, 8] / [3, 3] -> [2.333333, 2.666667]
+ * @example [1.5, 2.5] / [2.0, 2.0] -> [0.75, 1.25]
  * @param a A 2 element vector of 32-bit floats as the dividend.
  * @param b A 2 element vector of 32-bit floats as the divisor.
  * @return The vector representing the quotient.
@@ -3949,7 +4056,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdDiv_f32x2(const CCSimd_f32x2 a, const 
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] % [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 2, 0, 1, 2, 0, 1, 2]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] % [2, 2, 2, 2, 2, 2, 2, 2] -> [1, 0, 1, 0, 1, 0, 1, 0]
  * @param a An 8 element vector of 8-bit signed integers as the dividend.
  * @param b An 8 element vector of 8-bit signed integers as the divisor.
  * @return The vector representing the remainder.
@@ -3958,7 +4065,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMod_s8x8(const CCSimd_s8x8 a, const CCS
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [5, 6, 7, 8] % [3, 3, 3, 3] -> [2, 0, 1, 2]
+ * @example [1, 2, 3, 4] % [2, 2, 2, 2] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit signed integers as the dividend.
  * @param b A 4 element vector of 16-bit signed integers as the divisor.
  * @return The vector representing the remainder.
@@ -3967,7 +4074,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMod_s16x4(const CCSimd_s16x4 a, const 
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [7, 8] % [3, 3] -> [1, 2]
+ * @example [1, 2] % [2, 2] -> [1, 0]
  * @param a A 2 element vector of 32-bit signed integers as the dividend.
  * @param b A 2 element vector of 32-bit signed integers as the divisor.
  * @return The vector representing the remainder.
@@ -3976,7 +4083,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMod_s32x2(const CCSimd_s32x2 a, const 
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8] % [3, 3, 3, 3, 3, 3, 3, 3] -> [1, 2, 0, 1, 2, 0, 1, 2]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8] % [2, 2, 2, 2, 2, 2, 2, 2] -> [1, 0, 1, 0, 1, 0, 1, 0]
  * @param a An 8 element vector of 8-bit unsigned integers as the dividend.
  * @param b An 8 element vector of 8-bit unsigned integers as the divisor.
  * @return The vector representing the remainder.
@@ -3985,7 +4092,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMod_u8x8(const CCSimd_u8x8 a, const CCS
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [5, 6, 7, 8] % [3, 3, 3, 3] -> [2, 0, 1, 2]
+ * @example [1, 2, 3, 4] % [2, 2, 2, 2] -> [1, 0, 1, 0]
  * @param a A 4 element vector of 16-bit unsigned integers as the dividend.
  * @param b A 4 element vector of 16-bit unsigned integers as the divisor.
  * @return The vector representing the remainder.
@@ -3994,16 +4101,16 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMod_u16x4(const CCSimd_u16x4 a, const 
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [7, 8] % [3, 3] -> [1, 2]
- * @param a A 2 element vector of 32-bit signed integers as the dividend.
- * @param b A 2 element vector of 32-bit signed integers as the divisor.
+ * @example [1, 2] % [2, 2] -> [1, 0]
+ * @param a A 2 element vector of 32-bit unsigned integers as the dividend.
+ * @param b A 2 element vector of 32-bit unsigned integers as the divisor.
  * @return The vector representing the remainder.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMod_u32x2(const CCSimd_u32x2 a, const CCSimd_u32x2 b);
 
 /*!
  * @brief Modulo of all elements of @b a by @b b.
- * @example [7.5, 8.5] % [3, 3] -> [1.5, 2.5]
+ * @example [1.5, 2.5] % [2.0, 2.0] -> [1.5, 0.5]
  * @param a A 2 element vector of 32-bit floats as the dividend.
  * @param b A 2 element vector of 32-bit floats as the divisor.
  * @return The vector representing the remainder.
@@ -4015,44 +4122,45 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMod_f32x2(const CCSimd_f32x2 a, const 
 
 /*!
  * @brief Round all elements to nearest with halves away from zero.
- * @example [10.5, 11.5] -> [11, 12]; [-10.5, -11.5] -> [-11, -12]
- * @param a The 2 element vector of 32-bit floats.
+ * @example [1.5, 2.5] -> [2, 3]
+ * @example [-1.5, -2.5] -> [-2, -3]
+ * @param a A 2 element vector of 32-bit floats.
  * @return The rounded vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdRoundNearestAway_f32x2(const CCSimd_f32x2 a);
 
-
 /*!
  * @brief Round all elements to nearest with halves to even.
- * @example [10.5, 11.5] -> [10, 12]; [-10.5, -11.5] -> [-10, -12]
- * @param a The 2 element vector of 32-bit floats.
+ * @example [1.5, 2.5] -> [2, 2]
+ * @example [-1.5, -2.5] -> [-2, -2]
+ * @param a A 2 element vector of 32-bit floats.
  * @return The rounded vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdRoundNearestEven_f32x2(const CCSimd_f32x2 a);
 
-
 /*!
  * @brief Round all elements to zero.
- * @example [10.5, 11.5] -> [10, 11]; [-10.5, -11.5] -> [-10, -11]
- * @param a The 2 element vector of 32-bit floats.
+ * @example [1.5, 2.5] -> [1, 2]
+ * @example [-1.5, -2.5] -> [-1, -2]
+ * @param a A 2 element vector of 32-bit floats.
  * @return The rounded vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdRoundZero_f32x2(const CCSimd_f32x2 a);
 
-
 /*!
  * @brief Round all elements down.
- * @example [10.5, 11.5] -> [10, 11]; [-10.5, -11.5] -> [-11, -12]
- * @param a The 2 element vector of 32-bit floats.
+ * @example [1.5, 2.5] -> [1, 2]
+ * @example [-1.5, -2.5] -> [-2, -3]
+ * @param a A 2 element vector of 32-bit floats.
  * @return The rounded vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdFloor_f32x2(const CCSimd_f32x2 a);
 
-
 /*!
- * @brief Round all lanes up.
- * @example [10.5, 11.5] -> [11, 12]; [-10.5, -11.5] -> [-10, -11]
- * @param a The 2 lane vector of 32-bit floats.
+ * @brief Round all elements up.
+ * @example [1.5, 2.5] -> [2, 3]
+ * @example [-1.5, -2.5] -> [-1, -2]
+ * @param a A 2 element vector of 32-bit floats.
  * @return The rounded vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCeil_f32x2(const CCSimd_f32x2 a);
@@ -4201,7 +4309,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHadd_u32x2(const CCSimd_u32x2 a, uint8
 /*!
  * @brief Horizontally add the elements of a vector.
  * @description Can selectively decide which elements are the sum of which other elements.
- * @example [1.5, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [4, undefined]
+ * @example [1.5, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [4.0, undefined]
  * @param a A 2 element vector of 32-bit floats to horizontally add.
  * @param v0 The lane mask to indicate the horizontal add to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
  *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).
@@ -4357,7 +4465,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdHsub_u32x2(const CCSimd_u32x2 a, uint8
 /*!
  * @brief Horizontally subtract the elements of a vector.
  * @description Can selectively decide which elements are the sum of which other elements.
- * @example [4, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [1.5, undefined]
+ * @example [4.0, 2.5].(CC_SIMD_LANE_MASK(0, 1), 0) -> [1.5, undefined]
  * @param a A 2 element vector of 32-bit floats to horizontally subtract.
  * @param v0 The lane mask to indicate the horizontal subtract to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
  *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).
@@ -4519,7 +4627,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdDot_u32x2(const CCSimd_u32x2 a, const 
 /*!
  * @brief Calculate the dot product of elements from vector @b a and @b b.
  * @description Can selectively decide which elements are used to calculate the dot product.
- * @example [1.5, 2.5]x[2, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [8, undefined]
+ * @example [1.5, 2.5]x[2, 2].(CC_SIMD_LANE_MASK(0, 1), 0) -> [8.0, undefined]
  * @param a A 2 element vector of 32-bit floats to use for the dot product.
  * @param b A 2 element vector of 32-bit floats to use for the dot product.
  * @param v0 The lane mask to indicate the dot product to store in [0]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the
@@ -4545,7 +4653,7 @@ static CC_FORCE_INLINE int8_t CCSimdSum_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief Sum the elements of @b a.
- * @example [5, 6, 7, 8] -> 26
+ * @example [1, 2, 3, 4] -> 10
  * @param a A 4 element vector of 16-bit signed integers to sum.
  * @return The sum.
  */
@@ -4553,7 +4661,7 @@ static CC_FORCE_INLINE int16_t CCSimdSum_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Sum the elements of @b a.
- * @example [7, 8] -> 15
+ * @example [1, 2] -> 3
  * @param a A 2 element vector of 32-bit signed integers to sum.
  * @return The sum.
  */
@@ -4569,7 +4677,7 @@ static CC_FORCE_INLINE uint8_t CCSimdSum_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief Sum the elements of @b a.
- * @example [5, 6, 7, 8] -> 26
+ * @example [1, 2, 3, 4] -> 10
  * @param a A 4 element vector of 16-bit unsigned integers to sum.
  * @return The sum.
  */
@@ -4577,15 +4685,15 @@ static CC_FORCE_INLINE uint16_t CCSimdSum_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Sum the elements of @b a.
- * @example [7, 8] -> 15
- * @param a A 2 element vector of 32-bit signed integers to sum.
+ * @example [1, 2] -> 3
+ * @param a A 2 element vector of 32-bit unsigned integers to sum.
  * @return The sum.
  */
 static CC_FORCE_INLINE uint32_t CCSimdSum_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Sum the elements of @b a.
- * @example [7.5, 8] -> 15.5
+ * @example [1.5, 2.5] -> 4.0
  * @param a A 2 element vector of 32-bit floats to sum.
  * @return The sum.
  */
@@ -4597,7 +4705,7 @@ static CC_FORCE_INLINE float CCSimdSum_f32x2(const CCSimd_f32x2 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2, 3, 4, 5, 6, 7, 8] -> [-1, -2, -3, -4, -5, -6, -7, -8]
- * @param a An 8 element vector of 8-bit signed integers.
+ * @param a An 8 element vector of 8-bit signed integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNeg_s8x8(const CCSimd_s8x8 a);
@@ -4605,7 +4713,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdNeg_s8x8(const CCSimd_s8x8 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2, 3, 4] -> [-1, -2, -3, -4]
- * @param a A 4 element vector of 16-bit signed integers.
+ * @param a A 4 element vector of 16-bit signed integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNeg_s16x4(const CCSimd_s16x4 a);
@@ -4613,7 +4721,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdNeg_s16x4(const CCSimd_s16x4 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2] -> [-1, -2]
- * @param a A 2 element vector of 32-bit signed integers.
+ * @param a A 2 element vector of 32-bit signed integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNeg_s32x2(const CCSimd_s32x2 a);
@@ -4621,7 +4729,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdNeg_s32x2(const CCSimd_s32x2 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2, 3, 4, 5, 6, 7, 8] -> [-1, -2, -3, -4, -5, -6, -7, -8]
- * @param a An 8 element vector of 8-bit unsigned integers.
+ * @param a An 8 element vector of 8-bit unsigned integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNeg_u8x8(const CCSimd_u8x8 a);
@@ -4629,7 +4737,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdNeg_u8x8(const CCSimd_u8x8 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2, 3, 4] -> [-1, -2, -3, -4]
- * @param a A 4 element vector of 16-bit unsigned integers.
+ * @param a A 4 element vector of 16-bit unsigned integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNeg_u16x4(const CCSimd_u16x4 a);
@@ -4637,7 +4745,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdNeg_u16x4(const CCSimd_u16x4 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1, 2] -> [-1, -2]
- * @param a A 2 element vector of 32-bit unsigned integers.
+ * @param a A 2 element vector of 32-bit unsigned integers to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNeg_u32x2(const CCSimd_u32x2 a);
@@ -4645,7 +4753,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdNeg_u32x2(const CCSimd_u32x2 a);
 /*!
  * @brief Negate each element in @b a.
  * @example -[1.5, 2.5] -> [-1.5, -2.5]
- * @param a A 2 element vector of 32-bit floats.
+ * @param a A 2 element vector of 32-bit floats to negate.
  * @return The negated vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdNeg_f32x2(const CCSimd_f32x2 a);
@@ -4655,56 +4763,56 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdNeg_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2, -3, -4, -5, -6, -7, -8] -> [1, 2, 3, 4, 5, 6, 7, 8]
- * @param a An 8 element vector of 8-bit signed integers.
+ * @example -[1, 2, 3, 4, 5, 6, 7, 8] -> [1, 2, 3, 4, 5, 6, 7, 8]
+ * @param a An 8 element vector of 8-bit signed integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdAbs_s8x8(const CCSimd_s8x8 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2, -3, -4] -> [1, 2, 3, 4]
- * @param a A 4 element vector of 16-bit signed integers.
+ * @example -[1, 2, 3, 4] -> [1, 2, 3, 4]
+ * @param a A 4 element vector of 16-bit signed integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdAbs_s16x4(const CCSimd_s16x4 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2] -> [1, 2]
- * @param a A 2 element vector of 32-bit signed integers.
+ * @example -[1, 2] -> [1, 2]
+ * @param a A 2 element vector of 32-bit signed integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdAbs_s32x2(const CCSimd_s32x2 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2, -3, -4, -5, -6, -7, -8] -> [1, 2, 3, 4, 5, 6, 7, 8]
- * @param a An 8 element vector of 8-bit unsigned integers.
+ * @example -[1, 2, 3, 4, 5, 6, 7, 8] -> [1, 2, 3, 4, 5, 6, 7, 8]
+ * @param a An 8 element vector of 8-bit unsigned integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdAbs_u8x8(const CCSimd_u8x8 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2, -3, -4] -> [1, 2, 3, 4]
- * @param a A 4 element vector of 16-bit unsigned integers.
+ * @example -[1, 2, 3, 4] -> [1, 2, 3, 4]
+ * @param a A 4 element vector of 16-bit unsigned integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_u16x4 CCSimdAbs_u16x4(const CCSimd_u16x4 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1, -2] -> [1, 2]
- * @param a A 2 element vector of 32-bit unsigned integers.
+ * @example -[1, 2] -> [1, 2]
+ * @param a A 2 element vector of 32-bit unsigned integers to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_u32x2 CCSimdAbs_u32x2(const CCSimd_u32x2 a);
 
 /*!
  * @brief Absolute each element in @b a.
- * @example [-1.5, -2.5] -> [1.5, 2.5]
- * @param a A 2 element vector of 32-bit floats.
+ * @example -[1.5, 2.5] -> [1.5, 2.5]
+ * @param a A 2 element vector of 32-bit floats to get the absolute of.
  * @return The absolute vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdAbs_f32x2(const CCSimd_f32x2 a);
@@ -4768,7 +4876,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMin_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Get the min of each element from @b a and @b b.
- * @example min([7.5, 8.5], [2, 2]) -> [9.5, 10.5]
+ * @example min([1.0, 20.0], [15.75, 2.5]) -> [1.0, 2.5]
  * @param a A 2 element vector of 32-bit floats.
  * @param b A 2 element vector of 32-bit floats.
  * @return The vector representing the minimum of the two vectors.
@@ -4834,7 +4942,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMax_u32x2(const CCSimd_u32x2 a, const 
 
 /*!
  * @brief Get the max of each element from @b a and @b b.
- * @example max([7.5, 8.5], [2, 2]) -> [9.5, 10.5]
+ * @example max([1.0, 20.0], [15.75, 2.5]) -> [15.75, 20.0]
  * @param a A 2 element vector of 32-bit floats.
  * @param b A 2 element vector of 32-bit floats.
  * @return The vector representing the maximum of the two vectors.
@@ -4846,7 +4954,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMax_f32x2(const CCSimd_f32x2 a, const 
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2, 3, 4, 5, 6, 7, 8], [10 10, 10, 10, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1]) -> [10, 10, 10, 10, 1, 1, 1, 1]
+ * @example clamp([1, 2, 3, 4, 5, 6, 7, 8], [2, 2, 2, 2, 2, 2, 2, 2], [3, 3, 3, 3, 3, 3, 3, 3]) -> [2, 2, 3, 3, 3, 3, 3, 3]
  * @param a An 8 element vector of 8-bit signed integers to be clamped.
  * @param min An 8 element vector of 8-bit signed integers to use as the minimum.
  * @param max An 8 element vector of 8-bit signed integers to use as the maximum.
@@ -4856,7 +4964,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdClamp_s8x8(const CCSimd_s8x8 a, const C
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2, 3, 4], [10 10, 0, 0], [0, 0, 1, 1]) -> [10, 10, 1, 1]
+ * @example clamp([1, 2, 3, 4], [2, 2, 2, 2], [3, 3, 3, 3]) -> [2, 2, 3, 3]
  * @param a A 4 element vector of 16-bit signed integers to be clamped.
  * @param min A 4 element vector of 16-bit signed integers to use as the minimum.
  * @param max A 4 element vector of 16-bit signed integers to use as the maximum.
@@ -4866,7 +4974,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdClamp_s16x4(const CCSimd_s16x4 a, cons
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2], [10, 0], [0, 1]) -> [10, 1]
+ * @example clamp([1, 2], [2, 2], [3, 3]) -> [2, 2]
  * @param a A 2 element vector of 32-bit signed integers to be clamped.
  * @param min A 2 element vector of 32-bit signed integers to use as the minimum.
  * @param max A 2 element vector of 32-bit signed integers to use as the maximum.
@@ -4876,7 +4984,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdClamp_s32x2(const CCSimd_s32x2 a, cons
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2, 3, 4, 5, 6, 7, 8], [10 10, 10, 10, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1]) -> [10, 10, 10, 10, 1, 1, 1, 1]
+ * @example clamp([1, 2, 3, 4, 5, 6, 7, 8], [2, 2, 2, 2, 2, 2, 2, 2], [3, 3, 3, 3, 3, 3, 3, 3]) -> [2, 2, 3, 3, 3, 3, 3, 3]
  * @param a An 8 element vector of 8-bit unsigned integers to be clamped.
  * @param min An 8 element vector of 8-bit unsigned integers to use as the minimum.
  * @param max An 8 element vector of 8-bit unsigned integers to use as the maximum.
@@ -4886,7 +4994,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdClamp_u8x8(const CCSimd_u8x8 a, const C
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2, 3, 4], [10 10, 0, 0], [0, 0, 1, 1]) -> [10, 10, 1, 1]
+ * @example clamp([1, 2, 3, 4], [2, 2, 2, 2], [3, 3, 3, 3]) -> [2, 2, 3, 3]
  * @param a A 4 element vector of 16-bit unsigned integers to be clamped.
  * @param min A 4 element vector of 16-bit unsigned integers to use as the minimum.
  * @param max A 4 element vector of 16-bit unsigned integers to use as the maximum.
@@ -4896,7 +5004,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdClamp_u16x4(const CCSimd_u16x4 a, cons
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([1, 2], [10, 0], [0, 1]) -> [10, 1]
+ * @example clamp([1, 2], [2, 2], [3, 3]) -> [2, 2]
  * @param a A 2 element vector of 32-bit unsigned integers to be clamped.
  * @param min A 2 element vector of 32-bit unsigned integers to use as the minimum.
  * @param max A 2 element vector of 32-bit unsigned integers to use as the maximum.
@@ -4906,7 +5014,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdClamp_u32x2(const CCSimd_u32x2 a, cons
 
 /*!
  * @brief Clamp each element of vector @b a between the min and max vectors.
- * @example clamp([7.5, 8.5], [2, 2]) -> [9.5, 10.5]
+ * @example clamp([1.5, 2.5], [2.0, 2.0], [3.0, 3.0]) -> [2.0, 2.5]
  * @param a A 2 element vector of 32-bit floats to be clamped.
  * @param min A 2 element vector of 32-bit floats to use as the minimum.
  * @param max A 2 element vector of 32-bit floats to use as the maximum.
@@ -4953,7 +5061,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInvCbrt_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute value of each element in the vector @b Base raised by vector @b Exponent.
- * @param Base A 2 element vector of 32-bit floats to raised.
+ * @param Base A 2 element vector of 32-bit floats to be raised.
  * @param Exponent A 2 element vector of 32-bit floats to raise.
  * @return The raised vector.
  */
@@ -4964,28 +5072,28 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPow_f32x2(const CCSimd_f32x2 Base, con
 
 /*!
  * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
- * @param Exponent A 8 element vector of 8-bit unsigned integers to raise.
+ * @param Exponent An 8 element vector of 8-bit signed integers to raise.
  * @return The raised vector.
  */
 static CC_FORCE_INLINE CCSimd_s8x8 CCSimdPow2_s8x8(const CCSimd_s8x8 Exponent);
 
 /*!
  * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
- * @param Exponent A 4 element vector of 16-bit unsigned integers to raise.
+ * @param Exponent A 4 element vector of 16-bit signed integers to raise.
  * @return The raised vector.
  */
 static CC_FORCE_INLINE CCSimd_s16x4 CCSimdPow2_s16x4(const CCSimd_s16x4 Exponent);
 
 /*!
  * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
- * @param Exponent A 2 element vector of 32-bit unsigned integers to raise.
+ * @param Exponent A 2 element vector of 32-bit signed integers to raise.
  * @return The raised vector.
  */
 static CC_FORCE_INLINE CCSimd_s32x2 CCSimdPow2_s32x2(const CCSimd_s32x2 Exponent);
 
 /*!
  * @brief Computes 2^trunc(n) for each element raised by vector @b Exponent.
- * @param Exponent A 8 element vector of 8-bit unsigned integers to raise.
+ * @param Exponent An 8 element vector of 8-bit unsigned integers to raise.
  * @return The raised vector.
  */
 static CC_FORCE_INLINE CCSimd_u8x8 CCSimdPow2_u8x8(const CCSimd_u8x8 Exponent);
@@ -5040,8 +5148,8 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Computes base 2 logarithm for each element in vector @b a.
- * @param a A 2 element vector of 32-bit floats to raise.
- * @return The raised vector.
+ * @param a A 2 element vector of 32-bit floats to log.
+ * @return The log vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdLog2_f32x2(const CCSimd_f32x2 a);
 
@@ -5083,6 +5191,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdPosPiRadSin_f32x2(const CCSimd_f32x2 a
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcSin_f32x2(const CCSimd_f32x2 a);
 
+
 #pragma mark Cosine
 
 /*!
@@ -5111,7 +5220,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdArcCos_f32x2(const CCSimd_f32x2 a);
 
 /*!
  * @brief Compute the tangent of each radian element in the vector.
- * @param a A 2 element vector of 32-bit floats to be tanned.
+ * @param a A 2 element vector of 32-bit float radians.
  * @return The tangent vector.
  */
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdTan_f32x2(const CCSimd_f32x2 a);
@@ -5179,7 +5288,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdCot_f32x2(const CCSimd_f32x2 a);
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2, 3, 4, 5, 6, 7, 8].(0,1,0,1,2,3,2,3) -> [1, 2, 1, 2, 3, 4, 3, 4]
+ * @example [10, 20, 30, 40, 50, 60, 70, 80].(7, 6, 5, 4, 3, 2, 1, 0) -> [80, 70, 60, 50, 40, 30, 20, 10]
  * @param a An 8 element vector of 8-bit signed integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5196,7 +5305,7 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdSwizzle_s8x8(const CCSimd_s8x8 a, uint8
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2, 3, 4].(0,1,0,1) -> [1, 2, 1, 2]
+ * @example [10, 20, 30, 40].(3, 2, 1, 0) -> [40, 30, 20, 10]
  * @param a A 4 element vector of 16-bit signed integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5209,7 +5318,7 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdSwizzle_s16x4(const CCSimd_s16x4 a, ui
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2].(0,0) -> [1, 1]
+ * @example [10, 20].(1, 0) -> [20, 10]
  * @param a A 2 element vector of 32-bit signed integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5220,7 +5329,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdSwizzle_s32x2(const CCSimd_s32x2 a, ui
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2, 3, 4, 5, 6, 7, 8].(0,1,0,1,2,3,2,3) -> [1, 2, 1, 2, 3, 4, 3, 4]
+ * @example [10, 20, 30, 40, 50, 60, 70, 80].(7, 6, 5, 4, 3, 2, 1, 0) -> [80, 70, 60, 50, 40, 30, 20, 10]
  * @param a An 8 element vector of 8-bit unsigned integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5237,7 +5346,7 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdSwizzle_u8x8(const CCSimd_u8x8 a, uint8
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2, 3, 4].(0,1,0,1) -> [1, 2, 1, 2]
+ * @example [10, 20, 30, 40].(3, 2, 1, 0) -> [40, 30, 20, 10]
  * @param a A 4 element vector of 16-bit unsigned integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5250,7 +5359,7 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdSwizzle_u16x4(const CCSimd_u16x4 a, ui
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2].(0,0) -> [1, 1]
+ * @example [10, 20].(1, 0) -> [20, 10]
  * @param a A 2 element vector of 32-bit unsigned integers to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5261,7 +5370,7 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSwizzle_u32x2(const CCSimd_u32x2 a, ui
 /*!
  * @brief Swizzle the elements of @b a.
  * @description The same element can be repeated.
- * @example [1, 2].(0,0) -> [1, 1]
+ * @example [10, 20].(1, 0) -> [20, 10]
  * @param a A 2 element vector of 32-bit floats to swizzle.
  * @param v0 The index of the element in @b a to be moved to [0].
  * @param v1 The index of the element in @b a to be moved to [1].
@@ -5274,7 +5383,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSwizzle_f32x2(const CCSimd_f32x2 a, ui
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(0,1,0,1,0,1,0,1) -> [1, 20, 3, 40, 5, 60, 7, 80]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(0, 1, 0, 1, 0, 1, 0, 1) -> [1, 20, 3, 40, 5, 60, 7, 80]
  * @param a An 8 element vector of 8-bit signed integers to interleave.
  * @param b An 8 element vector of 8-bit signed integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
@@ -5291,9 +5400,9 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdInterleave_s8x8(const CCSimd_s8x8 a, co
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2, 3, 4]x[10, 20, 30, 40].(0,1,0,1) -> [1, 20, 3, 40]
- * @param a An 4 element vector of 16-bit signed integers to interleave.
- * @param b An 4 element vector of 16-bit signed integers to interleave.
+ * @example [1, 2, 3, 4]x[10, 20, 30, 40].(0, 1, 0, 1) -> [1, 20, 3, 40]
+ * @param a A 4 element vector of 16-bit signed integers to interleave.
+ * @param b A 4 element vector of 16-bit signed integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v1 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v2 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
@@ -5304,9 +5413,9 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdInterleave_s16x4(const CCSimd_s16x4 a,
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2]x[10, 20].(0,1) -> [1, 20]
- * @param a An 2 element vector of 32-bit signed integers to interleave.
- * @param b An 2 element vector of 32-bit signed integers to interleave.
+ * @example [1, 2]x[10, 20].(0, 1) -> [1, 20]
+ * @param a A 2 element vector of 32-bit signed integers to interleave.
+ * @param b A 2 element vector of 32-bit signed integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v1 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @return The interleaved vector elements.
@@ -5315,7 +5424,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdInterleave_s32x2(const CCSimd_s32x2 a,
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(0,1,0,1,0,1,0,1) -> [1, 20, 3, 40, 5, 60, 7, 80]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(0, 1, 0, 1, 0, 1, 0, 1) -> [1, 20, 3, 40, 5, 60, 7, 80]
  * @param a An 8 element vector of 8-bit unsigned integers to interleave.
  * @param b An 8 element vector of 8-bit unsigned integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
@@ -5332,9 +5441,9 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdInterleave_u8x8(const CCSimd_u8x8 a, co
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2, 3, 4]x[10, 20, 30, 40].(0,1,0,1) -> [1, 20, 3, 40]
- * @param a An 4 element vector of 16-bit unsigned integers to interleave.
- * @param b An 4 element vector of 16-bit unsigned integers to interleave.
+ * @example [1, 2, 3, 4]x[10, 20, 30, 40].(0, 1, 0, 1) -> [1, 20, 3, 40]
+ * @param a A 4 element vector of 16-bit unsigned integers to interleave.
+ * @param b A 4 element vector of 16-bit unsigned integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v1 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v2 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
@@ -5345,9 +5454,9 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdInterleave_u16x4(const CCSimd_u16x4 a,
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2]x[10, 20].(0,1) -> [1, 20]
- * @param a An 2 element vector of 32-bit signed integers to interleave.
- * @param b An 2 element vector of 32-bit signed integers to interleave.
+ * @example [1, 2]x[10, 20].(0, 1) -> [1, 20]
+ * @param a A 2 element vector of 32-bit unsigned integers to interleave.
+ * @param b A 2 element vector of 32-bit unsigned integers to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v1 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @return The interleaved vector elements.
@@ -5356,9 +5465,9 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdInterleave_u32x2(const CCSimd_u32x2 a,
 
 /*!
  * @brief Interleave the elements of @b a and @b b.
- * @example [1, 2]x[10, 20].(0,1) -> [1, 20]
- * @param a An 2 element vector of 32-bit floats to interleave.
- * @param b An 2 element vector of 32-bit floats to interleave.
+ * @example [1, 2]x[10, 20].(0, 1) -> [1, 20]
+ * @param a A 2 element vector of 32-bit floats to interleave.
+ * @param b A 2 element vector of 32-bit floats to interleave.
  * @param v0 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @param v1 The index of the vector argument to include the element from. Use 0 for @b a and 1 for @b b.
  * @return The interleaved vector elements.
@@ -5371,7 +5480,7 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdInterleave_f32x2(const CCSimd_f32x2 a,
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1, CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1) -> [20, 2, 2, 20, 20, 2, 2, 20]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1) -> [2, 20, 2, 20, 2, 20, 2, 20]
  * @param a An 8 element vector of 8-bit signed integers to merge.
  * @param b An 8 element vector of 8-bit signed integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
@@ -5389,9 +5498,9 @@ static CC_FORCE_INLINE CCSimd_s8x8 CCSimdMerge_s8x8(const CCSimd_s8x8 a, const C
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2, 3, 4]x[10, 20, 30, 40].(CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1) -> [20, 2, 2, 20]
- * @param a An 4 element vector of 16-bit signed integers to merge.
- * @param b An 4 element vector of 16-bit signed integers to merge.
+ * @example [1, 2, 3, 4]x[10, 20, 30, 40].(CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1) -> [2, 20, 2, 20]
+ * @param a A 4 element vector of 16-bit signed integers to merge.
+ * @param b A 4 element vector of 16-bit signed integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v1 The vector element argument to be moved to [1]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v2 The vector element argument to be moved to [2]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
@@ -5403,9 +5512,9 @@ static CC_FORCE_INLINE CCSimd_s16x4 CCSimdMerge_s16x4(const CCSimd_s16x4 a, cons
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2]x[10, 20].(CC_SIMD_B1,CC_SIMD_A1) -> [20, 2]
- * @param a An 2 element vector of 32-bit signed integers to merge.
- * @param b An 2 element vector of 32-bit signed integers to merge.
+ * @example [1, 2]x[10, 20].(CC_SIMD_A1, CC_SIMD_B1) -> [2, 20]
+ * @param a A 2 element vector of 32-bit signed integers to merge.
+ * @param b A 2 element vector of 32-bit signed integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v1 The vector element argument to be moved to [1]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @return The merged vector elements.
@@ -5415,7 +5524,7 @@ static CC_FORCE_INLINE CCSimd_s32x2 CCSimdMerge_s32x2(const CCSimd_s32x2 a, cons
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1, CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1) -> [20, 2, 2, 20, 20, 2, 2, 20]
+ * @example [1, 2, 3, 4, 5, 6, 7, 8]x[10, 20, 30, 40, 50, 60, 70, 80].(CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1) -> [2, 20, 2, 20, 2, 20, 2, 20]
  * @param a An 8 element vector of 8-bit unsigned integers to merge.
  * @param b An 8 element vector of 8-bit unsigned integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
@@ -5433,9 +5542,9 @@ static CC_FORCE_INLINE CCSimd_u8x8 CCSimdMerge_u8x8(const CCSimd_u8x8 a, const C
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2, 3, 4]x[10, 20, 30, 40].(CC_SIMD_B1,CC_SIMD_A1,CC_SIMD_A1,CC_SIMD_B1) -> [20, 2, 2, 20]
- * @param a An 4 element vector of 16-bit signed integers to merge.
- * @param b An 4 element vector of 16-bit signed integers to merge.
+ * @example [1, 2, 3, 4]x[10, 20, 30, 40].(CC_SIMD_A1, CC_SIMD_B1, CC_SIMD_A1, CC_SIMD_B1) -> [2, 20, 2, 20]
+ * @param a A 4 element vector of 16-bit unsigned integers to merge.
+ * @param b A 4 element vector of 16-bit unsigned integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v1 The vector element argument to be moved to [1]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v2 The vector element argument to be moved to [2]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
@@ -5447,9 +5556,9 @@ static CC_FORCE_INLINE CCSimd_u16x4 CCSimdMerge_u16x4(const CCSimd_u16x4 a, cons
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2]x[10, 20].(CC_SIMD_B1,CC_SIMD_A1) -> [20, 2]
- * @param a An 2 element vector of 32-bit unsigned integers to merge.
- * @param b An 2 element vector of 32-bit unsigned integers to merge.
+ * @example [1, 2]x[10, 20].(CC_SIMD_A1, CC_SIMD_B1) -> [2, 20]
+ * @param a A 2 element vector of 32-bit unsigned integers to merge.
+ * @param b A 2 element vector of 32-bit unsigned integers to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v1 The vector element argument to be moved to [1]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @return The merged vector elements.
@@ -5459,9 +5568,9 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMerge_u32x2(const CCSimd_u32x2 a, cons
 /*!
  * @brief Merge the elements of @b a and @b b.
  * @description A merge combines the functionality of a swizzle and interleave.
- * @example [1, 2]x[10, 20].(CC_SIMD_B1,CC_SIMD_A1) -> [20, 2]
- * @param a An 2 element vector of 32-bit floats to merge.
- * @param b An 2 element vector of 32-bit floats to merge.
+ * @example [1, 2]x[10, 20].(CC_SIMD_A1, CC_SIMD_B1) -> [2, 20]
+ * @param a A 2 element vector of 32-bit floats to merge.
+ * @param b A 2 element vector of 32-bit floats to merge.
  * @param v0 The vector element argument to be moved to [0]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @param v1 The vector element argument to be moved to [1]. Use CC_SIMD_An or CC_SIMD_Bn to select the vector and element.
  * @return The merged vector elements.
@@ -5528,30 +5637,6 @@ static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, cons
 #undef CC_SIMD_MISSING_CCSimdExp2
 #undef CC_SIMD_MISSING_CCSimdCbrt
 #undef CC_SIMD_MISSING_CCSimdInvCbrt
-
-#undef CC_SIMD_MISSING_CCSimdPosPiRadSin_f32x2
-#undef CC_SIMD_MISSING_CCSimdHalfPiRadCos_f32x2
-#undef CC_SIMD_MISSING_CCSimdPosSin_f32x2
-#undef CC_SIMD_MISSING_CCSimdPiRadSin_f32x2
-#undef CC_SIMD_MISSING_CCSimdSin_f32x2
-#undef CC_SIMD_MISSING_CCSimdArcSin_f32x2
-#undef CC_SIMD_MISSING_CCSimdCos_f32x2
-#undef CC_SIMD_MISSING_CCSimdArcCos_f32x2
-#undef CC_SIMD_MISSING_CCSimdTan_f32x2
-#undef CC_SIMD_MISSING_CCSimdQtrPiArcTan_f32x2
-#undef CC_SIMD_MISSING_CCSimdArcTan_f32x2
-#undef CC_SIMD_MISSING_CCSimdArcTan2_f32x2
-#undef CC_SIMD_MISSING_CCSimdCsc_f32x2
-#undef CC_SIMD_MISSING_CCSimdSec_f32x2
-#undef CC_SIMD_MISSING_CCSimdCot_f32x2
-#undef CC_SIMD_MISSING_CCSimdLog2_f32x2
-#undef CC_SIMD_MISSING_CCSimdLog_f32x2
-#undef CC_SIMD_MISSING_CCSimdPow_f32x2
-#undef CC_SIMD_MISSING_CCSimdPow2_f32x2
-#undef CC_SIMD_MISSING_CCSimdExp_f32x2
-#undef CC_SIMD_MISSING_CCSimdExp2_f32x2
-#undef CC_SIMD_MISSING_CCSimdCbrt_f32x2
-#undef CC_SIMD_MISSING_CCSimdInvCbrt_f32x2
 
 #define CC_SIMD_MISSING_CCSimdZero CC_SIMD_64_TYPES
 #define CC_SIMD_MISSING_CCSimdSetSequence CC_SIMD_64_TYPES
@@ -5674,5 +5759,6 @@ CC_SIMD_64_2_ELEMENT_FLOAT_TYPES
 
 #define CC_SIMD_WIDTH 64
 #include <CommonC/SimdFallback.h>
+#undef CC_SIMD_WIDTH
 
 #endif
