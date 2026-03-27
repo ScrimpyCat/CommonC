@@ -480,11 +480,11 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdCot(const CC_SIMD_T a)
 static CC_FORCE_INLINE CC_SIMD_T CCSimdLog2(const CC_SIMD_T a)
 {
     // Based off Paul Mineiro's fastlog2 from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
-    const CC_SIMD_T C0 = CCSimdFill_f32x2(1.1920928955078125e-7);
-    const CC_SIMD_T C1 = CCSimdFill_f32x2(124.22551499);
-    const CC_SIMD_T C2 = CCSimdFill_f32x2(1.498030302);
-    const CC_SIMD_T C3 = CCSimdFill_f32x2(1.72587999);
-    const CC_SIMD_T C4 = CCSimdFill_f32x2(0.3520887068);
+    const CC_SIMD_T C0 = CCSimdFill_T(1.1920928955078125e-7);
+    const CC_SIMD_T C1 = CCSimdFill_T(124.22551499);
+    const CC_SIMD_T C2 = CCSimdFill_T(1.498030302);
+    const CC_SIMD_T C3 = CCSimdFill_T(1.72587999);
+    const CC_SIMD_T C4 = CCSimdFill_T(0.3520887068);
     const CC_SIMD_U U = CCSimdOr(CCSimdAnd(CCSimd_U_Reinterpret_T(a), CCSimdFill_U(0x7fffff)), CCSimdFill_U(0x3f000000));
     CC_SIMD_T Result = CCSimd_T_Cast_U(CCSimd_U_Reinterpret_T(a));
     
