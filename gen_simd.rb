@@ -1972,122 +1972,6 @@ puts """
 
 #pragma mark -
 
-#undef CC_SIMD_MISSING_CCSimdZero
-#undef CC_SIMD_MISSING_CCSimdSetSequence
-#undef CC_SIMD_MISSING_CCSimdAndNot
-#undef CC_SIMD_MISSING_CCSimdRotateLeft
-#undef CC_SIMD_MISSING_CCSimdRotateLeftN
-#undef CC_SIMD_MISSING_CCSimdRotateRight
-#undef CC_SIMD_MISSING_CCSimdRotateRightN
-#undef CC_SIMD_MISSING_CCSimdLowestUnset
-#undef CC_SIMD_MISSING_CCSimdLowestSet
-#undef CC_SIMD_MISSING_CCSimdHighestSet
-#undef CC_SIMD_MISSING_CCSimdNextPow2
-#undef CC_SIMD_MISSING_CCSimdMask
-#undef CC_SIMD_MISSING_CCSimdMaskLowerPow2
-#undef CC_SIMD_MISSING_CCSimdMaskHighestUnset
-#undef CC_SIMD_MISSING_CCSimdCountLowestUnset
-#undef CC_SIMD_MISSING_CCSimdCountSet
-#undef CC_SIMD_MISSING_CCSimdCompareEqual
-#undef CC_SIMD_MISSING_CCSimdCompareNotEqual
-#undef CC_SIMD_MISSING_CCSimdCompareLessThan
-#undef CC_SIMD_MISSING_CCSimdCompareLessThanEqual
-#undef CC_SIMD_MISSING_CCSimdCompareGreaterThan
-#undef CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual
-#undef CC_SIMD_MISSING_CCSimdMaskCompareNotEqual
-#undef CC_SIMD_MISSING_CCSimdMadd
-#undef CC_SIMD_MISSING_CCSimdNegMadd
-#undef CC_SIMD_MISSING_CCSimdMsub
-#undef CC_SIMD_MISSING_CCSimdNegMsub
-#undef CC_SIMD_MISSING_CCSimdDiv
-#undef CC_SIMD_MISSING_CCSimdMod
-#undef CC_SIMD_MISSING_CCSimdHadd
-#undef CC_SIMD_MISSING_CCSimdHsub
-#undef CC_SIMD_MISSING_CCSimdDot
-#undef CC_SIMD_MISSING_CCSimdClamp
-
-#undef CC_SIMD_MISSING_CCSimdPosPiRadSin
-#undef CC_SIMD_MISSING_CCSimdHalfPiRadCos
-#undef CC_SIMD_MISSING_CCSimdPosSin
-#undef CC_SIMD_MISSING_CCSimdPiRadSin
-#undef CC_SIMD_MISSING_CCSimdSin
-#undef CC_SIMD_MISSING_CCSimdArcSin
-#undef CC_SIMD_MISSING_CCSimdCos
-#undef CC_SIMD_MISSING_CCSimdArcCos
-#undef CC_SIMD_MISSING_CCSimdTan
-#undef CC_SIMD_MISSING_CCSimdQtrPiArcTan
-#undef CC_SIMD_MISSING_CCSimdArcTan
-#undef CC_SIMD_MISSING_CCSimdArcTan2
-#undef CC_SIMD_MISSING_CCSimdCsc
-#undef CC_SIMD_MISSING_CCSimdSec
-#undef CC_SIMD_MISSING_CCSimdCot
-#undef CC_SIMD_MISSING_CCSimdLog2
-#undef CC_SIMD_MISSING_CCSimdLog
-#undef CC_SIMD_MISSING_CCSimdPow
-#undef CC_SIMD_MISSING_CCSimdPow2
-#undef CC_SIMD_MISSING_CCSimdExp
-#undef CC_SIMD_MISSING_CCSimdExp2
-#undef CC_SIMD_MISSING_CCSimdCbrt
-#undef CC_SIMD_MISSING_CCSimdInvCbrt
-
-#define CC_SIMD_MISSING_CCSimdZero CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdSetSequence CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdAndNot CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdRotateLeft CC_SIMD_#{width}_UNSIGNED_TYPES
-#define CC_SIMD_MISSING_CCSimdRotateLeftN CC_SIMD_#{width}_UNSIGNED_TYPES
-#define CC_SIMD_MISSING_CCSimdRotateRight CC_SIMD_#{width}_UNSIGNED_TYPES
-#define CC_SIMD_MISSING_CCSimdRotateRightN CC_SIMD_#{width}_UNSIGNED_TYPES
-#define CC_SIMD_MISSING_CCSimdLowestUnset CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdLowestSet CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdHighestSet CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdNextPow2 CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdMask CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdMaskLowerPow2 CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdMaskHighestUnset CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdCountLowestUnset CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdCountSet CC_SIMD_#{width}_INTEGER_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareEqual CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareNotEqual CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareLessThan CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareLessThanEqual CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareGreaterThan CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdMaskCompareNotEqual CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdMadd CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdNegMadd CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdMsub CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdNegMsub CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdDiv CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdMod CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdHadd CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdHsub CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdDot CC_SIMD_#{width}_TYPES
-#define CC_SIMD_MISSING_CCSimdClamp CC_SIMD_#{width}_TYPES
-
-#define CC_SIMD_MISSING_CCSimdPosPiRadSin CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdHalfPiRadCos CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdPosSin CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdPiRadSin CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdSin CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdArcSin CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdCos CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdArcCos CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdTan CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdQtrPiArcTan CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdArcTan CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdArcTan2 CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdCsc CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdSec CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdCot CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdLog2 CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdLog CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdPow CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdPow2 CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdExp CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdExp2 CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdCbrt CC_SIMD_#{width}_FLOAT_TYPES
-#define CC_SIMD_MISSING_CCSimdInvCbrt CC_SIMD_#{width}_FLOAT_TYPES
-
 #{element_types[0].sort.map { |args| args[1] }.join("\n\n")}
 
 #{element_types[1].sort.map { |args| args[1] }.join("\n\n")}
@@ -2111,13 +1995,15 @@ puts """
 #define CC_SIMD_#{width}_FLOAT_TYPES \\
 #{all_float_types.join(", \\\n")}
 
+#define CC_SIMD_WIDTH #{width}
+#include <CommonC/SimdFallbackDefaults.h>
+
 #if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
 #include <CommonC/Simd#{width}_arm.h>
 #endif
 
 #pragma mark - Fallback Implementations
 
-#define CC_SIMD_WIDTH #{width}
 #include <CommonC/SimdFallback.h>
 #undef CC_SIMD_WIDTH
 
