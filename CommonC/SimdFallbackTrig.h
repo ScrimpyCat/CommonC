@@ -27,7 +27,7 @@
 #error T is not defined
 #endif
 
-#define CC_SIMD_T_LANE_COUNT(x) CC_SIMD_TYPE_LANE_COUNT(T, x)
+#define CC_SIMD_T_LANE_COUNT(...) CC_SIMD_TYPE_LANE_COUNT(T, __VA_ARGS__)
 
 #define CC_SIMD_T CC_SIMD_TYPE(T, CC_SIMD_N_T_LANES)
 

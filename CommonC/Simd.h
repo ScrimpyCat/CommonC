@@ -234,9 +234,7 @@
 #define CC_SIMD_TYPE_LANE_COUNT_DEFAULT_32(_) 32
 #define CC_SIMD_TYPE_LANE_COUNT_DEFAULT_64(_) 64
 
-#define CC_SIMD_TYPE_LANE_COUNT(match, ...) CC_SIMD_TYPE_LANE_COUNT_(CC_MAP_WITH(CC_SIMD_TYPE_LANE_COUNT_APPLY, match, __VA_ARGS__))
-#define CC_SIMD_TYPE_LANE_COUNT_(...) CC_SIMD_TYPE_LANE_COUNT__(__VA_ARGS__)
-#define CC_SIMD_TYPE_LANE_COUNT__(x, ...) x
+#define CC_SIMD_TYPE_LANE_COUNT(match, ...) CC_SOFT_JOIN(, CC_MAP_WITH(CC_SIMD_TYPE_LANE_COUNT_APPLY, match, __VA_ARGS__))
 
 #define CC_SIMD_TYPE_LANE_COUNT_APPLY(type, _, match) CC_SIMD_TYPE_LANE_COUNT_APPLY_(CC_EXPAND type, match)
 #define CC_SIMD_TYPE_LANE_COUNT_APPLY_(...) CC_SIMD_TYPE_LANE_COUNT_APPLY__(__VA_ARGS__)
@@ -749,6 +747,6 @@
 #endif
 
 #include <CommonC/Simd64.h>
-//#include <CommonC/Simd128.h>
+#include <CommonC/Simd128.h>
 
 #endif
