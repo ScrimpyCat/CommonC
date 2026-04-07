@@ -563,7 +563,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_MAP__(fun, n, ...) CC_MAP___(fun, CC_MAP_##n, __VA_ARGS__)
 #define CC_MAP___(fun, apply, ...) apply(fun, __VA_ARGS__)
 
-#define CC_MAP_0(fun)
+#define CC_MAP_0(fun, _)
 #define CC_MAP_1(fun, x0) fun(x0, 0)
 #define CC_MAP_2(fun, x0, x1) fun(x0, 0), fun(x1, 1)
 #define CC_MAP_3(fun, x0, x1, x2) fun(x0, 0), fun(x1, 1), fun(x2, 2)
@@ -875,7 +875,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_MERGE_MAP__(fun, n, ...) CC_MERGE_MAP___(fun, CC_MERGE_MAP_##n, __VA_ARGS__)
 #define CC_MERGE_MAP___(fun, apply, ...) apply(fun, __VA_ARGS__)
 
-#define CC_MERGE_MAP_0(fun)
+#define CC_MERGE_MAP_0(fun, _)
 #define CC_MERGE_MAP_1(fun, x0) fun(x0, 0)
 #define CC_MERGE_MAP_2(fun, x0, x1) fun(x0, 0) fun(x1, 1)
 #define CC_MERGE_MAP_3(fun, x0, x1, x2) fun(x0, 0) fun(x1, 1) fun(x2, 2)
@@ -1087,7 +1087,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_CAT__(n, ...) CC_CAT___(CC_CAT_##n, __VA_ARGS__)
 #define CC_CAT___(cat, ...) cat(__VA_ARGS__)
 
-#define CC_CAT_0()
+#define CC_CAT_0(_)
 #define CC_CAT_1(x0) x0
 #define CC_CAT_2(x0, x1) x0##x1
 #define CC_CAT_3(x0, x1, x2) x0##x1##x2
@@ -1193,7 +1193,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_JOIN__(n, ...) CC_JOIN___(CC_JOIN_##n, __VA_ARGS__)
 #define CC_JOIN___(join, ...) join(__VA_ARGS__)
 
-#define CC_JOIN_0(sep)
+#define CC_JOIN_0(sep, _)
 #define CC_JOIN_1(sep, x0) x0
 #define CC_JOIN_2(sep, x0, x1) x0##sep##x1
 #define CC_JOIN_3(sep, x0, x1, x2) x0##sep##x1##sep##x2
@@ -1299,7 +1299,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_SOFT_JOIN__(n, ...) CC_SOFT_JOIN___(CC_SOFT_JOIN_##n, __VA_ARGS__)
 #define CC_SOFT_JOIN___(join, ...) join(__VA_ARGS__)
 
-#define CC_SOFT_JOIN_0(sep)
+#define CC_SOFT_JOIN_0(sep, _)
 #define CC_SOFT_JOIN_1(sep, x0) x0
 #define CC_SOFT_JOIN_2(sep, x0, x1) x0 sep x1
 #define CC_SOFT_JOIN_3(sep, x0, x1, x2) x0 sep x1 sep x2
@@ -1506,7 +1506,7 @@ CC_CUSTOM_TYPES_(func, __VA_ARGS__);
 #define CC_SOFT_LEFT_JOIN__(n, ...) CC_SOFT_LEFT_JOIN___(CC_SOFT_LEFT_JOIN_##n, __VA_ARGS__)
 #define CC_SOFT_LEFT_JOIN___(join, ...) join(__VA_ARGS__)
 
-#define CC_SOFT_LEFT_JOIN_0(sep)
+#define CC_SOFT_LEFT_JOIN_0(sep, _)
 #define CC_SOFT_LEFT_JOIN_1(sep, x0) x0
 #define CC_SOFT_LEFT_JOIN_2(sep, x0, x1) x0 sep##x1
 #define CC_SOFT_LEFT_JOIN_3(sep, x0, x1, x2) x0 sep##x1 sep##x2
