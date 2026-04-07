@@ -464,9 +464,17 @@ CC_SIMD_DECL(CCSimdCountSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdCou
 CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareEqual, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareEqual))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdCompareNotEqual
@@ -474,9 +482,17 @@ CC_SIMD_DECL(CCSimdCompareEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((
 CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareNotEqual, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareNotEqual))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdCompareLessThan
@@ -484,9 +500,17 @@ CC_SIMD_DECL(CCSimdCompareNotEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTE
 CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThan, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThan))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdCompareLessThanEqual
@@ -494,9 +518,17 @@ CC_SIMD_DECL(CCSimdCompareLessThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTE
 CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareLessThanEqual, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareLessThanEqual))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdCompareGreaterThan
@@ -504,9 +536,17 @@ CC_SIMD_DECL(CCSimdCompareLessThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_
 CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThan, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThan))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual
@@ -514,9 +554,17 @@ CC_SIMD_DECL(CCSimdCompareGreaterThan, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FI
 CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_INTEGER_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
 #undef CC_SIMD_IMPL
 
+#ifdef CC_SIMD_N_FLOAT_32_TYPES
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b), 25), 2); }
-CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_32_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
 #undef CC_SIMD_IMPL
+#endif
+
+#ifdef CC_SIMD_N_FLOAT_64_TYPES
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return CC_SIMD_NAME(CCSimdShiftRightN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdShiftLeftN, CC_SIMD_TO(base, u), count)(CC_SIMD_NAME(CCSimdMaskCompareGreaterThanEqual, base, count)(a, b), 54), 2); }
+CC_SIMD_DECL(CCSimdCompareGreaterThanEqual, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_FLOAT_64_TYPES), CC_SIMD_MISSING_CCSimdCompareGreaterThanEqual))
+#undef CC_SIMD_IMPL
+#endif
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdMaskCompareNotEqual
@@ -680,7 +728,7 @@ CC_SIMD_DECL(CCSimdHadd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_
 #undef CC_SIMD_IMPL
 #endif
 
-#if CC_SIMD_LANES_MAX >= 16
+#if CC_SIMD_LANES_MAX >= 16 && 0
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15) \
 { \
     CCAssertLog((v0 <= 0xffff) & (v1 <= 0xffff) & (v2 <= 0xffff) & (v3 <= 0xffff) & (v4 <= 0xffff) & (v5 <= 0xffff) & (v6 <= 0xffff) & (v7 <= 0xffff) & (v8 <= 0xffff) & (v9 <= 0xffff) & (v10 <= 0xffff) & (v11 <= 0xffff) & (v12 <= 0xffff) & (v13 <= 0xffff) & (v14 <= 0xffff) & (v15 <= 0xffff), "Index masks must not exceed lane count"); \
@@ -918,6 +966,9 @@ CC_SIMD_DECL(CCSimdClamp, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_MISSING_CCSimdClamp)
 #undef CC_SIMD_N_INTEGER_32_TYPES
 #undef CC_SIMD_N_INTEGER_16_TYPES
 #undef CC_SIMD_N_INTEGER_8_TYPES
+
+#undef CC_SIMD_N_FLOAT_64_TYPES
+#undef CC_SIMD_N_FLOAT_32_TYPES
 
 #undef CC_SIMD_MISSING_CCSimdZero
 #undef CC_SIMD_MISSING_CCSimdSetSequence
