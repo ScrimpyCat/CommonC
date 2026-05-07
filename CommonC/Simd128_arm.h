@@ -768,10 +768,17 @@ CC_SIMD_DECL(CCSimdAdd, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_TYPES)
 CC_SIMD_DECL(CCSimdSub, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_TYPES)
 #undef CC_SIMD_IMPL
 
-// TODO: implement multiply s/u64
-//#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vmulq_##base(a, b); }
-//CC_SIMD_DECL(CCSimdMul, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_INTEGER_64_TYPES)
-//#undef CC_SIMD_IMPL
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b) \
+{ \
+    const CC_SIMD_TYPE(CC_SIMD_EXTRACT(base), count) LoA = vmovn_##base(a); \
+    const CC_SIMD_TYPE(CC_SIMD_EXTRACT(base), count) LoB = vmovn_##base(b); \
+    \
+    const CC_SIMD_TYPE(CC_SIMD_EXTRACT(base), CC_SIMD_DOUBLE(count)) Hi = CC_CAT(vmulq_, CC_SIMD_EXTRACT(base))(CC_CAT(vrev64q_, CC_SIMD_EXTRACT(base))(vreinterpretq_##kind##32_##base(a)), vreinterpretq_##kind##32_##base(b)); \
+    \
+    return CC_CAT(vmlal_, CC_SIMD_EXTRACT(base))(vshlq_n_##base(CC_CAT(vpaddlq_, CC_SIMD_EXTRACT(base))(Hi), 32), LoA, LoB); \
+}
+CC_SIMD_DECL(CCSimdMul, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_INTEGER_64_TYPES)
+#undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b){ return vmulq_##base(a, b); }
 CC_SIMD_DECL(CCSimdMul, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_INTEGER_8_TYPES, CC_SIMD_128_INTEGER_16_TYPES, CC_SIMD_128_INTEGER_32_TYPES, CC_SIMD_128_FLOAT_TYPES)
