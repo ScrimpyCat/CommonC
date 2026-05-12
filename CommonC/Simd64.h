@@ -883,6 +883,14 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdSetSequence_u32x2(const CCSimd_u32x2 a
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdSetSequence_f32x2(const CCSimd_f32x2 a, float v, _Bool v0, _Bool v1);
 
 
+#pragma mark Extract
+
+
+
+#pragma mark Combine
+
+
+
 #pragma mark - Types
 #pragma mark Reinterpret
 

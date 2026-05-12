@@ -1249,6 +1249,108 @@ static CC_FORCE_INLINE CCSimd_f32x4 CCSimdSetSequence_f32x4(const CCSimd_f32x4 a
 static CC_FORCE_INLINE CCSimd_f64x2 CCSimdSetSequence_f64x2(const CCSimd_f64x2 a, double v, _Bool v0, _Bool v1);
 
 
+#pragma mark Extract
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8x2 CCSimd_s8x8x2_Extract_s8x16(const CCSimd_s8x16 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4x2 CCSimd_s16x4x2_Extract_s16x8(const CCSimd_s16x8 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2x2 CCSimd_s32x2x2_Extract_s32x4(const CCSimd_s32x4 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8x2 CCSimd_u8x8x2_Extract_u8x16(const CCSimd_u8x16 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4x2 CCSimd_u16x4x2_Extract_u16x8(const CCSimd_u16x8 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2x2 CCSimd_u32x2x2_Extract_u32x4(const CCSimd_u32x4 a);
+
+/*!
+ * @brief Extract the hi and lo sub-vector halves of the vector.
+ * @param a The vector to extract the sub-vectors from.
+ * @return A poly vector of the two sub-vectors.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2x2 CCSimd_f32x2x2_Extract_f32x4(const CCSimd_f32x4 a);
+
+
+#pragma mark Combine
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_s8x16 CCSimd_s8x16_Combine_s8x8x2(const CCSimd_s8x8x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_s16x8 CCSimd_s16x8_Combine_s16x4x2(const CCSimd_s16x4x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_s32x4 CCSimd_s32x4_Combine_s32x2x2(const CCSimd_s32x2x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_u8x16 CCSimd_u8x16_Combine_u8x8x2(const CCSimd_u8x8x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_u16x8 CCSimd_u16x8_Combine_u16x4x2(const CCSimd_u16x4x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_u32x4 CCSimd_u32x4_Combine_u32x2x2(const CCSimd_u32x2x2 a);
+
+/*!
+ * @brief Combine the hi and lo sub-vector halves into a single vector.
+ * @param a The poly vector to combine.
+ * @return A vector of the combined poly vector.
+ */
+static CC_FORCE_INLINE CCSimd_f32x4 CCSimd_f32x4_Combine_f32x2x2(const CCSimd_f32x2x2 a);
+
+
 #pragma mark - Types
 #pragma mark Reinterpret
 
@@ -6061,7 +6163,7 @@ static CC_FORCE_INLINE CCSimd_f64x2 CCSimdCeil_f64x2(const CCSimd_f64x2 a);
  *
  * @return The horizontally added vector elements.
  */
-static CC_FORCE_INLINE CCSimd_s8x16 CCSimdHadd_s8x16(const CCSimd_s8x16 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_s8x16 CCSimdHadd_s8x16(const CCSimd_s8x16 a, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Horizontally add the elements of a vector.
@@ -6187,7 +6289,7 @@ static CC_FORCE_INLINE CCSimd_s64x2 CCSimdHadd_s64x2(const CCSimd_s64x2 a, uint8
  *
  * @return The horizontally added vector elements.
  */
-static CC_FORCE_INLINE CCSimd_u8x16 CCSimdHadd_u8x16(const CCSimd_u8x16 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_u8x16 CCSimdHadd_u8x16(const CCSimd_u8x16 a, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Horizontally add the elements of a vector.
@@ -6352,7 +6454,7 @@ static CC_FORCE_INLINE CCSimd_f64x2 CCSimdHadd_f64x2(const CCSimd_f64x2 a, uint8
  *
  * @return The horizontally subtracted vector elements.
  */
-static CC_FORCE_INLINE CCSimd_s8x16 CCSimdHsub_s8x16(const CCSimd_s8x16 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_s8x16 CCSimdHsub_s8x16(const CCSimd_s8x16 a, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Horizontally subtract the elements of a vector.
@@ -6478,7 +6580,7 @@ static CC_FORCE_INLINE CCSimd_s64x2 CCSimdHsub_s64x2(const CCSimd_s64x2 a, uint8
  *
  * @return The horizontally subtracted vector elements.
  */
-static CC_FORCE_INLINE CCSimd_u8x16 CCSimdHsub_u8x16(const CCSimd_u8x16 a, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_u8x16 CCSimdHsub_u8x16(const CCSimd_u8x16 a, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Horizontally subtract the elements of a vector.
@@ -6644,7 +6746,7 @@ static CC_FORCE_INLINE CCSimd_f64x2 CCSimdHsub_f64x2(const CCSimd_f64x2 a, uint8
  *
  * @return The resulting vector elements of the dot product.
  */
-static CC_FORCE_INLINE CCSimd_s8x16 CCSimdDot_s8x16(const CCSimd_s8x16 a, const CCSimd_s8x16 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_s8x16 CCSimdDot_s8x16(const CCSimd_s8x16 a, const CCSimd_s8x16 b, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Calculate the dot product of elements from vector @b a and @b b.
@@ -6774,7 +6876,7 @@ static CC_FORCE_INLINE CCSimd_s64x2 CCSimdDot_s64x2(const CCSimd_s64x2 a, const 
  *
  * @return The resulting vector elements of the dot product.
  */
-static CC_FORCE_INLINE CCSimd_u8x16 CCSimdDot_u8x16(const CCSimd_u8x16 a, const CCSimd_u8x16 b, uint8_t v0, uint8_t v1, uint8_t v2, uint8_t v3, uint8_t v4, uint8_t v5, uint8_t v6, uint8_t v7, uint8_t v8, uint8_t v9, uint8_t v10, uint8_t v11, uint8_t v12, uint8_t v13, uint8_t v14, uint8_t v15);
+static CC_FORCE_INLINE CCSimd_u8x16 CCSimdDot_u8x16(const CCSimd_u8x16 a, const CCSimd_u8x16 b, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15);
 
 /*!
  * @brief Calculate the dot product of elements from vector @b a and @b b.
