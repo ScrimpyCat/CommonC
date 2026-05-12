@@ -226,6 +226,22 @@ CC_SIMD_DECL(CCSimdSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_8_ELEMENT_TYPES)
 CC_SIMD_DECL(CCSimdSet, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_16_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
+static CC_FORCE_INLINE CCSimd_s8x8x2 CCSimd_s8x8x2_Extract_s8x16(const CCSimd_s8x16 a){ return (CCSimd_s8x8x2){ .v = { vget_low_s8(a), vget_high_s8(a) } }; }
+static CC_FORCE_INLINE CCSimd_s16x4x2 CCSimd_s16x4x2_Extract_s16x8(const CCSimd_s16x8 a){ return (CCSimd_s16x4x2){ .v = { vget_low_s16(a), vget_high_s16(a) } }; }
+static CC_FORCE_INLINE CCSimd_s32x2x2 CCSimd_s32x2x2_Extract_s32x4(const CCSimd_s32x4 a){ return (CCSimd_s32x2x2){ .v = { vget_low_s32(a), vget_high_s32(a) } }; }
+static CC_FORCE_INLINE CCSimd_u8x8x2 CCSimd_u8x8x2_Extract_u8x16(const CCSimd_u8x16 a){ return (CCSimd_u8x8x2){ .v = { vget_low_u8(a), vget_high_u8(a) } }; }
+static CC_FORCE_INLINE CCSimd_u16x4x2 CCSimd_u16x4x2_Extract_u16x8(const CCSimd_u16x8 a){ return (CCSimd_u16x4x2){ .v = { vget_low_u16(a), vget_high_u16(a) } }; }
+static CC_FORCE_INLINE CCSimd_u32x2x2 CCSimd_u32x2x2_Extract_u32x4(const CCSimd_u32x4 a){ return (CCSimd_u32x2x2){ .v = { vget_low_u32(a), vget_high_u32(a) } }; }
+static CC_FORCE_INLINE CCSimd_f32x2x2 CCSimd_f32x2x2_Extract_f32x4(const CCSimd_f32x4 a){ return (CCSimd_f32x2x2){ .v = { vget_low_f32(a), vget_high_f32(a) } }; }
+
+static CC_FORCE_INLINE CCSimd_s8x16 CCSimd_s8x16_Combine_s8x8x2(const CCSimd_s8x8x2 a){ return vcombine_s8(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_s16x8 CCSimd_s16x8_Combine_s16x4x2(const CCSimd_s16x4x2 a){ return vcombine_s16(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_s32x4 CCSimd_s32x4_Combine_s32x2x2(const CCSimd_s32x2x2 a){ return vcombine_s32(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_u8x16 CCSimd_u8x16_Combine_u8x8x2(const CCSimd_u8x8x2 a){ return vcombine_u8(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_u16x8 CCSimd_u16x8_Combine_u16x4x2(const CCSimd_u16x4x2 a){ return vcombine_u16(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_u32x4 CCSimd_u32x4_Combine_u32x2x2(const CCSimd_u32x2x2 a){ return vcombine_u32(a.v[0], a.v[1]); }
+static CC_FORCE_INLINE CCSimd_f32x4 CCSimd_f32x4_Combine_f32x2x2(const CCSimd_f32x2x2 a){ return vcombine_f32(a.v[0], a.v[1]); }
+
 #define vreinterpretq_s8_s8(x) (x)
 #define vreinterpretq_s16_s16(x) (x)
 #define vreinterpretq_s32_s32(x) (x)
