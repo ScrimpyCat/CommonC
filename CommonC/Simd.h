@@ -115,6 +115,50 @@
 #define CC_SIMD_TO_f_f32 f32
 #define CC_SIMD_TO_f_f64 f64
 
+#define CC_SIMD_COMBINE(base) CC_SIMD_COMBINE_##base
+
+#define CC_SIMD_COMBINE_s8 s16
+#define CC_SIMD_COMBINE_s16 s32
+#define CC_SIMD_COMBINE_s32 s64
+#define CC_SIMD_COMBINE_s64
+#define CC_SIMD_COMBINE_u8 u16
+#define CC_SIMD_COMBINE_u16 u32
+#define CC_SIMD_COMBINE_u32 u64
+#define CC_SIMD_COMBINE_u64 f32
+#define CC_SIMD_COMBINE_f32 f64
+#define CC_SIMD_COMBINE_f64
+
+#define CC_SIMD_EXTRACT(base) CC_SIMD_EXTRACT_##base
+
+#define CC_SIMD_EXTRACT_s8
+#define CC_SIMD_EXTRACT_s16 s8
+#define CC_SIMD_EXTRACT_s32 s16
+#define CC_SIMD_EXTRACT_s64 s32
+#define CC_SIMD_EXTRACT_u8
+#define CC_SIMD_EXTRACT_u16 u8
+#define CC_SIMD_EXTRACT_u32 u16
+#define CC_SIMD_EXTRACT_u64 u32
+#define CC_SIMD_EXTRACT_f32 u64
+#define CC_SIMD_EXTRACT_f64 f32
+
+#define CC_SIMD_DOUBLE(count) CC_SIMD_DOUBLE_##count
+
+#define CC_SIMD_DOUBLE_16 32
+#define CC_SIMD_DOUBLE_8 16
+#define CC_SIMD_DOUBLE_4 8
+#define CC_SIMD_DOUBLE_2 4
+
+#define CC_SIMD_HALF(count) CC_SIMD_HALF_##count
+
+#define CC_SIMD_HALF_16 8
+#define CC_SIMD_HALF_8 4
+#define CC_SIMD_HALF_4 2
+#define CC_SIMD_HALF_2 1
+
+#define CC_SIMD_COMBINE_TYPE(base, count) CC_SIMD_TYPE(CC_SIMD_COMBINE(base), CC_SIMD_DOUBLE(count))
+
+#define CC_SIMD_EXTRACT_TYPE(base, count) CC_SIMD_TYPE(CC_SIMD_EXTRACT(base), CC_SIMD_HALF(count))
+
 #define CC_SIMD_BASE_TYPE(base) CC_SIMD_BASE_TYPE_##base
 
 #define CC_SIMD_BASE_TYPE_s8 int8_t
