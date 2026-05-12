@@ -123,6 +123,22 @@ def sign(x)
     x >= 0 ? 1 : -1
 end
 
+def mask_type(size)
+    type = 'uint8_t'
+
+    if size > 8
+        type = 'uint16_t'
+        if size > 16
+            type = 'uint32_t'
+            if size > 32
+                type = 'uint64_t'
+            end
+        end
+    end
+
+    type
+end
+
 def example_1(a, fmt, solve)
     "* @example #{fmt.call(a)} -> #{a.map { |arg| solve.call(arg)} }"
 end
@@ -314,6 +330,34 @@ set_sequence_defs = types(type_units, type_sizes, width).map { |type|
 static CC_FORCE_INLINE CCSimd_#{type} CCSimdSetSequence_#{type}(const CCSimd_#{type} a, #{scalar(type)} v, #{sequence(type, i: ->(i){ "_Bool v#{i}" }).join(', ')});
     """.strip
 }.join("\n\n")
+
+
+if width >= 128
+    extract_defs = types(type_units, type_sizes.filter { |i| i < (width / 2) }, width).map { |type|
+        """
+    /*!
+     * @brief Extract the hi and lo sub-vector halves of the vector.
+     * @param a The vector to extract the sub-vectors from.
+     * @return A poly vector of the two sub-vectors.
+     */
+    static CC_FORCE_INLINE CCSimd_#{base(type)}x#{count(type) / 2}x2 CCSimd_#{base(type)}x#{count(type) / 2}x2_Extract_#{type}(const CCSimd_#{type} a);
+        """.strip
+    }.join("\n\n")
+
+    combine_defs = types(type_units, type_sizes.filter { |i| i < (width / 2) }, width).map { |type|
+        """
+    /*!
+     * @brief Combine the hi and lo sub-vector halves into a single vector.
+     * @param a The poly vector to combine.
+     * @return A vector of the combined poly vector.
+     */
+    static CC_FORCE_INLINE CCSimd_#{type} CCSimd_#{type}_Combine_#{base(type)}x#{count(type) / 2}x2(const CCSimd_#{base(type)}x#{count(type) / 2}x2 a);
+        """.strip
+    }.join("\n\n")
+else
+    extract_defs = ''
+    combine_defs = ''
+end
 
 reinterpret_defs = types(type_units, type_sizes, width).map { |type|
     types(type_units, type_sizes, width).map { |to_type|
@@ -992,6 +1036,7 @@ static CC_FORCE_INLINE CCSimd_#{type} CCSimdCeil_#{type}(const CCSimd_#{type} a)
 }.join("\n\n")
 
 hadd_defs = types(type_units, type_sizes, width).map { |type|
+    lane_mask_type = mask_type(count(type))
     input = sequence(type, start: 1, flt: 0.5)
     """
 /*!
@@ -1002,11 +1047,12 @@ hadd_defs = types(type_units, type_sizes, width).map { |type|
  #{sequence(type, i: ->(i){ "* @param v#{i} The lane mask to indicate the horizontal add to store in [#{i}]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the\n *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).\n *" }).join("\n ")}
  * @return The horizontally added vector elements.
  */
-static CC_FORCE_INLINE CCSimd_#{type} CCSimdHadd_#{type}(const CCSimd_#{type} a, #{sequence(type, i: ->(i){ "uint8_t v#{i}" }).join(', ')});
+static CC_FORCE_INLINE CCSimd_#{type} CCSimdHadd_#{type}(const CCSimd_#{type} a, #{sequence(type, i: ->(i){ "#{lane_mask_type} v#{i}" }).join(', ')});
     """.strip
 }.join("\n\n")
 
 hsub_defs = types(type_units, type_sizes, width).map { |type|
+    lane_mask_type = mask_type(count(type))
     input = sequence(type, start: 1, flt: 0.5)
     input[0] = input.sum
     """
@@ -1018,11 +1064,12 @@ hsub_defs = types(type_units, type_sizes, width).map { |type|
  #{sequence(type, i: ->(i){ "* @param v#{i} The lane mask to indicate the horizontal subtract to store in [#{i}]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the\n *           elements that should be subtracted together, or use 0 to do nothing (the value stored will be undefined).\n *" }).join("\n ")}
  * @return The horizontally subtracted vector elements.
  */
-static CC_FORCE_INLINE CCSimd_#{type} CCSimdHsub_#{type}(const CCSimd_#{type} a, #{sequence(type, i: ->(i){ "uint8_t v#{i}" }).join(', ')});
+static CC_FORCE_INLINE CCSimd_#{type} CCSimdHsub_#{type}(const CCSimd_#{type} a, #{sequence(type, i: ->(i){ "#{lane_mask_type} v#{i}" }).join(', ')});
     """.strip
 }.join("\n\n")
 
 dot_defs = types(type_units, type_sizes, width).map { |type|
+    lane_mask_type = mask_type(count(type))
     input = sequence(type, start: 1, flt: 0.5)
     """
 /*!
@@ -1034,7 +1081,7 @@ dot_defs = types(type_units, type_sizes, width).map { |type|
  #{sequence(type, i: ->(i){ "* @param v#{i} The lane mask to indicate the dot product to store in [#{i}]. Use @b CC_SIMD_LANE_MASK with the simd lane numbers to specify the\n *           elements that should be added together, or use 0 to do nothing (the value stored will be undefined).\n *" }).join("\n ")}
  * @return The resulting vector elements of the dot product.
  */
-static CC_FORCE_INLINE CCSimd_#{type} CCSimdDot_#{type}(const CCSimd_#{type} a, const CCSimd_#{type} b, #{sequence(type, i: ->(i){ "uint8_t v#{i}" }).join(', ')});
+static CC_FORCE_INLINE CCSimd_#{type} CCSimdDot_#{type}(const CCSimd_#{type} a, const CCSimd_#{type} b, #{sequence(type, i: ->(i){ "#{lane_mask_type} v#{i}" }).join(', ')});
     """.strip
 }.join("\n\n")
 
@@ -1568,6 +1615,14 @@ puts """
 #pragma mark Set Sequence
 
 #{set_sequence_defs}
+
+
+#pragma mark Extract
+#{extract_defs}
+
+
+#pragma mark Combine
+#{combine_defs}
 
 
 #pragma mark - Types
