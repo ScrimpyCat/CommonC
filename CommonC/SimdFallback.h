@@ -957,6 +957,17 @@ CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N
 #undef CC_SIMD_IMPL
 #endif
 
+#if CC_SIMD_LANES_MAX >= 16
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a, const CC_SIMD_TYPE(base, count) b, uint16_t v0, uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4, uint16_t v5, uint16_t v6, uint16_t v7, uint16_t v8, uint16_t v9, uint16_t v10, uint16_t v11, uint16_t v12, uint16_t v13, uint16_t v14, uint16_t v15) \
+{ \
+    CCAssertLog((v0 <= 65535) && (v1 <= 65535) && (v2 <= 65535) && (v3 <= 65535) && (v4 <= 65535) && (v5 <= 65535) && (v6 <= 65535) && (v7 <= 65535) && (v8 <= 65535) && (v9 <= 65535) && (v10 <= 65535) && (v11 <= 65535) && (v12 <= 65535) && (v13 <= 65535) && (v14 <= 65535) && (v15 <= 65535), "Index masks must not exceed lane count"); \
+    \
+    return CC_SIMD_NAME(CCSimdHadd, base, count)(CC_SIMD_NAME(CCSimdMul, base, count)(a, b), v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15); \
+}
+CC_SIMD_DECL(CCSimdDot, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_N_16_ELEMENT_TYPES), CC_SIMD_MISSING_CCSimdDot))
+#undef CC_SIMD_IMPL
+#endif
+
 #endif
 
 #ifdef CC_SIMD_MISSING_CCSimdClamp
