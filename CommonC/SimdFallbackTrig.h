@@ -27,6 +27,22 @@
 #error T is not defined
 #endif
 
+#define CC_SIMD_T_SIZE(x) CC_CAT(CC_SIMD_T_SIZE_, x)
+#define CC_SIMD_T_SIZE_f32 4
+#define CC_SIMD_T_SIZE_f64 8
+
+#define CC_SIMD_T_BITSIZE(x) (CC_SIMD_T_SIZE(x) * 8)
+
+#if CC_SIMD_T_SIZE(T) == 4
+#define CC_SIMD_T_EXP 23
+#define CC_SIMD_T_EXP_BASE 0x7f
+#define CC_SIMD_T_MANTISSA_MASK 0x7fffff
+#elif CC_SIMD_T_SIZE(T) == 8
+#define CC_SIMD_T_EXP 52ULL
+#define CC_SIMD_T_EXP_BASE 0x3ffLL
+#define CC_SIMD_T_MANTISSA_MASK 0xfffffffffffffULL
+#endif
+
 #define CC_SIMD_T_LANE_COUNT(...) CC_SIMD_TYPE_LANE_COUNT(T, __VA_ARGS__)
 
 #define CC_SIMD_T CC_SIMD_TYPE(T, CC_SIMD_N_T_LANES)
@@ -191,7 +207,7 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdPiRadSin(const CC_SIMD_T a)
 {
     CC_SIMD_T Value = CCSimdAbs(a);
     
-    CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(a), 31), 31);
+    CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(a), CC_SIMD_T_BITSIZE(T) - 1), CC_SIMD_T_BITSIZE(T) - 1);
     
     Value = CCSimdPosPiRadSin(Value);
     
@@ -215,7 +231,7 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdSin(const CC_SIMD_T a)
     
     CC_SIMD_T Sign = CCSimdFloor(CCSimdDiv(CCSimdMod(Value, Pi2), Pi));
     Sign = CCSimdSub(CCSimdNeg(CCSimdAdd_T(Sign, Sign)), NegOne);
-    Sign = CCSimd_T_Reinterpret_U(CCSimdXor(CCSimd_U_Reinterpret_T(Sign), CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(a), 31), 31)));
+    Sign = CCSimd_T_Reinterpret_U(CCSimdXor(CCSimd_U_Reinterpret_T(Sign), CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(a), CC_SIMD_T_BITSIZE(T) - 1), CC_SIMD_T_BITSIZE(T) - 1)));
     
     Value = CCSimdMod(Value, Pi);
     
@@ -274,7 +290,7 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdArcSin(const CC_SIMD_T a)
     Result = CCSimdMadd(a7, x7, Result);
 #endif
     
-    Result = CCSimdMul(CCSimdPow(CCSimdSub(CCSimdFill_T(1.0f), a), CCSimdFill_T(0.5f)), Result);
+    Result = CCSimdMul(CCSimdPow(CCSimdSub(CCSimdFill_T(1.0), a), CCSimdFill_T(0.5)), Result);
     
     return CCSimdSub(HalfPi, Result);
 }
@@ -383,7 +399,7 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdArcTan(const CC_SIMD_T a)
     const CC_SIMD_T NegOne = CCSimdFill_T(-1.0);
     const CC_SIMD_T HalfPi = CCSimdFill_T(CC_PI / 2.0);
     
-    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdMaskCompareLessThan_T(a, NegOne), 31);
+    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdMaskCompareLessThan_T(a, NegOne), CC_SIMD_T_BITSIZE(T) - 1);
     const CC_SIMD_U BoundsMask = CCSimdMaskCompareLessThanEqual_T(CCSimd_T_Reinterpret_U(CCSimdXor(Sign, CCSimd_U_Reinterpret_T(a))), One);
     
     CC_SIMD_T Bounds = CCSimd_T_Reinterpret_U(CCSimdAndNot(BoundsMask, CCSimdOr(Sign, CCSimd_U_Reinterpret_T(HalfPi))));
@@ -409,9 +425,9 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdArcTan2(const CC_SIMD_T y, const CC_SIMD_
     const CC_SIMD_U MaskX = CCSimdMaskCompareNotEqual_T(x, Zero);
     const CC_SIMD_U MaskY = CCSimdMaskCompareLessThanEqual_T(x, Zero);
 #ifdef CC_SIMD_ARCTAN2_PRINCIPAL // (-pi, pi]
-    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdMaskCompareLessThan_T(y, Zero), 31);
+    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdMaskCompareLessThan_T(y, Zero), CC_SIMD_T_BITSIZE(T) - 1);
 #else // [-pi, pi]
-    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(y), 31), 31);
+    const CC_SIMD_U Sign = CCSimdShiftLeftN_U(CCSimdShiftRightN(CCSimd_U_Reinterpret_T(y), CC_SIMD_T_BITSIZE(T) - 1), CC_SIMD_T_BITSIZE(T) - 1);
 #endif
 #if defined(CC_SIMD_ARCTAN2_UNDEFINED_AS_ZERO) || defined(CC_SIMD_ARCTAN2_UNDEFINED)
     const CC_SIMD_U IsZero = CCSimdOr(MaskX, CCSimdMaskCompareNotEqual(y, Zero));
@@ -480,15 +496,29 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdCot(const CC_SIMD_T a)
 static CC_FORCE_INLINE CC_SIMD_T CCSimdLog2(const CC_SIMD_T a)
 {
     // Based off Paul Mineiro's fastlog2 from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
+#if CC_SIMD_T_SIZE(T) == 4
     const CC_SIMD_T C0 = CCSimdFill_T(1.1920928955078125e-7);
+#elif CC_SIMD_T_SIZE(T) == 8
+    const CC_SIMD_T C0 = CCSimdFill_T(1.0 / (1ULL << CC_SIMD_T_EXP));
+    const CC_SIMD_T C0Adjust = CCSimdFill_T(896.0);
+#endif
     const CC_SIMD_T C1 = CCSimdFill_T(124.22551499);
     const CC_SIMD_T C2 = CCSimdFill_T(1.498030302);
     const CC_SIMD_T C3 = CCSimdFill_T(1.72587999);
     const CC_SIMD_T C4 = CCSimdFill_T(0.3520887068);
-    const CC_SIMD_U U = CCSimdOr(CCSimdAnd(CCSimd_U_Reinterpret_T(a), CCSimdFill_U(0x7fffff)), CCSimdFill_U(0x3f000000));
+#if CC_SIMD_T_SIZE(T) == 4
+    const CC_SIMD_U U = CCSimdOr(CCSimdAnd(CCSimd_U_Reinterpret_T(a), CCSimdFill_U(CC_SIMD_T_MANTISSA_MASK)), CCSimdFill_U(0x3f000000));
+#elif CC_SIMD_T_SIZE(T) == 8
+    const CC_SIMD_U U = CCSimdOr(CCSimdAnd(CCSimd_U_Reinterpret_T(a), CCSimdFill_U(CC_SIMD_T_MANTISSA_MASK)), CCSimdFill_U(0x3fe0000000000000ULL));
+#endif
+    
     CC_SIMD_T Result = CCSimd_T_Cast_U(CCSimd_U_Reinterpret_T(a));
     
     Result = CCSimdMul(Result, C0);
+    
+#if CC_SIMD_T_SIZE(T) == 8
+    Result = CCSimdSub(Result, C0Adjust);
+#endif
     
     return CCSimdSub(CCSimdSub(CCSimdSub(Result, C1), CCSimdMul(C2, CCSimd_T_Reinterpret_U(U))), CCSimdDiv(C3, CCSimdAdd_T(C4, CCSimd_T_Reinterpret_U(U))));
 }
@@ -527,9 +557,9 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdPow(const CC_SIMD_T Base, const CC_SIMD_T
 #if CC_SIMD_TYPE_LANE_COUNT_DEFAULT(CC_SIMD_N_T_LANES, 0)
 static CC_FORCE_INLINE CC_SIMD_T CCSimdPow2(const CC_SIMD_T Exponent)
 {
-    const CC_SIMD_S ExpBase = CCSimdFill_S(0x7f);
+    const CC_SIMD_S ExpBase = CCSimdFill_S(CC_SIMD_T_EXP_BASE);
     
-    return CCSimd_T_Reinterpret_S(CCSimdShiftLeftN_S(CCSimdAdd_S(CCSimd_S_Cast_T(Exponent), ExpBase), 23));
+    return CCSimd_T_Reinterpret_S(CCSimdShiftLeftN_S(CCSimdAdd_S(CCSimd_S_Cast_T(Exponent), ExpBase), CC_SIMD_T_EXP));
 }
 #endif
 #undef CC_SIMD_N_T_LANES
@@ -645,13 +675,16 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdExp2(const CC_SIMD_T a)
 #else
     // Based off Paul Mineiro's fastpow2 from fastapprox v0.3.2: http://www.machinedlearnings.com/2011/06/fast-approximate-logarithm-exponential.html
     const CC_SIMD_T Zero = CCSimdZero();
-    const CC_SIMD_T Min = CCSimdFill_T(-126.0);
+    const CC_SIMD_T Min = CCSimdFill_T(-(CC_SIMD_T_EXP_BASE - 1));
+#if CC_SIMD_T_SIZE(T) == 4
     const CC_SIMD_T C127 = CCSimdFill_T(121.2740575);
+#elif CC_SIMD_T_SIZE(T) == 8
+    const CC_SIMD_T C127 = CCSimdFill_T(1017.2740575289886);
+#endif
     const CC_SIMD_T C27 = CCSimdFill_T(27.7280233);
     const CC_SIMD_T C4 = CCSimdFill_T(4.84252568);
     const CC_SIMD_T C1 = CCSimdFill_T(1.49012907);
-    const CC_SIMD_T Base = CCSimdFill_T(0x800000);
-    
+    const CC_SIMD_T Base = CCSimdFill_T(CC_SIMD_T_MANTISSA_MASK + 1);
     const CC_SIMD_T Offset = CCSimdCompareLessThan(a, Zero);
     
     const CC_SIMD_T Mask = CCSimdMaskCompareLessThan_T(a, Min);
@@ -691,6 +724,14 @@ static CC_FORCE_INLINE CC_SIMD_T CCSimdInvCbrt(const CC_SIMD_T a)
 #endif
 #undef CC_SIMD_N_T_LANES
 #endif
+
+#undef CC_SIMD_T_SIZE
+#undef CC_SIMD_T_BITSIZE
+
+#undef CC_SIMD_T_EXP
+#undef CC_SIMD_T_EXP_BASE
+#undef CC_SIMD_T_MANTISSA_MASK
+
 
 #undef CC_SIMD_T_LANE_COUNT
 
