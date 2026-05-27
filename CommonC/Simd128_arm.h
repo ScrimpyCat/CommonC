@@ -727,11 +727,10 @@ CC_SIMD_DECL(CCSimdCountHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FIL
 #define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a) \
 { \
     CCSimd_u32x4 Result = CC_SIMD_NAME(CCSimd_u32x4_Reinterpret, base, count)(a); \
-    CCSimd_u32x4 Mask = CCSimdSwizzle_u32x4(CCSimdMaskCompareEqual_u32x4(Result, CCSimdZero_s32x4()), 0, 0, 2, 2); \
     \
     Result = CCSimdCountHighestUnset_u32x4(Result); \
     \
-    return CC_CAT(CC_SIMD_NAME(CCSimd, base, count), _Reinterpret_u64x2)(CCSimdShiftRightN_u64x2(CCSimd_u64x2_Reinterpret_u32x4(CCSimdAdd_u32x4(Result, CCSimdSwizzle_u32x4(CCSimdAnd_u32x4(Result, Mask), 1, 1, 3, 3))), 32)); \
+    return CC_CAT(CC_SIMD_NAME(CCSimd, base, count), _Reinterpret_u64x2)(CCSimdShiftRightN_u64x2(CCSimd_u64x2_Reinterpret_u32x4(CCSimdAdd_u32x4(Result, CCSimdSwizzle_u32x4(Result, 1, 0, 3, 2))), 32)); \
 }
 CC_SIMD_DECL(CCSimdCountHighestUnset, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_TYPE_FILTER((CC_SIMD_128_2_ELEMENT_TYPES), CC_SIMD_128_INTEGER_TYPES))
 #undef CC_SIMD_IMPL
