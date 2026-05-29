@@ -290,7 +290,7 @@ CC_TEMPLATE(static CC_FORCE_INLINE _Bool, CCBitsAny, (const T Set, const size_t 
             
             else
             {
-                if (Set8[Count8] << (56 + (8 - (IndexAdjustedCount % 8)))) return TRUE;
+                if ((Set8[Count8] << (8 - (IndexAdjustedCount % 8))) & 0xff) return TRUE;
             }
         }
         
