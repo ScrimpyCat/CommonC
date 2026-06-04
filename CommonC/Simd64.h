@@ -5586,6 +5586,72 @@ static CC_FORCE_INLINE CCSimd_u32x2 CCSimdMerge_u32x2(const CCSimd_u32x2 a, cons
 static CC_FORCE_INLINE CCSimd_f32x2 CCSimdMerge_f32x2(const CCSimd_f32x2 a, const CCSimd_f32x2 b, uint8_t v0, uint8_t v1);
 
 
+#pragma mark Endianness
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1, 1, 1, 1, 1, 1, 1]) -> [[1], [1], [1], [1], [1], [1], [1], [1]]
+ * @param a An 8 element vector of 8-bit signed integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_s8x8 CCSimdReverse_s8x8(const CCSimd_s8x8 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1, 1, 1]) -> [[256], [256], [256], [256]]
+ * @param a A 4 element vector of 16-bit signed integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_s16x4 CCSimdReverse_s16x4(const CCSimd_s16x4 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1]) -> [[16777216], [16777216]]
+ * @param a A 2 element vector of 32-bit signed integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_s32x2 CCSimdReverse_s32x2(const CCSimd_s32x2 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1, 1, 1, 1, 1, 1, 1]) -> [[1], [1], [1], [1], [1], [1], [1], [1]]
+ * @param a An 8 element vector of 8-bit unsigned integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_u8x8 CCSimdReverse_u8x8(const CCSimd_u8x8 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1, 1, 1]) -> [[256], [256], [256], [256]]
+ * @param a A 4 element vector of 16-bit unsigned integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_u16x4 CCSimdReverse_u16x4(const CCSimd_u16x4 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1]) -> [[16777216], [16777216]]
+ * @param a A 2 element vector of 32-bit unsigned integers.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_u32x2 CCSimdReverse_u32x2(const CCSimd_u32x2 a);
+
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ * @example reverse([1, 1]) -> [[4.600602988224807e-41], [4.600602988224807e-41]]
+ * @param a A 2 element vector of 32-bit floats.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_f32x2 CCSimdReverse_f32x2(const CCSimd_f32x2 a);
+
+
 #pragma mark -
 
 #define CC_SIMD_64_2_ELEMENT_INTEGER_TYPES \

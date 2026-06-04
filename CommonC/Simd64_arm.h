@@ -1218,4 +1218,10 @@ CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_4_ELEMENT_TYPES)
 CC_SIMD_DECL(CCSimdMerge, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_8_ELEMENT_TYPES)
 #undef CC_SIMD_IMPL
 
+#define vrev8_u8(x) x
+
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_TYPE(base, count) a){ return vreinterpret_##base##_u8(CC_CAT(vrev, CC_SIMD_BITS(base), _u8)(vreinterpret_u8_##base(a))); }
+CC_SIMD_DECL(CCSimdReverse, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_64_TYPES)
+#undef CC_SIMD_IMPL
+
 #endif

@@ -24,6 +24,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import "Swap.h"
 
 #define CC_SIMD_MATH_ACCURACY 100
 #define CC_SIMD_COMPATIBILITY 1
@@ -6859,6 +6860,80 @@
             XCTAssertEqual(Result[1], Values_f32[V1], @"should contain the correct value (%zu %zu)", V0, V1);
         }
     }
+}
+
+-(void) testByteOrdering
+{
+    int8_t Result_s8[8];
+    const CCSimd_s8x8 VecA_s8x8 = CCSimdLoad_s8x8((int8_t[8]){ 1, 0x12, 2, 3, 4, 5, 6, 7 });
+    
+    CCSimdStore_s8x8(Result_s8, CCSimdReverse_s8x8(VecA_s8x8));
+    XCTAssertEqual(Result_s8[0], 0x01, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[1], 0x12, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[2], 0x02, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[3], 0x03, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0x04, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0x05, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0x06, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0x07, @"should contain the correct value");
+    
+    uint8_t Result_u8[8];
+    const CCSimd_u8x8 VecA_u8x8 = CCSimdLoad_u8x8((uint8_t[8]){ 1, 0x12, 2, 3, 4, 5, 6, 7 });
+    
+    CCSimdStore_u8x8(Result_u8, CCSimdReverse_u8x8(VecA_u8x8));
+    XCTAssertEqual(Result_u8[0], 0x01, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[1], 0x12, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[2], 0x02, @"should contain the correct value");
+    XCTAssertEqual(Result_u8[3], 0x03, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[4], 0x04, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[5], 0x05, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[6], 0x06, @"should contain the correct value");
+    XCTAssertEqual(Result_s8[7], 0x07, @"should contain the correct value");
+    
+    
+    int16_t Result_s16[4];
+    const CCSimd_s16x4 VecA_s16x4 = CCSimdLoad_s16x4((int16_t[4]){ 1, 0x1234, 2, 3 });
+    
+    CCSimdStore_s16x4(Result_s16, CCSimdReverse_s16x4(VecA_s16x4));
+    XCTAssertEqual(Result_s16[0], 0x0100, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[1], 0x3412, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[2], 0x0200, @"should contain the correct value");
+    XCTAssertEqual(Result_s16[3], 0x0300, @"should contain the correct value");
+    
+    uint16_t Result_u16[4];
+    const CCSimd_u16x4 VecA_u16x4 = CCSimdLoad_u16x4((uint16_t[4]){ 1, 0x1234, 2, 3 });
+    
+    CCSimdStore_u16x4(Result_u16, CCSimdReverse_u16x4(VecA_u16x4));
+    XCTAssertEqual(Result_u16[0], 0x0100, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[1], 0x3412, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[2], 0x0200, @"should contain the correct value");
+    XCTAssertEqual(Result_u16[3], 0x0300, @"should contain the correct value");
+    
+    
+    int32_t Result_s32[2];
+    const CCSimd_s32x2 VecA_s32x2 = CCSimdLoad_s32x2((int32_t[2]){ 1, 0x12345678 });
+    
+    CCSimdStore_s32x2(Result_s32, CCSimdReverse_s32x2(VecA_s32x2));
+    XCTAssertEqual(Result_s32[0], 0x01000000, @"should contain the correct value");
+    XCTAssertEqual(Result_s32[1], 0x78563412, @"should contain the correct value");
+    
+    uint32_t Result_u32[2];
+    const CCSimd_u32x2 VecA_u32x2 = CCSimdLoad_u32x2((uint32_t[2]){ 1, 0x12345678 });
+    
+    CCSimdStore_u32x2(Result_u32, CCSimdReverse_u32x2(VecA_u32x2));
+    XCTAssertEqual(Result_u32[0], 0x01000000, @"should contain the correct value");
+    XCTAssertEqual(Result_u32[1], 0x78563412, @"should contain the correct value");
+    
+    
+    float Result_f32[2];
+    const CCSimd_f32x2 VecA_f32x2 = CCSimdLoad_f32x2((float[2]){ 1.0f, 2.0f });
+    
+    CCSimdStore_f32x2(Result_f32, CCSimdReverse_f32x2(VecA_f32x2));
+    CCSwap(Result_f32, sizeof(float));
+    CCSwap(Result_f32 + 1, sizeof(float));
+    
+    XCTAssertEqual(Result_f32[0], 1.0f, @"should contain the correct value");
+    XCTAssertEqual(Result_f32[1], 2.0f, @"should contain the correct value");
 }
 
 @end

@@ -71,6 +71,31 @@ def scalar_readable(type)
     end
 end
 
+def scalar_pack_directive(type)
+    case type
+    when 's8'
+        'c'
+    when 's16'
+        's'
+    when 's32'
+        'l'
+    when 's64'
+        'q'
+    when 'u8'
+        'C'
+    when 'u16'
+        'S'
+    when 'u32'
+        'L'
+    when 'u64'
+        'Q'
+    when 'f32'
+        'f'
+    when 'f64'
+        'd'
+    end
+end
+
 def format_word(word, value)
     case value.to_i
     when 1
@@ -341,7 +366,7 @@ if width >= 128
      * @return A poly vector of the two sub-vectors.
      */
     static CC_FORCE_INLINE CCSimd_#{base(type)}x#{count(type) / 2}x2 CCSimd_#{base(type)}x#{count(type) / 2}x2_Extract_#{type}(const CCSimd_#{type} a);
-        """.strip
+        """.strip.gsub('    ', '')
     }.join("\n\n")
 
     combine_defs = types(type_units, type_sizes.filter { |i| i < (width / 2) }, width).map { |type|
@@ -352,7 +377,7 @@ if width >= 128
      * @return A vector of the combined poly vector.
      */
     static CC_FORCE_INLINE CCSimd_#{type} CCSimd_#{type}_Combine_#{base(type)}x#{count(type) / 2}x2(const CCSimd_#{base(type)}x#{count(type) / 2}x2 a);
-        """.strip
+        """.strip.gsub('    ', '')
     }.join("\n\n")
 else
     extract_defs = ''
@@ -1491,6 +1516,20 @@ static CC_FORCE_INLINE CCSimd_#{type} CCSimdMerge_#{type}(const CCSimd_#{type} a
     """.strip
 }.join("\n\n")
 
+reverse_defs = types(type_units, type_sizes, width).map { |type|
+    directive = scalar_pack_directive(base(type))
+    """
+/*!
+ * @brief Reverse the byte order of all elements of @b a.
+ * @description Use this to flip endianness.
+ #{example_1(sequence(type, i: 1), ->(a){ "reverse(#{a})" }, ->(a){ [a].pack(directive).reverse.unpack(directive) })}
+ * @param a #{format_word(['A', 'An'], count(type))} #{count(type)} element vector of #{base_size(type)}-bit #{scalar_readable(type)}s.
+ * @return The vector representing elements in reversed byte order.
+ */
+static CC_FORCE_INLINE CCSimd_#{type} CCSimdReverse_#{type}(const CCSimd_#{type} a);
+    """.strip
+}.join("\n\n")
+
 element_types = [{}, {}]
 2.times { |i|
     types([integer_type_units, float_type_units][i], type_sizes, width).each { |type|
@@ -2023,6 +2062,11 @@ puts """
 #pragma mark Merge
 
 #{merge_defs}
+
+
+#pragma mark Endianness
+
+#{reverse_defs}
 
 
 #pragma mark -
