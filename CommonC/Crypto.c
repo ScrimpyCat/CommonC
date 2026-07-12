@@ -25,8 +25,8 @@
 
 #include "Crypto.h"
 
-static CCCryptoSha1State CCCryptoSha1(const void *Data, size_t Size)
- {
+CCCryptoSha1State CCCryptoSha1(const void *Data, size_t Size)
+{
     CCCryptoSha1State State = CCCryptoSha1StateInit();
     const CCCryptoSha1Constants Constants = CCCryptoSha1ConstantsInit();
     
@@ -45,6 +45,31 @@ static CCCryptoSha1State CCCryptoSha1(const void *Data, size_t Size)
     for (size_t Loop = 0; Loop < RemainingBlocks; Loop++)
     {
         State = CCCryptoSha1Process(State, Chunk + (Loop * 64), Constants);
+    }
+    
+    return State;
+}
+
+CCCryptoSha256State CCCryptoSha256(const void *Data, size_t Size)
+{
+    CCCryptoSha256State State = CCCryptoSha256StateInit();
+    const CCCryptoSha256Constants Constants = CCCryptoSha256ConstantsInit();
+    
+    const size_t Blocks = Size / 64;
+    
+    for (size_t Loop = 0; Loop < Blocks; Loop++)
+    {
+        State = CCCryptoSha256Process(State, Data + (Loop * 64), Constants);
+    }
+    
+    uint8_t Chunk[128] = {0};
+    memcpy(Chunk, (const uint8_t*)Data + (Blocks * 64), Size - (Blocks * 64));
+    
+    size_t RemainingBlocks = CCCryptoSha256Prepare((uint8_t*)Chunk - (Blocks * 64), Size) - Blocks;
+    
+    for (size_t Loop = 0; Loop < RemainingBlocks; Loop++)
+    {
+        State = CCCryptoSha256Process(State, Chunk + (Loop * 64), Constants);
     }
     
     return State;

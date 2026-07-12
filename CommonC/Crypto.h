@@ -35,11 +35,34 @@ typedef struct {
     CCSimd_u32x4 c1;
     CCSimd_u32x4 c2;
     CCSimd_u32x4 c3;
-    CCSimd_u32x4 zero;
 #endif
 } CCCryptoSha1Constants;
 
 typedef CCSimd_u32x4x2 CCCryptoSha1State;
+
+
+typedef struct {
+#if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
+    CCSimd_u32x4 c0;
+    CCSimd_u32x4 c1;
+    CCSimd_u32x4 c2;
+    CCSimd_u32x4 c3;
+    CCSimd_u32x4 c4;
+    CCSimd_u32x4 c5;
+    CCSimd_u32x4 c6;
+    CCSimd_u32x4 c7;
+    CCSimd_u32x4 c8;
+    CCSimd_u32x4 c9;
+    CCSimd_u32x4 c10;
+    CCSimd_u32x4 c11;
+    CCSimd_u32x4 c12;
+    CCSimd_u32x4 c13;
+    CCSimd_u32x4 c14;
+    CCSimd_u32x4 c15;
+#endif
+} CCCryptoSha256Constants;
+
+typedef CCSimd_u32x4x2 CCCryptoSha256State;
 
 /*!
  * @brief Calculate the SHA1 hash for the provided data.
@@ -47,7 +70,15 @@ typedef CCSimd_u32x4x2 CCCryptoSha1State;
  * @param Size The size of the data.
  * @return The SHA1 hash state.
  */
-static CCCryptoSha1State CCCryptoSha1(const void *Data, size_t Size);
+CCCryptoSha1State CCCryptoSha1(const void *Data, size_t Size);
+
+/*!
+ * @brief Calculate the SHA256 hash for the provided data.
+ * @param Data The data to hash.
+ * @param Size The size of the data.
+ * @return The SHA256 hash state.
+ */
+CCCryptoSha256State CCCryptoSha256(const void *Data, size_t Size);
 
 /*!
  * @brief Initialise SHA1 state with default values.
@@ -87,6 +118,44 @@ static CC_FORCE_INLINE CCCryptoSha1State CCCryptoSha1Process(CCCryptoSha1State S
  */
 static CC_FORCE_INLINE void CCCryptoSha1Store(CCCryptoSha1State State, uint32_t *Data);
 
+/*!
+ * @brief Initialise SHA256 state with default values.
+ * @return The SHA256 hash state.
+ */
+static CC_FORCE_INLINE CCCryptoSha256State CCCryptoSha256StateInit(void);
+
+/*!
+ * @brief Initialise SHA256 constants.
+ * @return The SHA256 constants.
+ */
+static CC_FORCE_INLINE CCCryptoSha256Constants CCCryptoSha256ConstantsInit(void);
+
+/*!
+ * @brief Prepare the data to be hashed.
+ * @description This will modify the data to include the end bit, padding and bit size.
+ * @warning Data must be large enough to store this modification.
+ * @param Data The data to be prepared.
+ * @param Size The size of the data.
+ * @return The number of chunks.
+ */
+static CC_FORCE_INLINE size_t CCCryptoSha256Prepare(void *Data, size_t Size);
+
+/*!
+ * @brief Update the hash state by processing the 64-byte chunk of data.
+ * @param State The current SHA256 hash state.
+ * @param Data The chunk to be processed.
+ * @param Constants The SHA256 constants.
+ * @return The new hash state.
+ */
+static CC_FORCE_INLINE CCCryptoSha256State CCCryptoSha256Process(CCCryptoSha256State State, const void *Data, CCCryptoSha256Constants Constants);
+
+/*!
+ * @brief Store the SHA256 hash.
+ * @param State The current SHA256 hash state to be stored.
+ * @param Data A pointer to 8 uint32_t's for where the hash will be stored.
+ */
+static CC_FORCE_INLINE void CCCryptoSha256Store(CCCryptoSha1State State, uint32_t *Data);
+
 #pragma mark -
 
 static CC_FORCE_INLINE CCCryptoSha1State CCCryptoSha1StateInit(void)
@@ -106,8 +175,7 @@ static CC_FORCE_INLINE CCCryptoSha1Constants CCCryptoSha1ConstantsInit(void)
         .c0 = CCSimdFill_u32x4(0x5a827999),
         .c1 = CCSimdFill_u32x4(0x6ed9eba1),
         .c2 = CCSimdFill_u32x4(0x8f1bbcdc),
-        .c3 = CCSimdFill_u32x4(0xca62c1d6),
-        .zero = CCSimdZero_u32x4()
+        .c3 = CCSimdFill_u32x4(0xca62c1d6)
 #endif
     };
 }
@@ -276,4 +344,172 @@ static CC_FORCE_INLINE void CCCryptoSha1Store(CCCryptoSha1State State, uint32_t 
     Data[4] = CCSimdGet_u32x4(State.v[1], 0);
 }
 
+static CC_FORCE_INLINE CCCryptoSha256State CCCryptoSha256StateInit(void)
+{
+    return (CCCryptoSha256State){
+        .v = {
+            CCSimdLoad_u32x4((uint32_t[4]){ 0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a }),
+            CCSimdLoad_u32x4((uint32_t[4]){ 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 }),
+        }
+    };
+}
+
+static CC_FORCE_INLINE CCCryptoSha256Constants CCCryptoSha256ConstantsInit(void)
+{
+    return (CCCryptoSha256Constants){
+#if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
+        .c0 = CCSimdLoad_u32x4((uint32_t[4]){ 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5 }),
+        .c1 = CCSimdLoad_u32x4((uint32_t[4]){ 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5 }),
+        .c2 = CCSimdLoad_u32x4((uint32_t[4]){ 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3 }),
+        .c3 = CCSimdLoad_u32x4((uint32_t[4]){ 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174 }),
+        .c4 = CCSimdLoad_u32x4((uint32_t[4]){ 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc }),
+        .c5 = CCSimdLoad_u32x4((uint32_t[4]){ 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da }),
+        .c6 = CCSimdLoad_u32x4((uint32_t[4]){ 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7 }),
+        .c7 = CCSimdLoad_u32x4((uint32_t[4]){ 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967 }),
+        .c8 = CCSimdLoad_u32x4((uint32_t[4]){ 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13 }),
+        .c9 = CCSimdLoad_u32x4((uint32_t[4]){ 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85 }),
+        .c10 = CCSimdLoad_u32x4((uint32_t[4]){ 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3 }),
+        .c11 = CCSimdLoad_u32x4((uint32_t[4]){ 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070 }),
+        .c12 = CCSimdLoad_u32x4((uint32_t[4]){ 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5 }),
+        .c13 = CCSimdLoad_u32x4((uint32_t[4]){ 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3 }),
+        .c14 = CCSimdLoad_u32x4((uint32_t[4]){ 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208 }),
+        .c15 = CCSimdLoad_u32x4((uint32_t[4]){ 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 })
+#endif
+    };
+}
+
+static CC_FORCE_INLINE size_t CCCryptoSha256Prepare(void *Data, size_t Size)
+{
+    return CCCryptoSha1Prepare(Data, Size);
+}
+
+static CC_FORCE_INLINE CCCryptoSha256State CCCryptoSha256Process(CCCryptoSha256State State, const void *Data, CCCryptoSha256Constants Constants)
+{
+#if CC_HARDWARE_VECTOR_SUPPORT_ARM_NEON
+    CCSimd_u32x4x4 Msg = {
+        CCSimdReverse_u32x4(CCSimdLoad_u32x4(((uint32_t*)Data) + 0)),
+        CCSimdReverse_u32x4(CCSimdLoad_u32x4(((uint32_t*)Data) + 4)),
+        CCSimdReverse_u32x4(CCSimdLoad_u32x4(((uint32_t*)Data) + 8)),
+        CCSimdReverse_u32x4(CCSimdLoad_u32x4(((uint32_t*)Data) + 12))
+    };
+    
+    CCSimd_u32x4 Temp0 = CCSimdAdd_u32x4(Msg.v[0], Constants.c0), Temp1, Temp2;
+    
+    const CCCryptoSha256State PrevState = State;
+    
+    Msg.v[0] = vsha256su0q_u32(Msg.v[0], Msg.v[1]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[1], Constants.c1);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[0] = vsha256su1q_u32(Msg.v[0], Msg.v[2], Msg.v[3]);
+    
+    Msg.v[1] = vsha256su0q_u32(Msg.v[1], Msg.v[2]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[2], Constants.c2);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[1] = vsha256su1q_u32(Msg.v[1], Msg.v[3], Msg.v[0]);
+    
+    Msg.v[2] = vsha256su0q_u32(Msg.v[2], Msg.v[3]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[3], Constants.c3);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[2] = vsha256su1q_u32(Msg.v[2], Msg.v[0], Msg.v[1]);
+    
+    Msg.v[3] = vsha256su0q_u32(Msg.v[3], Msg.v[0]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[0], Constants.c4);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[3] = vsha256su1q_u32(Msg.v[3], Msg.v[1], Msg.v[2]);
+    
+    Msg.v[0] = vsha256su0q_u32(Msg.v[0], Msg.v[1]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[1], Constants.c5);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[0] = vsha256su1q_u32(Msg.v[0], Msg.v[2], Msg.v[3]);
+    
+    Msg.v[1] = vsha256su0q_u32(Msg.v[1], Msg.v[2]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[2], Constants.c6);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[1] = vsha256su1q_u32(Msg.v[1], Msg.v[3], Msg.v[0]);
+    
+    Msg.v[2] = vsha256su0q_u32(Msg.v[2], Msg.v[3]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[3], Constants.c7);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[2] = vsha256su1q_u32(Msg.v[2], Msg.v[0], Msg.v[1]);
+    
+    Msg.v[3] = vsha256su0q_u32(Msg.v[3], Msg.v[0]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[0], Constants.c8);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[3] = vsha256su1q_u32(Msg.v[3], Msg.v[1], Msg.v[2]);
+    
+    Msg.v[0] = vsha256su0q_u32(Msg.v[0], Msg.v[1]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[1], Constants.c9);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[0] = vsha256su1q_u32(Msg.v[0], Msg.v[2], Msg.v[3]);
+    
+    Msg.v[1] = vsha256su0q_u32(Msg.v[1], Msg.v[2]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[2], Constants.c10);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[1] = vsha256su1q_u32(Msg.v[1], Msg.v[3], Msg.v[0]);
+    
+    Msg.v[2] = vsha256su0q_u32(Msg.v[2], Msg.v[3]);
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[3], Constants.c11);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    Msg.v[2] = vsha256su1q_u32(Msg.v[2], Msg.v[0], Msg.v[1]);
+    
+    Msg.v[3] = vsha256su0q_u32(Msg.v[3], Msg.v[0]);
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[0], Constants.c12);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    Msg.v[3] = vsha256su1q_u32(Msg.v[3], Msg.v[1], Msg.v[2]);
+    
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[1], Constants.c13);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    
+    Temp2 = State.v[0];
+    Temp0 = CCSimdAdd_u32x4(Msg.v[2], Constants.c14);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    
+    Temp2 = State.v[0];
+    Temp1 = CCSimdAdd_u32x4(Msg.v[3], Constants.c15);
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp0);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp0);
+    
+    Temp2 = State.v[0];
+    State.v[0] = vsha256hq_u32(State.v[0], State.v[1], Temp1);
+    State.v[1] = vsha256h2q_u32(State.v[1], Temp2, Temp1);
+    
+    State.v[0] = CCSimdAdd_u32x4(PrevState.v[0], State.v[0]);
+    State.v[1] = CCSimdAdd_u32x4(PrevState.v[1], State.v[1]);
+    
+    return State;
+#endif
+}
+
+static CC_FORCE_INLINE void CCCryptoSha256Store(CCCryptoSha256State State, uint32_t *Data)
+{
+    CCSimdStore_u32x4(Data, State.v[0]);
+    CCSimdStore_u32x4(Data + 4, State.v[1]);
+}
 #endif
