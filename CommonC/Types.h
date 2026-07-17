@@ -77,16 +77,16 @@ typedef union {
 } CCVector3Di, CCColourRGBi;
 
 typedef union {
-    _Alignas(16) struct {
+    struct {
         float x, y, z, w;
     } CC_PACKED;
-    _Alignas(16) struct {
+    struct {
         float r, g, b, a;
     } CC_PACKED;
-    _Alignas(16) struct {
+    struct {
         float s, t, p, q;
     } CC_PACKED;
-    _Alignas(16) float v[4];
+    float v[4];
 } CCVector4D, CCColourRGBA;
 
 typedef union {
