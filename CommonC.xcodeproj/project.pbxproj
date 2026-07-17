@@ -90,6 +90,8 @@
 		F30437FE1C62E22C00388C74 /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F30437FF1C62E24300388C74 /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30438001C62E24900388C74 /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
+		F304EA222F635CA800B48DE3 /* SimdFallback.h in Headers */ = {isa = PBXBuildFile; fileRef = F304EA212F635CA400B48DE3 /* SimdFallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F304EA232F635CA800B48DE3 /* SimdFallback.h in Headers */ = {isa = PBXBuildFile; fileRef = F304EA212F635CA400B48DE3 /* SimdFallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30529B618014BE500B17CFD /* Vector.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B518014BE500B17CFD /* Vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30529B818014BF200B17CFD /* Vector2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F30529B718014BF200B17CFD /* Vector2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F3064008184BAA7B00122BE9 /* SystemInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,6 +111,9 @@
 		F3067B871C591B5A00766814 /* Vectorized4DSSE4_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B861C591B5A00766814 /* Vectorized4DSSE4_1Tests.m */; };
 		F3067B891C591B6700766814 /* Vectorized4DSSE4_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B881C591B6700766814 /* Vectorized4DSSE4_2Tests.m */; };
 		F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3067B8A1C591B7600766814 /* Vectorized4DAVXTests.m */; };
+		F306C47F2F7AB0FB00453CD8 /* SimdFallbackDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = F306C47E2F7AB0F500453CD8 /* SimdFallbackDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F306C4802F7AB0FB00453CD8 /* SimdFallbackDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = F306C47E2F7AB0F500453CD8 /* SimdFallbackDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F306C4822F7ADBBB00453CD8 /* Simd128Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F306C4812F7ADBBB00453CD8 /* Simd128Tests.m */; };
 		F30C84681D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30C84691D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30C846D1D1330B500EFF5F2 /* DictionaryHashMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */; };
@@ -243,6 +248,11 @@
 		F34C30E9222CAF1900F0E845 /* ConcurrentIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F34C30EA222CAF1900F0E845 /* ConcurrentIndexBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */; };
 		F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */; };
+		F350D9A62E11D076009AE373 /* Simd.h in Headers */ = {isa = PBXBuildFile; fileRef = F350D9A02E11D076009AE373 /* Simd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F350D9A72E11D076009AE373 /* Simd64.h in Headers */ = {isa = PBXBuildFile; fileRef = F350D9A12E11D076009AE373 /* Simd64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F350D9A92E11D076009AE373 /* Simd.h in Headers */ = {isa = PBXBuildFile; fileRef = F350D9A02E11D076009AE373 /* Simd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F350D9AA2E11D076009AE373 /* Simd64.h in Headers */ = {isa = PBXBuildFile; fileRef = F350D9A12E11D076009AE373 /* Simd64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F350D9AD2E11D08E009AE373 /* Simd64Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F350D9AC2E11D08E009AE373 /* Simd64Tests.m */; };
 		F353DD4417AC767800D1674C /* MemoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4317AC767800D1674C /* MemoryAllocation.c */; };
 		F353DD4817AC788100D1674C /* DebugTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F353DD4717AC788100D1674C /* DebugTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F353DD4A17AC88BA00D1674C /* DebugTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = F353DD4917AC88BA00D1674C /* DebugTypes.c */; };
@@ -316,6 +326,11 @@
 		F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */ = {isa = PBXBuildFile; fileRef = F36202F117AC510700153E85 /* MemoryAllocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F367837F1CCAEC3D00BF8985 /* Ownership.h in Headers */ = {isa = PBXBuildFile; fileRef = F367837E1CCAEB2B00BF8985 /* Ownership.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */ = {isa = PBXBuildFile; fileRef = F367837E1CCAEB2B00BF8985 /* Ownership.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3679AAC2FD8B6D30008526C /* Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = F3679AAB2FD8B6D00008526C /* Crypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3679AAD2FD8B6D30008526C /* Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = F3679AAB2FD8B6D00008526C /* Crypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3679AAF2FD8E5FE0008526C /* CryptoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3679AAE2FD8E5FE0008526C /* CryptoTests.m */; };
+		F3679AB12FEA73500008526C /* Crypto.c in Sources */ = {isa = PBXBuildFile; fileRef = F3679AB02FEA734B0008526C /* Crypto.c */; };
+		F3679AB22FEA73500008526C /* Crypto.c in Sources */ = {isa = PBXBuildFile; fileRef = F3679AB02FEA734B0008526C /* Crypto.c */; };
 		F369C7D01C44D515006C3D96 /* CCString.c in Sources */ = {isa = PBXBuildFile; fileRef = F369C7CE1C44D515006C3D96 /* CCString.c */; };
 		F369C7D11C44D515006C3D96 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = F369C7CF1C44D515006C3D96 /* CCString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F369C7D41C462AEF006C3D96 /* StringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F369C7D31C462AEF006C3D96 /* StringTests.m */; };
@@ -386,6 +401,8 @@
 		F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */; };
 		F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3897D5E1DD1E743008D6C1D /* PathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3897D5D1DD1E743008D6C1D /* PathTests.m */; };
+		F38E23242F69F39300B507DA /* SimdFallbackTrig.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E23232F69F38D00B507DA /* SimdFallbackTrig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F38E23252F69F39300B507DA /* SimdFallbackTrig.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E23232F69F38D00B507DA /* SimdFallbackTrig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F38E7ADB2CA1022600F44918 /* CircularEnumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E7AD92CA1022600F44918 /* CircularEnumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F38E7ADC2CA1022600F44918 /* CircularEnumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F38E7AD92CA1022600F44918 /* CircularEnumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F38E7ADD2CA1022600F44918 /* CircularEnumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */; };
@@ -395,6 +412,18 @@
 		F394001D2340E39B00EE826D /* Enumerable.h in Headers */ = {isa = PBXBuildFile; fileRef = F394001C2340E39B00EE826D /* Enumerable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F394001F23410ECC00EE826D /* Enumerable.c in Sources */ = {isa = PBXBuildFile; fileRef = F394001E23410ECC00EE826D /* Enumerable.c */; };
 		F39400212341304B00EE826D /* EnumerableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F39400202341304B00EE826D /* EnumerableTests.m */; };
+		F39561352F40FA68002B5F43 /* Simd64_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561342F40FA68002B5F43 /* Simd64_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561362F40FA68002B5F43 /* Simd64_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561342F40FA68002B5F43 /* Simd64_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561382F429BE7002B5F43 /* Simd64Types_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561372F429BE7002B5F43 /* Simd64Types_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561392F429BE7002B5F43 /* Simd64Types_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561372F429BE7002B5F43 /* Simd64Types_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F395613B2F44895C002B5F43 /* Simd128_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F395613A2F44895C002B5F43 /* Simd128_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F395613C2F44895C002B5F43 /* Simd128_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F395613A2F44895C002B5F43 /* Simd128_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F395613E2F448984002B5F43 /* Simd128Types_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F395613D2F448984002B5F43 /* Simd128Types_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F395613F2F448984002B5F43 /* Simd128Types_arm.h in Headers */ = {isa = PBXBuildFile; fileRef = F395613D2F448984002B5F43 /* Simd128Types_arm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561412F448A55002B5F43 /* SimdArmPolyType.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561402F448A55002B5F43 /* SimdArmPolyType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561422F448A55002B5F43 /* SimdArmPolyType.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561402F448A55002B5F43 /* SimdArmPolyType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561442F448B36002B5F43 /* Simd128.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561432F448B36002B5F43 /* Simd128.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39561452F448B36002B5F43 /* Simd128.h in Headers */ = {isa = PBXBuildFile; fileRef = F39561432F448B36002B5F43 /* Simd128.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F396A08C2D6A25A6004DC778 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F396A08B2D6A25A6004DC778 /* IOKit.framework */; };
 		F396A0C82D70A440004DC778 /* PoolAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F396A0C62D70A440004DC778 /* PoolAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F396A0CA2D70B5C1004DC778 /* PoolAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F396A0C62D70A440004DC778 /* PoolAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -516,6 +545,7 @@
 		F30437A91C62DFA200388C74 /* CommonC_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonC_iOSTests.m; sourceTree = "<group>"; };
 		F30437AB1C62DFA200388C74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F30437B31C62E06500388C74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		F304EA212F635CA400B48DE3 /* SimdFallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimdFallback.h; sourceTree = "<group>"; };
 		F30529B518014BE500B17CFD /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		F30529B718014BF200B17CFD /* Vector2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2D.h; sourceTree = "<group>"; };
 		F3064008184BAA7B00122BE9 /* SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfo.h; sourceTree = "<group>"; };
@@ -535,6 +565,8 @@
 		F3067B861C591B5A00766814 /* Vectorized4DSSE4_1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DSSE4_1Tests.m; sourceTree = "<group>"; };
 		F3067B881C591B6700766814 /* Vectorized4DSSE4_2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DSSE4_2Tests.m; sourceTree = "<group>"; };
 		F3067B8A1C591B7600766814 /* Vectorized4DAVXTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vectorized4DAVXTests.m; sourceTree = "<group>"; };
+		F306C47E2F7AB0F500453CD8 /* SimdFallbackDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimdFallbackDefaults.h; sourceTree = "<group>"; };
+		F306C4812F7ADBBB00453CD8 /* Simd128Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simd128Tests.m; sourceTree = "<group>"; };
 		F30C84671D12D11000EFF5F2 /* DictionaryEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryEnumerator.h; sourceTree = "<group>"; };
 		F30C846B1D1330B500EFF5F2 /* DictionaryHashMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DictionaryHashMap.c; sourceTree = "<group>"; };
 		F30C846C1D1330B500EFF5F2 /* DictionaryHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryHashMap.h; sourceTree = "<group>"; };
@@ -610,6 +642,9 @@
 		F34C30E7222CAF1900F0E845 /* ConcurrentIndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentIndexBuffer.h; sourceTree = "<group>"; };
 		F34C30E8222CAF1900F0E845 /* ConcurrentIndexBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConcurrentIndexBuffer.c; sourceTree = "<group>"; };
 		F34C30F2222CF00300F0E845 /* ConcurrentIndexBuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentIndexBuffer.m; sourceTree = "<group>"; };
+		F350D9A02E11D076009AE373 /* Simd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd.h; sourceTree = "<group>"; };
+		F350D9A12E11D076009AE373 /* Simd64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd64.h; sourceTree = "<group>"; };
+		F350D9AC2E11D08E009AE373 /* Simd64Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simd64Tests.m; sourceTree = "<group>"; };
 		F353DD4317AC767800D1674C /* MemoryAllocation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MemoryAllocation.c; sourceTree = "<group>"; };
 		F353DD4717AC788100D1674C /* DebugTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTypes.h; sourceTree = "<group>"; };
 		F353DD4917AC88BA00D1674C /* DebugTypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DebugTypes.c; sourceTree = "<group>"; };
@@ -683,6 +718,9 @@
 		F36202EF17AC442700153E85 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		F36202F117AC510700153E85 /* MemoryAllocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryAllocation.h; sourceTree = "<group>"; };
 		F367837E1CCAEB2B00BF8985 /* Ownership.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ownership.h; sourceTree = "<group>"; };
+		F3679AAB2FD8B6D00008526C /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		F3679AAE2FD8E5FE0008526C /* CryptoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptoTests.m; sourceTree = "<group>"; };
+		F3679AB02FEA734B0008526C /* Crypto.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Crypto.c; sourceTree = "<group>"; };
 		F369C7CE1C44D515006C3D96 /* CCString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CCString.c; sourceTree = "<group>"; };
 		F369C7CF1C44D515006C3D96 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		F369C7D21C461936006C3D96 /* CCStringEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStringEnumerator.h; sourceTree = "<group>"; };
@@ -734,12 +772,19 @@
 		F3879FEB1DBC7DE100F2D4A7 /* EpochGarbageCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EpochGarbageCollector.c; sourceTree = "<group>"; };
 		F3879FEC1DBC7DE100F2D4A7 /* EpochGarbageCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpochGarbageCollector.h; sourceTree = "<group>"; };
 		F3897D5D1DD1E743008D6C1D /* PathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathTests.m; sourceTree = "<group>"; };
+		F38E23232F69F38D00B507DA /* SimdFallbackTrig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimdFallbackTrig.h; sourceTree = "<group>"; };
 		F38E7AD92CA1022600F44918 /* CircularEnumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularEnumerable.h; sourceTree = "<group>"; };
 		F38E7ADA2CA1022600F44918 /* CircularEnumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CircularEnumerable.c; sourceTree = "<group>"; };
 		F38E7AE62CA2200C00F44918 /* ConcurrentCircularBufferTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentCircularBufferTemplate.h; sourceTree = "<group>"; };
 		F394001C2340E39B00EE826D /* Enumerable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enumerable.h; sourceTree = "<group>"; };
 		F394001E23410ECC00EE826D /* Enumerable.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Enumerable.c; sourceTree = "<group>"; };
 		F39400202341304B00EE826D /* EnumerableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerableTests.m; sourceTree = "<group>"; };
+		F39561342F40FA68002B5F43 /* Simd64_arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd64_arm.h; sourceTree = "<group>"; };
+		F39561372F429BE7002B5F43 /* Simd64Types_arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd64Types_arm.h; sourceTree = "<group>"; };
+		F395613A2F44895C002B5F43 /* Simd128_arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd128_arm.h; sourceTree = "<group>"; };
+		F395613D2F448984002B5F43 /* Simd128Types_arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd128Types_arm.h; sourceTree = "<group>"; };
+		F39561402F448A55002B5F43 /* SimdArmPolyType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimdArmPolyType.h; sourceTree = "<group>"; };
+		F39561432F448B36002B5F43 /* Simd128.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simd128.h; sourceTree = "<group>"; };
 		F396A08B2D6A25A6004DC778 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		F396A0C62D70A440004DC778 /* PoolAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoolAllocator.h; sourceTree = "<group>"; };
 		F396A0CB2D70B682004DC778 /* PoolAllocatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoolAllocatorTests.m; sourceTree = "<group>"; };
@@ -1037,6 +1082,24 @@
 			name = Implementations;
 			sourceTree = "<group>";
 		};
+		F350D99F2E11D056009AE373 /* Simd */ = {
+			isa = PBXGroup;
+			children = (
+				F350D9A02E11D076009AE373 /* Simd.h */,
+				F39561402F448A55002B5F43 /* SimdArmPolyType.h */,
+				F304EA212F635CA400B48DE3 /* SimdFallback.h */,
+				F306C47E2F7AB0F500453CD8 /* SimdFallbackDefaults.h */,
+				F38E23232F69F38D00B507DA /* SimdFallbackTrig.h */,
+				F350D9A12E11D076009AE373 /* Simd64.h */,
+				F39561342F40FA68002B5F43 /* Simd64_arm.h */,
+				F39561372F429BE7002B5F43 /* Simd64Types_arm.h */,
+				F39561432F448B36002B5F43 /* Simd128.h */,
+				F395613A2F44895C002B5F43 /* Simd128_arm.h */,
+				F395613D2F448984002B5F43 /* Simd128Types_arm.h */,
+			);
+			name = Simd;
+			sourceTree = "<group>";
+		};
 		F353DD4617AC787200D1674C /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1098,6 +1161,7 @@
 			isa = PBXGroup;
 			children = (
 				F353DD6D17B0239C00D1674C /* Types.h */,
+				F350D99F2E11D056009AE373 /* Simd */,
 				F36057292DDA42BD0045C2BD /* Numeric */,
 				F36057182DD902770045C2BD /* Range */,
 			);
@@ -1236,6 +1300,8 @@
 		F36057202DD90BA90045C2BD /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				F350D9AC2E11D08E009AE373 /* Simd64Tests.m */,
+				F306C4812F7ADBBB00453CD8 /* Simd128Tests.m */,
 				F36057212DD90BD80045C2BD /* RangeTests.m */,
 			);
 			name = Types;
@@ -1456,6 +1522,8 @@
 		F3AE992B1A6D0F8700212838 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F3679AAB2FD8B6D00008526C /* Crypto.h */,
+				F3679AB02FEA734B0008526C /* Crypto.c */,
 				F394001C2340E39B00EE826D /* Enumerable.h */,
 				F394001E23410ECC00EE826D /* Enumerable.c */,
 				F38E7AD92CA1022600F44918 /* CircularEnumerable.h */,
@@ -1532,6 +1600,7 @@
 				F3143AA01A8A8B19004EB810 /* CollectionListTests.m */,
 				F342052F1D1CF0BE00BE2E13 /* CollectionFastArrayTests.m */,
 				F341B75729F2E71600CBA1EE /* BitSetsTests.m */,
+				F3679AAE2FD8E5FE0008526C /* CryptoTests.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1664,6 +1733,8 @@
 				F36783801CCAEC3F00BF8985 /* Ownership.h in Headers */,
 				F30437BC1C62E09400388C74 /* CCStringEnumerator.h in Headers */,
 				F3AD4CDE2AA33BD6006C20E4 /* MemoryZone.h in Headers */,
+				F395613C2F44895C002B5F43 /* Simd128_arm.h in Headers */,
+				F39561452F448B36002B5F43 /* Simd128.h in Headers */,
 				F38E7AE82CA2200C00F44918 /* ConcurrentCircularBufferTemplate.h in Headers */,
 				F30437D31C62E10400388C74 /* CollectionArray.h in Headers */,
 				F32BC9D11DBC6F7800792524 /* ConcurrentGarbageCollectorInterface.h in Headers */,
@@ -1674,6 +1745,7 @@
 				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
 				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
+				F38E23242F69F39300B507DA /* SimdFallbackTrig.h in Headers */,
 				F3364FAD25A1B734002B2378 /* Generic2.h in Headers */,
 				F304379E1C62DFA200388C74 /* CommonC-iOS.h in Headers */,
 				F33427441DB4091F008CB998 /* ConcurrentQueue.h in Headers */,
@@ -1683,6 +1755,8 @@
 				F3364FB725B232EA002B2378 /* Generic4.h in Headers */,
 				F30437F11C62E1E300388C74 /* Assertion.h in Headers */,
 				F360572F2DDA42F20045C2BD /* NumericTemplate.h in Headers */,
+				F350D9A92E11D076009AE373 /* Simd.h in Headers */,
+				F350D9AA2E11D076009AE373 /* Simd64.h in Headers */,
 				F3BB38F32CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F36F82F51D0F8FA100193B08 /* HashMapEnumerator.h in Headers */,
 				F3E7460C1DC623A900F1F268 /* TaskQueue.h in Headers */,
@@ -1694,11 +1768,13 @@
 				F36F82FA1D0FB56A00193B08 /* HashMapSeparateChainingArrayDataOrientedHash.h in Headers */,
 				F30437F31C62E1EF00388C74 /* Logging.h in Headers */,
 				F30437E01C62E16400388C74 /* SystemInfo.h in Headers */,
+				F395613F2F448984002B5F43 /* Simd128Types_arm.h in Headers */,
 				F30437F71C62E20500388C74 /* CustomInputFilters.h in Headers */,
 				F30437B91C62E08400388C74 /* Generics.h in Headers */,
 				F30437DD1C62E14D00388C74 /* Vector2D.h in Headers */,
 				F30437C21C62E0B200388C74 /* DataInterface.h in Headers */,
 				F30437CE1C62E0EC00388C74 /* CollectionTypes.h in Headers */,
+				F39561422F448A55002B5F43 /* SimdArmPolyType.h in Headers */,
 				F37A6E602C7A474000F97BC3 /* FileSystem_Private.h in Headers */,
 				F30437D81C62E12700388C74 /* BitTricks.h in Headers */,
 				F30437ED1C62E1C800388C74 /* FileHandle.h in Headers */,
@@ -1706,6 +1782,7 @@
 				F30437D91C62E13000388C74 /* Random.h in Headers */,
 				F30437EF1C62E1D600388C74 /* Types.h in Headers */,
 				F33A69642CF6B97300E427AE /* ConcurrentSharedResource.h in Headers */,
+				F3679AAC2FD8B6D30008526C /* Crypto.h in Headers */,
 				F30437E21C62E18000388C74 /* File.h in Headers */,
 				F30C84691D12D12000EFF5F2 /* DictionaryEnumerator.h in Headers */,
 				F30437FB1C62E21D00388C74 /* CallbackAllocator.h in Headers */,
@@ -1720,11 +1797,13 @@
 				F341B75D29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75429F2E6C800CBA1EE /* Bits.h in Headers */,
 				F3DD2A741D0CAD1900EAAD16 /* HashMapSeparateChainingArrayDataOrientedAll.h in Headers */,
+				F39561362F40FA68002B5F43 /* Simd64_arm.h in Headers */,
 				F30437D51C62E11300388C74 /* CollectionList.h in Headers */,
 				F30437DB1C62E13F00388C74 /* Matrix4.h in Headers */,
 				F30437B71C62E07900388C74 /* Extensions.h in Headers */,
 				F36F83331D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F334273F1DB4057B008CB998 /* Queue.h in Headers */,
+				F39561392F429BE7002B5F43 /* Simd64Types_arm.h in Headers */,
 				F30437C61C62E0C800388C74 /* LinkedList.h in Headers */,
 				F35A15F11DC0962A008DC914 /* LazyGarbageCollector.h in Headers */,
 				F37C62782A7AD4C5003E4F73 /* Pragmas.h in Headers */,
@@ -1749,6 +1828,7 @@
 				F30437C31C62E0B700388C74 /* DataTypes.h in Headers */,
 				F341B75329F2E6C300CBA1EE /* BitsTemplate.h in Headers */,
 				F35B1F382C31B5ED009325F0 /* ValidateMaximum.h in Headers */,
+				F306C47F2F7AB0FB00453CD8 /* SimdFallbackDefaults.h in Headers */,
 				F30437CF1C62E0F100388C74 /* Collection.h in Headers */,
 				F34397E62B8A238E00AEF700 /* ValidateMinimum.h in Headers */,
 				F30437BD1C62E09900388C74 /* CCString.h in Headers */,
@@ -1768,6 +1848,7 @@
 				F32E09192BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F30437E41C62E19400388C74 /* ProcessInfo.h in Headers */,
 				F328728621E881D300B1A584 /* ConcurrentIndexMap.h in Headers */,
+				F304EA232F635CA800B48DE3 /* SimdFallback.h in Headers */,
 				F30D804023A6979C0011A14D /* Container.h in Headers */,
 				F30D804123A6979C0011A14D /* ContainerTypes.h in Headers */,
 				F30D804223A6979C0011A14D /* Enumerable.h in Headers */,
@@ -1801,6 +1882,8 @@
 				F3A938D121E262A800BFDE93 /* ConcurrentIDGeneratorInterface.h in Headers */,
 				F30646F32358D0B600DFD780 /* DataContainer.h in Headers */,
 				F3AD4CDC2AA33BCD006C20E4 /* MemoryZone.h in Headers */,
+				F395613B2F44895C002B5F43 /* Simd128_arm.h in Headers */,
+				F39561442F448B36002B5F43 /* Simd128.h in Headers */,
 				F38E7AE72CA2200C00F44918 /* ConcurrentCircularBufferTemplate.h in Headers */,
 				F353DD5B17AE208600D1674C /* Generics.h in Headers */,
 				F36202F017AC442700153E85 /* Platform.h in Headers */,
@@ -1811,6 +1894,7 @@
 				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
+				F38E23252F69F39300B507DA /* SimdFallbackTrig.h in Headers */,
 				F34397E32B8A212B00AEF700 /* ValidateMinimum.h in Headers */,
 				F3364FAC25A1B734002B2378 /* Generic2.h in Headers */,
 				F353DD6317AE61DE00D1674C /* Extensions.h in Headers */,
@@ -1820,6 +1904,8 @@
 				F353DD6517AE95BC00D1674C /* Hacks.h in Headers */,
 				F3364FB625B232E9002B2378 /* Generic4.h in Headers */,
 				F360572E2DDA42F20045C2BD /* NumericTemplate.h in Headers */,
+				F350D9A62E11D076009AE373 /* Simd.h in Headers */,
+				F350D9A72E11D076009AE373 /* Simd64.h in Headers */,
 				F3BB38F22CB71DDF004E65DE /* ConcurrentSwapBufferTemplate.h in Headers */,
 				F353DD7117B02C3500D1674C /* ProcessInfo.h in Headers */,
 				F33A69602CEF970700E427AE /* ConcurrentSharedResourceTemplate.h in Headers */,
@@ -1831,11 +1917,13 @@
 				F353DD8117B53FDD00D1674C /* Assertion.h in Headers */,
 				F3E746091DC6079400F1F268 /* TaskQueue.h in Headers */,
 				F3D657D017D5DA8F00B54101 /* Random.h in Headers */,
+				F395613E2F448984002B5F43 /* Simd128Types_arm.h in Headers */,
 				F3D657D417D5FD5200B54101 /* Maths.h in Headers */,
 				F36F83321D12030100193B08 /* DictionaryInterface.h in Headers */,
 				F30529B618014BE500B17CFD /* Vector.h in Headers */,
 				F30529B818014BF200B17CFD /* Vector2D.h in Headers */,
 				F30E5A0A20C8D3DB004F7331 /* Base.h in Headers */,
+				F39561412F448A55002B5F43 /* SimdArmPolyType.h in Headers */,
 				F37A31E028F2FD67007B4209 /* ConcurrentPool.h in Headers */,
 				F37A6E5F2C7A474000F97BC3 /* FileSystem_Private.h in Headers */,
 				F39C5F4D252315C300D80F0D /* Template.h in Headers */,
@@ -1843,6 +1931,7 @@
 				F3064009184BAA7B00122BE9 /* SystemInfo.h in Headers */,
 				F353DD8D17B5A14300D1674C /* BitTricks.h in Headers */,
 				F30640111850FB5300122BE9 /* CustomFormatSpecifiers.h in Headers */,
+				F3679AAD2FD8B6D30008526C /* Crypto.h in Headers */,
 				F37A31E428F2FDF5007B4209 /* ConcurrentPoolTemplate.h in Headers */,
 				F3879FEE1DBC7DE100F2D4A7 /* EpochGarbageCollector.h in Headers */,
 				F3364FC325B42771002B2378 /* MemoryTemplate.h in Headers */,
@@ -1857,11 +1946,13 @@
 				F3AE99781A7419D200212838 /* Array.h in Headers */,
 				F341B75C29F402B200CBA1EE /* Alignment.h in Headers */,
 				F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */,
+				F39561352F40FA68002B5F43 /* Simd64_arm.h in Headers */,
 				F3FEE9E119427B0100C3626C /* CustomInputFilters.h in Headers */,
 				F36F83211D10A91B00193B08 /* TypeCallbacks.h in Headers */,
 				F32FB02F1D07B364007E8E9B /* HashMap.h in Headers */,
 				F3AE99BD1A7511D500212838 /* Collection.h in Headers */,
 				F37AFA9D1A76DA020037ECB2 /* Enumerator.h in Headers */,
+				F39561382F429BE7002B5F43 /* Simd64Types_arm.h in Headers */,
 				F38515EE254DB830001C03C5 /* BigIntFast.h in Headers */,
 				F3E2746420D5931900D6AFE1 /* DebugAllocator.h in Headers */,
 				F3AE99381A6D62C400212838 /* CallbackAllocator.h in Headers */,
@@ -1886,6 +1977,7 @@
 				F35A15F01DC07E21008DC914 /* LazyGarbageCollector.h in Headers */,
 				F322F0611C09551100BAA44E /* Path.h in Headers */,
 				F36F83071D0FE3BD00193B08 /* HashMapSeparateChainingArray.h in Headers */,
+				F306C4802F7AB0FB00453CD8 /* SimdFallbackDefaults.h in Headers */,
 				F35B1F342C31B5D8009325F0 /* ValidateMaximum.h in Headers */,
 				F3AEA857232C85CF00A5CAF3 /* Container.h in Headers */,
 				F3BD17C41C02E15F00B3849E /* FileSystem.h in Headers */,
@@ -1905,6 +1997,7 @@
 				F32E09182BB895CA00383480 /* ReflectedTypes.h in Headers */,
 				F3143AA71A8A9022004EB810 /* CollectionList.h in Headers */,
 				F359D0201C12B13E0028B86B /* DataInterface.h in Headers */,
+				F304EA222F635CA800B48DE3 /* SimdFallback.h in Headers */,
 				F37AFA9F1A78D92A0037ECB2 /* Comparator.h in Headers */,
 				F359D0251C132B800028B86B /* Buffer.h in Headers */,
 				F359D0311C147DB50028B86B /* DataBuffer.h in Headers */,
@@ -2148,6 +2241,7 @@
 				F30437FC1C62E22300388C74 /* CFAllocator.c in Sources */,
 				F30437BE1C62E09F00388C74 /* CCString.c in Sources */,
 				F30438001C62E24900388C74 /* DebugTypes.c in Sources */,
+				F3679AB12FEA73500008526C /* Crypto.c in Sources */,
 				F30437C71C62E0CD00388C74 /* LinkedList.c in Sources */,
 				F30437D61C62E11800388C74 /* CollectionList.c in Sources */,
 				F3732A712D61707C00A3DC98 /* HardwareInfo.c in Sources */,
@@ -2222,6 +2316,7 @@
 				F3879FED1DBC7DE100F2D4A7 /* EpochGarbageCollector.c in Sources */,
 				F3143A9F1A8A7D03004EB810 /* CollectionList.c in Sources */,
 				F306400F1850FB1E00122BE9 /* CustomFormatSpecifiers.c in Sources */,
+				F3679AB22FEA73500008526C /* Crypto.c in Sources */,
 				F353DD5817ADF3C600D1674C /* Allocator.c in Sources */,
 				F353DD7317B02C3E00D1674C /* ProcessInfo.c in Sources */,
 				F3BD17C31C02E15F00B3849E /* FileSystem.c in Sources */,
@@ -2259,6 +2354,7 @@
 				F3BC6A3A1877A84200934291 /* Vectorized3DSSSE3Tests.m in Sources */,
 				F3067B7D1C591B0200766814 /* Vectorized4DTests.m in Sources */,
 				F33A69662CF6E66000E427AE /* ConcurrentSharedResourceTests.m in Sources */,
+				F3679AAF2FD8E5FE0008526C /* CryptoTests.m in Sources */,
 				F34205301D1CF0BE00BE2E13 /* CollectionFastArrayTests.m in Sources */,
 				F3BC6A3C1877A84F00934291 /* Vectorized3DSSE4_1Tests.m in Sources */,
 				F341B75829F2E71600CBA1EE /* BitSetsTests.m in Sources */,
@@ -2290,6 +2386,7 @@
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
 				F3BB38F52CB81BBB004E65DE /* ConcurrentSwapBufferTests.m in Sources */,
 				F3BC6A2D18776CAE00934291 /* Vectorized2DSSE2Tests.m in Sources */,
+				F306C4822F7ADBBB00453CD8 /* Simd128Tests.m in Sources */,
 				F37A6E622C7C8CDD00F97BC3 /* VirtualFileSystemTests.m in Sources */,
 				F36D62FF1D13433700D3827A /* DictionaryTests.m in Sources */,
 				F3143AA11A8A8B19004EB810 /* CollectionListTests.m in Sources */,
@@ -2321,6 +2418,7 @@
 				F32AF65521DB88C60030206F /* ConsecutiveIDGeneratorTests.m in Sources */,
 				F37329CE2D552D3B00A3DC98 /* DecimalTests.m in Sources */,
 				F30CCD9B18787C4200AF0FAB /* Vectorized2DTests.m in Sources */,
+				F350D9AD2E11D08E009AE373 /* Simd64Tests.m in Sources */,
 				F34C30F3222CF00300F0E845 /* ConcurrentIndexBuffer.m in Sources */,
 				F3067B8B1C591B7600766814 /* Vectorized4DAVXTests.m in Sources */,
 				F39C5F4C2523158A00D80F0D /* TemplateTests.m in Sources */,
@@ -2630,8 +2728,10 @@
 				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_CODE_COVERAGE = NO;
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2657,6 +2757,7 @@
 				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_CODE_COVERAGE = NO;
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_OPTIMIZATION_LEVEL = fast;
@@ -2685,7 +2786,7 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = g;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CommonC/CommonC-Prefix.pch";
 				INFOPLIST_FILE = "CommonCTests/CommonCTests-Info.plist";
