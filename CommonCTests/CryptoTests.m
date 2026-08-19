@@ -471,7 +471,7 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     XCTAssertEqual(Result[7], 0x17eb0ae0,  @"Calculated the correct hash");
 }
 
--(void) testAesKeyExpansion
+-(void) testAes128KeyExpansion
 {
     uint32_t ExpectedKeys128[10][4] = {
         { 0x17fefaa0, 0xb12c5488, 0x3939a323, 0x05766c2a },
@@ -503,7 +503,7 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     
 }
 
--(void) testAes
+-(void) testAes128
 {    
     CCSimd_u8x16 Data = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff });
     CCSimd_u8x16 Key = CCSimdLoad_u8x16((uint8_t[16]){ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
