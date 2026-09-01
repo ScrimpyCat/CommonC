@@ -501,6 +501,112 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
         XCTAssertEqual(Result[3], ExpectedKeys128[Loop][3], @"Should be the correct expanded word");
     }
     
+    
+    
+    Key = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f });
+    
+    CCSimd_u8x16 ExpandedKey[11];
+    CCCryptoAes128KeyExpand(Key, ExpandedKey);
+    
+    uint32_t ExpectedExpandedKeys128[11][4] = {
+        { 0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c },
+        { 0xfd74aad6, 0xfa72afd2, 0xf178a6da, 0xfe76abd6 },
+        { 0x0bcf92b6, 0xf1bd3d64, 0x00c59bbe, 0xfeb33068 },
+        { 0x4e74ffb6, 0xbfc9c2d2, 0xbf0c596c, 0x41bf6904 },
+        { 0xbcf7f747, 0x033e3595, 0xbc326cf9, 0xfd8d05fd },
+        { 0xe8a3aa3c, 0xeb9d9fa9, 0x57aff350, 0xaa22f6ad },
+        { 0x7d0f395e, 0x9692a6f7, 0xc13d55a7, 0x6b1fa30a },
+        { 0x1a70f914, 0x8ce25fe3, 0x4ddf0a44, 0x26c0a94e },
+        { 0x35874347, 0xb9651ca4, 0xf4ba16e0, 0xd27abfae },
+        { 0xd1329954, 0x685785f0, 0x9ced9310, 0x4e972cbe },
+        { 0x7f1d1113, 0x174a94e3, 0x8ba707f3, 0xc5302b4d }
+    };
+    
+    for (size_t Loop = 0; Loop < 11; Loop++)
+    {
+        uint32_t Result[4];
+        CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(ExpandedKey[Loop]));
+        
+        XCTAssertEqual(Result[0], ExpectedExpandedKeys128[Loop][0], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[1], ExpectedExpandedKeys128[Loop][1], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[2], ExpectedExpandedKeys128[Loop][2], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[3], ExpectedExpandedKeys128[Loop][3], @"Should be the correct expanded word");
+    }
+}
+
+-(void) testAes192KeyExpansion
+{
+    uint32_t ExpectedKeys192[16][4] = {
+        { 0xf7910cfe, 0xa5f50224, 0x8e0612ec, 0x6b7f826c }, { 0xb9957a0e, 0xc2fe565c, },
+        { 0xbdb4b74d, 0x1841b569, 0x9647a785, 0xfd3825e9 }, { 0x44ad5fe7, 0x865309bb, },
+        { 0x57f05a48, 0x4fb1ef21, 0xd9f648a4, 0x24ce6d4d }, { 0x606332aa, 0xe6303b11, },
+        { 0xd57e5ea2, 0x9acfb183, 0x4339f927, 0x67f7946a }, { 0x0794a6c0, 0xe1a49dd1, },
+        { 0xeb8617ec, 0x7149a66f, 0x32705f48, 0x5587cb22 }, { 0x52136de2, 0xb3b7f033, },
+        { 0x28ebbe40, 0x59a2182f, 0x6bd24767, 0x3e558c45 }, { 0x6c46e1a7, 0xdff11194, },
+        { 0x0a751f82, 0x53d707ad, 0x380540ca, 0x0650cc8f }, { 0x6a162d28, 0xb5e73cbc, },
+        { 0x6fa08be9, 0x3c778c44, 0x0472cc8e, 0x02220001 }, {}
+    };
+    
+    CCSimd_u8x16x2 Key = {
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x8e, 0x73, 0xb0, 0xf7, 0xda, 0x0e, 0x64, 0x52, 0xc8, 0x10, 0xf3, 0x2b, 0x80, 0x90, 0x79, 0xe5 }),
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x62, 0xf8, 0xea, 0xd2, 0x52, 0x2c, 0x6b, 0x7b })
+    };
+    
+    for (size_t Loop = 0; Loop < 8; Loop++)
+    {
+        Key = CCCryptoAes192KeyExpandRound(Key, Loop);
+        
+        uint32_t Result[4];
+        CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]));
+        
+        XCTAssertEqual(Result[0], ExpectedKeys192[(Loop * 2)][0], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[1], ExpectedKeys192[(Loop * 2)][1], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[2], ExpectedKeys192[(Loop * 2)][2], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[3], ExpectedKeys192[(Loop * 2)][3], @"Should be the correct expanded word");
+        
+        if (Loop < 7)
+        {
+            CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]));
+            
+            XCTAssertEqual(Result[0], ExpectedKeys192[(Loop * 2) + 1][0], @"Should be the correct expanded word");
+            XCTAssertEqual(Result[1], ExpectedKeys192[(Loop * 2) + 1][1], @"Should be the correct expanded word");
+        }
+    }
+    
+    
+    
+    Key.v[0] = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f });
+    Key.v[1] = CCSimdLoad_u8x16((uint8_t[16]){ 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17 });
+    
+    CCSimd_u8x16 ExpandedKey[13];
+    CCCryptoAes192KeyExpand(Key, ExpandedKey);
+    
+    uint32_t ExpectedExpandedKeys192[13][4] = {
+        { 0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c },
+        { 0x13121110, 0x17161514, 0xf9f24658, 0xfef4435c },
+        { 0xf5fe4a54, 0xfaf04758, 0xe9e25648, 0xfef4435c },
+        { 0xb349f940, 0x4dbdba1c, 0xb843f048, 0x42b3b710 },
+        { 0xab51e158, 0x55a5a204, 0x41b5ff7e, 0x0c084562 },
+        { 0xb44bb52a, 0xf6f8023a, 0x5da9e362, 0x080c4166 },
+        { 0x728501f5, 0x7e8d4497, 0xcac6f1bd, 0x3c3ef387 },
+        { 0x619710e5, 0x699b5183, 0x9e7c1534, 0xe0f151a3 },
+        { 0x2a37a01e, 0x16095399, 0x779e437c, 0x1e0512ff },
+        { 0x880e7edd, 0x68ff2f7e, 0x42c88f60, 0x54c1dcf9 },
+        { 0x235f9f85, 0x3d5a8d7a, 0x5229c0c0, 0x3ad6efbe },
+        { 0x781e60de, 0x2cdfbc27, 0x0f8023a2, 0x32daaed8 },
+        { 0x330a97a4, 0x09dc781a, 0x71c218c4, 0x5d1da4e3 }
+    };
+    
+    for (size_t Loop = 0; Loop < 13; Loop++)
+    {
+        uint32_t Result[4];
+        CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(ExpandedKey[Loop]));
+        
+        XCTAssertEqual(Result[0], ExpectedExpandedKeys192[Loop][0], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[1], ExpectedExpandedKeys192[Loop][1], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[2], ExpectedExpandedKeys192[Loop][2], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[3], ExpectedExpandedKeys192[Loop][3], @"Should be the correct expanded word");
+    }
 }
 
 -(void) testAes128
@@ -550,6 +656,67 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     }
     
     PlainText = CCCryptoAes128Decrypt(CipherText, ExpandedKey);
+    
+    CCSimdStore_u8x16(Result, PlainText);
+    CCSimdStore_u8x16(Expected, Data);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+}
+
+-(void) testAes192
+{
+    CCSimd_u8x16 Data = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff });
+    CCSimd_u8x16x2 Key = {
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f }),
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17 })
+    };
+    
+    CCSimd_u8x16 ExpandedKey[13];
+    CCCryptoAes192KeyExpand(Key, ExpandedKey);
+    
+    CCSimd_u8x16 CipherText = CCCryptoAes192Encrypt(Data, ExpandedKey);
+    
+    uint8_t Expected[16] = { 0xdd, 0xa9, 0x7c, 0xa4, 0x86, 0x4c, 0xdf, 0xe0, 0x6e, 0xaf, 0x70, 0xa0, 0xec, 0x0d, 0x71, 0x91 };
+    uint8_t Result[16];
+    CCSimdStore_u8x16(Result, CipherText);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    CCSimd_u8x16 PlainText = CCCryptoAes192Decrypt(CipherText, ExpandedKey);
+    
+    CCSimdStore_u8x16(Result, PlainText);
+    CCSimdStore_u8x16(Expected, Data);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    
+    
+    Data = CCSimdLoad_u8x16((uint8_t[16]){ 0x32, 0x43, 0xf6, 0xa8, 0x88, 0x5a, 0x30, 0x8d, 0x31, 0x31, 0x98, 0xa2, 0xe0, 0x37, 0x07, 0x34 });
+    Key.v[0] = CCSimdLoad_u8x16((uint8_t[16]){ 0x8e, 0x73, 0xb0, 0xf7, 0xda, 0x0e, 0x64, 0x52, 0xc8, 0x10, 0xf3, 0x2b, 0x80, 0x90, 0x79, 0xe5 });
+    Key.v[1] = CCSimdLoad_u8x16((uint8_t[16]){ 0x62, 0xf8, 0xea, 0xd2, 0x52, 0x2c, 0x6b, 0x7b });
+    
+    CCCryptoAes192KeyExpand(Key, ExpandedKey);
+    
+    CipherText = CCCryptoAes192Encrypt(Data, ExpandedKey);
+    
+    memcpy(Expected, (uint8_t[16]){ 0x58, 0x5e, 0x9f, 0xb6, 0xc2, 0x72, 0x2b, 0x9a, 0xf4, 0xf4, 0x92, 0xc1, 0x2b, 0xb0, 0x24, 0xc1 }, 16);
+    CCSimdStore_u8x16(Result, CipherText);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    PlainText = CCCryptoAes192Decrypt(CipherText, ExpandedKey);
     
     CCSimdStore_u8x16(Result, PlainText);
     CCSimdStore_u8x16(Expected, Data);
