@@ -219,6 +219,9 @@
 		F33A69642CF6B97300E427AE /* ConcurrentSharedResource.h in Headers */ = {isa = PBXBuildFile; fileRef = F33A695B2CEF96E700E427AE /* ConcurrentSharedResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F33A69662CF6E66000E427AE /* ConcurrentSharedResourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33A69652CF6E66000E427AE /* ConcurrentSharedResourceTests.m */; };
 		F33AAE312B5C58F600448987 /* ReflectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AAE302B5C58F600448987 /* ReflectTests.m */; };
+		F341657E30489C1E003AF11C /* Order.h in Headers */ = {isa = PBXBuildFile; fileRef = F341657D30489C1E003AF11C /* Order.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F341657F30489C1E003AF11C /* Order.h in Headers */ = {isa = PBXBuildFile; fileRef = F341657D30489C1E003AF11C /* Order.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F34165813048A928003AF11C /* SwapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F34165803048A928003AF11C /* SwapTests.m */; };
 		F341B74E29F29F6000CBA1EE /* BitsTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B74C29F29F6000CBA1EE /* BitsTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75229F2E6BB00CBA1EE /* Bits.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B75029F2E46600CBA1EE /* Bits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F341B75329F2E6C300CBA1EE /* BitsTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F341B74C29F29F6000CBA1EE /* BitsTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -623,6 +626,8 @@
 		F33A695F2CEF970700E427AE /* ConcurrentSharedResourceTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConcurrentSharedResourceTemplate.h; sourceTree = "<group>"; };
 		F33A69652CF6E66000E427AE /* ConcurrentSharedResourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConcurrentSharedResourceTests.m; sourceTree = "<group>"; };
 		F33AAE302B5C58F600448987 /* ReflectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReflectTests.m; sourceTree = "<group>"; };
+		F341657D30489C1E003AF11C /* Order.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		F34165803048A928003AF11C /* SwapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwapTests.m; sourceTree = "<group>"; };
 		F341B74C29F29F6000CBA1EE /* BitsTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitsTemplate.h; sourceTree = "<group>"; };
 		F341B75029F2E46600CBA1EE /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
 		F341B75129F2E64800CBA1EE /* BitSets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitSets.h; sourceTree = "<group>"; };
@@ -1374,6 +1379,7 @@
 				F37C62762A7AD4C5003E4F73 /* Pragmas.h */,
 				F353DD6417AE95BB00D1674C /* Hacks.h */,
 				F341B75B29F402B200CBA1EE /* Alignment.h */,
+				F341657D30489C1E003AF11C /* Order.h */,
 				F353DD5A17AE208600D1674C /* Generics.h */,
 				F3364F802595D320002B2378 /* Generic1.h */,
 				F3364FAB25A1B5BF002B2378 /* Generic2.h */,
@@ -1553,6 +1559,7 @@
 			isa = PBXGroup;
 			children = (
 				F33AAE302B5C58F600448987 /* ReflectTests.m */,
+				F34165803048A928003AF11C /* SwapTests.m */,
 				F3897D5D1DD1E743008D6C1D /* PathTests.m */,
 				F37A6E642C83449E00F97BC3 /* FileHandleTests.h */,
 				F39778FE1DCA5A2B006E24B7 /* FileHandleTests.m */,
@@ -1742,6 +1749,7 @@
 				F30437F21C62E1EB00388C74 /* Logging_Private.h in Headers */,
 				F36057272DD9369F0045C2BD /* RangeBase.h in Headers */,
 				F30437DA1C62E13800388C74 /* Matrix.h in Headers */,
+				F341657E30489C1E003AF11C /* Order.h in Headers */,
 				F36F83301D10C1E300193B08 /* Dictionary.h in Headers */,
 				F30437F01C62E1E000388C74 /* Assertion_Private.h in Headers */,
 				F30437CA1C62E0DA00388C74 /* Enumerator.h in Headers */,
@@ -1891,6 +1899,7 @@
 				F36202F217AC510700153E85 /* MemoryAllocation.h in Headers */,
 				F36057282DD9369F0045C2BD /* RangeBase.h in Headers */,
 				F342052D1D1C43E900BE2E13 /* CollectionFastArray.h in Headers */,
+				F341657F30489C1E003AF11C /* Order.h in Headers */,
 				F33427431DB408FF008CB998 /* ConcurrentQueue.h in Headers */,
 				F353DD4817AC788100D1674C /* DebugTypes.h in Headers */,
 				F353DD4D17AC8C8800D1674C /* Logging.h in Headers */,
@@ -2383,6 +2392,7 @@
 				F3300B13233A8B1C0068C378 /* BigIntTests.m in Sources */,
 				F39778FD1DCA158E006E24B7 /* FileSystemTests.m in Sources */,
 				F359D02C1C146C2E0028B86B /* DataTests.m in Sources */,
+				F34165813048A928003AF11C /* SwapTests.m in Sources */,
 				F3BC6A341877A2D200934291 /* Vectorized3DSSETests.m in Sources */,
 				F3BB38F52CB81BBB004E65DE /* ConcurrentSwapBufferTests.m in Sources */,
 				F3BC6A2D18776CAE00934291 /* Vectorized2DSSE2Tests.m in Sources */,

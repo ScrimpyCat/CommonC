@@ -41,6 +41,7 @@
 #include <CommonC/Pragmas.h>
 #include <CommonC/Hacks.h>
 #include <CommonC/Alignment.h>
+#include <CommonC/Order.h>
 #include <CommonC/Generics.h>
 #include <CommonC/Ownership.h>
 #include <CommonC/Container.h>
