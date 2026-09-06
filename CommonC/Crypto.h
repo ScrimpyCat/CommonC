@@ -594,35 +594,28 @@ static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes128KeyExpandRound(CCSimd_u8x16 Ke
 {
     //rot word
     CCSimd_u8x16 Temp = CCSimdSwizzle_u8x16(Key,
-                                            (1 + (4 * 0)), (2 + (4 * 0)), (3 + (4 * 0)), (0 + (4 * 0)),
-                                            (1 + (4 * 1)), (2 + (4 * 1)), (3 + (4 * 1)), (0 + (4 * 1)),
-                                            (1 + (4 * 2)), (2 + (4 * 2)), (3 + (4 * 2)), (0 + (4 * 2)),
+                                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
+                                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
+                                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
                                             (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)));
     
     //s-box
     Temp = vaeseq_u8(Temp, CCSimdZero_u8x16());
-    Temp = CCSimdSwizzle_u8x16(Temp,
-                               (0 + (4 * 3)), (1 + (4 * 2)), (2 + (4 * 1)), (3 + (4 * 0)),
-                               (0 + (4 * 3)), (1 + (4 * 2)), (2 + (4 * 1)), (3 + (4 * 0)),
-                               (0 + (4 * 3)), (1 + (4 * 2)), (2 + (4 * 1)), (3 + (4 * 0)),
-                               (0 + (4 * 3)), (1 + (4 * 2)), (2 + (4 * 1)), (3 + (4 * 0)));
     
     //Rcon
     Temp = CCSimdXor_u8x16(Temp, CCCryptoAesKeyExpansionRoundConstant(Round));
     
-    CCSimd_u32x4 Mask = CCSimdLoad_u32x4((uint32_t[4]){ 0, 0xffffffff, 0xffffffff, 0xffffffff });
-    
+    const CCSimd_u32x4 Zero = CCSimdZero_u32x4();
+        
     Temp = CCSimdXor_u8x16(Temp, Key); //w^k0, w^k1, w^k2, w^k3
     
-    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key), 3, 0, 1, 2)));
-    Mask = CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(Mask, 3, 0, 1, 2));
+    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u32x4(Zero, CCSimd_u32x4_Reinterpret_u8x16(Key), CC_SIMD_A0, CC_SIMD_B0, CC_SIMD_B1, CC_SIMD_B2));
     Temp = CCSimdXor_u8x16(Temp, Key); //w^k0, w^k1^k0, w^k2^k1, w^k3^k2
     
-    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key), 3, 0, 1, 2)));
-    Mask = CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(Mask, 3, 0, 1, 2));
+    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key), 0, 0, 1, 2));
     Temp = CCSimdXor_u8x16(Temp, Key); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1
     
-    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key), 3, 0, 1, 2)));
+    Key = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key), 0, 0, 1, 2));
     Temp = CCSimdXor_u8x16(Temp, Key); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1^k0
     
     return Temp;
@@ -634,45 +627,34 @@ static CC_FORCE_INLINE CCSimd_u8x16x2 CCCryptoAes192KeyExpandRound(CCSimd_u8x16x
     CCSimd_u8x16x2 Temp = {
         Key.v[0],
         CCSimdSwizzle_u8x16(Key.v[1],
-                            (1 + (4 * 0)), (2 + (4 * 0)), (3 + (4 * 0)), (0 + (4 * 0)),
                             (1 + (4 * 1)), (2 + (4 * 1)), (3 + (4 * 1)), (0 + (4 * 1)),
-                            (1 + (4 * 2)), (2 + (4 * 2)), (3 + (4 * 2)), (0 + (4 * 2)),
-                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)))
+                            (1 + (4 * 1)), (2 + (4 * 1)), (3 + (4 * 1)), (0 + (4 * 1)),
+                            (1 + (4 * 1)), (2 + (4 * 1)), (3 + (4 * 1)), (0 + (4 * 1)),
+                            (1 + (4 * 1)), (2 + (4 * 1)), (3 + (4 * 1)), (0 + (4 * 1)))
     };
     
     //s-box
     Temp.v[1] = vaeseq_u8(Temp.v[1], CCSimdZero_u8x16());
-    Temp.v[1] = CCSimdSwizzle_u8x16(Temp.v[1],
-                                    (0 + (4 * 1)), (1 + (4 * 0)), (2 + (4 * 3)), (3 + (4 * 2)),
-                                    (0 + (4 * 1)), (1 + (4 * 0)), (2 + (4 * 3)), (3 + (4 * 2)),
-                                    (0 + (4 * 1)), (1 + (4 * 0)), (2 + (4 * 3)), (3 + (4 * 2)),
-                                    (0 + (4 * 1)), (1 + (4 * 0)), (2 + (4 * 3)), (3 + (4 * 2)));
-    
-    
     
     //Rcon
     Temp.v[1] = CCSimdXor_u8x16(Temp.v[1], CCCryptoAesKeyExpansionRoundConstant(Round));
     
-    CCSimd_u32x4 Mask = CCSimdLoad_u32x4((uint32_t[4]){ 0, 0xffffffff, 0xffffffff, 0xffffffff });
+    const CCSimd_u32x4 Zero = CCSimdZero_u32x4();
     
     Temp.v[0] = CCSimdXor_u8x16(Temp.v[1], Key.v[0]); //w^k0, w^k1, w^k2, w^k3
     
-    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 3, 0, 1, 2)));
-    Mask = CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(Mask, 3, 0, 1, 2));
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u32x4(Zero, CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), CC_SIMD_A0, CC_SIMD_B0, CC_SIMD_B1, CC_SIMD_B2));
     Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1, w^k3^k2
     
-    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 3, 0, 1, 2)));
-    Mask = CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(Mask, 3, 0, 1, 2));
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 0, 0, 1, 2));
     Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1
     
-    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 3, 0, 1, 2)));
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 0, 0, 1, 2));
     Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1^k0
     
-    Mask = CCSimdSwizzle_u32x4(Mask, 3, 0, 1, 2);
-    CCSimd_u32x4 Temp3 = CCSimd_u8x16_Reinterpret_u32x4(CCSimdAnd_u8x16(Mask, CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Temp.v[0]), 3, 3, 3, 3)));
+    CCSimd_u32x4 Temp3 = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Temp.v[0]), 3, 3, 3, 3));
     Temp.v[1] = CCSimdXor_u8x16(Temp3, Key.v[1]); //w^k3^k2^k1^k0^k4, w^k3^k2^k1^k0^k5
-    Temp3 = CCSimdAnd_u8x16(Mask, Temp.v[1]);
-    Temp3 = CCSimdSwizzle_u32x4(Temp3, 3, 0, 1, 2);
+    Temp3 = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u32x4(Zero, CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]), CC_SIMD_A0, CC_SIMD_B0, CC_SIMD_B1, CC_SIMD_B2));
     Temp.v[1] = CCSimdXor_u8x16(Temp3, Temp.v[1]); //w^k3^k2^k1^k0^k4, w^k3^k2^k1^k0^k5^k4
     
     return Temp;
@@ -697,9 +679,9 @@ static CC_FORCE_INLINE void CCCryptoAes192KeyExpand(CCSimd_u8x16x2 Key, CCSimd_u
         const CCSimd_u8x16 Temp = Key.v[1];
         Key = CCCryptoAes192KeyExpandRound(Key, Round++);
         
-        ExpandedKey[Loop + 1] = CCSimdMerge_u32x4(Temp, Key.v[0], CC_SIMD_A0, CC_SIMD_A1, CC_SIMD_B0, CC_SIMD_B1);
+        ExpandedKey[Loop + 1] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u64x2(CCSimd_u32x4_Reinterpret_u8x16(Temp), CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), CC_SIMD_A0, CC_SIMD_B0));
         
-        ExpandedKey[Loop + 2] = CCSimdMerge_u32x4(Key.v[0], Key.v[1], CC_SIMD_A2, CC_SIMD_A3, CC_SIMD_B0, CC_SIMD_B1);
+        ExpandedKey[Loop + 2] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u64x2(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]), CC_SIMD_A1, CC_SIMD_B0));
         Key = CCCryptoAes192KeyExpandRound(Key, Round++);
     }
     
