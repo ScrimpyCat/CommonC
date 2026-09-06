@@ -199,14 +199,14 @@ static CC_FORCE_INLINE CCSimd_u8x16x2 CCCryptoAes192KeyExpandRound(CCSimd_u8x16x
 /*!
  * @brief Retrieve the AES-192 expanded key.
  * @param Key The initial key.
- * @param ExpandedKey A pointer to store all 11 rounds of the expanded key.
+ * @param ExpandedKey A pointer to store all 13 rounds of the expanded key.
  */
 static CC_FORCE_INLINE void CCCryptoAes192KeyExpand(CCSimd_u8x16x2 Key, CCSimd_u8x16 ExpandedKey[13]);
 
 /*!
  * @brief Encrypt block using AES-192.
  * @param Data The plain text block to be encrypted.
- * @param Key The expanded key for all 11 rounds.
+ * @param Key The expanded key for all 13 rounds.
  * @return The cipher text.
  */
 static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Encrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[13]);
@@ -214,10 +214,41 @@ static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Encrypt(CCSimd_u8x16 Data, CCS
 /*!
  * @brief Decrypt block using AES-192.
  * @param Data The cipher text block to be decrypted.
- * @param Key The expanded key for all 11 rounds.
+ * @param Key The expanded key for all 13 rounds.
  * @return The plain text.
  */
 static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Decrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[13]);
+
+/*!
+ * @brief Perform one round of AES-256 key expansion.
+ * @param Key The key of the last round or initial key.
+ * @param Round The round number.
+ * @return The expanded key for the following round.
+ */
+static CC_FORCE_INLINE CCSimd_u8x16x2 CCCryptoAes256KeyExpandRound(CCSimd_u8x16x2 Key, size_t Round);
+
+/*!
+ * @brief Retrieve the AES-256 expanded key.
+ * @param Key The initial key.
+ * @param ExpandedKey A pointer to store all 15 rounds of the expanded key.
+ */
+static CC_FORCE_INLINE void CCCryptoAes256KeyExpand(CCSimd_u8x16x2 Key, CCSimd_u8x16 ExpandedKey[15]);
+
+/*!
+ * @brief Encrypt block using AES-256.
+ * @param Data The plain text block to be encrypted.
+ * @param Key The expanded key for all 15 rounds.
+ * @return The cipher text.
+ */
+static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Encrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[15]);
+
+/*!
+ * @brief Decrypt block using AES-256.
+ * @param Data The cipher text block to be decrypted.
+ * @param Key The expanded key for all 15 rounds.
+ * @return The plain text.
+ */
+static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes256Decrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[15]);
 
 #pragma mark -
 
@@ -660,6 +691,51 @@ static CC_FORCE_INLINE CCSimd_u8x16x2 CCCryptoAes192KeyExpandRound(CCSimd_u8x16x
     return Temp;
 }
 
+static CC_FORCE_INLINE CCSimd_u8x16x2 CCCryptoAes256KeyExpandRound(CCSimd_u8x16x2 Key, size_t Round)
+{
+    //rot word
+    CCSimd_u8x16x2 Temp = {
+        Key.v[0],
+        CCSimdSwizzle_u8x16(Key.v[1],
+                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
+                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
+                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)),
+                            (1 + (4 * 3)), (2 + (4 * 3)), (3 + (4 * 3)), (0 + (4 * 3)))
+    };
+    
+    //s-box
+    Temp.v[1] = vaeseq_u8(Temp.v[1], CCSimdZero_u8x16());
+    
+    //Rcon
+    Temp.v[1] = CCSimdXor_u8x16(Temp.v[1], CCCryptoAesKeyExpansionRoundConstant(Round));
+    
+    const CCSimd_u32x4 Zero = CCSimdZero_u32x4();
+    
+    Temp.v[0] = CCSimdXor_u8x16(Temp.v[1], Key.v[0]); //w^k0, w^k1, w^k2, w^k3
+    Temp.v[1] = Key.v[1]; //k4, k5, k6, k7
+    
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u32x4(Zero, CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), CC_SIMD_A0, CC_SIMD_B0, CC_SIMD_B1, CC_SIMD_B2));
+    Key.v[1] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdMerge_u32x4(Zero, CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]), CC_SIMD_A0, CC_SIMD_B0, CC_SIMD_B1, CC_SIMD_B2));
+    Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1, w^k3^k2
+    Temp.v[1] = CCSimdXor_u8x16(Temp.v[1], Key.v[1]); //k4, k5^k4, k6^k5, k7^k6
+    
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 0, 0, 1, 2));
+    Key.v[1] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]), 0, 0, 1, 2));
+    Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1
+    Temp.v[1] = CCSimdXor_u8x16(Temp.v[1], Key.v[1]); //k4, k5^k4, k6^k5^k4, k7^k6^k5
+    
+    Key.v[0] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]), 0, 0, 1, 2));
+    Key.v[1] = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]), 0, 0, 1, 2));
+    Temp.v[0] = CCSimdXor_u8x16(Temp.v[0], Key.v[0]); //w^k0, w^k1^k0, w^k2^k1^k0, w^k3^k2^k1^k0
+    Temp.v[1] = CCSimdXor_u8x16(Temp.v[1], Key.v[1]); //k4, k5^k4, k6^k5^k4, k7^k6^k5^k4
+    
+    CCSimd_u32x4 Temp3 = CCSimd_u8x16_Reinterpret_u32x4(CCSimdSwizzle_u32x4(CCSimd_u32x4_Reinterpret_u8x16(Temp.v[0]), 3, 3, 3, 3));
+    Temp3 = vaeseq_u8(Temp3, CCSimdZero_u8x16()); //s-box
+    Temp.v[1] = CCSimdXor_u8x16(Temp3, Temp.v[1]); //k4^w, k5^k4^w, k6^k5^k4^w, k7^k6^k5^k4^w
+    
+    return Temp;
+}
+
 static CC_FORCE_INLINE void CCCryptoAes128KeyExpand(CCSimd_u8x16 Key, CCSimd_u8x16 ExpandedKey[11])
 {
     for (size_t Loop = 0; Loop < 10; Loop++)
@@ -688,6 +764,19 @@ static CC_FORCE_INLINE void CCCryptoAes192KeyExpand(CCSimd_u8x16x2 Key, CCSimd_u
     ExpandedKey[12] = Key.v[0];
 }
 
+static CC_FORCE_INLINE void CCCryptoAes256KeyExpand(CCSimd_u8x16x2 Key, CCSimd_u8x16 ExpandedKey[15])
+{
+    for (size_t Loop = 0, Round = 0; Loop < 13; Loop += 2)
+    {
+        ExpandedKey[Loop] = Key.v[0];
+        ExpandedKey[Loop + 1] = Key.v[1];
+        
+        Key = CCCryptoAes256KeyExpandRound(Key, Round++);
+    }
+    
+    ExpandedKey[14] = Key.v[0];
+}
+
 static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes128Encrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[11])
 {
     for (size_t Loop = 0; Loop < 9; Loop++)
@@ -712,6 +801,19 @@ static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Encrypt(CCSimd_u8x16 Data, CCS
     Data = vaeseq_u8(Data, Key[11]);
     
     return CCSimdXor_u8x16(Data, Key[12]);
+}
+
+static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes256Encrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[15])
+{
+    for (size_t Loop = 0; Loop < 13; Loop++)
+    {
+        Data = vaeseq_u8(Data, Key[Loop]);
+        Data = vaesmcq_u8(Data);
+    }
+    
+    Data = vaeseq_u8(Data, Key[13]);
+    
+    return CCSimdXor_u8x16(Data, Key[14]);
 }
 
 static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes128Decrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[11])
@@ -739,6 +841,22 @@ static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Decrypt(CCSimd_u8x16 Data, CCS
         Data = vaesimcq_u8(Data);
         
         Data = vaesdq_u8(Data, vaesimcq_u8(Key[11 - Loop]));
+    }
+    
+    Data = CCSimdXor_u8x16(Data, Key[0]);
+    
+    return Data;
+}
+
+static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes256Decrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[15])
+{
+    Data = vaesdq_u8(Data, Key[14]);
+    
+    for (size_t Loop = 0; Loop < 13; Loop++)
+    {
+        Data = vaesimcq_u8(Data);
+        
+        Data = vaesdq_u8(Data, vaesimcq_u8(Key[13 - Loop]));
     }
     
     Data = CCSimdXor_u8x16(Data, Key[0]);
