@@ -474,16 +474,16 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
 -(void) testAes128KeyExpansion
 {
     uint32_t ExpectedKeys128[10][4] = {
-        { 0x17fefaa0, 0xb12c5488, 0x3939a323, 0x05766c2a },
-        { 0xf295c2f2, 0x43b9967a, 0x7a803559, 0x7ff65973 },
-        { 0x7d47803d, 0x3efe1647, 0x447e231e, 0x3b887a6d },
-        { 0x41a544ef, 0x7f5b52a8, 0x3b2571b6, 0x00ad0bdb },
-        { 0xf8c6d1d4, 0x879d837c, 0xbcb8f2ca, 0xbc15f911 },
-        { 0x7aa3886d, 0xfd3e0b11, 0x4186f9db, 0xfd9300ca },
-        { 0x0ef7544e, 0xf3c95f5f, 0xb24fa684, 0x4fdca64e },
-        { 0x2173d2ea, 0xd2ba8db5, 0x60f52b31, 0x2f298d7f },
-        { 0xf36677ac, 0x21dcfa19, 0x4129d128, 0x6e005c57 },
-        { 0xa8f914d0, 0x8925eec9, 0xc80c3fe1, 0xa60c63b6 }
+        { CC_MAP(CC_BIG_32, 0xa0fafe17, 0x88542cb1, 0x23a33939, 0x2a6c7605) },
+        { CC_MAP(CC_BIG_32, 0xf2c295f2, 0x7a96b943, 0x5935807a, 0x7359f67f) },
+        { CC_MAP(CC_BIG_32, 0x3d80477d, 0x4716fe3e, 0x1e237e44, 0x6d7a883b) },
+        { CC_MAP(CC_BIG_32, 0xef44a541, 0xa8525b7f, 0xb671253b, 0xdb0bad00) },
+        { CC_MAP(CC_BIG_32, 0xd4d1c6f8, 0x7c839d87, 0xcaf2b8bc, 0x11f915bc) },
+        { CC_MAP(CC_BIG_32, 0x6d88a37a, 0x110b3efd, 0xdbf98641, 0xca0093fd) },
+        { CC_MAP(CC_BIG_32, 0x4e54f70e, 0x5f5fc9f3, 0x84a64fb2, 0x4ea6dc4f) },
+        { CC_MAP(CC_BIG_32, 0xead27321, 0xb58dbad2, 0x312bf560, 0x7f8d292f) },
+        { CC_MAP(CC_BIG_32, 0xac7766f3, 0x19fadc21, 0x28d12941, 0x575c006e) },
+        { CC_MAP(CC_BIG_32, 0xd014f9a8, 0xc9ee2589, 0xe13f0cc8, 0xb6630ca6) }
     };
     
     CCSimd_u8x16 Key = CCSimdLoad_u8x16((uint8_t[16]){ 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c });
@@ -509,17 +509,17 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     CCCryptoAes128KeyExpand(Key, ExpandedKey);
     
     uint32_t ExpectedExpandedKeys128[11][4] = {
-        { 0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c },
-        { 0xfd74aad6, 0xfa72afd2, 0xf178a6da, 0xfe76abd6 },
-        { 0x0bcf92b6, 0xf1bd3d64, 0x00c59bbe, 0xfeb33068 },
-        { 0x4e74ffb6, 0xbfc9c2d2, 0xbf0c596c, 0x41bf6904 },
-        { 0xbcf7f747, 0x033e3595, 0xbc326cf9, 0xfd8d05fd },
-        { 0xe8a3aa3c, 0xeb9d9fa9, 0x57aff350, 0xaa22f6ad },
-        { 0x7d0f395e, 0x9692a6f7, 0xc13d55a7, 0x6b1fa30a },
-        { 0x1a70f914, 0x8ce25fe3, 0x4ddf0a44, 0x26c0a94e },
-        { 0x35874347, 0xb9651ca4, 0xf4ba16e0, 0xd27abfae },
-        { 0xd1329954, 0x685785f0, 0x9ced9310, 0x4e972cbe },
-        { 0x7f1d1113, 0x174a94e3, 0x8ba707f3, 0xc5302b4d }
+        { CC_MAP(CC_BIG_32, 0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f) },
+        { CC_MAP(CC_BIG_32, 0xd6aa74fd, 0xd2af72fa, 0xdaa678f1, 0xd6ab76fe) },
+        { CC_MAP(CC_BIG_32, 0xb692cf0b, 0x643dbdf1, 0xbe9bc500, 0x6830b3fe) },
+        { CC_MAP(CC_BIG_32, 0xb6ff744e, 0xd2c2c9bf, 0x6c590cbf, 0x0469bf41) },
+        { CC_MAP(CC_BIG_32, 0x47f7f7bc, 0x95353e03, 0xf96c32bc, 0xfd058dfd) },
+        { CC_MAP(CC_BIG_32, 0x3caaa3e8, 0xa99f9deb, 0x50f3af57, 0xadf622aa) },
+        { CC_MAP(CC_BIG_32, 0x5e390f7d, 0xf7a69296, 0xa7553dc1, 0x0aa31f6b) },
+        { CC_MAP(CC_BIG_32, 0x14f9701a, 0xe35fe28c, 0x440adf4d, 0x4ea9c026) },
+        { CC_MAP(CC_BIG_32, 0x47438735, 0xa41c65b9, 0xe016baf4, 0xaebf7ad2) },
+        { CC_MAP(CC_BIG_32, 0x549932d1, 0xf0855768, 0x1093ed9c, 0xbe2c974e) },
+        { CC_MAP(CC_BIG_32, 0x13111d7f, 0xe3944a17, 0xf307a78b, 0x4d2b30c5) }
     };
     
     for (size_t Loop = 0; Loop < 11; Loop++)
@@ -537,14 +537,14 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
 -(void) testAes192KeyExpansion
 {
     uint32_t ExpectedKeys192[16][4] = {
-        { 0xf7910cfe, 0xa5f50224, 0x8e0612ec, 0x6b7f826c }, { 0xb9957a0e, 0xc2fe565c, },
-        { 0xbdb4b74d, 0x1841b569, 0x9647a785, 0xfd3825e9 }, { 0x44ad5fe7, 0x865309bb, },
-        { 0x57f05a48, 0x4fb1ef21, 0xd9f648a4, 0x24ce6d4d }, { 0x606332aa, 0xe6303b11, },
-        { 0xd57e5ea2, 0x9acfb183, 0x4339f927, 0x67f7946a }, { 0x0794a6c0, 0xe1a49dd1, },
-        { 0xeb8617ec, 0x7149a66f, 0x32705f48, 0x5587cb22 }, { 0x52136de2, 0xb3b7f033, },
-        { 0x28ebbe40, 0x59a2182f, 0x6bd24767, 0x3e558c45 }, { 0x6c46e1a7, 0xdff11194, },
-        { 0x0a751f82, 0x53d707ad, 0x380540ca, 0x0650cc8f }, { 0x6a162d28, 0xb5e73cbc, },
-        { 0x6fa08be9, 0x3c778c44, 0x0472cc8e, 0x02220001 }, {}
+        { CC_MAP(CC_BIG_32, 0xfe0c91f7, 0x2402f5a5, 0xec12068e, 0x6c827f6b) }, { CC_MAP(CC_BIG_32, 0x0e7a95b9, 0x5c56fec2) },
+        { CC_MAP(CC_BIG_32, 0x4db7b4bd, 0x69b54118, 0x85a74796, 0xe92538fd) }, { CC_MAP(CC_BIG_32, 0xe75fad44, 0xbb095386) },
+        { CC_MAP(CC_BIG_32, 0x485af057, 0x21efb14f, 0xa448f6d9, 0x4d6dce24) }, { CC_MAP(CC_BIG_32, 0xaa326360, 0x113b30e6) },
+        { CC_MAP(CC_BIG_32, 0xa25e7ed5, 0x83b1cf9a, 0x27f93943, 0x6a94f767) }, { CC_MAP(CC_BIG_32, 0xc0a69407, 0xd19da4e1) },
+        { CC_MAP(CC_BIG_32, 0xec1786eb, 0x6fa64971, 0x485f7032, 0x22cb8755) }, { CC_MAP(CC_BIG_32, 0xe26d1352, 0x33f0b7b3) },
+        { CC_MAP(CC_BIG_32, 0x40beeb28, 0x2f18a259, 0x6747d26b, 0x458c553e) }, { CC_MAP(CC_BIG_32, 0xa7e1466c, 0x9411f1df) },
+        { CC_MAP(CC_BIG_32, 0x821f750a, 0xad07d753, 0xca400538, 0x8fcc5006) }, { CC_MAP(CC_BIG_32, 0x282d166a, 0xbc3ce7b5) },
+        { CC_MAP(CC_BIG_32, 0xe98ba06f, 0x448c773c, 0x8ecc7204, 0x01002202) }, {}
     };
     
     CCSimd_u8x16x2 Key = {
@@ -582,19 +582,19 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     CCCryptoAes192KeyExpand(Key, ExpandedKey);
     
     uint32_t ExpectedExpandedKeys192[13][4] = {
-        { 0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c },
-        { 0x13121110, 0x17161514, 0xf9f24658, 0xfef4435c },
-        { 0xf5fe4a54, 0xfaf04758, 0xe9e25648, 0xfef4435c },
-        { 0xb349f940, 0x4dbdba1c, 0xb843f048, 0x42b3b710 },
-        { 0xab51e158, 0x55a5a204, 0x41b5ff7e, 0x0c084562 },
-        { 0xb44bb52a, 0xf6f8023a, 0x5da9e362, 0x080c4166 },
-        { 0x728501f5, 0x7e8d4497, 0xcac6f1bd, 0x3c3ef387 },
-        { 0x619710e5, 0x699b5183, 0x9e7c1534, 0xe0f151a3 },
-        { 0x2a37a01e, 0x16095399, 0x779e437c, 0x1e0512ff },
-        { 0x880e7edd, 0x68ff2f7e, 0x42c88f60, 0x54c1dcf9 },
-        { 0x235f9f85, 0x3d5a8d7a, 0x5229c0c0, 0x3ad6efbe },
-        { 0x781e60de, 0x2cdfbc27, 0x0f8023a2, 0x32daaed8 },
-        { 0x330a97a4, 0x09dc781a, 0x71c218c4, 0x5d1da4e3 }
+        { CC_MAP(CC_BIG_32, 0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f) },
+        { CC_MAP(CC_BIG_32, 0x10111213, 0x14151617, 0x5846f2f9, 0x5c43f4fe) },
+        { CC_MAP(CC_BIG_32, 0x544afef5, 0x5847f0fa, 0x4856e2e9, 0x5c43f4fe) },
+        { CC_MAP(CC_BIG_32, 0x40f949b3, 0x1cbabd4d, 0x48f043b8, 0x10b7b342) },
+        { CC_MAP(CC_BIG_32, 0x58e151ab, 0x04a2a555, 0x7effb541, 0x6245080c) },
+        { CC_MAP(CC_BIG_32, 0x2ab54bb4, 0x3a02f8f6, 0x62e3a95d, 0x66410c08) },
+        { CC_MAP(CC_BIG_32, 0xf5018572, 0x97448d7e, 0xbdf1c6ca, 0x87f33e3c) },
+        { CC_MAP(CC_BIG_32, 0xe5109761, 0x83519b69, 0x34157c9e, 0xa351f1e0) },
+        { CC_MAP(CC_BIG_32, 0x1ea0372a, 0x99530916, 0x7c439e77, 0xff12051e) },
+        { CC_MAP(CC_BIG_32, 0xdd7e0e88, 0x7e2fff68, 0x608fc842, 0xf9dcc154) },
+        { CC_MAP(CC_BIG_32, 0x859f5f23, 0x7a8d5a3d, 0xc0c02952, 0xbeefd63a) },
+        { CC_MAP(CC_BIG_32, 0xde601e78, 0x27bcdf2c, 0xa223800f, 0xd8aeda32) },
+        { CC_MAP(CC_BIG_32, 0xa4970a33, 0x1a78dc09, 0xc418c271, 0xe3a41d5d) }
     };
     
     for (size_t Loop = 0; Loop < 13; Loop++)
@@ -606,6 +606,84 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
         XCTAssertEqual(Result[1], ExpectedExpandedKeys192[Loop][1], @"Should be the correct expanded word");
         XCTAssertEqual(Result[2], ExpectedExpandedKeys192[Loop][2], @"Should be the correct expanded word");
         XCTAssertEqual(Result[3], ExpectedExpandedKeys192[Loop][3], @"Should be the correct expanded word");
+    }
+}
+
+-(void) testAes256KeyExpansion
+{
+    uint32_t ExpectedKeys256[13][4] = {
+        { CC_MAP(CC_BIG_32, 0x9ba35411, 0x8e6925af, 0xa51a8b5f, 0x2067fcde) }, { CC_MAP(CC_BIG_32, 0xa8b09c1a, 0x93d194cd, 0xbe49846e, 0xb75d5b9a) },
+        { CC_MAP(CC_BIG_32, 0xd59aecb8, 0x5bf3c917, 0xfee94248, 0xde8ebe96) }, { CC_MAP(CC_BIG_32, 0xb5a9328a, 0x2678a647, 0x98312229, 0x2f6c79b3) },
+        { CC_MAP(CC_BIG_32, 0x812c81ad, 0xdadf48ba, 0x24360af2, 0xfab8b464) }, { CC_MAP(CC_BIG_32, 0x98c5bfc9, 0xbebd198e, 0x268c3ba7, 0x09e04214) },
+        { CC_MAP(CC_BIG_32, 0x68007bac, 0xb2df3316, 0x96e939e4, 0x6c518d80) }, { CC_MAP(CC_BIG_32, 0xc814e204, 0x76a9fb8a, 0x5025c02d, 0x59c58239) },
+        { CC_MAP(CC_BIG_32, 0xde136967, 0x6ccc5a71, 0xfa256395, 0x9674ee15) }, { CC_MAP(CC_BIG_32, 0x5886ca5d, 0x2e2f31d7, 0x7e0af1fa, 0x27cf73c3) },
+        { CC_MAP(CC_BIG_32, 0x749c47ab, 0x18501dda, 0xe2757e4f, 0x7401905a) }, { CC_MAP(CC_BIG_32, 0xcafaaae3, 0xe4d59b34, 0x9adf6ace, 0xbd10190d) },
+        { CC_MAP(CC_BIG_32, 0xfe4890d1, 0xe6188d0b, 0x046df344, 0x706c631e) },
+    };
+    
+    CCSimd_u8x16x2 Key = {
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x60, 0x3d, 0xeb, 0x10, 0x15, 0xca, 0x71, 0xbe, 0x2b, 0x73, 0xae, 0xf0, 0x85, 0x7d, 0x77, 0x81 }),
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x1f, 0x35, 0x2c, 0x07, 0x3b, 0x61, 0x08, 0xd7, 0x2d, 0x98, 0x10, 0xa3, 0x09, 0x14, 0xdf, 0xf4 })
+    };
+    
+    for (size_t Loop = 0; Loop < 7; Loop++)
+    {
+        Key = CCCryptoAes256KeyExpandRound(Key, Loop);
+        
+        uint32_t Result[4];
+        CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(Key.v[0]));
+        
+        XCTAssertEqual(Result[0], ExpectedKeys256[(Loop * 2)][0], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[1], ExpectedKeys256[(Loop * 2)][1], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[2], ExpectedKeys256[(Loop * 2)][2], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[3], ExpectedKeys256[(Loop * 2)][3], @"Should be the correct expanded word");
+        
+        if (Loop < 6)
+        {
+            CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(Key.v[1]));
+            
+            XCTAssertEqual(Result[0], ExpectedKeys256[(Loop * 2) + 1][0], @"Should be the correct expanded word");
+            XCTAssertEqual(Result[1], ExpectedKeys256[(Loop * 2) + 1][1], @"Should be the correct expanded word");
+            XCTAssertEqual(Result[2], ExpectedKeys256[(Loop * 2) + 1][2], @"Should be the correct expanded word");
+            XCTAssertEqual(Result[3], ExpectedKeys256[(Loop * 2) + 1][3], @"Should be the correct expanded word");
+        }
+    }
+    
+    
+    
+    Key.v[0] = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f });
+    Key.v[1] = CCSimdLoad_u8x16((uint8_t[16]){ 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f });
+    
+    CCSimd_u8x16 ExpandedKey[15];
+    CCCryptoAes256KeyExpand(Key, ExpandedKey);
+    
+    uint32_t ExpectedExpandedKeys256[15][4] = {
+        { CC_MAP(CC_BIG_32, 0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f) },
+        { CC_MAP(CC_BIG_32, 0x10111213, 0x14151617, 0x18191a1b, 0x1c1d1e1f) },
+        { CC_MAP(CC_BIG_32, 0xa573c29f, 0xa176c498, 0xa97fce93, 0xa572c09c) },
+        { CC_MAP(CC_BIG_32, 0x1651a8cd, 0x0244beda, 0x1a5da4c1, 0x0640bade) },
+        { CC_MAP(CC_BIG_32, 0xae87dff0, 0x0ff11b68, 0xa68ed5fb, 0x03fc1567) },
+        { CC_MAP(CC_BIG_32, 0x6de1f148, 0x6fa54f92, 0x75f8eb53, 0x73b8518d) },
+        { CC_MAP(CC_BIG_32, 0xc656827f, 0xc9a79917, 0x6f294cec, 0x6cd5598b) },
+        { CC_MAP(CC_BIG_32, 0x3de23a75, 0x524775e7, 0x27bf9eb4, 0x5407cf39) },
+        { CC_MAP(CC_BIG_32, 0x0bdc905f, 0xc27b0948, 0xad5245a4, 0xc1871c2f) },
+        { CC_MAP(CC_BIG_32, 0x45f5a660, 0x17b2d387, 0x300d4d33, 0x640a820a) },
+        { CC_MAP(CC_BIG_32, 0x7ccff71c, 0xbeb4fe54, 0x13e6bbf0, 0xd261a7df) },
+        { CC_MAP(CC_BIG_32, 0xf01afafe, 0xe7a82979, 0xd7a5644a, 0xb3afe640) },
+        { CC_MAP(CC_BIG_32, 0x2541fe71, 0x9bf50025, 0x8813bbd5, 0x5a721c0a) },
+        { CC_MAP(CC_BIG_32, 0x4e5a6699, 0xa9f24fe0, 0x7e572baa, 0xcdf8cdea) },
+        { CC_MAP(CC_BIG_32, 0x24fc79cc, 0xbf0979e9, 0x371ac23c, 0x6d68de36) }
+    };
+    
+    for (size_t Loop = 0; Loop < 15; Loop++)
+    {
+        uint32_t Result[4];
+        CCSimdStore_u32x4(Result, CCSimd_u32x4_Reinterpret_u8x16(ExpandedKey[Loop]));
+        
+        XCTAssertEqual(Result[0], ExpectedExpandedKeys256[Loop][0], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[1], ExpectedExpandedKeys256[Loop][1], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[2], ExpectedExpandedKeys256[Loop][2], @"Should be the correct expanded word");
+        XCTAssertEqual(Result[3], ExpectedExpandedKeys256[Loop][3], @"Should be the correct expanded word");
     }
 }
 
@@ -717,6 +795,67 @@ static void Sha256HashA(size_t Size, uint32_t *Result)
     }
     
     PlainText = CCCryptoAes192Decrypt(CipherText, ExpandedKey);
+    
+    CCSimdStore_u8x16(Result, PlainText);
+    CCSimdStore_u8x16(Expected, Data);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+}
+
+-(void) testAes256
+{
+    CCSimd_u8x16 Data = CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff });
+    CCSimd_u8x16x2 Key = {
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f }),
+        CCSimdLoad_u8x16((uint8_t[16]){ 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f })
+    };
+    
+    CCSimd_u8x16 ExpandedKey[15];
+    CCCryptoAes256KeyExpand(Key, ExpandedKey);
+    
+    CCSimd_u8x16 CipherText = CCCryptoAes256Encrypt(Data, ExpandedKey);
+    
+    uint8_t Expected[16] = { 0x8e, 0xa2, 0xb7, 0xca, 0x51, 0x67, 0x45, 0xbf, 0xea, 0xfc, 0x49, 0x90, 0x4b, 0x49, 0x60, 0x89 };
+    uint8_t Result[16];
+    CCSimdStore_u8x16(Result, CipherText);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    CCSimd_u8x16 PlainText = CCCryptoAes256Decrypt(CipherText, ExpandedKey);
+    
+    CCSimdStore_u8x16(Result, PlainText);
+    CCSimdStore_u8x16(Expected, Data);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    
+    
+    Data = CCSimdLoad_u8x16((uint8_t[16]){ 0x32, 0x43, 0xf6, 0xa8, 0x88, 0x5a, 0x30, 0x8d, 0x31, 0x31, 0x98, 0xa2, 0xe0, 0x37, 0x07, 0x34 });
+    Key.v[0] = CCSimdLoad_u8x16((uint8_t[16]){ 0x60, 0x3d, 0xeb, 0x10, 0x15, 0xca, 0x71, 0xbe, 0x2b, 0x73, 0xae, 0xf0, 0x85, 0x7d, 0x77, 0x81 });
+    Key.v[1] = CCSimdLoad_u8x16((uint8_t[16]){ 0x1f, 0x35, 0x2c, 0x07, 0x3b, 0x61, 0x08, 0xd7, 0x2d, 0x98, 0x10, 0xa3, 0x09, 0x14, 0xdf, 0xf4 });
+    
+    CCCryptoAes256KeyExpand(Key, ExpandedKey);
+    
+    CipherText = CCCryptoAes256Encrypt(Data, ExpandedKey);
+    
+    memcpy(Expected, (uint8_t[16]){ 0x30, 0x21, 0x61, 0x3a, 0x97, 0x3e, 0x58, 0x2f, 0x4a, 0x29, 0x23, 0x41, 0x37, 0xae, 0xc4, 0x94 }, 16);
+    CCSimdStore_u8x16(Result, CipherText);
+    
+    for (size_t Loop = 0; Loop < 16; Loop++)
+    {
+        XCTAssertEqual(Result[Loop], Expected[Loop], @"Should be the correct cipher text");
+    }
+    
+    PlainText = CCCryptoAes256Decrypt(CipherText, ExpandedKey);
     
     CCSimdStore_u8x16(Result, PlainText);
     CCSimdStore_u8x16(Expected, Data);
