@@ -937,6 +937,119 @@ static CC_FORCE_INLINE uint64_t CCCryptoKeccakRoundConstant(size_t Round, size_t
 }
 
 typedef struct {
+    CCSimd_u64x2 lanes[3][5];
+} CCCryptoKeccak1600State;
+
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600PermutationRound(CCCryptoKeccak1600State State, size_t Round)
+{
+    /*
+     State:
+     (0 1) (0 1) (0 1) (0 1) (0 1)
+     (2 3) (2 3) (2 3) (2 3) (2 3)
+     (4 _) (4 _) (4 _) (4 _) (4 _)
+     */
+    
+    CCSimd_u64x2 C[3];
+    // θ step
+    // θ: C[x] = a[x, 0]
+    // θ: C[x] = C[x] XOR a[x, y]
+    for (size_t X = 0; X < 3; X++)
+    {
+        C[X] = veor3q_u64(veor3q_u64(State.lanes[X][0], State.lanes[X][1], State.lanes[X][2]), State.lanes[X][3], State.lanes[X][4]);
+    }
+    
+    /*
+     C:
+     (0 1)
+     (2 3)
+     (4 _)
+     */
+    
+    // θ: D[x] = C[x−1] XOR ROT(C[x + 1], 1)
+    // θ: A[x, y] = a[x, y] XOR D[x]
+    CCSimd_u64x2 D[3];
+    
+    D[0] = vrax1q_u64(CCSimdMerge_u64x2(C[2], C[0], CC_SIMD_A0, CC_SIMD_B0), CCSimdMerge_u64x2(C[0], C[1], CC_SIMD_A1, CC_SIMD_B0)); // ((4 1) (0 2))
+    D[1] = vrax1q_u64(CCSimdMerge_u64x2(C[0], C[1], CC_SIMD_A1, CC_SIMD_B0), CCSimdMerge_u64x2(C[1], C[2], CC_SIMD_A1, CC_SIMD_B0)); // ((1 3) (2 4))
+    D[2] = vrax1q_u64(CCSimdSwizzle_u64x2(C[1], 1, 0), C[0]); // ((3 0) (___))
+    
+#define ROT_OFFSET(i) (((i) * ((i) + 1)) / 2) % 64
+#define RHO_MAT(x, y) (((2 * (x)) + (3 * (y))) % 5)][y
+    
+    CCSimd_u64x2 B[5][5];
+    
+    B[RHO_MAT(0, 0)] = CCSimdXor_u64x2(State.lanes[0][0], D[0]);
+    B[RHO_MAT(0, 1)] = vxarq_u64(State.lanes[0][1], D[0], 64 - ROT_OFFSET(8));
+    B[RHO_MAT(0, 2)] = vxarq_u64(State.lanes[0][2], D[0], 64 - ROT_OFFSET(2));
+    B[RHO_MAT(0, 3)] = vxarq_u64(State.lanes[0][3], D[0], 64 - ROT_OFFSET(14));
+    B[RHO_MAT(0, 4)] = vxarq_u64(State.lanes[0][4], D[0], 64 - ROT_OFFSET(20));
+    B[RHO_MAT(1, 0)] = vxarq_u64(State.lanes[0][0], D[0], 64 - ROT_OFFSET(1));
+    B[RHO_MAT(1, 1)] = vxarq_u64(State.lanes[0][1], D[0], 64 - ROT_OFFSET(24));
+    B[RHO_MAT(1, 2)] = vxarq_u64(State.lanes[0][2], D[0], 64 - ROT_OFFSET(4));
+    B[RHO_MAT(1, 3)] = vxarq_u64(State.lanes[0][3], D[0], 64 - ROT_OFFSET(9));
+    B[RHO_MAT(1, 4)] = vxarq_u64(State.lanes[0][4], D[0], 64 - ROT_OFFSET(11));
+    B[RHO_MAT(2, 0)] = vxarq_u64(State.lanes[1][0], D[1], 64 - ROT_OFFSET(19));
+    B[RHO_MAT(2, 1)] = vxarq_u64(State.lanes[1][1], D[1], 64 - ROT_OFFSET(3));
+    B[RHO_MAT(2, 2)] = vxarq_u64(State.lanes[1][2], D[1], 64 - ROT_OFFSET(18));
+    B[RHO_MAT(2, 3)] = vxarq_u64(State.lanes[1][3], D[1], 64 - ROT_OFFSET(5));
+    B[RHO_MAT(2, 4)] = vxarq_u64(State.lanes[1][4], D[1], 64 - ROT_OFFSET(22));
+    B[RHO_MAT(3, 0)] = vxarq_u64(State.lanes[1][0], D[1], 64 - ROT_OFFSET(7));
+    B[RHO_MAT(3, 1)] = vxarq_u64(State.lanes[1][1], D[1], 64 - ROT_OFFSET(10));
+    B[RHO_MAT(3, 2)] = vxarq_u64(State.lanes[1][2], D[1], 64 - ROT_OFFSET(17));
+    B[RHO_MAT(3, 3)] = vxarq_u64(State.lanes[1][3], D[1], 64 - ROT_OFFSET(6));
+    B[RHO_MAT(3, 4)] = vxarq_u64(State.lanes[1][4], D[1], 64 - ROT_OFFSET(15));
+    B[RHO_MAT(4, 0)] = vxarq_u64(State.lanes[2][0], D[2], 64 - ROT_OFFSET(13));
+    B[RHO_MAT(4, 1)] = vxarq_u64(State.lanes[2][1], D[2], 64 - ROT_OFFSET(23));
+    B[RHO_MAT(4, 2)] = vxarq_u64(State.lanes[2][2], D[2], 64 - ROT_OFFSET(21));
+    B[RHO_MAT(4, 3)] = vxarq_u64(State.lanes[2][3], D[2], 64 - ROT_OFFSET(16));
+    B[RHO_MAT(4, 4)] = vxarq_u64(State.lanes[2][4], D[2], 64 - ROT_OFFSET(12));
+
+#undef ROT_OFFSET
+#undef RHO_MAT
+    
+    // χ step
+#define LANE(y, x) ((((10 << ((y * 3) % 5)) | (10 >> ((y * 2) % 5))) >> (4 - x)) & 1) // sampling pattern for B
+    for (size_t X = 0; X < 2; X++)
+    {
+        for (size_t Y = 0; Y < 5; Y++)
+        {
+            size_t X1 = X * 2, X2 = (X * 2) + 1;
+            CCSimd_u64x2 B0 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
+            
+            X1 = (X1 + 1) % 5;
+            X2 = (X2 + 1) % 5;
+            CCSimd_u64x2 B1 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
+            
+            X1 = (X1 + 1) % 5;
+            X2 = (X2 + 1) % 5;
+            CCSimd_u64x2 B2 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
+            
+            State.lanes[X][Y] = vbcaxq_u64(B0, B2, B1);
+        }
+    }
+    
+    for (size_t X = 2, Y = 0; Y < 5; Y++)
+    {
+        size_t X1 = X * 2;
+        CCSimd_u64x2 B0 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
+        
+        X1 = (X1 + 1) % 5;
+        CCSimd_u64x2 B1 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
+        
+        X1 = (X1 + 1) % 5;
+        CCSimd_u64x2 B2 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
+        
+        State.lanes[X][Y] = vbcaxq_u64(B0, B2, B1);
+    }
+#undef LANE
+    
+    // ι step
+    State.lanes[0][0] = CCSimdXor_u64x2(State.lanes[0][0], CCSimdLoad_u64x2((uint64_t[2]){ CCCryptoKeccakRoundConstant(Round, 64), 0 }));
+    
+    return State;
+}
+
+typedef struct {
     CCSimd_u64x2 lanes[5][5];
 } CCCryptoKeccak1600Parallel2State;
 
@@ -966,7 +1079,7 @@ static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parall
     
     CCSimd_u64x2 B[5][5];
     
-    B[RHO_MAT(0, 0)] = vxarq_u64(State.lanes[0][0], D[0], 0);
+    B[RHO_MAT(0, 0)] = CCSimdXor_u64x2(State.lanes[0][0], D[0]);
     B[RHO_MAT(0, 1)] = vxarq_u64(State.lanes[0][1], D[0], 64 - ROT_OFFSET(8));
     B[RHO_MAT(0, 2)] = vxarq_u64(State.lanes[0][2], D[0], 64 - ROT_OFFSET(2));
     B[RHO_MAT(0, 3)] = vxarq_u64(State.lanes[0][3], D[0], 64 - ROT_OFFSET(14));
