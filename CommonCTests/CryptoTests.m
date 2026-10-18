@@ -10914,6 +10914,42 @@ static void TestAes256(CCSimd_u8x16 Data, CCSimd_u8x16 KeyHi, CCSimd_u8x16 KeyLo
             }
         }
     }
+    
+    
+    CCCryptoKeccak1600State State1 = {
+        {
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() }
+        }
+    };
+    
+    for (size_t X = 0; X < 5; X++)
+    { 
+        for (size_t Y = 0; Y < 5; Y++)
+        {
+            State1.lanes[X / 2][Y] = CCSimdSet_u64x2(State1.lanes[X / 2][Y], X & 1, ExpectedAfterIota[0][23][X][Y]);
+        }
+    }
+    
+    for (size_t Loop = 0; Loop < 24; Loop++)
+    {
+        State1 = CCCryptoKeccak1600PermutationRound(State1, Loop);
+        
+        for (size_t X = 0; X < 2; X++)
+        {
+            for (size_t Y = 0; Y < 5; Y++)
+            {
+                XCTAssertEqual(CCSimdGet_u64x2(State1.lanes[X][Y], 0), ExpectedAfterIota[1][Loop][(X * 2)][Y], @"Should have the correct state");
+                XCTAssertEqual(CCSimdGet_u64x2(State1.lanes[X][Y], 1), ExpectedAfterIota[1][Loop][(X * 2) + 1][Y], @"Should have the correct state");
+            }
+        }
+        
+        for (size_t Y = 0; Y < 5; Y++)
+        {
+            XCTAssertEqual(CCSimdGet_u64x2(State1.lanes[2][Y], 0), ExpectedAfterIota[1][Loop][4][Y], @"Should have the correct state");
+        }
+    }
 }
 
 @end
