@@ -65,6 +65,12 @@ typedef struct {
 
 typedef CCSimd_u32x4x2 CCCryptoSha256State;
 
+typedef struct {
+    CCSimd_u64x2 lanes[5][5];
+} CCCryptoKeccak1600Parallel2State;
+
+typedef CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600State;
+
 /*!
  * @brief Calculate the SHA1 hash for the provided data.
  * @param Data The data to hash.
@@ -249,6 +255,69 @@ static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes192Encrypt(CCSimd_u8x16 Data, CCS
  * @return The plain text.
  */
 static CC_FORCE_INLINE CCSimd_u8x16 CCCryptoAes256Decrypt(CCSimd_u8x16 Data, CCSimd_u8x16 Key[15]);
+
+/*!
+ * @brief Initialise Keccak-f[1600] state with default values.
+ * @return The Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600StateInit(void);
+
+/*!
+ * @brief Set R state of the Keccak-f[1600].
+ * @param State The Keccak-f[1600] state.
+ * @param Data The data to set R to.
+ * @param R The size of R in bits.
+ * @return The new Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600SetR(CCCryptoKeccak1600State State, const void *Data, size_t R);
+
+/*!
+ * @brief Get the R state of the Keccak-f[1600].
+ * @param State The Keccak-f[1600] state.
+ * @param Data The data that R should be stored into.
+ * @param R The size of R in bits.
+ */
+static CC_FORCE_INLINE void CCCryptoKeccak1600GetR(CCCryptoKeccak1600State State, void *Data, size_t R);
+
+/*!
+ * @brief Perform one Keccak permutation round.
+ * @param State The current Keccak-f[1600] state.
+ * @param Round The round number.
+ * @return The new Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600PermutationRound(CCCryptoKeccak1600State State, size_t Round);
+
+/*!
+ * @brief Initialise parallel 2x Keccak-f[1600] state with default values.
+ * @return The parallel 2x Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2StateInit(void);
+
+/*!
+ * @brief Set R state of the parallel 2x Keccak-f[1600].
+ * @param State The parallel 2x Keccak-f[1600] state.
+ * @param Data The data to set R to. Expects the parallel data to be interleaved.
+ * @param R The size of R in bits.
+ * @return The new parallel 2x Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2SetR(CCCryptoKeccak1600Parallel2State State, const void *Data, size_t R);
+
+/*!
+ * @brief Get the R state of the parallel 2x Keccak-f[1600].
+ * @param State The parallel 2x Keccak-f[1600] state.
+ * @param Data The data that R should be stored into. Interleaves parallel data.
+ * @param R The size of R in bits.
+ */
+static CC_FORCE_INLINE void CCCryptoKeccak1600Parallel2GetR(CCCryptoKeccak1600Parallel2State State, void *Data, size_t R);
+
+/*!
+ * @brief Perform one Keccak permutation round.
+ * @param State The current parallel 2x Keccak-f[1600] state.
+ * @param Round The round number.
+ * @return The new parallel 2x Keccak-f[1600] state.
+ */
+static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2PermutationRound(CCCryptoKeccak1600Parallel2State State, size_t Round);
+
 
 #pragma mark -
 
@@ -936,122 +1005,158 @@ static CC_FORCE_INLINE uint64_t CCCryptoKeccakRoundConstant(size_t Round, size_t
     return RC[Round & 0xff] & (UINT64_MAX >> (64 - LaneSize));
 }
 
-typedef struct {
-    CCSimd_u64x2 lanes[3][5];
-} CCCryptoKeccak1600State;
-
-static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600PermutationRound(CCCryptoKeccak1600State State, size_t Round)
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600StateInit(void)
 {
-    /*
-     State:
-     (0 1) (0 1) (0 1) (0 1) (0 1)
-     (2 3) (2 3) (2 3) (2 3) (2 3)
-     (4 _) (4 _) (4 _) (4 _) (4 _)
-     */
-    
-    CCSimd_u64x2 C[3];
-    // θ step
-    // θ: C[x] = a[x, 0]
-    // θ: C[x] = C[x] XOR a[x, y]
-    for (size_t X = 0; X < 3; X++)
-    {
-        C[X] = veor3q_u64(veor3q_u64(State.lanes[X][0], State.lanes[X][1], State.lanes[X][2]), State.lanes[X][3], State.lanes[X][4]);
-    }
-    
-    /*
-     C:
-     (0 1)
-     (2 3)
-     (4 _)
-     */
-    
-    // θ: D[x] = C[x−1] XOR ROT(C[x + 1], 1)
-    // θ: A[x, y] = a[x, y] XOR D[x]
-    CCSimd_u64x2 D[3];
-    
-    D[0] = vrax1q_u64(CCSimdMerge_u64x2(C[2], C[0], CC_SIMD_A0, CC_SIMD_B0), CCSimdMerge_u64x2(C[0], C[1], CC_SIMD_A1, CC_SIMD_B0)); // ((4 1) (0 2))
-    D[1] = vrax1q_u64(CCSimdMerge_u64x2(C[0], C[1], CC_SIMD_A1, CC_SIMD_B0), CCSimdMerge_u64x2(C[1], C[2], CC_SIMD_A1, CC_SIMD_B0)); // ((1 3) (2 4))
-    D[2] = vrax1q_u64(CCSimdSwizzle_u64x2(C[1], 1, 0), C[0]); // ((3 0) (___))
-    
-#define ROT_OFFSET(i) (((i) * ((i) + 1)) / 2) % 64
-#define RHO_MAT(x, y) (((2 * (x)) + (3 * (y))) % 5)][y
-    
-    CCSimd_u64x2 B[5][5];
-    
-    B[RHO_MAT(0, 0)] = CCSimdXor_u64x2(State.lanes[0][0], D[0]);
-    B[RHO_MAT(0, 1)] = vxarq_u64(State.lanes[0][1], D[0], 64 - ROT_OFFSET(8));
-    B[RHO_MAT(0, 2)] = vxarq_u64(State.lanes[0][2], D[0], 64 - ROT_OFFSET(2));
-    B[RHO_MAT(0, 3)] = vxarq_u64(State.lanes[0][3], D[0], 64 - ROT_OFFSET(14));
-    B[RHO_MAT(0, 4)] = vxarq_u64(State.lanes[0][4], D[0], 64 - ROT_OFFSET(20));
-    B[RHO_MAT(1, 0)] = vxarq_u64(State.lanes[0][0], D[0], 64 - ROT_OFFSET(1));
-    B[RHO_MAT(1, 1)] = vxarq_u64(State.lanes[0][1], D[0], 64 - ROT_OFFSET(24));
-    B[RHO_MAT(1, 2)] = vxarq_u64(State.lanes[0][2], D[0], 64 - ROT_OFFSET(4));
-    B[RHO_MAT(1, 3)] = vxarq_u64(State.lanes[0][3], D[0], 64 - ROT_OFFSET(9));
-    B[RHO_MAT(1, 4)] = vxarq_u64(State.lanes[0][4], D[0], 64 - ROT_OFFSET(11));
-    B[RHO_MAT(2, 0)] = vxarq_u64(State.lanes[1][0], D[1], 64 - ROT_OFFSET(19));
-    B[RHO_MAT(2, 1)] = vxarq_u64(State.lanes[1][1], D[1], 64 - ROT_OFFSET(3));
-    B[RHO_MAT(2, 2)] = vxarq_u64(State.lanes[1][2], D[1], 64 - ROT_OFFSET(18));
-    B[RHO_MAT(2, 3)] = vxarq_u64(State.lanes[1][3], D[1], 64 - ROT_OFFSET(5));
-    B[RHO_MAT(2, 4)] = vxarq_u64(State.lanes[1][4], D[1], 64 - ROT_OFFSET(22));
-    B[RHO_MAT(3, 0)] = vxarq_u64(State.lanes[1][0], D[1], 64 - ROT_OFFSET(7));
-    B[RHO_MAT(3, 1)] = vxarq_u64(State.lanes[1][1], D[1], 64 - ROT_OFFSET(10));
-    B[RHO_MAT(3, 2)] = vxarq_u64(State.lanes[1][2], D[1], 64 - ROT_OFFSET(17));
-    B[RHO_MAT(3, 3)] = vxarq_u64(State.lanes[1][3], D[1], 64 - ROT_OFFSET(6));
-    B[RHO_MAT(3, 4)] = vxarq_u64(State.lanes[1][4], D[1], 64 - ROT_OFFSET(15));
-    B[RHO_MAT(4, 0)] = vxarq_u64(State.lanes[2][0], D[2], 64 - ROT_OFFSET(13));
-    B[RHO_MAT(4, 1)] = vxarq_u64(State.lanes[2][1], D[2], 64 - ROT_OFFSET(23));
-    B[RHO_MAT(4, 2)] = vxarq_u64(State.lanes[2][2], D[2], 64 - ROT_OFFSET(21));
-    B[RHO_MAT(4, 3)] = vxarq_u64(State.lanes[2][3], D[2], 64 - ROT_OFFSET(16));
-    B[RHO_MAT(4, 4)] = vxarq_u64(State.lanes[2][4], D[2], 64 - ROT_OFFSET(12));
-
-#undef ROT_OFFSET
-#undef RHO_MAT
-    
-    // χ step
-#define LANE(y, x) ((((10 << ((y * 3) % 5)) | (10 >> ((y * 2) % 5))) >> (4 - x)) & 1) // sampling pattern for B
-    for (size_t X = 0; X < 2; X++)
-    {
-        for (size_t Y = 0; Y < 5; Y++)
+    return (CCCryptoKeccak1600State){
         {
-            size_t X1 = X * 2, X2 = (X * 2) + 1;
-            CCSimd_u64x2 B0 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
-            
-            X1 = (X1 + 1) % 5;
-            X2 = (X2 + 1) % 5;
-            CCSimd_u64x2 B1 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
-            
-            X1 = (X1 + 1) % 5;
-            X2 = (X2 + 1) % 5;
-            CCSimd_u64x2 B2 = CCSimdMerge_u64x2(B[Y][X1], B[Y][X2], CC_SIMD_A0 + LANE(Y, X1), CC_SIMD_B0 + LANE(Y, X2));
-            
-            State.lanes[X][Y] = vbcaxq_u64(B0, B2, B1);
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() }
         }
-    }
+    };
+}
+
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600SetR(CCCryptoKeccak1600State State, const void *Data, size_t R)
+{
+    CCAssertLog(R <= 64 * 25, "r must not exceed Keccak-f[1600] state size");
     
-    for (size_t X = 2, Y = 0; Y < 5; Y++)
+    const size_t Count = R / 64;
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
     {
-        size_t X1 = X * 2;
-        CCSimd_u64x2 B0 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
+        CCSimd_u64x2 Lane = CCSimdFill_u64x2(((uint64_t*)Data)[Loop]);
         
-        X1 = (X1 + 1) % 5;
-        CCSimd_u64x2 B1 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
-        
-        X1 = (X1 + 1) % 5;
-        CCSimd_u64x2 B2 = CCSimdSwizzle_u64x2(B[Y][X1], LANE(Y, X1), 1);
-        
-        State.lanes[X][Y] = vbcaxq_u64(B0, B2, B1);
+        const size_t Index = ((Loop % 5) * 5) + (Loop / 5);
+        ((CCSimd_u64x2*)State.lanes)[Index] = CCSimdXor_u64x2(((CCSimd_u64x2*)State.lanes)[Index], Lane);
     }
-#undef LANE
     
-    // ι step
-    State.lanes[0][0] = CCSimdXor_u64x2(State.lanes[0][0], CCSimdLoad_u64x2((uint64_t[2]){ CCCryptoKeccakRoundConstant(Round, 64), 0 }));
+    if (R % 64)
+    {
+        const size_t RemainingCount = CC_ALIGN(R % 64, 8) / 8;
+        
+        uint8_t Remainder[8] = {0};
+        memcpy(Remainder, (uint8_t*)Data + (Count * 8), RemainingCount);
+        
+        if (R % 8)
+        {
+            Remainder[RemainingCount - 1] &= 0xff >> (8 - (R % 8));
+        }
+        
+        CCSimd_u64x2 Lane = CCSimdFill_u64x2(*(uint64_t*)Remainder);
+        
+        const size_t Index = ((Count % 5) * 5) + (Count / 5);
+        ((CCSimd_u64x2*)State.lanes)[Index] = CCSimdXor_u64x2(((CCSimd_u64x2*)State.lanes)[Index], Lane);
+    }
     
     return State;
 }
 
-typedef struct {
-    CCSimd_u64x2 lanes[5][5];
-} CCCryptoKeccak1600Parallel2State;
+static CC_FORCE_INLINE void CCCryptoKeccak1600GetR(CCCryptoKeccak1600State State, void *Data, size_t R)
+{
+    CCAssertLog(R <= 64 * 25, "r must not exceed Keccak-f[1600] state size");
+    
+    const size_t Count = R / 64;
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        const size_t Index = ((Loop % 5) * 5) + (Loop / 5);
+        
+        ((uint64_t*)Data)[Loop] = CCSimdGet_u64x2(((CCSimd_u64x2*)State.lanes)[Index], 0);
+    }
+    
+    if (R % 64)
+    {
+        const size_t Index = ((Count % 5) * 5) + (Count / 5);
+        
+        uint64_t Remainder = CCSimdGet_u64x2(((CCSimd_u64x2*)State.lanes)[Index], 0);
+        
+        const size_t RemainingCount = CC_ALIGN(R % 64, 8) / 8;
+        
+        memcpy((uint8_t*)Data + (Count * 8), &Remainder, RemainingCount);
+    }
+}
+
+static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600PermutationRound(CCCryptoKeccak1600State State, size_t Round)
+{
+    return CCCryptoKeccak1600Parallel2PermutationRound(State, Round);
+}
+
+static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2StateInit(void)
+{
+    return (CCCryptoKeccak1600Parallel2State){
+        {
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
+            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() }
+        }
+    };
+}
+
+static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2SetR(CCCryptoKeccak1600Parallel2State State, const void *Data, size_t R)
+{
+    CCAssertLog(R <= 64 * 25, "r must not exceed Keccak-f[1600] state size");
+    
+    const size_t Count = R / 64;
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        CCSimd_u64x2 Lane = CCSimdLoad_u64x2((uint64_t*)Data + (Loop * 2));
+        
+        const size_t Index = ((Loop % 5) * 5) + (Loop / 5);
+        ((CCSimd_u64x2*)State.lanes)[Index] = CCSimdXor_u64x2(((CCSimd_u64x2*)State.lanes)[Index], Lane);
+    }
+    
+    if (R % 64)
+    {
+        const size_t RemainingCount = CC_ALIGN(R % 64, 8) / 8;
+        
+        uint8_t Remainder[16] = {0};
+        memcpy(Remainder, (uint8_t*)Data + (Count * 16), RemainingCount);
+        memcpy(Remainder + 8, (uint8_t*)Data + (Count * 16) + RemainingCount, RemainingCount);
+        
+        if (R % 8)
+        {
+            Remainder[RemainingCount - 1] &= 0xff >> (8 - (R % 8));
+            Remainder[(RemainingCount - 1) + 8] &= 0xff >> (8 - (R % 8));
+        }
+        
+        CCSimd_u64x2 Lane = CCSimdLoad_u64x2((uint64_t*)Remainder);
+        
+        const size_t Index = ((Count % 5) * 5) + (Count / 5);
+        ((CCSimd_u64x2*)State.lanes)[Index] = CCSimdXor_u64x2(((CCSimd_u64x2*)State.lanes)[Index], Lane);
+    }
+    
+    return State;
+}
+
+static CC_FORCE_INLINE void CCCryptoKeccak1600Parallel2GetR(CCCryptoKeccak1600Parallel2State State, void *Data, size_t R)
+{
+    CCAssertLog(R <= 64 * 25, "r must not exceed Keccak-f[1600] state size");
+    
+    const size_t Count = R / 64;
+    
+    for (size_t Loop = 0; Loop < Count; Loop++)
+    {
+        const size_t Index = ((Loop % 5) * 5) + (Loop / 5);
+        
+        CCSimdStore_u64x2((uint64_t*)Data + (Loop * 2), ((CCSimd_u64x2*)State.lanes)[Index]);
+    }
+    
+    if (R % 64)
+    {
+        const size_t Index = ((Count % 5) * 5) + (Count / 5);
+        
+        uint64_t Remainder[2];
+        CCSimdStore_u64x2(Remainder, ((CCSimd_u64x2*)State.lanes)[Index]);
+        
+        const size_t RemainingCount = CC_ALIGN(R % 64, 8) / 8;
+        
+        memcpy((uint8_t*)Data + (Count * 16), Remainder, RemainingCount);
+        memcpy((uint8_t*)Data + (Count * 16) + RemainingCount, Remainder + 1, RemainingCount);
+    }
+}
 
 static CC_FORCE_INLINE CCCryptoKeccak1600Parallel2State CCCryptoKeccak1600Parallel2PermutationRound(CCCryptoKeccak1600Parallel2State State, size_t Round)
 {
