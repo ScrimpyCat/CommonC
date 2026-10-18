@@ -1007,13 +1007,7 @@ static CC_FORCE_INLINE uint64_t CCCryptoKeccakRoundConstant(size_t Round, size_t
 
 static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600StateInit(void)
 {
-    return (CCCryptoKeccak1600State){
-        {
-            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
-            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() },
-            { CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2(), CCSimdZero_u64x2() }
-        }
-    };
+    return CCCryptoKeccak1600Parallel2StateInit();
 }
 
 static CC_FORCE_INLINE CCCryptoKeccak1600State CCCryptoKeccak1600SetR(CCCryptoKeccak1600State State, const void *Data, size_t R)
