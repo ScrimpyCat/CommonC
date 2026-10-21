@@ -26,6 +26,8 @@
 #ifndef CommonC_Simd_h
 #define CommonC_Simd_h
 
+#include <CommonC/Base.h>
+
 #define CC_SIMD_BITS(base) CC_SIMD_BITS_##base
 
 #define CC_SIMD_BITS_s8 8
@@ -788,6 +790,38 @@
 
 #ifndef CC_SIMD_QTR_PI_ARCTAN_ACCURACY
 #define CC_SIMD_QTR_PI_ARCTAN_ACCURACY CC_SIMD_TRIG_ACCURACY
+#endif
+
+/*!
+ * @define CC_SIMD_ALIGNMENT
+ * @brief Define this to specify the alignment that will be used for each type. The default assumes
+ *        all types will use their default alignment.
+ */
+#ifndef CC_SIMD_ALIGNMENT
+#define CC_SIMD_ALIGNMENT(base) CC_SIMD_ALIGNMENT_##base
+
+#define CC_SIMD_ALIGNMENT_s8 1
+#define CC_SIMD_ALIGNMENT_s16 2
+#define CC_SIMD_ALIGNMENT_s32 4
+#define CC_SIMD_ALIGNMENT_s64 8
+#define CC_SIMD_ALIGNMENT_u8 1
+#define CC_SIMD_ALIGNMENT_u16 2
+#define CC_SIMD_ALIGNMENT_u32 4
+#define CC_SIMD_ALIGNMENT_u64 8
+#define CC_SIMD_ALIGNMENT_f32 4
+#define CC_SIMD_ALIGNMENT_f64 8
+
+_Static_assert(_Alignof(int8_t) == 1, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(int16_t) == 2, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(int32_t) == 4, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(int64_t) == 8, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(uint8_t) == 1, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(uint16_t) == 2, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(uint32_t) == 4, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(uint64_t) == 8, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(float) == 4, "Alignment assumptions are incorrect");
+_Static_assert(_Alignof(double) == 8, "Alignment assumptions are incorrect");
+
 #endif
 
 #include <CommonC/Simd64.h>

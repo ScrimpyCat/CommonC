@@ -35,17 +35,17 @@
 CC_SIMD_DECL(CCSimdFill, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_BASE_TYPE(base) src[count]){ return vld1q_##base(src); }
+#define CC_SIMD_IMPL(base, count, kind) (const CC_SIMD_BASE_TYPE(base) src[count]){ return vld1q_##base(CC_ASSUME_ALIGNED(src, CC_SIMD_ALIGNMENT(base))); }
 CC_SIMD_DECL(CCSimdLoad, CC_SIMD_RETURN_TYPE_SIMD, CC_SIMD_128_TYPES)
 #undef CC_SIMD_IMPL
 
-#define CC_SIMD_IMPL(base, count, kind) (CC_SIMD_BASE_TYPE(base) dst[count], const CC_SIMD_TYPE(base, count) src){ vst1q_##base(dst, src); }
+#define CC_SIMD_IMPL(base, count, kind) (CC_SIMD_BASE_TYPE(base) dst[count], const CC_SIMD_TYPE(base, count) src){ vst1q_##base(CC_ASSUME_ALIGNED(dst, CC_SIMD_ALIGNMENT(base)), src); }
 CC_SIMD_DECL(CCSimdStore, CC_SIMD_RETURN_TYPE(void), CC_SIMD_128_TYPES)
 #undef CC_SIMD_IMPL
 
 #define CC_SIMD_IMPL(base, count, n, kind) (const CC_SIMD_BASE_TYPE(base) src[count * n]) \
 { \
-    CC_SIMD_INTERNAL_POLY_TYPE(base, count, n) Result = vld##n##q_##base((void*)src); \
+    CC_SIMD_INTERNAL_POLY_TYPE(base, count, n) Result = vld##n##q_##base((void*)CC_ASSUME_ALIGNED(src, CC_SIMD_ALIGNMENT(base))); \
     return ((CC_SIMD_POLY_TYPE(base, count, n)){ .v = { CC_REPEAT(0, n, CC_SIMD_INTERNAL_POLY_VALUE, Result) } }); \
 }
 CC_SIMD_POLY_DECL(CCSimdInterleaveLoad, 2, CC_SIMD_RETURN_TYPE_SIMD_POLY, CC_SIMD_128_TYPES)
@@ -55,7 +55,7 @@ CC_SIMD_POLY_DECL(CCSimdInterleaveLoad, 4, CC_SIMD_RETURN_TYPE_SIMD_POLY, CC_SIM
 
 #define CC_SIMD_IMPL(base, count, n, kind) (CC_SIMD_BASE_TYPE(base) dst[count * n], const CC_SIMD_POLY_TYPE(base, count, n) src) \
 { \
-    vst##n##q_##base((void*)dst, ((CC_SIMD_INTERNAL_POLY_TYPE(base, count, n)){ .val = { CC_REPEAT(0, n, CC_SIMD_POLY_VALUE, src) } })); \
+    vst##n##q_##base((void*)CC_ASSUME_ALIGNED(dst, CC_SIMD_ALIGNMENT(base)), ((CC_SIMD_INTERNAL_POLY_TYPE(base, count, n)){ .val = { CC_REPEAT(0, n, CC_SIMD_POLY_VALUE, src) } })); \
 }
 CC_SIMD_POLY_DECL(CCSimdInterleaveStore, 2, CC_SIMD_RETURN_TYPE(void), CC_SIMD_128_TYPES)
 CC_SIMD_POLY_DECL(CCSimdInterleaveStore, 3, CC_SIMD_RETURN_TYPE(void), CC_SIMD_128_TYPES)
